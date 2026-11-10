@@ -1,0 +1,165 @@
+:root {
+  --bg: #1d1a2b;
+  --surface: #2a2540;
+  --surface-2: #362f52;
+  --text: #f4efe6;
+  --muted: #b9b2cc;
+  --accent: #f2a541;
+  --accent-text: #1d1a2b;
+  --danger: #e5604f;
+  --ok: #6fcf97;
+  --tabbar-h: 64px;
+  --radius: 14px;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.45;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#app, .app { min-height: 100%; }
+
+.app {
+  display: flex;
+  flex-direction: column;
+  padding-top: env(safe-area-inset-top);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+.content {
+  flex: 1;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 16px 16px calc(var(--tabbar-h) + env(safe-area-inset-bottom) + 24px);
+  animation: fade-in 200ms ease-out;
+}
+
+@keyframes fade-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+h1 { font-size: 1.6rem; margin: 0; }
+h2 { font-size: 1.15rem; margin: 0 0 8px; }
+p { margin: 0 0 8px; }
+
+.screen-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 16px;
+  min-height: 44px;
+}
+
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.placeholder { text-align: center; color: var(--muted); padding: 40px 16px; }
+.welcome { font-size: 1.15rem; }
+.muted { color: var(--muted); font-size: 0.95rem; }
+.version { text-align: center; }
+
+label { display: block; margin-bottom: 6px; color: var(--muted); }
+
+.row { display: flex; gap: 8px; }
+.row input { flex: 1; min-width: 0; }
+
+input, textarea {
+  font: inherit;
+  font-size: 16px; /* 16px stops iOS from zooming on focus */
+  color: var(--text);
+  background: var(--surface-2);
+  border: 2px solid transparent;
+  border-radius: 10px;
+  padding: 10px 12px;
+  min-height: 44px;
+  width: 100%;
+}
+input:focus, textarea:focus { outline: none; border-color: var(--accent); }
+
+.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 14px; word-break: break-all; margin: 8px 0; resize: vertical; }
+
+.button {
+  font: inherit;
+  font-weight: 600;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 10px;
+  background: var(--accent);
+  color: var(--accent-text);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.button:active { transform: scale(0.97); }
+.button:disabled { opacity: 0.45; cursor: default; }
+.button--danger { background: var(--danger); color: #fff; }
+
+.icon-button, .icon-spacer {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex: none;
+}
+.icon-button { border-radius: 12px; color: var(--text); background: var(--surface); }
+.icon-button:active { background: var(--surface-2); }
+
+a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+.notice { border-radius: 10px; padding: 10px 12px; margin-bottom: 16px; border-left: 4px solid; background: var(--surface); }
+.notice--ok { border-color: var(--ok); }
+.notice--error { border-color: var(--danger); }
+
+.tabbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: space-around;
+  background: var(--surface);
+  border-top: 1px solid var(--surface-2);
+  padding: 0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  z-index: 10;
+}
+
+.tab {
+  flex: 1;
+  max-width: 160px;
+  height: var(--tabbar-h);
+  min-width: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 600;
+  touch-action: manipulation;
+}
+.tab--active { color: var(--accent); }
+/* Active tab also gets a bar, so state is not shown by color alone. */
+.tab--active span { border-bottom: 2px solid currentColor; }
