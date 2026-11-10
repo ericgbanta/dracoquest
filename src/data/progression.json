@@ -1,0 +1,7 @@
+{
+  "levelCap": 50,
+  "xpBase": 50,
+  "xpExponent": 1.6,
+  "statPointsPerLevel": 3,
+  "secondPartnerRiderLevel": 25
+}

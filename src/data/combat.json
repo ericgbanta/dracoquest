@@ -1,0 +1,7 @@
+{
+  "statDivisor": 50,
+  "critMultiplier": 1.5,
+  "damageRandMin": 0.9,
+  "damageRandMax": 1.1,
+  "minDamage": 1
+}

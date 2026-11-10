@@ -1,0 +1,12 @@
+{
+  "ids": ["fire", "frost", "verdant", "stone", "storm", "tide", "light", "shadow"],
+  "ring": ["fire", "frost", "verdant", "stone", "storm", "tide"],
+  "pairs": [["light", "shadow"]],
+  "starters": ["fire", "tide", "verdant"],
+  "multipliers": {
+    "strong": 1.5,
+    "neutral": 1.0,
+    "weak": 0.75,
+    "same": 0.5
+  }
+}
