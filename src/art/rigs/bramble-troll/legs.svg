@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -40 260 270" width="520" height="540">
+<path d="M84 172 L124 172 L126 210 C138 212 142 226 130 226 L80 226 C70 226 74 212 84 210 Z" fill="#4e663c"/>
+<path d="M84 172 L124 172 L126 210 C138 212 142 226 130 226 L80 226 C70 226 74 212 84 210 Z" fill="#5f8042" transform="translate(110 176) scale(0.86) translate(-110 -176)"/>
+<path d="M84 172 L124 172 L126 210 C138 212 142 226 130 226 L80 226 C70 226 74 212 84 210 Z" fill="none" stroke="#1d1a2b" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M140 174 L180 174 L182 210 C196 212 198 226 186 226 L136 226 C126 226 130 212 140 210 Z" fill="#5a7a41"/>
+<path d="M140 174 L180 174 L182 210 C196 212 198 226 186 226 L136 226 C126 226 130 212 140 210 Z" fill="#6f9a48" transform="translate(166 178) scale(0.86) translate(-166 -178)"/>
+<path d="M140 174 L180 174 L182 210 C196 212 198 226 186 226 L136 226 C126 226 130 212 140 210 Z" fill="none" stroke="#1d1a2b" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M80 226 L84 218 L90 226 Z M136 226 L140 218 L146 226 Z M184 226 L188 218 L194 226 Z" fill="#efe4c8" stroke="#1d1a2b" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

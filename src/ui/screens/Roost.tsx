@@ -85,6 +85,8 @@ export function Roost({ save, update }: Props) {
         <a class="icon-button" href={href('settings')} aria-label="Settings" data-testid="open-settings"><GearIcon /></a>
       </header>
 
+      <RoostScene dragons={home} selectedId={dragon.id} onPick={(id) => { setSelectedId(id); setToast(''); }} />
+
       {event && (
         <div class="card event-card" data-testid="event-card">
           <h2>🎉 {event.name}</h2>
@@ -112,8 +114,6 @@ export function Roost({ save, update }: Props) {
           ))}
         </div>
       )}
-
-      <RoostScene dragons={home} selectedId={dragon.id} onPick={(id) => { setSelectedId(id); setToast(''); }} />
 
       <div class="card roost-dragon">
         <div class="roost-dragon-info">

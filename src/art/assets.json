@@ -534,6 +534,374 @@
           ]
         }
       ]
+    },
+    "enemy.bramble-troll": {
+      "size": [
+        260,
+        270
+      ],
+      "boxScale": 1.05,
+      "points": {
+        "hit": [
+          0.5,
+          0.63
+        ],
+        "front": [
+          0.846,
+          0.556
+        ]
+      },
+      "parts": [
+        {
+          "id": "legs",
+          "file": "rigs/bramble-troll/legs.svg"
+        },
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            0.926
+          ],
+          "anim": "breathe",
+          "parts": [
+            {
+              "id": "body",
+              "file": "rigs/bramble-troll/body.svg"
+            },
+            {
+              "id": "head",
+              "file": "rigs/bramble-troll/head.svg",
+              "pivot": [
+                0.692,
+                0.519
+              ]
+            },
+            {
+              "id": "arm",
+              "file": "rigs/bramble-troll/arm.svg",
+              "pivot": [
+                0.538,
+                0.519
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.crab-king": {
+      "size": [
+        260,
+        270
+      ],
+      "boxScale": 1,
+      "points": {
+        "hit": [
+          0.485,
+          0.652
+        ],
+        "front": [
+          0.823,
+          0.63
+        ]
+      },
+      "parts": [
+        {
+          "id": "legs",
+          "file": "rigs/crab-king/legs.svg"
+        },
+        {
+          "id": "torso",
+          "pivot": [
+            0.485,
+            0.889
+          ],
+          "anim": "breathe",
+          "parts": [
+            {
+              "id": "body",
+              "file": "rigs/crab-king/body.svg"
+            },
+            {
+              "id": "head",
+              "file": "rigs/crab-king/head.svg",
+              "pivot": [
+                0.538,
+                0.504
+              ]
+            },
+            {
+              "id": "arm",
+              "file": "rigs/crab-king/arm.svg",
+              "pivot": [
+                0.685,
+                0.674
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.magma-wyrm": {
+      "size": [
+        260,
+        270
+      ],
+      "boxScale": 1,
+      "points": {
+        "hit": [
+          0.5,
+          0.741
+        ],
+        "front": [
+          0.846,
+          0.593
+        ],
+        "mouth": [
+          0.96,
+          0.43
+        ]
+      },
+      "parts": [
+        {
+          "id": "legs",
+          "file": "rigs/magma-wyrm/legs.svg"
+        },
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            0.926
+          ],
+          "anim": "breathe",
+          "parts": [
+            {
+              "id": "tail",
+              "file": "rigs/magma-wyrm/tail.svg",
+              "pivot": [
+                0.277,
+                0.756
+              ],
+              "anim": "swish"
+            },
+            {
+              "id": "body",
+              "file": "rigs/magma-wyrm/body.svg"
+            },
+            {
+              "id": "head",
+              "file": "rigs/magma-wyrm/head.svg",
+              "pivot": [
+                0.746,
+                0.504
+              ],
+              "parts": [
+                {
+                  "id": "jaw",
+                  "file": "rigs/magma-wyrm/jaw.svg",
+                  "pivot": [
+                    0.738,
+                    0.467
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.glacier-hydra": {
+      "size": [
+        260,
+        270
+      ],
+      "boxScale": 1.1,
+      "points": {
+        "hit": [
+          0.462,
+          0.741
+        ],
+        "front": [
+          0.769,
+          0.63
+        ],
+        "mouth": [
+          0.97,
+          0.29
+        ]
+      },
+      "parts": [
+        {
+          "id": "legs",
+          "file": "rigs/glacier-hydra/legs.svg"
+        },
+        {
+          "id": "torso",
+          "pivot": [
+            0.462,
+            0.926
+          ],
+          "anim": "breathe",
+          "parts": [
+            {
+              "id": "head-2",
+              "file": "rigs/glacier-hydra/head-2.svg",
+              "pivot": [
+                0.515,
+                0.667
+              ]
+            },
+            {
+              "id": "body",
+              "file": "rigs/glacier-hydra/body.svg"
+            },
+            {
+              "id": "head-3",
+              "file": "rigs/glacier-hydra/head-3.svg",
+              "pivot": [
+                0.623,
+                0.77
+              ]
+            },
+            {
+              "id": "head",
+              "file": "rigs/glacier-hydra/head.svg",
+              "pivot": [
+                0.615,
+                0.704
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.iron-golem": {
+      "size": [
+        260,
+        270
+      ],
+      "boxScale": 1.1,
+      "points": {
+        "hit": [
+          0.469,
+          0.556
+        ],
+        "front": [
+          0.815,
+          0.519
+        ]
+      },
+      "parts": [
+        {
+          "id": "legs",
+          "file": "rigs/iron-golem/legs.svg"
+        },
+        {
+          "id": "torso",
+          "pivot": [
+            0.469,
+            0.889
+          ],
+          "anim": "breathe",
+          "parts": [
+            {
+              "id": "body",
+              "file": "rigs/iron-golem/body.svg"
+            },
+            {
+              "id": "arm",
+              "file": "rigs/iron-golem/arm.svg",
+              "pivot": [
+                0.669,
+                0.43
+              ]
+            },
+            {
+              "id": "head",
+              "file": "rigs/iron-golem/head.svg",
+              "pivot": [
+                0.615,
+                0.356
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.eclipse-dragon": {
+      "size": [
+        260,
+        270
+      ],
+      "boxScale": 1.1,
+      "points": {
+        "hit": [
+          0.538,
+          0.63
+        ],
+        "front": [
+          0.792,
+          0.519
+        ],
+        "mouth": [
+          0.97,
+          0.38
+        ]
+      },
+      "parts": [
+        {
+          "id": "legs",
+          "file": "rigs/eclipse-dragon/legs.svg"
+        },
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            0.889
+          ],
+          "anim": "breathe",
+          "parts": [
+            {
+              "id": "wing-back",
+              "file": "rigs/eclipse-dragon/wing-back.svg",
+              "pivot": [
+                0.5,
+                0.489
+              ],
+              "anim": "flap-back-big"
+            },
+            {
+              "id": "tail",
+              "file": "rigs/eclipse-dragon/tail.svg",
+              "pivot": [
+                0.338,
+                0.726
+              ],
+              "anim": "swish"
+            },
+            {
+              "id": "body",
+              "file": "rigs/eclipse-dragon/body.svg"
+            },
+            {
+              "id": "wing-front",
+              "file": "rigs/eclipse-dragon/wing-front.svg",
+              "pivot": [
+                0.6,
+                0.496
+              ],
+              "anim": "flap-big"
+            },
+            {
+              "id": "head",
+              "file": "rigs/eclipse-dragon/head.svg",
+              "pivot": [
+                0.738,
+                0.37
+              ]
+            }
+          ]
+        }
+      ]
     }
   },
   "backdrops": {
