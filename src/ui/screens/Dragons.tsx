@@ -1,6 +1,7 @@
 import { useState } from 'preact/hooks';
 import { gameData as data } from '../../core/data';
-import { activeDragon, GameError, growthStatus, learnDragonTalent, respecTalents, spendDragonPoint, startGrowthQuest } from '../../core/game';
+import { activeDragon, canHaveSecond, GameError, growthStatus, learnDragonTalent, respecTalents, secondDragon, setLead, setSecond, spendDragonPoint, startGrowthQuest } from '../../core/game';
+import { temperament, leaning } from '../../core/roost';
 import { canLearn, dragonBonus, pointsInTree, respecCost, talentPointsLeft } from '../../core/loadout';
 import type { TalentTree } from '../../core/types';
 import { formatBonus } from '../bits';
@@ -25,8 +26,19 @@ const STAT_INFO: Record<DragonStat, { name: string; drives: string }> = {
 };
 
 export function Dragons({ save, update }: Props) {
-  const d = activeDragon(save);
-  if (!d) return null;
+  const lead = activeDragon(save);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [notice, setNotice] = useState('');
+  if (!lead) return null;
+  const d = save.dragons.find((x) => x.id === selectedId) ?? lead;
+  const second = secondDragon(save);
+  const isLead = d.id === lead.id;
+  const isSecond = d.id === second?.id;
+  const temper = temperament(data, d);
+  const lean = leaning(d);
+  const partnerAct = (fn: () => SaveData, ok: string) => {
+    try { const next = fn(); update(() => next); setNotice(ok); } catch (e) { setNotice(e instanceof Error ? e.message : 'That did not work.'); }
+  };
   const stage = data.dragons.stages.find((s) => s.id === d.stage);
   const atCap = d.level >= dragonLevelCap(data, d);
   const favoriteKnown = d.foodsTried.includes(d.favoriteFood);
@@ -38,13 +50,41 @@ export function Dragons({ save, update }: Props) {
 
   return (
     <section class="screen" aria-labelledby="screen-title">
-      <header class="screen-header"><h1 id="screen-title">Dragons</h1></header>
+      <header class="screen-header"><h1 id="screen-title">Dragons</h1><span class="muted">{save.dragons.length} in the Nest</span></header>
+      {save.dragons.length > 1 && (
+        <div class="dragon-picker" role="tablist" aria-label="Your dragons">
+          {save.dragons.map((x) => (
+            <button key={x.id} type="button" role="tab" aria-selected={x.id === d.id} class={`pick${x.id === d.id ? ' pick--on' : ''}`}
+              onClick={() => { setSelectedId(x.id); setNotice(''); }} data-testid={`dpick-${x.name}`}>
+              <DragonSprite element={x.element} stage={x.stage} primary={x.colors.primary} secondary={x.colors.secondary} size={40} />
+              <span>{x.name}</span>
+              {x.id === lead.id ? <span class="pick-tag">Lead</span> : x.id === second?.id ? <span class="pick-tag">Second</span> : x.assignment.kind !== 'idle' ? <span class="pick-tag">{x.assignment.kind === 'training' ? 'Training' : 'Away'}</span> : null}
+            </button>
+          ))}
+        </div>
+      )}
+      {notice && <p class="notice notice--ok" role="status" data-testid="dragons-notice">{notice}</p>}
+      {save.dragons.length > 1 && (
+        <div class="card partners">
+          <h2>Battle partner</h2>
+          <p class="muted">
+            {isLead ? `${d.name} is your lead partner.` : isSecond ? `${d.name} fights beside your lead as second partner.` : `${d.name} is on the bench.`}
+            {!canHaveSecond(data, save) && ` A second partner joins at rider level ${data.progression.secondPartnerRiderLevel}.`}
+          </p>
+          <div class="row wrap">
+            {!isLead && <button type="button" class="button" data-testid="make-lead" onClick={() => partnerAct(() => setLead(data, save, d.id, Date.now()), `${d.name} is now your lead.`)}>Make lead</button>}
+            {!isLead && !isSecond && canHaveSecond(data, save) && <button type="button" class="button button--ghost" data-testid="make-second" onClick={() => partnerAct(() => setSecond(data, save, d.id, Date.now()), `${d.name} joins as second partner.`)}>Make second</button>}
+            {isSecond && <button type="button" class="button button--ghost" data-testid="bench" onClick={() => partnerAct(() => setSecond(data, save, null, Date.now()), `${d.name} heads to the bench.`)}>Bench</button>}
+          </div>
+        </div>
+      )}
       <div class="card dragon-sheet">
         <DragonSprite element={d.element} stage={d.stage} primary={d.colors.primary} secondary={d.colors.secondary} size={140} class="idle" />
         <div>
           <h2>{d.name}</h2>
           <p class="muted">{stage?.name} · Level {d.level} <ElementBadge element={d.element} small /></p>
           <p class="muted">Breath is strong against {names(strong)}. Weak to {names(weak)}.</p>
+          <p class="muted">{temper ? `${data.roost.temperament.types[temper].name}: ${data.roost.temperament.types[temper].passive}.` : lean ? `Leaning ${data.roost.temperament.types[lean].name} (${data.roost.temperament.types[lean].from.toLowerCase()}).` : 'Temperament not settled yet.'}</p>
         </div>
       </div>
       <div class="card">
@@ -62,7 +102,8 @@ export function Dragons({ save, update }: Props) {
             <li>○ Finish the quest: {data.quests[nextStage.quest ?? '']?.name}</li>
           </ul>
           <p class="muted">Unlocks: {nextStage.unlocks.join(', ')}.</p>
-          {growth.ready && (
+          {growth.ready && !isLead && <p class="muted">Make {d.name} your lead to start the quest.</p>}
+          {growth.ready && isLead && (
             <button type="button" class="button button--big button--block" data-testid="start-growth"
               onClick={() => update((s) => startGrowthQuest(data, s))}>
               Start {data.quests[nextStage.quest ?? '']?.name}
@@ -78,12 +119,12 @@ export function Dragons({ save, update }: Props) {
             <span class="stat-value">{d.stats[k]}</span>
             {d.statPoints > 0 && (
               <button type="button" class="icon-button plus" aria-label={`Add a point to ${STAT_INFO[k].name}`}
-                onClick={() => update((s) => spendDragonPoint(s, k))} data-testid={`dragon-plus-${k}`}>+</button>
+                onClick={() => update((s) => spendDragonPoint(s, k, d.id))} data-testid={`dragon-plus-${k}`}>+</button>
             )}
           </div>
         ))}
       </div>
-      <Talents save={save} update={update} />
+      <Talents save={save} update={update} dragonId={d.id} />
       <div class="card">
         <h2>Favorite food</h2>
         <p>{favoriteKnown && favorite ? `${favorite.icon} ${favorite.name}. ${d.name} gets double bond from it.` : `Still a mystery. Tried ${d.foodsTried.length} of ${data.foods.length} foods.`}</p>
@@ -92,8 +133,8 @@ export function Dragons({ save, update }: Props) {
   );
 }
 
-function Talents({ save, update }: Props) {
-  const d = activeDragon(save)!;
+function Talents({ save, update, dragonId }: Props & { dragonId: string }) {
+  const d = save.dragons.find((x) => x.id === dragonId) ?? activeDragon(save)!;
   const [tree, setTree] = useState<TalentTree>('protection');
   const [notice, setNotice] = useState('');
   const left = talentPointsLeft(data, d);
@@ -136,7 +177,7 @@ function Talents({ save, update }: Props) {
             </div>
             <span class="rank">{rank}/{t.ranks}</span>
             <button type="button" class="icon-button plus" disabled={!check.ok} aria-label={`Learn ${t.name}`}
-              onClick={() => act(() => update((s) => learnDragonTalent(data, s, t.id)))} data-testid={`learn-${t.id}`}>+</button>
+              onClick={() => act(() => update((s) => learnDragonTalent(data, s, t.id, d.id)))} data-testid={`learn-${t.id}`}>+</button>
           </div>
         );
       })}
@@ -145,7 +186,7 @@ function Talents({ save, update }: Props) {
         <button type="button" class="button button--ghost button--block" data-testid="respec" disabled={save.rider.gold < cost}
           onClick={() => {
             if (window.confirm(cost ? `Reset all talents for ${cost} gold?` : 'Reset all talents? This is your free respec for this life stage.')) {
-              act(() => update((s) => respecTalents(data, s)));
+              act(() => update((s) => respecTalents(data, s, d.id)));
             }
           }}>
           Reset talents {cost ? `(🪙 ${cost})` : '(free this stage)'}

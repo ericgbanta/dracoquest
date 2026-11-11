@@ -36,8 +36,8 @@ export function App() {
 
   const settings = <Settings save={save} persistent={persistent} update={update} replace={replace} />;
 
-  // First session: pick, warm, and hatch an egg before anything else.
-  if (save.dragons.length === 0) {
+  // First session (pick, warm, and hatch an egg), or naming a hatchling from the Hatchery.
+  if (save.dragons.length === 0 || (save.egg && !save.run)) {
     return (
       <div class="app">
         <main class="content" key={route === 'settings' ? 'settings' : 'hatch'}>

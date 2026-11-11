@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'preact/hooks';
 import { gameData } from '../core/data';
 import type { ElementId, IntentKind, StatusId } from '../core/types';
 
@@ -98,4 +99,25 @@ export function formatBonus(b: Partial<Record<string, number>>): string {
       return `+${n} ${label}`;
     })
     .join(', ');
+}
+
+
+/** The current time, refreshed every `ms` so countdowns move. */
+export function useNow(ms = 15_000): number {
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    const t = window.setInterval(() => setNow(Date.now()), ms);
+    return () => window.clearInterval(t);
+  }, [ms]);
+  return now;
+}
+
+/** "2h 15m", "40m", "under a minute" */
+export function formatDuration(ms: number): string {
+  const mins = Math.ceil(ms / 60_000);
+  if (mins <= 0) return 'now';
+  if (mins < 60) return `${mins}m`;
+  const h = Math.floor(mins / 60);
+  const m = mins % 60;
+  return m ? `${h}h ${m}m` : `${h}h`;
 }

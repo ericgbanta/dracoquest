@@ -148,7 +148,7 @@ function riderFighter(data: GameData, r: RiderState, mods: Bonus): Fighter {
   const weapon = riderWeapon(data, r);
   return {
     id: 'rider', kind: 'rider', name: r.name, element: null, level: r.level,
-    maxHp: riderMaxHp(data, r), hp: r.hp, maxMp: riderMaxMp(data, r), mp: r.mp,
+    maxHp: riderMaxHp(data, r), hp: Math.min(r.hp, riderMaxHp(data, r)), maxMp: riderMaxMp(data, r), mp: Math.min(r.mp, riderMaxMp(data, r)),
     power: st[WEAPON_STAT[weapon.weaponType ?? 'melee']], magic: st.arcana,
     accuracy: st.agility, dodge: st.agility * c.rider.dodgePerAgility, swift: st.agility,
     defense: st.vigor * c.rider.defensePerVigor + bonusOf(mods, 'riderDefense'),
@@ -162,7 +162,7 @@ function dragonFighter(data: GameData, d: DragonState, mods: Bonus, id = 'dragon
   const st = effectiveDragonStats(data, d);
   return {
     id, kind: 'dragon', name: d.name, element: d.element, level: d.level,
-    maxHp: dragonMaxHp(data, d), hp: d.hp, maxMp: 0, mp: 0,
+    maxHp: dragonMaxHp(data, d), hp: Math.min(d.hp, dragonMaxHp(data, d)), maxMp: 0, mp: 0,
     power: st.might, magic: st.spirit,
     accuracy: st.swift * c.dragon.accuracyPerSwift, dodge: st.swift * c.dragon.dodgePerSwift + bonusOf(mods, 'dragonDodge'), swift: st.swift,
     defense: st.scale * c.dragon.defensePerScale + bonusOf(mods, 'dragonDefense'),

@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { gameData as data } from '../../core/data';
 import {
-  breathReady, comboAvailable, intentOf, livingEnemies, skillReady,
+  breathReady, comboAvailable, duoAvailable, intentOf, livingEnemies, secondBreathReady, skillReady,
   type BattleEvent, type BattleState, type DragonOrder, type Fighter, type Orders, type RiderOrder,
 } from '../../core/battle';
-import { activeDragon, canRide, leaveRun, playRound, startFight, type FightReport } from '../../core/game';
+import { activeDragon, canRide, leaveRun, playRound, secondDragon, startFight, type FightReport } from '../../core/game';
 import { talentById } from '../../core/loadout';
 import type { DialogueLine } from '../../core/types';
 import { getZone } from '../../core/run';
@@ -21,7 +21,7 @@ interface Props {
 }
 
 type RiderPick = { type: 'attack' } | { type: 'spell'; spell: string; target: 'rider' | 'dragon' | 'enemy' } | { type: 'item'; item: string } | { type: 'defend' } | { type: 'flee' } | { type: 'ride'; move: string };
-type DragonPick = { type: 'claw' } | { type: 'breath' } | { type: 'guard' } | { type: 'combo'; combo: string } | { type: 'skill'; skill: string };
+type DragonPick = { type: 'claw' } | { type: 'breath' } | { type: 'guard' } | { type: 'combo'; combo: string } | { type: 'skill'; skill: string } | { type: 'duo'; combo: string };
 
 interface Float { id: number; target: string; text: string; kind: 'dmg' | 'heal' | 'miss' | 'crit' }
 
@@ -38,7 +38,9 @@ export function Battle({ save, update, onExit }: Props) {
   const [rider, setRider] = useState<RiderPick>({ type: 'attack' });
   const [dragonPick, setDragonPick] = useState<DragonPick>({ type: 'claw' });
   const [target, setTarget] = useState('e0');
-  const [sheet, setSheet] = useState<'spell' | 'item' | 'skill' | null>(null);
+  const [sheet, setSheet] = useState<'spell' | 'item' | 'skill' | 'skill2' | null>(null);
+  const [secondPick, setSecondPick] = useState<DragonPick>({ type: 'claw' });
+  const [lastPicks, setLastPicks] = useState<{ rider: RiderPick; dragon: DragonPick; second: DragonPick } | null>(null);
   const [floats, setFloats] = useState<Float[]>([]);
   const nodes = useRef(new Map<string, HTMLElement>());
   const floatId = useRef(0);
@@ -55,6 +57,8 @@ export function Battle({ save, update, onExit }: Props) {
       setLog([`${live.enemies.map((e) => e.name).join(' and ')} ${live.enemies.length > 1 ? 'appear' : 'appears'}!`]);
       setRider(live.mode === 'ride' ? { type: 'ride', move: 'dive' } : { type: 'attack' });
       setDragonPick({ type: 'claw' });
+      setSecondPick({ type: 'claw' });
+      setLastPicks(null);
     }
     setTarget(livingEnemies(live)[0]?.id ?? 'e0');
   }, [battleKey]);
@@ -79,11 +83,30 @@ export function Battle({ save, update, onExit }: Props) {
   }
 
   const dragonState = activeDragon(save);
+  const second2 = secondDragon(save);
   const dragonUp = !!battle.dragon && battle.dragon.hp > 0;
   const comboPicked = dragonUp && dragonPick.type === 'combo';
   const ready = breathReady(data, battle);
 
-  const buildOrders = (): Orders => {
+  const secondUp = !!battle.second && battle.second.fighter.hp > 0;
+  const ready2 = secondBreathReady(data, battle);
+  const duoPicked = dragonPick.type === 'duo';
+
+  const toDragonOrder = (pick: DragonPick, which: 'lead' | 'second'): DragonOrder => {
+    const full = which === 'lead' ? ready : ready2;
+    switch (pick.type) {
+      case 'claw': return { type: 'claw', target };
+      case 'breath': return full ? { type: 'breath', target } : { type: 'claw', target };
+      case 'guard': return { type: 'guard' };
+      case 'combo': return { type: 'combo', combo: pick.combo, target };
+      case 'duo': return { type: 'duo', combo: pick.combo, target };
+      case 'skill': return skillReady(battle, pick.skill, which) ? { type: 'skill', skill: pick.skill, target } : { type: 'claw', target };
+    }
+  };
+
+  const buildOrders = (picks = { rider, dragon: dragonPick, second: secondPick }): Orders => {
+    const rider = picks.rider;
+    const dragonPick = picks.dragon;
     let r: RiderOrder;
     switch (rider.type) {
       case 'attack': r = { type: 'attack', target }; break;
@@ -92,16 +115,10 @@ export function Battle({ save, update, onExit }: Props) {
       case 'ride': r = { type: 'ride', move: rider.move, target }; break;
       default: r = { type: rider.type };
     }
-    if (!dragonUp) return { rider: r };
-    let d: DragonOrder;
-    switch (dragonPick.type) {
-      case 'claw': d = { type: 'claw', target }; break;
-      case 'breath': d = ready ? { type: 'breath', target } : { type: 'claw', target }; break;
-      case 'guard': d = { type: 'guard' }; break;
-      case 'combo': d = { type: 'combo', combo: dragonPick.combo, target }; break;
-      case 'skill': d = skillReady(battle, dragonPick.skill) ? { type: 'skill', skill: dragonPick.skill, target } : { type: 'claw', target }; break;
-    }
-    return { rider: r, dragon: d };
+    const orders: Orders = { rider: r };
+    if (dragonUp) orders.dragon = toDragonOrder(dragonPick, 'lead');
+    if (secondUp) orders.second = toDragonOrder(picks.second, 'second');
+    return orders;
   };
 
   const addFloat = (f: Omit<Float, 'id'>) => {
@@ -121,9 +138,11 @@ export function Battle({ save, update, onExit }: Props) {
     node.animate(frames[kind]!, { duration: fast ? 150 : 300, easing: 'ease-out' });
   };
 
-  const go = async () => {
+  const go = async (repeat = false) => {
     if (playing || !live) return;
-    const orders = buildOrders();
+    const picks = repeat && lastPicks ? lastPicks : { rider, dragon: dragonPick, second: secondPick };
+    setLastPicks(picks);
+    const orders = buildOrders(picks);
     const result = playRound(data, save, orders);
     update(() => result.save);
     setPlaying(true);
@@ -145,7 +164,8 @@ export function Battle({ save, update, onExit }: Props) {
     } else {
       setDisplay(null);
       // Breath used or no longer full: go back to Claw so nobody wastes a turn.
-      if (dragonPick.type === 'breath' || dragonPick.type === 'combo' || dragonPick.type === 'skill') setDragonPick({ type: 'claw' });
+      if (dragonPick.type === 'breath' || dragonPick.type === 'combo' || dragonPick.type === 'skill' || dragonPick.type === 'duo') setDragonPick({ type: 'claw' });
+      if (secondPick.type === 'breath' || secondPick.type === 'skill') setSecondPick({ type: 'claw' });
       if (rider.type === 'ride' && rider.move !== 'dive') setRider({ type: 'ride', move: 'dive' });
       else if (rider.type === 'item' && live.mode === 'ride') setRider({ type: 'ride', move: 'dive' });
       else if (rider.type === 'item' || rider.type === 'flee' || rider.type === 'spell') setRider({ type: 'attack' });
@@ -189,6 +209,7 @@ export function Battle({ save, update, onExit }: Props) {
   const combos = data.combat.combos.filter((c) => comboAvailable(data, battle, c.id));
   const bestCombo = combos[combos.length - 1];
   const nextCombo = data.combat.combos.find((c) => battle.bond < c.bond);
+  const duo = data.roost.duoCombos.find((c) => duoAvailable(data, battle, c.id));
 
   return (
     <section class="battle" aria-label="Battle">
@@ -207,7 +228,7 @@ export function Battle({ save, update, onExit }: Props) {
         ))}
       </div>
 
-      <div class={`party${battle.mode === 'ride' ? ' party--ride' : ''}`}>
+      <div class={`party${battle.mode === 'ride' && !battle.second ? ' party--ride' : ''}${battle.second && battle.mode !== 'ride' ? ' party--three' : ''}`}>
         <div class="fighter" ref={reg('rider')}>
           {battle.mode === 'ride' && dragonState && (
             <div class="fighter-row">
@@ -232,6 +253,17 @@ export function Battle({ save, update, onExit }: Props) {
             <Bar kind="hp" value={battle.dragon?.hp ?? 0} max={battle.dragon?.maxHp ?? 1} label="HP" />
             <Bar kind="breath" value={battle.breath} max={data.combat.breath.max} label={ready ? 'Breath READY' : 'Breath'} showNumbers={false} />
             {floatsFor('dragon')}
+          </div>
+        )}
+        {battle.second && second2 && (
+          <div class={`fighter${secondUp ? '' : ' fighter--ko'}`} ref={reg('dragon2')} data-testid="second-card">
+            <div class="fighter-row">
+              <DragonSprite element={second2.element} stage={second2.stage} primary={second2.colors.primary} secondary={second2.colors.secondary} size={40} />
+              <div class="fighter-name">{second2.name}{!secondUp && ' (KO)'} <StatusChips statuses={battle.second.fighter.statuses} /></div>
+            </div>
+            <Bar kind="hp" value={battle.second.fighter.hp} max={battle.second.fighter.maxHp} label="HP" />
+            <Bar kind="breath" value={battle.second.breath} max={data.combat.breath.max} label={ready2 ? 'READY' : 'Breath'} showNumbers={false} />
+            {floatsFor('dragon2')}
           </div>
         )}
       </div>
@@ -282,6 +314,9 @@ export function Battle({ save, update, onExit }: Props) {
                 sub={dragonPick.type === 'skill' ? talentById(data, dragonPick.skill)?.name : undefined}
                 onClick={() => setSheet('skill')} testid="act-skill" />
             )}
+            {duo && (
+              <Act label="Duo" sub={duo.name} on={duoPicked} disabled={playing} onClick={() => setDragonPick({ type: 'duo', combo: duo.id })} testid="act-duo" />
+            )}
             {bestCombo ? (
               <Act label="Combo" sub={bestCombo.name} on={dragonPick.type === 'combo'} disabled={playing}
                 onClick={() => setDragonPick({ type: 'combo', combo: bestCombo.id })} testid="act-combo" />
@@ -290,13 +325,31 @@ export function Battle({ save, update, onExit }: Props) {
             ) : null}
           </div>
         ) : (
-          <p class="muted ko-note">Your dragon is knocked out. You fight on alone at reduced power.</p>
+          <p class="muted ko-note">Your dragon is knocked out.{secondUp ? '' : ' You fight on alone at reduced power.'}</p>
         )}
         </>
         )}
-        <button type="button" class="button button--go" onClick={go} disabled={playing} data-testid="go">
-          {playing ? '…' : 'Go!'}
-        </button>
+        {secondUp && battle.second && (
+          <div class={`action-row${duoPicked ? ' action-row--muted' : ''}`} role="group" aria-label="Second dragon">
+            <span class="row-label">{second2?.name.slice(0, 7) ?? '2nd'}</span>
+            <Act label="Claw" on={secondPick.type === 'claw'} disabled={playing || duoPicked} onClick={() => setSecondPick({ type: 'claw' })} testid="act2-claw" />
+            <Act label="Breath" on={secondPick.type === 'breath'} disabled={!ready2 || playing || duoPicked} onClick={() => setSecondPick({ type: 'breath' })}
+              sub={ready2 ? 'Ready!' : `${Math.round((battle.second.breath / data.combat.breath.max) * 100)}%`} testid="act2-breath" />
+            <Act label="Guard" on={secondPick.type === 'guard'} disabled={playing || duoPicked} onClick={() => setSecondPick({ type: 'guard' })} testid="act2-guard" />
+            {battle.second.skills.length > 0 && (
+              <Act label="Skill" on={secondPick.type === 'skill'} disabled={playing || duoPicked || !battle.second.skills.some((id) => skillReady(battle, id, 'second'))}
+                sub={secondPick.type === 'skill' ? talentById(data, secondPick.skill)?.name : undefined} onClick={() => setSheet('skill2')} testid="act2-skill" />
+            )}
+          </div>
+        )}
+        <div class="go-row">
+          {lastPicks && (
+            <button type="button" class="button button--ghost repeat" onClick={() => go(true)} disabled={playing} data-testid="repeat">Repeat</button>
+          )}
+          <button type="button" class="button button--go" onClick={() => go()} disabled={playing} data-testid="go">
+            {playing ? '…' : 'Go!'}
+          </button>
+        </div>
       </div>
 
       {sheet === 'spell' && (
@@ -337,6 +390,22 @@ export function Battle({ save, update, onExit }: Props) {
               return (
                 <button key={id} type="button" class="list-button" disabled={!skillReady(battle, id)} data-testid={`skill-${id}`}
                   onClick={() => { setDragonPick({ type: 'skill', skill: id }); setSheet(null); }}>
+                  {t.name} <span class="muted">· {cd > 0 ? `ready in ${cd} round${cd === 1 ? '' : 's'}` : t.description.replace('Skill: ', '')}</span>
+                </button>
+              );
+            })}
+          </div>
+        </Sheet>
+      )}
+      {sheet === 'skill2' && battle.second && (
+        <Sheet title={`${second2?.name ?? 'Second dragon'}'s skills`} onClose={() => setSheet(null)}>
+          <div class="list">
+            {battle.second.skills.map((id) => {
+              const t = talentById(data, id)!;
+              const cd = battle.second!.cooldowns[id] ?? 0;
+              return (
+                <button key={id} type="button" class="list-button" disabled={!skillReady(battle, id, 'second')} data-testid={`skill2-${id}`}
+                  onClick={() => { setSecondPick({ type: 'skill', skill: id }); setSheet(null); }}>
                   {t.name} <span class="muted">· {cd > 0 ? `ready in ${cd} round${cd === 1 ? '' : 's'}` : t.description.replace('Skill: ', '')}</span>
                 </button>
               );
@@ -490,7 +559,8 @@ function Results({ save, report, update, onExit, onNext }: {
           {report.bondGained > 0 && dragon && <li>+{report.bondGained} bond with {dragon.name}</li>}
         </ul>
       )}
-      {report.egg && <p class="notice notice--ok" data-testid="egg-drop">🥚 The boss dropped a {data.dragons.eggs[report.egg]?.name ?? `${data.elements.info[report.egg].name} egg`}! It's in your Bag.</p>}
+      {report.egg && <p class="notice notice--ok" data-testid="egg-drop">🥚 The boss dropped a {data.dragons.eggs[report.egg]?.name ?? `${data.elements.info[report.egg].name} egg`}! Incubate it in the Hatchery at the Roost.</p>}
+      {report.embers ? <p class="notice notice--ok" data-testid="embers-reward">🔥 +{report.embers} embers</p> : null}
       {report.grewTo && dragon && (
         <>
           <Dialogue lines={Object.values(data.quests).find((q) => q.stage === report.grewTo)?.outro ?? []} save={save} />

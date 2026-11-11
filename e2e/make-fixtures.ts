@@ -4,7 +4,7 @@
  */
 import { writeFileSync } from 'node:fs';
 import { gameData as data } from '../src/core/data';
-import { activeDragon, buyGear, chooseEgg, equip, hatchEgg, learnDragonTalent, warmEgg } from '../src/core/game';
+import { activeDragon, buyGear, chooseEgg, equip, hatchEgg, incubateEgg, learnDragonTalent, setSecond, startExpedition, upgradeBuilding, warmEgg } from '../src/core/game';
 import { newSave, type SaveData } from '../src/core/save';
 import { dragonMaxHp, riderMaxHp, riderMaxMp } from '../src/core/characters';
 import type { DragonState } from '../src/core/types';
@@ -58,4 +58,24 @@ adult = heal({ ...adult, rider: { ...adult.rider, gold: 3000 }, bossesDefeated: 
 adult = { ...adult, run: { zoneId: 'thunderspire', fights: [{ kind: 'boss', enemies: [{ enemyId: 'storm-roc', level: 28 }] }], index: 0, battle: null, totals: { xp: 0, gold: 0, drops: {} } } };
 adult = { ...adult, settings: { ...adult.settings, fastBattles: true } };
 writeFileSync('e2e/fixtures/adult-at-roc.json', JSON.stringify(adult));
+// Phase 3: a level 26 rider with two Adult partners, a built Roost, a ready egg, and a dragon on a trip.
+let roost = adult;
+roost = { ...roost, run: null, rider: { ...roost.rider, level: 26, gold: 20000 }, embers: 120, eggs: ['storm'] };
+for (const b of ['hatchery', 'training', 'expeditions'] as const) roost = upgradeBuilding(data, roost, b, NOW);
+roost = { ...roost, eggs: ['storm', 'tide'] };
+roost = incubateEgg(data, roost, 1, NOW - 48 * 3600_000);
+const lead = activeDragon(roost)!;
+const make = (id: string, name: string, element: 'tide' | 'verdant', primary: string): DragonState => ({
+  ...lead, id, name, element, colors: { primary, secondary: '#e9e4da' }, talents: {}, equipment: {}, bond: 60,
+  temper: { bold: 0, gentle: 30, clever: 0, proud: 0 }, assignment: { kind: 'idle' },
+});
+roost = { ...roost, dragons: [...roost.dragons, make('dragon-2', 'Ripple', 'tide', '#3f8fd8'), make('dragon-3', 'Fern', 'verdant', '#5fbf5a')] };
+roost = upgradeBuilding(data, roost, 'nest', NOW);
+roost = { ...roost, rider: { ...roost.rider, hp: riderMaxHp(data, roost.rider) }, dragons: roost.dragons.map((d) => ({ ...d, hp: dragonMaxHp(data, d) })) };
+roost = setSecond(data, roost, 'dragon-2', NOW);
+roost = startExpedition(data, roost, 'dragon-3', 'berry-run', NOW - 3 * 3600_000);
+roost = { ...roost, roost: { ...roost.roost, pantry: { lastAt: NOW - 48 * 3600_000, stored: 0 } } };
+roost = { ...roost, run: { zoneId: 'thunderspire', fights: [{ kind: 'normal', enemies: [{ enemyId: 'thunder-goat', level: 25 }] }], index: 0, battle: null, totals: { xp: 0, gold: 0, drops: {} } } };
+writeFileSync('e2e/fixtures/roost.json', JSON.stringify({ ...roost, run: null }));
+writeFileSync('e2e/fixtures/two-partners-fight.json', JSON.stringify(roost));
 console.log('fixtures written');

@@ -1,112 +1,158 @@
 import { useState } from 'preact/hooks';
 import { gameData as data } from '../../core/data';
-import { activeDragon, feedDragon, groomDragon, rest } from '../../core/game';
-import { careFor } from '../../core/care';
+import { activeDragon, feedDragon, GameError, groomDragon, isPartner, rest, secondDragon } from '../../core/game';
+import { careFor, dragonCareFor } from '../../core/care';
 import { dragonMaxHp, riderMaxHp } from '../../core/characters';
+import { leaning, temperament } from '../../core/roost';
 import type { SaveData } from '../../core/save';
+import type { DragonState } from '../../core/types';
 import { href } from '../router';
 import { GearIcon } from '../icons';
 import { DragonSprite } from '../Sprites';
 import { Bar, ElementBadge, todayKey } from '../bits';
 import { Sheet } from '../Sheet';
 import { Groom } from './Groom';
+import { Buildings } from './Buildings';
 
 interface Props { save: SaveData; update(change: (s: SaveData) => SaveData): void }
 
+/** A line about what the dragon is up to, picked by temperament and the day. */
+function idleLine(dragon: DragonState, today: string): string | null {
+  const t = temperament(data, dragon);
+  if (!t) return null;
+  const lines = data.roost.temperament.types[t].lines;
+  const n = [...(dragon.id + today)].reduce((a, ch) => a + ch.charCodeAt(0), 0);
+  return lines[n % lines.length]!.replaceAll('{name}', dragon.name);
+}
+
 export function Roost({ save, update }: Props) {
-  const dragon = activeDragon(save);
+  const lead = activeDragon(save);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const [sheet, setSheet] = useState<'feed' | 'groom' | null>(null);
   const [toast, setToast] = useState('');
-  if (!dragon) return null;
+  if (!lead) return null;
+  const dragon = save.dragons.find((d) => d.id === selectedId) ?? lead;
 
   const today = todayKey();
   const care = careFor(save.care, today);
-  const mealsLeft = data.care.mealsPerDay - care.meals;
+  const dCare = dragonCareFor(dragon, today);
+  const mealsLeft = data.care.mealsPerDay - dCare.meals;
   const dMax = dragonMaxHp(data, dragon);
   const rMax = riderMaxHp(data, save.rider);
-  const hurt = dragon.hp < dMax || save.rider.hp < rMax;
+  const hurt = save.dragons.some((d) => d.hp < dragonMaxHp(data, d)) || save.rider.hp < rMax;
+  const temper = temperament(data, dragon);
+  const lean = leaning(dragon);
+  const line = idleLine(dragon, today);
+  const away = dragon.assignment.kind === 'expedition';
 
-  const doFeed = (foodId: string) => {
-    const r = feedDragon(data, save, foodId, today);
+  const act = (fn: () => void) => {
+    try { fn(); } catch (e) { setToast(e instanceof GameError || e instanceof RangeError ? e.message : 'That did not work.'); }
+  };
+
+  const doFeed = (foodId: string) => act(() => {
+    const r = feedDragon(data, save, foodId, today, dragon.id);
     const food = data.foods.find((f) => f.id === foodId)!;
     update(() => r.save);
     setToast(r.result.favorite
-      ? `${dragon.name} LOVES ${food.name}! +${r.result.bondGained} bond, +${r.result.statPoints} stat point.`
-      : `${dragon.name} munches the ${food.name}. +${r.result.bondGained} bond, +${r.result.statPoints} stat point.`);
+      ? `${dragon.name} LOVES ${food.name}! +${r.result.bondGained} bond, +${r.result.statPoints} stat point${r.result.statPoints === 1 ? '' : 's'}.`
+      : `${dragon.name} munches the ${food.name}. +${r.result.bondGained} bond, +${r.result.statPoints} stat point${r.result.statPoints === 1 ? '' : 's'}.`);
     setSheet(null);
-  };
+  });
 
-  const doGroom = (taps: number) => {
-    const r = groomDragon(data, save, taps, today);
+  const doGroom = (taps: number) => act(() => {
+    const r = groomDragon(data, save, taps, today, dragon.id);
     update(() => r.save);
     setToast(`${dragon.name} is purring. Probably. +${r.bondGained} bond.`);
     setSheet(null);
-  };
+  });
 
-  const doRest = () => {
+  const doRest = () => act(() => {
     update((s) => rest(data, s, today));
-    setToast(`You and ${dragon.name} nap in the nest. Fully rested!`);
-  };
+    setToast(save.dragons.length > 1 ? 'Everyone naps in the nest. Fully rested!' : `You and ${dragon.name} nap in the nest. Fully rested!`);
+  });
 
-  const wellKeptBanner = save.wellKeptFights > 0;
+  const second = secondDragon(save);
 
   return (
     <section class="screen" aria-labelledby="screen-title">
       <header class="screen-header">
         <h1 id="screen-title">Roost</h1>
+        <span class="embers" title="Embers" data-testid="embers">🔥 {save.embers}</span>
         <a class="icon-button" href={href('settings')} aria-label="Settings" data-testid="open-settings"><GearIcon /></a>
       </header>
 
+      {save.dragons.length > 1 && (
+        <div class="dragon-picker" role="tablist" aria-label="Your dragons">
+          {save.dragons.map((d) => (
+            <button key={d.id} type="button" role="tab" aria-selected={d.id === dragon.id} class={`pick${d.id === dragon.id ? ' pick--on' : ''}`}
+              onClick={() => { setSelectedId(d.id); setToast(''); }} data-testid={`pick-${d.name}`}>
+              <DragonSprite element={d.element} stage={d.stage} primary={d.colors.primary} secondary={d.colors.secondary} size={40} />
+              <span>{d.name}</span>
+              {d.id === lead.id ? <span class="pick-tag">Lead</span> : d.id === second?.id ? <span class="pick-tag">Second</span> : null}
+            </button>
+          ))}
+        </div>
+      )}
+
       <div class="card roost-dragon">
-        <DragonSprite element={dragon.element} stage={dragon.stage} primary={dragon.colors.primary} secondary={dragon.colors.secondary} size={150} class="idle" />
+        <DragonSprite element={dragon.element} stage={dragon.stage} primary={dragon.colors.primary} secondary={dragon.colors.secondary} size={140}
+          class={`idle${temper ? ` idle--${temper}` : ''}`} />
         <div class="roost-dragon-info">
           <p class="welcome" data-testid="welcome">{dragon.name}</p>
           <p class="muted">Lv {dragon.level} · {data.dragons.stages.find((s) => s.id === dragon.stage)?.name} <ElementBadge element={dragon.element} small /></p>
+          <p class="muted" data-testid="temperament">
+            {temper ? `${data.roost.temperament.types[temper].name}: ${data.roost.temperament.types[temper].passive}` : lean ? `Leaning ${data.roost.temperament.types[lean].name}` : 'Temperament: still figuring itself out'}
+          </p>
           <Bar kind="hp" value={dragon.hp} max={dMax} label="HP" />
           <Bar kind="bond" value={dragon.bond} max={data.progression.bond.max} label="Bond" />
-          <Bar kind="hp" value={save.rider.hp} max={rMax} label={save.rider.name} />
+          {isPartner(save, dragon.id) && <Bar kind="hp" value={save.rider.hp} max={rMax} label={save.rider.name} />}
         </div>
       </div>
+      {line && <p class="idle-line" data-testid="idle-line">{line}</p>}
+      {away && <p class="notice notice--ok">{dragon.name} is away on an expedition.</p>}
 
       {toast && <p class="notice notice--ok" role="status" data-testid="toast">{toast}</p>}
-      {wellKeptBanner && <p class="notice notice--ok">Well kept: +{Math.round(data.care.wellKept.xpBonus * 100)}% XP for {save.wellKeptFights} more fight{save.wellKeptFights === 1 ? '' : 's'}.</p>}
+      {save.wellKeptFights > 0 && <p class="notice notice--ok">Well kept: +{Math.round(data.care.wellKept.xpBonus * 100)}% XP for {save.wellKeptFights} more fight{save.wellKeptFights === 1 ? '' : 's'}.</p>}
 
-      <h2 class="section-title">Daily care</h2>
+      <h2 class="section-title">Daily care{save.dragons.length > 1 ? ` · ${dragon.name}` : ''}</h2>
       <div class="care-grid">
-        <button type="button" class="care-button" disabled={mealsLeft <= 0} onClick={() => setSheet('feed')} data-testid="care-feed">
+        <button type="button" class="care-button" disabled={mealsLeft <= 0 || away} onClick={() => setSheet('feed')} data-testid="care-feed">
           <span class="care-icon" aria-hidden="true">🍖</span>
           <span>Feed</span>
           <span class="care-sub">{mealsLeft > 0 ? `${mealsLeft} of ${data.care.mealsPerDay} meals left` : 'Full for today'}</span>
         </button>
-        <button type="button" class="care-button" disabled={care.groomed} onClick={() => setSheet('groom')} data-testid="care-groom">
+        <button type="button" class="care-button" disabled={dCare.groomed || away} onClick={() => setSheet('groom')} data-testid="care-groom">
           <span class="care-icon" aria-hidden="true">✨</span>
           <span>Groom &amp; Play</span>
-          <span class="care-sub">{care.groomed ? 'Done today' : '10-second game'}</span>
+          <span class="care-sub">{dCare.groomed ? 'Done today' : '10-second game'}</span>
         </button>
-        <button type="button" class="care-button" onClick={doRest} data-testid="care-rest">
+        <button type="button" class="care-button" onClick={doRest} disabled={!!save.run} data-testid="care-rest">
           <span class="care-icon" aria-hidden="true">💤</span>
           <span>Rest</span>
-          <span class="care-sub">{hurt ? 'Heal up' : care.rested ? 'Rested' : 'Fully healthy'}</span>
+          <span class="care-sub">{hurt ? 'Heal everyone' : care.rested ? 'Rested' : 'Fully healthy'}</span>
         </button>
       </div>
       <p class="muted">
         {care.wellKeptGiven
-          ? 'All care done today. Nice keeping!'
-          : `Do all three today for the Well kept buff: +${Math.round(data.care.wellKept.xpBonus * 100)}% XP for ${data.care.wellKept.fights} fights. Skipping a day never hurts.`}
+          ? `All care done today. Care streak: ${save.careStreak.count} day${save.careStreak.count === 1 ? '' : 's'}.`
+          : `Rest, then feed and groom a dragon today for the Well kept buff (+${Math.round(data.care.wellKept.xpBonus * 100)}% XP for ${data.care.wellKept.fights} fights) and an ember. Skipping a day never hurts.`}
       </p>
 
       <a class="button button--big button--block" href={href('map')} data-testid="go-map">Adventure →</a>
 
+      <Buildings save={save} update={update} onMessage={setToast} />
+
       {sheet === 'feed' && (
         <Sheet title={`Feed ${dragon.name}`} onClose={() => setSheet(null)}>
-          <p class="muted">Each meal gives a stat point and bond. Every dragon has a secret favorite.</p>
+          <p class="muted">Each meal gives stat points and bond. Every dragon has a secret favorite.</p>
           <div class="list">
             {data.foods.map((f) => {
               const known = dragon.foodsTried.includes(f.id) && f.id === dragon.favoriteFood;
               const have = save.rider.inventory[f.id] ?? 0;
+              if (f.premium && have <= 0) return null;
               return (
                 <button key={f.id} type="button" class="list-button" disabled={have <= 0} onClick={() => doFeed(f.id)} data-testid={`food-${f.id}`}>
-                  <span aria-hidden="true">{f.icon}</span> {f.name} ×{have}{known ? ' ♥ Favorite' : ''}
+                  <span aria-hidden="true">{f.icon}</span> {f.name} ×{have}{f.premium ? ` (+${f.statPoints} points)` : ''}{known ? ' ♥ Favorite' : ''}
                 </button>
               );
             })}

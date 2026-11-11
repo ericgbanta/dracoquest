@@ -55,7 +55,7 @@ test('the tab bar switches screens after hatching and deep links work', async ({
   await page.goto('./#/bag');
   await expect(page.getByRole('heading', { name: 'Bag' })).toBeVisible();
   await page.goto('./#/nowhere');
-  await expect(page.getByRole('heading', { name: 'Roost' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Roost', exact: true })).toBeVisible();
 });
 
 test('every tap target is at least 44 x 44 px', async ({ page }) => {

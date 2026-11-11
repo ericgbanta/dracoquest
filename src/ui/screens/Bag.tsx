@@ -71,7 +71,7 @@ export function Bag({ save, update }: Props) {
         {RIDER_SLOTS.map(slotRow)}
         {dragon && (
           <>
-            <h2 class="section-title">{dragon.name}'s gear</h2>
+            <h2 class="section-title">{dragon.name}'s gear (lead)</h2>
             {dragon.stage === 'adult' ? DRAGON_SLOTS.map(slotRow) : <p class="muted">Dragon gear slots open when {dragon.name} becomes an Adult.</p>}
           </>
         )}
@@ -114,7 +114,7 @@ export function Bag({ save, update }: Props) {
             <div class="egg-row" data-testid="eggs">
               {save.eggs.map((el, i) => <span key={i} class="badge" style={{ '--el': data.elements.info[el].color }}>🥚 {data.dragons.eggs[el]?.name ?? `${data.elements.info[el].name} egg`}</span>)}
             </div>
-            <p class="muted">Keep them warm. The Hatchery opens at the Roost in a future update.</p>
+            <p class="muted">Incubate them in the Hatchery at the Roost.</p>
           </>
         )}
       </div>

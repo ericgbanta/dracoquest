@@ -383,3 +383,30 @@ a.button { text-decoration: none; display: inline-flex; align-items: center; jus
 .checklist li.done { color: var(--ok); }
 .pill--skill { margin-left: 6px; background: #3f6fd8; color: #fff; }
 .party--ride { grid-template-columns: 1fr; }
+
+/* ---------- Phase 3: Roost ---------- */
+.embers { font-weight: 700; margin-left: auto; }
+.dragon-picker { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 12px; padding-bottom: 2px; }
+.pick { font: inherit; color: var(--text); background: var(--surface); border: 2px solid var(--surface-2); border-radius: 12px; min-width: 76px; min-height: 76px; padding: 4px 8px; display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 0.8rem; font-weight: 700; flex: none; }
+.pick--on { border-color: var(--accent); }
+.pick-tag { font-size: 0.65rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.04em; }
+.idle-line { font-style: italic; color: var(--muted); margin: -8px 0 12px; }
+.building-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+.building-head h3 { margin: 0; font-size: 1.05rem; }
+.pill--muted { background: var(--surface-2); color: var(--text); }
+.building .upgrade { width: 100%; margin-top: 8px; font-size: 0.9rem; }
+.building .list-button { margin-top: 6px; width: 100%; }
+.slot-row .button { flex: none; }
+.idle--bold { animation: bob 1.6s ease-in-out infinite; }
+.idle--gentle { animation: bob 3.2s ease-in-out infinite; }
+.idle--clever { animation: tilt 3s ease-in-out infinite; }
+.idle--proud { animation: puff 3s ease-in-out infinite; }
+@keyframes tilt { 50% { transform: rotate(-4deg); } }
+@keyframes puff { 50% { transform: scale(1.05); } }
+.party--three { grid-template-columns: 1fr 1fr 1fr; }
+.party--three .fighter-name { font-size: 0.8rem; }
+.party--three .bar-text { font-size: 0.72rem; padding: 0 4px; }
+.party--three .bar-label { display: none; }
+.go-row { display: flex; gap: 6px; }
+.go-row .button--go { flex: 1; }
+.go-row .repeat { flex: none; min-width: 88px; }
