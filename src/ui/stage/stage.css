@@ -1,0 +1,122 @@
+/* ---------- Battle stage ----------
+   Only transform and opacity ever animate here. Idle loops are CSS; beats use the Web Animations API. */
+
+.stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 11;
+  overflow: hidden;
+  background: #5a4a8a;
+  contain: layout paint;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  touch-action: manipulation;
+  container-type: inline-size;
+}
+.stage-world { position: absolute; inset: 0; }
+.stage-layer { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.stage-layer.anim-drift { left: -4%; width: 108%; animation: stage-drift 40s ease-in-out infinite alternate; }
+
+.fighter {
+  position: absolute; display: block; padding: 0; margin: 0; border: 0; background: none;
+  font: inherit; color: inherit; will-change: transform; -webkit-tap-highlight-color: transparent;
+}
+button.fighter { cursor: pointer; }
+.fighter::before {
+  content: ''; position: absolute; left: 22%; right: 22%; bottom: -2%; height: 9%;
+  background: radial-gradient(closest-side, #1d1a2b88, #1d1a2b00);
+}
+.rig { position: relative; width: 100%; }
+.rig--left { transform: scaleX(-1); }
+.rig--fallback { aspect-ratio: 1; display: flex; align-items: flex-end; justify-content: center; }
+.rig--fallback > svg { width: 100%; height: auto; }
+.part { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+
+.fighter--targeted::after {
+  content: ''; position: absolute; left: 24%; right: 24%; bottom: -3%; height: 10%;
+  border: 3px solid var(--accent); border-radius: 50%;
+  animation: stage-ring 900ms ease-in-out infinite alternate;
+}
+
+/* Idle loops: slow and cheap. */
+.anim-breathe { animation: stage-breathe 1300ms ease-in-out infinite alternate; }
+.anim-bob { animation: stage-bob 1200ms ease-in-out infinite alternate; }
+.anim-flap { animation: stage-flap 1300ms ease-in-out infinite alternate; }
+.anim-flap-back { animation: stage-flap-back 1300ms ease-in-out infinite alternate; }
+.anim-flap-big { animation: stage-flap-big 900ms ease-in-out infinite alternate; }
+.anim-flap-back-big { animation: stage-flap-back-big 900ms ease-in-out infinite alternate; }
+.anim-swish { animation: stage-swish 1800ms ease-in-out infinite alternate; }
+.anim-cape { animation: stage-cape 1600ms ease-in-out infinite alternate; }
+.stage--paused * { animation-play-state: paused !important; }
+
+@keyframes stage-breathe { from { transform: translateY(0); } to { transform: translateY(1.4%); } }
+@keyframes stage-bob { from { transform: translateY(0); } to { transform: translateY(1.2%); } }
+@keyframes stage-flap { from { transform: rotate(4deg); } to { transform: rotate(-8deg); } }
+@keyframes stage-flap-back { from { transform: rotate(-3deg); } to { transform: rotate(7deg); } }
+@keyframes stage-flap-big { from { transform: rotate(10deg); } to { transform: rotate(-14deg); } }
+@keyframes stage-flap-back-big { from { transform: rotate(-8deg); } to { transform: rotate(12deg); } }
+@keyframes stage-swish { from { transform: rotate(-3deg); } to { transform: rotate(5deg); } }
+@keyframes stage-cape { from { transform: rotate(0deg); } to { transform: rotate(5deg); } }
+@keyframes stage-ring { from { opacity: 0.45; } to { opacity: 1; } }
+@keyframes stage-drift { from { transform: translateX(0); } to { transform: translateX(-3.5%); } }
+
+/* Header over the sky. */
+.stage-header {
+  position: absolute; left: 0; right: 0; top: 0; z-index: 7;
+  display: flex; justify-content: space-between; align-items: center; gap: 8px;
+  padding: 0 6px 0 10px; font-size: 0.8rem; font-weight: 700; color: var(--text);
+  background: linear-gradient(#1d1a2bcc, #1d1a2b00); text-shadow: 0 1px 2px #000;
+}
+.stage-header .chip-button { min-height: 44px; background: #1d1a2b99; }
+
+/* Name plates float over the stage; the full numbers live in the status strip below. */
+.plate {
+  position: absolute; z-index: 5; padding: 2px 6px 4px; border-radius: 8px;
+  background: #1d1a2bc4; border: 2px solid #1d1a2b; pointer-events: none;
+}
+.plate-name { display: block; font-size: 12px; font-weight: 800; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.plate-bar { display: block; height: 7px; border-radius: 4px; background: #0009; overflow: hidden; margin-top: 2px; }
+.plate-bar::after {
+  content: ''; display: block; height: 100%; background: linear-gradient(90deg, #3fae5a, #6fcf97);
+  transform-origin: left; transform: scaleX(var(--hp, 1)); transition: transform 250ms ease-out;
+}
+.plate--enemy .plate-bar::after { background: linear-gradient(90deg, #d8463a, #f07a5c); }
+.plate-intent { display: block; margin-top: 3px; font-size: 11px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--muted); }
+.plate-intent--big { color: #ffb1a3; }
+
+/* Pooled effects. */
+.stage-fx { position: absolute; inset: 0; z-index: 6; pointer-events: none; }
+.fx { position: absolute; left: 0; top: 0; opacity: 0; pointer-events: none; }
+.fx-puff { width: 15%; }
+.fx-spark { width: 13%; }
+.fx-slash { width: 17%; }
+.fx-num {
+  z-index: 7; font-size: 24px; font-weight: 900; color: #fff; white-space: nowrap; line-height: 1;
+  text-shadow: 0 0 3px #1d1a2b, 0 2px 0 #1d1a2b, 2px 0 0 #1d1a2b, -2px 0 0 #1d1a2b, 0 -2px 0 #1d1a2b;
+}
+.fx-num--crit { color: #ffd34d; font-size: 30px; }
+.fx-num--heal { color: #8ff0b0; }
+.fx-num--miss { color: var(--muted); font-size: 20px; }
+
+/* Status strip under the stage: exact numbers. */
+.status-strip { display: grid; grid-template-columns: auto 1fr 1fr; gap: 2px 8px; align-items: center; font-size: 0.8rem; }
+.status-strip .who { font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 7.5em; }
+.sbar { position: relative; height: 18px; border-radius: 5px; background: #0006; overflow: hidden; }
+.sbar-fill { position: absolute; inset: 0; transform-origin: left; transition: transform 250ms ease-out; }
+.sbar--hp .sbar-fill { background: linear-gradient(90deg, #3fae5a, #6fcf97); }
+.sbar--mp .sbar-fill { background: linear-gradient(90deg, #3f6fd8, #7fa8f0); }
+.sbar--breath .sbar-fill { background: linear-gradient(90deg, #f2a541, #e8603c); }
+.sbar-text { position: relative; display: flex; justify-content: space-between; padding: 0 6px; font-weight: 700; font-size: 0.75rem; line-height: 18px; text-shadow: 0 1px 2px #000; }
+
+/* Portrait: the stage runs edge to edge. */
+.battle--stage .stage-box { margin: -8px -12px 0; }
+.battle--stage .log { min-height: 44px; max-height: 44px; }
+
+@media (orientation: landscape) and (max-height: 500px) {
+  .battle--stage .battle-field { height: 100%; overflow: hidden; gap: 6px; }
+  .content--stage { max-width: none; }
+  .battle--stage .stage-box { flex: 1; min-height: 0; margin: 0; container-type: size; display: flex; align-items: flex-start; justify-content: center; }
+  .battle--stage .stage { width: min(100cqw, calc(100cqh * 16 / 11)); border-radius: 12px; }
+  .battle--stage .actions { width: min(330px, 46vw); }
+}

@@ -1,0 +1,34 @@
+{
+  "note": "Battle stage layout and animation timings. Positions are percent of the stage (left/bottom/width of the stage width, top of the stage height). Durations are ms at 1x; 2x speed multiplies them by fastFactor. Each beat's action, up to and including impact, stays within 300 ms.",
+  "aspect": [16, 11],
+  "maxNodes": 60,
+  "fastFactor": 0.5,
+  "slots": {
+    "dragon": { "left": -1, "bottom": 12, "width": 39, "z": 1 },
+    "rider": { "left": 35, "bottom": 7, "width": 14.5, "z": 3 },
+    "enemy": { "left": 54, "bottom": 10, "width": 43, "z": 2 }
+  },
+  "plates": {
+    "dragon": { "left": 2, "top": 19, "width": 30, "minPx": 96 },
+    "rider": { "left": 33, "top": 47, "width": 20, "minPx": 80 },
+    "enemy": { "right": 2, "top": 19, "width": 36, "minPx": 150 }
+  },
+  "beats": {
+    "slotMs": 420,
+    "riderAttack": { "windup": 60, "dash": 110, "swing": 90, "hold": 40, "back": 130 },
+    "claw": { "lunge": 120, "swipe": 90, "hold": 30, "back": 130, "reach": 9 },
+    "breath": { "rear": 80, "puffs": 6, "stagger": 22, "travel": 170, "recover": 120 },
+    "enemyAttack": { "windup": 100, "lunge": 110, "hold": 30, "back": 150 },
+    "knockback": { "dist": 2.6, "ms": 200 },
+    "shake": { "dist": 1, "ms": 150 },
+    "number": { "ms": 800, "rise": 6, "above": 0.1 }
+  },
+  "demo": {
+    "zone": "thunderspire",
+    "zoneName": "Thunderspire",
+    "rider": { "name": "Keeper", "hp": 214, "maxHp": 240, "mp": 38, "maxMp": 52 },
+    "dragon": { "name": "Blaze", "element": "fire", "stage": "adult", "primary": "#e8603c", "secondary": "#f2a541", "hp": 268, "maxHp": 300, "breath": 100 },
+    "enemy": { "id": "e0", "enemyId": "storm-roc", "level": 28, "hp": 1186, "maxHp": 1186, "intent": "Lightning Dive" },
+    "hits": { "riderAttack": 64, "claw": 48, "breath": 151, "enemyAttack": 37 }
+  }
+}

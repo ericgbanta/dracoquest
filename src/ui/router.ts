@@ -26,3 +26,19 @@ export function useRoute(): Route {
   }, []);
   return route;
 }
+
+/** Hidden developer pages (#/dev/mock, #/dev/bench). Null for every other hash. */
+export function parseDevPage(hash: string): string | null {
+  const m = /^#\/?dev\/([a-z]+)/.exec(hash);
+  return m ? m[1]! : null;
+}
+
+export function useDevPage(): string | null {
+  const [page, setPage] = useState<string | null>(() => parseDevPage(window.location.hash));
+  useEffect(() => {
+    const onChange = () => setPage(parseDevPage(window.location.hash));
+    window.addEventListener('hashchange', onChange);
+    return () => window.removeEventListener('hashchange', onChange);
+  }, []);
+  return page;
+}

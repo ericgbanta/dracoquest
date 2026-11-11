@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'preact/hooks';
-import { useRoute } from './router';
+import { useDevPage, useRoute } from './router';
 import { useSave } from './useSave';
 import { TabBar } from './TabBar';
 import { Roost } from './screens/Roost';
@@ -16,11 +16,15 @@ export function App() {
   const route = useRoute();
   const { save, loadError, persistent, update, replace } = useSave();
   const pwa = usePwa();
+  const devPage = useDevPage();
   // The battle screen stays open after the run ends so the results can show.
   const [battleOpen, setBattleOpen] = useState(!!save?.run);
   useEffect(() => {
     if (save?.run) setBattleOpen(true);
   }, [!!save?.run]);
+
+  // Hidden dev pages (mock battle, bench) work with or without a save.
+  if (devPage) return <DevLoader page={devPage} />;
 
   if (!save) {
     // The stored save is damaged. Never overwrite it silently: offer import or a fresh start.
@@ -85,4 +89,18 @@ export function App() {
       <TabBar current={route} />
     </div>
   );
+}
+
+type DevModule = typeof import('./dev/Dev');
+
+/** Loads the dev pages on demand, so they never add to the game's first load. */
+function DevLoader({ page }: { page: string }) {
+  const [mod, setMod] = useState<DevModule | null>(null);
+  useEffect(() => {
+    let live = true;
+    import('./dev/Dev').then((m) => { if (live) setMod(m); });
+    return () => { live = false; };
+  }, []);
+  if (!mod) return <div class="app"><main class="content"><p class="placeholder">Loading…</p></main></div>;
+  return <mod.Dev page={page} />;
 }

@@ -1,0 +1,24 @@
+/* Hidden dev pages: the mock battle and the bench. */
+.dev-link { display: flex; align-items: center; justify-content: center; min-height: 44px; color: var(--muted); font-size: 0.85rem; }
+.stage--loading { display: flex; align-items: center; justify-content: center; }
+
+.bench { padding-bottom: calc(24px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 12px; }
+.bench-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 12px; }
+.bench-big { display: flex; align-items: baseline; gap: 6px; }
+.bench-num { font-size: 3.2rem; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
+.bench-unit { font-size: 1.1rem; color: var(--muted); font-weight: 700; }
+.bench-big--ok .bench-num { color: var(--ok); }
+.bench-big--bad .bench-num { color: var(--danger); }
+.bench-list { grid-column: 1 / -1; list-style: none; margin: 0; padding: 0; font-size: 1.15rem; line-height: 1.6; font-variant-numeric: tabular-nums; }
+.bench-warn { color: var(--accent); font-size: 0.95rem; }
+.bench-result { grid-column: 1 / -1; margin: 0; padding: 8px 10px; border-radius: 10px; background: var(--surface); font-size: 1.1rem; }
+.bench-stage { margin: 0 -16px; }
+.bench-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.bench-buttons .button { min-height: 48px; display: flex; align-items: center; justify-content: center; text-decoration: none; }
+
+@media (orientation: landscape) and (max-height: 500px) {
+  .bench { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); align-items: start; padding-top: 8px; }
+  .bench-stage { margin: 0; grid-column: 2; grid-row: 1 / span 2; border-radius: 12px; overflow: hidden; }
+  .bench-num { font-size: 2.6rem; }
+  .bench-list { font-size: 1rem; }
+}
