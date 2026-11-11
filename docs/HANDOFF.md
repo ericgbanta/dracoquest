@@ -28,7 +28,7 @@ After graphics, the open items below.
 
 - **Real-phone check.** Phase 4's done criteria include passing the mobile UX rules on two real phones. Only Eric can do this.
 - **Element spreads.** Zone win rates average 70 to 85 percent across the three starters, but single starters dip: Tide in Thunderspire (about 60 percent, Storm beats Tide) and Verdant in Frostmere (about 52 percent, Frost beats Verdant). Eric hasn't said whether that's wanted. The fix would be data only (`src/data/enemies.json`).
-- **Small sprites still use placeholders.** The battle stage, Roost, Map strips and hatching use the new art. The small sprites in the dragon picker, Dragons screen, Bag and results still use the code-drawn shapes in `src/ui/Sprites.tsx`; B5 can move them over.
+- **Art everywhere is agent-drawn SVG.** Every dragon, enemy, boss and zone has art, and the small sprites across the app draw from the same rigs. The code-drawn shapes in `src/ui/Sprites.tsx` remain only as the fallback. Eric may want better dragon art of his own later; any part can be swapped through `src/art/assets.json`.
 - **Cosmetics** (an ember sink in the design) don't exist yet.
 - **Late-game testing on the phone** takes many hours of play. A save code for a late-game character (Elder, two partners) would help Eric look at it; `e2e/make-fixtures.ts` already builds such saves.
 
