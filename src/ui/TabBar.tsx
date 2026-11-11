@@ -13,7 +13,7 @@ export function TabBar({ current }: { current: Route }) {
   return (
     <nav class="tabbar" aria-label="Main">
       {TABS.map(({ route, label, Icon }) => {
-        const active = current === route || (current === 'settings' && route === 'roost');
+        const active = current === route || (current === 'settings' && route === 'roost') || (current === 'town' && route === 'map');
         return (
           <a key={route} class={`tab${active ? ' tab--active' : ''}`} href={href(route)}
             aria-current={current === route ? 'page' : undefined} data-testid={`tab-${route}`}>

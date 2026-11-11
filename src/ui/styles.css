@@ -352,3 +352,34 @@ a.button { text-decoration: none; display: inline-flex; align-items: center; jus
   .act { min-height: 46px; }
   .button--go { min-height: 48px; }
 }
+
+/* ---------- Phase 2: shop, gear, talents ---------- */
+.tabs { display: flex; gap: 6px; overflow-x: auto; margin-bottom: 12px; }
+.tab-pill { font: inherit; font-weight: 700; min-height: 44px; padding: 8px 14px; border-radius: 999px; border: 2px solid var(--surface-2); background: var(--surface); color: var(--text); white-space: nowrap; }
+.tab-pill--on { border-color: var(--accent); color: var(--accent); }
+.shop-row { display: flex; gap: 10px; align-items: center; background: var(--surface); border-radius: var(--radius); padding: 10px 12px; }
+.shop-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; align-items: flex-start; }
+.shop-info .muted { font-size: 0.85rem; }
+.flavor { font-style: italic; }
+.shop-buy { flex: none; min-width: 84px; }
+.slot-row { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--surface-2); }
+.slot-row > div { flex: 1; min-width: 0; }
+.slot-row .muted { display: block; font-size: 0.85rem; }
+.talent { display: flex; gap: 8px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--surface-2); }
+.talent > div { flex: 1; min-width: 0; }
+.talent .muted { display: block; font-size: 0.85rem; }
+.talent--locked { opacity: 0.55; }
+.rank { font-weight: 700; min-width: 40px; text-align: center; }
+.growth { border: 2px solid var(--accent); }
+.dialogue { list-style: none; padding: 0; margin: 0 0 16px; text-align: left; display: flex; flex-direction: column; gap: 8px; }
+.dialogue li { background: var(--surface); border-radius: 12px; padding: 8px 12px; }
+.dialogue .speaker { display: block; font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.dialogue li.narrator { font-style: italic; background: transparent; border: 1px dashed var(--surface-2); }
+.egg-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.town-card { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text); min-height: 64px; border: 2px solid var(--surface-2); }
+.town-card .muted { font-size: 0.9rem; }
+.checklist { list-style: none; padding: 0; margin: 0 0 8px; }
+.checklist li { padding: 2px 0; }
+.checklist li.done { color: var(--ok); }
+.pill--skill { margin-left: 6px; background: #3f6fd8; color: #fff; }
+.party--ride { grid-template-columns: 1fr; }

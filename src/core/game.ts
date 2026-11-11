@@ -324,8 +324,9 @@ export function startGrowthQuest(data: GameData, save: SaveData): SaveData {
   const status = growthStatus(data, dragon);
   if (!status.ready || !status.next?.quest) throw new GameError('Your dragon is not ready to grow yet');
   const quest = data.quests[status.next.quest]!;
+  // The battle starts from the interlude, after the quest's opening dialogue.
   const run = { zoneId: quest.zone, fights: planQuest(quest, dragon.level), index: 0, battle: null, questId: quest.id, totals: { xp: 0, gold: 0, drops: {} } };
-  return startFight(data, { ...save, run });
+  return { ...save, run };
 }
 
 /** Move the dragon to its next life stage. */

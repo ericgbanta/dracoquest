@@ -24,7 +24,7 @@ async function fightToEnd(page: Page): Promise<string> {
 async function tooSmallTargets(page: Page): Promise<string[]> {
   return page.locator('a, button, input, textarea').evaluateAll((els) =>
     els
-      .map((el) => ({ el: el.outerHTML.slice(0, 70), r: el.getBoundingClientRect() }))
+      .map((el) => ({ el: el.outerHTML.slice(0, 70), r: { width: (el as HTMLElement).offsetWidth, height: (el as HTMLElement).offsetHeight } }))
       .filter(({ r }) => r.width > 0 && (r.width < 44 || r.height < 44))
       .map(({ el, r }) => `${el} ${r.width}x${r.height}`),
   );

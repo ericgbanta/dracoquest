@@ -1,22 +1,61 @@
+import { useState } from 'preact/hooks';
 import { gameData as data } from '../../core/data';
-import { spendRiderPoint } from '../../core/game';
+import { activeDragon, canEquip, equip, GameError, sellGear, spendRiderPoint, unequip } from '../../core/game';
 import { riderMaxHp, riderMaxMp } from '../../core/characters';
+import { gearItem } from '../../core/loadout';
 import { xpToNext } from '../../core/progression';
 import type { SaveData } from '../../core/save';
-import { RIDER_STATS, type RiderStat } from '../../core/types';
+import { DRAGON_SLOTS, RIDER_SLOTS, RIDER_STATS, type GearSlot, type RiderStat } from '../../core/types';
 import { Bar } from '../bits';
+import { Sheet } from '../Sheet';
+import { gearSummary } from './Town';
+import { href } from '../router';
 
 interface Props { save: SaveData; update(change: (s: SaveData) => SaveData): void }
 
 const STAT_INFO: Record<RiderStat, { name: string; drives: string }> = {
-  strength: { name: 'Strength', drives: 'Weapon damage' },
-  agility: { name: 'Agility', drives: 'Accuracy, crits, turn order' },
-  arcana: { name: 'Arcana', drives: 'Spell power and MP' },
+  strength: { name: 'Strength', drives: 'Melee weapon damage' },
+  agility: { name: 'Agility', drives: 'Ranged damage, accuracy, crits, turn order' },
+  arcana: { name: 'Arcana', drives: 'Magic weapons, spells, MP' },
   vigor: { name: 'Vigor', drives: 'HP and defense' },
+};
+
+const SLOT_NAMES: Record<GearSlot, string> = {
+  weapon: 'Weapon', armor: 'Armor', trinket: 'Trinket', saddle: 'Saddle', horn: 'Horn cap', charm: 'Scale charm',
 };
 
 export function Bag({ save, update }: Props) {
   const r = save.rider;
+  const dragon = activeDragon(save);
+  const [slot, setSlot] = useState<GearSlot | null>(null);
+  const [notice, setNotice] = useState('');
+  const equippedIn = (s: GearSlot) => (DRAGON_SLOTS as readonly string[]).includes(s) ? dragon?.equipment[s as 'saddle'] : r.equipment[s as 'weapon'];
+
+  const act = (fn: (s: SaveData) => SaveData, ok: string) => {
+    try {
+      const next = fn(save);
+      update(() => next);
+      setNotice(ok);
+    } catch (e) {
+      setNotice(e instanceof GameError ? e.message : 'That did not work.');
+    }
+  };
+
+  const slotRow = (s: GearSlot) => {
+    const g = gearItem(data, equippedIn(s));
+    return (
+      <div key={s} class="slot-row">
+        <div>
+          <strong>{SLOT_NAMES[s]}</strong>
+          <span class="muted">{g ? `${g.name} · ${gearSummary(g)}` : 'Empty'}</span>
+        </div>
+        <button type="button" class="button button--ghost" onClick={() => { setSlot(s); setNotice(''); }} data-testid={`slot-${s}`}>Change</button>
+      </div>
+    );
+  };
+
+  const foods = data.foods.filter((f) => (r.inventory[f.id] ?? 0) > 0);
+
   return (
     <section class="screen" aria-labelledby="screen-title">
       <header class="screen-header"><h1 id="screen-title">Bag</h1><span class="gold" data-testid="gold">🪙 {r.gold}</span></header>
@@ -25,6 +64,18 @@ export function Bag({ save, update }: Props) {
         <Bar kind="hp" value={r.hp} max={riderMaxHp(data, r)} label="HP" />
         <Bar kind="mp" value={r.mp} max={riderMaxMp(data, r)} label="MP" />
         <Bar kind="xp" value={r.xp} max={xpToNext(data.progression, r.level)} label="XP" />
+      </div>
+      {notice && <p class="notice notice--ok" role="status" data-testid="bag-notice">{notice}</p>}
+      <div class="card">
+        <h2>Gear</h2>
+        {RIDER_SLOTS.map(slotRow)}
+        {dragon && (
+          <>
+            <h2 class="section-title">{dragon.name}'s gear</h2>
+            {dragon.stage === 'adult' ? DRAGON_SLOTS.map(slotRow) : <p class="muted">Dragon gear slots open when {dragon.name} becomes an Adult.</p>}
+          </>
+        )}
+        <a class="button button--ghost button--block" href={href('town')}>Shop in town</a>
       </div>
       <div class="card">
         <h2>Stats {r.statPoints > 0 && <span class="pill" data-testid="rider-points">{r.statPoints} to spend</span>}</h2>
@@ -47,12 +98,58 @@ export function Bag({ save, update }: Props) {
             <span class="stat-value">×{r.inventory[item.id] ?? 0}</span>
           </div>
         ))}
-        <p class="muted">Use items in battle from the Item button. A shop opens in town later.</p>
+        {foods.map((f) => (
+          <div key={f.id} class="stat-row">
+            <div><span aria-hidden="true">{f.icon}</span> <strong>{f.name}</strong> <span class="muted">Dragon food</span></div>
+            <span class="stat-value">×{r.inventory[f.id] ?? 0}</span>
+          </div>
+        ))}
       </div>
       <div class="card">
-        <h2>Gear</h2>
-        <p class="muted">Ash Training Blade. It's mostly a stick, but a confident stick. Real gear arrives with the town shop.</p>
+        <h2>Eggs</h2>
+        {save.eggs.length === 0 ? (
+          <p class="muted">No eggs yet. Zone bosses guard eggs of their element.</p>
+        ) : (
+          <>
+            <div class="egg-row" data-testid="eggs">
+              {save.eggs.map((el, i) => <span key={i} class="badge" style={{ '--el': data.elements.info[el].color }}>🥚 {data.dragons.eggs[el]?.name ?? `${data.elements.info[el].name} egg`}</span>)}
+            </div>
+            <p class="muted">Keep them warm. The Hatchery opens at the Roost in a future update.</p>
+          </>
+        )}
       </div>
+
+      {slot && (
+        <Sheet title={SLOT_NAMES[slot]} onClose={() => setSlot(null)}>
+          <div class="list">
+            {r.gear.map((id) => data.gear[id]!).filter((g) => g.slot === slot).sort((a, b) => b.level - a.level).map((g) => {
+              const on = equippedIn(slot) === g.id;
+              const check = canEquip(data, save, g.id);
+              return (
+                <div key={g.id} class="shop-row">
+                  <div class="shop-info">
+                    <strong>{g.name}{on ? ' (equipped)' : ''}</strong>
+                    <span class="muted">{gearSummary(g)}</span>
+                    {!check.ok && <span class="muted">{check.reason}</span>}
+                  </div>
+                  {!on && (
+                    <>
+                      <button type="button" class="button" disabled={!check.ok} data-testid={`equip-${g.id}`}
+                        onClick={() => { act((s) => equip(data, s, g.id), `Equipped the ${g.name}.`); setSlot(null); }}>Equip</button>
+                      <button type="button" class="button button--ghost" data-testid={`sell-${g.id}`}
+                        onClick={() => act((s) => sellGear(data, s, g.id), `Sold the ${g.name} for ${Math.floor(g.price * data.shop.sellFraction)} gold.`)}>Sell</button>
+                    </>
+                  )}
+                </div>
+              );
+            })}
+            {slot !== 'weapon' && equippedIn(slot) && (
+              <button type="button" class="list-button" onClick={() => { act((s) => unequip(data, s, slot), 'Unequipped.'); setSlot(null); }}>Take it off</button>
+            )}
+            {r.gear.every((id) => data.gear[id]?.slot !== slot) && <p class="muted">You don't own anything for this slot yet. Try the town shop.</p>}
+          </div>
+        </Sheet>
+      )}
     </section>
   );
 }

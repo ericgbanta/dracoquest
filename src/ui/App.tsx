@@ -9,6 +9,7 @@ import { MapScreen } from './screens/Map';
 import { Dragons } from './screens/Dragons';
 import { Bag } from './screens/Bag';
 import { Battle } from './screens/Battle';
+import { Town } from './screens/Town';
 
 export function App() {
   const route = useRoute();
@@ -61,6 +62,7 @@ export function App() {
   else if (route === 'map') body = <MapScreen save={save} update={update} />;
   else if (route === 'dragons') body = <Dragons save={save} update={update} />;
   else if (route === 'bag') body = <Bag save={save} update={update} />;
+  else if (route === 'town') body = <Town save={save} update={update} />;
   else body = <Roost save={save} update={update} />;
 
   return (

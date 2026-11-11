@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { gameData as data } from '../../core/data';
 import {
-  breathReady, comboAvailable, intentOf, livingEnemies,
+  breathReady, comboAvailable, intentOf, livingEnemies, skillReady,
   type BattleEvent, type BattleState, type DragonOrder, type Fighter, type Orders, type RiderOrder,
 } from '../../core/battle';
-import { activeDragon, leaveRun, playRound, startFight, type FightReport } from '../../core/game';
+import { activeDragon, canRide, leaveRun, playRound, startFight, type FightReport } from '../../core/game';
+import { talentById } from '../../core/loadout';
+import type { DialogueLine } from '../../core/types';
 import { getZone } from '../../core/run';
 import { weaknessesOf } from '../../core/elements';
 import type { SaveData } from '../../core/save';
@@ -18,8 +20,8 @@ interface Props {
   onExit(): void;
 }
 
-type RiderPick = { type: 'attack' } | { type: 'spell'; spell: string; target: 'rider' | 'dragon' | 'enemy' } | { type: 'item'; item: string } | { type: 'defend' } | { type: 'flee' };
-type DragonPick = { type: 'claw' } | { type: 'breath' } | { type: 'guard' } | { type: 'combo'; combo: string };
+type RiderPick = { type: 'attack' } | { type: 'spell'; spell: string; target: 'rider' | 'dragon' | 'enemy' } | { type: 'item'; item: string } | { type: 'defend' } | { type: 'flee' } | { type: 'ride'; move: string };
+type DragonPick = { type: 'claw' } | { type: 'breath' } | { type: 'guard' } | { type: 'combo'; combo: string } | { type: 'skill'; skill: string };
 
 interface Float { id: number; target: string; text: string; kind: 'dmg' | 'heal' | 'miss' | 'crit' }
 
@@ -36,7 +38,7 @@ export function Battle({ save, update, onExit }: Props) {
   const [rider, setRider] = useState<RiderPick>({ type: 'attack' });
   const [dragonPick, setDragonPick] = useState<DragonPick>({ type: 'claw' });
   const [target, setTarget] = useState('e0');
-  const [sheet, setSheet] = useState<'spell' | 'item' | null>(null);
+  const [sheet, setSheet] = useState<'spell' | 'item' | 'skill' | null>(null);
   const [floats, setFloats] = useState<Float[]>([]);
   const nodes = useRef(new Map<string, HTMLElement>());
   const floatId = useRef(0);
@@ -51,7 +53,7 @@ export function Battle({ save, update, onExit }: Props) {
     if (!live) return;
     if (live.round === 1) {
       setLog([`${live.enemies.map((e) => e.name).join(' and ')} ${live.enemies.length > 1 ? 'appear' : 'appears'}!`]);
-      setRider({ type: 'attack' });
+      setRider(live.mode === 'ride' ? { type: 'ride', move: 'dive' } : { type: 'attack' });
       setDragonPick({ type: 'claw' });
     }
     setTarget(livingEnemies(live)[0]?.id ?? 'e0');
@@ -63,7 +65,15 @@ export function Battle({ save, update, onExit }: Props) {
   }, [battle, target]);
 
   if (!battle) {
-    if (report) return <Results save={save} report={report} update={update} onExit={onExit} onNext={() => { update((s) => startFight(data, s)); setReport(null); }} />;
+    if (report) {
+      const onNext = () => {
+        const next = run?.fights[run.index];
+        // Bosses (Ride mode choice) and quest fights (dialogue) go through the interlude first.
+        if (next && (next.kind === 'boss' || next.intro?.length)) setReport(null);
+        else { update((s) => startFight(data, s)); setReport(null); }
+      };
+      return <Results save={save} report={report} update={update} onExit={onExit} onNext={onNext} />;
+    }
     if (run) return <Interlude save={save} update={update} onExit={onExit} />;
     return null;
   }
@@ -79,6 +89,7 @@ export function Battle({ save, update, onExit }: Props) {
       case 'attack': r = { type: 'attack', target }; break;
       case 'spell': r = { type: 'spell', spell: rider.spell, target: rider.target === 'enemy' ? target : rider.target }; break;
       case 'item': r = { type: 'item', item: rider.item }; break;
+      case 'ride': r = { type: 'ride', move: rider.move, target }; break;
       default: r = { type: rider.type };
     }
     if (!dragonUp) return { rider: r };
@@ -88,6 +99,7 @@ export function Battle({ save, update, onExit }: Props) {
       case 'breath': d = ready ? { type: 'breath', target } : { type: 'claw', target }; break;
       case 'guard': d = { type: 'guard' }; break;
       case 'combo': d = { type: 'combo', combo: dragonPick.combo, target }; break;
+      case 'skill': d = skillReady(battle, dragonPick.skill) ? { type: 'skill', skill: dragonPick.skill, target } : { type: 'claw', target }; break;
     }
     return { rider: r, dragon: d };
   };
@@ -133,8 +145,10 @@ export function Battle({ save, update, onExit }: Props) {
     } else {
       setDisplay(null);
       // Breath used or no longer full: go back to Claw so nobody wastes a turn.
-      if (dragonPick.type === 'breath' || dragonPick.type === 'combo') setDragonPick({ type: 'claw' });
-      if (rider.type === 'item' || rider.type === 'flee' || rider.type === 'spell') setRider({ type: 'attack' });
+      if (dragonPick.type === 'breath' || dragonPick.type === 'combo' || dragonPick.type === 'skill') setDragonPick({ type: 'claw' });
+      if (rider.type === 'ride' && rider.move !== 'dive') setRider({ type: 'ride', move: 'dive' });
+      else if (rider.type === 'item' && live.mode === 'ride') setRider({ type: 'ride', move: 'dive' });
+      else if (rider.type === 'item' || rider.type === 'flee' || rider.type === 'spell') setRider({ type: 'attack' });
     }
   };
 
@@ -193,14 +207,22 @@ export function Battle({ save, update, onExit }: Props) {
         ))}
       </div>
 
-      <div class="party">
+      <div class={`party${battle.mode === 'ride' ? ' party--ride' : ''}`}>
         <div class="fighter" ref={reg('rider')}>
+          {battle.mode === 'ride' && dragonState && (
+            <div class="fighter-row">
+              <DragonSprite element={dragonState.element} stage={dragonState.stage} primary={dragonState.colors.primary}
+                secondary={dragonState.colors.secondary} size={48} />
+              <span class="pill">Riding</span>
+            </div>
+          )}
           <div class="fighter-name">{battle.rider.name} <StatusChips statuses={battle.rider.statuses} /></div>
           <Bar kind="hp" value={battle.rider.hp} max={battle.rider.maxHp} label="HP" />
           <Bar kind="mp" value={battle.rider.mp} max={battle.rider.maxMp} label="MP" />
+          {battle.mode === 'ride' && <Bar kind="breath" value={battle.breath} max={data.combat.breath.max} label={ready ? 'Breath READY' : 'Breath'} showNumbers={false} />}
           {floatsFor('rider')}
         </div>
-        {dragonState && (
+        {dragonState && battle.mode !== 'ride' && (
           <div class={`fighter${dragonUp ? '' : ' fighter--ko'}`} ref={reg('dragon')}>
             <div class="fighter-row">
               <DragonSprite element={dragonState.element} stage={dragonState.stage} primary={dragonState.colors.primary}
@@ -222,6 +244,22 @@ export function Battle({ save, update, onExit }: Props) {
       </div>
 
       <div class="actions" aria-label="Orders">
+        {battle.mode === 'ride' ? (
+          <div class="action-row" role="group" aria-label="Mounted">
+            <span class="row-label">Ride</span>
+            {data.combat.ride.moves.map((m) => {
+              const blocked = m.kind === 'breath' && !ready;
+              return (
+                <Act key={m.id} label={m.name.replace('Diving ', '')} on={rider.type === 'ride' && rider.move === m.id} disabled={blocked || playing}
+                  sub={m.kind === 'breath' ? (ready ? 'Ready!' : `${Math.round((battle.breath / data.combat.breath.max) * 100)}%`) : undefined}
+                  onClick={() => setRider({ type: 'ride', move: m.id })} testid={`ride-${m.id}`} />
+              );
+            })}
+            <Act label="Item" on={rider.type === 'item'} disabled={playing} onClick={() => setSheet('item')} testid="act-item"
+              sub={rider.type === 'item' ? data.items.find((i) => i.id === rider.item)?.name : undefined} />
+          </div>
+        ) : (
+        <>
         <div class={`action-row${comboPicked ? ' action-row--muted' : ''}`} role="group" aria-label="Rider">
           <span class="row-label">Rider</span>
           <Act label="Attack" on={rider.type === 'attack'} disabled={comboPicked || playing} onClick={() => setRider({ type: 'attack' })} testid="act-attack" />
@@ -239,6 +277,11 @@ export function Battle({ save, update, onExit }: Props) {
             <Act label="Breath" on={dragonPick.type === 'breath'} disabled={!ready || playing} onClick={() => setDragonPick({ type: 'breath' })}
               sub={ready ? 'Ready!' : `${Math.round((battle.breath / data.combat.breath.max) * 100)}%`} testid="act-breath" />
             <Act label="Guard" on={dragonPick.type === 'guard'} disabled={playing} onClick={() => setDragonPick({ type: 'guard' })} testid="act-guard" />
+            {battle.skills.length > 0 && (
+              <Act label="Skill" on={dragonPick.type === 'skill'} disabled={playing || !battle.skills.some((id) => skillReady(battle, id))}
+                sub={dragonPick.type === 'skill' ? talentById(data, dragonPick.skill)?.name : undefined}
+                onClick={() => setSheet('skill')} testid="act-skill" />
+            )}
             {bestCombo ? (
               <Act label="Combo" sub={bestCombo.name} on={dragonPick.type === 'combo'} disabled={playing}
                 onClick={() => setDragonPick({ type: 'combo', combo: bestCombo.id })} testid="act-combo" />
@@ -248,6 +291,8 @@ export function Battle({ save, update, onExit }: Props) {
           </div>
         ) : (
           <p class="muted ko-note">Your dragon is knocked out. You fight on alone at reduced power.</p>
+        )}
+        </>
         )}
         <button type="button" class="button button--go" onClick={go} disabled={playing} data-testid="go">
           {playing ? '…' : 'Go!'}
@@ -283,12 +328,28 @@ export function Battle({ save, update, onExit }: Props) {
           </div>
         </Sheet>
       )}
+      {sheet === 'skill' && (
+        <Sheet title="Talent skills" onClose={() => setSheet(null)}>
+          <div class="list">
+            {battle.skills.map((id) => {
+              const t = talentById(data, id)!;
+              const cd = battle.cooldowns[id] ?? 0;
+              return (
+                <button key={id} type="button" class="list-button" disabled={!skillReady(battle, id)} data-testid={`skill-${id}`}
+                  onClick={() => { setDragonPick({ type: 'skill', skill: id }); setSheet(null); }}>
+                  {t.name} <span class="muted">· {cd > 0 ? `ready in ${cd} round${cd === 1 ? '' : 's'}` : t.description.replace('Skill: ', '')}</span>
+                </button>
+              );
+            })}
+          </div>
+        </Sheet>
+      )}
       {sheet === 'item' && (
         <Sheet title="Items" onClose={() => setSheet(null)}>
           <div class="list">
             {data.items.map((item) => {
               const n = battle.inventory[item.id] ?? 0;
-              const blocked = n <= 0 || (item.effect === 'healDragon' && !dragonUp);
+              const blocked = n <= 0 || (item.effect === 'healDragon' && !dragonUp && battle.mode !== 'ride');
               return (
                 <button key={item.id} type="button" class="list-button" disabled={blocked} data-testid={`item-${item.id}`}
                   onClick={() => { setRider({ type: 'item', item: item.id }); setSheet(null); }}>
@@ -364,19 +425,45 @@ function EnemyCard({ enemy, battle, save, targeted, onTarget, reg, floats }: {
   );
 }
 
+function Dialogue({ lines, save }: { lines: DialogueLine[]; save: SaveData }) {
+  const dragon = activeDragon(save);
+  const who = (l: DialogueLine) => (l.speaker === 'rider' ? save.rider.name : l.speaker === 'dragon' ? dragon?.name ?? 'Dragon' : '');
+  return (
+    <ul class="dialogue" data-testid="dialogue">
+      {lines.map((l, i) => (
+        <li key={i} class={l.speaker}>
+          {l.speaker !== 'narrator' && <span class="speaker">{who(l)}</span>}
+          {l.text}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 function Interlude({ save, update, onExit }: Props) {
   const run = save.run!;
   const next = run.fights[run.index];
+  const quest = run.questId ? data.quests[run.questId] : undefined;
   const boss = next?.kind === 'boss';
-  const label = boss ? `Face the ${data.enemies[next!.enemies[0]!.enemyId]!.name}!` : next?.kind === 'mini' ? 'Fight the mini-boss' : `Fight ${run.index + 1} of ${run.fights.length}`;
+  const bossName = boss ? data.enemies[next!.enemies[0]!.enemyId]!.name : '';
+  const rideable = canRide(data, save);
+  const label = boss ? `Face the ${bossName} on foot` : next?.kind === 'mini' ? 'Fight the mini-boss' : `Fight ${run.index + 1} of ${run.fights.length}`;
   return (
     <section class="screen interlude" aria-labelledby="interlude-title">
-      <h1 id="interlude-title">{getZone(data, run.zoneId).name}</h1>
-      <p>Run so far: +{run.totals.xp} XP, +{run.totals.gold} gold.</p>
+      <h1 id="interlude-title">{quest ? quest.name : getZone(data, run.zoneId).name}</h1>
+      {quest && run.index === 0 && <p class="lead">{quest.description}</p>}
+      {next?.intro && <Dialogue lines={next.intro} save={save} />}
+      {!quest && <p>Run so far: +{run.totals.xp} XP, +{run.totals.gold} gold.</p>}
       <p class="muted">HP and MP carry over between fights. Rest at the Roost to heal.</p>
-      <button type="button" class="button button--big button--block" onClick={() => update((s) => startFight(data, s))} data-testid="next-fight">{label}</button>
+      {rideable && (
+        <button type="button" class="button button--big button--block" onClick={() => update((s) => startFight(data, s, { ride: true }))} data-testid="ride-fight">
+          Ride into battle against the {bossName}!
+        </button>
+      )}
+      {boss && rideable && <p class="muted">Riding merges you and your dragon into one unit with combined HP and big mounted moves.</p>}
+      <button type="button" class={`button ${rideable ? 'button--ghost' : 'button--big'} button--block`} onClick={() => update((s) => startFight(data, s))} data-testid="next-fight">{quest && !boss ? 'Continue' : label}</button>
       <button type="button" class="button button--ghost button--block" onClick={() => { update((s) => leaveRun(s)); onExit(); }} data-testid="leave-run">
-        Head home with your loot
+        {quest ? 'Try again later' : 'Head home with your loot'}
       </button>
     </section>
   );
@@ -387,7 +474,7 @@ function Results({ save, report, update, onExit, onNext }: {
 }) {
   const dragon = activeDragon(save);
   const r = report.rewards;
-  const title = { won: report.runComplete ? (report.kind === 'boss' ? 'Boss defeated!' : 'Zone run cleared!') : 'Victory!', lost: 'Defeated...', fled: 'You got away' }[report.outcome];
+  const title = { won: report.runComplete ? (report.kind === 'boss' ? 'Boss defeated!' : report.kind === 'quest' ? 'Quest complete!' : 'Zone run cleared!') : 'Victory!', lost: 'Defeated...', fled: 'You got away' }[report.outcome];
   const home = () => { if (save.run) update((s) => leaveRun(s)); onExit(); };
   return (
     <section class="screen results" aria-labelledby="results-title">
@@ -402,6 +489,16 @@ function Results({ save, report, update, onExit, onNext }: {
           })}
           {report.bondGained > 0 && dragon && <li>+{report.bondGained} bond with {dragon.name}</li>}
         </ul>
+      )}
+      {report.egg && <p class="notice notice--ok" data-testid="egg-drop">🥚 The boss dropped a {data.dragons.eggs[report.egg]?.name ?? `${data.elements.info[report.egg].name} egg`}! It's in your Bag.</p>}
+      {report.grewTo && dragon && (
+        <>
+          <Dialogue lines={Object.values(data.quests).find((q) => q.stage === report.grewTo)?.outro ?? []} save={save} />
+          <div class="hatch-preview">
+            <DragonSprite element={dragon.element} stage={dragon.stage} primary={dragon.colors.primary} secondary={dragon.colors.secondary} size={140} class="pop-in" />
+          </div>
+          <p class="notice notice--ok" data-testid="grew">{dragon.name} grew into a {data.dragons.stages.find((st) => st.id === report.grewTo)?.name}! {data.dragons.stages.find((st) => st.id === report.grewTo)?.unlocks.join(', ')} unlocked.</p>
+        </>
       )}
       {report.riderLevelsGained > 0 && <p class="notice notice--ok" data-testid="level-up">{save.rider.name} reached level {save.rider.level}! Spend stat points in the Bag.</p>}
       {report.dragonLevelsGained > 0 && dragon && <p class="notice notice--ok">{dragon.name} reached level {dragon.level}! Spend stat points in Dragons.</p>}

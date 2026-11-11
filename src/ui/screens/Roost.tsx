@@ -103,12 +103,14 @@ export function Roost({ save, update }: Props) {
           <div class="list">
             {data.foods.map((f) => {
               const known = dragon.foodsTried.includes(f.id) && f.id === dragon.favoriteFood;
+              const have = save.rider.inventory[f.id] ?? 0;
               return (
-                <button key={f.id} type="button" class="list-button" onClick={() => doFeed(f.id)} data-testid={`food-${f.id}`}>
-                  <span aria-hidden="true">{f.icon}</span> {f.name}{known ? ' ♥ Favorite' : ''}
+                <button key={f.id} type="button" class="list-button" disabled={have <= 0} onClick={() => doFeed(f.id)} data-testid={`food-${f.id}`}>
+                  <span aria-hidden="true">{f.icon}</span> {f.name} ×{have}{known ? ' ♥ Favorite' : ''}
                 </button>
               );
             })}
+            <a class="button button--ghost button--block" href={href('town')}>Buy food in town</a>
           </div>
         </Sheet>
       )}

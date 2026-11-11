@@ -77,3 +77,25 @@ export function vibrate(pattern: number | number[]): void {
 export function prefersReducedMotion(): boolean {
   return typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 }
+
+const BONUS_LABELS: Record<string, [string, 'flat' | 'pct']> = {
+  strength: ['Strength', 'flat'], agility: ['Agility', 'flat'], arcana: ['Arcana', 'flat'], vigor: ['Vigor', 'flat'],
+  might: ['Might', 'flat'], scale: ['Scale', 'flat'], swift: ['Swift', 'flat'], spirit: ['Spirit', 'flat'],
+  riderHp: ['HP', 'flat'], riderMp: ['MP', 'flat'], riderDefense: ['Defense', 'flat'], riderCrit: ['Crit', 'pct'],
+  riderDamagePct: ['Rider damage', 'pct'], dragonHp: ['Dragon HP', 'flat'], dragonDefense: ['Dragon defense', 'flat'],
+  dragonCrit: ['Dragon crit', 'pct'], dragonDodge: ['Dodge', 'flat'], clawPct: ['Claw', 'pct'], breathPct: ['Breath', 'pct'],
+  breathPerRound: ['Breath/round', 'flat'], breathStatusChance: ['Breath status', 'pct'], strongBonus: ['Strong hits', 'pct'],
+  guardReduction: ['Guard', 'pct'], healPct: ['Healing', 'pct'], comboPct: ['Combo', 'pct'], goldPct: ['Gold', 'pct'], dropPct: ['Drops', 'pct'],
+};
+
+/** "+2 Strength, +10 HP" */
+export function formatBonus(b: Partial<Record<string, number>>): string {
+  return Object.entries(b)
+    .filter(([, v]) => v)
+    .map(([k, v]) => {
+      const [label, kind] = BONUS_LABELS[k] ?? [k, 'flat'];
+      const n = kind === 'pct' ? `${Math.round((v ?? 0) * 100)}%` : `${v}`;
+      return `+${n} ${label}`;
+    })
+    .join(', ');
+}

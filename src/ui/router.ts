@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'preact/hooks';
 
-export const ROUTES = ['roost', 'map', 'dragons', 'bag', 'settings'] as const;
+export const ROUTES = ['roost', 'map', 'dragons', 'bag', 'settings', 'town'] as const;
 export type Route = (typeof ROUTES)[number];
 
 export function parseHash(hash: string): Route {

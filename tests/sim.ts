@@ -115,6 +115,7 @@ interface RunStats { won: boolean; fights: number; fightsWon: number; rounds: nu
 
 function playRun(save: SaveData, start: (s: SaveData) => SaveData): { save: SaveData; stats: RunStats } {
   let s = start(save);
+  if (s.run && !s.run.battle) s = startFight(data, s, { ride: canRide(data, s) });
   const stats: RunStats = { won: false, fights: 0, fightsWon: 0, rounds: 0, bossFought: false, bossWon: false, xp: 0, gold: 0 };
   for (let guard = 0; guard < 600; guard++) {
     const battle = s.run?.battle;
