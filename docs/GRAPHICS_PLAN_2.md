@@ -1,6 +1,6 @@
 # Graphics, second pass: research and plan
 
-Written 2026-11-11 at Eric's request. Status: C0 (the look proof) is built on the branch and waiting for Eric's check. C1 to C4 are proposed, not started. `docs/GRAPHICS_PLAN.md` is the first pass (B0 to B5) and is finished.
+Written 2026-11-11 at Eric's request. Status: C0 (the look proof) is built on the branch in two looks, A and B, and waiting for Eric to pick. C1 to C4 are proposed, not started. `docs/GRAPHICS_PLAN.md` is the first pass (B0 to B5) and is finished.
 
 The request, in Eric's words: "We just finished a redesign but I really think we can take art and graphics to the next level. We should try to modernize but still keep the same adventure quest feel. Please do some research. I want to be blown away by the graphics and art but still have this performant on my iPhone 17 pro."
 
@@ -47,7 +47,7 @@ One scene taken all the way, plus the engine pieces every scene will use. See `d
 - **Stage atmosphere.** A vignette on every stage, a `front` flag for backdrop layers drawn over the fighters, and an `ambient` option (drifting specks, one node). Both are set per zone in `src/art/assets.json`.
 - **Heavier hits.** Strong hits and crits freeze the stage for 70 ms, punch the view in 4.5 percent toward the hit point with a fading rattle, and every hit gets a burst of light in the attack's color. Timings are in `src/data/stage.json` (`punch`, `hitStop`, `glow`). Reduced motion skips all of it, as before.
 
-Numbers: the stage uses 98 nodes in the 2 vs 2 bench scene (budget 100) and about 67 one on one. Tests: 133 unit tests (3 new for the lighting pass) and 39 phone tests pass.
+Numbers: the stage uses 98 nodes in the 2 vs 2 bench scene (budget 100) and about 67 one on one. Tests: 137 unit tests (7 new, for the lighting pass and look B) and 39 phone tests pass.
 
 The perf test (5 percent dropped frames at 4x throttle) was noisy in the sandbox on the day C0 was built. Three runs on this branch gave 2.4, 7.0 and 4.4 percent; three runs of unchanged `main` gave 5.8, 7.5 and 4.8. So the sandbox shows no cost from C0, but it also can't prove there is none. The bench on Eric's phone is the real check.
 
@@ -68,6 +68,17 @@ The perf test (5 percent dropped frames at 4x throttle) was noisy in the sandbox
 1. Is this the direction? The before and after image is the quickest way to judge. If the lighting should be stronger or the scene brighter, say so before seven more backdrops are painted in this style.
 2. To see it on your phone I need to deploy. `#/dev/mock` shows the scene, and the bench's "After 10 rounds" line from 1 vs 1 and 2 vs 2 would settle the performance question.
 3. How far should the dragons go? See C2. A redraw is the biggest art risk in this plan.
+
+## Look A and look B (built, for comparison)
+
+Eric asked what could set the game apart from Artix's approach and look more professional, then asked for both looks so he can compare. `#/dev/mock` has a Look A / Look B switch. See `docs/img/c0-look-a-b.png` and `c0-look-a-b-zoom.png` (A on top).
+
+- **Look A** is C0 as described above: one dark outline color, the lighting pass, crisp shapes.
+- **Look B** adds three things, all baked at load: colored outlines (each outline is a dark version of the color it surrounds, `inkSvg` in `rigs.ts`), a tint toward the scene's light (`light` per backdrop in `assets.json`, with a violet ambient and a warm key for Thunderspire), and a paper grain over the stage (one static tiled image, `src/art/effects/grain.png`). The numbers are in `palette.json` under `lookB`.
+
+Look B exists only on the mock. The real game still uses look A. Once Eric picks, the loser's code path comes out and the winner becomes the style for C1 onward. The two can also be mixed: for example colored outlines without the grain.
+
+Not built yet from the same conversation: a moving camera (drift, parallax, push-in on a breath, cut-in banners) and a quieter interface. They are in C3 and C4 below and work with either look.
 
 ## Proposed phases
 

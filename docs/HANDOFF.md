@@ -48,7 +48,9 @@ Eric asked to take the art "to the next level", modern but still AdventureQuest 
 - Thunderspire is repainted as the model scene, with a foreground layer and drifting specks (`front` and `ambient` in `assets.json`). Every stage has a vignette.
 - Strong hits and crits get hit-stop, a camera punch and a glow (`punch`, `hitStop`, `glow` in `stage.json`).
 
-Next step: Eric looks at `docs/img/c0-before-after.png` (or the deployed `#/dev/mock`) and answers the three checkpoint questions in the plan. Then C1 repaints the other zones and the Roost, which currently show lit characters on old scenery.
+`#/dev/mock` also has a Look A / Look B switch. B is a second style Eric asked to compare: colored outlines, characters tinted toward the scene's light, and a paper grain. It exists only on the mock.
+
+Next step: Eric compares the two looks (`docs/img/c0-look-a-b.png`, or the deployed `#/dev/mock`), picks one or a mix, and answers the checkpoint questions in the plan. Then C1 repaints the other zones and the Roost, which currently show lit characters on old scenery.
 
 ## What to work on next
 
@@ -113,7 +115,7 @@ src/ui/        Preact screens and pieces
   pwa.ts sound.ts install.ts storage.ts useSave.ts router.ts bits.tsx
 src/art/       SVG art (rigs, enemy plans and extras, backdrops, eggs, effects, icons), palette.json, assets.json
 src/data/stage.json  stage layouts, plate spots, beat timings, the demo fight (UI only, not read by src/core)
-tests/         Vitest unit tests (133), sim.ts (the balance simulator), save fixtures
+tests/         Vitest unit tests (137), sim.ts (the balance simulator), save fixtures
 e2e/           Playwright phone tests (39, including a 4x-throttle perf test), save fixtures and make-fixtures.ts
 scripts/       icons.mjs builds the Home Screen icons
 tools/art/     rigpreview.mjs (render a rig or backdrop to PNG), BRIEF.md (brief for art agents), generators/
@@ -125,7 +127,7 @@ docs/          DESIGN.md, HANDOFF.md, GRAPHICS_PLAN_2.md (second graphics pass: 
 | Command | What it does |
 | --- | --- |
 | `npm run dev` | Local dev server |
-| `npm run test` | Unit tests (133) |
+| `npm run test` | Unit tests (137) |
 | `npx tsc --noEmit` and `npm run lint` | Type check and lint. Lint blocks `Math.random` and browser globals in `src/core`. |
 | `npm run e2e` | Phone tests at 375 by 667 (39), about 95 seconds |
 | `npm run sim` | Balance sim: 1,000 runs per zone and level, plus campaigns from egg to level 50. Flags: `--runs`, `--campaigns`, `--zone`, `--no-campaign`, `--campaign-only`. The full run takes about 2.5 minutes. |

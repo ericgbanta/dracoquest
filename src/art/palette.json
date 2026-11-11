@@ -65,5 +65,14 @@
       -0.008,
       0.028
     ]
+  },
+  "lookB": {
+    "note": "Look B, the comparison look on #/dev/mock (docs/GRAPHICS_PLAN_2.md): outlines take a dark version of the color they surround, characters are tinted toward the scene's light, and a paper grain sits over the stage.",
+    "inkLightness": 0.14,
+    "inkSaturation": 1.15,
+    "inkTowardOutline": 0.2,
+    "ambientOpacity": 0.15,
+    "rimOpacity": 0.3,
+    "grainOpacity": 0.1
   }
 }

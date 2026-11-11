@@ -2,7 +2,7 @@ import { useEffect, useState } from 'preact/hooks';
 import layout from '../../data/stage.json';
 import type { ElementId } from '../../core/types';
 import { DragonSprite, EnemySprite } from '../Sprites';
-import { decodeAll, loadBackdrop, loadEffects, loadRig, rigUrls, type Backdrop, type Effects, type Rig } from '../stage/rigs';
+import { decodeAll, loadBackdrop, loadEffects, loadRig, rigUrls, type Backdrop, type Effects, type Rig, type RigStyle } from '../stage/rigs';
 import type { Place, StageFighter } from '../stage/Stage';
 import { RiderPlaceholder } from '../stage/BattleStage';
 export { StageBar } from '../stage/BattleStage';
@@ -25,19 +25,21 @@ export interface DemoArt {
 }
 
 /** Load and decode every image the demo fight needs before the stage shows. */
-export function useDemoArt(): DemoArt | null {
+export function useDemoArt(look: 'a' | 'b' = 'a'): DemoArt | null {
   const [art, setArt] = useState<DemoArt | null>(null);
   useEffect(() => {
     let live = true;
     (async () => {
       const d2 = demo.dragon2;
-      const [backdrop, rider, dragon, enemy, effects, dragon2] = await Promise.all([
-        loadBackdrop(demo.zone),
-        loadRig('rider', undefined, { weapon: 'sword' }),
-        loadRig(`dragon.${demo.dragon.stage}`, { element: dragonElement, primary: demo.dragon.primary, secondary: demo.dragon.secondary }),
-        loadRig(`enemy.${demo.enemy.enemyId}`),
+      const backdrop = await loadBackdrop(demo.zone);
+      // Look B draws the characters with colored outlines, tinted toward the scene's light.
+      const style: RigStyle | undefined = look === 'b' ? { look: 'b', light: backdrop?.light } : undefined;
+      const [rider, dragon, enemy, effects, dragon2] = await Promise.all([
+        loadRig('rider', undefined, { weapon: 'sword' }, style),
+        loadRig(`dragon.${demo.dragon.stage}`, { element: dragonElement, primary: demo.dragon.primary, secondary: demo.dragon.secondary }, {}, style),
+        loadRig(`enemy.${demo.enemy.enemyId}`, undefined, {}, style),
         loadEffects(dragonElement),
-        loadRig(`dragon.${d2.stage}`, { element: d2.element as ElementId, primary: d2.primary, secondary: d2.secondary }),
+        loadRig(`dragon.${d2.stage}`, { element: d2.element as ElementId, primary: d2.primary, secondary: d2.secondary }, {}, style),
       ]);
       await decodeAll([
         ...(backdrop?.layers.map((l) => l.url) ?? []), ...rigUrls(rider), ...rigUrls(dragon), ...rigUrls(dragon2), ...rigUrls(enemy),
@@ -46,7 +48,7 @@ export function useDemoArt(): DemoArt | null {
       if (live) setArt({ backdrop, rider, dragon, dragon2, enemy, effects });
     })();
     return () => { live = false; };
-  }, []);
+  }, [look]);
   return art;
 }
 

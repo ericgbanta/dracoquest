@@ -24,6 +24,18 @@ test('the B0 mock battle acts out a round on the stage, in portrait and landscap
   const partSvg = await page.locator('[data-fighter] img.part').first().evaluate(async (img) => (await fetch((img as HTMLImageElement).src)).text());
   expect(partSvg).toContain('lit-g');
 
+  // The look switch: B redraws the characters with colored outlines and adds a paper grain. A puts it back.
+  const outlineUses = () => page.locator('[data-fighter=dragon] img.part').evaluateAll(async (imgs) =>
+    (await Promise.all(imgs.map(async (img) => (await fetch((img as HTMLImageElement).src)).text()))).join('').split('stroke="#1d1a2b"').length - 1);
+  expect(await outlineUses()).toBeGreaterThan(5);
+  await page.getByTestId('look-b').tap();
+  await expect(page.locator('.stage--look-b')).toBeVisible();
+  await expect.poll(outlineUses).toBe(0);
+  expect(await stageNodes(page)).toBeLessThanOrEqual(layout.maxNodes);
+  await page.getByTestId('look-a').tap();
+  await expect(page.locator('.stage--look-b')).toHaveCount(0);
+  await expect.poll(outlineUses).toBeGreaterThan(5);
+
   const roc = page.locator('[data-plate=e0] [role=meter]');
   const before = Number(await roc.getAttribute('aria-valuenow'));
   await page.getByTestId('go').tap();
