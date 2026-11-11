@@ -1,4 +1,258 @@
 {
-  "note": "Map sprite keys to WebP files in /src/art. Dragon keys are dragon.<element>.<stage> (neutral gray, tinted at runtime). Enemy keys are enemy.<id>. Missing files fall back to placeholder shapes.",
-  "sprites": {}
+  "note": "Map sprite keys to files in /src/art. Dragon keys are dragon.<element>.<stage> (neutral gray, tinted at runtime). Enemy keys are enemy.<id>. Missing files fall back to placeholder shapes. 'rigs' are battle-stage characters built from parts: each part is drawn in place on the rig's full canvas (size in viewBox units, facing right), with its pivot as a fraction of that canvas. {element} in a file name is filled in per dragon. 'points' are spots on the rig (mouth, hit, front) as fractions. See docs/ART_STYLE.md.",
+  "sprites": {},
+  "rigs": {
+    "dragon.adult": {
+      "size": [
+        260,
+        200
+      ],
+      "tint": "dragon",
+      "points": {
+        "mouth": [
+          0.95,
+          0.41
+        ],
+        "hit": [
+          0.5,
+          0.6
+        ],
+        "front": [
+          0.86,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "leg-back",
+          "file": "rigs/dragon-adult/leg-back.svg"
+        },
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            0.85
+          ],
+          "anim": "breathe",
+          "parts": [
+            {
+              "id": "wing-back",
+              "file": "rigs/dragon-adult/wing-back.svg",
+              "pivot": [
+                0.56,
+                0.49
+              ],
+              "anim": "flap-back"
+            },
+            {
+              "id": "tail",
+              "file": "rigs/dragon-adult/tail.svg",
+              "pivot": [
+                0.38,
+                0.64
+              ],
+              "anim": "swish",
+              "parts": [
+                {
+                  "id": "tail-tip",
+                  "file": "rigs/dragon-adult/tail-tip-{element}.svg"
+                }
+              ]
+            },
+            {
+              "id": "body",
+              "file": "rigs/dragon-adult/body.svg"
+            },
+            {
+              "id": "head",
+              "file": "rigs/dragon-adult/head.svg",
+              "pivot": [
+                0.7,
+                0.37
+              ],
+              "parts": [
+                {
+                  "id": "jaw",
+                  "file": "rigs/dragon-adult/jaw.svg",
+                  "pivot": [
+                    0.75,
+                    0.41
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "wing-front",
+              "file": "rigs/dragon-adult/wing-front.svg",
+              "pivot": [
+                0.485,
+                0.52
+              ],
+              "anim": "flap"
+            }
+          ]
+        },
+        {
+          "id": "leg-front",
+          "file": "rigs/dragon-adult/leg-front.svg",
+          "pivot": [
+            0.58,
+            0.66
+          ]
+        }
+      ]
+    },
+    "rider": {
+      "size": [
+        120,
+        170
+      ],
+      "points": {
+        "hit": [
+          0.5,
+          0.55
+        ],
+        "front": [
+          0.8,
+          0.5
+        ]
+      },
+      "parts": [
+        {
+          "id": "all",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "bob",
+          "parts": [
+            {
+              "id": "cape",
+              "file": "rigs/rider/cape.svg",
+              "pivot": [
+                0.5,
+                0.365
+              ],
+              "anim": "cape"
+            },
+            {
+              "id": "body",
+              "file": "rigs/rider/body.svg"
+            },
+            {
+              "id": "head",
+              "file": "rigs/rider/head.svg",
+              "pivot": [
+                0.51,
+                0.365
+              ]
+            },
+            {
+              "id": "arm",
+              "file": "rigs/rider/arm.svg",
+              "pivot": [
+                0.567,
+                0.41
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.storm-roc": {
+      "size": [
+        260,
+        270
+      ],
+      "points": {
+        "hit": [
+          0.5,
+          0.55
+        ],
+        "front": [
+          0.78,
+          0.5
+        ]
+      },
+      "parts": [
+        {
+          "id": "legs",
+          "file": "rigs/storm-roc/legs.svg"
+        },
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            0.8
+          ],
+          "anim": "breathe",
+          "parts": [
+            {
+              "id": "wing-back",
+              "file": "rigs/storm-roc/wing-back.svg",
+              "pivot": [
+                0.48,
+                0.51
+              ],
+              "anim": "flap-back-big"
+            },
+            {
+              "id": "tail",
+              "file": "rigs/storm-roc/tail.svg",
+              "pivot": [
+                0.35,
+                0.7
+              ],
+              "anim": "swish"
+            },
+            {
+              "id": "body",
+              "file": "rigs/storm-roc/body.svg"
+            },
+            {
+              "id": "wing-front",
+              "file": "rigs/storm-roc/wing-front.svg",
+              "pivot": [
+                0.58,
+                0.49
+              ],
+              "anim": "flap-big"
+            },
+            {
+              "id": "head",
+              "file": "rigs/storm-roc/head.svg",
+              "pivot": [
+                0.69,
+                0.47
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "backdrops": {
+    "thunderspire": {
+      "layers": [
+        {
+          "file": "backdrops/thunderspire/sky.svg"
+        },
+        {
+          "file": "backdrops/thunderspire/far.svg"
+        },
+        {
+          "file": "backdrops/thunderspire/clouds.svg",
+          "anim": "drift"
+        },
+        {
+          "file": "backdrops/thunderspire/ground.svg"
+        }
+      ]
+    }
+  },
+  "effects": {
+    "slash": "effects/slash.svg",
+    "spark": "effects/spark.svg",
+    "puff": "effects/puff.svg"
+  }
 }
