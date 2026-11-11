@@ -1,5 +1,5 @@
 {
-  "note": "Shared art palette. Element colors come from src/data/elements.json; this file holds the rest. Gray tokens in dragon parts and the breath puff are swapped for real colors once at load time.",
+  "note": "Shared art palette. Element colors come from src/data/elements.json; this file holds the rest. Gray tokens in dragon parts, enemy body plans and the breath puff are swapped for real colors once at load time.",
   "outline": "#1d1a2b",
   "bone": "#efe4c8",
   "boneShade": "#cbbd99",
@@ -10,15 +10,47 @@
     "secondary": "#d6d6d6",
     "secondaryShade": "#b0b0b0"
   },
-  "puffTokens": { "edge": "#555555", "mid": "#888888", "core": "#cccccc" },
+  "puffTokens": {
+    "edge": "#555555",
+    "mid": "#888888",
+    "core": "#cccccc"
+  },
   "breath": {
-    "fire": { "mid": "#ffb43a", "core": "#fff3b0" },
-    "frost": { "mid": "#bfe6fa", "core": "#ffffff" },
-    "verdant": { "mid": "#a6e07a", "core": "#f0ffd0" },
-    "stone": { "mid": "#cdb894", "core": "#f1e6cf" },
-    "storm": { "mid": "#e2d2ff", "core": "#fff7c2" },
-    "tide": { "mid": "#86c4f0", "core": "#e6f6ff" },
-    "light": { "mid": "#fff1a8", "core": "#ffffff" },
-    "shadow": { "mid": "#a98fc8", "core": "#e6dcf2" }
+    "fire": {
+      "mid": "#ffb43a",
+      "core": "#fff3b0"
+    },
+    "frost": {
+      "mid": "#bfe6fa",
+      "core": "#ffffff"
+    },
+    "verdant": {
+      "mid": "#a6e07a",
+      "core": "#f0ffd0"
+    },
+    "stone": {
+      "mid": "#cdb894",
+      "core": "#f1e6cf"
+    },
+    "storm": {
+      "mid": "#e2d2ff",
+      "core": "#fff7c2"
+    },
+    "tide": {
+      "mid": "#86c4f0",
+      "core": "#e6f6ff"
+    },
+    "light": {
+      "mid": "#fff1a8",
+      "core": "#ffffff"
+    },
+    "shadow": {
+      "mid": "#a98fc8",
+      "core": "#e6dcf2"
+    }
+  },
+  "enemyTokens": {
+    "accent": "#505050",
+    "accentShade": "#3c3c3c"
   }
 }

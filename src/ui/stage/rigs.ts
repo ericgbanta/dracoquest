@@ -19,9 +19,20 @@ export interface PartDef {
 
 export interface RigDef {
   size: [number, number];
-  tint?: 'dragon';
+  /** dragon: player colors. enemy: a body plan colored per enemy (see "enemies" in assets.json). */
+  tint?: 'dragon' | 'enemy';
+  /** Size on stage relative to the slot (1 = fills it). */
+  boxScale?: number;
   points: Record<string, [number, number]>;
   parts: PartDef[];
+}
+
+/** An enemy drawn from a shared body plan: its colors, size and extra parts. */
+export interface EnemyLook {
+  rig: string;
+  colors: [string, string, string];
+  scale?: number;
+  extras?: (PartDef & { parent: string })[];
 }
 
 export interface Part {
@@ -35,6 +46,7 @@ export interface Part {
 export interface Rig {
   key: string;
   size: [number, number];
+  boxScale: number;
   points: Record<string, [number, number]>;
   parts: Part[];
 }
@@ -43,12 +55,22 @@ export interface Backdrop { layers: { url: string; anim?: string | undefined }[]
 
 export interface DragonLook { element: ElementId; primary: string; secondary: string }
 
+/** Values filled into {name} placeholders in part file names. */
+export interface RigVars { element?: string; weapon?: string }
+
 const svgs = import.meta.glob('../../art/**/*.svg', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
 const bitmaps = import.meta.glob('../../art/**/*.{webp,png}', { query: '?url', import: 'default' }) as Record<string, () => Promise<string>>;
 
-const rigs = (manifest as unknown as { rigs: Record<string, RigDef> }).rigs;
-const backdrops = (manifest as unknown as { backdrops: Record<string, { layers: { file: string; anim?: string }[] }> }).backdrops;
-const effects = (manifest as unknown as { effects: Record<string, string> }).effects;
+const m = manifest as unknown as {
+  rigs: Record<string, RigDef>;
+  enemies?: Record<string, EnemyLook>;
+  backdrops: Record<string, { layers: { file: string; anim?: string }[] }>;
+  effects: Record<string, string>;
+};
+const rigs = m.rigs;
+const enemyLooks = m.enemies ?? {};
+const backdrops = m.backdrops;
+const effects = m.effects;
 
 const urlCache = new Map<string, Promise<string | null>>();
 
@@ -59,14 +81,25 @@ export function mix(a: string, b: string, t: number): string {
   return `#${x.map((v, i) => Math.round(v + (y[i]! - v) * t).toString(16).padStart(2, '0')).join('')}`;
 }
 
+const shade = (c: string) => mix(c, palette.outline, palette.shadeMix);
+
 /** The token-to-color map for a dragon's parts. */
 export function dragonColors(look: DragonLook): Record<string, string> {
   const t = palette.dragonTokens;
   return {
-    [t.primary]: look.primary,
-    [t.primaryShade]: mix(look.primary, palette.outline, palette.shadeMix),
-    [t.secondary]: look.secondary,
-    [t.secondaryShade]: mix(look.secondary, palette.outline, palette.shadeMix),
+    [t.primary]: look.primary, [t.primaryShade]: shade(look.primary),
+    [t.secondary]: look.secondary, [t.secondaryShade]: shade(look.secondary),
+  };
+}
+
+/** The token-to-color map for an enemy body plan. */
+export function enemyColors([primary, secondary, accent]: [string, string, string]): Record<string, string> {
+  const t = palette.dragonTokens;
+  const a = palette.enemyTokens;
+  return {
+    [t.primary]: primary, [t.primaryShade]: shade(primary),
+    [t.secondary]: secondary, [t.secondaryShade]: shade(secondary),
+    [a.accent]: accent, [a.accentShade]: shade(accent),
   };
 }
 
@@ -102,24 +135,64 @@ export function artUrl(file: string, colors: Record<string, string> = {}): Promi
   return hit;
 }
 
-async function resolveParts(defs: PartDef[], colors: Record<string, string>, element?: ElementId): Promise<Part[]> {
+/** True when the manifest names an art file that exists. */
+export function hasArt(file: string): boolean {
+  const path = `../../art/${file}`;
+  return svgs[path] !== undefined || !!bitmaps[path];
+}
+
+const fill = (file: string, vars: RigVars) => file.replace(/\{(\w+)\}/g, (_, k: string) => (vars as Record<string, string | undefined>)[k] ?? '');
+
+async function resolveParts(defs: PartDef[], colors: Record<string, string>, vars: RigVars): Promise<Part[]> {
   return Promise.all(defs.map(async (d) => {
-    const file = d.file?.replace('{element}', element ?? '');
-    const url = file ? await artUrl(file, colors) : null;
-    const parts = d.parts ? await resolveParts(d.parts, colors, element) : [];
+    const url = d.file ? await artUrl(fill(d.file, vars), colors) : null;
+    const parts = d.parts ? await resolveParts(d.parts, colors, vars) : [];
     return { id: d.id, url, pivot: d.pivot ?? [0.5, 0.5], anim: d.anim, parts };
   }));
 }
 
+/** Add an enemy's extra parts as children of the parts they hang from. */
+function withExtras(parts: PartDef[], extras: (PartDef & { parent: string })[]): PartDef[] {
+  const root = extras.filter((e) => e.parent === 'root');
+  const walk = (ps: PartDef[]): PartDef[] => ps.map((p) => {
+    const mine = extras.filter((e) => e.parent === p.id);
+    const kids = p.parts ? walk(p.parts) : [];
+    if (mine.length === 0 && !p.parts) return p;
+    // A leaf that gains children keeps its own image, drawn under them.
+    return { ...p, parts: [...kids, ...mine] };
+  });
+  return [...walk(parts), ...root];
+}
+
+const hasBody = (ps: Part[]): boolean => ps.some((p) => (p.id === 'body' && !!p.url) || hasBody(p.parts));
+
+async function build(key: string, def: RigDef, colors: Record<string, string>, vars: RigVars, partDefs = def.parts, scale = def.boxScale ?? 1): Promise<Rig | null> {
+  const parts = await resolveParts(partDefs, colors, vars);
+  if (!hasBody(parts)) return null;
+  return { key, size: def.size, boxScale: scale, points: def.points, parts };
+}
+
 /** Load a rig with its colors baked in. Null if the manifest has no such rig or its main body is missing. */
-export async function loadRig(key: string, look?: DragonLook): Promise<Rig | null> {
+export async function loadRig(key: string, look?: DragonLook, vars: RigVars = {}): Promise<Rig | null> {
   const def = rigs[key];
   if (!def) return null;
   const colors = def.tint === 'dragon' && look ? dragonColors(look) : {};
-  const parts = await resolveParts(def.parts, colors, look?.element);
-  const hasBody = (ps: Part[]): boolean => ps.some((p) => (p.id === 'body' && !!p.url) || hasBody(p.parts));
-  if (!hasBody(parts)) return null;
-  return { key, size: def.size, points: def.points, parts };
+  return build(key, def, colors, { element: look?.element, ...vars });
+}
+
+/** An enemy's rig: its own (bosses) or a shared body plan in its colors with its extras. */
+export async function loadEnemyRig(enemyId: string): Promise<Rig | null> {
+  const own = rigs[`enemy.${enemyId}`];
+  if (own) return build(`enemy.${enemyId}`, own, {}, {});
+  const look = enemyLooks[enemyId];
+  const plan = look ? rigs[look.rig] : undefined;
+  if (!look || !plan) return null;
+  return build(`enemy.${enemyId}`, plan, enemyColors(look.colors), {}, withExtras(plan.parts, look.extras ?? []), (plan.boxScale ?? 1) * (look.scale ?? 1));
+}
+
+/** Rider weapon art from the equipped weapon's type. */
+export function weaponArt(type: 'melee' | 'ranged' | 'magic'): string {
+  return type === 'ranged' ? 'bow' : type === 'magic' ? 'staff' : 'sword';
 }
 
 export async function loadBackdrop(zone: string): Promise<Backdrop | null> {

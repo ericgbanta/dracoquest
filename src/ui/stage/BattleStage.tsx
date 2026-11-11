@@ -8,7 +8,7 @@ import type { SaveData } from '../../core/save';
 import type { DragonState, ElementId } from '../../core/types';
 import { INTENTS } from '../bits';
 import { DragonSprite, EnemySprite } from '../Sprites';
-import { decodeAll, loadBackdrop, loadEffects, loadRig, rigUrls, type Backdrop, type Effects, type Rig } from './rigs';
+import { decodeAll, loadBackdrop, loadEffects, loadEnemyRig, loadRig, rigUrls, weaponArt, type Backdrop, type Effects, type Rig } from './rigs';
 import { Stage, type Place, type StageFighter } from './Stage';
 
 /** Everything one fight draws, loaded and decoded before the fighters show. */
@@ -26,8 +26,8 @@ const none: Effects = { slash: null, spark: null, puff: null };
 const look = (d: DragonState) => ({ element: d.element, primary: d.colors.primary, secondary: d.colors.secondary });
 const lookKey = (d: DragonState | null) => (d ? `${d.element}.${d.stage}.${d.colors.primary}.${d.colors.secondary}` : '-');
 
-function useBattleArt(zoneId: string, lead: DragonState | null, second: DragonState | null, enemyIds: string[]): BattleArt | null {
-  const key = [zoneId, lookKey(lead), lookKey(second), ...enemyIds].join('|');
+function useBattleArt(zoneId: string, weapon: string, lead: DragonState | null, second: DragonState | null, enemyIds: string[]): BattleArt | null {
+  const key = [zoneId, weapon, lookKey(lead), lookKey(second), ...enemyIds].join('|');
   const [art, setArt] = useState<BattleArt | null>(null);
   useEffect(() => {
     let live = true;
@@ -35,11 +35,11 @@ function useBattleArt(zoneId: string, lead: DragonState | null, second: DragonSt
       const ids = [...new Set(enemyIds)];
       const [backdrop, rider, leadRig, secondRig, effects, ...enemyRigs] = await Promise.all([
         loadBackdrop(zoneId),
-        loadRig('rider'),
+        loadRig('rider', undefined, { weapon }),
         lead ? loadRig(`dragon.${lead.stage}`, look(lead)) : Promise.resolve(null),
         second ? loadRig(`dragon.${second.stage}`, look(second)) : Promise.resolve(null),
         loadEffects(lead?.element ?? 'fire'),
-        ...ids.map((id) => loadRig(`enemy.${id}`)),
+        ...ids.map((id) => loadEnemyRig(id)),
       ]);
       const enemies = Object.fromEntries(ids.map((id, i) => [id, enemyRigs[i] ?? null]));
       await decodeAll([
@@ -69,6 +69,13 @@ interface Props {
 const parties = layout.layouts.party as Record<string, Record<string, Place>>;
 const enemyPlaces = layout.layouts.enemies as Record<'one' | 'two', Place[]>;
 
+/** A place resized by the rig's box scale, keeping its center and feet where they were. */
+function sized(place: Place, rig: Rig | null): Place {
+  const s = rig?.boxScale ?? 1;
+  if (s === 1) return place;
+  return { ...place, left: place.left + (place.width * (1 - s)) / 2, width: place.width * s };
+}
+
 const marks = (f: Fighter) => f.statuses.map((s) => `${data.statuses[s.id].icon}${s.turns}`);
 
 /** The battle stage for a real fight, plus the status strip with exact numbers under it. */
@@ -76,7 +83,7 @@ export function BattleStage({ save, battle, zoneId, zoneElement, target, onTarge
   const lead = activeDragon(save);
   const two = battle.second ? secondDragon(save) : null;
   const ride = battle.mode === 'ride';
-  const art = useBattleArt(zoneId, lead, two, battle.enemies.map((e) => e.enemyId ?? ''));
+  const art = useBattleArt(zoneId, weaponArt(battle.weapon.type), lead, two, battle.enemies.map((e) => e.enemyId ?? ''));
   const ready = !!art;
   const party = parties[ride ? (two ? 'rideDuo' : 'ride') : (two ? 'duo' : 'solo')]!;
   const riderFallback = <RiderPlaceholder />;
@@ -86,20 +93,20 @@ export function BattleStage({ save, battle, zoneId, zoneElement, target, onTarge
   if (two && battle.second && party.dragon2) {
     const f = battle.second.fighter;
     fighters.push({
-      id: 'dragon2', place: party.dragon2, rig: art?.second ?? null, fallback: dragonFallback(two), name: two.name,
+      id: 'dragon2', place: sized(party.dragon2, art?.second ?? null), rig: art?.second ?? null, fallback: dragonFallback(two), name: two.name,
       hp: f.hp, maxHp: f.maxHp, facing: 'right', marks: marks(f), onTap: () => onDetails('dragon2'), tapLabel: `${two.name} details`, testid: 'stage-dragon2',
     });
   }
   if (ride) {
     fighters.push({
-      id: 'rider', place: party.rider!, rig: art?.lead ?? null, fallback: lead ? dragonFallback(lead) : riderFallback,
+      id: 'rider', place: sized(party.rider!, art?.lead ?? null), rig: art?.lead ?? null, fallback: lead ? dragonFallback(lead) : riderFallback,
       mount: { rig: art?.rider ?? null, fallback: riderFallback }, name: battle.rider.name,
       hp: battle.rider.hp, maxHp: battle.rider.maxHp, facing: 'right', marks: marks(battle.rider), onTap: () => onDetails('rider'), tapLabel: `${battle.rider.name} details`, testid: 'stage-rider',
     });
   } else {
     if (lead && party.dragon) {
       fighters.push({
-        id: 'dragon', place: party.dragon, rig: art?.lead ?? null, fallback: dragonFallback(lead), name: lead.name,
+        id: 'dragon', place: sized(party.dragon, art?.lead ?? null), rig: art?.lead ?? null, fallback: dragonFallback(lead), name: lead.name,
         hp: battle.dragon?.hp ?? 0, maxHp: battle.dragon?.maxHp ?? 1, facing: 'right', marks: battle.dragon ? marks(battle.dragon) : [],
         onTap: () => onDetails('dragon'), tapLabel: `${lead.name} details`, testid: 'stage-dragon',
       });
@@ -114,7 +121,7 @@ export function BattleStage({ save, battle, zoneId, zoneElement, target, onTarge
     const intent = e.hp > 0 ? intentOf(data, battle, e) : null;
     const enemyId = e.enemyId ?? '';
     fighters.push({
-      id: e.id, place: places[Math.min(i, places.length - 1)]!, enemy: true, rig: art?.enemies[enemyId] ?? null,
+      id: e.id, place: sized(places[Math.min(i, places.length - 1)]!, art?.enemies[enemyId] ?? null), enemy: true, rig: art?.enemies[enemyId] ?? null,
       fallback: <EnemySprite enemyId={enemyId} element={e.element ?? data.enemies[enemyId]?.element ?? 'stone'} size={120} />,
       name: battle.enemies.length > 1 ? e.name : `${e.name} · Lv ${e.level}`, hp: e.hp, maxHp: e.maxHp, facing: 'left', marks: marks(e),
       intent: intent ? { icon: INTENTS[intent.kind].icon, text: `${INTENTS[intent.kind].label}: ${intent.name}`, big: intent.kind === 'big' } : undefined,

@@ -1,5 +1,5 @@
 {
-  "note": "Map sprite keys to files in /src/art. Dragon keys are dragon.<element>.<stage> (neutral gray, tinted at runtime). Enemy keys are enemy.<id>. Missing files fall back to placeholder shapes. 'rigs' are battle-stage characters built from parts: each part is drawn in place on the rig's full canvas (size in viewBox units, facing right), with its pivot as a fraction of that canvas. {element} in a file name is filled in per dragon. 'points' are spots on the rig (mouth, hit, front) as fractions. See docs/ART_STYLE.md.",
+  "note": "Map sprite keys to files in /src/art. Dragon keys are dragon.<element>.<stage> (neutral gray, tinted at runtime). Enemy keys are enemy.<id>. Missing files fall back to placeholder shapes. 'rigs' are battle-stage characters built from parts: each part is drawn in place on the rig's full canvas (size in viewBox units, facing right), with its pivot as a fraction of that canvas. {element} in a file name is filled in per dragon and {weapon} (sword, bow, staff) per rider. 'points' are spots on the rig (mouth, hit, front) as fractions. See docs/ART_STYLE.md.",
   "sprites": {},
   "rigs": {
     "dragon.adult": {
@@ -153,7 +153,7 @@
             },
             {
               "id": "arm",
-              "file": "rigs/rider/arm.svg",
+              "file": "rigs/rider/arm-{weapon}.svg",
               "pivot": [
                 0.567,
                 0.41
