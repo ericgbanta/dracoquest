@@ -16,6 +16,7 @@ import { BattleStage } from '../stage/BattleStage';
 import { direct } from '../stage/director';
 import { Sheet } from '../Sheet';
 import { play } from '../sound';
+import { Icon } from '../Icon';
 
 interface Props {
   save: SaveData;
@@ -481,7 +482,7 @@ export function Battle({ save, update, onExit }: Props) {
               return (
                 <button key={item.id} type="button" class="list-button" disabled={blocked} data-testid={`item-${item.id}`}
                   onClick={() => { setRider({ type: 'item', item: item.id }); setSheet(null); }}>
-                  <span aria-hidden="true">{item.icon}</span> {item.name} ×{n} <span class="muted">· {item.description}</span>
+                  <Icon name={`item-${item.id}`} fallback={item.icon} size={22} /> {item.name} ×{n} <span class="muted">· {item.description}</span>
                 </button>
               );
             })}
@@ -613,13 +614,13 @@ function Results({ save, report, update, onExit, onNext }: {
           <li>+{r.gold} gold</li>
           {Object.entries(r.drops).map(([id, n]) => {
             const item = data.items.find((i) => i.id === id);
-            return <li key={id}>+{n} {item?.icon} {item?.name}</li>;
+            return <li key={id}>+{n} <Icon name={`item-${id}`} fallback={item?.icon} size={22} /> {item?.name}</li>;
           })}
           {report.bondGained > 0 && dragon && <li>+{report.bondGained} bond with {dragon.name}</li>}
         </ul>
       )}
-      {report.egg && <p class="notice notice--ok" data-testid="egg-drop">🥚 The boss dropped a {data.dragons.eggs[report.egg]?.name ?? `${data.elements.info[report.egg].name} egg`}! Incubate it in the Hatchery at the Roost.</p>}
-      {report.embers ? <p class="notice notice--ok" data-testid="embers-reward">🔥 +{report.embers} embers</p> : null}
+      {report.egg && <p class="notice notice--ok" data-testid="egg-drop"><Icon name="egg" fallback="🥚" /> The boss dropped a {data.dragons.eggs[report.egg]?.name ?? `${data.elements.info[report.egg].name} egg`}! Incubate it in the Hatchery at the Roost.</p>}
+      {report.embers ? <p class="notice notice--ok" data-testid="embers-reward"><Icon name="ember" fallback="🔥" /> +{report.embers} embers</p> : null}
       {report.grewTo && dragon && (
         <>
           <Dialogue lines={Object.values(data.quests).find((q) => q.stage === report.grewTo)?.outro ?? []} save={save} />

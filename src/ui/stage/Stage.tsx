@@ -3,6 +3,7 @@ import { useEffect, useState } from 'preact/hooks';
 import layout from '../../data/stage.json';
 import type { Backdrop, Effects, Part, Rig } from './rigs';
 import './stage.css';
+import { Icon } from '../Icon';
 
 export interface PlatePlace { left?: number; right?: number; top: number; width: number; minPx: number }
 export interface Place { left: number; bottom: number; width: number; z: number; plate: PlatePlace }
@@ -21,9 +22,9 @@ export interface StageFighter {
   maxHp: number;
   facing: 'right' | 'left';
   enemy?: boolean;
-  /** Short status marks for the plate, such as "🔥2". */
-  marks?: string[];
-  intent?: { icon: string; text: string; big?: boolean };
+  /** Status marks for the plate: the status's icon and turns left. */
+  marks?: { id: string; icon: string; turns: number }[];
+  intent?: { kind: string; icon: string; text: string; big?: boolean };
   targeted?: boolean;
   onTap?(): void;
   /** Screen reader label for the tap, such as "Target Storm Roc". */
@@ -159,10 +160,10 @@ function Plate({ f }: { f: StageFighter }) {
   const cls = `plate${f.enemy ? ' plate--enemy' : ''}${f.hp <= 0 ? ' plate--down' : ''}`;
   const inner = (
     <>
-      <span class="plate-name">{f.name}{f.marks?.length ? <span class="plate-marks"> {f.marks.join(' ')}</span> : null}</span>
+      <span class="plate-name">{f.name}{f.marks?.length ? <span class="plate-marks"> {f.marks.map((m) => <span key={m.id}><Icon name={`status-${m.id}`} fallback={m.icon} />{m.turns} </span>)}</span> : null}</span>
       {/* The fill is the bar's ::after, scaled by --hp, to keep the stage under its node budget. */}
       <span class="plate-bar" style={{ '--hp': pct }} role="meter" aria-label={`${f.name} HP`} aria-valuemin={0} aria-valuemax={f.maxHp} aria-valuenow={Math.round(f.hp)} />
-      {f.intent && <span class={`plate-intent intent${f.intent.big ? ' plate-intent--big' : ''}`}>{f.intent.icon} {f.intent.text}</span>}
+      {f.intent && <span class={`plate-intent intent${f.intent.big ? ' plate-intent--big' : ''}`}><Icon name={`intent-${f.intent.kind}`} fallback={f.intent.icon} /> {f.intent.text}</span>}
     </>
   );
   return <div class={cls} style={style} data-plate={f.id}>{inner}</div>;

@@ -13,6 +13,7 @@ import { DragonSprite } from '../Sprites';
 import { Bar, ElementBadge } from '../bits';
 import { beats, weaknessesOf } from '../../core/elements';
 import type { ElementId } from '../../core/types';
+import { Embers, Gold } from '../Icon';
 
 const names = (els: ElementId[]) => els.map((e) => data.elements.info[e].name).join(', ') || 'nothing';
 
@@ -134,7 +135,7 @@ export function Dragons({ save, update }: Props) {
               <p class="muted">Elders can lay one {data.elements.info[d.element].name} egg in their life. Hatch it in the Hatchery.</p>
               <button type="button" class="button button--block" data-testid="lay-egg" disabled={!canLayEgg(data, save, d.id).ok}
                 onClick={() => partnerAct(() => layEgg(data, save, d.id), `${d.name} laid an egg! It's waiting in your Bag.`)}>
-                Lay an egg · 🔥 {data.dragons.eggLaying.cost.embers}
+                Lay an egg · <Embers amount={data.dragons.eggLaying.cost.embers} />
               </button>
             </>
           )}
@@ -205,7 +206,7 @@ function Talents({ save, update, dragonId }: Props & { dragonId: string }) {
               act(() => update((s) => respecTalents(data, s, d.id)));
             }
           }}>
-          Reset talents {cost ? `(🪙 ${cost})` : '(free this stage)'}
+          Reset talents {cost ? <>(<Gold amount={cost} />)</> : '(free this stage)'}
         </button>
       )}
     </div>

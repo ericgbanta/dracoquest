@@ -14,7 +14,7 @@ export default defineConfig({
       manifest: false,
       workbox: {
         cacheId: 'dracoquest',
-        globPatterns: ['**/*.{js,css,html,svg,png,webp,webmanifest}'],
+        globPatterns: ['**/*.{js,css,html,svg,png,webp,woff2,webmanifest}'],
         cleanupOutdatedCaches: true,
         navigateFallback: 'index.html',
       },

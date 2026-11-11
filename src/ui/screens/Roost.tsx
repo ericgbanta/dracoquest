@@ -15,6 +15,7 @@ import { Bar, ElementBadge, todayKey } from '../bits';
 import { Sheet } from '../Sheet';
 import { Groom } from './Groom';
 import { Buildings } from './Buildings';
+import { Embers, Icon } from '../Icon';
 
 interface Props { save: SaveData; update(change: (s: SaveData) => SaveData): void }
 
@@ -81,7 +82,7 @@ export function Roost({ save, update }: Props) {
     <section class="screen" aria-labelledby="screen-title">
       <header class="screen-header">
         <h1 id="screen-title">Roost</h1>
-        <span class="embers" title="Embers" data-testid="embers">🔥 {save.embers}</span>
+        <span class="embers" title="Embers" data-testid="embers"><Embers amount={save.embers} /></span>
         <a class="icon-button" href={href('settings')} aria-label="Settings" data-testid="open-settings"><GearIcon /></a>
       </header>
 
@@ -89,7 +90,7 @@ export function Roost({ save, update }: Props) {
 
       {event && (
         <div class="card event-card" data-testid="event-card">
-          <h2>🎉 {event.name}</h2>
+          <h2><Icon name="event" fallback="🎉" size={24} /> {event.name}</h2>
           <p>{event.blurb}</p>
           {eventGiftClaimed(data, save, today) ? (
             <p class="muted">You've opened this year's gift. Check the town for festival goods.</p>
@@ -136,17 +137,17 @@ export function Roost({ save, update }: Props) {
       <h2 class="section-title">Daily care{save.dragons.length > 1 ? ` · ${dragon.name}` : ''}</h2>
       <div class="care-grid">
         <button type="button" class="care-button" disabled={mealsLeft <= 0 || away} onClick={() => setSheet('feed')} data-testid="care-feed">
-          <span class="care-icon" aria-hidden="true">🍖</span>
+          <span class="care-icon" aria-hidden="true"><Icon name="feed" fallback="🍖" size={32} /></span>
           <span>Feed</span>
           <span class="care-sub">{mealsLeft > 0 ? `${mealsLeft} of ${data.care.mealsPerDay} meals left` : 'Full for today'}</span>
         </button>
         <button type="button" class="care-button" disabled={dCare.groomed || away} onClick={() => setSheet('groom')} data-testid="care-groom">
-          <span class="care-icon" aria-hidden="true">✨</span>
+          <span class="care-icon" aria-hidden="true"><Icon name="groom" fallback="✨" size={32} /></span>
           <span>Groom &amp; Play</span>
           <span class="care-sub">{dCare.groomed ? 'Done today' : '10-second game'}</span>
         </button>
         <button type="button" class="care-button" onClick={doRest} disabled={!!save.run} data-testid="care-rest">
-          <span class="care-icon" aria-hidden="true">💤</span>
+          <span class="care-icon" aria-hidden="true"><Icon name="rest" fallback="💤" size={32} /></span>
           <span>Rest</span>
           <span class="care-sub">{hurt ? 'Heal everyone' : care.rested ? 'Rested' : 'Fully healthy'}</span>
         </button>
@@ -171,7 +172,7 @@ export function Roost({ save, update }: Props) {
               if (f.premium && have <= 0) return null;
               return (
                 <button key={f.id} type="button" class="list-button" disabled={have <= 0} onClick={() => doFeed(f.id)} data-testid={`food-${f.id}`}>
-                  <span aria-hidden="true">{f.icon}</span> {f.name} ×{have}{f.premium ? ` (+${f.statPoints} points)` : ''}{known ? ' ♥ Favorite' : ''}
+                  <Icon name={`food-${f.id}`} fallback={f.icon} size={22} /> {f.name} ×{have}{f.premium ? ` (+${f.statPoints} points)` : ''}{known ? ' ♥ Favorite' : ''}
                 </button>
               );
             })}

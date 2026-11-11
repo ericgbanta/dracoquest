@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'preact/hooks';
 import { gameData } from '../core/data';
 import type { ElementId, IntentKind, StatusId } from '../core/types';
+import { Icon } from './Icon';
 
 export function ElementBadge({ element, small }: { element: ElementId; small?: boolean }) {
   const info = gameData.elements.info[element];
@@ -38,7 +39,7 @@ export function IntentChip({ kind, name }: { kind: IntentKind; name: string }) {
   const i = INTENTS[kind];
   return (
     <span class={`intent intent--${kind}`}>
-      <span aria-hidden="true">{i.icon}</span> {i.label}: {name}
+      <Icon name={`intent-${kind}`} fallback={i.icon} /> {i.label}: {name}
     </span>
   );
 }
@@ -51,7 +52,7 @@ export function StatusChips({ statuses }: { statuses: { id: StatusId; turns: num
         const d = gameData.statuses[s.id];
         return (
           <span key={s.id} class={`status status--${d.kind}`} title={`${d.name}: ${d.description}`}>
-            <span aria-hidden="true">{d.icon}</span>{d.short} {s.turns}
+            <Icon name={`status-${s.id}`} fallback={d.icon} />{d.short} {s.turns}
           </span>
         );
       })}

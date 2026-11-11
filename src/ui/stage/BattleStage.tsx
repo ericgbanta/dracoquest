@@ -76,7 +76,7 @@ function sized(place: Place, rig: Rig | null): Place {
   return { ...place, left: place.left + (place.width * (1 - s)) / 2, width: place.width * s };
 }
 
-const marks = (f: Fighter) => f.statuses.map((s) => `${data.statuses[s.id].icon}${s.turns}`);
+const marks = (f: Fighter) => f.statuses.map((s) => ({ id: s.id, icon: data.statuses[s.id].icon, turns: s.turns }));
 
 /** The battle stage for a real fight, plus the status strip with exact numbers under it. */
 export function BattleStage({ save, battle, zoneId, zoneElement, target, onTarget, onDetails, header, paused, stageRef }: Props) {
@@ -124,7 +124,7 @@ export function BattleStage({ save, battle, zoneId, zoneElement, target, onTarge
       id: e.id, place: sized(places[Math.min(i, places.length - 1)]!, art?.enemies[enemyId] ?? null), enemy: true, rig: art?.enemies[enemyId] ?? null,
       fallback: <EnemySprite enemyId={enemyId} element={e.element ?? data.enemies[enemyId]?.element ?? 'stone'} size={120} plain />,
       name: battle.enemies.length > 1 ? e.name : `${e.name} · Lv ${e.level}`, hp: e.hp, maxHp: e.maxHp, facing: 'left', marks: marks(e),
-      intent: intent ? { icon: INTENTS[intent.kind].icon, text: `${INTENTS[intent.kind].label}: ${intent.name}`, big: intent.kind === 'big' } : undefined,
+      intent: intent ? { kind: intent.kind, icon: INTENTS[intent.kind].icon, text: `${INTENTS[intent.kind].label}: ${intent.name}`, big: intent.kind === 'big' } : undefined,
       targeted: e.id === target && e.hp > 0, testid: `enemy-${e.id}`,
       // First tap targets; tapping the target again opens its details.
       onTap: () => (e.id === target ? onDetails(e.id) : onTarget(e.id)),

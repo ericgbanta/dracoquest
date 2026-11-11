@@ -1,0 +1,92 @@
+/* ---------- B5 skin: a light fantasy look over the base styles ----------
+   Panels get a soft gradient and a trim, buttons get a chunky edge, headings use Fredoka.
+   Shadows here are static: nothing animates box-shadow or filter. */
+
+:root {
+  --panel-top: #332b4e;
+  --panel-bottom: #282241;
+  --panel-edge: #4b3f70;
+  --panel-deep: #130f1e;
+  --trim: #d9a648;
+  --trim-dark: #7c5622;
+  --heading: "Fredoka", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+  background:
+    radial-gradient(120% 60% at 50% 0%, #2c2547 0%, #1d1a2b 60%) fixed,
+    var(--bg);
+}
+
+h1, h2, h3, .results-title, .welcome, .sheet-header h2 {
+  font-family: var(--heading);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+h1 { color: #f7e9c8; text-shadow: 0 2px 0 var(--panel-deep); }
+.results-title--won { color: var(--trim); }
+
+/* Panels */
+.card, .notice, .egg-card, .care-button, .pick, .sheet, .interlude .dialogue li, .log {
+  background: linear-gradient(var(--panel-top), var(--panel-bottom));
+  border: 2px solid var(--panel-edge);
+  box-shadow: inset 0 1px 0 #ffffff12, 0 3px 0 var(--panel-deep);
+}
+.card { border-radius: 16px; }
+.card h2 { color: #f2dfb4; }
+.notice { border-left-width: 5px; }
+.notice--ok { border-left-color: var(--ok); }
+.notice--error { border-left-color: var(--danger); }
+.sheet { border-bottom: none; border-top: 3px solid var(--trim); }
+
+/* Buttons: gold primary with a pressed edge, plum ghost. */
+.button {
+  background: linear-gradient(#f6c866, #e39a34);
+  color: #2a1b08;
+  border: 2px solid var(--trim-dark);
+  box-shadow: inset 0 2px 0 #fff5, 0 3px 0 #5e3d12;
+  text-shadow: 0 1px 0 #fff4;
+}
+.button:active { transform: translateY(2px); box-shadow: inset 0 2px 0 #fff5, 0 1px 0 #5e3d12; }
+.button--ghost {
+  background: linear-gradient(#3a3159, #2b2445);
+  color: var(--text);
+  border: 2px solid #5c4d8c;
+  box-shadow: inset 0 1px 0 #ffffff14, 0 3px 0 var(--panel-deep);
+  text-shadow: none;
+}
+.button--ghost:active { box-shadow: inset 0 1px 0 #ffffff14, 0 1px 0 var(--panel-deep); }
+.button--danger { background: linear-gradient(#ef7a66, #cf4b3b); color: #fff; border-color: #7a2a20; box-shadow: inset 0 2px 0 #fff4, 0 3px 0 #5a1d16; text-shadow: none; }
+.button:disabled { box-shadow: none; }
+
+.act, .list-button, .chip-button, .icon-button, .tab-pill {
+  background: linear-gradient(#3a3159, #2b2445);
+  border: 2px solid #4f4277;
+  box-shadow: inset 0 1px 0 #ffffff12, 0 2px 0 var(--panel-deep);
+}
+.act--on, .tab-pill--on, .chip-button[aria-pressed="true"] {
+  border-color: var(--trim);
+  background: linear-gradient(#5a4630, #3a2e2a);
+}
+.act:active, .list-button:active, .care-button:active { transform: translateY(1px); }
+.pick--on { border-color: var(--trim); }
+.pill { background: linear-gradient(#f6c866, #e39a34); color: #2a1b08; }
+
+/* Tab bar: a dark band with a gold line on top. */
+.tabbar {
+  background: linear-gradient(#2c2545, #1f1a31);
+  border-top: 2px solid var(--trim-dark);
+  box-shadow: 0 -2px 0 #0004;
+}
+.tab--active { color: var(--trim); }
+
+/* Bars get a frame. */
+.bar, .sbar, .warmth-bar { border: 1px solid #0008; box-shadow: inset 0 1px 2px #0008; }
+
+/* Icons */
+.icon { display: inline-block; vertical-align: -0.2em; flex: none; }
+.icon-emoji { display: inline-block; }
+.money { display: inline-flex; align-items: center; gap: 4px; font-weight: 700; white-space: nowrap; }
+.care-icon .icon { width: 32px; height: 32px; }
+.status .icon, .intent .icon { width: 14px; height: 14px; }
+.plate .icon { width: 12px; height: 12px; vertical-align: -0.1em; }

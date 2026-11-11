@@ -9,6 +9,7 @@ import type { SaveData } from '../../core/save';
 import type { BuildingId, DragonState } from '../../core/types';
 import { formatDuration, useNow } from '../bits';
 import { Sheet } from '../Sheet';
+import { Embers, Gold, Icon } from '../Icon';
 
 interface Props {
   save: SaveData;
@@ -45,14 +46,14 @@ export function Buildings({ save, update, onMessage }: Props) {
     return (
       <button type="button" class="button button--ghost upgrade" disabled={!afford || !!save.run} data-testid={`upgrade-${b}`}
         onClick={() => act(() => upgradeBuilding(data, save, b, Date.now()), `${data.roost.buildings[b].name} ${built ? 'upgraded' : 'built'}!`)}>
-        {built ? 'Upgrade' : 'Build'} · 🪙 {cost.gold} · 🔥 {cost.embers}
+        {built ? 'Upgrade' : 'Build'} · <Gold amount={cost.gold} /> · <Embers amount={cost.embers} />
       </button>
     );
   };
 
   const head = (b: BuildingId) => (
     <div class="building-head">
-      <h3><span aria-hidden="true">{ICONS[b]}</span> {data.roost.buildings[b].name}</h3>
+      <h3><Icon name={`building-${b}`} fallback={ICONS[b]} size={24} /> {data.roost.buildings[b].name}</h3>
       <span class="pill pill--muted">{save.roost.levels[b] > 0 ? `Lv ${save.roost.levels[b]}` : 'Not built'}</span>
     </div>
   );
@@ -124,7 +125,7 @@ export function Buildings({ save, update, onMessage }: Props) {
                 <button type="button" class="button" data-testid={`incubate-${i}`}
                   disabled={save.embers < data.roost.buildings.hatchery.incubateEmbers || roost.hatchery.eggs.length >= hatchery.slots}
                   onClick={() => act(() => incubateEgg(data, save, i, Date.now()), 'The egg is tucked in, warm and safe.')}>
-                  Incubate · 🔥 {data.roost.buildings.hatchery.incubateEmbers}
+                  Incubate · <Embers amount={data.roost.buildings.hatchery.incubateEmbers} />
                 </button>
               </div>
             ))}

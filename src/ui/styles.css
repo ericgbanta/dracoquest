@@ -227,6 +227,8 @@ a.button { text-decoration: none; display: inline-flex; align-items: center; jus
 
 .sprite { position: relative; display: inline-block; flex: none; }
 .sprite img { display: block; filter: grayscale(1); }
+/* Rig sprites are already in color; the grayscale above is only for tinting gray WebP art. */
+.sprite--rig img { filter: none; }
 .sprite-tint { position: absolute; inset: 0; mix-blend-mode: multiply; mask-size: contain; -webkit-mask-size: contain; mask-repeat: no-repeat; -webkit-mask-repeat: no-repeat; }
 .idle { animation: bob 2.4s ease-in-out infinite; }
 @keyframes bob { 50% { transform: translateY(-4px); } }

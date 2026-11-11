@@ -10,6 +10,7 @@ import { Bar } from '../bits';
 import { Sheet } from '../Sheet';
 import { gearSummary } from './Town';
 import { href } from '../router';
+import { Gold, Icon } from '../Icon';
 
 interface Props { save: SaveData; update(change: (s: SaveData) => SaveData): void }
 
@@ -58,7 +59,7 @@ export function Bag({ save, update }: Props) {
 
   return (
     <section class="screen" aria-labelledby="screen-title">
-      <header class="screen-header"><h1 id="screen-title">Bag</h1><span class="gold" data-testid="gold">🪙 {r.gold}</span></header>
+      <header class="screen-header"><h1 id="screen-title">Bag</h1><span class="gold" data-testid="gold"><Gold amount={r.gold} /></span></header>
       <div class="card">
         <h2>{r.name} <span class="muted">· Rider level {r.level}</span></h2>
         <Bar kind="hp" value={r.hp} max={riderMaxHp(data, r)} label="HP" />
@@ -94,13 +95,13 @@ export function Bag({ save, update }: Props) {
         <h2>Items</h2>
         {data.items.map((item) => (
           <div key={item.id} class="stat-row">
-            <div><span aria-hidden="true">{item.icon}</span> <strong>{item.name}</strong> <span class="muted">{item.description}</span></div>
+            <div><Icon name={`item-${item.id}`} fallback={item.icon} size={22} /> <strong>{item.name}</strong> <span class="muted">{item.description}</span></div>
             <span class="stat-value">×{r.inventory[item.id] ?? 0}</span>
           </div>
         ))}
         {foods.map((f) => (
           <div key={f.id} class="stat-row">
-            <div><span aria-hidden="true">{f.icon}</span> <strong>{f.name}</strong> <span class="muted">Dragon food</span></div>
+            <div><Icon name={`food-${f.id}`} fallback={f.icon} size={22} /> <strong>{f.name}</strong> <span class="muted">Dragon food</span></div>
             <span class="stat-value">×{r.inventory[f.id] ?? 0}</span>
           </div>
         ))}
@@ -112,7 +113,7 @@ export function Bag({ save, update }: Props) {
         ) : (
           <>
             <div class="egg-row" data-testid="eggs">
-              {save.eggs.map((el, i) => <span key={i} class="badge" style={{ '--el': data.elements.info[el].color }}>🥚 {data.dragons.eggs[el]?.name ?? `${data.elements.info[el].name} egg`}</span>)}
+              {save.eggs.map((el, i) => <span key={i} class="badge" style={{ '--el': data.elements.info[el].color }}><Icon name="egg" fallback="🥚" size={16} /> {data.dragons.eggs[el]?.name ?? `${data.elements.info[el].name} egg`}</span>)}
             </div>
             <p class="muted">Incubate them in the Hatchery at the Roost.</p>
           </>

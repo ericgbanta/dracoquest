@@ -8,6 +8,7 @@ import { EnemySprite } from '../Sprites';
 import { Scene, useBackdrop, useEnemyRig } from '../stage/Scene';
 import type { ElementId } from '../../core/types';
 import { href } from '../router';
+import { Gold, Icon } from '../Icon';
 
 interface Props { save: SaveData; update(change: (s: SaveData) => SaveData): void }
 
@@ -16,9 +17,9 @@ export function MapScreen({ save, update }: Props) {
   const lowHp = save.rider.hp < riderMaxHp(data, save.rider) * 0.5;
   return (
     <section class="screen" aria-labelledby="screen-title">
-      <header class="screen-header"><h1 id="screen-title">Map</h1><span class="gold">🪙 {save.rider.gold}</span></header>
+      <header class="screen-header"><h1 id="screen-title">Map</h1><span class="gold"><Gold amount={save.rider.gold} /></span></header>
       <a class="card town-card" href={href('town')} data-testid="go-town">
-        <span class="care-icon" aria-hidden="true">🏘</span>
+        <span class="care-icon" aria-hidden="true"><Icon name="town" fallback="🏘" size={32} /></span>
         <span><strong>Town</strong><span class="muted"> · Gear, potions, and dragon food</span></span>
       </a>
       {lowHp && <p class="notice notice--error">You're hurt. Rest at the Roost first, unless you like living dangerously.</p>}
@@ -33,7 +34,7 @@ export function MapScreen({ save, update }: Props) {
             <ZoneBanner zoneId={zone.id} element={zone.element} bossId={boss.id} bossElement={boss.element} name={`${zone.name}, home of the ${boss.name}`} />
             <div class="zone-head">
               <div>
-                <h2>{lock && <span aria-hidden="true">🔒 </span>}{zone.name}</h2>
+                <h2>{lock && <><Icon name="lock" fallback="🔒" size={20} /> </>}{zone.name}</h2>
                 <p class="muted">Levels {zone.minLevel} to {zone.maxLevel} · <ElementBadge element={zone.element} small /></p>
               </div>
             </div>

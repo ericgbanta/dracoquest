@@ -67,7 +67,7 @@ export function demoFighters(art: DemoArt, hp: DemoHp, opts: { targeted?: boolea
     },
     {
       id: e2.id, place: twoEnemies[1]!, enemy: true, rig: art.enemy, name: 'Storm Roc', hp: e2.hp, maxHp: e2.maxHp, facing: 'left',
-      intent: { icon: '‼', text: `Big: ${e2.intent}`, big: true }, fallback: <EnemySprite enemyId={e2.enemyId} element="storm" size={120} />,
+      intent: { kind: 'big', icon: '‼', text: `Big: ${e2.intent}`, big: true }, fallback: <EnemySprite enemyId={e2.enemyId} element="storm" size={120} />,
     },
   ] : [];
   return [
@@ -82,7 +82,7 @@ export function demoFighters(art: DemoArt, hp: DemoHp, opts: { targeted?: boolea
     },
     {
       id: demo.enemy.id, place: opts.busy ? twoEnemies[0]! : oneEnemy, enemy: true, rig: art.enemy, name: opts.busy ? 'Storm Roc' : `Storm Roc · Lv ${demo.enemy.level}`, hp: hp.enemy, maxHp: demo.enemy.maxHp, facing: 'left',
-      intent: { icon: '‼', text: `Big: ${demo.enemy.intent}`, big: true },
+      intent: { kind: 'big', icon: '‼', text: `Big: ${demo.enemy.intent}`, big: true },
       fallback: <EnemySprite enemyId={demo.enemy.enemyId} element="storm" size={120} />,
       targeted: opts.targeted, onTap: opts.onTarget, testid: `enemy-${demo.enemy.id}`,
     },
