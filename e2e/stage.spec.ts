@@ -90,3 +90,19 @@ test('the bench has a 2 vs 2 scene for the busiest stage', async ({ page }) => {
   await expect(page.locator('[data-fighter=e1]')).toBeVisible();
   await expect.poll(async () => Number(await page.getByTestId('bench-stats').getAttribute('data-frames')), { timeout: 10_000 }).toBeGreaterThan(30);
 });
+
+test('a dragon looks the same on every screen: no gray filter on its art', async ({ page }) => {
+  // Regression: an old grayscale rule meant for tinting gray WebP sprites turned rig sprites gray
+  // on the Dragons and grooming screens while the Roost scene showed the real colors.
+  await loadFixture(page, 'juvenile.json');
+  const filters = () => page.locator('.sprite--rig img, .scene .rig img').evaluateAll((els) => [...new Set(els.map((e) => getComputedStyle(e).filter))]);
+  await expect(page.locator('.scene .rig img').first()).toBeVisible();
+  expect(await filters()).toEqual(['none']);
+  await page.getByTestId('tab-dragons').tap();
+  await expect(page.locator('.sprite--rig img').first()).toBeVisible();
+  expect(await filters()).toEqual(['none']);
+  await page.getByTestId('tab-roost').tap();
+  await page.getByTestId('care-groom').tap();
+  await expect(page.locator('.sprite--rig img').first()).toBeVisible();
+  expect(await filters()).toEqual(['none']);
+});
