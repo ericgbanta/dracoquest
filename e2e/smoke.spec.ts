@@ -163,3 +163,22 @@ test('a Phase 0 (version 1) save migrates and keeps the rider name', async ({ pa
   await page.goto('./#/settings');
   await expect(page.getByTestId('rider-name')).toHaveValue('Old Friend');
 });
+
+test('can be added to the Home Screen: manifest, icons, and standalone tags', async ({ page, request }) => {
+  await page.goto('./');
+  const href = await page.locator('link[rel=manifest]').getAttribute('href');
+  expect(href).toBe('/dracoquest/manifest.webmanifest');
+  const manifest = await (await request.get(href!)).json();
+  expect(manifest).toMatchObject({ name: 'DracoQuest', display: 'standalone', scope: '/dracoquest/', start_url: '/dracoquest/#/roost' });
+  for (const icon of manifest.icons as { src: string; sizes: string }[]) {
+    const res = await request.get(new URL(icon.src, `http://localhost:4173${href}`).href);
+    expect(res.status(), icon.src).toBe(200);
+    expect(res.headers()['content-type']).toContain('image/png');
+  }
+  expect(manifest.icons.some((i: { purpose?: string }) => i.purpose === 'maskable')).toBe(true);
+  const apple = await page.locator('link[rel=apple-touch-icon]').getAttribute('href');
+  expect((await request.get(apple!)).status()).toBe(200);
+  await expect(page.locator('meta[name=apple-mobile-web-app-capable]')).toHaveAttribute('content', 'yes');
+  await page.goto('./#/settings');
+  await expect(page.getByTestId('install-tip')).toContainText('Add to Home');
+});

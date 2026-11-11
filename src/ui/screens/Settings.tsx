@@ -2,6 +2,7 @@ import { useState } from 'preact/hooks';
 import { exportSaveCode, importSaveCode, newSave, SaveError, type SaveData } from '../../core/save';
 import { href } from '../router';
 import { BackIcon } from '../icons';
+import { isIos, isStandalone } from '../install';
 
 interface Props {
   save: SaveData | null;
@@ -97,6 +98,18 @@ export function Settings({ save, persistent, update, replace }: Props) {
               onChange={(e) => update((s) => ({ ...s, settings: { ...s.settings, fastBattles: e.currentTarget.checked } }))} />
             <span>Fast battles (2x animation speed)</span>
           </label>
+        </div>
+      )}
+
+      {!isStandalone() && (
+        <div class="card" data-testid="install-tip">
+          <h2>Add to Home Screen</h2>
+          {isIos() ? (
+            <p>In Safari, tap the Share button, then <strong>Add to Home Screen</strong>. DracoQuest opens full screen, like an app.</p>
+          ) : (
+            <p>In Chrome, open the ⋮ menu and tap <strong>Add to Home screen</strong> or <strong>Install app</strong>. DracoQuest opens full screen, like an app.</p>
+          )}
+          <p class="muted">The Home Screen app keeps its own save on some phones (iPhones especially). Export a save code here first, then import it in the Home Screen app.</p>
         </div>
       )}
 

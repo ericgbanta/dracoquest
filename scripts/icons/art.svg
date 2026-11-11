@@ -1,0 +1,14 @@
+<!-- Shared artwork: a front-facing dragon head with horns and wings. Original art, no outside assets. -->
+<path d="M196 230 L70 128 L96 214 L48 226 L110 270 L80 300 L188 300 Z" fill="#e8603c" stroke="#1d1a2b" stroke-width="10" stroke-linejoin="round"/>
+<path d="M316 230 L442 128 L416 214 L464 226 L402 270 L432 300 L324 300 Z" fill="#e8603c" stroke="#1d1a2b" stroke-width="10" stroke-linejoin="round"/>
+<path d="M200 168 C186 128 170 100 140 82 C182 86 214 112 228 150 Z" fill="#f4efe6" stroke="#1d1a2b" stroke-width="10" stroke-linejoin="round"/>
+<path d="M312 168 C326 128 342 100 372 82 C330 86 298 112 284 150 Z" fill="#f4efe6" stroke="#1d1a2b" stroke-width="10" stroke-linejoin="round"/>
+<path d="M256 132 C318 132 352 178 352 236 C352 286 330 318 312 340 L312 380 C312 410 288 432 256 432 C224 432 200 410 200 380 L200 340 C182 318 160 286 160 236 C160 178 194 132 256 132 Z" fill="#f2a541" stroke="#1d1a2b" stroke-width="10" stroke-linejoin="round"/>
+<path d="M240 136 L256 104 L272 136 Z" fill="#e8603c" stroke="#1d1a2b" stroke-width="8" stroke-linejoin="round"/>
+<path d="M196 230 L238 246 L222 270 C206 266 196 252 196 230 Z" fill="#f5e27a" stroke="#1d1a2b" stroke-width="8" stroke-linejoin="round"/>
+<path d="M316 230 L274 246 L290 270 C306 266 316 252 316 230 Z" fill="#f5e27a" stroke="#1d1a2b" stroke-width="8" stroke-linejoin="round"/>
+<path d="M222 244 L224 266 M290 244 L288 266" stroke="#1d1a2b" stroke-width="8" stroke-linecap="round"/>
+<path d="M214 340 C214 312 236 300 256 300 C276 300 298 312 298 340 L298 378 C298 400 280 414 256 414 C232 414 214 400 214 378 Z" fill="#f7c27a" stroke="#1d1a2b" stroke-width="8" stroke-linejoin="round"/>
+<ellipse cx="238" cy="342" rx="8" ry="12" fill="#1d1a2b"/>
+<ellipse cx="274" cy="342" rx="8" ry="12" fill="#1d1a2b"/>
+<path d="M232 390 C246 398 266 398 280 390" fill="none" stroke="#1d1a2b" stroke-width="8" stroke-linecap="round"/>
