@@ -58,7 +58,7 @@ describe('leveling', () => {
 
   it('scales enemy XP with level', () => {
     expect(enemyXp(data.progression, 4)).toBeGreaterThan(enemyXp(data.progression, 3));
-    expect(enemyXp(data.progression, 2, 2)).toBe(Math.round(data.progression.enemyXpBase * 2 ** 1.6 * 2));
+    expect(enemyXp(data.progression, 2, 2)).toBe(Math.round(data.progression.enemyXpBase * 2 ** data.progression.enemyXpExponent * 2));
   });
 
   it('keeps bond between 0 and 100', () => {
