@@ -233,6 +233,307 @@
           ]
         }
       ]
+    },
+    "dragon.hatchling": {
+      "size": [
+        200,
+        170
+      ],
+      "tint": "dragon",
+      "boxScale": 0.62,
+      "points": {
+        "mouth": [
+          0.945,
+          0.506
+        ],
+        "hit": [
+          0.48,
+          0.694
+        ],
+        "front": [
+          0.85,
+          0.612
+        ]
+      },
+      "parts": [
+        {
+          "id": "leg-back",
+          "file": "rigs/dragon-hatchling/leg-back.svg"
+        },
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            0.85
+          ],
+          "anim": "breathe",
+          "parts": [
+            {
+              "id": "wing-back",
+              "file": "rigs/dragon-hatchling/wing-back.svg",
+              "pivot": [
+                0.59,
+                0.576
+              ],
+              "anim": "flap-back"
+            },
+            {
+              "id": "tail",
+              "file": "rigs/dragon-hatchling/tail.svg",
+              "pivot": [
+                0.32,
+                0.776
+              ],
+              "anim": "swish"
+            },
+            {
+              "id": "body",
+              "file": "rigs/dragon-hatchling/body.svg"
+            },
+            {
+              "id": "head",
+              "file": "rigs/dragon-hatchling/head.svg",
+              "pivot": [
+                0.64,
+                0.541
+              ],
+              "parts": [
+                {
+                  "id": "jaw",
+                  "file": "rigs/dragon-hatchling/jaw.svg",
+                  "pivot": [
+                    0.77,
+                    0.529
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "wing-front",
+              "file": "rigs/dragon-hatchling/wing-front.svg",
+              "pivot": [
+                0.52,
+                0.6
+              ],
+              "anim": "flap"
+            }
+          ]
+        },
+        {
+          "id": "leg-front",
+          "file": "rigs/dragon-hatchling/leg-front.svg",
+          "pivot": [
+            0.56,
+            0.788
+          ]
+        }
+      ]
+    },
+    "dragon.juvenile": {
+      "size": [
+        240,
+        190
+      ],
+      "tint": "dragon",
+      "boxScale": 0.84,
+      "points": {
+        "mouth": [
+          0.971,
+          0.368
+        ],
+        "hit": [
+          0.492,
+          0.642
+        ],
+        "front": [
+          0.85,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "leg-back",
+          "file": "rigs/dragon-juvenile/leg-back.svg"
+        },
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            0.85
+          ],
+          "anim": "breathe",
+          "parts": [
+            {
+              "id": "wing-back",
+              "file": "rigs/dragon-juvenile/wing-back.svg",
+              "pivot": [
+                0.58,
+                0.508
+              ],
+              "anim": "flap-back"
+            },
+            {
+              "id": "tail",
+              "file": "rigs/dragon-juvenile/tail.svg",
+              "pivot": [
+                0.375,
+                0.642
+              ],
+              "anim": "swish",
+              "parts": [
+                {
+                  "id": "tail-tip",
+                  "file": "rigs/dragon-juvenile/tail-tip-{element}.svg"
+                }
+              ]
+            },
+            {
+              "id": "body",
+              "file": "rigs/dragon-juvenile/body.svg"
+            },
+            {
+              "id": "head",
+              "file": "rigs/dragon-juvenile/head.svg",
+              "pivot": [
+                0.708,
+                0.368
+              ],
+              "parts": [
+                {
+                  "id": "jaw",
+                  "file": "rigs/dragon-juvenile/jaw.svg",
+                  "pivot": [
+                    0.792,
+                    0.379
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "wing-front",
+              "file": "rigs/dragon-juvenile/wing-front.svg",
+              "pivot": [
+                0.524,
+                0.53
+              ],
+              "anim": "flap"
+            }
+          ]
+        },
+        {
+          "id": "leg-front",
+          "file": "rigs/dragon-juvenile/leg-front.svg",
+          "pivot": [
+            0.608,
+            0.663
+          ]
+        }
+      ]
+    },
+    "dragon.elder": {
+      "size": [
+        300,
+        244
+      ],
+      "tint": "dragon",
+      "boxScale": 1.12,
+      "points": {
+        "mouth": [
+          0.967,
+          0.418
+        ],
+        "hit": [
+          0.467,
+          0.672
+        ],
+        "front": [
+          0.847,
+          0.623
+        ],
+        "saddle": [
+          0.487,
+          0.512
+        ]
+      },
+      "parts": [
+        {
+          "id": "leg-back",
+          "file": "rigs/dragon-elder/leg-back.svg"
+        },
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            0.85
+          ],
+          "anim": "breathe",
+          "parts": [
+            {
+              "id": "wing-back",
+              "file": "rigs/dragon-elder/wing-back.svg",
+              "pivot": [
+                0.614,
+                0.548
+              ],
+              "anim": "flap-back"
+            },
+            {
+              "id": "tail",
+              "file": "rigs/dragon-elder/tail.svg",
+              "pivot": [
+                0.373,
+                0.713
+              ],
+              "anim": "swish",
+              "parts": [
+                {
+                  "id": "tail-tip",
+                  "file": "rigs/dragon-elder/tail-tip-{element}.svg"
+                }
+              ]
+            },
+            {
+              "id": "body",
+              "file": "rigs/dragon-elder/body.svg"
+            },
+            {
+              "id": "head",
+              "file": "rigs/dragon-elder/head.svg",
+              "pivot": [
+                0.687,
+                0.418
+              ],
+              "parts": [
+                {
+                  "id": "jaw",
+                  "file": "rigs/dragon-elder/jaw.svg",
+                  "pivot": [
+                    0.773,
+                    0.434
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "wing-front",
+              "file": "rigs/dragon-elder/wing-front.svg",
+              "pivot": [
+                0.532,
+                0.577
+              ],
+              "anim": "flap"
+            }
+          ]
+        },
+        {
+          "id": "leg-front",
+          "file": "rigs/dragon-elder/leg-front.svg",
+          "pivot": [
+            0.62,
+            0.73
+          ]
+        }
+      ]
     }
   },
   "backdrops": {
