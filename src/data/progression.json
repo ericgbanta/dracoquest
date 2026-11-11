@@ -5,8 +5,8 @@
   "statPointsPerLevel": 3,
   "secondPartnerRiderLevel": 25,
   "levelUpRestoresHp": true,
-  "enemyXpBase": 4,
-  "enemyXpExponent": 1.6,
+  "enemyXpBase": 5.85,
+  "enemyXpExponent": 1.326,
   "enemyGoldBase": 3,
   "enemyGoldPerLevel": 2,
   "riderBaseStats": {

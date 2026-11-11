@@ -34,8 +34,8 @@
       "minLevel": 25,
       "maxLevel": 39,
       "bond": 60,
-      "breathMultiplier": 1.4,
-      "growthStatPoints": 8,
+      "breathMultiplier": 1.3,
+      "growthStatPoints": 5,
       "quest": "trial-of-wings",
       "unlocks": [
         "Ride mode for bosses",

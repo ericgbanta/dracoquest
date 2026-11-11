@@ -115,14 +115,14 @@
   "bigAttackMultiplier": 1.8,
   "levelDamageScale": 0.12,
   "ride": {
-    "defenseShare": 0.6,
+    "defenseShare": 0.5,
     "breathPerRoundBonus": 5,
     "moves": [
       {
         "id": "dive",
         "name": "Diving Strike",
         "kind": "damage",
-        "base": 30,
+        "base": 27,
         "description": "Swoop down and hit hard."
       },
       {
