@@ -9,12 +9,6 @@ import { href } from '../router';
 
 interface Props { save: SaveData; update(change: (s: SaveData) => SaveData): void }
 
-const LATER_ZONES = [
-  { name: 'Frostmere', levels: '26 to 36', note: 'Needs an Adult dragon. Coming in a future update.' },
-  { name: 'Deepstone Mines', levels: '34 to 42', note: 'Needs an Adult dragon. Coming in a future update.' },
-  { name: 'Eclipse Peak', levels: '40 to 50', note: 'Needs an Elder dragon. Coming in a future update.' },
-];
-
 export function MapScreen({ save, update }: Props) {
   const dragon = activeDragon(save);
   const lowHp = save.rider.hp < riderMaxHp(data, save.rider) * 0.5;
@@ -61,12 +55,6 @@ export function MapScreen({ save, update }: Props) {
           </article>
         );
       })}
-      {LATER_ZONES.map((z) => (
-        <article key={z.name} class="card zone zone--locked" aria-disabled="true">
-          <h2><span aria-hidden="true">🔒</span> {z.name}</h2>
-          <p class="muted">Levels {z.levels} · {z.note}</p>
-        </article>
-      ))}
     </section>
   );
 }

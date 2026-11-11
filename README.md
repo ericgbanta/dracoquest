@@ -2,7 +2,7 @@
 
 A mobile-first, turn-based browser RPG about hatching and raising dragons. Static site, no backend, deployed to GitHub Pages at `/dracoquest/`.
 
-The design lives in [docs/DESIGN.md](docs/DESIGN.md). Working rules for contributors and coding agents are in [CLAUDE.md](CLAUDE.md).
+The design lives in [docs/DESIGN.md](docs/DESIGN.md). All five build phases are in: seven zones up to level 50, dragons from egg to Elder, talents, gear, Ride mode, the Roost with real-time timers, two battle partners, seasonal events, and offline play. Working rules for contributors and coding agents are in [CLAUDE.md](CLAUDE.md).
 
 ## Commands
 

@@ -1,6 +1,7 @@
 import { useState } from 'preact/hooks';
 import { gameData as data } from '../../core/data';
-import { activeDragon, feedDragon, GameError, groomDragon, isPartner, rest, secondDragon } from '../../core/game';
+import { activeDragon, claimEventGift, eventGiftClaimed, feedDragon, GameError, groomDragon, isPartner, rest, secondDragon } from '../../core/game';
+import { activeEvent } from '../../core/events';
 import { careFor, dragonCareFor } from '../../core/care';
 import { dragonMaxHp, riderMaxHp } from '../../core/characters';
 import { leaning, temperament } from '../../core/roost';
@@ -72,6 +73,7 @@ export function Roost({ save, update }: Props) {
   });
 
   const second = secondDragon(save);
+  const event = activeEvent(data, today);
 
   return (
     <section class="screen" aria-labelledby="screen-title">
@@ -80,6 +82,21 @@ export function Roost({ save, update }: Props) {
         <span class="embers" title="Embers" data-testid="embers">🔥 {save.embers}</span>
         <a class="icon-button" href={href('settings')} aria-label="Settings" data-testid="open-settings"><GearIcon /></a>
       </header>
+
+      {event && (
+        <div class="card event-card" data-testid="event-card">
+          <h2>🎉 {event.name}</h2>
+          <p>{event.blurb}</p>
+          {eventGiftClaimed(data, save, today) ? (
+            <p class="muted">You've opened this year's gift. Check the town for festival goods.</p>
+          ) : (
+            <button type="button" class="button button--block" data-testid="claim-gift"
+              onClick={() => act(() => { update((s) => claimEventGift(data, s, today)); setToast(`Festival gift: +${event.gift.embers} embers and some treats!`); })}>
+              Open your festival gift
+            </button>
+          )}
+        </div>
+      )}
 
       {save.dragons.length > 1 && (
         <div class="dragon-picker" role="tablist" aria-label="Your dragons">

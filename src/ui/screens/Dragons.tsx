@@ -1,6 +1,6 @@
 import { useState } from 'preact/hooks';
 import { gameData as data } from '../../core/data';
-import { activeDragon, canHaveSecond, GameError, growthStatus, learnDragonTalent, respecTalents, secondDragon, setLead, setSecond, spendDragonPoint, startGrowthQuest } from '../../core/game';
+import { activeDragon, canHaveSecond, canLayEgg, GameError, layEgg, growthStatus, learnDragonTalent, respecTalents, secondDragon, setLead, setSecond, spendDragonPoint, startGrowthQuest } from '../../core/game';
 import { temperament, leaning } from '../../core/roost';
 import { canLearn, dragonBonus, pointsInTree, respecCost, talentPointsLeft } from '../../core/loadout';
 import type { TalentTree } from '../../core/types';
@@ -124,6 +124,22 @@ export function Dragons({ save, update }: Props) {
           </div>
         ))}
       </div>
+      {data.dragons.stages.findIndex((st) => st.id === d.stage) >= data.dragons.stages.findIndex((st) => st.id === data.dragons.eggLaying.stage) && (
+        <div class="card" data-testid="egg-laying">
+          <h2>Lay an egg</h2>
+          {d.laidEgg ? (
+            <p class="muted">{d.name} has laid its egg. Every Elder lays just one.</p>
+          ) : (
+            <>
+              <p class="muted">Elders can lay one {data.elements.info[d.element].name} egg in their life. Hatch it in the Hatchery.</p>
+              <button type="button" class="button button--block" data-testid="lay-egg" disabled={!canLayEgg(data, save, d.id).ok}
+                onClick={() => partnerAct(() => layEgg(data, save, d.id), `${d.name} laid an egg! It's waiting in your Bag.`)}>
+                Lay an egg · 🔥 {data.dragons.eggLaying.cost.embers}
+              </button>
+            </>
+          )}
+        </div>
+      )}
       <Talents save={save} update={update} dragonId={d.id} />
       <div class="card">
         <h2>Favorite food</h2>

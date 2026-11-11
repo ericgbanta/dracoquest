@@ -348,7 +348,8 @@ a.button { text-decoration: none; display: inline-flex; align-items: center; jus
   .content--battle { padding-top: 4px; padding-bottom: 4px; }
   .battle { flex-direction: row; gap: 12px; height: calc(100dvh - 8px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); min-height: 0; }
   .battle-field { flex: 1; min-width: 0; overflow-y: auto; }
-  .actions { width: 300px; flex: none; margin-top: 0; justify-content: flex-end; }
+  .actions { width: min(380px, 56vw); flex: none; margin-top: 0; justify-content: flex-end; }
+  .act { min-width: 0; flex: 1 1 0; }
   .act { min-height: 46px; }
   .button--go { min-height: 48px; }
 }
@@ -410,3 +411,9 @@ a.button { text-decoration: none; display: inline-flex; align-items: center; jus
 .go-row { display: flex; gap: 6px; }
 .go-row .button--go { flex: 1; }
 .go-row .repeat { flex: none; min-width: 88px; }
+.event-card { border: 2px solid var(--accent); }
+.update-bar { display: flex; align-items: center; gap: 8px; justify-content: space-between; background: var(--surface-2); padding: 8px 16px; font-size: 0.95rem; }
+
+/* Mobile UX rule: body text is at least 16px. Smaller sizes are only for captions on buttons and chips. */
+p, p.muted, .notice, .lead, li { font-size: max(1rem, 16px); }
+.party > * { min-width: 0; }

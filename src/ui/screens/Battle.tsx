@@ -13,6 +13,7 @@ import type { SaveData } from '../../core/save';
 import { DragonSprite, EnemySprite } from '../Sprites';
 import { Bar, ElementBadge, IntentChip, prefersReducedMotion, StatusChips, vibrate } from '../bits';
 import { Sheet } from '../Sheet';
+import { play } from '../sound';
 
 interface Props {
   save: SaveData;
@@ -173,8 +174,13 @@ export function Battle({ save, update, onExit }: Props) {
   };
 
   const playEvent = (ev: BattleEvent) => {
+    const sound = save.settings.sound;
     switch (ev.t) {
+      case 'end':
+        play(ev.outcome === 'won' ? 'victory' : ev.outcome === 'lost' ? 'defeat' : 'tap', sound);
+        break;
       case 'hit':
+        play(ev.crit ? 'crit' : 'hit', sound);
         animate(ev.actor, 'act');
         animate(ev.target, 'hit');
         addFloat({ target: ev.target, text: `${ev.crit ? '★' : ''}-${ev.amount}`, kind: ev.crit ? 'crit' : 'dmg' });
@@ -185,14 +191,17 @@ export function Battle({ save, update, onExit }: Props) {
         addFloat({ target: ev.target, text: `-${ev.amount}`, kind: 'dmg' });
         break;
       case 'miss':
+        play('miss', sound);
         animate(ev.actor, 'act');
         addFloat({ target: ev.target, text: 'Miss', kind: 'miss' });
         break;
       case 'heal':
+        play('heal', sound);
         animate(ev.target, 'heal');
         addFloat({ target: ev.target, text: `+${ev.amount}`, kind: 'heal' });
         break;
       case 'ko':
+        play('ko', sound);
         vibrate([60, 40, 60]);
         break;
     }

@@ -3,6 +3,7 @@ import { exportSaveCode, importSaveCode, newSave, SaveError, type SaveData } fro
 import { href } from '../router';
 import { BackIcon } from '../icons';
 import { isIos, isStandalone } from '../install';
+import { play } from '../sound';
 
 interface Props {
   save: SaveData | null;
@@ -92,12 +93,22 @@ export function Settings({ save, persistent, update, replace }: Props) {
 
       {save && (
         <div class="card">
-          <h2>Battle</h2>
+          <h2>Battle and sound</h2>
           <label class="toggle">
             <input type="checkbox" checked={save.settings.fastBattles} data-testid="fast-battles"
               onChange={(e) => update((s) => ({ ...s, settings: { ...s.settings, fastBattles: e.currentTarget.checked } }))} />
             <span>Fast battles (2x animation speed)</span>
           </label>
+          <label class="toggle">
+            <input type="checkbox" checked={save.settings.sound} data-testid="sound"
+              onChange={(e) => {
+                const on = e.currentTarget.checked;
+                update((s) => ({ ...s, settings: { ...s.settings, sound: on } }));
+                play('tap', on);
+              }} />
+            <span>Sound effects</span>
+          </label>
+          <p class="muted">Animations follow your phone's reduce-motion setting.</p>
         </div>
       )}
 

@@ -10,10 +10,12 @@ import { Dragons } from './screens/Dragons';
 import { Bag } from './screens/Bag';
 import { Battle } from './screens/Battle';
 import { Town } from './screens/Town';
+import { applyUpdate, dismissOfflineReady, usePwa } from './pwa';
 
 export function App() {
   const route = useRoute();
   const { save, loadError, persistent, update, replace } = useSave();
+  const pwa = usePwa();
   // The battle screen stays open after the run ends so the results can show.
   const [battleOpen, setBattleOpen] = useState(!!save?.run);
   useEffect(() => {
@@ -67,6 +69,18 @@ export function App() {
 
   return (
     <div class="app">
+      {pwa.needRefresh && (
+        <div class="update-bar" role="status">
+          <span>A new version of DracoQuest is ready.</span>
+          <button type="button" class="button" onClick={applyUpdate} data-testid="apply-update">Reload</button>
+        </div>
+      )}
+      {pwa.offlineReady && !pwa.needRefresh && (
+        <div class="update-bar" role="status">
+          <span>DracoQuest now works offline.</span>
+          <button type="button" class="button button--ghost" onClick={dismissOfflineReady}>OK</button>
+        </div>
+      )}
       <main class="content" key={route}>{body}</main>
       <TabBar current={route} />
     </div>

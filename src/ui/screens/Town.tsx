@@ -1,11 +1,12 @@
 import { useState } from 'preact/hooks';
 import { gameData as data } from '../../core/data';
-import { activeDragon, buyGear, buyItem, GameError, itemPrice } from '../../core/game';
+import { activeDragon, buyGear, buyItem, GameError, itemPrice, shopGear } from '../../core/game';
+import { activeEvent } from '../../core/events';
 import type { SaveData } from '../../core/save';
 import type { GearData } from '../../core/types';
 import { href } from '../router';
 import { BackIcon } from '../icons';
-import { ElementBadge, formatBonus } from '../bits';
+import { ElementBadge, formatBonus, todayKey } from '../bits';
 
 interface Props { save: SaveData; update(change: (s: SaveData) => SaveData): void }
 
@@ -30,6 +31,8 @@ export function Town({ save, update }: Props) {
   const [notice, setNotice] = useState('');
   const gold = save.rider.gold;
   const dragon = activeDragon(save);
+  const today = todayKey();
+  const event = activeEvent(data, today);
 
   const act = (fn: (s: SaveData) => SaveData, ok: string) => {
     try {
@@ -41,7 +44,7 @@ export function Town({ save, update }: Props) {
     }
   };
 
-  const stock = data.shop.stock.map((id) => data.gear[id]!).filter((g) => {
+  const stock = shopGear(data, today).map((id) => data.gear[id]!).filter((g) => {
     if (tab === 'weapons') return g.slot === 'weapon';
     if (tab === 'armor') return g.slot === 'armor' || g.slot === 'trinket';
     if (tab === 'dragon') return g.slot === 'saddle' || g.slot === 'horn' || g.slot === 'charm';
@@ -50,7 +53,8 @@ export function Town({ save, update }: Props) {
 
   const supplies = [
     ...data.items.map((i) => ({ id: i.id, name: i.name, icon: i.icon, note: i.description })),
-    ...data.foods.map((f) => ({ id: f.id, name: f.name, icon: f.icon, note: `Dragon food. +${f.statPoints} stat point and bond.` })),
+    ...data.foods.filter((f) => itemPrice(data, f.id, today) !== null)
+      .map((f) => ({ id: f.id, name: f.name, icon: f.icon, note: `Dragon food. +${f.statPoints} stat point${f.statPoints === 1 ? '' : 's'} and bond.` })),
   ];
 
   return (
@@ -61,6 +65,7 @@ export function Town({ save, update }: Props) {
         <span class="gold" data-testid="gold">🪙 {gold}</span>
       </header>
       <p class="muted">The shopkeeper, a retired adventurer named Brindle, promises everything is "mostly new".</p>
+      {event && <p class="notice notice--ok" data-testid="event-shop">{event.name} is on! Festival goods are in stock for a limited time.</p>}
       <div class="tabs" role="tablist">
         {TABS.map((t) => (
           <button key={t.id} type="button" role="tab" aria-selected={tab === t.id} class={`tab-pill${tab === t.id ? ' tab-pill--on' : ''}`}
@@ -79,11 +84,12 @@ export function Town({ save, update }: Props) {
               <div key={g.id} class="shop-row">
                 <div class="shop-info">
                   <strong>{g.name}</strong> {g.element && <ElementBadge element={g.element} small />}
+                  {g.event && <span class="pill">Festival</span>}
                   <span class="muted">{level} · {gearSummary(g)}</span>
                   <span class="muted flavor">{g.description}</span>
                 </div>
                 <button type="button" class="button shop-buy" disabled={owned || gold < g.price} data-testid={`buy-${g.id}`}
-                  onClick={() => act((s) => buyGear(data, s, g.id), `Bought the ${g.name}. Equip it from the Bag.`)}>
+                  onClick={() => act((s) => buyGear(data, s, g.id, today), `Bought the ${g.name}. Equip it from the Bag.`)}>
                   {owned ? 'Owned' : `🪙 ${g.price}`}
                 </button>
               </div>
@@ -93,7 +99,7 @@ export function Town({ save, update }: Props) {
       ) : (
         <div class="list">
           {supplies.map((it) => {
-            const price = itemPrice(data, it.id) ?? 0;
+            const price = itemPrice(data, it.id, today) ?? 0;
             return (
               <div key={it.id} class="shop-row">
                 <div class="shop-info">
@@ -101,7 +107,7 @@ export function Town({ save, update }: Props) {
                   <span class="muted">{it.note} You have {save.rider.inventory[it.id] ?? 0}.</span>
                 </div>
                 <button type="button" class="button shop-buy" disabled={gold < price} data-testid={`buy-${it.id}`}
-                  onClick={() => act((s) => buyItem(data, s, it.id), `Bought a ${it.name}.`)}>🪙 {price}</button>
+                  onClick={() => act((s) => buyItem(data, s, it.id, 1, today), `Bought a ${it.name}.`)}>🪙 {price}</button>
               </div>
             );
           })}

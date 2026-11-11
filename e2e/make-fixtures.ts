@@ -78,4 +78,9 @@ roost = { ...roost, roost: { ...roost.roost, pantry: { lastAt: NOW - 48 * 3600_0
 roost = { ...roost, run: { zoneId: 'thunderspire', fights: [{ kind: 'normal', enemies: [{ enemyId: 'thunder-goat', level: 25 }] }], index: 0, battle: null, totals: { xp: 0, gold: 0, drops: {} } } };
 writeFileSync('e2e/fixtures/roost.json', JSON.stringify({ ...roost, run: null }));
 writeFileSync('e2e/fixtures/two-partners-fight.json', JSON.stringify(roost));
+// Phase 4: an Elder at level 45 with an egg left to lay.
+let elder = { ...roost, run: null, rider: { ...roost.rider, level: 45 }, embers: 60 };
+elder = { ...elder, dragons: elder.dragons.map((d) => (d.id === elder.activeDragonId ? { ...d, stage: 'elder', level: 45, bond: 95 } : d)) };
+elder = { ...elder, rider: { ...elder.rider, hp: riderMaxHp(data, elder.rider) }, dragons: elder.dragons.map((d) => ({ ...d, hp: dragonMaxHp(data, d) })) };
+writeFileSync('e2e/fixtures/elder.json', JSON.stringify(elder));
 console.log('fixtures written');
