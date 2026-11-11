@@ -28,7 +28,7 @@ In `assets.json` a character is a rig: its image `size`, a `boxScale` (its size 
 
 ### Attack poses
 
-Dragons and the rider have a second image, `pose-attack`, in the same `torso` group: the same character lunging (dragons roar with the mouth open; the rider swings, draws the bow or thrusts the staff). It is hidden until a battle move swaps it in by opacity (`strike` in `choreo.ts`). Its `box` in `assets.json` places it relative to the idle image, as fractions (left, top, width, height), so it can reach outside the idle's box. `pack.py` works the box out by scaling the pose like the idle and lining up the feet; `POSE_SCALE` there corrects poses the model drew at a different size. A dragon's attack pose has its own `tip` spot. A character with no attack pose just leans.
+Every character has a second image, `pose-attack`, in the same `torso` group: the same character lunging (dragons roar with the mouth open; the rider swings, draws the bow or thrusts the staff; enemies bite, claw, punch or swing). It is hidden until a battle move swaps it in by opacity (`strike` in `choreo.ts`). Its `box` in `assets.json` places it relative to the idle image, as fractions (left, top, width, height), so it can reach outside the idle's box. `pack.py` works the box out by scaling the pose like the idle and lining up the feet; `POSE_SCALE` there corrects poses the model drew at a different size. A dragon's attack pose has its own `tip` spot. A character with no attack pose just leans. Bosses were generated alone with their idle image as a second reference; the other enemies came from a second sheet per zone, in the same order as the first (`docs/img/enemy-attack-poses.jpg` shows every pair).
 
 A rig can still be built from several parts (SVG or WebP) drawn in place on a shared canvas with pivots; the loader and the stage support both. SVG parts get a lighting pass at load (`lighting` in `palette.json`).
 
@@ -37,7 +37,7 @@ A rig can still be built from several parts (SVG or WebP) drawn in place on a sh
 | `dragon.hatchling`, `.juvenile`, `.adult`, `.elder` | `painted/dragon-<stage>.webp`, `-attack.webp` | Recolored per player; tail tip per element |
 | `rider.sword`, `rider.bow`, `rider.staff` | `painted/rider-<weapon>.webp` | Picked from the equipped weapon's type |
 | `rider.mounted` | `painted/rider-mounted.webp` | The seated rider for Ride mode, placed at the dragon's `saddle` |
-| `enemy.<id>` | `painted/enemies/<id>.webp` | All 49: 7 bosses drawn alone, 42 others cut from six-enemy sheets |
+| `enemy.<id>` | `painted/enemies/<id>.webp`, `-attack.webp` | All 49: 7 bosses drawn alone, 42 others cut from six-enemy sheets |
 
 ### Dragon colors
 
@@ -66,7 +66,7 @@ One 1280 x 880 WebP per zone and one for the Roost (`painted/backdrops/`), the s
 
 ## Effects
 
-`painted/fx/`: `puff.webp` (the breath blob, painted red and gold and recolored per element the same way dragons are), `slash.webp` and `spark.webp`. No outlines. Glows, rings, flashes and particles are CSS shapes in `stage.css`.
+`painted/fx/`: `breath-<element>.webp` (one burst per element: flame, ice shards, leaves, rocks, lightning, water, light, shadow), `slash.webp` and `spark.webp`. `puff.webp`, a red and gold blob recolored per element the way dragons are, is the fallback for an element with no burst of its own. No outlines. Glows, rings, flashes and particles are CSS shapes in `stage.css`.
 
 ## Eggs
 
@@ -81,7 +81,7 @@ One 1280 x 880 WebP per zone and one for the Roost (`painted/backdrops/`), the s
 - Animate only `transform` and `opacity`.
 - Colors and tail tips are baked into images once at load. Nothing is blended per frame.
 - No SVG filters in art, and no animated CSS `filter` or `backdrop-filter`.
-- The stage stays under 100 DOM nodes. With one image per character, plus an attack pose for dragons and the rider, the busiest fight uses about 67.
+- The stage stays under 100 DOM nodes. With an idle image and an attack pose per character, the busiest fight uses about 69.
 - Keep images near their largest on-screen size: dragons 640 px wide, bosses 720, other enemies 400 on the long side, riders 460 tall.
 
 ## Review checklist

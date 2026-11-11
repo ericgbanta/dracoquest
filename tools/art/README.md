@@ -13,6 +13,7 @@ The packed WebP files are the source of truth. The raw generated PNGs (about 2 M
 | `prompts/p-anchor.txt` | The prompt that made the anchor. |
 | `jobs.py` | Writes one prompt per image into `v2/prompts/`: 4 dragon stages, tail tips, 4 rider poses, 7 bosses, 7 enemy sheets (six enemies each), 8 backdrops, effects. |
 | `jobs2.py` | The second batch: the egg, four icon sheets, and attack poses. It copies each idle image to `v2/refs/` so `run.sh` passes it as a second reference. |
+| `jobs3.py` | The third batch: the element breath sheet and attack poses for bosses and for each zone's enemy sheet. |
 | `prompts/` | The prompts as they were run, for reference. |
 | `run.sh` | Runs `codex exec` for each named prompt, five at a time, skipping images that already exist. |
 | `pack.py` | Cuts characters out of the green background, splits sheets into single enemies and icons, places attack poses against their idle image, splits the egg, and writes WebP into `src/art/painted/`, `src/art/icons/` and `src/art/eggs/`. Needs Python 3 with numpy, scipy and Pillow. |

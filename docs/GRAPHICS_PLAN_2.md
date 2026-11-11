@@ -124,6 +124,18 @@ Twelve more images, all usable on the first run:
 
 Calls made: three rider poses came out smaller in the frame than their idle and the hatchling's larger, so `pack.py` scales them (`POSE_SCALE`). The rider is now three rigs (`rider.sword`, `rider.bow`, `rider.staff`) because each weapon's pose sits in a different box. Enemies and bosses have no attack poses. The egg's crack lines are still SVG. The precache is now 3.1 MB.
 
+### Third batch: element breath and enemy attack poses (2026-11-11)
+
+Fifteen more images, again all usable on the first run:
+
+- **Breath.** One sheet of eight bursts, one per element. A dragon's breath now uses its element's own burst; the recolored puff is the fallback.
+- **Boss attack poses.** Seven images, each with the boss's idle image as a second reference.
+- **Enemy attack poses.** Seven sheets, each given the zone's original sheet as a second reference and asked for the same six creatures in the same order, attacking. All 42 came back in order and on model (`docs/img/enemy-attack-poses.jpg`).
+
+Enemies swap to the pose when they lunge, the same way dragons and the rider do. Seven poses were drawn a little smaller than their idle art and are scaled up in `pack.py` (`POSE_SCALE`).
+
+Cost: the art is now 4.6 MB and the precache 4.7 MB. A fight still loads only its own images; the rest downloads in the background for offline play.
+
 ## Proposed phases
 
 Each ends playable and deployable.

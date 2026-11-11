@@ -102,16 +102,17 @@ for z in list(ZONES) + ['roost']:
         os.makedirs(f'{OUT}/backdrops', exist_ok=True)
         bd.save(f'{OUT}/backdrops/{z}.webp', quality=82, method=6); packed[f'bg-{z}'] = [1280, 880]
 # ---- attack poses: the same character at the same drawing scale, placed relative to the idle image's box
-POSE_SCALE = {'rider-sword': 1.32, 'rider-staff': 1.22, 'rider-bow': 1.1, 'dragon-hatchling': 0.86}
+# Sheets whose attack version came out unusable (wrong count or order) are listed here and keep idle art only.
+SKIP_SHEET_POSES = set()
+POSE_SCALE = {'rider-sword': 1.32, 'rider-staff': 1.22, 'rider-bow': 1.1, 'dragon-hatchling': 0.86,
+              'thunder-goat': 1.2, 'granite-ram': 1.2, 'rust-sprite': 1.15, 'gull-bandit': 1.15, 'big-pincher': 1.15, 'thunderhead': 1.15, 'gale-hawk': 1.1}
 def feet_center(img):
     a = np.asarray(img.getchannel('A')) > 40
     rows = a[int(a.shape[0] * 0.9):]
     xs = np.where(rows.any(axis=0))[0]
     return (xs.min() + xs.max()) / 2
-def pose(idle_name, out_name, idle_w, pad=(0, 0), apad=(0, 0), scale=1.0):
-    """Pack <idle_name>-attack scaled like the idle, and return its box in fractions of the idle image."""
-    if not (have(idle_name) and have(f'{idle_name}-attack')): return
-    idle = crop(key(f'v2/out/{idle_name}.png')); att = crop(key(f'v2/out/{idle_name}-attack.png'))
+def pose_imgs(idle, att, out_name, idle_w, pad=(0, 0), apad=(0, 0), scale=1.0):
+    """Pack an attack pose scaled like its idle image, and record its box in fractions of the idle image as packed."""
     f = idle_w / idle.width                                   # the idle's resize factor
     iw, ih = idle.width * f + pad[0], idle.height * f + pad[1]   # the idle image as packed
     # scale: a correction for poses the model drew smaller or larger in the frame than the idle.
@@ -123,12 +124,31 @@ def pose(idle_name, out_name, idle_w, pad=(0, 0), apad=(0, 0), scale=1.0):
     out = Image.new('RGBA', (att.width + apad[0], att.height + apad[1]), (0, 0, 0, 0)); out.paste(att, apad)
     packed[f'{out_name}-attack'] = save(out, f'{out_name}-attack', q=88)
     packed[f'{out_name}-attack-box'] = [round((left - apad[0]) / iw, 4), round((top - apad[1]) / ih, 4), round(out.width / iw, 4), round(out.height / ih, 4)]
+def pose(idle_name, out_name, idle_w, pad=(0, 0), apad=(0, 0), scale=1.0):
+    if not (have(idle_name) and have(f'{idle_name}-attack')): return
+    pose_imgs(crop(key(f'v2/out/{idle_name}.png')), crop(key(f'v2/out/{idle_name}-attack.png')), out_name, idle_w, pad, apad, scale)
 for stage in ['hatchling', 'juvenile', 'adult', 'elder']:
     pose(f'dragon-{stage}', f'dragon-{stage}', 640, PAD.get(stage, (0, 0)), (80, 30), POSE_SCALE.get(f'dragon-{stage}', 1))
 for w in ['sword', 'bow', 'staff']:
     if have(f'rider-{w}'):
         idle = crop(key(f'v2/out/rider-{w}.png')); k = min(1, 460 / max(idle.size))
         pose(f'rider-{w}', f'rider-{w}', idle.width * k, scale=POSE_SCALE.get(f'rider-{w}', 1))
+
+# ---- enemy attack poses: bosses alone, the others from a second sheet in the same order as the first
+for z, v in ZONES.items():
+    b = v['boss']
+    if have(f'boss-{b}') and have(f'boss-{b}-attack'):
+        idle = crop(key(f'v2/out/boss-{b}.png'))
+        pose_imgs(idle, crop(key(f'v2/out/boss-{b}-attack.png')), f'enemies/{b}', min(720, idle.width), scale=POSE_SCALE.get(b, 1))
+    if have(f'sheet-{z}') and have(f'sheet-{z}-attack') and z not in SKIP_SHEET_POSES:
+        idles = split(key(f'v2/out/sheet-{z}.png'), 6, 3); atts = split(key(f'v2/out/sheet-{z}-attack.png'), 6, 3)
+        for eid, idle, att in zip(v['regular'], idles, atts):
+            k = min(1, 400 / max(idle.size))
+            pose_imgs(idle, att, f'enemies/{eid}', idle.width * k, scale=POSE_SCALE.get(eid, 1))
+
+# ---- breath effects, one per element
+if have('fx-breath'):
+    for el, piece in zip(TIPS, split(key('v2/out/fx-breath.png'), 8, 4)): packed[f'fx-breath-{el}'] = save(piece, f'fx/breath-{el}', maxdim=240)
 
 # ---- the egg: fitted to the old egg's spot on a 480 x 600 canvas (so the crack overlays line up), plus its two halves
 if have('egg'):

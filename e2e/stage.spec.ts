@@ -28,7 +28,7 @@ test('the B0 mock battle acts out a round on the stage, in portrait and landscap
   expect(await pose.getAttribute('src')).toMatch(/^blob:/);
   await expect(pose).toHaveCSS('opacity', '0');
   await expect(page.locator('[data-fighter=rider] [data-part=pose-attack]')).toHaveCSS('opacity', '0');
-  expect(await page.locator('[data-fighter=e0] img.part').evaluate((img) => (img as HTMLImageElement).naturalWidth)).toBeGreaterThan(300);
+  expect(await page.locator('[data-fighter=e0] [data-part=body]').evaluate((img) => (img as HTMLImageElement).naturalWidth)).toBeGreaterThan(300);
   await expect(page.locator('.stage-ambient')).toHaveCount(1);
 
   const roc = page.locator('[data-plate=e0] [role=meter]');
@@ -36,6 +36,11 @@ test('the B0 mock battle acts out a round on the stage, in portrait and landscap
   await page.getByTestId('go').tap();
   // The breath swaps the dragon to its attack pose for a moment.
   await expect.poll(() => pose.evaluate((el) => getComputedStyle(el).opacity), { timeout: 5_000, intervals: [30] }).toBe('1');
+  // The breath itself is the fire element's own painted burst, not the shared recolored puff.
+  expect(await page.locator('.fx-puff').first().getAttribute('src')).toMatch(/breath-fire/);
+  // The Roc swaps to its attack pose when it strikes back.
+  const rocPose = page.locator('[data-fighter=e0] [data-part=pose-attack]');
+  await expect.poll(() => rocPose.evaluate((el) => getComputedStyle(el).opacity), { timeout: 8_000, intervals: [30] }).toBe('1');
   await expect(page.getByTestId('log')).toContainText('Fire Breath', { timeout: 5_000 });
   await expect(page.getByTestId('go')).toBeEnabled({ timeout: 5_000 });
   await expect(page.getByTestId('log')).toContainText('Talon Rake');

@@ -54,9 +54,11 @@ After the first graphics pass Eric asked for a more modern, professional look. T
 
 - Second batch (12 more images): the egg (recolored per element, split in two for hatching), all 44 UI icons, and attack poses for the four dragon stages and the three rider weapons, swapped in during attacks.
 
-Not redone: the three crack lines on the egg (SVG), and enemies have no attack poses. Characters don't have separately moving heads, jaws or wings anymore; they breathe and lean as one piece.
+- Third batch (15 more images): a breath burst for each of the eight elements, and attack poses for all 49 enemies (seven bosses alone, the rest from seven sheets).
 
-Status: the first art set is deployed and Eric likes it ("It's great"). The skin, the two-enemy layout fix, the egg, the icons and the attack poses are on the session branch, not deployed yet.
+Not redone: the three crack lines on the egg (SVG). Characters have two poses (idle and attack), no hurt or defeat pose. Characters don't have separately moving heads, jaws or wings anymore; they breathe and lean as one piece.
+
+Status: the art, skin, egg, icons and the dragon and rider attack poses are deployed and Eric likes them ("It's great"). The element breath bursts and the enemy attack poses are on the session branch, not deployed yet.
 
 ## What to work on next
 
@@ -67,7 +69,7 @@ Besides the graphics pass above, these are the open threads. Eric closed three o
 3. **Cosmetics** (an ember sink in the design) don't exist yet. With rigs and extras, cosmetics could be extra parts on a dragon (hats, saddles, horn caps) listed in `assets.json`.
 4. **Late-game save code.** Late-game play takes many hours; a save code for an Elder with two partners would let him look at late screens. `e2e/make-fixtures.ts` already builds such saves (`e2e/fixtures/elder.json`); turn one into an export code with `src/core/save.ts`.
 5. **First-load size.** 163 kB of JavaScript gzipped, because all SVG art ships as text in the main bundle (colors are baked in at load). If load time ever matters, split the art per zone with lazy `import.meta.glob` and preload a zone's art when a run starts.
-6. **Rest of the redesign.** Attack or hurt poses for bosses and enemies; painted breath effects per element; trimming the 3.1 MB precache (for example, caching zone art on first visit instead of up front).
+6. **Rest of the redesign.** Hurt or defeat poses; trimming the 4.7 MB precache (for example, caching each zone's art on first visit instead of up front, at the cost of placeholder shapes when offline in a zone never visited).
 
 ## Decisions made along the way
 
@@ -145,8 +147,8 @@ docs/          DESIGN.md, HANDOFF.md, GRAPHICS_PLAN_2.md (second graphics pass: 
 
 ## Numbers to keep in mind
 
-- First load: 108 kB of JavaScript gzipped (down from 163, since the SVG art no longer ships as text). The painted art is about 2.9 MB of WebP (characters and backdrops 2.5 MB, icons 0.3 MB, eggs 0.1 MB), loaded as needed and all precached by the service worker for offline play: 3.1 MB in total, over the first plan's 1.5 MB art budget.
-- Stage: about 50 DOM nodes in a one-on-one fight, 67 at two dragons against two enemies (budget 100). The perf test (5% dropped frames at 4x CPU throttle) usually reads 0.3 to 2%, but it is noisy in the sandbox and sometimes reads 5 to 7% on unchanged code. Run it a few times before blaming a change.
+- First load: 108 kB of JavaScript gzipped (down from 163, since the SVG art no longer ships as text). The painted art is about 4.6 MB of WebP (characters, poses and backdrops 4.2 MB, icons 0.3 MB, eggs 0.1 MB). A fight loads only what it needs, but the service worker precaches all of it in the background for offline play: 4.7 MB in total, three times the first plan's 1.5 MB art budget.
+- Stage: about 51 DOM nodes in a one-on-one fight, 69 at two dragons against two enemies (budget 100). The perf test (5% dropped frames at 4x CPU throttle) usually reads 0.3 to 2%, but it is noisy in the sandbox and sometimes reads 5 to 7% on unchanged code. Run it a few times before blaming a change.
 - Battle pace: each event waits for its move, so a round at 1x takes about 2 to 3 seconds; 2x halves it.
 - A full egg-to-level-50 campaign in the sim takes about 800 fights, roughly 27 hours of play at 2 minutes a fight.
 - Content: 7 zones, 35 regular enemies, 7 mini-bosses, 7 bosses, 56 pieces of gear, 8 foods, 3 items, 40 talents, 3 growth quests, 6 expedition trips, 4 events.

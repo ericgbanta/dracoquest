@@ -335,6 +335,16 @@
                 0.5,
                 0.95
               ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/bramble-troll-attack.webp",
+              "box": [
+                -0.0474,
+                -0.0111,
+                1.2264,
+                1.0107
+              ]
             }
           ]
         }
@@ -375,6 +385,16 @@
               "pivot": [
                 0.5,
                 0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/thornling-attack.webp",
+              "box": [
+                0.058,
+                0.1008,
+                1.145,
+                0.8991
               ]
             }
           ]
@@ -417,6 +437,16 @@
                 0.5,
                 0.95
               ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/bog-hopper-attack.webp",
+              "box": [
+                -0.0088,
+                0.0408,
+                1.0575,
+                0.9577
+              ]
             }
           ]
         }
@@ -457,6 +487,16 @@
               "pivot": [
                 0.5,
                 0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/barkback-boar-attack.webp",
+              "box": [
+                -0.0514,
+                0.0761,
+                0.9975,
+                0.9232
               ]
             }
           ]
@@ -499,6 +539,16 @@
                 0.5,
                 0.95
               ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/spore-puffer-attack.webp",
+              "box": [
+                0.1443,
+                0.0599,
+                0.9375,
+                0.9409
+              ]
             }
           ]
         }
@@ -539,6 +589,16 @@
               "pivot": [
                 0.5,
                 0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/moss-wisp-attack.webp",
+              "box": [
+                0.1624,
+                0.0702,
+                0.9591,
+                0.9298
               ]
             }
           ]
@@ -581,6 +641,16 @@
                 0.5,
                 0.95
               ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/elder-thornling-attack.webp",
+              "box": [
+                0.0306,
+                0.0785,
+                1.2687,
+                0.9225
+              ]
             }
           ]
         }
@@ -621,6 +691,16 @@
               "pivot": [
                 0.5,
                 0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/crab-king-attack.webp",
+              "box": [
+                0.0232,
+                0.1599,
+                1.0069,
+                0.8394
               ]
             }
           ]
@@ -663,6 +743,16 @@
                 0.5,
                 0.95
               ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/pincher-crab-attack.webp",
+              "box": [
+                0.0171,
+                0.0758,
+                1.065,
+                0.9228
+              ]
             }
           ]
         }
@@ -703,6 +793,16 @@
               "pivot": [
                 0.5,
                 0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/gull-bandit-attack.webp",
+              "box": [
+                0.0254,
+                0.1489,
+                1.2475,
+                0.8509
               ]
             }
           ]
@@ -745,6 +845,16 @@
                 0.5,
                 0.95
               ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/brine-slime-attack.webp",
+              "box": [
+                0.0154,
+                0.1265,
+                1.0325,
+                0.8722
+              ]
             }
           ]
         }
@@ -785,6 +895,16 @@
               "pivot": [
                 0.5,
                 0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/kelp-lurker-attack.webp",
+              "box": [
+                0.0378,
+                0.1514,
+                0.9775,
+                0.8491
               ]
             }
           ]
@@ -827,6 +947,16 @@
                 0.5,
                 0.95
               ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/shell-knight-attack.webp",
+              "box": [
+                0.0746,
+                0.1995,
+                1.2575,
+                0.7994
+              ]
             }
           ]
         }
@@ -867,6 +997,16 @@
               "pivot": [
                 0.5,
                 0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/big-pincher-attack.webp",
+              "box": [
+                0.025,
+                0.1754,
+                1.1975,
+                0.8259
               ]
             }
           ]
@@ -909,6 +1049,16 @@
                 0.5,
                 0.95
               ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/magma-wyrm-attack.webp",
+              "box": [
+                0.1389,
+                0.2777,
+                1.0069,
+                0.7233
+              ]
             }
           ]
         }
@@ -949,6 +1099,16 @@
               "pivot": [
                 0.5,
                 0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/ember-imp-attack.webp",
+              "box": [
+                0.0411,
+                0.0912,
+                1.1379,
+                0.9088
               ]
             }
           ]
@@ -991,6 +1151,16 @@
                 0.5,
                 0.95
               ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/ash-lizard-attack.webp",
+              "box": [
+                0.034,
+                0.031,
+                1.035,
+                0.9701
+              ]
             }
           ]
         }
@@ -1031,6 +1201,16 @@
               "pivot": [
                 0.5,
                 0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/cinder-beetle-attack.webp",
+              "box": [
+                -0.0104,
+                0.0667,
+                1.1175,
+                0.9338
               ]
             }
           ]
@@ -1073,6 +1253,16 @@
                 0.5,
                 0.95
               ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/smog-bat-attack.webp",
+              "box": [
+                0.0094,
+                0.0706,
+                0.9125,
+                0.9293
+              ]
             }
           ]
         }
@@ -1113,6 +1303,16 @@
               "pivot": [
                 0.5,
                 0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/lava-toad-attack.webp",
+              "box": [
+                0.0782,
+                0.0354,
+                1.1575,
+                0.9651
               ]
             }
           ]
@@ -1155,6 +1355,16 @@
                 0.5,
                 0.95
               ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/imp-chieftain-attack.webp",
+              "box": [
+                0.0703,
+                0.0662,
+                1.2029,
+                0.935
+              ]
             }
           ]
         }
@@ -1195,6 +1405,16 @@
               "pivot": [
                 0.5,
                 0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/storm-roc-attack.webp",
+              "box": [
+                0.0076,
+                0.008,
+                1.0208,
+                0.992
               ]
             }
           ]
@@ -1237,6 +1457,16 @@
                 0.5,
                 0.95
               ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/spark-sprite-attack.webp",
+              "box": [
+                0.0363,
+                0.1272,
+                0.8808,
+                0.8728
+              ]
             }
           ]
         }
@@ -1277,6 +1507,16 @@
               "pivot": [
                 0.5,
                 0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/thunder-goat-attack.webp",
+              "box": [
+                -0.1468,
+                0.1671,
+                1.2675,
+                0.834
               ]
             }
           ]
@@ -1319,6 +1559,16 @@
                 0.5,
                 0.95
               ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/cliff-harpy-attack.webp",
+              "box": [
+                0.0873,
+                0.1844,
+                1.0906,
+                0.815
+              ]
             }
           ]
         }
@@ -1359,6 +1609,16 @@
               "pivot": [
                 0.5,
                 0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/gale-hawk-attack.webp",
+              "box": [
+                -0.0223,
+                0.146,
+                1.1492,
+                0.855
               ]
             }
           ]
@@ -1401,6 +1661,16 @@
                 0.5,
                 0.95
               ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/granite-ram-attack.webp",
+              "box": [
+                -0.19,
+                0.1715,
+                1.3387,
+                0.8275
+              ]
             }
           ]
         }
@@ -1441,6 +1711,16 @@
               "pivot": [
                 0.5,
                 0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/thunderhead-attack.webp",
+              "box": [
+                0.0761,
+                0.1233,
+                1.1625,
+                0.876
               ]
             }
           ]
@@ -1483,6 +1763,16 @@
                 0.5,
                 0.95
               ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/glacier-hydra-attack.webp",
+              "box": [
+                -0.0139,
+                0.003,
+                1.0153,
+                0.9963
+              ]
             }
           ]
         }
@@ -1523,6 +1813,16 @@
               "pivot": [
                 0.5,
                 0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/frostbite-hare-attack.webp",
+              "box": [
+                0.0033,
+                0.0902,
+                1.0625,
+                0.9092
               ]
             }
           ]
@@ -1565,6 +1865,16 @@
                 0.5,
                 0.95
               ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/ice-wraith-attack.webp",
+              "box": [
+                -0.1256,
+                0.1438,
+                1.2255,
+                0.855
+              ]
             }
           ]
         }
@@ -1605,6 +1915,16 @@
               "pivot": [
                 0.5,
                 0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/glacier-turtle-attack.webp",
+              "box": [
+                0.006,
+                0.0657,
+                1.0675,
+                0.9349
               ]
             }
           ]
@@ -1647,6 +1967,16 @@
                 0.5,
                 0.95
               ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/yeti-cub-attack.webp",
+              "box": [
+                0.0387,
+                0.1583,
+                1.2906,
+                0.8425
+              ]
             }
           ]
         }
@@ -1687,6 +2017,16 @@
               "pivot": [
                 0.5,
                 0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/rime-wolf-attack.webp",
+              "box": [
+                0.0331,
+                0.1833,
+                0.925,
+                0.8158
               ]
             }
           ]
@@ -1729,6 +2069,16 @@
                 0.5,
                 0.95
               ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/rime-alpha-attack.webp",
+              "box": [
+                -0.0443,
+                0.1463,
+                1.06,
+                0.8547
+              ]
             }
           ]
         }
@@ -1769,6 +2119,16 @@
               "pivot": [
                 0.5,
                 0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/iron-golem-attack.webp",
+              "box": [
+                0.0209,
+                0.003,
+                1.2361,
+                0.9962
               ]
             }
           ]
@@ -1811,6 +2171,16 @@
                 0.5,
                 0.95
               ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/tunnel-mole-attack.webp",
+              "box": [
+                0.1044,
+                0.1003,
+                1.055,
+                0.8989
+              ]
             }
           ]
         }
@@ -1851,6 +2221,16 @@
               "pivot": [
                 0.5,
                 0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/crystal-crawler-attack.webp",
+              "box": [
+                -0.0053,
+                0.0514,
+                1.0275,
+                0.9472
               ]
             }
           ]
@@ -1893,6 +2273,16 @@
                 0.5,
                 0.95
               ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/lantern-gnome-attack.webp",
+              "box": [
+                0.1803,
+                0.128,
+                1.15,
+                0.8726
+              ]
             }
           ]
         }
@@ -1933,6 +2323,16 @@
               "pivot": [
                 0.5,
                 0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/gemback-lizard-attack.webp",
+              "box": [
+                0.1,
+                0.0473,
+                1.09,
+                0.9542
               ]
             }
           ]
@@ -1975,6 +2375,16 @@
                 0.5,
                 0.95
               ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/rust-sprite-attack.webp",
+              "box": [
+                0.0416,
+                0.1754,
+                1.3598,
+                0.825
+              ]
             }
           ]
         }
@@ -2015,6 +2425,16 @@
               "pivot": [
                 0.5,
                 0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/foreman-golem-attack.webp",
+              "box": [
+                0.1021,
+                0.1116,
+                1.1525,
+                0.888
               ]
             }
           ]
@@ -2057,6 +2477,16 @@
                 0.5,
                 0.95
               ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/eclipse-dragon-attack.webp",
+              "box": [
+                0.0371,
+                0.002,
+                1.0625,
+                0.9973
+              ]
             }
           ]
         }
@@ -2097,6 +2527,16 @@
               "pivot": [
                 0.5,
                 0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/dawn-sprite-attack.webp",
+              "box": [
+                -0.0526,
+                0.0854,
+                0.973,
+                0.9146
               ]
             }
           ]
@@ -2139,6 +2579,16 @@
                 0.5,
                 0.95
               ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/dusk-bat-attack.webp",
+              "box": [
+                0.0889,
+                0.0376,
+                1.0225,
+                0.9634
+              ]
             }
           ]
         }
@@ -2179,6 +2629,16 @@
               "pivot": [
                 0.5,
                 0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/sun-knight-attack.webp",
+              "box": [
+                -0.0653,
+                0.105,
+                1.245,
+                0.8941
               ]
             }
           ]
@@ -2221,6 +2681,16 @@
                 0.5,
                 0.95
               ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/shade-stalker-attack.webp",
+              "box": [
+                0.0863,
+                0.1365,
+                1.0853,
+                0.8625
+              ]
             }
           ]
         }
@@ -2262,6 +2732,16 @@
                 0.5,
                 0.95
               ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/twilight-moth-attack.webp",
+              "box": [
+                -0.0519,
+                0.052,
+                0.9675,
+                0.9473
+              ]
             }
           ]
         }
@@ -2302,6 +2782,16 @@
               "pivot": [
                 0.5,
                 0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/eclipse-herald-attack.webp",
+              "box": [
+                0.0301,
+                0.1261,
+                1.06,
+                0.8747
               ]
             }
           ]
@@ -2535,7 +3025,8 @@
   "effects": {
     "slash": "painted/fx/slash.webp",
     "spark": "painted/fx/spark.webp",
-    "puff": "painted/fx/puff.webp"
+    "puff": "painted/fx/puff.webp",
+    "breath": "painted/fx/breath-{element}.webp"
   },
   "eggs": {
     "size": [
