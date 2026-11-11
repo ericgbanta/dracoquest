@@ -51,6 +51,7 @@ These are in addition to the Decisions table in `docs/DESIGN.md`. Eric saw each 
 | Weapons | Melee scales with Strength, ranged with Agility, magic with Arcana. |
 | Events | Four seasonal events give a yearly gift and limited town stock. They don't change fights. |
 | Saves | Version 5. Each bump has a migration and a fixture test (`tests/fixtures/save-v1.json` to `save-v4.json`). |
+| Battle speed | Eric raised the beat limit from 300 ms to 450 ms after seeing B0 (GRAPHICS_PLAN.md, G5). Timings are in `src/data/stage.json`. |
 | Offline | vite-plugin-pwa (Workbox), prompt-style updates: a "Reload" bar, never a forced reload mid-fight. |
 
 ## How the code is laid out

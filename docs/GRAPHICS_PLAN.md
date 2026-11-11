@@ -33,6 +33,7 @@ Eric answered the questions below on 2026-11-11. These are settled:
 | G2. Who draws the art | Agents draw everything as SVG in the repo, built from parts so it animates. Eric may swap in his own art per part later through `src/art/assets.json`. |
 | G3. How far it goes | Everything: the battle stage (B0 to B3), scenes outside battle (B4) and the UI skin (B5). |
 | G4. Target phone | iPhone 17 Pro in Safari, played both in the browser and as a Home Screen app. The budgets below are judged on that phone; the sandbox numbers are a stand-in. |
+| G5. Beat speed (after B0) | Each beat's action, up to the hit, takes at most 450 ms at 1x (2x halves it). This replaces the 300 ms in DESIGN.md's Speed decision. |
 
 B0 still ends at a checkpoint: Eric looks at the mock battle and the bench numbers on his iPhone before B1 starts.
 
@@ -69,7 +70,7 @@ Caveat on the bench: it counts frames with `requestAnimationFrame`, so it catche
 ### Questions for Eric at the checkpoint
 
 1. Does the art style work for you on the phone? Anything to change before it's used for 32 dragon looks and 49 enemies? (Answered: "It looks great!")
-2. Do the attacks feel too fast at 1x? The 300 ms rule could become, say, 450 ms for the action.
+2. Do the attacks feel too fast at 1x? The 300 ms rule could become, say, 450 ms for the action. (Answered: raise it to 450 ms.)
 3. The bench numbers from your iPhone, in Safari and as a Home Screen app: the "After 10 rounds" line from each. (Answered for Safari: 60 fps, 0.8% dropped, worst frame 61 ms.)
 
 ## Questions for Eric (answered)
@@ -148,7 +149,7 @@ Portrait first, at 375 by 667:
 
 ## Choreography: battle events to moves
 
-The engine already returns an ordered event list per round (`BattleEvent` in `src/core/battle.ts`). The UI plays them one by one (`Battle.tsx`, `go()`). Keep that loop and swap the effects. Every beat is at most 300 ms (CLAUDE.md), and 2x speed halves it.
+The engine already returns an ordered event list per round (`BattleEvent` in `src/core/battle.ts`). The UI plays them one by one (`Battle.tsx`, `go()`). Keep that loop and swap the effects. Every beat's action is at most 450 ms (decision G5), and 2x speed halves it.
 
 | Event | On stage |
 | --- | --- |

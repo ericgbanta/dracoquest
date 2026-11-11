@@ -1,5 +1,5 @@
 {
-  "note": "Battle stage layout and animation timings. Positions are percent of the stage (left/bottom/width of the stage width, top of the stage height). Durations are ms at 1x; 2x speed multiplies them by fastFactor. Each beat's action, up to and including impact, stays within 300 ms.",
+  "note": "Battle stage layout and animation timings. Positions are percent of the stage (left/bottom/width of the stage width, top of the stage height). Durations are ms at 1x; 2x speed multiplies them by fastFactor. Each beat's action, up to and including the hit, stays within 450 ms (Eric's call after B0; the design said 300).",
   "aspect": [16, 11],
   "maxNodes": 60,
   "fastFactor": 0.5,
@@ -14,14 +14,14 @@
     "enemy": { "right": 2, "top": 19, "width": 36, "minPx": 150 }
   },
   "beats": {
-    "slotMs": 420,
-    "riderAttack": { "windup": 60, "dash": 110, "swing": 90, "hold": 40, "back": 130 },
-    "claw": { "lunge": 120, "swipe": 90, "hold": 30, "back": 130, "reach": 9 },
-    "breath": { "rear": 80, "puffs": 6, "stagger": 22, "travel": 170, "recover": 120 },
-    "enemyAttack": { "windup": 100, "lunge": 110, "hold": 30, "back": 150 },
-    "knockback": { "dist": 2.6, "ms": 200 },
-    "shake": { "dist": 1, "ms": 150 },
-    "number": { "ms": 800, "rise": 6, "above": 0.1 }
+    "slotMs": 620,
+    "riderAttack": { "windup": 100, "dash": 190, "swing": 150, "hold": 60, "back": 200 },
+    "claw": { "lunge": 260, "swipe": 170, "hold": 50, "back": 200, "reach": 9 },
+    "breath": { "rear": 150, "puffs": 6, "stagger": 34, "travel": 280, "recover": 180 },
+    "enemyAttack": { "windup": 220, "lunge": 200, "hold": 50, "back": 220 },
+    "knockback": { "dist": 2.6, "ms": 260 },
+    "shake": { "dist": 1, "ms": 200 },
+    "number": { "ms": 950, "rise": 6, "above": 0.1 }
   },
   "demo": {
     "zone": "thunderspire",

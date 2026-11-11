@@ -164,9 +164,9 @@ export async function riderAttack(stage: HTMLElement, hit: HitInfo, opts: BeatOp
     [{ transform: 'rotate(0deg)' }, { transform: 'rotate(8deg)', offset: at(impact, total) }, { transform: 'rotate(0deg)' }],
     { duration: total },
   );
-  await sleep(impact - 30 * k);
+  await sleep(impact - 45 * k);
   slash(stage, hitPt, k);
-  await sleep(30 * k);
+  await sleep(45 * k);
   knockback(stage, target, 1, k);
   spark(stage, hitPt, k);
   opts.onImpact?.();
@@ -233,7 +233,7 @@ export async function breath(stage: HTMLElement, hit: HitInfo, opts: BeatOpts): 
     [
       { transform: 'rotate(0deg)', easing: 'ease-out' },
       { transform: 'rotate(-18deg)', offset: at(rear, total), easing: 'cubic-bezier(.2,.8,.3,1)' },
-      { transform: 'rotate(4deg)', offset: at(rear + 60 * k, total) },
+      { transform: 'rotate(4deg)', offset: at(rear + 90 * k, total) },
       { transform: 'rotate(2deg)', offset: at(streamEnd - travel * 0.5, total), easing: 'ease-in-out' },
       { transform: 'rotate(0deg)' },
     ],
@@ -243,7 +243,7 @@ export async function breath(stage: HTMLElement, hit: HitInfo, opts: BeatOpts): 
     [
       { transform: 'rotate(0deg)' },
       { transform: 'rotate(8deg)', offset: at(rear, total) },
-      { transform: 'rotate(26deg)', offset: at(rear + 50 * k, total) },
+      { transform: 'rotate(26deg)', offset: at(rear + 75 * k, total) },
       { transform: 'rotate(26deg)', offset: at(streamEnd - travel * 0.5, total), easing: 'ease-in-out' },
       { transform: 'rotate(0deg)' },
     ],
