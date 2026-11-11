@@ -27,6 +27,8 @@ Dragon parts are drawn in neutral gray tokens, which the game swaps for the play
 
 Don't use these four grays for anything else in a dragon part. Element details that shouldn't follow the player's colors (the fire tail flame, for example) use fixed colors and live in their own overlay part.
 
+Enemy body plans (see below) use the same four grays plus an accent pair: `#505050` accent and `#3c3c3c` accent shade. Each enemy's three colors (primary, secondary, accent) are listed in `assets.json`; the shades are mixed from them.
+
 The breath puff uses three tokens (`#555555` edge, `#888888` middle, `#cccccc` core). The edge becomes the element color and the other two come from `palette.json`, `breath.<element>`.
 
 ## Rigs: characters built from parts
@@ -40,13 +42,27 @@ Each character is a rig: a set of SVG parts stacked in one box. Every part is dr
 
 | Rig | Canvas | Parts, back to front |
 | --- | --- | --- |
+| Hatchling dragon | 200 x 170 | the Adult's parts, no tail tip |
+| Juvenile dragon | 240 x 190 | the Adult's parts |
 | Adult dragon | 260 x 200 | back leg; torso group (back wing, tail with element tip, body, head with jaw, front wing); front leg |
-| Rider | 120 x 170 | one group (cape, body with legs and back arm, head, sword arm) |
-| Storm Roc | 260 x 270 (viewBox starts at y = -40) | legs; torso group (back wing, tail, body, front wing, head) |
+| Elder dragon | 300 x 244 (drawn 14 units down for wing room) | the Adult's parts |
+| Rider | 120 x 170 | one group (cape, body with legs and back arm, head, weapon arm) |
+| Bosses | 260 x 270 (viewBox starts at y = -40) | 4 to 6 parts: legs, a torso group (body, head, arm, jaw, wings or tail), drawn in fixed colors |
+| Enemy body plans | per plan | 3 to 6 parts in gray tokens, shared by many enemies |
+
+All four dragon stages share part ids and pivots so every battle beat works on each. A rig's `boxScale` sets its size on stage relative to its slot (Hatchling 0.62, Juvenile 0.84, Adult 1, Elder 1.12; bosses 1 to 1.1).
 
 Groups exist so idle loops can move several parts together. The torso breathes while the legs stay planted. A part with children (the head and its jaw) moves its children with it.
 
 The manifest also lists named points per rig, as fractions of the canvas: `mouth` (where breath starts), `hit` (where sparks land and numbers start) and `front` (where a dash stops).
+
+### Enemies from body plans
+
+Bosses have their own rigs (`enemy.<id>`). The other 42 enemies are drawn from shared body plans (`plan.<name>` rigs with `"tint": "enemy"`, files in `src/art/rigs/plans/`). Each enemy's entry under `enemies` in `assets.json` names its plan, its three colors, a `scale` (small critters about 0.6, mini-bosses about 1) and up to two extra parts (horns, a crown, a lantern) from `src/art/rigs/extras/`. An extra hangs from a named part of the plan, so it moves with it; `"root"` puts it on the rig itself.
+
+### Weapons
+
+The rider's arm file is `arm-{weapon}.svg`: `sword` for melee weapons, `bow` for ranged, `staff` for magic. All three share the shoulder pivot.
 
 ### Element overlays
 
@@ -59,6 +75,10 @@ A backdrop is 1600 x 1100 (the stage's 16:11 shape), split into layers that stac
 - The ground's top edge sits about 75 percent of the way down. Fighters stand between 86 and 93 percent.
 - Keep the band where fighters stand (about 35 to 90 percent down) calmer and lower in contrast than the characters, and avoid the zone's enemy colors there. In Thunderspire the ground is a warm gray-violet so the dark blue Roc stands out.
 - Only one layer moves, and only slowly (`drift`, a 40 second sideways sway).
+
+## Eggs
+
+`src/art/eggs/`: `egg.svg` (120 x 150, gray tokens: the shell takes the element color, spots and the band a lighter mix of it), three crack overlays that grow, and a top and bottom half that rebuild the egg for the hatching moment.
 
 ## Effects
 
@@ -75,11 +95,11 @@ Effects have no outline, except the hit spark. They are flat shapes in two or th
 
 - Every part is its own `<img>`. Never animate inside an inline SVG.
 - Animate only `transform` and `opacity`.
-- The stage stays under 60 DOM nodes, effects included. The B0 mock uses 59 and the bench 56.
+- The stage stays under 100 DOM nodes, effects included (the B0 draft said 60; see GRAPHICS_PLAN.md, B2 to B4 calls). A one-on-one fight uses about 63, two dragons against two enemies about 93. Every part and extra is a node, so prefer fewer parts.
 
 ## Review checklist
 
-Look at each new piece on a phone at 375 wide, in the mock battle or the art contact sheet (B3):
+Look at each new piece on a phone at 375 wide, in the mock battle or the art contact sheet (`#/dev/art`):
 
 1. Does it read as what it is at a glance, at its real size?
 2. Does it stand out from the zone backdrop?

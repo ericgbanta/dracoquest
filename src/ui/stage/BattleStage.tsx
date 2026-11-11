@@ -87,7 +87,7 @@ export function BattleStage({ save, battle, zoneId, zoneElement, target, onTarge
   const ready = !!art;
   const party = parties[ride ? (two ? 'rideDuo' : 'ride') : (two ? 'duo' : 'solo')]!;
   const riderFallback = <RiderPlaceholder />;
-  const dragonFallback = (d: DragonState) => <DragonSprite element={d.element} stage={d.stage} primary={d.colors.primary} secondary={d.colors.secondary} size={120} />;
+  const dragonFallback = (d: DragonState) => <DragonSprite element={d.element} stage={d.stage} primary={d.colors.primary} secondary={d.colors.secondary} size={120} plain />;
 
   const fighters: StageFighter[] = [];
   if (two && battle.second && party.dragon2) {
@@ -122,7 +122,7 @@ export function BattleStage({ save, battle, zoneId, zoneElement, target, onTarge
     const enemyId = e.enemyId ?? '';
     fighters.push({
       id: e.id, place: sized(places[Math.min(i, places.length - 1)]!, art?.enemies[enemyId] ?? null), enemy: true, rig: art?.enemies[enemyId] ?? null,
-      fallback: <EnemySprite enemyId={enemyId} element={e.element ?? data.enemies[enemyId]?.element ?? 'stone'} size={120} />,
+      fallback: <EnemySprite enemyId={enemyId} element={e.element ?? data.enemies[enemyId]?.element ?? 'stone'} size={120} plain />,
       name: battle.enemies.length > 1 ? e.name : `${e.name} · Lv ${e.level}`, hp: e.hp, maxHp: e.maxHp, facing: 'left', marks: marks(e),
       intent: intent ? { icon: INTENTS[intent.kind].icon, text: `${INTENTS[intent.kind].label}: ${intent.name}`, big: intent.kind === 'big' } : undefined,
       targeted: e.id === target && e.hp > 0, testid: `enemy-${e.id}`,

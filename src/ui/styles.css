@@ -426,3 +426,8 @@ a.button { text-decoration: none; display: inline-flex; align-items: center; jus
 /* Mobile UX rule: body text is at least 16px. Smaller sizes are only for captions on buttons and chips. */
 p, p.muted, .notice, .lead, li { font-size: max(1rem, 16px); }
 .party > * { min-width: 0; }
+
+/* Small sprites drawn from rigs: still, bottom-aligned in their box. */
+.sprite--rig { display: inline-flex; align-items: flex-end; justify-content: center; }
+.sprite--rig > .rig { width: 100%; }
+.sprite--rig * { animation: none !important; }

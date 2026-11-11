@@ -1,6 +1,6 @@
 # Graphics and battle overhaul: plan
 
-Written 2026-11-11 at Eric's request. Status: B0 done and checked on Eric's iPhone. B1 built, not yet deployed (see "B1 result" below). Next is B2. Read `docs/HANDOFF.md` first.
+Written 2026-11-11 at Eric's request. Status: B0 to B4 built and deployed (see "B1 result" and "B2 to B4 result" below). B5 (UI skin) is next, after Eric's feedback. Read `docs/HANDOFF.md` first.
 
 The request, in Eric's words: "I think we can implement AdventureQuest-like graphics. The battling especially needs a lot of touch up. We should have us (rider and dragons) on one side and enemy on the other. Let's step it up with the graphics please but also make sure it's performant."
 
@@ -102,6 +102,48 @@ Sandbox numbers (headless Chromium, CPU throttled 4x, 25 seconds of the bench): 
 ### Questions for Eric
 
 1. **Node budget.** The plan caps the stage at 60 DOM nodes. A one-dragon fight uses 56 to 59. Two dragons against one enemy use 74, and two against two use 85 to 87, because each dragon rig is about 14 nodes. In the sandbox the 2 vs 2 scene still dropped no frames under the 4x throttle. Should the cap rise to 90 for the busiest fights, or should rigs lose parts (for example, merging legs into the body) to get under 60? The bench's 2 vs 2 scene on your iPhone would settle it.
+
+## B2 to B4 result
+
+Built 2026-11-11 at Eric's request ("I want B2-B4 done and deployed and then I'll give feedback"), in one go without a checkpoint in between.
+
+### B2, choreography
+
+- `src/ui/stage/director.ts` turns each engine event into a move; `src/ui/stage/choreo.ts` holds the moves. The engine is unchanged. A hit event only says who hit whom, so the move comes from the move's name in the event text, matched against the game data (weapon, spells, Claw, Breath, talents, combos, Ride moves).
+- Moves, matching the choreography table above: the rider's sword dash and swing, a bow shot (an arrow crosses the stage) or a spell (a glowing bolt), the dragon's claw lunge and its breath stream, the mounted dive and Skyfire in Ride mode, combos and duo combos (both partners strike at once), and enemy lunges with a longer wind-up before a big move.
+- Reactions: a miss makes the target dodge and shows "Miss"; a crit flashes white with a bigger yellow number and a vibration; heals and MP rise as sparkles; a status pops the plate and gives off burn, chill or shock particles (shock also jitters); an element shift pulses a ring in the new color; a knocked-out party member slumps and fades to 40%, a defeated enemy topples and fades out; the party hops on a win, the rider kneels on a loss, everyone runs off on a flee.
+- HP, the log line and the sound now land at the moment of impact, not when the move starts.
+- Timings live in `src/data/stage.json` (`beats`, `eventMs`). 2x halves them. Reduced motion keeps only numbers and short fades.
+- Effects come from a fixed pool in the stage: 6 breath puffs, a slash, a spark, a crit flash, a ring, a bolt, 4 particles and 2 numbers.
+- `e2e/perf.spec.ts` plays two rounds of a real fight at 1x with the CPU throttled 4x and fails above 5% dropped frames. It measured 0 to 2.2% across runs.
+
+### B3, art
+
+All drawn as SVG by agents following `docs/ART_STYLE.md`, reviewed in renders, and merged into `src/art/assets.json`.
+
+- Dragons: Hatchling, Juvenile and Elder rigs to go with the Adult, all with the same parts and pivots; tail tips for all eight elements on the Juvenile, Adult and Elder.
+- Rider: bow and staff arms next to the sword, picked from the equipped weapon's type.
+- Bosses: Bramble Troll, Crab King, Magma Wyrm, Glacier Hydra, Iron Golem and the Eclipse Dragon, at the Storm Roc's scale.
+- Enemies: ENEMY_SUMMARY
+- Backdrops: the other six zones and the Roost.
+- Eggs: a tinted egg, three crack stages, and the two halves for hatching.
+- `#/dev/art` is a contact sheet of every sprite at phone size, with missing art tagged.
+
+### B4, scenes outside battle
+
+- The Roost opens on a painted scene of the aerie with every dragon at home idling in it, at a pace set by its temperament (Bold quicker, Gentle slower). Tap a dragon to pick it; the picker stays too.
+- Each Map card opens on a strip of its zone's backdrop with its boss standing in it. The strips are still (no idle loops) to save battery on a long list.
+- Hatching: the egg uses the new art and cracks as it warms. When it hatches, the cap pops off and the hatchling springs out, idling in the colors being picked.
+
+### Calls made in B2 to B4 (Eric can overrule any of these)
+
+| Topic | Call |
+| --- | --- |
+| Node budget | Raised from 60 to 100 (Eric hadn't answered the B1 question). A one-on-one fight now uses about 63 nodes with the new effect pool, two dragons against two enemies about 93. In the sandbox neither dropped frames under the 4x throttle. The bench's 2 vs 2 scene on Eric's iPhone is the real check. |
+| Move detection | Worked out from move names in the event text, so the engine stays untouched. A move whose name isn't in the game data falls back to a lunge or a claw. |
+| Event pacing | Each event waits for its move to finish (about 0.6 s for an attack at 1x, 0.4 to 0.95 s for the rest), so a round at 1x takes about 2 to 3 seconds. |
+| Enemy art | Regular enemies and mini-bosses share body plans with per-enemy colors and extras, as the plan suggested, rather than 42 separate drawings. |
+| Map strips | Still images (no drift or idle) to keep a scrolling list cheap. |
 
 ## Questions for Eric (answered)
 

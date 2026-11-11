@@ -1,6 +1,8 @@
 import { gameData } from '../core/data';
 import type { ElementId } from '../core/types';
 import { useSprite } from './art';
+import { useDragonRig, useEnemyRig } from './stage/Scene';
+import { RigView } from './stage/Stage';
 
 interface DragonSpriteProps {
   element: ElementId;
@@ -9,14 +11,24 @@ interface DragonSpriteProps {
   secondary: string;
   size?: number;
   class?: string;
+  /** Skip the rig and draw the placeholder shape (used as the rig's own fallback). */
+  plain?: boolean;
 }
 
 /**
  * A dragon in the player's colors. Uses the gray base sprite from the
  * manifest, tinted at runtime, or a placeholder shape if the art is missing.
  */
-export function DragonSprite({ element, stage, primary, secondary, size = 160, class: cls = '' }: DragonSpriteProps) {
+export function DragonSprite({ element, stage, primary, secondary, size = 160, class: cls = '', plain }: DragonSpriteProps) {
+  const rig = useDragonRig(plain ? null : { element, stage, colors: { primary, secondary } });
   const url = useSprite(`dragon.${element}.${stage}`);
+  if (rig) {
+    return (
+      <div class={`sprite sprite--rig ${cls}`} style={{ width: size, height: size }} role="img" aria-label={`${gameData.elements.info[element].name} dragon`}>
+        <RigView rig={rig} facing="right" />
+      </div>
+    );
+  }
   const accent = gameData.elements.info[element].color;
   // Placeholder grows with the life stage: bigger body, longer horns.
   const grown = ['hatchling', 'juvenile', 'adult', 'elder'].indexOf(stage);
@@ -108,9 +120,17 @@ const ENEMY_SHAPES: Record<string, (fill: string) => preact.JSX.Element> = {
   'bramble-troll': (f) => (<><rect x="28" y="40" width="64" height="62" rx="20" fill={f} /><circle cx="60" cy="34" r="22" fill={f} /><path d="M26 30 L40 24 M80 24 L94 30 M50 14 L54 4 M66 14 L70 4" stroke="#0006" stroke-width="5" /><circle cx="52" cy="32" r="4" fill="#fff" /><circle cx="68" cy="32" r="4" fill="#fff" /><path d="M48 44 L54 48 L60 44 L66 48 L72 44" stroke="#fff" stroke-width="3" fill="none" /><rect x="94" y="40" width="10" height="56" rx="5" fill="#8a6a44" /></>),
 };
 
-export function EnemySprite({ enemyId, element, size = 96 }: { enemyId: string; element: ElementId; size?: number }) {
+export function EnemySprite({ enemyId, element, size = 96, plain }: { enemyId: string; element: ElementId; size?: number; plain?: boolean }) {
+  const rig = useEnemyRig(plain ? null : enemyId);
   const url = useSprite(`enemy.${enemyId}`);
   const name = gameData.enemies[enemyId]?.name ?? 'Enemy';
+  if (rig) {
+    return (
+      <div class="sprite sprite--rig" style={{ width: size, height: size }} role="img" aria-label={name}>
+        <RigView rig={rig} facing="left" />
+      </div>
+    );
+  }
   if (url) return <img class="sprite" src={url} width={size} height={size} alt={name} />;
   const fill = gameData.elements.info[element].color;
   const shape = ENEMY_SHAPES[enemyId] ?? ((f: string) => <circle cx="60" cy="60" r="40" fill={f} />);
