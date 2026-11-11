@@ -553,11 +553,144 @@
           "file": "backdrops/thunderspire/ground.svg"
         }
       ]
+    },
+    "mossy-hollow": {
+      "layers": [
+        {
+          "file": "backdrops/mossy-hollow/sky.svg"
+        },
+        {
+          "file": "backdrops/mossy-hollow/far.svg"
+        },
+        {
+          "file": "backdrops/mossy-hollow/motes.svg",
+          "anim": "drift"
+        },
+        {
+          "file": "backdrops/mossy-hollow/ground.svg"
+        }
+      ]
+    },
+    "saltmarsh-shore": {
+      "layers": [
+        {
+          "file": "backdrops/saltmarsh-shore/sky.svg"
+        },
+        {
+          "file": "backdrops/saltmarsh-shore/far.svg"
+        },
+        {
+          "file": "backdrops/saltmarsh-shore/clouds.svg",
+          "anim": "drift"
+        },
+        {
+          "file": "backdrops/saltmarsh-shore/ground.svg"
+        }
+      ]
+    },
+    "cinder-pass": {
+      "layers": [
+        {
+          "file": "backdrops/cinder-pass/sky.svg"
+        },
+        {
+          "file": "backdrops/cinder-pass/far.svg"
+        },
+        {
+          "file": "backdrops/cinder-pass/embers.svg",
+          "anim": "drift"
+        },
+        {
+          "file": "backdrops/cinder-pass/ground.svg"
+        }
+      ]
+    },
+    "frostmere": {
+      "layers": [
+        {
+          "file": "backdrops/frostmere/sky.svg"
+        },
+        {
+          "file": "backdrops/frostmere/far.svg"
+        },
+        {
+          "file": "backdrops/frostmere/snow.svg",
+          "anim": "drift"
+        },
+        {
+          "file": "backdrops/frostmere/ground.svg"
+        }
+      ]
+    },
+    "deepstone-mines": {
+      "layers": [
+        {
+          "file": "backdrops/deepstone-mines/sky.svg"
+        },
+        {
+          "file": "backdrops/deepstone-mines/far.svg"
+        },
+        {
+          "file": "backdrops/deepstone-mines/dust.svg",
+          "anim": "drift"
+        },
+        {
+          "file": "backdrops/deepstone-mines/ground.svg"
+        }
+      ]
+    },
+    "eclipse-peak": {
+      "layers": [
+        {
+          "file": "backdrops/eclipse-peak/sky.svg"
+        },
+        {
+          "file": "backdrops/eclipse-peak/far.svg"
+        },
+        {
+          "file": "backdrops/eclipse-peak/mist.svg",
+          "anim": "drift"
+        },
+        {
+          "file": "backdrops/eclipse-peak/ground.svg"
+        }
+      ]
+    },
+    "roost": {
+      "layers": [
+        {
+          "file": "backdrops/roost/sky.svg"
+        },
+        {
+          "file": "backdrops/roost/far.svg"
+        },
+        {
+          "file": "backdrops/roost/clouds.svg",
+          "anim": "drift"
+        },
+        {
+          "file": "backdrops/roost/ground.svg"
+        }
+      ]
     }
   },
   "effects": {
     "slash": "effects/slash.svg",
     "spark": "effects/spark.svg",
     "puff": "effects/puff.svg"
+  },
+  "eggs": {
+    "size": [
+      120,
+      150
+    ],
+    "egg": "eggs/egg.svg",
+    "cracks": [
+      "eggs/crack-1.svg",
+      "eggs/crack-2.svg",
+      "eggs/crack-3.svg"
+    ],
+    "top": "eggs/egg-top.svg",
+    "bottom": "eggs/egg-bottom.svg"
   }
 }
