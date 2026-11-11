@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { gameData as data } from '../src/core/data';
 import {
-  activeDragon, buyGear, buyItem, canEquip, canRide, chooseEgg, equip, GameError, growDragon, growthStatus, hatchEgg,
-  learnDragonTalent, playRound, respecTalents, sellGear, startFight, startGrowthQuest, startRun, unequip, warmEgg, zoneLock,
+  activeDragon, buyEgg, buyGear, buyItem, canEquip, canRide, chooseEgg, equip, GameError, growDragon, growthStatus, hatchEgg,
+  learnDragonTalent, playRound, respecTalents, sellGear, shopEggs, startFight, startGrowthQuest, startRun, unequip, warmEgg, zoneLock,
 } from '../src/core/game';
 import { createBattle, resolveRound, skillReady, type BattleState } from '../src/core/battle';
 import { autoOrders } from '../src/core/ai';
@@ -27,6 +27,30 @@ function withDragon(s: SaveData, patch: Partial<DragonState>): SaveData {
 function rich(s: SaveData, gold = 100_000, level = 30): SaveData {
   return { ...s, rider: { ...s.rider, gold, level } };
 }
+
+describe('eggs in the shop', () => {
+  it('sells a Verdant egg for gold, into the Bag, as many times as you can pay', () => {
+    const price = data.shop.eggs!.verdant!;
+    expect(shopEggs(data)).toEqual([{ element: 'verdant', price }]);
+    let s = rich(hatched(), price * 2 + 10);
+    s = buyEgg(data, s, 'verdant');
+    s = buyEgg(data, s, 'verdant');
+    expect(s.eggs.filter((e) => e === 'verdant')).toHaveLength(2);
+    expect(s.rider.gold).toBe(10);
+    expect(() => buyEgg(data, s, 'verdant')).toThrow('Not enough gold');
+  });
+
+  it('refuses eggs it does not stock, and leaves the save alone', () => {
+    const s = rich(hatched());
+    expect(() => buyEgg(data, s, 'storm')).toThrow(GameError);
+    expect(s.eggs).toEqual(hatched().eggs);
+  });
+
+  it('only sells elements no boss drops', () => {
+    const dropped = new Set(data.zones.flatMap((z) => (z.eggDrop ? [z.eggDrop.element, ...(z.eggDrop.elements ?? [])] : [])));
+    for (const { element } of shopEggs(data)) expect(dropped.has(element)).toBe(false);
+  });
+});
 
 describe('gear and shop', () => {
   it('buys, equips, and applies gear bonuses', () => {

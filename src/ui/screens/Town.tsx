@@ -1,6 +1,6 @@
 import { useState } from 'preact/hooks';
 import { gameData as data } from '../../core/data';
-import { activeDragon, buyGear, buyItem, GameError, itemPrice, shopGear } from '../../core/game';
+import { activeDragon, buyEgg, buyGear, buyItem, GameError, itemPrice, shopEggs, shopGear } from '../../core/game';
 import { activeEvent } from '../../core/events';
 import type { SaveData } from '../../core/save';
 import type { GearData } from '../../core/types';
@@ -100,6 +100,20 @@ export function Town({ save, update }: Props) {
         </div>
       ) : (
         <div class="list">
+          {shopEggs(data).map(({ element, price }) => {
+            const name = data.dragons.eggs[element]?.name ?? `${data.elements.info[element].name} egg`;
+            const have = save.eggs.filter((e) => e === element).length;
+            return (
+              <div key={`egg-${element}`} class="shop-row">
+                <div class="shop-info">
+                  <strong><Icon name="egg" fallback="🥚" size={22} /> {name}</strong> <ElementBadge element={element} small />
+                  <span class="muted">A dragon egg. Hatch it in the Roost's Hatchery. You have {have}.</span>
+                </div>
+                <button type="button" class="button shop-buy" disabled={gold < price} data-testid={`buy-egg-${element}`}
+                  onClick={() => act((s) => buyEgg(data, s, element), `Bought a ${name}. It's in your Bag.`)}><Gold amount={price} /></button>
+              </div>
+            );
+          })}
           {supplies.map((it) => {
             const price = itemPrice(data, it.id, today) ?? 0;
             return (

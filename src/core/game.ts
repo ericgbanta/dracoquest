@@ -454,6 +454,19 @@ export function buyItem(data: GameData, save: SaveData, id: string, count = 1, t
   return { ...save, rider: { ...save.rider, gold: save.rider.gold - total, inventory } };
 }
 
+/** Eggs the town sells and their prices in gold. */
+export function shopEggs(data: GameData): { element: ElementId; price: number }[] {
+  return Object.entries(data.shop.eggs ?? {}).map(([element, price]) => ({ element: element as ElementId, price: price! }));
+}
+
+/** Buy a dragon egg in town. It goes to the Bag, to be incubated in the Hatchery like a boss's egg. */
+export function buyEgg(data: GameData, save: SaveData, element: ElementId): SaveData {
+  const price = data.shop.eggs?.[element];
+  if (price === undefined) throw new GameError('The shop does not sell that egg');
+  if (save.rider.gold < price) throw new GameError('Not enough gold');
+  return { ...save, rider: { ...save.rider, gold: save.rider.gold - price }, eggs: [...save.eggs, element] };
+}
+
 export type EquipCheck = { ok: true } | { ok: false; reason: string };
 
 /** Which dragon wears a piece of dragon gear, if any. */

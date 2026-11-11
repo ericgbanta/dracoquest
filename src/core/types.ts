@@ -115,7 +115,13 @@ export interface RoostData {
   duoCombos: { id: string; name: string; bond: number; base: number; description: string }[];
 }
 
-export interface ShopData { stock: string[]; items: Record<string, number>; sellFraction: number }
+export interface ShopData {
+  stock: string[];
+  items: Record<string, number>;
+  /** Eggs the town sells, by element, priced in gold. */
+  eggs?: Partial<Record<ElementId, number>>;
+  sellFraction: number;
+}
 
 export interface ElementInfo { name: string; color: string; status: StatusId; symbol: string }
 

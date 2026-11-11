@@ -56,5 +56,9 @@
     "dragon-treat": 25,
     "mana-tonic": 30
   },
-  "sellFraction": 0.5
+  "sellFraction": 0.5,
+  "eggs": {
+    "verdant": 1500
+  },
+  "note": "stock: gear the town always sells. items: prices of battle items. eggs: dragon eggs the town sells, by element, in gold (only elements no boss drops; Verdant is otherwise a starter-only egg). sellFraction: share of the price paid back when selling gear."
 }

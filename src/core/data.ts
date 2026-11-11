@@ -156,6 +156,10 @@ export function loadGameData(raw: RawData): GameData {
   const shop = raw.shop as ShopData;
   for (const id of shop.stock) if (!gear[id]) throw new DataError(`shop.stock: unknown gear "${id}"`);
   for (const id of Object.keys(shop.items)) if (!itemIds.has(id)) throw new DataError(`shop.items: unknown item "${id}"`);
+  for (const [el, price] of Object.entries(shop.eggs ?? {})) {
+    if (!(raw.elements as GameData['elements']).ids.includes(el as GameData['elements']['ids'][number])) throw new DataError(`shop.eggs: unknown element "${el}"`);
+    if (!(typeof price === 'number' && price > 0)) throw new DataError(`shop.eggs.${el}: price must be above 0`);
+  }
   for (const z of zones) {
     if (z.gate && !(raw.dragons as GameData['dragons']).stages.some((st) => st.id === z.gate!.stage)) throw new DataError(`zones.${z.id}: unknown gate stage`);
   }

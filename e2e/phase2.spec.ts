@@ -35,6 +35,32 @@ async function fightToEnd(page: Page): Promise<string> {
   throw new Error('Fight did not end');
 }
 
+test('buy a Mossy Egg in town; it lands in the Bag', async ({ page }) => {
+  await load(page, 'roost.json');
+  // Give the keeper enough gold, whatever the fixture holds.
+  await page.evaluate(() => {
+    const s = JSON.parse(localStorage.getItem('dracoquest.save')!);
+    s.rider.gold = 2000;
+    s.eggs = [];
+    localStorage.setItem('dracoquest.save', JSON.stringify(s));
+  });
+  await page.reload();
+  await page.getByTestId('tab-map').tap();
+  await page.getByRole('link', { name: /Town/ }).tap();
+  await page.getByTestId('shop-tab-supplies').tap();
+  const buy = page.getByTestId('buy-egg-verdant');
+  await expect(buy).toContainText('1500');
+  await buy.tap();
+  await expect(page.getByTestId('shop-notice')).toContainText('Mossy Egg');
+  await expect(page.getByTestId('gold')).toContainText('500');
+  // 500 gold left: a second egg is out of reach.
+  await expect(buy).toBeDisabled();
+  expect(await buy.evaluate((el) => (el as HTMLElement).offsetHeight)).toBeGreaterThanOrEqual(44);
+  await page.getByRole('link', { name: 'Back to Map' }).tap();
+  await page.getByTestId('tab-bag').tap();
+  await expect(page.getByTestId('eggs')).toContainText('Mossy Egg');
+});
+
 test('buy a weapon in town and equip it from the Bag', async ({ page }) => {
   await load(page, 'juvenile.json', '#/map');
   await page.getByTestId('go-town').tap();

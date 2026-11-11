@@ -98,6 +98,7 @@ These are in addition to the Decisions table in `docs/DESIGN.md`. Eric saw each 
 | Level scaling | Player move damage grows 12 percent per level (`combat.json`, `levelDamageScale`), on top of gear. |
 | XP curve | Enemy XP tapers so fights per level go from about 8 early to about 20 near level 50. |
 | Bosses | Each zone's boss appears from one level below the zone's top level; before that, runs end with a mini-boss. First kill always drops an egg; later kills have a 10 percent chance. Eclipse Peak drops Light or Shadow. |
+| Eggs in town | The shop's Supplies tab sells a Mossy (Verdant) Egg for 1,500 gold (`eggs` in `src/data/shop.json`, `buyEgg` in `game.ts`). No boss drops a Verdant egg, so before this a keeper who started with Fire or Tide could only get one from an Elder Verdant dragon. Added 2026-11-11 at Eric's request. The price is about a level 21 weapon. |
 | Food | Costs gold in town (10, premium 45 to 60). The Pantry makes it over time. |
 | Care | Meals and grooming count per dragon. Well kept needs a rest plus one dragon fed and groomed that day. Daily streaks give embers. |
 | Ride mode | Offered for boss fights with an Adult (or Elder) lead. One merged unit, four moves. |
@@ -139,8 +140,8 @@ src/ui/        Preact screens and pieces
   pwa.ts sound.ts install.ts storage.ts useSave.ts router.ts bits.tsx
 src/art/       painted/ (WebP characters, attack poses, backdrops, effects, tail tips), eggs/ and icons/ (WebP), palette.json, assets.json
 src/data/stage.json  stage layouts, plate spots, beat timings, the demo fight (UI only, not read by src/core)
-tests/         Vitest unit tests (136), sim.ts (the balance simulator), save fixtures
-e2e/           Playwright phone tests (39, including a 4x-throttle perf test), save fixtures and make-fixtures.ts
+tests/         Vitest unit tests (139), sim.ts (the balance simulator), save fixtures
+e2e/           Playwright phone tests (40, including a 4x-throttle perf test), save fixtures and make-fixtures.ts
 scripts/       icons.mjs builds the Home Screen icons
 tools/art/     painted/ (prompts, the style anchor, and the scripts that generate, cut out and pack the art)
 docs/          DESIGN.md, HANDOFF.md, GRAPHICS_PLAN_2.md (second graphics pass: research, C0 result, C1 to C4), NEXT_PROMPT.md (prompt for a new session), GRAPHICS_PLAN.md (graphics plan and results), ART_STYLE.md (art rules)
@@ -151,9 +152,9 @@ docs/          DESIGN.md, HANDOFF.md, GRAPHICS_PLAN_2.md (second graphics pass: 
 | Command | What it does |
 | --- | --- |
 | `npm run dev` | Local dev server |
-| `npm run test` | Unit tests (136) |
+| `npm run test` | Unit tests (139) |
 | `npx tsc --noEmit` and `npm run lint` | Type check and lint. Lint blocks `Math.random` and browser globals in `src/core`. |
-| `npm run e2e` | Phone tests at 375 by 667 (39), about 95 seconds |
+| `npm run e2e` | Phone tests at 375 by 667 (40), about 95 seconds |
 | `npm run sim` | Balance sim: 1,000 runs per zone and level, plus campaigns from egg to level 50. Flags: `--runs`, `--campaigns`, `--zone`, `--no-campaign`, `--campaign-only`. The full run takes about 2.5 minutes. |
 | `npx tsx e2e/make-fixtures.ts` | Rebuilds the saves the phone tests load |
 | `npm run icons` | Rebuilds the Home Screen icons |
