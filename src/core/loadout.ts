@@ -95,6 +95,9 @@ export function canLearn(data: GameData, dragon: Pick<DragonState, 'level' | 'st
   const t = talentById(data, talentId);
   if (!t) return { ok: false, reason: 'Unknown talent' };
   if (stageIndex(data, dragon.stage) < 1) return { ok: false, reason: 'Talents open when your dragon becomes a Juvenile' };
+  if (t.requiresStage && stageIndex(data, dragon.stage) < stageIndex(data, t.requiresStage)) {
+    return { ok: false, reason: `Capstones need an ${data.dragons.stages.find((s) => s.id === t.requiresStage)?.name ?? t.requiresStage} dragon` };
+  }
   if (talentPointsLeft(data, dragon) <= 0) return { ok: false, reason: 'No talent points left' };
   const rank = dragon.talents?.[talentId] ?? 0;
   if (rank >= t.ranks) return { ok: false, reason: 'Already at max rank' };

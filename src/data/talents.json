@@ -455,6 +455,76 @@
         "dragonDodge": 3,
         "dragonCrit": 0.02
       }
+    },
+    {
+      "id": "aegis-of-ages",
+      "tree": "protection",
+      "name": "Aegis of Ages",
+      "tier": 12,
+      "ranks": 1,
+      "description": "Capstone: +4 dragon defense, +3 rider defense, Guard takes 15% less.",
+      "requiresStage": "elder",
+      "bonusPerRank": {
+        "dragonDefense": 4,
+        "riderDefense": 3,
+        "guardReduction": 0.15
+      }
+    },
+    {
+      "id": "primordial-breath",
+      "tree": "elemental",
+      "name": "Primordial Breath",
+      "tier": 12,
+      "ranks": 1,
+      "description": "Capstone: +30% breath damage and strong hits deal 15% more.",
+      "requiresStage": "elder",
+      "bonusPerRank": {
+        "breathPct": 0.3,
+        "strongBonus": 0.15
+      }
+    },
+    {
+      "id": "thousand-claws",
+      "tree": "fighting",
+      "name": "Thousand Claws",
+      "tier": 12,
+      "ranks": 1,
+      "description": "Capstone skill: four lightning-fast claw strikes.",
+      "requiresStage": "elder",
+      "skill": {
+        "kind": "damage",
+        "base": 13,
+        "hits": 4,
+        "cooldown": 4
+      }
+    },
+    {
+      "id": "kindred-light",
+      "tree": "assistance",
+      "name": "Kindred Light",
+      "tier": 12,
+      "ranks": 1,
+      "description": "Capstone skill: heal rider and dragon 35% each.",
+      "requiresStage": "elder",
+      "skill": {
+        "kind": "healAll",
+        "fraction": 0.35,
+        "cooldown": 5
+      }
+    },
+    {
+      "id": "grand-heist",
+      "tree": "mischief",
+      "name": "Grand Heist",
+      "tier": 12,
+      "ranks": 1,
+      "description": "Capstone: +30% gold, +30% item drops, +6 dodge.",
+      "requiresStage": "elder",
+      "bonusPerRank": {
+        "goldPct": 0.3,
+        "dropPct": 0.3,
+        "dragonDodge": 6
+      }
     }
   ]
 }

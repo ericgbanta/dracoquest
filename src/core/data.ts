@@ -17,9 +17,10 @@ import talentsJson from '../data/talents.json';
 import questsJson from '../data/quests.json';
 import shopJson from '../data/shop.json';
 import roostJson from '../data/roost.json';
+import eventsJson from '../data/events.json';
 import type {
   CombatData, ElementsData, EnemyData, GameData, GearData, ItemData, ProgressionData, QuestData, ShopData, StatusData, StatusId,
-  RoostData, TalentsData, ZoneData,
+  EventData, RoostData, TalentsData, ZoneData,
 } from './types';
 
 export type * from './types';
@@ -78,7 +79,7 @@ export function validateProgression(raw: unknown): ProgressionData {
 export interface RawData {
   elements: unknown; combat: unknown; statuses: unknown; progression: unknown; dragons: unknown;
   care: unknown; foods: unknown; items: unknown; enemies: unknown; zones: unknown;
-  gear: unknown; talents: unknown; quests: unknown; shop: unknown; roost: unknown;
+  gear: unknown; talents: unknown; quests: unknown; shop: unknown; roost: unknown; events: unknown;
 }
 
 export function loadGameData(raw: RawData): GameData {
@@ -175,7 +176,17 @@ export function loadGameData(raw: RawData): GameData {
     quests,
     shop,
     roost: validateRoost(raw.roost, foodIds),
+    events: validateEvents(raw.events, new Set([...foodIds, ...itemIds, ...Object.keys(gear)])),
   };
+}
+
+function validateEvents(raw: unknown, known: Set<string>): EventData[] {
+  const list = raw as EventData[];
+  for (const e of list) {
+    if (!/^\d\d-\d\d$/.test(e.start) || !/^\d\d-\d\d$/.test(e.end)) throw new DataError(`events.${e.id}: dates must be MM-DD`);
+    for (const id of [...e.shop, ...Object.keys(e.gift.items)]) if (!known.has(id)) throw new DataError(`events.${e.id}: unknown item "${id}"`);
+  }
+  return list;
 }
 
 function validateRoost(raw: unknown, foodIds: Set<string>): RoostData {
@@ -203,4 +214,5 @@ export const gameData: GameData = loadGameData({
   quests: questsJson,
   shop: shopJson,
   roost: roostJson,
+  events: eventsJson,
 });

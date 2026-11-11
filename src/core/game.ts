@@ -16,6 +16,7 @@ import { getZone, planQuest, planRun, rollRewards, type FightKind, type Rewards 
 import type { SaveData } from './save';
 import type { BuildingId, DragonSlot, DragonState, DragonStat, ElementId, GameData, GearSlot, RiderSlot, RiderStat, StageData, ZoneData } from './types';
 import { DRAGON_SLOTS } from './types';
+import { activeEvent, eventKey, eventOnlyIds } from './events';
 
 export class GameError extends Error {}
 
@@ -250,7 +251,7 @@ function finishFight(data: GameData, save: SaveData): { save: SaveData; report: 
       const zone = getZone(data, run.zoneId);
       if (plan.kind === 'boss' && zone.eggDrop) {
         const first = !save.bossesDefeated.includes(zone.id);
-        if (first || rng.chance(zone.eggDrop.chance)) rewards.egg = zone.eggDrop.element;
+        if (first || rng.chance(zone.eggDrop.chance)) rewards.egg = zone.eggDrop.elements ? rng.pick(zone.eggDrop.elements) : zone.eggDrop.element;
       }
       return rewards;
     });
@@ -412,9 +413,15 @@ export function respecTalents(data: GameData, save: SaveData, dragonId?: string)
 
 const isDragonSlot = (slot: GearSlot): slot is DragonSlot => (DRAGON_SLOTS as readonly string[]).includes(slot);
 
-export function buyGear(data: GameData, save: SaveData, gearId: string): SaveData {
+/** What the town sells today: regular stock plus any running event's items. */
+export function shopGear(data: GameData, today: string): string[] {
+  const ev = activeEvent(data, today);
+  return [...data.shop.stock, ...(ev?.shop.filter((id) => data.gear[id]) ?? [])];
+}
+
+export function buyGear(data: GameData, save: SaveData, gearId: string, today = ''): SaveData {
   const g = gearItem(data, gearId);
-  if (!g || !data.shop.stock.includes(gearId)) throw new GameError('The shop does not sell that');
+  if (!g || !shopGear(data, today).includes(gearId)) throw new GameError('The shop does not sell that');
   if (save.rider.gear.includes(gearId)) throw new GameError('You already own that');
   if (save.rider.gold < g.price) throw new GameError('Not enough gold');
   return { ...save, rider: { ...save.rider, gold: save.rider.gold - g.price, gear: [...save.rider.gear, gearId] } };
@@ -429,14 +436,17 @@ export function sellGear(data: GameData, save: SaveData, gearId: string): SaveDa
   return { ...save, rider: { ...save.rider, gold: save.rider.gold + price, gear: save.rider.gear.filter((x) => x !== gearId) } };
 }
 
-export function itemPrice(data: GameData, id: string): number | null {
+/** Price of an item or food the town sells today, or null if it doesn't. */
+export function itemPrice(data: GameData, id: string, today = ''): number | null {
   if (data.shop.items[id] !== undefined) return data.shop.items[id]!;
+  if (eventOnlyIds(data, today).has(id)) return null;
   const food = data.foods.find((f) => f.id === id);
+  if (food?.event && activeEvent(data, today)?.id !== food.event) return null;
   return food ? food.price : null;
 }
 
-export function buyItem(data: GameData, save: SaveData, id: string, count = 1): SaveData {
-  const price = itemPrice(data, id);
+export function buyItem(data: GameData, save: SaveData, id: string, count = 1, today = ''): SaveData {
+  const price = itemPrice(data, id, today);
   if (price === null) throw new GameError('The shop does not sell that');
   const total = price * count;
   if (save.rider.gold < total) throw new GameError('Not enough gold');
@@ -644,4 +654,49 @@ export function collectExpedition(data: GameData, save: SaveData, id: string, no
     embers: r.save.embers + loot.embers,
   };
   return { save: replaceDragon(next, dragon), loot };
+}
+
+// ---------- Elder: egg laying ----------
+
+export function canLayEgg(data: GameData, save: SaveData, id: string): { ok: true } | { ok: false; reason: string } {
+  const d = save.dragons.find((x) => x.id === id);
+  if (!d) return { ok: false, reason: 'No such dragon' };
+  const rule = data.dragons.eggLaying;
+  if (stageIndex(data, d.stage) < stageIndex(data, rule.stage)) return { ok: false, reason: 'Only Elder dragons lay eggs' };
+  if (d.laidEgg) return { ok: false, reason: `${d.name} has already laid its egg` };
+  if (save.embers < rule.cost.embers || save.rider.gold < rule.cost.gold) return { ok: false, reason: `Needs ${rule.cost.embers} embers` };
+  return { ok: true };
+}
+
+/** An Elder lays one egg of its own element, once in its life. */
+export function layEgg(data: GameData, save: SaveData, id: string): SaveData {
+  const check = canLayEgg(data, save, id);
+  if (!check.ok) throw new GameError(check.reason);
+  const d = requireDragon(save, id);
+  const cost = data.dragons.eggLaying.cost;
+  const next = { ...save, embers: save.embers - cost.embers, rider: { ...save.rider, gold: save.rider.gold - cost.gold }, eggs: [...save.eggs, d.element] };
+  return replaceDragon(next, { ...d, laidEgg: true });
+}
+
+// ---------- Seasonal events ----------
+
+export function eventGiftClaimed(data: GameData, save: SaveData, today: string): boolean {
+  const ev = activeEvent(data, today);
+  return !!ev && save.eventsClaimed.includes(eventKey(ev, today));
+}
+
+/** Claim the running event's gift, once per event per year. */
+export function claimEventGift(data: GameData, save: SaveData, today: string): SaveData {
+  const ev = activeEvent(data, today);
+  if (!ev) throw new GameError('No event is running');
+  const key = eventKey(ev, today);
+  if (save.eventsClaimed.includes(key)) throw new GameError('Already claimed this year');
+  const inventory = { ...save.rider.inventory };
+  for (const [id, n] of Object.entries(ev.gift.items)) inventory[id] = (inventory[id] ?? 0) + n;
+  return {
+    ...save,
+    embers: save.embers + ev.gift.embers,
+    rider: { ...save.rider, inventory },
+    eventsClaimed: [...save.eventsClaimed, key],
+  };
 }

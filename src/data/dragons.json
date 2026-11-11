@@ -49,14 +49,14 @@
       "minLevel": 40,
       "maxLevel": 50,
       "bond": 90,
-      "breathMultiplier": 1.6,
-      "growthStatPoints": 10,
-      "quest": null,
+      "breathMultiplier": 1.5,
+      "growthStatPoints": 8,
+      "quest": "elder-flight",
       "unlocks": [
         "Capstone talent",
         "Egg laying"
       ],
-      "available": false
+      "available": true
     }
   ],
   "baseStats": {
@@ -107,6 +107,22 @@
     "storm": {
       "name": "Thunder Egg",
       "blurb": "It buzzes. Do not lick it."
+    },
+    "frost": {
+      "name": "Frosted Egg",
+      "blurb": "Cold to the touch. Warms up when you hum."
+    },
+    "stone": {
+      "name": "Geode Egg",
+      "blurb": "Heavy. Sparkly inside, probably."
+    },
+    "light": {
+      "name": "Dawn Egg",
+      "blurb": "Glows faintly at sunrise."
+    },
+    "shadow": {
+      "name": "Dusk Egg",
+      "blurb": "Hard to see, even when you're holding it."
     }
   },
   "hatchTaps": 12,
@@ -136,5 +152,12 @@
     "#a58c6a",
     "#e9e4da",
     "#4a4458"
-  ]
+  ],
+  "eggLaying": {
+    "stage": "elder",
+    "cost": {
+      "gold": 0,
+      "embers": 10
+    }
+  }
 }

@@ -126,5 +126,85 @@
         "text": "*kneels down so you can climb on*"
       }
     ]
+  },
+  {
+    "id": "elder-flight",
+    "name": "The Elder Flight",
+    "stage": "elder",
+    "zone": "deepstone-mines",
+    "description": "Old dragons say an Elder is made in the deep. Your dragon wants to find out if they're right.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "Deep in the mines, the air is warm and smells like old pennies."
+          },
+          {
+            "speaker": "rider",
+            "text": "Why are we going DOWN to become an Elder?"
+          },
+          {
+            "speaker": "dragon",
+            "text": "*points at a very old carving of a dragon. It looks smug.*"
+          }
+        ],
+        "enemies": [
+          "tunnel-mole",
+          "crystal-crawler"
+        ],
+        "levelOffset": -1
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "A Foreman Golem blocks the old shaft. It is holding a clipboard."
+          },
+          {
+            "speaker": "rider",
+            "text": "We're just passing through!"
+          },
+          {
+            "speaker": "narrator",
+            "text": "The golem checks its clipboard. You are not on the list."
+          }
+        ],
+        "enemies": [
+          "foreman-golem"
+        ],
+        "levelOffset": 0
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "At the bottom, a pool of glowing ember-water. Your dragon steps in, and something from the shadows steps out."
+          }
+        ],
+        "enemies": [
+          "eclipse-herald"
+        ],
+        "levelOffset": 0
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "Your dragon rises from the glowing pool. Its scales shimmer like old gold, and its eyes are calm and very, very wise."
+      },
+      {
+        "speaker": "dragon",
+        "text": "*nods at you, slowly, like it has always known you*"
+      },
+      {
+        "speaker": "rider",
+        "text": "You look... dignified. I'm a little scared. Snack?"
+      },
+      {
+        "speaker": "dragon",
+        "text": "*accepts the snack immediately. Still the same dragon.*"
+      }
+    ]
   }
 ]

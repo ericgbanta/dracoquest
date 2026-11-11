@@ -398,5 +398,332 @@
       "breathPct": 0.1
     },
     "description": "Glows faintly when your dragon is happy."
+  },
+  {
+    "id": "rimefang-blade",
+    "name": "Rimefang Blade",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": "frost",
+    "level": 29,
+    "damage": 30,
+    "price": 2600,
+    "bonus": {
+      "strength": 5,
+      "riderCrit": 0.03
+    },
+    "description": "So cold it fogs up when you talk to it."
+  },
+  {
+    "id": "glacier-longbow",
+    "name": "Glacier Longbow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": "frost",
+    "level": 29,
+    "damage": 29,
+    "price": 2600,
+    "bonus": {
+      "agility": 6
+    },
+    "description": "Arrows come out pre-chilled."
+  },
+  {
+    "id": "hoarfrost-staff",
+    "name": "Hoarfrost Staff",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": "frost",
+    "level": 29,
+    "damage": 29,
+    "price": 2600,
+    "bonus": {
+      "arcana": 6
+    },
+    "description": "Leaves a trail of tiny snowflakes."
+  },
+  {
+    "id": "geode-hammer",
+    "name": "Geode Hammer",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": "stone",
+    "level": 36,
+    "damage": 35,
+    "price": 4200,
+    "bonus": {
+      "strength": 6,
+      "riderCrit": 0.04
+    },
+    "description": "Cracks rocks open. Cracks golems open too."
+  },
+  {
+    "id": "crystal-repeater",
+    "name": "Crystal Repeater",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": "storm",
+    "level": 36,
+    "damage": 34,
+    "price": 4200,
+    "bonus": {
+      "agility": 7
+    },
+    "description": "Hums a different note for every shot."
+  },
+  {
+    "id": "lantern-of-ages",
+    "name": "Lantern of Ages",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": "fire",
+    "level": 36,
+    "damage": 34,
+    "price": 4200,
+    "bonus": {
+      "arcana": 7
+    },
+    "description": "The flame inside has never gone out."
+  },
+  {
+    "id": "dawnbreaker",
+    "name": "Dawnbreaker",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": "light",
+    "level": 43,
+    "damage": 41,
+    "price": 6500,
+    "bonus": {
+      "strength": 8,
+      "riderCrit": 0.05
+    },
+    "description": "A sword that makes everyone squint."
+  },
+  {
+    "id": "duskwind-bow",
+    "name": "Duskwind Bow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": "shadow",
+    "level": 43,
+    "damage": 40,
+    "price": 6500,
+    "bonus": {
+      "agility": 9
+    },
+    "description": "Very quiet. Suspiciously quiet."
+  },
+  {
+    "id": "eclipse-tome",
+    "name": "Eclipse Tome",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": "shadow",
+    "level": 43,
+    "damage": 40,
+    "price": 6500,
+    "bonus": {
+      "arcana": 9
+    },
+    "description": "Half the pages are blank. The other half are glowing."
+  },
+  {
+    "id": "rimeguard-plate",
+    "name": "Rimeguard Plate",
+    "slot": "armor",
+    "level": 28,
+    "price": 2400,
+    "bonus": {
+      "riderDefense": 9,
+      "riderHp": 80
+    },
+    "description": "Keeps the cold out and the warm in."
+  },
+  {
+    "id": "geodeplate",
+    "name": "Geodeplate",
+    "slot": "armor",
+    "level": 35,
+    "price": 3900,
+    "bonus": {
+      "riderDefense": 11,
+      "riderHp": 110
+    },
+    "description": "Every plate is a polished gemstone."
+  },
+  {
+    "id": "twilight-mail",
+    "name": "Twilight Mail",
+    "slot": "armor",
+    "level": 42,
+    "price": 6000,
+    "bonus": {
+      "riderDefense": 13,
+      "riderHp": 140
+    },
+    "description": "Changes color with the time of day."
+  },
+  {
+    "id": "frost-sigil",
+    "name": "Frost Sigil",
+    "slot": "trinket",
+    "level": 28,
+    "price": 2200,
+    "bonus": {
+      "vigor": 4,
+      "arcana": 3
+    },
+    "description": "A snowflake that never melts."
+  },
+  {
+    "id": "miners-lucky-gem",
+    "name": "Miner's Lucky Gem",
+    "slot": "trinket",
+    "level": 35,
+    "price": 3600,
+    "bonus": {
+      "strength": 4,
+      "agility": 4,
+      "riderCrit": 0.03
+    },
+    "description": "Found at the bottom of a very deep hole."
+  },
+  {
+    "id": "sun-and-moon-charm",
+    "name": "Sun and Moon Charm",
+    "slot": "trinket",
+    "level": 42,
+    "price": 5600,
+    "bonus": {
+      "strength": 5,
+      "arcana": 5,
+      "vigor": 5
+    },
+    "description": "Half gold, half silver, all fancy."
+  },
+  {
+    "id": "frost-fur-saddle",
+    "name": "Frost-Fur Saddle",
+    "slot": "saddle",
+    "level": 32,
+    "price": 2800,
+    "bonus": {
+      "dragonHp": 100,
+      "dragonDefense": 6
+    },
+    "description": "Warm, fluffy, slightly shedding."
+  },
+  {
+    "id": "elder-saddle",
+    "name": "Elder Saddle",
+    "slot": "saddle",
+    "level": 41,
+    "price": 5200,
+    "bonus": {
+      "dragonHp": 150,
+      "dragonDefense": 8
+    },
+    "description": "Fit for a dragon who has seen everything."
+  },
+  {
+    "id": "crystal-horn-cap",
+    "name": "Crystal Horn Cap",
+    "slot": "horn",
+    "level": 32,
+    "price": 2800,
+    "bonus": {
+      "might": 7,
+      "dragonCrit": 0.04
+    },
+    "description": "Sparkles when your dragon headbutts things."
+  },
+  {
+    "id": "eclipse-horn-cap",
+    "name": "Eclipse Horn Cap",
+    "slot": "horn",
+    "level": 41,
+    "price": 5200,
+    "bonus": {
+      "might": 10,
+      "dragonCrit": 0.05
+    },
+    "description": "Casts a tiny shadow, even indoors."
+  },
+  {
+    "id": "glacier-scale-charm",
+    "name": "Glacier Scale Charm",
+    "slot": "charm",
+    "level": 32,
+    "price": 2800,
+    "bonus": {
+      "spirit": 7,
+      "breathPct": 0.12
+    },
+    "description": "Breath comes out crisp and clear."
+  },
+  {
+    "id": "starlight-scale-charm",
+    "name": "Starlight Scale Charm",
+    "slot": "charm",
+    "level": 41,
+    "price": 5200,
+    "bonus": {
+      "spirit": 10,
+      "breathPct": 0.15
+    },
+    "description": "Twinkles at night. Your dragon loves it."
+  },
+  {
+    "id": "harvest-lantern",
+    "name": "Harvest Lantern",
+    "slot": "trinket",
+    "level": 5,
+    "price": 400,
+    "bonus": {
+      "vigor": 2,
+      "goldPct": 0.1
+    },
+    "description": "A paper lantern shaped like a pumpkin. Gold shines brighter by its light.",
+    "event": "harvest-fair"
+  },
+  {
+    "id": "snowflake-scarf",
+    "name": "Snowflake Scarf",
+    "slot": "trinket",
+    "level": 5,
+    "price": 400,
+    "bonus": {
+      "vigor": 2,
+      "riderHp": 20
+    },
+    "description": "Knitted by someone who really likes snowflakes.",
+    "event": "frostfall"
+  },
+  {
+    "id": "petal-pin",
+    "name": "Petal Pin",
+    "slot": "trinket",
+    "level": 5,
+    "price": 400,
+    "bonus": {
+      "arcana": 2,
+      "healPct": 0.1
+    },
+    "description": "A pressed flower that never wilts.",
+    "event": "bloomtide"
+  },
+  {
+    "id": "sunburst-amulet",
+    "name": "Sunburst Amulet",
+    "slot": "trinket",
+    "level": 5,
+    "price": 400,
+    "bonus": {
+      "strength": 2,
+      "riderCrit": 0.02
+    },
+    "description": "Warm on sunny days. Always sunny somewhere.",
+    "event": "sunfire-festival"
   }
 ]

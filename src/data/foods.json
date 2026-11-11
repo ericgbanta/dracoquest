@@ -34,5 +34,32 @@
     "statPoints": 2,
     "price": 60,
     "premium": true
+  },
+  {
+    "id": "harvest-pie",
+    "name": "Harvest Pie",
+    "icon": "\ud83e\udd67",
+    "statPoints": 2,
+    "price": 45,
+    "premium": true,
+    "event": "harvest-fair"
+  },
+  {
+    "id": "cocoa-cake",
+    "name": "Cocoa Cake",
+    "icon": "\ud83c\udf70",
+    "statPoints": 2,
+    "price": 45,
+    "premium": true,
+    "event": "frostfall"
+  },
+  {
+    "id": "blossom-bun",
+    "name": "Blossom Bun",
+    "icon": "\ud83c\udf38",
+    "statPoints": 2,
+    "price": 45,
+    "premium": true,
+    "event": "bloomtide"
   }
 ]

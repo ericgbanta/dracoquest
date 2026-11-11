@@ -4,27 +4,84 @@
       "name": "Nest",
       "description": "Holds your dragons.",
       "levels": [
-        { "slots": 3, "cost": null },
-        { "slots": 4, "cost": { "gold": 1200, "embers": 15 } },
-        { "slots": 6, "cost": { "gold": 3500, "embers": 40 } }
+        {
+          "slots": 3,
+          "cost": null
+        },
+        {
+          "slots": 4,
+          "cost": {
+            "gold": 1200,
+            "embers": 15
+          }
+        },
+        {
+          "slots": 6,
+          "cost": {
+            "gold": 3500,
+            "embers": 40
+          }
+        }
       ]
     },
     "pantry": {
       "name": "Pantry",
       "description": "Makes dragon food over real time.",
       "levels": [
-        { "minutesPerFood": 120, "store": 4, "premiumChance": 0, "cost": null },
-        { "minutesPerFood": 90, "store": 6, "premiumChance": 0.2, "cost": { "gold": 600, "embers": 8 } },
-        { "minutesPerFood": 60, "store": 8, "premiumChance": 0.4, "cost": { "gold": 2000, "embers": 25 } }
+        {
+          "minutesPerFood": 120,
+          "store": 4,
+          "premiumChance": 0,
+          "cost": null
+        },
+        {
+          "minutesPerFood": 90,
+          "store": 6,
+          "premiumChance": 0.2,
+          "cost": {
+            "gold": 600,
+            "embers": 8
+          }
+        },
+        {
+          "minutesPerFood": 60,
+          "store": 8,
+          "premiumChance": 0.4,
+          "cost": {
+            "gold": 2000,
+            "embers": 25
+          }
+        }
       ]
     },
     "hatchery": {
       "name": "Hatchery",
       "description": "Incubates eggs from bosses.",
       "levels": [
-        { "slots": 1, "hours": 12, "cost": { "gold": 300, "embers": 5 } },
-        { "slots": 1, "hours": 6, "cost": { "gold": 1500, "embers": 20 } },
-        { "slots": 2, "hours": 4, "cost": { "gold": 4000, "embers": 45 } }
+        {
+          "slots": 1,
+          "hours": 12,
+          "cost": {
+            "gold": 300,
+            "embers": 5
+          }
+        },
+        {
+          "slots": 1,
+          "hours": 6,
+          "cost": {
+            "gold": 1500,
+            "embers": 20
+          }
+        },
+        {
+          "slots": 2,
+          "hours": 4,
+          "cost": {
+            "gold": 4000,
+            "embers": 45
+          }
+        }
       ],
       "incubateEmbers": 3
     },
@@ -32,27 +89,142 @@
       "name": "Training Yard",
       "description": "Benched dragons train for slow, passive XP.",
       "levels": [
-        { "fightsPerHour": 0.5, "maxHours": 12, "cost": { "gold": 400, "embers": 5 } },
-        { "fightsPerHour": 0.8, "maxHours": 16, "cost": { "gold": 1500, "embers": 15 } },
-        { "fightsPerHour": 1.2, "maxHours": 24, "cost": { "gold": 4000, "embers": 35 } }
+        {
+          "fightsPerHour": 0.5,
+          "maxHours": 12,
+          "cost": {
+            "gold": 400,
+            "embers": 5
+          }
+        },
+        {
+          "fightsPerHour": 0.8,
+          "maxHours": 16,
+          "cost": {
+            "gold": 1500,
+            "embers": 15
+          }
+        },
+        {
+          "fightsPerHour": 1.2,
+          "maxHours": 24,
+          "cost": {
+            "gold": 4000,
+            "embers": 35
+          }
+        }
       ]
     },
     "expeditions": {
       "name": "Expedition Board",
       "description": "Send benched dragons on timed trips for gold, food, and embers.",
       "levels": [
-        { "maxHours": 4, "lootMultiplier": 1, "cost": { "gold": 500, "embers": 5 } },
-        { "maxHours": 8, "lootMultiplier": 1.25, "cost": { "gold": 1800, "embers": 15 } },
-        { "maxHours": 12, "lootMultiplier": 1.5, "cost": { "gold": 4500, "embers": 35 } }
+        {
+          "maxHours": 4,
+          "lootMultiplier": 1,
+          "cost": {
+            "gold": 500,
+            "embers": 5
+          }
+        },
+        {
+          "maxHours": 8,
+          "lootMultiplier": 1.25,
+          "cost": {
+            "gold": 1800,
+            "embers": 15
+          }
+        },
+        {
+          "maxHours": 12,
+          "lootMultiplier": 1.5,
+          "cost": {
+            "gold": 4500,
+            "embers": 35
+          }
+        }
       ]
     }
   },
   "trips": [
-    { "id": "berry-run", "name": "Berry Run", "hours": 1, "minLevel": 1, "gold": [20, 40], "food": 1, "emberChance": 0.05, "blurb": "Pick berries. Eat most of them. Bring some back." },
-    { "id": "beachcombing", "name": "Beachcombing", "hours": 2, "minLevel": 6, "gold": [50, 90], "food": 1, "emberChance": 0.1, "blurb": "Shiny shells, lost coins, one very confused crab." },
-    { "id": "ash-scavenge", "name": "Ash Scavenge", "hours": 4, "minLevel": 12, "gold": [120, 200], "food": 2, "emberChance": 0.25, "blurb": "Dig through warm ash for warm treasure." },
-    { "id": "cloud-patrol", "name": "Cloud Patrol", "hours": 8, "minLevel": 18, "gold": [300, 480], "food": 3, "emberChance": 0.5, "blurb": "Fly lazy circles over Thunderspire. Very official." },
-    { "id": "long-haul", "name": "The Long Haul", "hours": 12, "minLevel": 24, "gold": [500, 800], "food": 4, "emberChance": 1, "blurb": "Across the map and back. Pack snacks." }
+    {
+      "id": "berry-run",
+      "name": "Berry Run",
+      "hours": 1,
+      "minLevel": 1,
+      "gold": [
+        20,
+        40
+      ],
+      "food": 1,
+      "emberChance": 0.05,
+      "blurb": "Pick berries. Eat most of them. Bring some back."
+    },
+    {
+      "id": "beachcombing",
+      "name": "Beachcombing",
+      "hours": 2,
+      "minLevel": 6,
+      "gold": [
+        50,
+        90
+      ],
+      "food": 1,
+      "emberChance": 0.1,
+      "blurb": "Shiny shells, lost coins, one very confused crab."
+    },
+    {
+      "id": "ash-scavenge",
+      "name": "Ash Scavenge",
+      "hours": 4,
+      "minLevel": 12,
+      "gold": [
+        120,
+        200
+      ],
+      "food": 2,
+      "emberChance": 0.25,
+      "blurb": "Dig through warm ash for warm treasure."
+    },
+    {
+      "id": "cloud-patrol",
+      "name": "Cloud Patrol",
+      "hours": 8,
+      "minLevel": 18,
+      "gold": [
+        300,
+        480
+      ],
+      "food": 3,
+      "emberChance": 0.5,
+      "blurb": "Fly lazy circles over Thunderspire. Very official."
+    },
+    {
+      "id": "long-haul",
+      "name": "The Long Haul",
+      "hours": 12,
+      "minLevel": 24,
+      "gold": [
+        500,
+        800
+      ],
+      "food": 4,
+      "emberChance": 1,
+      "blurb": "Across the map and back. Pack snacks."
+    },
+    {
+      "id": "glacier-survey",
+      "name": "Glacier Survey",
+      "hours": 12,
+      "minLevel": 32,
+      "gold": [
+        900,
+        1400
+      ],
+      "food": 4,
+      "emberChance": 1,
+      "blurb": "Count the icebergs. Lose count. Start again."
+    }
   ],
   "premiumFood": "sunfruit",
   "embers": {
@@ -64,19 +236,81 @@
   },
   "temperament": {
     "settleAt": 25,
-    "points": { "fightWon": 1, "bossWon": 3, "care": 2, "groom": 3, "skill": 1, "expedition": 2, "training": 1 },
+    "points": {
+      "fightWon": 1,
+      "bossWon": 3,
+      "care": 2,
+      "groom": 3,
+      "skill": 1,
+      "expedition": 2,
+      "training": 1
+    },
     "types": {
-      "bold":   { "name": "Bold",   "from": "Fights a lot",       "bonus": { "clawPct": 0.05, "breathPct": 0.05 }, "passive": "+5% claw and breath damage",
-                  "lines": ["{name} is practicing growls at a rock.", "{name} wants to go fight something. Anything.", "{name} headbutts the training dummy. It falls over. {name} looks very proud."] },
-      "gentle": { "name": "Gentle", "from": "Lots of care",       "bonus": { "healPct": 0.1, "guardReduction": 0.05 }, "passive": "+10% healing, Guard takes 5% less",
-                  "lines": ["{name} is curled up around a sleeping moth.", "{name} nuzzles your hand and hums.", "{name} shares a berry with you. It's slightly chewed."] },
-      "clever": { "name": "Clever", "from": "Skills and trips",   "bonus": { "breathPerRound": 3, "dropPct": 0.1 }, "passive": "+3 breath per round, +10% item drops",
-                  "lines": ["{name} has stacked the food bowls into a tower.", "{name} is staring at a map. Upside down, but still.", "{name} figured out the Pantry latch. Again."] },
-      "proud":  { "name": "Proud",  "from": "Boss wins and training", "bonus": { "dragonDefense": 2, "dragonCrit": 0.03 }, "passive": "+2 dragon defense, +3% crit",
-                  "lines": ["{name} is admiring its reflection in the water bowl.", "{name} refuses to sit anywhere but the highest perch.", "{name} poses dramatically whenever you look over."] }
+      "bold": {
+        "name": "Bold",
+        "from": "Fights a lot",
+        "bonus": {
+          "clawPct": 0.05,
+          "breathPct": 0.05
+        },
+        "passive": "+5% claw and breath damage",
+        "lines": [
+          "{name} is practicing growls at a rock.",
+          "{name} wants to go fight something. Anything.",
+          "{name} headbutts the training dummy. It falls over. {name} looks very proud."
+        ]
+      },
+      "gentle": {
+        "name": "Gentle",
+        "from": "Lots of care",
+        "bonus": {
+          "healPct": 0.1,
+          "guardReduction": 0.05
+        },
+        "passive": "+10% healing, Guard takes 5% less",
+        "lines": [
+          "{name} is curled up around a sleeping moth.",
+          "{name} nuzzles your hand and hums.",
+          "{name} shares a berry with you. It's slightly chewed."
+        ]
+      },
+      "clever": {
+        "name": "Clever",
+        "from": "Skills and trips",
+        "bonus": {
+          "breathPerRound": 3,
+          "dropPct": 0.1
+        },
+        "passive": "+3 breath per round, +10% item drops",
+        "lines": [
+          "{name} has stacked the food bowls into a tower.",
+          "{name} is staring at a map. Upside down, but still.",
+          "{name} figured out the Pantry latch. Again."
+        ]
+      },
+      "proud": {
+        "name": "Proud",
+        "from": "Boss wins and training",
+        "bonus": {
+          "dragonDefense": 2,
+          "dragonCrit": 0.03
+        },
+        "passive": "+2 dragon defense, +3% crit",
+        "lines": [
+          "{name} is admiring its reflection in the water bowl.",
+          "{name} refuses to sit anywhere but the highest perch.",
+          "{name} poses dramatically whenever you look over."
+        ]
+      }
     }
   },
   "duoCombos": [
-    { "id": "twin-flame", "name": "Twin Roar", "bond": 50, "base": 48, "description": "Both dragons strike as one. Uses both dragon actions." }
+    {
+      "id": "twin-flame",
+      "name": "Twin Roar",
+      "bond": 50,
+      "base": 48,
+      "description": "Both dragons strike as one. Uses both dragon actions."
+    }
   ]
 }

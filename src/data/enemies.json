@@ -1494,5 +1494,1129 @@
     "boss": true,
     "xpMultiplier": 4,
     "goldMultiplier": 5
+  },
+  {
+    "id": "frostbite-hare",
+    "name": "Frostbite Hare",
+    "element": "frost",
+    "flavor": "Fluffy, fast, and bites ankles on purpose.",
+    "base": {
+      "hp": 68.4,
+      "attack": 7.97,
+      "power": 5,
+      "defense": 1,
+      "swift": 10.5,
+      "dodge": 8.0
+    },
+    "perLevel": {
+      "hp": 19.76,
+      "attack": 1.37,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1.35,
+      "dodge": 0.64
+    },
+    "moves": [
+      {
+        "id": "nibble",
+        "name": "Nibble",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "ice-kick",
+        "name": "Ice Kick",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.8,
+        "status": "chill",
+        "statusChance": 0.6
+      },
+      {
+        "id": "hop",
+        "name": "Hop Away",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fade",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "ice-wraith",
+    "name": "Ice Wraith",
+    "element": "frost",
+    "flavor": "A cold draft that learned to hold a grudge.",
+    "base": {
+      "hp": 72.67,
+      "attack": 7.97,
+      "power": 5,
+      "defense": 1,
+      "swift": 8.4,
+      "dodge": 6.5
+    },
+    "perLevel": {
+      "hp": 21.0,
+      "attack": 1.37,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1.08,
+      "dodge": 0.52
+    },
+    "moves": [
+      {
+        "id": "chill-touch",
+        "name": "Chill Touch",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "blizzard",
+        "name": "Blizzard",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "chill",
+        "statusChance": 0.5
+      },
+      {
+        "id": "drift",
+        "name": "Drift",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fade",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "glacier-turtle",
+    "name": "Glacier Turtle",
+    "element": "frost",
+    "flavor": "It has been walking to the same rock for nine years.",
+    "base": {
+      "hp": 106.88,
+      "attack": 7.97,
+      "power": 5,
+      "defense": 1.8,
+      "swift": 4.2,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 30.88,
+      "attack": 1.37,
+      "power": 1,
+      "defense": 0.54,
+      "swift": 0.54,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "snap",
+        "name": "Snap",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "ice-shell",
+        "name": "Ice Shell",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      },
+      {
+        "id": "avalanche",
+        "name": "Shell Avalanche",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      }
+    ]
+  },
+  {
+    "id": "yeti-cub",
+    "name": "Yeti Cub",
+    "element": "frost",
+    "flavor": "Small, for a yeti. Large, for everything else.",
+    "base": {
+      "hp": 94.05,
+      "attack": 7.97,
+      "power": 5,
+      "defense": 1,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 27.17,
+      "attack": 1.37,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "swipe",
+        "name": "Swipe",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "snowball",
+        "name": "Giant Snowball",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "tantrum",
+        "name": "Tantrum",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ]
+  },
+  {
+    "id": "rime-wolf",
+    "name": "Rime Wolf",
+    "element": "frost",
+    "flavor": "Hunts in packs. This one got lost.",
+    "base": {
+      "hp": 85.5,
+      "attack": 7.97,
+      "power": 5,
+      "defense": 1,
+      "swift": 8.4,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 24.7,
+      "attack": 1.37,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1.08,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "bite",
+        "name": "Bite",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "howl",
+        "name": "Frost Howl",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "chill",
+        "statusChance": 0.6
+      },
+      {
+        "id": "pounce",
+        "name": "Pounce",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      }
+    ]
+  },
+  {
+    "id": "rime-alpha",
+    "name": "Rime Alpha",
+    "element": "frost",
+    "flavor": "The one the pack was looking for.",
+    "base": {
+      "hp": 145.35,
+      "attack": 9.17,
+      "power": 5,
+      "defense": 1,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 41.99,
+      "attack": 1.57,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "bite",
+        "name": "Alpha Bite",
+        "intent": "attack",
+        "weight": 4,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "pounce",
+        "name": "Savage Pounce",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "howl",
+        "name": "Pack Howl",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self"
+      },
+      {
+        "id": "lick",
+        "name": "Lick Wounds",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.2,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "miniBoss": true,
+    "xpMultiplier": 2
+  },
+  {
+    "id": "glacier-hydra",
+    "name": "Glacier Hydra",
+    "element": "frost",
+    "flavor": "Three heads, three opinions, one very cold breath.",
+    "base": {
+      "hp": 222.3,
+      "attack": 8.38,
+      "power": 5,
+      "defense": 1.4,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 64.22,
+      "attack": 1.44,
+      "power": 1,
+      "defense": 0.42,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "triple-bite",
+        "name": "Triple Bite",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "frost-breath",
+        "name": "Frost Breath",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "chill",
+        "statusChance": 0.6
+      },
+      {
+        "id": "regrow",
+        "name": "Regrow a Head",
+        "intent": "heal",
+        "weight": 2,
+        "heal": 0.12,
+        "target": "self",
+        "condition": "selfHurt"
+      },
+      {
+        "id": "ice-armor",
+        "name": "Ice Armor",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      },
+      {
+        "id": "roar",
+        "name": "Three-Way Roar",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "boss": true,
+    "xpMultiplier": 4,
+    "goldMultiplier": 5
+  },
+  {
+    "id": "tunnel-mole",
+    "name": "Tunnel Mole",
+    "element": "stone",
+    "flavor": "Cannot see you. Can definitely smell you.",
+    "base": {
+      "hp": 108.67,
+      "attack": 8.1,
+      "power": 5,
+      "defense": 1,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 31.39,
+      "attack": 1.39,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "claw",
+        "name": "Dig Claw",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "burrow",
+        "name": "Burrow",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fade",
+        "target": "self"
+      },
+      {
+        "id": "rockfall",
+        "name": "Rockfall",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "crack",
+        "statusChance": 0.4
+      }
+    ]
+  },
+  {
+    "id": "crystal-crawler",
+    "name": "Crystal Crawler",
+    "element": "stone",
+    "flavor": "A spider made of gemstones. Priceless. Furious.",
+    "base": {
+      "hp": 103.5,
+      "attack": 8.1,
+      "power": 5,
+      "defense": 1,
+      "swift": 8.4,
+      "dodge": 6.0
+    },
+    "perLevel": {
+      "hp": 29.9,
+      "attack": 1.39,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1.08,
+      "dodge": 0.48
+    },
+    "moves": [
+      {
+        "id": "bite",
+        "name": "Bite",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "shard-spray",
+        "name": "Shard Spray",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "crack",
+        "statusChance": 0.6
+      },
+      {
+        "id": "glimmer",
+        "name": "Glimmer",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.5,
+        "status": "blind",
+        "statusChance": 0.6
+      }
+    ]
+  },
+  {
+    "id": "lantern-gnome",
+    "name": "Lantern Gnome",
+    "element": "fire",
+    "flavor": "Mines for gold. Finds you instead. Disappointed.",
+    "base": {
+      "hp": 93.15,
+      "attack": 8.1,
+      "power": 5,
+      "defense": 1,
+      "swift": 7.7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 26.91,
+      "attack": 1.39,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 0.99,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "pick",
+        "name": "Pickaxe",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "lantern",
+        "name": "Lantern Swing",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.8,
+        "status": "burn",
+        "statusChance": 0.6
+      },
+      {
+        "id": "spark",
+        "name": "Fuse Spark",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      }
+    ]
+  },
+  {
+    "id": "gemback-lizard",
+    "name": "Gemback Lizard",
+    "element": "stone",
+    "flavor": "Its back is worth a fortune. It knows.",
+    "base": {
+      "hp": 119.02,
+      "attack": 8.1,
+      "power": 5,
+      "defense": 1.6,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 34.38,
+      "attack": 1.39,
+      "power": 1,
+      "defense": 0.48,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "tail",
+        "name": "Tail Whip",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "gem-shell",
+        "name": "Gem Shell",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      },
+      {
+        "id": "crush",
+        "name": "Crush",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      }
+    ]
+  },
+  {
+    "id": "rust-sprite",
+    "name": "Rust Sprite",
+    "element": "storm",
+    "flavor": "A spark that lives in old mine carts.",
+    "base": {
+      "hp": 82.8,
+      "attack": 8.1,
+      "power": 5,
+      "defense": 1,
+      "swift": 10.5,
+      "dodge": 8.0
+    },
+    "perLevel": {
+      "hp": 23.92,
+      "attack": 1.39,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1.35,
+      "dodge": 0.64
+    },
+    "moves": [
+      {
+        "id": "zap",
+        "name": "Zap",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "shock",
+        "name": "Static Shock",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.8,
+        "status": "shock",
+        "statusChance": 0.5
+      },
+      {
+        "id": "flicker",
+        "name": "Flicker",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fade",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "foreman-golem",
+    "name": "Foreman Golem",
+    "element": "stone",
+    "flavor": "Wears a hard hat. Takes safety very seriously.",
+    "base": {
+      "hp": 181.12,
+      "attack": 9.32,
+      "power": 5,
+      "defense": 1.4,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 52.32,
+      "attack": 1.6,
+      "power": 1,
+      "defense": 0.42,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "slam",
+        "name": "Slam",
+        "intent": "attack",
+        "weight": 4,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "quake",
+        "name": "Quake",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "crack",
+        "statusChance": 0.5
+      },
+      {
+        "id": "repair",
+        "name": "Self Repair",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.2,
+        "target": "self",
+        "condition": "selfHurt"
+      },
+      {
+        "id": "brace",
+        "name": "Brace",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      }
+    ],
+    "miniBoss": true,
+    "xpMultiplier": 2
+  },
+  {
+    "id": "iron-golem",
+    "name": "Iron Golem",
+    "element": "stone",
+    "flavor": "Built to guard the deepest mine. Still guarding. Very sturdy.",
+    "base": {
+      "hp": 279.45,
+      "attack": 8.52,
+      "power": 5,
+      "defense": 1.6,
+      "swift": 5.6,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 80.73,
+      "attack": 1.47,
+      "power": 1,
+      "defense": 0.48,
+      "swift": 0.72,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "iron-fist",
+        "name": "Iron Fist",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "earthsplitter",
+        "name": "Earthsplitter",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "crack",
+        "statusChance": 0.6
+      },
+      {
+        "id": "reforge",
+        "name": "Reforge",
+        "intent": "heal",
+        "weight": 2,
+        "heal": 0.1,
+        "target": "self",
+        "condition": "selfHurt"
+      },
+      {
+        "id": "iron-skin",
+        "name": "Iron Skin",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      },
+      {
+        "id": "overheat",
+        "name": "Overheat",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "boss": true,
+    "xpMultiplier": 4,
+    "goldMultiplier": 5
+  },
+  {
+    "id": "dawn-sprite",
+    "name": "Dawn Sprite",
+    "element": "light",
+    "flavor": "Wakes up early and wants everyone to know.",
+    "base": {
+      "hp": 95.62,
+      "attack": 7.87,
+      "power": 5,
+      "defense": 1,
+      "swift": 9.1,
+      "dodge": 6.5
+    },
+    "perLevel": {
+      "hp": 27.62,
+      "attack": 1.35,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1.17,
+      "dodge": 0.52
+    },
+    "moves": [
+      {
+        "id": "glare",
+        "name": "Glare",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "sunbeam",
+        "name": "Sunbeam",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "blind",
+        "statusChance": 0.4
+      },
+      {
+        "id": "shine",
+        "name": "Shine",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.25,
+        "target": "ally",
+        "condition": "allyHurt"
+      }
+    ]
+  },
+  {
+    "id": "dusk-bat",
+    "name": "Dusk Bat",
+    "element": "shadow",
+    "flavor": "Only comes out at twilight. Which is always, up here.",
+    "base": {
+      "hp": 90.0,
+      "attack": 7.87,
+      "power": 5,
+      "defense": 1,
+      "swift": 10.5,
+      "dodge": 8.5
+    },
+    "perLevel": {
+      "hp": 26.0,
+      "attack": 1.35,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1.35,
+      "dodge": 0.68
+    },
+    "moves": [
+      {
+        "id": "bite",
+        "name": "Bite",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "shade-screech",
+        "name": "Shade Screech",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "blind",
+        "statusChance": 0.6
+      },
+      {
+        "id": "vanish",
+        "name": "Vanish",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fade",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "sun-knight",
+    "name": "Sun Knight",
+    "element": "light",
+    "flavor": "Polishes its armor between every swing.",
+    "base": {
+      "hp": 129.38,
+      "attack": 7.87,
+      "power": 5,
+      "defense": 1.6,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 37.38,
+      "attack": 1.35,
+      "power": 1,
+      "defense": 0.48,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "lance",
+        "name": "Lance",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "radiant",
+        "name": "Radiant Charge",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "aegis",
+        "name": "Sun Aegis",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "shade-stalker",
+    "name": "Shade Stalker",
+    "element": "shadow",
+    "flavor": "You can only see it out of the corner of your eye.",
+    "base": {
+      "hp": 112.5,
+      "attack": 7.87,
+      "power": 5,
+      "defense": 1,
+      "swift": 9.1,
+      "dodge": 7.0
+    },
+    "perLevel": {
+      "hp": 32.5,
+      "attack": 1.35,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1.17,
+      "dodge": 0.56
+    },
+    "moves": [
+      {
+        "id": "slash",
+        "name": "Slash",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "shadow-strike",
+        "name": "Shadow Strike",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "fade",
+        "name": "Fade Out",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fade",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "twilight-moth",
+    "name": "Twilight Moth",
+    "element": "shadow",
+    "flavor": "Half dawn, half dusk, all dust.",
+    "base": {
+      "hp": 101.25,
+      "attack": 7.87,
+      "power": 5,
+      "defense": 1,
+      "swift": 8.4,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 29.25,
+      "attack": 1.35,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1.08,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "flutter",
+        "name": "Flutter",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "to-light",
+        "name": "Turn to Light",
+        "intent": "shift",
+        "weight": 1,
+        "shiftTo": "light",
+        "target": "self",
+        "condition": "notShifted"
+      },
+      {
+        "id": "dust",
+        "name": "Moon Dust",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "blind",
+        "statusChance": 0.6
+      }
+    ]
+  },
+  {
+    "id": "eclipse-herald",
+    "name": "Eclipse Herald",
+    "element": "shadow",
+    "flavor": "Announces the Eclipse Dragon. Loudly. Constantly.",
+    "base": {
+      "hp": 196.88,
+      "attack": 9.04,
+      "power": 5,
+      "defense": 1,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 56.88,
+      "attack": 1.55,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "strike",
+        "name": "Herald Strike",
+        "intent": "attack",
+        "weight": 4,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "proclaim",
+        "name": "Proclamation",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "blind",
+        "statusChance": 0.4
+      },
+      {
+        "id": "rally",
+        "name": "Rally",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self"
+      },
+      {
+        "id": "mend",
+        "name": "Dark Mend",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.2,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "miniBoss": true,
+    "xpMultiplier": 2
+  },
+  {
+    "id": "eclipse-dragon",
+    "name": "Eclipse Dragon",
+    "element": "shadow",
+    "flavor": "The oldest dragon in the world. Half sun, half moon, and not in the mood.",
+    "base": {
+      "hp": 315.0,
+      "attack": 8.27,
+      "power": 5,
+      "defense": 1.5,
+      "swift": 7.7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 91.0,
+      "attack": 1.42,
+      "power": 1,
+      "defense": 0.45,
+      "swift": 0.99,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "rend",
+        "name": "Rend",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "umbral-breath",
+        "name": "Umbral Breath",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "blind",
+        "statusChance": 0.5
+      },
+      {
+        "id": "turn-to-day",
+        "name": "Turn to Day",
+        "intent": "shift",
+        "weight": 1,
+        "shiftTo": "light",
+        "target": "self",
+        "condition": "notShifted"
+      },
+      {
+        "id": "eclipse",
+        "name": "Total Eclipse",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self",
+        "condition": "selfHurt"
+      },
+      {
+        "id": "corona",
+        "name": "Corona",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.1,
+        "target": "self",
+        "condition": "selfHurt"
+      },
+      {
+        "id": "wingbeat",
+        "name": "Wingbeat",
+        "intent": "big",
+        "weight": 1,
+        "power": 0.9,
+        "physical": true
+      }
+    ],
+    "boss": true,
+    "xpMultiplier": 5,
+    "goldMultiplier": 6
   }
 ]

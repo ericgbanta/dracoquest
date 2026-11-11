@@ -13,7 +13,7 @@ import type { RunState } from './run';
 import { newRoost, type RoostState } from './roost';
 import type { DragonState, ElementId, RiderState } from './types';
 
-export const CURRENT_VERSION = 4;
+export const CURRENT_VERSION = 5;
 export const SAVE_KEY = 'dracoquest.save';
 const CODE_PREFIX = 'DQ1:'; // Code format, not save version. The save inside carries its own version.
 
@@ -50,6 +50,8 @@ export interface SaveData {
   roost: RoostState;
   /** Days in a row with all care done. */
   careStreak: { count: number; lastDay: string };
+  /** Seasonal event gifts already claimed, as "eventId-year". */
+  eventsClaimed: string[];
   stats: { fightsWon: number; fightsLost: number; runsCompleted: number };
   settings: Settings;
 }
@@ -125,6 +127,12 @@ export const MIGRATIONS: Record<number, Migration> = {
       careStreak: { count: 0, lastDay: '' },
     };
   },
+  // v4 (Phase 3) → v5 adds egg laying for Elders and seasonal event gifts.
+  4: (save) => ({
+    ...save,
+    dragons: ((save.dragons as Record<string, unknown>[]) ?? []).map((d) => ({ ...d, laidEgg: false })),
+    eventsClaimed: [],
+  }),
 };
 
 export function newSave(now: number): SaveData {
@@ -148,6 +156,7 @@ export function newSave(now: number): SaveData {
     secondDragonId: null,
     roost: newRoost(now),
     careStreak: { count: 0, lastDay: '' },
+    eventsClaimed: [],
     stats: { fightsWon: 0, fightsLost: 0, runsCompleted: 0 },
     settings: { sound: false, fastBattles: false },
   };
@@ -208,6 +217,8 @@ export function validateSave(raw: Record<string, unknown>): SaveData {
   if (!Array.isArray(raw.eggs) || !Array.isArray(raw.questsDone)) fail('eggs or quests missing');
   if (typeof raw.embers !== 'number' || !isObject(raw.roost) || !isObject(raw.careStreak)) fail('roost missing');
   if (raw.secondDragonId !== null && typeof raw.secondDragonId !== 'string') fail('second partner damaged');
+  if (!Array.isArray(raw.eventsClaimed)) fail('events missing');
+  for (const d of raw.dragons as Record<string, unknown>[]) if (typeof d.laidEgg !== 'boolean') fail('dragon damaged');
   if (!isObject(raw.stats)) fail('stats missing');
   if (!isObject(raw.settings)) fail('settings missing');
   const s = raw.settings as Record<string, unknown>;

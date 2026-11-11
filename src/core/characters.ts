@@ -86,6 +86,7 @@ export function hatchDragon(data: GameData, rng: Rng, opts: HatchOptions): Drago
     care: { day: '', meals: 0, groomed: false },
     assignment: { kind: 'idle' },
     temper: { bold: 0, gentle: 0, clever: 0, proud: 0 },
+    laidEgg: false,
   };
   return { ...dragon, hp: dragonMaxHp(data, dragon) };
 }

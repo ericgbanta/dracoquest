@@ -40,6 +40,8 @@ export interface GearData {
   weaponType?: WeaponType;
   element?: ElementId | null;
   damage?: number;
+  /** Only sold during this seasonal event. */
+  event?: string;
 }
 
 export type TalentTree = 'protection' | 'elemental' | 'fighting' | 'assistance' | 'mischief';
@@ -66,6 +68,8 @@ export interface TalentData {
   description: string;
   bonusPerRank?: Bonus;
   skill?: TalentSkill;
+  /** Capstones need this life stage. */
+  requiresStage?: string;
 }
 
 export interface TalentsData {
@@ -209,6 +213,18 @@ export interface DragonsData {
   nameMaxLength: number;
   nameSuggestions: string[];
   palette: string[];
+  eggLaying: { stage: string; cost: Cost };
+}
+
+export interface EventData {
+  id: string;
+  name: string;
+  /** MM-DD, inclusive. An event can wrap past New Year. */
+  start: string;
+  end: string;
+  blurb: string;
+  gift: { embers: number; items: Record<string, number> };
+  shop: string[];
 }
 
 export interface CareData {
@@ -219,7 +235,7 @@ export interface CareData {
   wellKept: { xpBonus: number; fights: number };
 }
 
-export interface FoodData { id: string; name: string; icon: string; statPoints: number; price: number; premium?: boolean }
+export interface FoodData { id: string; name: string; icon: string; statPoints: number; price: number; premium?: boolean; event?: string }
 
 export interface ItemData {
   id: string; name: string; icon: string; effect: 'healRider' | 'healDragon' | 'restoreMp'; fraction: number; description: string;
@@ -278,7 +294,8 @@ export interface ZoneData {
   miniBoss: { enemy: string; levelOffset: number };
   dropChances: Record<string, number>;
   gate: { stage: string; text: string } | null;
-  eggDrop: { element: ElementId; chance: number } | null;
+  /** Bosses drop an egg: always the first time, then by chance. `elements` picks one at random. */
+  eggDrop: { element: ElementId; chance: number; elements?: ElementId[] } | null;
 }
 
 export interface GameData {
@@ -297,6 +314,7 @@ export interface GameData {
   quests: Record<string, QuestData>;
   shop: ShopData;
   roost: RoostData;
+  events: EventData[];
 }
 
 // ---- Persistent character state (lives in the save) ----
@@ -342,6 +360,8 @@ export interface DragonState {
   assignment: Assignment;
   /** Temperament points earned by how the dragon is raised. */
   temper: Record<TemperamentId, number>;
+  /** Elder dragons can lay one egg each. */
+  laidEgg: boolean;
 }
 
 export interface DragonCare { day: string; meals: number; groomed: boolean }

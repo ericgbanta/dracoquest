@@ -1,0 +1,38 @@
+[
+  {
+    "id": "harvest-fair",
+    "name": "Harvest Moon Fair",
+    "start": "11-08",
+    "end": "11-30",
+    "blurb": "The Roost is decked out in pumpkins and paper lanterns. Brindle's stall sells pie.",
+    "gift": { "embers": 10, "items": { "harvest-pie": 3, "potion": 2 } },
+    "shop": ["harvest-pie", "harvest-lantern"]
+  },
+  {
+    "id": "frostfall",
+    "name": "Frostfall",
+    "start": "12-15",
+    "end": "01-05",
+    "blurb": "Snow on the Nest, cocoa in the Pantry, and every dragon wants to catch snowflakes.",
+    "gift": { "embers": 10, "items": { "cocoa-cake": 3, "dragon-treat": 2 } },
+    "shop": ["cocoa-cake", "snowflake-scarf"]
+  },
+  {
+    "id": "bloomtide",
+    "name": "Bloomtide",
+    "start": "03-20",
+    "end": "04-10",
+    "blurb": "Flowers everywhere. Your dragon has sneezed eleven times today.",
+    "gift": { "embers": 10, "items": { "blossom-bun": 3, "mana-tonic": 2 } },
+    "shop": ["blossom-bun", "petal-pin"]
+  },
+  {
+    "id": "sunfire-festival",
+    "name": "Sunfire Festival",
+    "start": "06-20",
+    "end": "07-10",
+    "blurb": "The longest day of the year. Dragons bask, riders sunburn.",
+    "gift": { "embers": 10, "items": { "sunfruit": 2, "potion": 3 } },
+    "shop": ["sunfruit", "sunburst-amulet"]
+  }
+]

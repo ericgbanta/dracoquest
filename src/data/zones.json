@@ -292,5 +292,234 @@
       "element": "storm",
       "chance": 0.1
     }
+  },
+  {
+    "id": "frostmere",
+    "name": "Frostmere",
+    "element": "frost",
+    "minLevel": 26,
+    "maxLevel": 36,
+    "gate": {
+      "stage": "adult",
+      "text": "Needs an Adult dragon to survive the cold"
+    },
+    "blurb": "A frozen lake where even the snow seems cross with you.",
+    "fights": {
+      "min": 3,
+      "max": 5
+    },
+    "encounters": [
+      {
+        "enemies": [
+          "frostbite-hare"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "ice-wraith"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "glacier-turtle"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "yeti-cub"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "rime-wolf"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "rime-wolf",
+          "rime-wolf"
+        ],
+        "weight": 1
+      }
+    ],
+    "levelSpread": 1,
+    "multiEnemyLevelOffset": -1,
+    "boss": {
+      "enemy": "glacier-hydra",
+      "level": 36,
+      "unlockRiderLevel": 35
+    },
+    "miniBoss": {
+      "enemy": "rime-alpha",
+      "levelOffset": 0
+    },
+    "dropChances": {
+      "potion": 0.25,
+      "dragon-treat": 0.15,
+      "mana-tonic": 0.1
+    },
+    "eggDrop": {
+      "element": "frost",
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "deepstone-mines",
+    "name": "Deepstone Mines",
+    "element": "stone",
+    "minLevel": 34,
+    "maxLevel": 42,
+    "gate": {
+      "stage": "adult",
+      "text": "Needs an Adult dragon to carry the lanterns"
+    },
+    "blurb": "Old mines full of gems, tunnels, and things that like both.",
+    "fights": {
+      "min": 3,
+      "max": 5
+    },
+    "encounters": [
+      {
+        "enemies": [
+          "tunnel-mole"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "crystal-crawler"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "lantern-gnome"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "gemback-lizard"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "rust-sprite"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "tunnel-mole",
+          "rust-sprite"
+        ],
+        "weight": 1
+      }
+    ],
+    "levelSpread": 1,
+    "multiEnemyLevelOffset": -1,
+    "boss": {
+      "enemy": "iron-golem",
+      "level": 42,
+      "unlockRiderLevel": 41
+    },
+    "miniBoss": {
+      "enemy": "foreman-golem",
+      "levelOffset": 0
+    },
+    "dropChances": {
+      "potion": 0.25,
+      "dragon-treat": 0.15,
+      "mana-tonic": 0.1
+    },
+    "eggDrop": {
+      "element": "stone",
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "eclipse-peak",
+    "name": "Eclipse Peak",
+    "element": "shadow",
+    "minLevel": 40,
+    "maxLevel": 50,
+    "gate": {
+      "stage": "elder",
+      "text": "Only an Elder dragon can fly this high"
+    },
+    "blurb": "Where the sun and moon argue every day. Bring sunglasses and a lantern.",
+    "fights": {
+      "min": 3,
+      "max": 5
+    },
+    "encounters": [
+      {
+        "enemies": [
+          "dawn-sprite"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "dusk-bat"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "sun-knight"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "shade-stalker"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "twilight-moth"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "dawn-sprite",
+          "dusk-bat"
+        ],
+        "weight": 1
+      }
+    ],
+    "levelSpread": 1,
+    "multiEnemyLevelOffset": -1,
+    "boss": {
+      "enemy": "eclipse-dragon",
+      "level": 50,
+      "unlockRiderLevel": 49
+    },
+    "miniBoss": {
+      "enemy": "eclipse-herald",
+      "levelOffset": 0
+    },
+    "dropChances": {
+      "potion": 0.25,
+      "dragon-treat": 0.15,
+      "mana-tonic": 0.1
+    },
+    "eggDrop": {
+      "element": "shadow",
+      "elements": [
+        "light",
+        "shadow"
+      ],
+      "chance": 0.1
+    }
   }
 ]
