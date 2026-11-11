@@ -1,0 +1,18 @@
+Use your built-in image generation tool to create one image and save it as ./v2/out/icons-battle.png (landscape, about 1536x1024). Do not write code to draw it; generate it with the image tool. The FIRST attached image is the STYLE reference only: match its line weight, flat two-tone cel shading, shape language and level of simplicity exactly. Do not copy its subject.
+
+SUBJECT: a sheet of 12 separate game UI icons arranged in a grid of 4 columns by 3 rows, evenly spaced, each one fully separate with wide green space around it; none touch. Each icon is a single bold, simple object with a thick dark outline, drawn to read clearly at 24 pixels, all roughly the same size. Reading order, left to right, top row first:
+1) Attack: two crossed steel swords.
+2) Big attack: a red and yellow spiky warning burst with an exclamation shape made of two dots.
+3) Buff: a bold golden arrow pointing up.
+4) Heal: a pink-red heart with a white plus.
+5) Shift: two curved arrows chasing each other in a circle, violet and teal.
+6) Potion: a round glass bottle of red liquid with a cork.
+7) Mana tonic: a tall glass bottle of blue liquid with a cork.
+8) Dragon treat: a bone-shaped biscuit, golden brown.
+9) Gold: a small stack of three gold coins.
+10) Ember: a glowing orange ember gem shaped like a teardrop flame.
+11) XP: a bright yellow five-point star.
+12) Bond: a red heart with a tiny dragon horn pair on top.
+Perfectly flat solid #00ff00 background everywhere outside the artwork. Do not use bright green anywhere in the artwork itself (use dark or olive greens if something must be green). No ground, no cast shadows, no text, no labels, no numbers, no borders, no frames.
+
+STYLE (shared by every image in this set; follow it closely): clean modern cel-shaded cartoon built from big, simple, slightly geometric shapes, like a high-budget 2D animated series crossed with a bold flat graphic poster. Confident, even, dark navy ink outline around every form. Flat color fills with exactly two tones (base and one hard-edged shadow shape) plus at most one small crisp highlight. No gradients, no painted texture, no airbrushing, no fine detail: no individual scales, feathers or fur strands, only a few large simple marks. Chunky rounded appealing proportions, strong clear silhouette that reads at thumbnail size. Friendly all-ages fantasy tone. Entirely original designs; do not imitate any existing game's or show's characters.

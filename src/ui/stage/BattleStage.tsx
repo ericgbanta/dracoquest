@@ -36,7 +36,7 @@ function useBattleArt(zoneId: string, weapon: string, ride: boolean, lead: Drago
       const [backdrop, rider, leadRig, secondRig, effects, ...enemyRigs] = await Promise.all([
         loadBackdrop(zoneId),
         // Riding uses the seated rider.
-        ride ? loadRig('rider.mounted') : loadRig('rider', undefined, { weapon }),
+        ride ? loadRig('rider.mounted') : loadRig(`rider.${weapon}`),
         lead ? loadRig(`dragon.${lead.stage}`, look(lead)) : Promise.resolve(null),
         second ? loadRig(`dragon.${second.stage}`, look(second)) : Promise.resolve(null),
         loadEffects(lead?.element ?? 'fire'),

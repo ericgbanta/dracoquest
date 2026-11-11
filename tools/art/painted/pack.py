@@ -101,5 +101,65 @@ for z in list(ZONES) + ['roost']:
         bd = bd.crop((x, 0, x + w, bd.height)).resize((1280, 880), Image.LANCZOS)
         os.makedirs(f'{OUT}/backdrops', exist_ok=True)
         bd.save(f'{OUT}/backdrops/{z}.webp', quality=82, method=6); packed[f'bg-{z}'] = [1280, 880]
+# ---- attack poses: the same character at the same drawing scale, placed relative to the idle image's box
+POSE_SCALE = {'rider-sword': 1.32, 'rider-staff': 1.22, 'rider-bow': 1.1, 'dragon-hatchling': 0.86}
+def feet_center(img):
+    a = np.asarray(img.getchannel('A')) > 40
+    rows = a[int(a.shape[0] * 0.9):]
+    xs = np.where(rows.any(axis=0))[0]
+    return (xs.min() + xs.max()) / 2
+def pose(idle_name, out_name, idle_w, pad=(0, 0), apad=(0, 0), scale=1.0):
+    """Pack <idle_name>-attack scaled like the idle, and return its box in fractions of the idle image."""
+    if not (have(idle_name) and have(f'{idle_name}-attack')): return
+    idle = crop(key(f'v2/out/{idle_name}.png')); att = crop(key(f'v2/out/{idle_name}-attack.png'))
+    f = idle_w / idle.width                                   # the idle's resize factor
+    iw, ih = idle.width * f + pad[0], idle.height * f + pad[1]   # the idle image as packed
+    # scale: a correction for poses the model drew smaller or larger in the frame than the idle.
+    aw, ah = att.width * f * scale, att.height * f * scale
+    left = (pad[0] + feet_center(idle) * f) - feet_center(att) * f * scale
+    top = ih - ah
+    att = att.resize((round(aw), round(ah)), Image.LANCZOS)
+    # apad: transparent margin (left, top) so a tail tip drawn at load has room; the box grows to match.
+    out = Image.new('RGBA', (att.width + apad[0], att.height + apad[1]), (0, 0, 0, 0)); out.paste(att, apad)
+    packed[f'{out_name}-attack'] = save(out, f'{out_name}-attack', q=88)
+    packed[f'{out_name}-attack-box'] = [round((left - apad[0]) / iw, 4), round((top - apad[1]) / ih, 4), round(out.width / iw, 4), round(out.height / ih, 4)]
+for stage in ['hatchling', 'juvenile', 'adult', 'elder']:
+    pose(f'dragon-{stage}', f'dragon-{stage}', 640, PAD.get(stage, (0, 0)), (80, 30), POSE_SCALE.get(f'dragon-{stage}', 1))
+for w in ['sword', 'bow', 'staff']:
+    if have(f'rider-{w}'):
+        idle = crop(key(f'v2/out/rider-{w}.png')); k = min(1, 460 / max(idle.size))
+        pose(f'rider-{w}', f'rider-{w}', idle.width * k, scale=POSE_SCALE.get(f'rider-{w}', 1))
+
+# ---- the egg: fitted to the old egg's spot on a 480 x 600 canvas (so the crack overlays line up), plus its two halves
+if have('egg'):
+    egg = crop(key('v2/out/egg.png'), pad=0)
+    bw, bh = 376, 548                                         # the SVG egg spans x 13..107 and y 8..145 of 120 x 150
+    k = min(bw / egg.width, bh / egg.height)
+    egg = egg.resize((round(egg.width * k), round(egg.height * k)), Image.LANCZOS)
+    canvas = Image.new('RGBA', (480, 600), (0, 0, 0, 0)); canvas.paste(egg, ((480 - egg.width) // 2, 580 - egg.height))
+    os.makedirs(f'{REPO}/src/art/eggs', exist_ok=True)
+    canvas.save(f'{REPO}/src/art/eggs/egg.webp', quality=90, method=6)
+    yy, xx = np.mgrid[0:600, 0:480]
+    zig = 300 + 26 * (2 * np.abs(((xx / 60) % 2) - 1) - 1)    # a zigzag crack line across the middle
+    arr = np.asarray(canvas)
+    for name, mask in [('egg-top', yy < zig), ('egg-bottom', yy >= zig)]:
+        half = arr.copy(); half[..., 3] = np.where(mask, half[..., 3], 0)
+        Image.fromarray(half, 'RGBA').save(f'{REPO}/src/art/eggs/{name}.webp', quality=90, method=6)
+    packed['egg'] = [480, 600]
+
+# ---- UI icons, cut from sheets
+ICONS = {
+ 'icons-status': (4, ['status-blind', 'status-burn', 'status-chill', 'status-crack', 'status-fade', 'status-fury', 'status-harden', 'status-root', 'status-shock', 'status-soak', 'status-taunt', 'status-ward']),
+ 'icons-battle': (4, ['intent-attack', 'intent-big', 'intent-buff', 'intent-heal', 'intent-shift', 'item-potion', 'item-mana-tonic', 'item-dragon-treat', 'gold', 'ember', 'xp', 'bond']),
+ 'icons-care': (4, ['food-blossom-bun', 'food-char-pepper', 'food-cocoa-cake', 'food-harvest-pie', 'food-mossberry-tart', 'food-river-trout', 'food-sunfruit', 'food-sweetroot', 'feed', 'groom', 'rest', 'egg']),
+ 'icons-places': (4, ['building-expeditions', 'building-hatchery', 'building-nest', 'building-pantry', 'building-training', 'town', 'lock', 'event']),
+}
+for sheet, (cols, names) in ICONS.items():
+    if not have(sheet): continue
+    for n, piece in zip(names, split(key(f'v2/out/{sheet}.png'), len(names), cols)):
+        k = 128 / max(piece.size); piece = piece.resize((max(1, round(piece.width * k)), max(1, round(piece.height * k))), Image.LANCZOS)
+        sq = Image.new('RGBA', (136, 136), (0, 0, 0, 0)); sq.paste(piece, ((136 - piece.width) // 2, (136 - piece.height) // 2))
+        os.makedirs(f'{REPO}/src/art/icons', exist_ok=True)
+        sq.save(f'{REPO}/src/art/icons/{n}.webp', quality=88, method=6); packed[f'icon-{n}'] = [136, 136]
 json.dump(packed, open('v2/packed.json', 'w'), indent=1)
 print(len(packed), 'packed')

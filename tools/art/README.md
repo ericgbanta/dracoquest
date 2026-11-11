@@ -12,9 +12,10 @@ The packed WebP files are the source of truth. The raw generated PNGs (about 2 M
 | `anchor.png` | The style reference image passed to every generation (`-i`). |
 | `prompts/p-anchor.txt` | The prompt that made the anchor. |
 | `jobs.py` | Writes one prompt per image into `v2/prompts/`: 4 dragon stages, tail tips, 4 rider poses, 7 bosses, 7 enemy sheets (six enemies each), 8 backdrops, effects. |
+| `jobs2.py` | The second batch: the egg, four icon sheets, and attack poses. It copies each idle image to `v2/refs/` so `run.sh` passes it as a second reference. |
 | `prompts/` | The prompts as they were run, for reference. |
 | `run.sh` | Runs `codex exec` for each named prompt, five at a time, skipping images that already exist. |
-| `pack.py` | Cuts characters out of the green background, splits sheets into single enemies, crops, resizes and writes WebP into `src/art/painted/`. Needs Python 3 with numpy, scipy and Pillow. |
+| `pack.py` | Cuts characters out of the green background, splits sheets into single enemies and icons, places attack poses against their idle image, splits the egg, and writes WebP into `src/art/painted/`, `src/art/icons/` and `src/art/eggs/`. Needs Python 3 with numpy, scipy and Pillow. |
 | `zones.json` | Which enemies are on which sheet, in reading order. |
 
 ## Making or replacing art
@@ -26,7 +27,7 @@ The scripts expect a scratch folder laid out as `v2/` (style.txt, anchor.png, pr
 3. `./v2/run.sh <name> ...` for the images you want. Delete `v2/out/<name>.png` first to redo one.
 4. Look at the results. The image tool can't make transparent backgrounds, so characters come on flat green.
 5. `python3 v2/pack.py /path/to/repo` repacks everything it finds in `v2/out/`.
-6. If an image's size changed, update its `size` (and `points`) in `assets.json`. Check `#/dev/art` at phone size.
+6. If an image's size changed, update its `size` (and `points`) in `assets.json`. For an attack pose, copy its `<name>-attack-box` from `v2/packed.json` into the part's `box`. Check `#/dev/art` at phone size.
 
 Notes from the first run: each image takes one to two minutes; five at a time worked; a `-i` reference must come before `--` and the prompt; `codex exec` needs `< /dev/null` or it waits on stdin. Image turns use the subscription's Codex limits several times faster than normal turns.
 

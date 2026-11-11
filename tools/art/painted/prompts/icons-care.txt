@@ -1,0 +1,18 @@
+Use your built-in image generation tool to create one image and save it as ./v2/out/icons-care.png (landscape, about 1536x1024). Do not write code to draw it; generate it with the image tool. The FIRST attached image is the STYLE reference only: match its line weight, flat two-tone cel shading, shape language and level of simplicity exactly. Do not copy its subject.
+
+SUBJECT: a sheet of 12 separate game UI icons arranged in a grid of 4 columns by 3 rows, evenly spaced, each one fully separate with wide green space around it; none touch. Each icon is a single bold, simple object with a thick dark outline, drawn to read clearly at 24 pixels, all roughly the same size. Reading order, left to right, top row first:
+1) Blossom bun: a round pink steamed bun with a flower stamp.
+2) Char pepper: a red chili pepper with a small flame at its tip.
+3) Cocoa cake: a slice of dark brown chocolate cake.
+4) Harvest pie: a golden pie with a lattice crust.
+5) Mossberry tart: a small tart with dark purple berries.
+6) River trout: a blue-silver fish.
+7) Sunfruit: a round orange fruit with a leaf, glowing like a sun.
+8) Sweetroot: a tan root vegetable like a parsnip with leafy top.
+9) Feed: a filled food bowl.
+10) Groom: a wooden brush with bristles.
+11) Rest: a crescent moon with a small star.
+12) Egg: a cream dragon egg with violet spots.
+Perfectly flat solid #00ff00 background everywhere outside the artwork. Do not use bright green anywhere in the artwork itself (use dark or olive greens if something must be green). No ground, no cast shadows, no text, no labels, no numbers, no borders, no frames.
+
+STYLE (shared by every image in this set; follow it closely): clean modern cel-shaded cartoon built from big, simple, slightly geometric shapes, like a high-budget 2D animated series crossed with a bold flat graphic poster. Confident, even, dark navy ink outline around every form. Flat color fills with exactly two tones (base and one hard-edged shadow shape) plus at most one small crisp highlight. No gradients, no painted texture, no airbrushing, no fine detail: no individual scales, feathers or fur strands, only a few large simple marks. Chunky rounded appealing proportions, strong clear silhouette that reads at thumbnail size. Friendly all-ages fantasy tone. Entirely original designs; do not imitate any existing game's or show's characters.

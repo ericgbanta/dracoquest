@@ -18,7 +18,7 @@ The exact wording is `tools/art/painted/style.txt`, and `tools/art/painted/ancho
 
 Images are generated with an image model and packed by the scripts in `tools/art/painted/` (see `tools/art/README.md`). Every file is listed in `src/art/assets.json`; nothing is loaded any other way. A missing file falls back to a simple placeholder shape, so a feature never waits on art.
 
-Eggs (`src/art/eggs/`) and UI icons (`src/art/icons/`) are still SVG from the first pass.
+Eggs and UI icons are painted too (see below). Only the three crack overlays on the egg are still SVG lines.
 
 ## Characters
 
@@ -26,12 +26,16 @@ Each character is one painted WebP, facing right, cropped to its edges with its 
 
 In `assets.json` a character is a rig: its image `size`, a `boxScale` (its size on stage relative to its slot), named `points` as fractions of the image (`mouth` where breath starts, `hit` where sparks land, `front` where a dash stops, `saddle` on dragons), and its parts. A painted rig has a `torso` group that breathes (`anim: swell`) holding one `body` image. Battle moves that used to turn a head or an arm lean the whole body by a share of the angle (`onePiece` in `src/data/stage.json`).
 
+### Attack poses
+
+Dragons and the rider have a second image, `pose-attack`, in the same `torso` group: the same character lunging (dragons roar with the mouth open; the rider swings, draws the bow or thrusts the staff). It is hidden until a battle move swaps it in by opacity (`strike` in `choreo.ts`). Its `box` in `assets.json` places it relative to the idle image, as fractions (left, top, width, height), so it can reach outside the idle's box. `pack.py` works the box out by scaling the pose like the idle and lining up the feet; `POSE_SCALE` there corrects poses the model drew at a different size. A dragon's attack pose has its own `tip` spot. A character with no attack pose just leans.
+
 A rig can still be built from several parts (SVG or WebP) drawn in place on a shared canvas with pivots; the loader and the stage support both. SVG parts get a lighting pass at load (`lighting` in `palette.json`).
 
 | Rig | File | Notes |
 | --- | --- | --- |
-| `dragon.hatchling`, `.juvenile`, `.adult`, `.elder` | `painted/dragon-<stage>.webp` | Recolored per player; tail tip per element |
-| `rider` | `painted/rider-{weapon}.webp` | `sword`, `bow` or `staff`, from the equipped weapon's type |
+| `dragon.hatchling`, `.juvenile`, `.adult`, `.elder` | `painted/dragon-<stage>.webp`, `-attack.webp` | Recolored per player; tail tip per element |
+| `rider.sword`, `rider.bow`, `rider.staff` | `painted/rider-<weapon>.webp` | Picked from the equipped weapon's type |
 | `rider.mounted` | `painted/rider-mounted.webp` | The seated rider for Ride mode, placed at the dragon's `saddle` |
 | `enemy.<id>` | `painted/enemies/<id>.webp` | All 49: 7 bosses drawn alone, 42 others cut from six-enemy sheets |
 
@@ -64,12 +68,20 @@ One 1280 x 880 WebP per zone and one for the Roost (`painted/backdrops/`), the s
 
 `painted/fx/`: `puff.webp` (the breath blob, painted red and gold and recolored per element the same way dragons are), `slash.webp` and `spark.webp`. No outlines. Glows, rings, flashes and particles are CSS shapes in `stage.css`.
 
+## Eggs
+
+`src/art/eggs/egg.webp` is one painted egg (red shell, gold spots and band) on a 480 x 600 canvas, recolored per element the way dragons are: the shell takes the element color and the spots a lighter mix. `egg-top.webp` and `egg-bottom.webp` are the same egg split along a zigzag by `pack.py`, for the hatching moment. The three crack overlays (`crack-1.svg` to `crack-3.svg`) are SVG lines laid on top.
+
+## UI icons
+
+`src/art/icons/<name>.webp`, 136 x 136, cut from four generated sheets. They show at 16 to 32 px, so each is one bold object. Names follow the data: `item-<id>`, `food-<id>`, `status-<id>`, `intent-<kind>`, `building-<id>`, plus `gold`, `ember`, `egg`, `lock`, `town`, `event`, `feed`, `groom`, `rest`, `xp` and `bond`. A missing icon falls back to its emoji; an SVG of the same name is used if there is no WebP.
+
 ## Rules that keep it fast
 
 - Animate only `transform` and `opacity`.
 - Colors and tail tips are baked into images once at load. Nothing is blended per frame.
 - No SVG filters in art, and no animated CSS `filter` or `backdrop-filter`.
-- The stage stays under 100 DOM nodes. With one image per character the busiest fight uses about 64.
+- The stage stays under 100 DOM nodes. With one image per character, plus an attack pose for dragons and the rider, the busiest fight uses about 67.
 - Keep images near their largest on-screen size: dragons 640 px wide, bosses 720, other enemies 400 on the long side, riders 460 tall.
 
 ## Review checklist

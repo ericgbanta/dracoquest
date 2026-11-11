@@ -33,7 +33,7 @@ export function useDemoArt(): DemoArt | null {
       const d2 = demo.dragon2;
       const [backdrop, rider, dragon, enemy, effects, dragon2] = await Promise.all([
         loadBackdrop(demo.zone),
-        loadRig('rider', undefined, { weapon: 'sword' }),
+        loadRig('rider.sword'),
         loadRig(`dragon.${demo.dragon.stage}`, { element: dragonElement, primary: demo.dragon.primary, secondary: demo.dragon.secondary }),
         loadRig(`enemy.${demo.enemy.enemyId}`),
         loadEffects(dragonElement),

@@ -19,16 +19,23 @@ test('the B0 mock battle acts out a round on the stage, in portrait and landscap
   expect(await stageNodes(page)).toBeLessThanOrEqual(layout.maxNodes);
   expect(await smallTargets(page)).toEqual([]);
   // Painted art: each fighter is one bitmap, the dragon's is recolored to the player's colors, and the zone has drifting specks.
-  await expect(page.locator('[data-fighter=dragon] img.part')).toHaveCount(1);
-  const dragonSrc = await page.locator('[data-fighter=dragon] img.part').getAttribute('src');
-  expect(dragonSrc).toMatch(/^blob:/);
-  expect(await page.locator('[data-fighter=dragon] img.part').evaluate((img) => (img as HTMLImageElement).naturalWidth)).toBeGreaterThan(300);
+  const body = page.locator('[data-fighter=dragon] [data-part=body]');
+  await expect(body).toHaveCount(1);
+  expect(await body.getAttribute('src')).toMatch(/^blob:/);
+  expect(await body.evaluate((img) => (img as HTMLImageElement).naturalWidth)).toBeGreaterThan(300);
+  // Its attack pose is loaded, recolored too, and hidden until a move swaps it in.
+  const pose = page.locator('[data-fighter=dragon] [data-part=pose-attack]');
+  expect(await pose.getAttribute('src')).toMatch(/^blob:/);
+  await expect(pose).toHaveCSS('opacity', '0');
+  await expect(page.locator('[data-fighter=rider] [data-part=pose-attack]')).toHaveCSS('opacity', '0');
   expect(await page.locator('[data-fighter=e0] img.part').evaluate((img) => (img as HTMLImageElement).naturalWidth)).toBeGreaterThan(300);
   await expect(page.locator('.stage-ambient')).toHaveCount(1);
 
   const roc = page.locator('[data-plate=e0] [role=meter]');
   const before = Number(await roc.getAttribute('aria-valuenow'));
   await page.getByTestId('go').tap();
+  // The breath swaps the dragon to its attack pose for a moment.
+  await expect.poll(() => pose.evaluate((el) => getComputedStyle(el).opacity), { timeout: 5_000, intervals: [30] }).toBe('1');
   await expect(page.getByTestId('log')).toContainText('Fire Breath', { timeout: 5_000 });
   await expect(page.getByTestId('go')).toBeEnabled({ timeout: 5_000 });
   await expect(page.getByTestId('log')).toContainText('Talon Rake');
