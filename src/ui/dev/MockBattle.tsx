@@ -15,8 +15,7 @@ const perRound = 20;
  * to the engine; the numbers are fixed demo values from stage.json.
  */
 export function MockBattle() {
-  const [look, setLook] = useState<'a' | 'b'>('a');
-  const art = useDemoArt(look);
+  const art = useDemoArt();
   const stageRef = useRef<HTMLDivElement>(null);
   const [hp, setHp] = useState<DemoHp>(full);
   const [breathMeter, setBreath] = useState(demo.dragon.breath);
@@ -78,7 +77,7 @@ export function MockBattle() {
           <div class="battle-field">
             <div class="stage-box">
               {art ? (
-                <Stage stageRef={stageRef} look={look} backdrop={art.backdrop} effects={art.effects}
+                <Stage stageRef={stageRef} backdrop={art.backdrop} effects={art.effects}
                   fighters={demoFighters(art, hp, { targeted, onTarget: () => setTargeted(true) })}
                   header={(
                     <div class="stage-header">
@@ -125,11 +124,7 @@ export function MockBattle() {
               {played && <button type="button" class="button button--ghost repeat" onClick={go} disabled={playing} data-testid="repeat">Repeat</button>}
               <button type="button" class="button button--go" onClick={go} disabled={playing || !art} data-testid="go">{playing ? '…' : 'Go!'}</button>
             </div>
-            <div class="look-row" role="group" aria-label="Art look">
-              <button type="button" class="chip-button" aria-pressed={look === 'a'} onClick={() => setLook('a')} data-testid="look-a">Look A</button>
-              <button type="button" class="chip-button" aria-pressed={look === 'b'} onClick={() => setLook('b')} data-testid="look-b">Look B</button>
-              <a class="dev-link" href="#/dev/bench">Open the bench</a>
-            </div>
+            <a class="dev-link" href="#/dev/bench">Open the bench</a>
           </div>
         </section>
       </main>

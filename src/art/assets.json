@@ -1543,10 +1543,6 @@
       "ambient": {
         "kind": "rise",
         "color": "#ffe9a8"
-      },
-      "light": {
-        "ambient": "#6a3fc4",
-        "key": "#ffd49a"
       }
     },
     "mossy-hollow": {

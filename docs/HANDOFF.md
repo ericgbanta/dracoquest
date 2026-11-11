@@ -42,13 +42,11 @@ On the B4 build, Eric spotted his dragon showing gray on the Dragons and groomin
 
 ## Graphics, second pass: C0 built, waiting for Eric
 
-Eric asked to take the art "to the next level", modern but still AdventureQuest in feel, and fast on his iPhone 17 Pro. The research, the plan (C0 to C4) and the calls made are in `docs/GRAPHICS_PLAN_2.md`. C0, the look proof, is built on the session branch and not deployed:
+Eric asked to take the art "to the next level", modern but still AdventureQuest in feel, and fast on his iPhone 17 Pro. The research, the plan (C0 to C4) and the calls made are in `docs/GRAPHICS_PLAN_2.md`. C0, the look proof, is built and deployed:
 
 - Every rig part gets a lighting pass at load (`lightSvg` in `src/ui/stage/rigs.ts`, numbers in `palette.json` under `lighting`).
 - Thunderspire is repainted as the model scene, with a foreground layer and drifting specks (`front` and `ambient` in `assets.json`). Every stage has a vignette.
 - Strong hits and crits get hit-stop, a camera punch and a glow (`punch`, `hitStop`, `glow` in `stage.json`).
-
-`#/dev/mock` also has a Look A / Look B switch. B is a second style Eric asked to compare: colored outlines, characters tinted toward the scene's light, and a paper grain. It exists only on the mock.
 
 C0 is deployed. Eric's verdict: he wants a much more different and professional look than lighting on the current drawings gives. The open question is where better art comes from (see "Eric's check of C0" in the plan). Don't start C1 until he picks.
 
@@ -115,7 +113,7 @@ src/ui/        Preact screens and pieces
   pwa.ts sound.ts install.ts storage.ts useSave.ts router.ts bits.tsx
 src/art/       SVG art (rigs, enemy plans and extras, backdrops, eggs, effects, icons), palette.json, assets.json
 src/data/stage.json  stage layouts, plate spots, beat timings, the demo fight (UI only, not read by src/core)
-tests/         Vitest unit tests (137), sim.ts (the balance simulator), save fixtures
+tests/         Vitest unit tests (133), sim.ts (the balance simulator), save fixtures
 e2e/           Playwright phone tests (39, including a 4x-throttle perf test), save fixtures and make-fixtures.ts
 scripts/       icons.mjs builds the Home Screen icons
 tools/art/     rigpreview.mjs (render a rig or backdrop to PNG), BRIEF.md (brief for art agents), generators/
@@ -127,7 +125,7 @@ docs/          DESIGN.md, HANDOFF.md, GRAPHICS_PLAN_2.md (second graphics pass: 
 | Command | What it does |
 | --- | --- |
 | `npm run dev` | Local dev server |
-| `npm run test` | Unit tests (137) |
+| `npm run test` | Unit tests (133) |
 | `npx tsc --noEmit` and `npm run lint` | Type check and lint. Lint blocks `Math.random` and browser globals in `src/core`. |
 | `npm run e2e` | Phone tests at 375 by 667 (39), about 95 seconds |
 | `npm run sim` | Balance sim: 1,000 runs per zone and level, plus campaigns from egg to level 50. Flags: `--runs`, `--campaigns`, `--zone`, `--no-campaign`, `--campaign-only`. The full run takes about 2.5 minutes. |

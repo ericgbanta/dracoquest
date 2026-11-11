@@ -4,8 +4,6 @@ import layout from '../../data/stage.json';
 import type { Backdrop, Effects, Part, Rig } from './rigs';
 import './stage.css';
 import { Icon } from '../Icon';
-import palette from '../../art/palette.json';
-import grainUrl from '../../art/effects/grain.png';
 
 export interface PlatePlace { left?: number; right?: number; top: number; width: number; minPx: number }
 export interface Place { left: number; bottom: number; width: number; z: number; plate: PlatePlace }
@@ -48,20 +46,17 @@ interface Props {
   /** Fighters stay hidden until every image is decoded, so nothing pops in. */
   loading?: boolean;
   stageRef?: Ref<HTMLDivElement>;
-  /** Look B (the comparison look): adds a paper grain over the stage. */
-  look?: 'a' | 'b';
 }
 
 const PUFFS = layout.beats.breath.puffs;
 const PARTICLES = layout.particles;
 
 /** A side-view battle stage: backdrop, fighters built from parts, plates and a pooled effects layer. */
-export function Stage({ backdrop, plainColor, fighters, effects, header, paused, loading, stageRef, look }: Props) {
+export function Stage({ backdrop, plainColor, fighters, effects, header, paused, loading, stageRef }: Props) {
   const hidden = usePageHidden();
   const plain = !backdrop && plainColor ? plainStyle(plainColor) : undefined;
   return (
-    <div class={`stage${paused || hidden ? ' stage--paused' : ''}${loading ? ' stage--loading' : ''}${look === 'b' ? ' stage--look-b' : ''}`} ref={stageRef} data-testid="stage"
-      style={look === 'b' ? { '--grain': `url(${grainUrl})`, '--grain-opacity': palette.lookB.grainOpacity } : undefined}>
+    <div class={`stage${paused || hidden ? ' stage--paused' : ''}${loading ? ' stage--loading' : ''}`} ref={stageRef} data-testid="stage">
       <div class="stage-world" style={plain}>
         {backdrop?.layers.map((l, i) => (
           <img key={i} class={`stage-layer${l.front ? ' stage-layer--front' : ''}${l.anim ? ` anim-${l.anim}` : ''}`} src={l.url} alt="" draggable={false} />

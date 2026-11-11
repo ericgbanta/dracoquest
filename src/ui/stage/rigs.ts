@@ -55,13 +55,7 @@ export interface Rig {
 export interface Ambient { kind: 'rise' | 'fall'; color: string }
 
 /** Layers stack in order behind the fighters; a `front` layer is drawn over them. */
-export interface Backdrop { layers: { url: string; anim?: string | undefined; front?: boolean | undefined }[]; ambient?: Ambient | undefined; light?: SceneLight | undefined }
-
-/** A scene's light: the ambient color characters are tinted toward and the key light on their rims. */
-export interface SceneLight { ambient: string; key: string }
-
-/** Look B (the comparison look): colored outlines and a tint toward the scene's light. */
-export interface RigStyle { look: 'b'; light?: SceneLight | undefined }
+export interface Backdrop { layers: { url: string; anim?: string | undefined; front?: boolean | undefined }[]; ambient?: Ambient | undefined }
 
 export interface DragonLook { element: ElementId; primary: string; secondary: string }
 
@@ -74,7 +68,7 @@ const bitmaps = import.meta.glob('../../art/**/*.{webp,png}', { query: '?url', i
 const m = manifest as unknown as {
   rigs: Record<string, RigDef>;
   enemies?: Record<string, EnemyLook>;
-  backdrops: Record<string, { layers: { file: string; anim?: string; front?: boolean }[]; ambient?: Ambient; light?: SceneLight }>;
+  backdrops: Record<string, { layers: { file: string; anim?: string; front?: boolean }[]; ambient?: Ambient }>;
   effects: Record<string, string>;
 };
 const rigs = m.rigs;
@@ -126,70 +120,13 @@ function recolor(svg: string, colors: Record<string, string>): string {
   return out;
 }
 
-function toHsl(hex: string): [number, number, number] {
-  const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255) as [number, number, number];
-  const max = Math.max(r, g, b);
-  const min = Math.min(r, g, b);
-  const l = (max + min) / 2;
-  const d = max - min;
-  if (d === 0) return [0, 0, l];
-  const sat = d / (1 - Math.abs(2 * l - 1));
-  const h = max === r ? ((g - b) / d + 6) % 6 : max === g ? (b - r) / d + 2 : (r - g) / d + 4;
-  return [h * 60, sat, l];
-}
-
-function fromHsl(h: number, sat: number, l: number): string {
-  const c = (1 - Math.abs(2 * l - 1)) * sat;
-  const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
-  const m = l - c / 2;
-  const [r, g, b] = h < 60 ? [c, x, 0] : h < 120 ? [x, c, 0] : h < 180 ? [0, c, x] : h < 240 ? [0, x, c] : h < 300 ? [x, 0, c] : [c, 0, x];
-  return `#${[r, g, b].map((v) => Math.round((v + m) * 255).toString(16).padStart(2, '0')).join('')}`;
-}
-
-/** The outline color for a shape of this fill: the same hue, dark, pulled a little toward the shared outline color. */
-export function inkColor(fillHex: string): string {
-  const B = palette.lookB;
-  const [h, sat, l] = toHsl(fillHex);
-  if (sat < 0.12) return mix(fillHex, palette.outline, 0.82);
-  return mix(fromHsl(h, Math.min(1, sat * B.inkSaturation), Math.min(l * 0.6, B.inkLightness)), palette.outline, B.inkTowardOutline);
-}
-
-/**
- * Colored outlines (look B): every stroke in the shared outline color takes a dark version of the
- * color it surrounds. A shape's own fill decides; a stroke-only line takes the color of the line
- * drawn over it (a dark edge under a colored stroke), or else the part's main color.
- */
-export function inkSvg(svg: string): string {
-  const hex = /#[0-9a-fA-F]{6}\b/;
-  const main = new RegExp(`fill="(${hex.source})"`).exec(svg)?.[1];
-  const tags = svg.match(/<[a-zA-Z][^>]*>/g) ?? [];
-  const attr = (tag: string, name: string) => new RegExp(`\\s${name}="([^"]*)"`).exec(tag)?.[1];
-  let out = svg;
-  let from = 0;
-  tags.forEach((tag, i) => {
-    const at = out.indexOf(tag, from);
-    from = at + tag.length;
-    if (attr(tag, 'stroke') !== palette.outline) return;
-    const fill = attr(tag, 'fill');
-    const next = tags[i + 1];
-    const over = next && attr(next, 'd') !== undefined && attr(next, 'd') === attr(tag, 'd') ? attr(next, 'stroke') : undefined;
-    const base = fill && hex.test(fill) ? fill : over && hex.test(over) ? over : main;
-    if (!base || base === palette.outline) return;
-    const inked = tag.replace(`stroke="${palette.outline}"`, `stroke="${inkColor(base)}"`);
-    out = out.slice(0, at) + inked + out.slice(at + tag.length);
-    from = at + inked.length;
-  });
-  return out;
-}
-
 /**
  * The lighting pass for a rig part: soft top light and bottom shade clipped to the part's own
  * shape, plus a rim on the edges that face the light. It uses masks and gradients only (no SVG
  * filters, which Safari draws at low resolution), and it is baked into the image, so it costs
  * nothing per frame. The gradient spans the rig's whole canvas, so parts shade as one body.
  */
-export function lightSvg(svg: string, style?: RigStyle): string {
-  if (style) svg = inkSvg(svg);
+export function lightSvg(svg: string): string {
   const open = /<svg\b[^>]*>/.exec(svg);
   const end = svg.lastIndexOf('</svg>');
   const vb = open && /viewBox="([^"]+)"/.exec(open[0]);
@@ -208,19 +145,18 @@ export function lightSvg(svg: string, style?: RigStyle): string {
     + `<mask id="lit-r" maskUnits="userSpaceOnUse" ${box}><rect ${box} fill="#fff" mask="url(#lit-a)"/>`
     + `<g transform="translate(${(rx * h).toFixed(2)} ${(ry * h).toFixed(2)})"><rect ${box} fill="#000" mask="url(#lit-a)"/></g></mask></defs>`
     + `<g id="lit-c">${inner}</g>`
-    + (style?.light ? `<rect ${box} fill="${style.light.ambient}" opacity="${palette.lookB.ambientOpacity}" mask="url(#lit-a)"/>` : '')
     + `<rect ${box} fill="url(#lit-g)" mask="url(#lit-a)"/>`
-    + `<rect ${box} fill="${style?.light?.key ?? L.rim}" opacity="${style ? palette.lookB.rimOpacity : L.rimOpacity}" mask="url(#lit-r)"/></svg>`;
+    + `<rect ${box} fill="${L.rim}" opacity="${L.rimOpacity}" mask="url(#lit-r)"/></svg>`;
 }
 
 /** URL for an art file, with colors swapped in. Null if the file is missing. Cached per file and colors. `lit` adds the lighting pass (rig parts). */
-export function artUrl(file: string, colors: Record<string, string> = {}, lit = false, style?: RigStyle): Promise<string | null> {
+export function artUrl(file: string, colors: Record<string, string> = {}, lit = false): Promise<string | null> {
   const path = `../../art/${file}`;
-  const key = `${file}|${lit ? 'lit' : ''}|${style ? JSON.stringify(style) : ''}|${JSON.stringify(colors)}`;
+  const key = `${file}|${lit ? 'lit' : ''}|${JSON.stringify(colors)}`;
   let hit = urlCache.get(key);
   if (!hit) {
     if (svgs[path] !== undefined) {
-      const text = lit ? lightSvg(recolor(svgs[path]!, colors), style) : recolor(svgs[path]!, colors);
+      const text = lit ? lightSvg(recolor(svgs[path]!, colors)) : recolor(svgs[path]!, colors);
       hit = Promise.resolve(URL.createObjectURL(new Blob([text], { type: 'image/svg+xml' })));
     } else if (bitmaps[path]) {
       hit = bitmaps[path]!().catch(() => null);
@@ -240,10 +176,10 @@ export function hasArt(file: string): boolean {
 
 const fill = (file: string, vars: RigVars) => file.replace(/\{(\w+)\}/g, (_, k: string) => (vars as Record<string, string | undefined>)[k] ?? '');
 
-async function resolveParts(defs: PartDef[], colors: Record<string, string>, vars: RigVars, style?: RigStyle): Promise<Part[]> {
+async function resolveParts(defs: PartDef[], colors: Record<string, string>, vars: RigVars): Promise<Part[]> {
   return Promise.all(defs.map(async (d) => {
-    const url = d.file ? await artUrl(fill(d.file, vars), colors, true, style) : null;
-    const parts = d.parts ? await resolveParts(d.parts, colors, vars, style) : [];
+    const url = d.file ? await artUrl(fill(d.file, vars), colors, true) : null;
+    const parts = d.parts ? await resolveParts(d.parts, colors, vars) : [];
     return { id: d.id, url, pivot: d.pivot ?? [0.5, 0.5], anim: d.anim, parts };
   }));
 }
@@ -263,18 +199,18 @@ function withExtras(parts: PartDef[], extras: (PartDef & { parent: string })[]):
 
 const hasBody = (ps: Part[]): boolean => ps.some((p) => (p.id === 'body' && !!p.url) || hasBody(p.parts));
 
-async function build(key: string, def: RigDef, colors: Record<string, string>, vars: RigVars, partDefs = def.parts, scale = def.boxScale ?? 1, style?: RigStyle): Promise<Rig | null> {
-  const parts = await resolveParts(partDefs, colors, vars, style);
+async function build(key: string, def: RigDef, colors: Record<string, string>, vars: RigVars, partDefs = def.parts, scale = def.boxScale ?? 1): Promise<Rig | null> {
+  const parts = await resolveParts(partDefs, colors, vars);
   if (!hasBody(parts)) return null;
   return { key, size: def.size, boxScale: scale, points: def.points, parts };
 }
 
 /** Load a rig with its colors baked in. Null if the manifest has no such rig or its main body is missing. */
-export async function loadRig(key: string, look?: DragonLook, vars: RigVars = {}, style?: RigStyle): Promise<Rig | null> {
+export async function loadRig(key: string, look?: DragonLook, vars: RigVars = {}): Promise<Rig | null> {
   const def = rigs[key];
   if (!def) return null;
   const colors = def.tint === 'dragon' && look ? dragonColors(look) : {};
-  return build(key, def, colors, { element: look?.element, ...vars }, def.parts, def.boxScale ?? 1, style);
+  return build(key, def, colors, { element: look?.element, ...vars });
 }
 
 /** An enemy's rig: its own (bosses) or a shared body plan in its colors with its extras. */
@@ -297,7 +233,7 @@ export async function loadBackdrop(zone: string): Promise<Backdrop | null> {
   if (!def) return null;
   const layers = await Promise.all(def.layers.map(async (l) => ({ url: await artUrl(l.file), anim: l.anim, front: l.front })));
   const ok = layers.filter((l): l is { url: string; anim: string | undefined; front: boolean | undefined } => !!l.url);
-  return ok.length ? { layers: ok, ambient: def.ambient, light: def.light } : null;
+  return ok.length ? { layers: ok, ambient: def.ambient } : null;
 }
 
 export interface Effects { slash: string | null; spark: string | null; puff: string | null }
