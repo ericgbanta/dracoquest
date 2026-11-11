@@ -1,6 +1,6 @@
 # Handoff
 
-Last updated 2026-11-11. Read this first, then `CLAUDE.md` and `docs/DESIGN.md`.
+Last updated 2026-11-11. Read this first, then `CLAUDE.md` and `docs/DESIGN.md`. Everything described here is merged to `main` and live. A ready-to-paste prompt for starting a new session is in `docs/NEXT_PROMPT.md`.
 
 ## Where things stand
 
@@ -31,7 +31,7 @@ Eric asked for AdventureQuest-style graphics with a real battle stage that stays
 | B4 Scenes | Painted Roost with idling dragons, zone strips on the Map, the hatching scene | "These look great" |
 | B5 UI skin | Panel and button skin, Fredoka headings (self-hosted), 44 SVG icons replacing emoji | Deployed; feedback pending |
 
-After the graphics phases, Eric asked for more things to be tappable and for split targets. Built at the end of the same session (committed, not yet deployed), along with a fix for the battle log:
+After the graphics phases, Eric asked for more things to be tappable and for split targets. Built at the end of the same session and deployed, along with a fix for the battle log:
 
 - The battle log no longer cuts off its second line, and tapping it opens the whole history again (Eric's report from his phone). A stage rule had pinned the box to 44 px, which also blocked the open state, and the B5 panel border made the old 52 px box too short in the Simple layout. The collapsed log now sizes to its last two lines.
 - Gold and ember counters (Roost, Map, Town, Bag) open a sheet saying how many you have, how to earn more and what they buy (`src/ui/Wallet.tsx`; amounts come from the data).
@@ -44,7 +44,7 @@ On the B4 build, Eric spotted his dragon showing gray on the Dragons and groomin
 
 No phase is in progress. Ask Eric what he wants next; these are the open threads, roughly in order of how much they matter to him:
 
-1. **Deploy and feedback.** The tap-for-details, split-target and battle-log work is committed on the branch but not deployed; deploy when Eric asks, then get his feedback on it, on B5 and on the battle feel.
+1. **Feedback.** Everything is deployed (the last deploy brought tap for details, split targets and the battle-log fix). Ask Eric how it plays on his phone: B5's look, the battle feel, split targets.
 2. **More tappable things.** Eric wants details on tap generally. Natural next candidates: element badges (what the element beats and loses to), status chips (what the status does, turns left), and the party plates on the stage (party members already open details when tapped on the stage itself).
 3. **Stage node budget.** Raised from 60 to 100 without his answer. A one-on-one fight uses about 64 DOM nodes on the stage, two dragons against two enemies about 93. Ask him to run the bench's "Scene: 2 vs 2" on his iPhone and send the "After 10 rounds" line.
 4. **Element spreads.** Zone win rates average 70 to 85 percent across the three starters, but single starters dip: Tide in Thunderspire (about 60 percent, Storm beats Tide) and Verdant in Frostmere (about 52 percent, Frost beats Verdant). He hasn't said whether that's wanted. The fix would be data only (`src/data/enemies.json`), then rerun `npm run sim`.
@@ -110,7 +110,7 @@ tests/         Vitest unit tests (130), sim.ts (the balance simulator), save fix
 e2e/           Playwright phone tests (39, including a 4x-throttle perf test), save fixtures and make-fixtures.ts
 scripts/       icons.mjs builds the Home Screen icons
 tools/art/     rigpreview.mjs (render a rig or backdrop to PNG), BRIEF.md (brief for art agents), generators/
-docs/          DESIGN.md, HANDOFF.md, GRAPHICS_PLAN.md (graphics plan and results), ART_STYLE.md (art rules)
+docs/          DESIGN.md, HANDOFF.md, NEXT_PROMPT.md (prompt for a new session), GRAPHICS_PLAN.md (graphics plan and results), ART_STYLE.md (art rules)
 ```
 
 ## Commands
