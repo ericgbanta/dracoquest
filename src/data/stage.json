@@ -1,7 +1,8 @@
 {
-  "note": "Battle stage layout and animation timings. Positions are percent of the stage: left, bottom and width of a fighter's box as a share of the stage width (bottom of the height), plates by top (share of the height) and left or right. minPx keeps plates readable on small stages. Durations are ms at 1x; 2x speed multiplies them by fastFactor. Each beat's action, up to and including the hit, stays within 450 ms (Eric's call after B0; the design said 300). maxNodes is the stage's DOM node budget for the busiest fight (two dragons, the rider, two enemies); a one-on-one fight uses far fewer.",
+  "note": "Battle stage layout and animation timings. Positions are percent of the stage: left, bottom and width of a fighter's box as a share of the stage width (bottom of the height), plates by top (share of the height) and left or right. minPx keeps plates readable on small stages. Durations are ms at 1x; 2x speed multiplies them by fastFactor. Each beat's action, up to and including the hit, stays within 450 ms (Eric's call after B0; the design said 300). onePiece is how far a one-piece painted sprite leans, as a share of the angle a separate head or arm would turn. maxNodes is the stage's DOM node budget for the busiest fight (two dragons, the rider, two enemies); a one-on-one fight uses far fewer.",
   "aspect": [16, 11],
   "maxNodes": 100,
+  "onePiece": { "head": 0.4, "arm": 0.1 },
   "particles": 4,
   "fastFactor": 0.5,
   "beats": {

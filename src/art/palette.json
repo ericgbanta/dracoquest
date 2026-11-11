@@ -65,5 +65,19 @@
       -0.008,
       0.028
     ]
+  },
+  "paintedKeys": {
+    "note": "How painted dragon art is recolored to player colors (src/ui/stage/tint.ts). The art's body is red (hue under primaryHueMax or past primaryHueWrap) and its belly and wings gold (secondaryHue range). Cream horns are left alone: they are gold-hued but pale (weak chroma and a darkest channel above creamMin).",
+    "minChroma": 60,
+    "primaryHueMax": 22,
+    "primaryHueWrap": 320,
+    "secondaryHue": [
+      26,
+      62
+    ],
+    "secondaryChroma": 110,
+    "creamMin": 110,
+    "shadowTowardOutline": 0.25,
+    "highlightGain": 1.2
   }
 }

@@ -39,6 +39,23 @@ function part(f: HTMLElement | null, id: string): HTMLElement | null {
   return f?.querySelector<HTMLElement>(`[data-part="${id}"]`) ?? null;
 }
 
+/**
+ * Move a named part, or, for a one-piece painted sprite that has no such part, lean the whole
+ * body by a share of the same angles (src/data/stage.json, onePiece). Parts with no share are skipped.
+ */
+function swingPart(f: HTMLElement | null, id: string, frames: Keyframe[], opts: KeyframeAnimationOptions): void {
+  const own = part(f, id);
+  if (own) { own.animate(frames, opts); return; }
+  const share = (layout.onePiece as Record<string, number>)[id];
+  const body = part(f, 'body');
+  if (!share || !body) return;
+  const leaned = frames.map((k) => ({
+    ...k,
+    transform: String(k.transform ?? '').replace(/rotate\((-?[\d.]+)deg\)/g, (_, d: string) => `rotate(${(Number(d) * share).toFixed(2)}deg)`),
+  }));
+  body.animate(leaned, opts);
+}
+
 const speed = (o: { fast: boolean }) => (o.fast ? layout.fastFactor : 1);
 const scaled = <T extends Record<string, number>>(b: T, k: number): T =>
   Object.fromEntries(Object.entries(b).map(([key, v]) => [key, v * k])) as T;
@@ -267,7 +284,7 @@ export async function riderAttack(stage: HTMLElement, hit: HitInfo, opts: BeatOp
     ],
     { duration: total },
   );
-  part(actor, 'arm')?.animate(
+  swingPart(actor, 'arm', 
     [
       { transform: 'rotate(0deg)', offset: 0 },
       { transform: 'rotate(-60deg)', offset: at(windup + dash * 0.7, total), easing: 'cubic-bezier(.5,0,.8,.6)' },
@@ -295,7 +312,7 @@ export async function shoot(stage: HTMLElement, hit: HitInfo & { bolt: 'arrow' |
   const impact = draw + travel;
   const from = point(stage, actor, 'front');
   const to = point(stage, target, 'hit');
-  part(actor, 'arm')?.animate(
+  swingPart(actor, 'arm', 
     [
       { transform: 'rotate(0deg)' },
       { transform: `rotate(${hit.bolt === 'arrow' ? -10 : -45}deg)`, offset: at(draw, total), easing: 'ease-out' },
@@ -346,7 +363,7 @@ export async function claw(stage: HTMLElement, hit: HitInfo, opts: BeatOpts & { 
     ],
     { duration: total },
   );
-  part(actor, 'leg-front')?.animate(
+  swingPart(actor, 'leg-front', 
     [
       { transform: 'rotate(0deg)' },
       { transform: 'rotate(-40deg)', offset: at(lunge, total), easing: 'ease-in' },
@@ -356,7 +373,7 @@ export async function claw(stage: HTMLElement, hit: HitInfo, opts: BeatOpts & { 
     ],
     { duration: total },
   );
-  part(actor, 'head')?.animate(
+  swingPart(actor, 'head', 
     [{ transform: 'rotate(0deg)' }, { transform: 'rotate(-10deg)', offset: at(lunge, total) }, { transform: 'rotate(10deg)', offset: at(impact, total) }, { transform: 'rotate(0deg)' }],
     { duration: total },
   );
@@ -377,7 +394,7 @@ export async function breath(stage: HTMLElement, hit: HitInfo, opts: BeatOpts): 
   const total = streamEnd + recover;
   const from = point(stage, actor, 'mouth');
   const to = point(stage, target, 'hit');
-  part(actor, 'head')?.animate(
+  swingPart(actor, 'head', 
     [
       { transform: 'rotate(0deg)', easing: 'ease-out' },
       { transform: 'rotate(-18deg)', offset: at(rear, total), easing: 'cubic-bezier(.2,.8,.3,1)' },
@@ -387,7 +404,7 @@ export async function breath(stage: HTMLElement, hit: HitInfo, opts: BeatOpts): 
     ],
     { duration: total },
   );
-  part(actor, 'jaw')?.animate(
+  swingPart(actor, 'jaw', 
     [
       { transform: 'rotate(0deg)' },
       { transform: 'rotate(8deg)', offset: at(rear, total) },

@@ -2,6 +2,7 @@ import manifest from '../../art/assets.json';
 import palette from '../../art/palette.json';
 import { gameData } from '../../core/data';
 import type { ElementId } from '../../core/types';
+import { recolorPixels } from './tint';
 
 /**
  * Battle-stage art: rigs (characters built from parts), backdrops and effects.
@@ -25,7 +26,15 @@ export interface RigDef {
   boxScale?: number;
   points: Record<string, [number, number]>;
   parts: PartDef[];
+  /** Painted dragons: an element ornament drawn onto the tail when the image is colored. */
+  tip?: TipDef;
 }
+
+/** Where a tail tip goes: its bottom-left corner at `at` (fractions of the image), `width` wide, turned `rotate` degrees. */
+export interface TipDef { file: string; at: [number, number]; width: number; rotate?: number }
+
+/** Player colors (and a tail tip) baked into a bitmap part at load. */
+interface BitmapTint { primary: string; secondary: string; tip?: { url: string; at: [number, number]; width: number; rotate: number } | undefined }
 
 /** An enemy drawn from a shared body plan: its colors, size and extra parts. */
 export interface EnemyLook {
@@ -149,17 +158,52 @@ export function lightSvg(svg: string): string {
     + `<rect ${box} fill="${L.rim}" opacity="${L.rimOpacity}" mask="url(#lit-r)"/></svg>`;
 }
 
-/** URL for an art file, with colors swapped in. Null if the file is missing. Cached per file and colors. `lit` adds the lighting pass (rig parts). */
-export function artUrl(file: string, colors: Record<string, string> = {}, lit = false): Promise<string | null> {
+function loadImage(url: string): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error(`image failed: ${url}`));
+    img.src = url;
+  });
+}
+
+/** A bitmap with player colors swapped in and the tail tip drawn on, as a Blob URL. Done once per dragon look. */
+async function tintBitmap(url: string, tint: BitmapTint): Promise<string> {
+  const img = await loadImage(url);
+  const canvas = document.createElement('canvas');
+  canvas.width = img.naturalWidth;
+  canvas.height = img.naturalHeight;
+  const ctx = canvas.getContext('2d', { willReadFrequently: true });
+  if (!ctx) return url;
+  ctx.drawImage(img, 0, 0);
+  const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  recolorPixels(data.data, tint.primary, tint.secondary);
+  ctx.putImageData(data, 0, 0);
+  if (tint.tip) {
+    const tip = await loadImage(tint.tip.url).catch(() => null);
+    if (tip) {
+      const w = tint.tip.width * canvas.width;
+      const h = w * (tip.naturalHeight / tip.naturalWidth);
+      ctx.translate(tint.tip.at[0] * canvas.width, tint.tip.at[1] * canvas.height);
+      ctx.rotate((tint.tip.rotate * Math.PI) / 180);
+      ctx.drawImage(tip, 0, -h, w, h);
+    }
+  }
+  const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, 'image/png'));
+  return blob ? URL.createObjectURL(blob) : url;
+}
+
+/** URL for an art file, with colors swapped in. Null if the file is missing. Cached per file and colors. `lit` adds the lighting pass (SVG rig parts); `tint` recolors a bitmap. */
+export function artUrl(file: string, colors: Record<string, string> = {}, lit = false, tint?: BitmapTint): Promise<string | null> {
   const path = `../../art/${file}`;
-  const key = `${file}|${lit ? 'lit' : ''}|${JSON.stringify(colors)}`;
+  const key = `${file}|${lit ? 'lit' : ''}|${tint ? JSON.stringify(tint) : ''}|${JSON.stringify(colors)}`;
   let hit = urlCache.get(key);
   if (!hit) {
     if (svgs[path] !== undefined) {
       const text = lit ? lightSvg(recolor(svgs[path]!, colors)) : recolor(svgs[path]!, colors);
       hit = Promise.resolve(URL.createObjectURL(new Blob([text], { type: 'image/svg+xml' })));
     } else if (bitmaps[path]) {
-      hit = bitmaps[path]!().catch(() => null);
+      hit = bitmaps[path]!().then((url) => (tint ? tintBitmap(url, tint) : url)).catch(() => null);
     } else {
       hit = Promise.resolve(null);
     }
@@ -176,10 +220,10 @@ export function hasArt(file: string): boolean {
 
 const fill = (file: string, vars: RigVars) => file.replace(/\{(\w+)\}/g, (_, k: string) => (vars as Record<string, string | undefined>)[k] ?? '');
 
-async function resolveParts(defs: PartDef[], colors: Record<string, string>, vars: RigVars): Promise<Part[]> {
+async function resolveParts(defs: PartDef[], colors: Record<string, string>, vars: RigVars, tint?: BitmapTint): Promise<Part[]> {
   return Promise.all(defs.map(async (d) => {
-    const url = d.file ? await artUrl(fill(d.file, vars), colors, true) : null;
-    const parts = d.parts ? await resolveParts(d.parts, colors, vars) : [];
+    const url = d.file ? await artUrl(fill(d.file, vars), colors, true, tint) : null;
+    const parts = d.parts ? await resolveParts(d.parts, colors, vars, tint) : [];
     return { id: d.id, url, pivot: d.pivot ?? [0.5, 0.5], anim: d.anim, parts };
   }));
 }
@@ -199,8 +243,8 @@ function withExtras(parts: PartDef[], extras: (PartDef & { parent: string })[]):
 
 const hasBody = (ps: Part[]): boolean => ps.some((p) => (p.id === 'body' && !!p.url) || hasBody(p.parts));
 
-async function build(key: string, def: RigDef, colors: Record<string, string>, vars: RigVars, partDefs = def.parts, scale = def.boxScale ?? 1): Promise<Rig | null> {
-  const parts = await resolveParts(partDefs, colors, vars);
+async function build(key: string, def: RigDef, colors: Record<string, string>, vars: RigVars, partDefs = def.parts, scale = def.boxScale ?? 1, tint?: BitmapTint): Promise<Rig | null> {
+  const parts = await resolveParts(partDefs, colors, vars, tint);
   if (!hasBody(parts)) return null;
   return { key, size: def.size, boxScale: scale, points: def.points, parts };
 }
@@ -209,8 +253,16 @@ async function build(key: string, def: RigDef, colors: Record<string, string>, v
 export async function loadRig(key: string, look?: DragonLook, vars: RigVars = {}): Promise<Rig | null> {
   const def = rigs[key];
   if (!def) return null;
-  const colors = def.tint === 'dragon' && look ? dragonColors(look) : {};
-  return build(key, def, colors, { element: look?.element, ...vars });
+  const dragon = def.tint === 'dragon' && look ? look : null;
+  const colors = dragon ? dragonColors(dragon) : {};
+  const allVars = { element: look?.element, ...vars };
+  // Painted dragons: the bitmap takes the player's colors and its element's tail tip.
+  let tint: BitmapTint | undefined;
+  if (dragon) {
+    const tipUrl = def.tip ? await artUrl(fill(def.tip.file, allVars)) : null;
+    tint = { primary: dragon.primary, secondary: dragon.secondary, tip: def.tip && tipUrl ? { url: tipUrl, at: def.tip.at, width: def.tip.width, rotate: def.tip.rotate ?? 0 } : undefined };
+  }
+  return build(key, def, colors, allVars, def.parts, def.boxScale ?? 1, tint);
 }
 
 /** An enemy's rig: its own (bosses) or a shared body plan in its colors with its extras. */
@@ -239,8 +291,11 @@ export async function loadBackdrop(zone: string): Promise<Backdrop | null> {
 export interface Effects { slash: string | null; spark: string | null; puff: string | null }
 
 export async function loadEffects(element: ElementId): Promise<Effects> {
+  const breath = breathColors(element);
   const [slash, spark, puff] = await Promise.all([
-    artUrl(effects.slash ?? ''), artUrl(effects.spark ?? ''), artUrl(effects.puff ?? '', breathColors(element)),
+    artUrl(effects.slash ?? ''), artUrl(effects.spark ?? ''),
+    // An SVG puff swaps its gray tokens; a painted one (red edge, gold middle) is recolored like a dragon.
+    artUrl(effects.puff ?? '', breath, false, { primary: breath[palette.puffTokens.edge]!, secondary: breath[palette.puffTokens.mid]! }),
   ]);
   return { slash, spark, puff };
 }
