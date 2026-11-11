@@ -1,36 +1,67 @@
+import { useEffect, useState } from 'preact/hooks';
 import { useRoute } from './router';
 import { useSave } from './useSave';
 import { TabBar } from './TabBar';
 import { Roost } from './screens/Roost';
 import { Settings } from './screens/Settings';
-import { Placeholder } from './screens/Placeholder';
+import { Hatch } from './screens/Hatch';
+import { MapScreen } from './screens/Map';
+import { Dragons } from './screens/Dragons';
+import { Bag } from './screens/Bag';
+import { Battle } from './screens/Battle';
 
 export function App() {
   const route = useRoute();
   const { save, loadError, persistent, update, replace } = useSave();
+  // The battle screen stays open after the run ends so the results can show.
+  const [battleOpen, setBattleOpen] = useState(!!save?.run);
+  useEffect(() => {
+    if (save?.run) setBattleOpen(true);
+  }, [!!save?.run]);
+
+  if (!save) {
+    // The stored save is damaged. Never overwrite it silently: offer import or a fresh start.
+    return (
+      <div class="app">
+        <main class="content">
+          <p class="notice notice--error" role="alert">
+            Your save could not be read ({loadError}). Import a save code below, or start a new save.
+          </p>
+          <Settings save={null} persistent={persistent} update={update} replace={replace} />
+        </main>
+      </div>
+    );
+  }
+
+  const settings = <Settings save={save} persistent={persistent} update={update} replace={replace} />;
+
+  // First session: pick, warm, and hatch an egg before anything else.
+  if (save.dragons.length === 0) {
+    return (
+      <div class="app">
+        <main class="content" key={route === 'settings' ? 'settings' : 'hatch'}>
+          {route === 'settings' ? settings : <Hatch save={save} update={update} />}
+        </main>
+      </div>
+    );
+  }
+
+  if (battleOpen) {
+    return (
+      <div class="app app--battle">
+        <main class="content content--battle">
+          <Battle save={save} update={update} onExit={() => { setBattleOpen(false); window.location.hash = '#/roost'; }} />
+        </main>
+      </div>
+    );
+  }
 
   let body;
-  if (!save) {
-    // The stored save is damaged. Never overwrite it silently: offer import or a fresh start in Settings.
-    body = (
-      <>
-        <p class="notice notice--error" role="alert">
-          Your save could not be read ({loadError}). Import a save code below, or start a new save.
-        </p>
-        <Settings save={null} persistent={persistent} update={update} replace={replace} />
-      </>
-    );
-  } else if (route === 'settings') {
-    body = <Settings save={save} persistent={persistent} update={update} replace={replace} />;
-  } else if (route === 'map') {
-    body = <Placeholder title="Map" note="Mossy Hollow is still overgrown. Zones open in Phase 1." />;
-  } else if (route === 'dragons') {
-    body = <Placeholder title="Dragons" note="No dragons yet. Your first egg is on its way." />;
-  } else if (route === 'bag') {
-    body = <Placeholder title="Bag" note="Your bag is empty. Even the lint left." />;
-  } else {
-    body = <Roost save={save} />;
-  }
+  if (route === 'settings') body = settings;
+  else if (route === 'map') body = <MapScreen save={save} update={update} />;
+  else if (route === 'dragons') body = <Dragons save={save} update={update} />;
+  else if (route === 'bag') body = <Bag save={save} update={update} />;
+  else body = <Roost save={save} update={update} />;
 
   return (
     <div class="app">

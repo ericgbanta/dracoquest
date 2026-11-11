@@ -163,3 +163,192 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outlin
 .tab--active { color: var(--accent); }
 /* Active tab also gets a bar, so state is not shown by color alone. */
 .tab--active span { border-bottom: 2px solid currentColor; }
+
+/* ---------- Shared bits ---------- */
+.center { text-align: center; }
+.lead { font-size: 1.05rem; }
+.section-title { margin: 8px 0; }
+.screen-header--center { justify-content: center; }
+.pill { display: inline-block; font-size: 0.8rem; padding: 2px 8px; border-radius: 999px; background: var(--accent); color: var(--accent-text); vertical-align: middle; }
+.gold { font-weight: 700; }
+.button--big { font-size: 1.1rem; min-height: 52px; }
+.button--block { display: flex; align-items: center; justify-content: center; width: 100%; text-decoration: none; margin: 8px 0; }
+.button--ghost { background: transparent; color: var(--text); border: 2px solid var(--surface-2); }
+a.button { text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
+
+.badge {
+  display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 600; color: var(--text);
+  background: color-mix(in srgb, var(--el) 30%, var(--surface-2)); border: 1px solid var(--el);
+}
+.badge--small { font-size: 0.75rem; padding: 1px 6px; }
+
+.bar { position: relative; height: 22px; border-radius: 6px; background: #0006; overflow: hidden; margin: 4px 0; }
+.bar-fill { position: absolute; inset: 0 auto 0 0; transition: width 250ms ease-out; }
+.bar--hp .bar-fill { background: linear-gradient(90deg, #3fae5a, #6fcf97); }
+.bar--mp .bar-fill { background: linear-gradient(90deg, #3f6fd8, #7fa8f0); }
+.bar--breath .bar-fill { background: linear-gradient(90deg, #f2a541, #e8603c); }
+.bar--xp .bar-fill { background: linear-gradient(90deg, #a58cff, #c9a8ff); }
+.bar--bond .bar-fill { background: linear-gradient(90deg, #c46fb0, #f28bd0); }
+.bar-text { position: relative; display: flex; justify-content: space-between; padding: 0 8px; font-size: 0.85rem; font-weight: 700; line-height: 22px; text-shadow: 0 1px 2px #000; }
+
+.intent { display: inline-flex; gap: 4px; align-items: center; font-size: 0.8rem; font-weight: 700; padding: 2px 8px; border-radius: 6px; background: var(--surface-2); }
+.intent--big { background: var(--danger); color: #fff; }
+.intent--heal { background: #2f8f6f; }
+.intent--buff { background: #7a5c9e; }
+.intent--shift { background: #3f6fd8; }
+.statuses { display: inline-flex; flex-wrap: wrap; gap: 4px; }
+.status { font-size: 0.75rem; padding: 1px 5px; border-radius: 5px; background: #0005; border: 1px solid; }
+.status--debuff { border-color: var(--danger); }
+.status--buff { border-color: var(--ok); }
+
+.list { display: flex; flex-direction: column; gap: 8px; }
+.list-button {
+  font: inherit; text-align: left; min-height: 48px; padding: 10px 14px; border-radius: 10px; border: none;
+  background: var(--surface-2); color: var(--text); cursor: pointer;
+}
+.list-button:disabled { opacity: 0.45; }
+
+.sheet-backdrop { position: fixed; inset: 0; background: #000a; z-index: 50; display: flex; align-items: flex-end; justify-content: center; }
+.sheet {
+  width: 100%; max-width: 640px; max-height: 85vh; overflow: auto; background: var(--surface);
+  border-radius: 18px 18px 0 0; padding: 12px 16px calc(16px + env(safe-area-inset-bottom));
+  animation: sheet-up 200ms ease-out;
+}
+@keyframes sheet-up { from { transform: translateY(30px); opacity: 0; } to { transform: none; opacity: 1; } }
+.sheet-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.sheet-header h2 { margin: 0; }
+
+.stat-row { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--surface-2); }
+.stat-row > div { flex: 1; min-width: 0; }
+.stat-row .muted { display: block; font-size: 0.85rem; }
+.stat-value { font-size: 1.2rem; font-weight: 700; min-width: 36px; text-align: right; }
+.icon-button.plus { background: var(--accent); color: var(--accent-text); font-size: 1.4rem; font-weight: 700; border: none; }
+
+.sprite { position: relative; display: inline-block; flex: none; }
+.sprite img { display: block; filter: grayscale(1); }
+.sprite-tint { position: absolute; inset: 0; mix-blend-mode: multiply; mask-size: contain; -webkit-mask-size: contain; mask-repeat: no-repeat; -webkit-mask-repeat: no-repeat; }
+.idle { animation: bob 2.4s ease-in-out infinite; }
+@keyframes bob { 50% { transform: translateY(-4px); } }
+.pop-in { animation: pop 400ms ease-out; }
+@keyframes pop { from { transform: scale(0.3); opacity: 0; } 70% { transform: scale(1.1); } to { transform: none; opacity: 1; } }
+
+/* ---------- Hatching ---------- */
+.egg-list { display: flex; flex-direction: column; gap: 12px; margin: 16px 0; }
+.egg-card {
+  display: flex; align-items: center; gap: 14px; text-align: left; font: inherit; color: var(--text);
+  background: var(--surface); border: 2px solid var(--surface-2); border-radius: var(--radius); padding: 12px; cursor: pointer;
+}
+.egg-card:active { border-color: var(--accent); }
+.egg-card-text { display: flex; flex-direction: column; gap: 4px; align-items: flex-start; }
+.egg-stage { display: flex; justify-content: center; margin: 24px 0; }
+.egg-button { background: none; border: none; padding: 12px; cursor: pointer; touch-action: manipulation; }
+.warmth-bar { height: 14px; background: var(--surface); border-radius: 999px; overflow: hidden; margin: 0 24px 8px; }
+.warmth-fill { height: 100%; background: linear-gradient(90deg, #f2a541, #e8603c); transition: width 150ms; }
+.hatch-preview { display: flex; justify-content: center; margin-bottom: 12px; }
+.colors { border: none; padding: 0; margin: 0 0 12px; }
+.colors legend { color: var(--muted); margin-bottom: 6px; }
+.swatches { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+.swatch { min-height: 44px; border-radius: 10px; border: 3px solid transparent; color: #000; font-weight: 900; text-shadow: 0 0 3px #fff; cursor: pointer; }
+.swatch--on { border-color: var(--text); }
+
+/* ---------- Roost ---------- */
+.roost-dragon { display: flex; gap: 12px; align-items: center; }
+.roost-dragon-info { flex: 1; min-width: 0; }
+.roost-dragon-info .welcome { font-size: 1.3rem; font-weight: 700; margin: 0; }
+.care-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 8px; }
+.care-button {
+  font: inherit; color: var(--text); background: var(--surface); border: 2px solid var(--surface-2); border-radius: var(--radius);
+  min-height: 96px; padding: 8px 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  cursor: pointer; font-weight: 700;
+}
+.care-button:disabled { opacity: 0.5; }
+.care-icon { font-size: 1.6rem; }
+.care-sub { font-size: 0.75rem; font-weight: 400; color: var(--muted); text-align: center; }
+.groom-area { position: relative; display: flex; justify-content: center; margin: 8px auto; width: 260px; max-width: 100%; height: 240px; }
+.groom-spot {
+  position: absolute; width: 48px; height: 48px; margin: -24px 0 0 -24px; border-radius: 50%; border: none;
+  background: radial-gradient(circle, #fff9 0%, #f5e27a88 60%, transparent 70%); color: #fff; font-size: 1.4rem; cursor: pointer;
+  animation: twinkle 600ms ease-in-out infinite alternate; touch-action: manipulation;
+}
+@keyframes twinkle { to { transform: scale(1.15); } }
+
+/* ---------- Map, Dragons ---------- */
+.zone-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.zone--locked { opacity: 0.55; }
+.dragon-sheet { display: flex; gap: 12px; align-items: center; }
+
+/* ---------- Battle ---------- */
+.content--battle { padding: 8px 12px calc(12px + env(safe-area-inset-bottom)); max-width: 720px; }
+.battle { display: flex; flex-direction: column; gap: 8px; min-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 20px); }
+.battle-header { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: var(--muted); }
+.chip-button { font: inherit; font-weight: 700; min-width: 44px; min-height: 44px; border-radius: 10px; border: 2px solid var(--surface-2); background: var(--surface); color: var(--text); }
+.chip-button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+
+.enemies { display: grid; grid-template-columns: 1fr; gap: 8px; }
+.enemies[data-count="2"] { grid-template-columns: 1fr 1fr; }
+.enemy {
+  position: relative; font: inherit; color: var(--text); background: var(--surface); border: 2px solid transparent;
+  border-radius: var(--radius); padding: 8px; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;
+}
+.enemy .bar { width: 100%; }
+.enemy--target { border-color: var(--accent); }
+.enemy--down { opacity: 0.4; }
+.enemy-top { display: flex; justify-content: space-between; width: 100%; gap: 4px; }
+.target-mark { font-size: 0.75rem; color: var(--accent); font-weight: 700; }
+.enemy-name { font-weight: 700; }
+.enemy-body { display: flex; align-items: center; gap: 10px; width: 100%; }
+.enemy-info { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; min-width: 0; text-align: left; }
+.enemy-tags { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.enemies[data-count="2"] .enemy-body { flex-direction: column; gap: 2px; }
+.enemies[data-count="2"] .enemy-info { align-items: center; text-align: center; }
+.battle-field { display: flex; flex-direction: column; gap: 8px; }
+.weak, .intent-name { font-size: 0.8rem; color: var(--muted); }
+
+.party { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.fighter { position: relative; background: var(--surface); border-radius: var(--radius); padding: 8px; }
+.fighter--ko { opacity: 0.5; }
+.fighter-row { display: flex; align-items: center; gap: 6px; }
+.fighter-name { font-weight: 700; font-size: 0.9rem; overflow: hidden; text-overflow: ellipsis; }
+
+.float { position: absolute; top: 30%; left: 50%; transform: translateX(-50%); font-weight: 900; font-size: 1.4rem; pointer-events: none; text-shadow: 0 2px 3px #000; animation: float-up 700ms ease-out forwards; }
+.float--dmg { color: #ff8a7a; }
+.float--crit { color: #ffd34d; font-size: 1.7rem; }
+.float--heal { color: var(--ok); }
+.float--miss { color: var(--muted); }
+@keyframes float-up { to { transform: translate(-50%, -28px); opacity: 0; } }
+
+.log { font: inherit; text-align: left; width: 100%; min-height: 52px; max-height: 52px; overflow: hidden; background: #0004; color: var(--text); border: none; border-radius: 10px; padding: 6px 10px; font-size: 0.9rem; cursor: pointer; }
+.log--open { max-height: 40vh; overflow-y: auto; }
+.log-line { display: block; }
+
+.actions { margin-top: auto; display: flex; flex-direction: column; gap: 6px; }
+.action-row { display: flex; gap: 6px; align-items: stretch; }
+.action-row--muted .act { opacity: 0.4; }
+.row-label { writing-mode: vertical-rl; transform: rotate(180deg); font-size: 0.7rem; color: var(--muted); text-align: center; text-transform: uppercase; letter-spacing: 0.05em; }
+.act {
+  flex: 1; min-width: 44px; min-height: 52px; font: inherit; font-size: 0.85rem; font-weight: 700; color: var(--text);
+  background: var(--surface); border: 2px solid var(--surface-2); border-radius: 10px; padding: 4px 2px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; touch-action: manipulation;
+}
+.act--on { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 25%, var(--surface)); }
+.act:disabled { opacity: 0.45; }
+.act-sub { font-size: 0.7rem; font-weight: 400; color: var(--muted); }
+.button--go { min-height: 56px; font-size: 1.25rem; }
+.ko-note { margin: 0; }
+
+.results, .interlude { text-align: center; padding-top: 32px; }
+.results-title { font-size: 2rem; }
+.results-title--won { color: var(--accent); }
+.results-title--lost { color: var(--danger); }
+.rewards { list-style: none; padding: 0; font-size: 1.15rem; line-height: 1.8; }
+
+/* Landscape phones: actions move to the right side. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .content--battle { padding-top: 4px; padding-bottom: 4px; }
+  .battle { flex-direction: row; gap: 12px; height: calc(100dvh - 8px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); min-height: 0; }
+  .battle-field { flex: 1; min-width: 0; overflow-y: auto; }
+  .actions { width: 300px; flex: none; margin-top: 0; justify-content: flex-end; }
+  .act { min-height: 46px; }
+  .button--go { min-height: 48px; }
+}

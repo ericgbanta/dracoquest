@@ -89,6 +89,17 @@ export function Settings({ save, persistent, update, replace }: Props) {
         </form>
       )}
 
+      {save && (
+        <div class="card">
+          <h2>Battle</h2>
+          <label class="toggle">
+            <input type="checkbox" checked={save.settings.fastBattles} data-testid="fast-battles"
+              onChange={(e) => update((s) => ({ ...s, settings: { ...s.settings, fastBattles: e.currentTarget.checked } }))} />
+            <span>Fast battles (2x animation speed)</span>
+          </label>
+        </div>
+      )}
+
       <div class="card">
         <h2>Save code</h2>
         <p class="muted">Your progress lives in this browser. Clearing site data deletes it. Export a code to back it up or move it to another device.</p>

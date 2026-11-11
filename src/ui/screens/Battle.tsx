@@ -1,0 +1,420 @@
+import { useEffect, useRef, useState } from 'preact/hooks';
+import { gameData as data } from '../../core/data';
+import {
+  breathReady, comboAvailable, intentOf, livingEnemies,
+  type BattleEvent, type BattleState, type DragonOrder, type Fighter, type Orders, type RiderOrder,
+} from '../../core/battle';
+import { activeDragon, leaveRun, playRound, startFight, type FightReport } from '../../core/game';
+import { getZone } from '../../core/run';
+import { weaknessesOf } from '../../core/elements';
+import type { SaveData } from '../../core/save';
+import { DragonSprite, EnemySprite } from '../Sprites';
+import { Bar, ElementBadge, IntentChip, prefersReducedMotion, StatusChips, vibrate } from '../bits';
+import { Sheet } from '../Sheet';
+
+interface Props {
+  save: SaveData;
+  update(change: (s: SaveData) => SaveData): void;
+  onExit(): void;
+}
+
+type RiderPick = { type: 'attack' } | { type: 'spell'; spell: string; target: 'rider' | 'dragon' | 'enemy' } | { type: 'item'; item: string } | { type: 'defend' } | { type: 'flee' };
+type DragonPick = { type: 'claw' } | { type: 'breath' } | { type: 'guard' } | { type: 'combo'; combo: string };
+
+interface Float { id: number; target: string; text: string; kind: 'dmg' | 'heal' | 'miss' | 'crit' }
+
+const sleep = (ms: number) => new Promise((r) => window.setTimeout(r, ms));
+
+export function Battle({ save, update, onExit }: Props) {
+  const run = save.run;
+  const live = run?.battle ?? null;
+  const [display, setDisplay] = useState<BattleState | null>(null);
+  const [playing, setPlaying] = useState(false);
+  const [report, setReport] = useState<FightReport | null>(null);
+  const [log, setLog] = useState<string[]>([]);
+  const [logOpen, setLogOpen] = useState(false);
+  const [rider, setRider] = useState<RiderPick>({ type: 'attack' });
+  const [dragonPick, setDragonPick] = useState<DragonPick>({ type: 'claw' });
+  const [target, setTarget] = useState('e0');
+  const [sheet, setSheet] = useState<'spell' | 'item' | null>(null);
+  const [floats, setFloats] = useState<Float[]>([]);
+  const nodes = useRef(new Map<string, HTMLElement>());
+  const floatId = useRef(0);
+
+  const battle = display ?? live;
+  const fast = save.settings.fastBattles;
+  const zone = run ? getZone(data, run.zoneId) : null;
+
+  // Start of a new fight: reset the log and orders.
+  const battleKey = live ? `${run?.index}-${live.enemies.map((e) => e.enemyId).join()}` : '';
+  useEffect(() => {
+    if (!live) return;
+    if (live.round === 1) {
+      setLog([`${live.enemies.map((e) => e.name).join(' and ')} ${live.enemies.length > 1 ? 'appear' : 'appears'}!`]);
+      setRider({ type: 'attack' });
+      setDragonPick({ type: 'claw' });
+    }
+    setTarget(livingEnemies(live)[0]?.id ?? 'e0');
+  }, [battleKey]);
+
+  // Keep the target on a living enemy.
+  useEffect(() => {
+    if (battle && !livingEnemies(battle).some((e) => e.id === target)) setTarget(livingEnemies(battle)[0]?.id ?? 'e0');
+  }, [battle, target]);
+
+  if (!battle) {
+    if (report) return <Results save={save} report={report} update={update} onExit={onExit} onNext={() => { update((s) => startFight(data, s)); setReport(null); }} />;
+    if (run) return <Interlude save={save} update={update} onExit={onExit} />;
+    return null;
+  }
+
+  const dragonState = activeDragon(save);
+  const dragonUp = !!battle.dragon && battle.dragon.hp > 0;
+  const comboPicked = dragonUp && dragonPick.type === 'combo';
+  const ready = breathReady(data, battle);
+
+  const buildOrders = (): Orders => {
+    let r: RiderOrder;
+    switch (rider.type) {
+      case 'attack': r = { type: 'attack', target }; break;
+      case 'spell': r = { type: 'spell', spell: rider.spell, target: rider.target === 'enemy' ? target : rider.target }; break;
+      case 'item': r = { type: 'item', item: rider.item }; break;
+      default: r = { type: rider.type };
+    }
+    if (!dragonUp) return { rider: r };
+    let d: DragonOrder;
+    switch (dragonPick.type) {
+      case 'claw': d = { type: 'claw', target }; break;
+      case 'breath': d = ready ? { type: 'breath', target } : { type: 'claw', target }; break;
+      case 'guard': d = { type: 'guard' }; break;
+      case 'combo': d = { type: 'combo', combo: dragonPick.combo, target }; break;
+    }
+    return { rider: r, dragon: d };
+  };
+
+  const addFloat = (f: Omit<Float, 'id'>) => {
+    const id = ++floatId.current;
+    setFloats((all) => [...all, { ...f, id }]);
+    window.setTimeout(() => setFloats((all) => all.filter((x) => x.id !== id)), fast ? 450 : 800);
+  };
+
+  const animate = (id: string, kind: 'hit' | 'heal' | 'act') => {
+    const node = nodes.current.get(id);
+    if (!node || prefersReducedMotion()) return;
+    const frames: Record<string, Keyframe[]> = {
+      hit: [{ transform: 'translateX(0)' }, { transform: 'translateX(-6px)' }, { transform: 'translateX(6px)' }, { transform: 'translateX(0)' }],
+      heal: [{ filter: 'brightness(1)' }, { filter: 'brightness(1.6)' }, { filter: 'brightness(1)' }],
+      act: [{ transform: 'translateY(0)' }, { transform: 'translateY(-8px)' }, { transform: 'translateY(0)' }],
+    };
+    node.animate(frames[kind]!, { duration: fast ? 150 : 300, easing: 'ease-out' });
+  };
+
+  const go = async () => {
+    if (playing || !live) return;
+    const orders = buildOrders();
+    const result = playRound(data, save, orders);
+    update(() => result.save);
+    setPlaying(true);
+    let view = structuredClone(live);
+    setDisplay(view);
+    const step = fast ? 150 : 300;
+    for (const ev of result.events) {
+      view = applyEvent(view, ev);
+      setDisplay(view);
+      setLog((l) => [...l, ev.text].slice(-40));
+      playEvent(ev);
+      await sleep(ev.t === 'end' ? step : step + (fast ? 50 : 120));
+    }
+    setPlaying(false);
+    if (result.report) {
+      setDisplay(null);
+      setReport(result.report);
+      if (result.report.outcome === 'lost') vibrate([80, 60, 80]);
+    } else {
+      setDisplay(null);
+      // Breath used or no longer full: go back to Claw so nobody wastes a turn.
+      if (dragonPick.type === 'breath' || dragonPick.type === 'combo') setDragonPick({ type: 'claw' });
+      if (rider.type === 'item' || rider.type === 'flee' || rider.type === 'spell') setRider({ type: 'attack' });
+    }
+  };
+
+  const playEvent = (ev: BattleEvent) => {
+    switch (ev.t) {
+      case 'hit':
+        animate(ev.actor, 'act');
+        animate(ev.target, 'hit');
+        addFloat({ target: ev.target, text: `${ev.crit ? '★' : ''}-${ev.amount}`, kind: ev.crit ? 'crit' : 'dmg' });
+        if (ev.crit) vibrate(40);
+        break;
+      case 'dot':
+        animate(ev.target, 'hit');
+        addFloat({ target: ev.target, text: `-${ev.amount}`, kind: 'dmg' });
+        break;
+      case 'miss':
+        animate(ev.actor, 'act');
+        addFloat({ target: ev.target, text: 'Miss', kind: 'miss' });
+        break;
+      case 'heal':
+        animate(ev.target, 'heal');
+        addFloat({ target: ev.target, text: `+${ev.amount}`, kind: 'heal' });
+        break;
+      case 'ko':
+        vibrate([60, 40, 60]);
+        break;
+    }
+  };
+
+  const reg = (id: string) => (el: HTMLElement | null) => { if (el) nodes.current.set(id, el); else nodes.current.delete(id); };
+  const floatsFor = (id: string) => floats.filter((f) => f.target === id).map((f) => (
+    <span key={f.id} class={`float float--${f.kind}`} aria-hidden="true">{f.text}</span>
+  ));
+
+  const fightNo = (run?.index ?? 0) + 1;
+  const totalFights = run?.fights.length ?? 1;
+  const kind = run?.fights[run.index]?.kind;
+  const combos = data.combat.combos.filter((c) => comboAvailable(data, battle, c.id));
+  const bestCombo = combos[combos.length - 1];
+  const nextCombo = data.combat.combos.find((c) => battle.bond < c.bond);
+
+  return (
+    <section class="battle" aria-label="Battle">
+      <div class="battle-field">
+      <header class="battle-header">
+        <span>{zone?.name} · {kind === 'boss' ? 'Boss' : kind === 'mini' ? 'Mini-boss' : `Fight ${fightNo}/${totalFights}`} · Round {battle.round}</span>
+        <button type="button" class="chip-button" aria-pressed={fast} onClick={() => update((s) => ({ ...s, settings: { ...s.settings, fastBattles: !s.settings.fastBattles } }))}>
+          {fast ? '2x' : '1x'}
+        </button>
+      </header>
+
+      <div class="enemies" data-count={battle.enemies.length}>
+        {battle.enemies.map((e) => (
+          <EnemyCard key={e.id} enemy={e} battle={battle} save={save} targeted={e.id === target}
+            onTarget={() => e.hp > 0 && setTarget(e.id)} reg={reg(e.id)} floats={floatsFor(e.id)} />
+        ))}
+      </div>
+
+      <div class="party">
+        <div class="fighter" ref={reg('rider')}>
+          <div class="fighter-name">{battle.rider.name} <StatusChips statuses={battle.rider.statuses} /></div>
+          <Bar kind="hp" value={battle.rider.hp} max={battle.rider.maxHp} label="HP" />
+          <Bar kind="mp" value={battle.rider.mp} max={battle.rider.maxMp} label="MP" />
+          {floatsFor('rider')}
+        </div>
+        {dragonState && (
+          <div class={`fighter${dragonUp ? '' : ' fighter--ko'}`} ref={reg('dragon')}>
+            <div class="fighter-row">
+              <DragonSprite element={dragonState.element} stage={dragonState.stage} primary={dragonState.colors.primary}
+                secondary={dragonState.colors.secondary} size={48} />
+              <div class="fighter-name">{dragonState.name}{!dragonUp && ' (KO)'} {battle.dragon && <StatusChips statuses={battle.dragon.statuses} />}</div>
+            </div>
+            <Bar kind="hp" value={battle.dragon?.hp ?? 0} max={battle.dragon?.maxHp ?? 1} label="HP" />
+            <Bar kind="breath" value={battle.breath} max={data.combat.breath.max} label={ready ? 'Breath READY' : 'Breath'} showNumbers={false} />
+            {floatsFor('dragon')}
+          </div>
+        )}
+      </div>
+
+      <button type="button" class={`log${logOpen ? ' log--open' : ''}`} onClick={() => setLogOpen(!logOpen)} aria-label="Combat log, tap to expand" aria-expanded={logOpen} data-testid="log">
+        <span aria-live="polite">
+          {(logOpen ? log : log.slice(-2)).map((line, i) => <span key={i} class="log-line">{line}</span>)}
+        </span>
+      </button>
+      </div>
+
+      <div class="actions" aria-label="Orders">
+        <div class={`action-row${comboPicked ? ' action-row--muted' : ''}`} role="group" aria-label="Rider">
+          <span class="row-label">Rider</span>
+          <Act label="Attack" on={rider.type === 'attack'} disabled={comboPicked || playing} onClick={() => setRider({ type: 'attack' })} testid="act-attack" />
+          <Act label="Spell" on={rider.type === 'spell'} disabled={comboPicked || playing} onClick={() => setSheet('spell')} testid="act-spell"
+            sub={rider.type === 'spell' ? data.combat.riderMoves.spells.find((s) => s.id === rider.spell)?.name : undefined} />
+          <Act label="Item" on={rider.type === 'item'} disabled={comboPicked || playing} onClick={() => setSheet('item')} testid="act-item"
+            sub={rider.type === 'item' ? data.items.find((i) => i.id === rider.item)?.name : undefined} />
+          <Act label="Defend" on={rider.type === 'defend'} disabled={comboPicked || playing} onClick={() => setRider({ type: 'defend' })} testid="act-defend" />
+          {battle.canFlee && <Act label="Flee" on={rider.type === 'flee'} disabled={comboPicked || playing} onClick={() => setRider({ type: 'flee' })} testid="act-flee" />}
+        </div>
+        {dragonUp ? (
+          <div class="action-row" role="group" aria-label="Dragon">
+            <span class="row-label">Dragon</span>
+            <Act label="Claw" on={dragonPick.type === 'claw'} disabled={playing} onClick={() => setDragonPick({ type: 'claw' })} testid="act-claw" />
+            <Act label="Breath" on={dragonPick.type === 'breath'} disabled={!ready || playing} onClick={() => setDragonPick({ type: 'breath' })}
+              sub={ready ? 'Ready!' : `${Math.round((battle.breath / data.combat.breath.max) * 100)}%`} testid="act-breath" />
+            <Act label="Guard" on={dragonPick.type === 'guard'} disabled={playing} onClick={() => setDragonPick({ type: 'guard' })} testid="act-guard" />
+            {bestCombo ? (
+              <Act label="Combo" sub={bestCombo.name} on={dragonPick.type === 'combo'} disabled={playing}
+                onClick={() => setDragonPick({ type: 'combo', combo: bestCombo.id })} testid="act-combo" />
+            ) : nextCombo ? (
+              <Act label="Combo" sub={`Bond ${nextCombo.bond}`} on={false} disabled onClick={() => undefined} testid="act-combo" />
+            ) : null}
+          </div>
+        ) : (
+          <p class="muted ko-note">Your dragon is knocked out. You fight on alone at reduced power.</p>
+        )}
+        <button type="button" class="button button--go" onClick={go} disabled={playing} data-testid="go">
+          {playing ? '…' : 'Go!'}
+        </button>
+      </div>
+
+      {sheet === 'spell' && (
+        <Sheet title="Spells" onClose={() => setSheet(null)}>
+          <div class="list">
+            {data.combat.riderMoves.spells.map((s) => {
+              const afford = battle.rider.mp >= s.mp;
+              if (s.kind === 'damage') {
+                return (
+                  <button key={s.id} type="button" class="list-button" disabled={!afford} data-testid={`spell-${s.id}`}
+                    onClick={() => { setRider({ type: 'spell', spell: s.id, target: 'enemy' }); setSheet(null); }}>
+                    {s.name} <span class="muted">· {s.mp} MP · hits the target</span>
+                  </button>
+                );
+              }
+              return [
+                <button key={`${s.id}-r`} type="button" class="list-button" disabled={!afford} data-testid={`spell-${s.id}-rider`}
+                  onClick={() => { setRider({ type: 'spell', spell: s.id, target: 'rider' }); setSheet(null); }}>
+                  {s.name} on {battle.rider.name} <span class="muted">· {s.mp} MP</span>
+                </button>,
+                dragonUp && (
+                  <button key={`${s.id}-d`} type="button" class="list-button" disabled={!afford}
+                    onClick={() => { setRider({ type: 'spell', spell: s.id, target: 'dragon' }); setSheet(null); }}>
+                    {s.name} on {battle.dragon?.name} <span class="muted">· {s.mp} MP</span>
+                  </button>
+                ),
+              ];
+            })}
+          </div>
+        </Sheet>
+      )}
+      {sheet === 'item' && (
+        <Sheet title="Items" onClose={() => setSheet(null)}>
+          <div class="list">
+            {data.items.map((item) => {
+              const n = battle.inventory[item.id] ?? 0;
+              const blocked = n <= 0 || (item.effect === 'healDragon' && !dragonUp);
+              return (
+                <button key={item.id} type="button" class="list-button" disabled={blocked} data-testid={`item-${item.id}`}
+                  onClick={() => { setRider({ type: 'item', item: item.id }); setSheet(null); }}>
+                  <span aria-hidden="true">{item.icon}</span> {item.name} ×{n} <span class="muted">· {item.description}</span>
+                </button>
+              );
+            })}
+          </div>
+        </Sheet>
+      )}
+    </section>
+  );
+}
+
+function applyEvent(state: BattleState, ev: BattleEvent): BattleState {
+  const s = structuredClone(state);
+  const find = (id: string): Fighter | null => (id === 'rider' ? s.rider : id === 'dragon' ? s.dragon : s.enemies.find((e) => e.id === id) ?? null);
+  if (ev.t === 'hit' || ev.t === 'dot') {
+    const f = find(ev.target);
+    if (f) f.hp = Math.max(0, f.hp - ev.amount);
+  } else if (ev.t === 'heal') {
+    const f = find(ev.target);
+    if (f) f.hp = Math.min(f.maxHp, f.hp + ev.amount);
+  } else if (ev.t === 'mp') {
+    s.rider.mp = Math.min(s.rider.maxMp, s.rider.mp + ev.amount);
+  } else if (ev.t === 'shift') {
+    const f = find(ev.actor);
+    if (f) f.element = ev.element;
+  }
+  return s;
+}
+
+function Act({ label, sub, on, disabled, onClick, testid }: {
+  label: string; sub?: string; on: boolean; disabled?: boolean; onClick(): void; testid: string;
+}) {
+  return (
+    <button type="button" class={`act${on ? ' act--on' : ''}`} aria-pressed={on} disabled={disabled} onClick={onClick} data-testid={testid}>
+      <span>{label}</span>
+      {sub && <span class="act-sub">{sub}</span>}
+    </button>
+  );
+}
+
+function EnemyCard({ enemy, battle, save, targeted, onTarget, reg, floats }: {
+  enemy: Fighter; battle: BattleState; save: SaveData; targeted: boolean; onTarget(): void;
+  reg(el: HTMLElement | null): void; floats: preact.ComponentChildren;
+}) {
+  const data_ = data.enemies[enemy.enemyId!]!;
+  const intent = enemy.hp > 0 ? intentOf(data, battle, enemy) : null;
+  const known = (save.bestiary[data_.id]?.fought ?? 0) > 0;
+  const weak = enemy.element ? weaknessesOf(data.elements, enemy.element, enemy.resist) : [];
+  return (
+    <button type="button" ref={reg} class={`enemy${targeted ? ' enemy--target' : ''}${enemy.hp <= 0 ? ' enemy--down' : ''}`}
+      onClick={onTarget} aria-pressed={targeted} aria-label={`Target ${enemy.name}`} data-testid={`enemy-${enemy.id}`}>
+      <span class="enemy-top">
+        {intent ? <IntentChip kind={intent.kind} name={intent.name} /> : <span class="intent">Down</span>}
+        {targeted && enemy.hp > 0 && <span class="target-mark" aria-hidden="true">◎ Target</span>}
+      </span>
+      <span class="enemy-body">
+        <EnemySprite enemyId={data_.id} element={enemy.element ?? data_.element} size={battle.enemies.length > 1 ? 56 : 72} />
+        <span class="enemy-info">
+          <span class="enemy-name">{enemy.name} <span class="muted">Lv {enemy.level}</span></span>
+          <span class="enemy-tags">
+            {enemy.element && <ElementBadge element={enemy.element} small />}
+            <span class="weak">{known ? (weak.length ? `Weak: ${weak.map((w) => data.elements.info[w].name).join(', ')}` : 'No weakness') : 'Weak: ?'}</span>
+          </span>
+          <StatusChips statuses={enemy.statuses} />
+        </span>
+      </span>
+      <Bar kind="hp" value={enemy.hp} max={enemy.maxHp} label="HP" />
+      {floats}
+    </button>
+  );
+}
+
+function Interlude({ save, update, onExit }: Props) {
+  const run = save.run!;
+  const next = run.fights[run.index];
+  const boss = next?.kind === 'boss';
+  const label = boss ? `Face the ${data.enemies[next!.enemies[0]!.enemyId]!.name}!` : next?.kind === 'mini' ? 'Fight the mini-boss' : `Fight ${run.index + 1} of ${run.fights.length}`;
+  return (
+    <section class="screen interlude" aria-labelledby="interlude-title">
+      <h1 id="interlude-title">{getZone(data, run.zoneId).name}</h1>
+      <p>Run so far: +{run.totals.xp} XP, +{run.totals.gold} gold.</p>
+      <p class="muted">HP and MP carry over between fights. Rest at the Roost to heal.</p>
+      <button type="button" class="button button--big button--block" onClick={() => update((s) => startFight(data, s))} data-testid="next-fight">{label}</button>
+      <button type="button" class="button button--ghost button--block" onClick={() => { update((s) => leaveRun(s)); onExit(); }} data-testid="leave-run">
+        Head home with your loot
+      </button>
+    </section>
+  );
+}
+
+function Results({ save, report, update, onExit, onNext }: {
+  save: SaveData; report: FightReport; update: Props['update']; onExit(): void; onNext(): void;
+}) {
+  const dragon = activeDragon(save);
+  const r = report.rewards;
+  const title = { won: report.runComplete ? (report.kind === 'boss' ? 'Boss defeated!' : 'Zone run cleared!') : 'Victory!', lost: 'Defeated...', fled: 'You got away' }[report.outcome];
+  const home = () => { if (save.run) update((s) => leaveRun(s)); onExit(); };
+  return (
+    <section class="screen results" aria-labelledby="results-title">
+      <h1 id="results-title" class={`results-title results-title--${report.outcome}`}>{title}</h1>
+      {r && (
+        <ul class="rewards">
+          <li data-testid="reward-xp">+{r.xp} XP{report.wellKept ? ' (Well kept bonus!)' : ''}</li>
+          <li>+{r.gold} gold</li>
+          {Object.entries(r.drops).map(([id, n]) => {
+            const item = data.items.find((i) => i.id === id);
+            return <li key={id}>+{n} {item?.icon} {item?.name}</li>;
+          })}
+          {report.bondGained > 0 && dragon && <li>+{report.bondGained} bond with {dragon.name}</li>}
+        </ul>
+      )}
+      {report.riderLevelsGained > 0 && <p class="notice notice--ok" data-testid="level-up">{save.rider.name} reached level {save.rider.level}! Spend stat points in the Bag.</p>}
+      {report.dragonLevelsGained > 0 && dragon && <p class="notice notice--ok">{dragon.name} reached level {dragon.level}! Spend stat points in Dragons.</p>}
+      {report.outcome === 'lost' && <p>You limp back to the Roost. Everything you earned this run is safe. Rest up and try again.</p>}
+      {report.outcome === 'fled' && <p>You escape back to the Roost with everything you earned so far.</p>}
+      {report.outcome === 'won' && !report.runComplete ? (
+        <>
+          <button type="button" class="button button--big button--block" onClick={onNext} data-testid="continue">Keep going</button>
+          <button type="button" class="button button--ghost button--block" onClick={home} data-testid="go-home">Head home</button>
+        </>
+      ) : (
+        <button type="button" class="button button--big button--block" onClick={home} data-testid="go-home">Back to the Roost</button>
+      )}
+    </section>
+  );
+}

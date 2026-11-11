@@ -1,3 +1,4 @@
 {
+  "note": "Map sprite keys to WebP files in /src/art. Dragon keys are dragon.<element>.<stage> (neutral gray, tinted at runtime). Enemy keys are enemy.<id>. Missing files fall back to placeholder shapes.",
   "sprites": {}
 }
