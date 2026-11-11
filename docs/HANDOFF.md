@@ -20,7 +20,7 @@ Eric played the deployed game and said: "This is very good."
 
 ## What to work on next
 
-**Graphics and UI, starting with the battle screen.** Eric wants an AdventureQuest-style battle: the rider and dragons on one side, enemies on the other, on a painted stage, with real attack animations, and it has to stay fast on a phone. The research and a phased plan are in `docs/GRAPHICS_PLAN.md`. Start with its "Questions for Eric" and phase B0 (a mock battle plus a bench route he can open on his phone). Don't build B1 onward until he has answered and looked at B0.
+**Graphics and UI, starting with the battle screen.** Eric wants an AdventureQuest-style battle: the rider and dragons on one side, enemies on the other, on a painted stage, with real attack animations, and it has to stay fast on a phone. The research and a phased plan are in `docs/GRAPHICS_PLAN.md`. Eric has answered its questions (vector art, agents draw it, every phase B0 to B5, iPhone 17 Pro in Safari); they're in its "Decisions" table. Start with phase B0 (a mock battle plus a bench route he can open on his phone) and stop there for his review before B1.
 
 After graphics, the open items below.
 

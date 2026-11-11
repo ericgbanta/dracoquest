@@ -1,6 +1,6 @@
 # Graphics and battle overhaul: plan
 
-Written 2026-11-11 at Eric's request. Status: research done, not started. Read `docs/HANDOFF.md` first.
+Written 2026-11-11 at Eric's request. Status: research done and questions answered (see "Decisions" below). Not started. Read `docs/HANDOFF.md` first.
 
 The request, in Eric's words: "I think we can implement AdventureQuest-like graphics. The battling especially needs a lot of touch up. We should have us (rider and dragons) on one side and enemy on the other. Let's step it up with the graphics please but also make sure it's performant."
 
@@ -23,9 +23,22 @@ What we take from AdventureQuest is the layout and the feel: big characters on a
 
 Notes on AdventureQuest's battle screen are from what's widely known about the game. The two reference sites tried during research (strategywiki.org and the AQ fandom wiki) were blocked by this session's network or returned nothing on layout. A person can confirm the layout from any gameplay video. The points that matter here: a landscape Flash stage, the player on the left facing a monster on the right in front of an area backdrop, HP and mana shown near the top, and a row of action buttons along the bottom. Attacks play out as short animations of the player moving in to strike, followed by a damage number. Pets and guests stand next to the player.
 
-## Questions for Eric
+## Decisions
 
-These decide the rest. My recommendation is first in each.
+Eric answered the questions below on 2026-11-11. These are settled:
+
+| Question | Decision |
+| --- | --- |
+| G1. Art style | Smooth vector art: flat colors, one shade layer, dark outline, AdventureQuest's Flash feel. Not pixel art. |
+| G2. Who draws the art | Agents draw everything as SVG in the repo, built from parts so it animates. Eric may swap in his own art per part later through `src/art/assets.json`. |
+| G3. How far it goes | Everything: the battle stage (B0 to B3), scenes outside battle (B4) and the UI skin (B5). |
+| G4. Target phone | iPhone 17 Pro in Safari, played both in the browser and as a Home Screen app. The budgets below are judged on that phone; the sandbox numbers are a stand-in. |
+
+B0 still ends at a checkpoint: Eric looks at the mock battle and the bench numbers on his iPhone before B1 starts.
+
+## Questions for Eric (answered)
+
+Kept for the reasoning. My recommendation was first in each.
 
 1. **Art style.** (a) Smooth vector art with flat colors and a dark outline, close to AdventureQuest's Flash look, drawn as SVG in the repo. Or (b) pixel art, like got-sim. AQ is a vector game, so (a) matches the ask better. It also scales cleanly on any phone, files stay small, and it fits how the game already draws dragons (code-drawn SVG). Pixel art would need every sprite redrawn on a grid.
 2. **Who draws the art.** (a) Agents draw everything in SVG in the repo, built from parts so they can animate. Eric can swap in AI-assisted art per part later through the existing manifest. Or (b) Eric makes the art first and agents only animate it. CLAUDE.md expects AI-assisted WebP from Eric, but the pipeline must never block on art. I recommend (a) as the base, because it ships without waiting and every piece has a working placeholder. got-sim's lesson: agent art is "serviceable at small sizes and visibly amateur at large sizes, most of all for dragons". A dragon here is about 140 px tall on screen, so expect to want better dragon art from Eric eventually.
