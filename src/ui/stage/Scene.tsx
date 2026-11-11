@@ -52,6 +52,10 @@ export function useDragonRigs(ds: Pick<DragonState, 'id' | 'element' | 'stage' |
   return v ?? {};
 }
 
+export function useRiderRig(weapon: string): Rig | null {
+  return useLoaded(`rider:${weapon}`, () => loadRig('rider', undefined, { weapon }), rigUrls);
+}
+
 export function useEnemyRig(enemyId: string | null): Rig | null {
   return useLoaded(enemyId ? `enemy:${enemyId}` : null, () => loadEnemyRig(enemyId!), rigUrls);
 }

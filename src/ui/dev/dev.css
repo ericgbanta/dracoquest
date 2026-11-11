@@ -22,3 +22,16 @@
   .bench-num { font-size: 2.6rem; }
   .bench-list { font-size: 1rem; }
 }
+
+/* Art sheet */
+.art-sheet h2 { margin: 18px 0 8px; }
+.art-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+.art-cell { margin: 0; background: #8a74b8; border-radius: 10px; padding: 6px; }
+.art-box { width: 100%; aspect-ratio: 1; display: flex; align-items: flex-end; justify-content: center; }
+.art-box > .rig { width: 100%; }
+.art-box > svg { width: 100%; height: auto; }
+.art-cell figcaption { font-size: 0.8rem; font-weight: 700; text-align: center; color: #1d1a2b; }
+.art-tag { color: #8e2c3b; }
+.art-egg { width: 60%; aspect-ratio: 120 / 150; }
+.art-wide { margin: 0 0 10px; }
+.art-wide figcaption { font-size: 0.85rem; color: var(--muted); }
