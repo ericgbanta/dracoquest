@@ -1,18 +1,8 @@
 {
-  "note": "Battle stage layout and animation timings. Positions are percent of the stage (left/bottom/width of the stage width, top of the stage height). Durations are ms at 1x; 2x speed multiplies them by fastFactor. Each beat's action, up to and including the hit, stays within 450 ms (Eric's call after B0; the design said 300).",
+  "note": "Battle stage layout and animation timings. Positions are percent of the stage: left, bottom and width of a fighter's box as a share of the stage width (bottom of the height), plates by top (share of the height) and left or right. minPx keeps plates readable on small stages. Durations are ms at 1x; 2x speed multiplies them by fastFactor. Each beat's action, up to and including the hit, stays within 450 ms (Eric's call after B0; the design said 300).",
   "aspect": [16, 11],
   "maxNodes": 60,
   "fastFactor": 0.5,
-  "slots": {
-    "dragon": { "left": -1, "bottom": 12, "width": 39, "z": 1 },
-    "rider": { "left": 35, "bottom": 7, "width": 14.5, "z": 3 },
-    "enemy": { "left": 54, "bottom": 10, "width": 43, "z": 2 }
-  },
-  "plates": {
-    "dragon": { "left": 2, "top": 19, "width": 30, "minPx": 96 },
-    "rider": { "left": 33, "top": 47, "width": 20, "minPx": 80 },
-    "enemy": { "right": 2, "top": 19, "width": 36, "minPx": 150 }
-  },
   "beats": {
     "slotMs": 620,
     "riderAttack": { "windup": 100, "dash": 190, "swing": 150, "hold": 60, "back": 200 },
@@ -29,6 +19,43 @@
     "rider": { "name": "Keeper", "hp": 214, "maxHp": 240, "mp": 38, "maxMp": 52 },
     "dragon": { "name": "Blaze", "element": "fire", "stage": "adult", "primary": "#e8603c", "secondary": "#f2a541", "hp": 268, "maxHp": 300, "breath": 100 },
     "enemy": { "id": "e0", "enemyId": "storm-roc", "level": 28, "hp": 1186, "maxHp": 1186, "intent": "Lightning Dive" },
-    "hits": { "riderAttack": 64, "claw": 48, "breath": 151, "enemyAttack": 37 }
-  }
+    "hits": { "riderAttack": 64, "claw": 48, "breath": 151, "enemyAttack": 37 },
+    "dragon2": { "name": "Ripple", "element": "tide", "stage": "adult", "primary": "#3f8fd8", "secondary": "#7fc8f0", "hp": 281, "maxHp": 300 },
+    "enemy2": { "id": "e1", "enemyId": "storm-roc", "level": 26, "hp": 1050, "maxHp": 1050, "intent": "Cyclone" }
+  },
+  "layouts": {
+    "party": {
+      "solo": {
+        "dragon": { "left": -1, "bottom": 12, "width": 39, "z": 1, "plate": { "left": 2, "top": 17, "width": 30, "minPx": 104 } },
+        "rider": { "left": 35, "bottom": 7, "width": 14.5, "z": 3, "plate": { "left": 33, "top": 47, "width": 20, "minPx": 84 } }
+      },
+      "duo": {
+        "dragon2": { "left": 11, "bottom": 33, "width": 25, "z": 0, "plate": { "left": 2, "top": 31, "width": 26, "minPx": 96 } },
+        "dragon": { "left": -3, "bottom": 6, "width": 36, "z": 1, "plate": { "left": 2, "top": 17, "width": 30, "minPx": 104 } },
+        "rider": { "left": 36, "bottom": 5, "width": 14, "z": 3, "plate": { "left": 38, "top": 49, "width": 20, "minPx": 84 } }
+      },
+      "ride": {
+        "rider": { "left": 4, "bottom": 9, "width": 44, "z": 2, "plate": { "left": 2, "top": 17, "width": 34, "minPx": 130 } }
+      },
+      "rideDuo": {
+        "dragon2": { "left": 18, "bottom": 33, "width": 25, "z": 0, "plate": { "left": 2, "top": 31, "width": 26, "minPx": 96 } },
+        "rider": { "left": 0, "bottom": 6, "width": 42, "z": 2, "plate": { "left": 2, "top": 17, "width": 30, "minPx": 120 } }
+      }
+    },
+    "enemies": {
+      "one": [
+        { "left": 54, "bottom": 10, "width": 43, "z": 2, "plate": { "right": 2, "top": 17, "width": 36, "minPx": 150 } }
+      ],
+      "two": [
+        { "left": 50, "bottom": 5, "width": 33, "z": 3, "plate": { "right": 34, "top": 17, "width": 29, "minPx": 110 } },
+        { "left": 72, "bottom": 30, "width": 26, "z": 1, "plate": { "right": 2, "top": 17, "width": 30, "minPx": 116 } }
+      ]
+    }
+  },
+  "mount": {
+    "width": 0.36,
+    "seat": [0.5, 0.7],
+    "saddle": [0.45, 0.48]
+  },
+  "plainBackdrop": { "sky": "#3d2f6e", "skyLow": "#8a6aa8", "groundMix": 0.55, "groundTop": 76 }
 }

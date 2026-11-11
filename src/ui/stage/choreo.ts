@@ -322,3 +322,41 @@ export async function enemyAttack(stage: HTMLElement, hit: HitInfo, opts: BeatOp
   popNumber(stage, hit.target, hit.text, hit.kind, opts.fast);
   await sleep(Math.max(B.slotMs * k, total) - impact);
 }
+
+/** A quick bump on the actor: the B1 stand-in until B2 maps each event to a full move. */
+function bump(stage: HTMLElement, id: string, k: number): void {
+  const f = fighter(stage, id);
+  if (!f) return;
+  const dir = f.dataset.facing === 'left' ? -1 : 1;
+  const d = stage.clientWidth * 0.025 * dir;
+  f.animate([{ transform: 'translateX(0)' }, { transform: `translateX(${d}px)`, offset: 0.4 }, { transform: 'translateX(0)' }], { duration: 260 * k, easing: 'ease-out' });
+}
+
+/** Light feedback for one engine event on the stage: the actor bumps, the target flinches, the number pops. */
+export function react(stage: HTMLElement, ev: { t: string; actor?: string; target?: string; amount?: number; crit?: boolean }, opts: { fast: boolean; reduced: boolean }): void {
+  const k = opts.fast ? layout.fastFactor : 1;
+  const target = ev.target ? fighter(stage, ev.target) : null;
+  const flinch = () => {
+    if (!target) return;
+    if (opts.reduced) target.querySelector('.rig')?.animate([{ opacity: 1 }, { opacity: 0.5 }, { opacity: 1 }], { duration: 200 * k });
+    else knockback(stage, target, target.dataset.facing === 'left' ? 1 : -1, k, !!ev.crit);
+  };
+  switch (ev.t) {
+    case 'hit':
+      if (ev.actor && !opts.reduced) bump(stage, ev.actor, k);
+      flinch();
+      popNumber(stage, ev.target!, `${ev.crit ? '★' : ''}-${ev.amount}`, ev.crit ? 'crit' : 'dmg', opts.fast);
+      break;
+    case 'dot':
+      flinch();
+      popNumber(stage, ev.target!, `-${ev.amount}`, 'dmg', opts.fast);
+      break;
+    case 'miss':
+      if (ev.actor && !opts.reduced) bump(stage, ev.actor, k);
+      popNumber(stage, ev.target!, 'Miss', 'miss', opts.fast);
+      break;
+    case 'heal':
+      popNumber(stage, ev.target!, `+${ev.amount}`, 'heal', opts.fast);
+      break;
+  }
+}

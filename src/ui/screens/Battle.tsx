@@ -12,6 +12,8 @@ import { weaknessesOf } from '../../core/elements';
 import type { SaveData } from '../../core/save';
 import { DragonSprite, EnemySprite } from '../Sprites';
 import { Bar, ElementBadge, IntentChip, prefersReducedMotion, StatusChips, vibrate } from '../bits';
+import { BattleStage } from '../stage/BattleStage';
+import { react } from '../stage/choreo';
 import { Sheet } from '../Sheet';
 import { play } from '../sound';
 
@@ -45,9 +47,12 @@ export function Battle({ save, update, onExit }: Props) {
   const [floats, setFloats] = useState<Float[]>([]);
   const nodes = useRef(new Map<string, HTMLElement>());
   const floatId = useRef(0);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const [detail, setDetail] = useState<string | null>(null);
 
   const battle = display ?? live;
   const fast = save.settings.fastBattles;
+  const simple = save.settings.simpleBattle;
   const zone = run ? getZone(data, run.zoneId) : null;
 
   // Start of a new fight: reset the log and orders.
@@ -175,6 +180,15 @@ export function Battle({ save, update, onExit }: Props) {
 
   const playEvent = (ev: BattleEvent) => {
     const sound = save.settings.sound;
+    if (!simple && stageRef.current) {
+      react(stageRef.current, ev, { fast, reduced: prefersReducedMotion() });
+      if (ev.t === 'hit' && ev.crit) vibrate(40);
+      const cue = ev.t === 'hit' ? (ev.crit ? 'crit' : 'hit') : ev.t === 'miss' ? 'miss' : ev.t === 'heal' ? 'heal' : null;
+      if (cue) play(cue, sound);
+      if (ev.t === 'ko') { play('ko', sound); vibrate([60, 40, 60]); }
+      if (ev.t === 'end') play(ev.outcome === 'won' ? 'victory' : ev.outcome === 'lost' ? 'defeat' : 'tap', sound);
+      return;
+    }
     switch (ev.t) {
       case 'end':
         play(ev.outcome === 'won' ? 'victory' : ev.outcome === 'lost' ? 'defeat' : 'tap', sound);
@@ -221,8 +235,10 @@ export function Battle({ save, update, onExit }: Props) {
   const duo = data.roost.duoCombos.find((c) => duoAvailable(data, battle, c.id));
 
   return (
-    <section class="battle" aria-label="Battle">
+    <section class={`battle${simple ? '' : ' battle--stage'}`} aria-label="Battle">
       <div class="battle-field">
+      {simple ? (
+        <>
       <header class="battle-header">
         <span>{zone?.name} · {kind === 'boss' ? 'Boss' : kind === 'mini' ? 'Mini-boss' : `Fight ${fightNo}/${totalFights}`} · Round {battle.round}</span>
         <button type="button" class="chip-button" aria-pressed={fast} onClick={() => update((s) => ({ ...s, settings: { ...s.settings, fastBattles: !s.settings.fastBattles } }))}>
@@ -276,6 +292,20 @@ export function Battle({ save, update, onExit }: Props) {
           </div>
         )}
       </div>
+
+        </>
+      ) : (
+        <BattleStage save={save} battle={battle} zoneId={run?.zoneId ?? ''} zoneElement={zone?.element ?? 'stone'} target={target}
+          onTarget={(id) => setTarget(id)} onDetails={setDetail} paused={sheet !== null || detail !== null} stageRef={stageRef}
+          header={(
+            <header class="battle-header stage-header">
+        <span>{zone?.name} · {kind === 'boss' ? 'Boss' : kind === 'mini' ? 'Mini-boss' : `Fight ${fightNo}/${totalFights}`} · Round {battle.round}</span>
+        <button type="button" class="chip-button" aria-pressed={fast} onClick={() => update((s) => ({ ...s, settings: { ...s.settings, fastBattles: !s.settings.fastBattles } }))}>
+          {fast ? '2x' : '1x'}
+        </button>
+            </header>
+          )} />
+      )}
 
       <button type="button" class={`log${logOpen ? ' log--open' : ''}`} onClick={() => setLogOpen(!logOpen)} aria-label="Combat log, tap to expand" aria-expanded={logOpen} data-testid="log">
         <span aria-live="polite">
@@ -422,6 +452,7 @@ export function Battle({ save, update, onExit }: Props) {
           </div>
         </Sheet>
       )}
+      {detail && <FighterDetails id={detail} battle={battle} save={save} onClose={() => setDetail(null)} />}
       {sheet === 'item' && (
         <Sheet title="Items" onClose={() => setSheet(null)}>
           <div class="list">
@@ -444,7 +475,7 @@ export function Battle({ save, update, onExit }: Props) {
 
 function applyEvent(state: BattleState, ev: BattleEvent): BattleState {
   const s = structuredClone(state);
-  const find = (id: string): Fighter | null => (id === 'rider' ? s.rider : id === 'dragon' ? s.dragon : s.enemies.find((e) => e.id === id) ?? null);
+  const find = (id: string): Fighter | null => (id === 'rider' ? s.rider : id === 'dragon' ? s.dragon : id === 'dragon2' ? s.second?.fighter ?? null : s.enemies.find((e) => e.id === id) ?? null);
   if (ev.t === 'hit' || ev.t === 'dot') {
     const f = find(ev.target);
     if (f) f.hp = Math.max(0, f.hp - ev.amount);
@@ -592,5 +623,28 @@ function Results({ save, report, update, onExit, onNext }: {
         <button type="button" class="button button--big button--block" onClick={home} data-testid="go-home">Back to the Roost</button>
       )}
     </section>
+  );
+}
+
+/** Details for a fighter, opened by tapping its plate on the stage. */
+function FighterDetails({ id, battle, save, onClose }: { id: string; battle: BattleState; save: SaveData; onClose(): void }) {
+  const f = id === 'rider' ? battle.rider : id === 'dragon' ? battle.dragon : id === 'dragon2' ? battle.second?.fighter ?? null : battle.enemies.find((e) => e.id === id) ?? null;
+  if (!f) return null;
+  const enemy = f.kind === 'enemy' && f.enemyId ? data.enemies[f.enemyId] : undefined;
+  const known = enemy ? (save.bestiary[enemy.id]?.fought ?? 0) > 0 : false;
+  const weak = enemy && f.element ? weaknessesOf(data.elements, f.element, f.resist) : [];
+  const intent = enemy && f.hp > 0 ? intentOf(data, battle, f) : null;
+  return (
+    <Sheet title={`${f.name} · Lv ${f.level}`} onClose={onClose}>
+      <div class="fighter-details" data-testid="fighter-details">
+        {f.element && <p><ElementBadge element={f.element} /></p>}
+        <Bar kind="hp" value={f.hp} max={f.maxHp} label="HP" />
+        {f.maxMp > 0 && <Bar kind="mp" value={f.mp} max={f.maxMp} label="MP" />}
+        {f.statuses.length > 0 ? <p><StatusChips statuses={f.statuses} /></p> : <p class="muted">No status effects.</p>}
+        {enemy && <p>{known ? (weak.length ? `Weak to ${weak.map((w) => data.elements.info[w].name).join(', ')}.` : 'No weakness.') : 'Weakness unknown until you\'ve fought one.'}</p>}
+        {intent && <p><IntentChip kind={intent.kind} name={intent.name} /></p>}
+        {enemy && <p class="muted">{enemy.flavor}</p>}
+      </div>
+    </Sheet>
   );
 }

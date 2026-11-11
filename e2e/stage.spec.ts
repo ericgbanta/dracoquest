@@ -45,3 +45,48 @@ test('the bench loops a round and shows frame numbers', async ({ page }) => {
   await page.getByTestId('bench-restart').tap();
   await expect.poll(async () => Number(await page.getByTestId('bench-stats').getAttribute('data-frames'))).toBeLessThan(200);
 });
+
+async function loadFixture(page: Page, fixture: string) {
+  const { readFileSync } = await import('node:fs');
+  await page.goto('./');
+  await page.evaluate((s) => localStorage.setItem('dracoquest.save', s), readFileSync(`e2e/fixtures/${fixture}`, 'utf8'));
+  await page.goto('./#/roost');
+  await page.reload();
+}
+
+test('a real fight uses the stage: tap to target, tap again for details, tap a party member for theirs', async ({ page }) => {
+  await loadFixture(page, 'juvenile.json');
+  await page.getByTestId('tab-map').tap();
+  await page.getByTestId('start-mossy-hollow').tap();
+  await expect(page.locator('[data-testid=stage]:not(.stage--loading)')).toBeVisible();
+  await expect(page.getByTestId('enemy-e0')).toHaveAttribute('aria-pressed', 'true');
+  await page.getByTestId('enemy-e0').tap();
+  await expect(page.getByTestId('fighter-details')).toBeVisible();
+  await page.getByRole('button', { name: 'Close' }).tap();
+  await page.getByTestId('stage-rider').tap();
+  await expect(page.getByTestId('fighter-details')).toContainText('HP');
+  await page.getByRole('button', { name: 'Close' }).tap();
+  expect(await stageNodes(page)).toBeLessThanOrEqual(layout.maxNodes);
+  await page.getByTestId('go').tap();
+  await expect(page.locator('.results-title, [data-testid=go]:not([disabled])').first()).toBeVisible({ timeout: 15_000 });
+});
+
+test('the Simple battle setting brings back the card layout', async ({ page }) => {
+  await loadFixture(page, 'juvenile.json');
+  await page.getByRole('link', { name: 'Settings' }).tap();
+  await page.getByTestId('simple-battle').check();
+  await page.getByTestId('tab-map').tap();
+  await page.getByTestId('start-mossy-hollow').tap();
+  await expect(page.getByTestId('enemy-e0')).toBeVisible();
+  await expect(page.getByTestId('stage')).toHaveCount(0);
+  await expect(page.locator('.enemies .enemy')).toHaveCount(1);
+});
+
+test('the bench has a 2 vs 2 scene for the busiest stage', async ({ page }) => {
+  await page.goto('./#/dev/bench');
+  await expect(page.getByTestId('stage')).toBeVisible();
+  await page.getByTestId('bench-scene').tap();
+  await expect(page.locator('[data-fighter=dragon2]')).toBeVisible();
+  await expect(page.locator('[data-fighter=e1]')).toBeVisible();
+  await expect.poll(async () => Number(await page.getByTestId('bench-stats').getAttribute('data-frames')), { timeout: 10_000 }).toBeGreaterThan(30);
+});

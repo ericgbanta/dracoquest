@@ -26,7 +26,7 @@ export function Bar({ value, max, kind, label, showNumbers = true }: {
   );
 }
 
-const INTENTS: Record<IntentKind, { icon: string; label: string }> = {
+export const INTENTS: Record<IntentKind, { icon: string; label: string }> = {
   attack: { icon: '⚔', label: 'Attack' },
   big: { icon: '‼', label: 'Big attack' },
   buff: { icon: '▲', label: 'Buff' },

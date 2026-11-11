@@ -80,10 +80,10 @@ export function MockBattle() {
                 <Stage stageRef={stageRef} backdrop={art.backdrop} effects={art.effects}
                   fighters={demoFighters(art, hp, { targeted, onTarget: () => setTargeted(true) })}
                   header={(
-                    <>
+                    <div class="stage-header">
                       <span>{demo.zoneName} · Boss · Round {round}</span>
                       <button type="button" class="chip-button" aria-pressed={fast} onClick={() => setFast(!fast)} data-testid="speed">{fast ? '2x' : '1x'}</button>
-                    </>
+                    </div>
                   )} />
               ) : (
                 <div class="stage stage--loading"><p class="placeholder">Loading the stage…</p></div>

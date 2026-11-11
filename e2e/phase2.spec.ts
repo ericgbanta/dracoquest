@@ -16,7 +16,7 @@ async function fightToEnd(page: Page): Promise<string> {
     const results = page.locator('.results-title');
     if (await results.count()) return (await results.textContent()) ?? '';
     // Drink a potion when the rider is low, like a sensible player.
-    const hp = page.locator('.party .fighter').first().locator('[role=meter]').first();
+    const hp = page.getByTestId('status-rider-hp');
     const now = Number(await hp.getAttribute('aria-valuenow'));
     const max = Number(await hp.getAttribute('aria-valuemax'));
     const potion = page.getByTestId('item-potion');
