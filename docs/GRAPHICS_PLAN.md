@@ -124,7 +124,7 @@ All drawn as SVG by agents following `docs/ART_STYLE.md`, reviewed in renders, a
 - Dragons: Hatchling, Juvenile and Elder rigs to go with the Adult, all with the same parts and pivots; tail tips for all eight elements on the Juvenile, Adult and Elder.
 - Rider: bow and staff arms next to the sword, picked from the equipped weapon's type.
 - Bosses: Bramble Troll, Crab King, Magma Wyrm, Glacier Hydra, Iron Golem and the Eclipse Dragon, at the Storm Roc's scale.
-- Enemies: ENEMY_SUMMARY
+- Enemies: the 42 regular enemies and mini-bosses are drawn from 12 shared body plans (beast, lizard, biped, blob, bat, bird, sprite, crab, bug, plant, cloud, moth), each in its own colors with 0 to 2 extra parts (66 extras in all), sized per enemy.
 - Backdrops: the other six zones and the Roost.
 - Eggs: a tinted egg, three crack stages, and the two halves for hatching.
 - `#/dev/art` is a contact sheet of every sprite at phone size, with missing art tagged.

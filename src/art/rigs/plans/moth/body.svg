@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -40 260 270" width="520" height="540">
+<path d="M174 74 C176 56 186 44 200 40 M186 80 C196 66 210 60 222 62" fill="none" stroke="#1d1a2b" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M196 32 C204 34 206 44 198 46 C192 44 190 36 196 32 Z M218 54 C226 54 228 64 220 66 C214 64 212 58 218 54 Z" fill="#d6d6d6" stroke="#1d1a2b" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M100 140 C88 120 104 100 128 98 C148 96 164 106 160 122 C156 140 128 156 100 140 Z" fill="#9a9a9a"/>
+<path d="M100 140 L111.9 145 L123.4 146.6 L128.9 146.3 L139 143.8 L151.3 136.2 L156.9 129.5 L158.9 125.5 L148.5 133.7 L139.1 137.3 L128.4 138.6 L116.9 137 L105 132 L102.8 127.7 L100.9 119.3 L102.6 109.7 L96.9 119.4 L95.9 127.3 L97.8 135.7 Z" fill="#6e6e6e"/>
+<path d="M100 140 C88 120 104 100 128 98 C148 96 164 106 160 122 C156 140 128 156 100 140 Z" fill="none" stroke="#1d1a2b" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M112 110 L116 140 M128 104 L132 136 M144 104 L146 128" fill="none" stroke="#6e6e6e" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<ellipse cx="176" cy="96" rx="26" ry="25" fill="#9a9a9a"/>
+<path d="M156.5 79.5 L151.4 88 L150.1 97.6 L152.7 107.1 L159.5 115.3 L168.5 119.9 L178.5 120.9 L189 117.7 L196.6 111.2 L200.4 104.6 L192.5 110.4 L182.7 112.9 L173.5 111.9 L164.5 107.3 L159.4 101.9 L155.9 94.5 L155 87.2 Z" fill="#6e6e6e"/>
+<ellipse cx="176" cy="96" rx="26" ry="25" fill="none" stroke="#1d1a2b" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M124 100 C134 92 148 92 156 98 C150 106 136 108 124 100 Z" fill="#d6d6d6" stroke="#1d1a2b" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<ellipse cx="184" cy="92" rx="9" ry="9.72" fill="#ffffff" stroke="#1d1a2b" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<ellipse cx="186" cy="92.5" rx="4.3" ry="5.9" fill="#1d1a2b"/>
+<circle cx="187.8" cy="89.5" r="1.8" fill="#ffffff"/>
+<path d="M172.8 79.4 L194.8 84.9 L193.8 89.5 L173.8 84.6 Z" fill="#1d1a2b" stroke="#1d1a2b" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M186 112 C192 114 196 112 200 108" fill="none" stroke="#1d1a2b" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

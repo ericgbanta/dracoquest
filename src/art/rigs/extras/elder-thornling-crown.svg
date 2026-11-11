@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -40 260 270" width="520" height="540">
+<path d="M84 98 L66 74 L96 86 Z M106 78 L98 50 L120 72 Z M136 66 L140 36 L152 66 Z M166 70 L182 44 L180 78 Z M190 96 L214 82 L196 110 Z M66 140 L44 136 L68 152 Z M84 176 L70 192 L96 182 Z" fill="#efe4c8" stroke="#1d1a2b" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<ellipse cx="120" cy="62" rx="9" ry="9" fill="#f5a3c0"/>
+<ellipse cx="120" cy="62" rx="9" ry="9" fill="none" stroke="#1d1a2b" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<ellipse cx="120" cy="62" rx="3.5" ry="3.5" fill="#f2c14e"/>
+<ellipse cx="176" cy="62" rx="8" ry="8" fill="#f5a3c0"/>
+<ellipse cx="176" cy="62" rx="8" ry="8" fill="none" stroke="#1d1a2b" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<ellipse cx="176" cy="62" rx="3" ry="3" fill="#f2c14e"/>
+</svg>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -40 260 270" width="520" height="540">
+<path d="M40 222 C30 168 70 104 132 104 C192 104 232 160 224 222 C200 230 66 230 40 222 Z" fill="#9a9a9a"/>
+<path d="M47.1 223.6 L69.4 226 L115.8 227.9 L166.1 227.5 L195.6 226 L217.3 223.6 L224 222 L224.8 211.7 L189.6 214.9 L123.8 215.9 L77.4 214 L55.1 211.6 L48 210 L46.6 198.3 L46.7 186.5 L48.2 174.6 L51 163 L55.1 151.7 L60.4 141 L52.5 152.9 L47.1 163.7 L43 175 L40.2 186.6 L38.7 198.5 L38.6 210.3 L40 222 Z" fill="#6e6e6e"/>
+<path d="M40 222 C30 168 70 104 132 104 C192 104 232 160 224 222 C200 230 66 230 40 222 Z" fill="none" stroke="#1d1a2b" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M222 196 C220 214 214 222 196 225 C168 228 140 227 118 224 C148 216 190 210 222 196 Z" fill="#d6d6d6"/>
+<path d="M146.1 217.4 L118 224 L154.8 226.8 L178.1 226.4 L196 225 L206 222.3 L211.1 219.6 L215 216.1 L218.6 210.2 L213 213.3 L203 216 L179.1 217.6 Z" fill="#b0b0b0"/>
+<path d="M222 196 C220 214 214 222 196 225 C168 228 140 227 118 224 C148 216 190 210 222 196 Z" fill="none" stroke="#1d1a2b" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M146 178 C172 186 204 186 224 176 C226 186 224 192 222 196 C198 204 168 204 148 196 Z" fill="#7a2233" stroke="#1d1a2b" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<ellipse cx="72" cy="150" rx="9" ry="7" fill="#505050"/>
+<path d="M80.4 152.5 L80.6 147.9 L74.2 146.9 L70.4 143.1 L65 145.6 L63 150 L63.7 152.7 L65.6 154.9 L72 157 L78.6 154.8 Z" fill="#3c3c3c"/>
+<ellipse cx="72" cy="150" rx="9" ry="7" fill="none" stroke="#1d1a2b" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<ellipse cx="96" cy="128" rx="6" ry="5" fill="#505050"/>
+<path d="M102 127.8 L100.1 124.4 L95.8 123 L91.6 124.6 L90 128.2 L91.9 131.6 L96.2 133 L100.4 131.4 Z" fill="#3c3c3c"/>
+<ellipse cx="96" cy="128" rx="6" ry="5" fill="none" stroke="#1d1a2b" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<ellipse cx="64" cy="182" rx="6" ry="5" fill="#505050"/>
+<path d="M70 181.8 L68.1 178.4 L63.8 177 L59.6 178.6 L58 182.2 L59.9 185.6 L64.2 187 L68.4 185.4 Z" fill="#3c3c3c"/>
+<ellipse cx="64" cy="182" rx="6" ry="5" fill="none" stroke="#1d1a2b" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

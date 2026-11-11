@@ -902,6 +902,621 @@
           ]
         }
       ]
+    },
+    "plan.beast": {
+      "size": [
+        260,
+        270
+      ],
+      "tint": "enemy",
+      "points": {
+        "hit": [
+          0.5,
+          0.667
+        ],
+        "front": [
+          0.769,
+          0.63
+        ]
+      },
+      "parts": [
+        {
+          "id": "legs",
+          "file": "rigs/plans/beast/legs.svg"
+        },
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            0.889
+          ],
+          "anim": "breathe",
+          "parts": [
+            {
+              "id": "tail",
+              "file": "rigs/plans/beast/tail.svg",
+              "pivot": [
+                0.308,
+                0.6
+              ],
+              "anim": "swish"
+            },
+            {
+              "id": "body",
+              "file": "rigs/plans/beast/body.svg"
+            },
+            {
+              "id": "head",
+              "file": "rigs/plans/beast/head.svg",
+              "pivot": [
+                0.7,
+                0.578
+              ]
+            }
+          ]
+        },
+        {
+          "id": "leg-front",
+          "file": "rigs/plans/beast/leg-front.svg",
+          "pivot": [
+            0.662,
+            0.689
+          ]
+        }
+      ]
+    },
+    "plan.lizard": {
+      "size": [
+        260,
+        270
+      ],
+      "tint": "enemy",
+      "points": {
+        "hit": [
+          0.515,
+          0.77
+        ],
+        "front": [
+          0.792,
+          0.741
+        ]
+      },
+      "parts": [
+        {
+          "id": "legs",
+          "file": "rigs/plans/lizard/legs.svg"
+        },
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            0.926
+          ],
+          "anim": "breathe",
+          "parts": [
+            {
+              "id": "tail",
+              "file": "rigs/plans/lizard/tail.svg",
+              "pivot": [
+                0.354,
+                0.696
+              ],
+              "anim": "swish"
+            },
+            {
+              "id": "body",
+              "file": "rigs/plans/lizard/body.svg"
+            },
+            {
+              "id": "head",
+              "file": "rigs/plans/lizard/head.svg",
+              "pivot": [
+                0.731,
+                0.726
+              ]
+            }
+          ]
+        },
+        {
+          "id": "leg-front",
+          "file": "rigs/plans/lizard/leg-front.svg",
+          "pivot": [
+            0.708,
+            0.8
+          ]
+        }
+      ]
+    },
+    "plan.biped": {
+      "size": [
+        260,
+        270
+      ],
+      "tint": "enemy",
+      "points": {
+        "hit": [
+          0.5,
+          0.726
+        ],
+        "front": [
+          0.685,
+          0.667
+        ]
+      },
+      "parts": [
+        {
+          "id": "legs",
+          "file": "rigs/plans/biped/legs.svg"
+        },
+        {
+          "id": "body",
+          "file": "rigs/plans/biped/body.svg",
+          "pivot": [
+            0.5,
+            0.926
+          ],
+          "anim": "breathe",
+          "parts": [
+            {
+              "id": "head",
+              "file": "rigs/plans/biped/head.svg",
+              "pivot": [
+                0.523,
+                0.607
+              ]
+            },
+            {
+              "id": "arm",
+              "file": "rigs/plans/biped/arm.svg",
+              "pivot": [
+                0.531,
+                0.667
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "plan.blob": {
+      "size": [
+        260,
+        270
+      ],
+      "tint": "enemy",
+      "points": {
+        "hit": [
+          0.5,
+          0.778
+        ],
+        "front": [
+          0.854,
+          0.778
+        ]
+      },
+      "parts": [
+        {
+          "id": "body",
+          "file": "rigs/plans/blob/body.svg",
+          "pivot": [
+            0.5,
+            0.985
+          ],
+          "anim": "breathe",
+          "parts": [
+            {
+              "id": "jaw",
+              "file": "rigs/plans/blob/jaw.svg",
+              "pivot": [
+                0.562,
+                0.83
+              ]
+            },
+            {
+              "id": "head",
+              "file": "rigs/plans/blob/head.svg",
+              "pivot": [
+                0.677,
+                0.704
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "plan.bat": {
+      "size": [
+        260,
+        270
+      ],
+      "tint": "enemy",
+      "points": {
+        "hit": [
+          0.538,
+          0.541
+        ],
+        "front": [
+          0.708,
+          0.541
+        ]
+      },
+      "parts": [
+        {
+          "id": "all",
+          "pivot": [
+            0.5,
+            0.741
+          ],
+          "anim": "bob",
+          "parts": [
+            {
+              "id": "wing-back",
+              "file": "rigs/plans/bat/wing-back.svg",
+              "pivot": [
+                0.508,
+                0.467
+              ],
+              "anim": "flap-back-big"
+            },
+            {
+              "id": "body",
+              "file": "rigs/plans/bat/body.svg"
+            },
+            {
+              "id": "wing-front",
+              "file": "rigs/plans/bat/wing-front.svg",
+              "pivot": [
+                0.469,
+                0.519
+              ],
+              "anim": "flap-big"
+            }
+          ]
+        }
+      ]
+    },
+    "plan.bird": {
+      "size": [
+        260,
+        270
+      ],
+      "tint": "enemy",
+      "points": {
+        "hit": [
+          0.492,
+          0.593
+        ],
+        "front": [
+          0.754,
+          0.504
+        ]
+      },
+      "parts": [
+        {
+          "id": "all",
+          "pivot": [
+            0.5,
+            0.778
+          ],
+          "anim": "bob",
+          "parts": [
+            {
+              "id": "wing-back",
+              "file": "rigs/plans/bird/wing-back.svg",
+              "pivot": [
+                0.508,
+                0.496
+              ],
+              "anim": "flap-back-big"
+            },
+            {
+              "id": "body",
+              "file": "rigs/plans/bird/body.svg"
+            },
+            {
+              "id": "head",
+              "file": "rigs/plans/bird/head.svg",
+              "pivot": [
+                0.638,
+                0.489
+              ]
+            },
+            {
+              "id": "wing-front",
+              "file": "rigs/plans/bird/wing-front.svg",
+              "pivot": [
+                0.508,
+                0.504
+              ],
+              "anim": "flap-big"
+            }
+          ]
+        }
+      ]
+    },
+    "plan.sprite": {
+      "size": [
+        260,
+        270
+      ],
+      "tint": "enemy",
+      "points": {
+        "hit": [
+          0.538,
+          0.533
+        ],
+        "front": [
+          0.7,
+          0.533
+        ]
+      },
+      "parts": [
+        {
+          "id": "all",
+          "pivot": [
+            0.5,
+            0.704
+          ],
+          "anim": "bob",
+          "parts": [
+            {
+              "id": "tail",
+              "file": "rigs/plans/sprite/tail.svg",
+              "pivot": [
+                0.508,
+                0.637
+              ],
+              "anim": "swish"
+            },
+            {
+              "id": "body",
+              "file": "rigs/plans/sprite/body.svg"
+            },
+            {
+              "id": "wing-front",
+              "file": "rigs/plans/sprite/wing-front.svg",
+              "pivot": [
+                0.662,
+                0.637
+              ],
+              "anim": "flap"
+            }
+          ]
+        }
+      ]
+    },
+    "plan.crab": {
+      "size": [
+        260,
+        270
+      ],
+      "tint": "enemy",
+      "points": {
+        "hit": [
+          0.492,
+          0.741
+        ],
+        "front": [
+          0.754,
+          0.704
+        ]
+      },
+      "parts": [
+        {
+          "id": "legs",
+          "file": "rigs/plans/crab/legs.svg"
+        },
+        {
+          "id": "body",
+          "file": "rigs/plans/crab/body.svg",
+          "pivot": [
+            0.492,
+            0.926
+          ],
+          "anim": "breathe",
+          "parts": [
+            {
+              "id": "head",
+              "file": "rigs/plans/crab/head.svg",
+              "pivot": [
+                0.608,
+                0.63
+              ]
+            },
+            {
+              "id": "arm",
+              "file": "rigs/plans/crab/arm.svg",
+              "pivot": [
+                0.654,
+                0.807
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "plan.bug": {
+      "size": [
+        260,
+        270
+      ],
+      "tint": "enemy",
+      "points": {
+        "hit": [
+          0.477,
+          0.756
+        ],
+        "front": [
+          0.792,
+          0.763
+        ]
+      },
+      "parts": [
+        {
+          "id": "legs",
+          "file": "rigs/plans/bug/legs.svg"
+        },
+        {
+          "id": "body",
+          "file": "rigs/plans/bug/body.svg",
+          "pivot": [
+            0.477,
+            0.926
+          ],
+          "anim": "breathe",
+          "parts": [
+            {
+              "id": "head",
+              "file": "rigs/plans/bug/head.svg",
+              "pivot": [
+                0.692,
+                0.8
+              ]
+            }
+          ]
+        },
+        {
+          "id": "leg-front",
+          "file": "rigs/plans/bug/leg-front.svg",
+          "pivot": [
+            0.631,
+            0.83
+          ]
+        }
+      ]
+    },
+    "plan.plant": {
+      "size": [
+        260,
+        270
+      ],
+      "tint": "enemy",
+      "points": {
+        "hit": [
+          0.508,
+          0.622
+        ],
+        "front": [
+          0.746,
+          0.622
+        ]
+      },
+      "parts": [
+        {
+          "id": "legs",
+          "file": "rigs/plans/plant/legs.svg"
+        },
+        {
+          "id": "body",
+          "file": "rigs/plans/plant/body.svg",
+          "pivot": [
+            0.5,
+            0.926
+          ],
+          "anim": "breathe",
+          "parts": [
+            {
+              "id": "arm",
+              "file": "rigs/plans/plant/arm.svg",
+              "pivot": [
+                0.585,
+                0.733
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "plan.cloud": {
+      "size": [
+        260,
+        270
+      ],
+      "tint": "enemy",
+      "points": {
+        "hit": [
+          0.515,
+          0.519
+        ],
+        "front": [
+          0.823,
+          0.533
+        ]
+      },
+      "parts": [
+        {
+          "id": "all",
+          "pivot": [
+            0.5,
+            0.741
+          ],
+          "anim": "bob",
+          "parts": [
+            {
+              "id": "body",
+              "file": "rigs/plans/cloud/body.svg"
+            },
+            {
+              "id": "arm",
+              "file": "rigs/plans/cloud/arm.svg",
+              "pivot": [
+                0.715,
+                0.704
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "plan.moth": {
+      "size": [
+        260,
+        270
+      ],
+      "tint": "enemy",
+      "points": {
+        "hit": [
+          0.538,
+          0.541
+        ],
+        "front": [
+          0.754,
+          0.519
+        ]
+      },
+      "parts": [
+        {
+          "id": "all",
+          "pivot": [
+            0.5,
+            0.741
+          ],
+          "anim": "bob",
+          "parts": [
+            {
+              "id": "wing-back",
+              "file": "rigs/plans/moth/wing-back.svg",
+              "pivot": [
+                0.508,
+                0.526
+              ],
+              "anim": "flap-back"
+            },
+            {
+              "id": "body",
+              "file": "rigs/plans/moth/body.svg"
+            },
+            {
+              "id": "wing-front",
+              "file": "rigs/plans/moth/wing-front.svg",
+              "pivot": [
+                0.485,
+                0.533
+              ],
+              "anim": "flap"
+            }
+          ]
+        }
+      ]
     }
   },
   "backdrops": {
@@ -1060,5 +1675,1044 @@
     ],
     "top": "eggs/egg-top.svg",
     "bottom": "eggs/egg-bottom.svg"
+  },
+  "enemies": {
+    "thornling": {
+      "rig": "plan.plant",
+      "colors": [
+        "#5fbf5a",
+        "#a6e07a",
+        "#7a5534"
+      ],
+      "scale": 0.81,
+      "extras": [
+        {
+          "parent": "body",
+          "id": "thorns",
+          "file": "rigs/extras/thornling-thorns.svg",
+          "pivot": [
+            0.5,
+            0.63
+          ]
+        }
+      ]
+    },
+    "bog-hopper": {
+      "rig": "plan.blob",
+      "colors": [
+        "#4a9fb0",
+        "#d4ecc4",
+        "#2f6b8a"
+      ],
+      "scale": 0.83,
+      "extras": [
+        {
+          "parent": "root",
+          "id": "feet",
+          "file": "rigs/extras/bog-hopper-feet.svg",
+          "pivot": [
+            0.769,
+            0.926
+          ]
+        }
+      ]
+    },
+    "barkback-boar": {
+      "rig": "plan.beast",
+      "colors": [
+        "#8a6650",
+        "#d9b99a",
+        "#4e3a2e"
+      ],
+      "scale": 0.9,
+      "extras": [
+        {
+          "parent": "head",
+          "id": "face",
+          "file": "rigs/extras/barkback-boar-face.svg",
+          "pivot": [
+            0.808,
+            0.519
+          ]
+        },
+        {
+          "parent": "body",
+          "id": "bark",
+          "file": "rigs/extras/barkback-boar-bark.svg",
+          "pivot": [
+            0.5,
+            0.519
+          ]
+        }
+      ]
+    },
+    "spore-puffer": {
+      "rig": "plan.blob",
+      "colors": [
+        "#e9dcc0",
+        "#fff6e2",
+        "#c24e44"
+      ],
+      "scale": 0.65,
+      "extras": [
+        {
+          "parent": "body",
+          "id": "cap",
+          "file": "rigs/extras/spore-puffer-cap.svg",
+          "pivot": [
+            0.5,
+            0.519
+          ]
+        },
+        {
+          "parent": "root",
+          "id": "spores",
+          "file": "rigs/extras/spore-puffer-spores.svg",
+          "pivot": [
+            0.5,
+            0.37
+          ]
+        }
+      ]
+    },
+    "moss-wisp": {
+      "rig": "plan.sprite",
+      "colors": [
+        "#8fd46a",
+        "#e0f8b0",
+        "#4f8a3a"
+      ],
+      "scale": 0.78,
+      "extras": [
+        {
+          "parent": "body",
+          "id": "moss",
+          "file": "rigs/extras/moss-wisp-moss.svg",
+          "pivot": [
+            0.538,
+            0.407
+          ]
+        }
+      ]
+    },
+    "elder-thornling": {
+      "rig": "plan.plant",
+      "colors": [
+        "#3f8a46",
+        "#8fcf6a",
+        "#5a3c2a"
+      ],
+      "scale": 1.05,
+      "extras": [
+        {
+          "parent": "body",
+          "id": "crown",
+          "file": "rigs/extras/elder-thornling-crown.svg",
+          "pivot": [
+            0.5,
+            0.444
+          ]
+        },
+        {
+          "parent": "body",
+          "id": "brows",
+          "file": "rigs/extras/elder-thornling-brows.svg",
+          "pivot": [
+            0.654,
+            0.593
+          ]
+        }
+      ]
+    },
+    "pincher-crab": {
+      "rig": "plan.crab",
+      "colors": [
+        "#4a8fd4",
+        "#d4eaf6",
+        "#f2c14e"
+      ],
+      "scale": 0.69,
+      "extras": []
+    },
+    "gull-bandit": {
+      "rig": "plan.bird",
+      "colors": [
+        "#e4e9ee",
+        "#ffffff",
+        "#f2c14e"
+      ],
+      "scale": 0.85,
+      "extras": [
+        {
+          "parent": "head",
+          "id": "mask",
+          "file": "rigs/extras/gull-bandit-mask.svg",
+          "pivot": [
+            0.677,
+            0.407
+          ]
+        }
+      ]
+    },
+    "brine-slime": {
+      "rig": "plan.blob",
+      "colors": [
+        "#3fb4c4",
+        "#b8eef2",
+        "#e6fbff"
+      ],
+      "scale": 0.81,
+      "extras": [
+        {
+          "parent": "body",
+          "id": "salt",
+          "file": "rigs/extras/brine-slime-salt.svg",
+          "pivot": [
+            0.5,
+            0.63
+          ]
+        }
+      ]
+    },
+    "kelp-lurker": {
+      "rig": "plan.blob",
+      "colors": [
+        "#3d7a4c",
+        "#9cc87a",
+        "#86a83a"
+      ],
+      "scale": 0.93,
+      "extras": [
+        {
+          "parent": "body",
+          "id": "kelp",
+          "file": "rigs/extras/kelp-lurker-kelp.svg",
+          "pivot": [
+            0.423,
+            0.667
+          ]
+        },
+        {
+          "parent": "head",
+          "id": "frond",
+          "file": "rigs/extras/kelp-lurker-frond.svg",
+          "pivot": [
+            0.615,
+            0.519
+          ]
+        }
+      ]
+    },
+    "shell-knight": {
+      "rig": "plan.crab",
+      "colors": [
+        "#e0905a",
+        "#f6d8b8",
+        "#7a5a8a"
+      ],
+      "scale": 0.87,
+      "extras": [
+        {
+          "parent": "head",
+          "id": "helmet",
+          "file": "rigs/extras/shell-knight-helmet.svg",
+          "pivot": [
+            0.608,
+            0.519
+          ]
+        },
+        {
+          "parent": "arm",
+          "id": "spear",
+          "file": "rigs/extras/shell-knight-spear.svg",
+          "pivot": [
+            0.846,
+            0.704
+          ]
+        }
+      ]
+    },
+    "big-pincher": {
+      "rig": "plan.crab",
+      "colors": [
+        "#2b5c9e",
+        "#bcd6ee",
+        "#e8603c"
+      ],
+      "scale": 1.05,
+      "extras": [
+        {
+          "parent": "body",
+          "id": "spikes",
+          "file": "rigs/extras/big-pincher-spikes.svg",
+          "pivot": [
+            0.492,
+            0.704
+          ]
+        },
+        {
+          "parent": "arm",
+          "id": "claw",
+          "file": "rigs/extras/big-pincher-claw.svg",
+          "pivot": [
+            0.846,
+            0.704
+          ]
+        }
+      ]
+    },
+    "ember-imp": {
+      "rig": "plan.biped",
+      "colors": [
+        "#e8603c",
+        "#f6c08a",
+        "#3a2a30"
+      ],
+      "scale": 0.71,
+      "extras": [
+        {
+          "parent": "head",
+          "id": "horns",
+          "file": "rigs/extras/ember-imp-horns.svg",
+          "pivot": [
+            0.538,
+            0.37
+          ]
+        },
+        {
+          "parent": "legs",
+          "id": "tail",
+          "file": "rigs/extras/ember-imp-tail.svg",
+          "pivot": [
+            0.346,
+            0.815
+          ]
+        }
+      ]
+    },
+    "ash-lizard": {
+      "rig": "plan.lizard",
+      "colors": [
+        "#6e6264",
+        "#cdbcae",
+        "#ff8a3a"
+      ],
+      "scale": 0.79,
+      "extras": [
+        {
+          "parent": "body",
+          "id": "embers",
+          "file": "rigs/extras/ash-lizard-embers.svg",
+          "pivot": [
+            0.5,
+            0.741
+          ]
+        }
+      ]
+    },
+    "cinder-beetle": {
+      "rig": "plan.bug",
+      "colors": [
+        "#3a3438",
+        "#7a6c6a",
+        "#a58c6a"
+      ],
+      "scale": 0.87,
+      "extras": [
+        {
+          "parent": "body",
+          "id": "coal",
+          "file": "rigs/extras/cinder-beetle-coal.svg",
+          "pivot": [
+            0.477,
+            0.741
+          ]
+        },
+        {
+          "parent": "head",
+          "id": "horn",
+          "file": "rigs/extras/cinder-beetle-horn.svg",
+          "pivot": [
+            0.769,
+            0.741
+          ]
+        }
+      ]
+    },
+    "smog-bat": {
+      "rig": "plan.bat",
+      "colors": [
+        "#6c6274",
+        "#b8a8b4",
+        "#e8603c"
+      ],
+      "scale": 0.71,
+      "extras": [
+        {
+          "parent": "body",
+          "id": "smog",
+          "file": "rigs/extras/smog-bat-smog.svg",
+          "pivot": [
+            0.577,
+            0.593
+          ]
+        }
+      ]
+    },
+    "lava-toad": {
+      "rig": "plan.blob",
+      "colors": [
+        "#c4462c",
+        "#f2a541",
+        "#ffd24a"
+      ],
+      "scale": 0.87,
+      "extras": [
+        {
+          "parent": "root",
+          "id": "feet",
+          "file": "rigs/extras/lava-toad-feet.svg",
+          "pivot": [
+            0.769,
+            0.926
+          ]
+        },
+        {
+          "parent": "body",
+          "id": "lava",
+          "file": "rigs/extras/lava-toad-lava.svg",
+          "pivot": [
+            0.423,
+            0.578
+          ]
+        }
+      ]
+    },
+    "imp-chieftain": {
+      "rig": "plan.biped",
+      "colors": [
+        "#b8342a",
+        "#f2a541",
+        "#2a1f2a"
+      ],
+      "scale": 1.04,
+      "extras": [
+        {
+          "parent": "head",
+          "id": "crown",
+          "file": "rigs/extras/imp-chieftain-crown.svg",
+          "pivot": [
+            0.538,
+            0.333
+          ]
+        },
+        {
+          "parent": "legs",
+          "id": "tail",
+          "file": "rigs/extras/imp-chieftain-tail.svg",
+          "pivot": [
+            0.346,
+            0.815
+          ]
+        }
+      ]
+    },
+    "spark-sprite": {
+      "rig": "plan.sprite",
+      "colors": [
+        "#c9a8ff",
+        "#fff7c2",
+        "#f5e27a"
+      ],
+      "scale": 0.7,
+      "extras": [
+        {
+          "parent": "body",
+          "id": "zaps",
+          "file": "rigs/extras/spark-sprite-zaps.svg",
+          "pivot": [
+            0.538,
+            0.407
+          ]
+        }
+      ]
+    },
+    "thunder-goat": {
+      "rig": "plan.beast",
+      "colors": [
+        "#7470a8",
+        "#e4dcf6",
+        "#f5e27a"
+      ],
+      "scale": 0.88,
+      "extras": [
+        {
+          "parent": "head",
+          "id": "horns",
+          "file": "rigs/extras/thunder-goat-horns.svg",
+          "pivot": [
+            0.808,
+            0.519
+          ]
+        }
+      ]
+    },
+    "cliff-harpy": {
+      "rig": "plan.bird",
+      "colors": [
+        "#8a62a8",
+        "#f0dcf2",
+        "#f2c14e"
+      ],
+      "scale": 0.92,
+      "extras": [
+        {
+          "parent": "head",
+          "id": "hair",
+          "file": "rigs/extras/cliff-harpy-hair.svg",
+          "pivot": [
+            0.654,
+            0.37
+          ]
+        },
+        {
+          "parent": "head",
+          "id": "scream",
+          "file": "rigs/extras/cliff-harpy-scream.svg",
+          "pivot": [
+            0.769,
+            0.467
+          ]
+        }
+      ]
+    },
+    "gale-hawk": {
+      "rig": "plan.bird",
+      "colors": [
+        "#4f62a8",
+        "#dfe6f5",
+        "#f2c14e"
+      ],
+      "scale": 0.89,
+      "extras": [
+        {
+          "parent": "head",
+          "id": "crest",
+          "file": "rigs/extras/gale-hawk-crest.svg",
+          "pivot": [
+            0.638,
+            0.393
+          ]
+        }
+      ]
+    },
+    "granite-ram": {
+      "rig": "plan.beast",
+      "colors": [
+        "#9a8c7c",
+        "#ece4d2",
+        "#5e5246"
+      ],
+      "scale": 0.92,
+      "extras": [
+        {
+          "parent": "body",
+          "id": "wool",
+          "file": "rigs/extras/granite-ram-wool.svg",
+          "pivot": [
+            0.5,
+            0.593
+          ]
+        },
+        {
+          "parent": "head",
+          "id": "horns",
+          "file": "rigs/extras/granite-ram-horns.svg",
+          "pivot": [
+            0.731,
+            0.489
+          ]
+        }
+      ]
+    },
+    "thunderhead": {
+      "rig": "plan.cloud",
+      "colors": [
+        "#646286",
+        "#c4c0e0",
+        "#f5e27a"
+      ],
+      "scale": 1.05,
+      "extras": [
+        {
+          "parent": "root",
+          "id": "bolts",
+          "file": "rigs/extras/thunderhead-bolts.svg",
+          "pivot": [
+            0.385,
+            0.778
+          ]
+        },
+        {
+          "parent": "body",
+          "id": "brows",
+          "file": "rigs/extras/thunderhead-brows.svg",
+          "pivot": [
+            0.654,
+            0.444
+          ]
+        }
+      ]
+    },
+    "frostbite-hare": {
+      "rig": "plan.beast",
+      "colors": [
+        "#eef3f8",
+        "#c4e4f6",
+        "#d2e8f6"
+      ],
+      "scale": 0.68,
+      "extras": [
+        {
+          "parent": "head",
+          "id": "ears",
+          "file": "rigs/extras/frostbite-hare-ears.svg",
+          "pivot": [
+            0.754,
+            0.444
+          ]
+        },
+        {
+          "parent": "tail",
+          "id": "puff",
+          "file": "rigs/extras/frostbite-hare-puff.svg",
+          "pivot": [
+            0.2,
+            0.496
+          ]
+        }
+      ]
+    },
+    "ice-wraith": {
+      "rig": "plan.sprite",
+      "colors": [
+        "#bfe4f8",
+        "#eaf8ff",
+        "#5aa0d0"
+      ],
+      "scale": 1.0,
+      "extras": [
+        {
+          "parent": "body",
+          "id": "icicles",
+          "file": "rigs/extras/ice-wraith-icicles.svg",
+          "pivot": [
+            0.538,
+            0.444
+          ]
+        }
+      ]
+    },
+    "glacier-turtle": {
+      "rig": "plan.lizard",
+      "colors": [
+        "#6a9890",
+        "#d8e8e0",
+        "#4a7a8a"
+      ],
+      "scale": 0.87,
+      "extras": [
+        {
+          "parent": "body",
+          "id": "shell",
+          "file": "rigs/extras/glacier-turtle-shell.svg",
+          "pivot": [
+            0.5,
+            0.667
+          ]
+        }
+      ]
+    },
+    "yeti-cub": {
+      "rig": "plan.biped",
+      "colors": [
+        "#eef2f8",
+        "#9cbcd8",
+        "#5c7898"
+      ],
+      "scale": 0.87,
+      "extras": [
+        {
+          "parent": "head",
+          "id": "fur",
+          "file": "rigs/extras/yeti-cub-fur.svg",
+          "pivot": [
+            0.538,
+            0.444
+          ]
+        },
+        {
+          "parent": "body",
+          "id": "tufts",
+          "file": "rigs/extras/yeti-cub-tufts.svg",
+          "pivot": [
+            0.5,
+            0.778
+          ]
+        }
+      ]
+    },
+    "rime-wolf": {
+      "rig": "plan.beast",
+      "colors": [
+        "#8aa6c6",
+        "#e8f2fa",
+        "#4a6688"
+      ],
+      "scale": 0.89,
+      "extras": [
+        {
+          "parent": "head",
+          "id": "ears",
+          "file": "rigs/extras/rime-wolf-ears.svg",
+          "pivot": [
+            0.769,
+            0.444
+          ]
+        },
+        {
+          "parent": "tail",
+          "id": "bushy",
+          "file": "rigs/extras/rime-wolf-bushy.svg",
+          "pivot": [
+            0.308,
+            0.593
+          ]
+        }
+      ]
+    },
+    "rime-alpha": {
+      "rig": "plan.beast",
+      "colors": [
+        "#4a6890",
+        "#e2eef8",
+        "#bfe6fa"
+      ],
+      "scale": 1.05,
+      "extras": [
+        {
+          "parent": "head",
+          "id": "ears",
+          "file": "rigs/extras/rime-alpha-ears.svg",
+          "pivot": [
+            0.769,
+            0.444
+          ]
+        },
+        {
+          "parent": "body",
+          "id": "mane",
+          "file": "rigs/extras/rime-alpha-mane.svg",
+          "pivot": [
+            0.615,
+            0.519
+          ]
+        }
+      ]
+    },
+    "tunnel-mole": {
+      "rig": "plan.beast",
+      "colors": [
+        "#6a5866",
+        "#f0a8b4",
+        "#5a4a58"
+      ],
+      "scale": 0.71,
+      "extras": [
+        {
+          "parent": "head",
+          "id": "face",
+          "file": "rigs/extras/tunnel-mole-face.svg",
+          "pivot": [
+            0.846,
+            0.519
+          ]
+        },
+        {
+          "parent": "leg-front",
+          "id": "claws",
+          "file": "rigs/extras/tunnel-mole-claws.svg",
+          "pivot": [
+            0.731,
+            0.948
+          ]
+        }
+      ]
+    },
+    "crystal-crawler": {
+      "rig": "plan.bug",
+      "colors": [
+        "#5a4a7c",
+        "#9a88c0",
+        "#3c3256"
+      ],
+      "scale": 0.84,
+      "extras": [
+        {
+          "parent": "legs",
+          "id": "more-legs",
+          "file": "rigs/extras/crystal-crawler-more-legs.svg",
+          "pivot": [
+            0.462,
+            0.815
+          ]
+        },
+        {
+          "parent": "body",
+          "id": "crystals",
+          "file": "rigs/extras/crystal-crawler-crystals.svg",
+          "pivot": [
+            0.477,
+            0.556
+          ]
+        }
+      ]
+    },
+    "lantern-gnome": {
+      "rig": "plan.biped",
+      "colors": [
+        "#6a5a9e",
+        "#f0e2c4",
+        "#6a4a3a"
+      ],
+      "scale": 0.7,
+      "extras": [
+        {
+          "parent": "head",
+          "id": "hat",
+          "file": "rigs/extras/lantern-gnome-hat.svg",
+          "pivot": [
+            0.538,
+            0.407
+          ]
+        },
+        {
+          "parent": "arm",
+          "id": "pick",
+          "file": "rigs/extras/lantern-gnome-pick.svg",
+          "pivot": [
+            0.692,
+            0.704
+          ]
+        }
+      ]
+    },
+    "gemback-lizard": {
+      "rig": "plan.lizard",
+      "colors": [
+        "#7a6858",
+        "#dccab2",
+        "#5fc8c0"
+      ],
+      "scale": 0.81,
+      "extras": [
+        {
+          "parent": "body",
+          "id": "gems",
+          "file": "rigs/extras/gemback-lizard-gems.svg",
+          "pivot": [
+            0.538,
+            0.63
+          ]
+        }
+      ]
+    },
+    "rust-sprite": {
+      "rig": "plan.sprite",
+      "colors": [
+        "#c4703a",
+        "#f2c494",
+        "#6a3a28"
+      ],
+      "scale": 0.78,
+      "extras": [
+        {
+          "parent": "body",
+          "id": "bolts",
+          "file": "rigs/extras/rust-sprite-bolts.svg",
+          "pivot": [
+            0.538,
+            0.481
+          ]
+        }
+      ]
+    },
+    "foreman-golem": {
+      "rig": "plan.biped",
+      "colors": [
+        "#8a8478",
+        "#bab2a2",
+        "#585246"
+      ],
+      "scale": 1.05,
+      "extras": [
+        {
+          "parent": "head",
+          "id": "hardhat",
+          "file": "rigs/extras/foreman-golem-hardhat.svg",
+          "pivot": [
+            0.538,
+            0.37
+          ]
+        },
+        {
+          "parent": "arm",
+          "id": "clipboard",
+          "file": "rigs/extras/foreman-golem-clipboard.svg",
+          "pivot": [
+            0.692,
+            0.8
+          ]
+        }
+      ]
+    },
+    "dawn-sprite": {
+      "rig": "plan.sprite",
+      "colors": [
+        "#f5dc6a",
+        "#fff4c8",
+        "#f2a541"
+      ],
+      "scale": 0.75,
+      "extras": [
+        {
+          "parent": "body",
+          "id": "rays",
+          "file": "rigs/extras/dawn-sprite-rays.svg",
+          "pivot": [
+            0.538,
+            0.519
+          ]
+        }
+      ]
+    },
+    "dusk-bat": {
+      "rig": "plan.bat",
+      "colors": [
+        "#4a3a6c",
+        "#a88cc8",
+        "#f5e27a"
+      ],
+      "scale": 0.85,
+      "extras": [
+        {
+          "parent": "body",
+          "id": "moon",
+          "file": "rigs/extras/dusk-bat-moon.svg",
+          "pivot": [
+            0.538,
+            0.444
+          ]
+        }
+      ]
+    },
+    "sun-knight": {
+      "rig": "plan.biped",
+      "colors": [
+        "#d4dae6",
+        "#f5e27a",
+        "#8a6a3a"
+      ],
+      "scale": 0.89,
+      "extras": [
+        {
+          "parent": "head",
+          "id": "helmet",
+          "file": "rigs/extras/sun-knight-helmet.svg",
+          "pivot": [
+            0.538,
+            0.444
+          ]
+        },
+        {
+          "parent": "arm",
+          "id": "sword",
+          "file": "rigs/extras/sun-knight-sword.svg",
+          "pivot": [
+            0.692,
+            0.741
+          ]
+        }
+      ]
+    },
+    "shade-stalker": {
+      "rig": "plan.sprite",
+      "colors": [
+        "#3a2e52",
+        "#7a5c9e",
+        "#c9a8ff"
+      ],
+      "scale": 1.0,
+      "extras": [
+        {
+          "parent": "body",
+          "id": "hood",
+          "file": "rigs/extras/shade-stalker-hood.svg",
+          "pivot": [
+            0.538,
+            0.481
+          ]
+        }
+      ]
+    },
+    "twilight-moth": {
+      "rig": "plan.moth",
+      "colors": [
+        "#5e4c96",
+        "#f5b880",
+        "#f5e27a"
+      ],
+      "scale": 0.86,
+      "extras": [
+        {
+          "parent": "root",
+          "id": "dust",
+          "file": "rigs/extras/twilight-moth-dust.svg",
+          "pivot": [
+            0.5,
+            0.741
+          ]
+        }
+      ]
+    },
+    "eclipse-herald": {
+      "rig": "plan.biped",
+      "colors": [
+        "#3a2e5a",
+        "#c9a8ff",
+        "#f5e27a"
+      ],
+      "scale": 1.05,
+      "extras": [
+        {
+          "parent": "head",
+          "id": "hood",
+          "file": "rigs/extras/eclipse-herald-hood.svg",
+          "pivot": [
+            0.538,
+            0.444
+          ]
+        },
+        {
+          "parent": "arm",
+          "id": "horn",
+          "file": "rigs/extras/eclipse-herald-horn.svg",
+          "pivot": [
+            0.692,
+            0.778
+          ]
+        }
+      ]
+    }
   }
 }
