@@ -28,6 +28,8 @@ export function Bench() {
   const run = useRef(0);
   const fastRef = useRef(fast);
   fastRef.current = fast;
+  // 2 vs 2 is the busiest stage the game can show: two dragons and two enemies.
+  const [busy, setBusy] = useState(false);
 
   // Count frames for as long as the bench is open.
   useEffect(() => {
@@ -70,6 +72,12 @@ export function Bench() {
         await enemyAttack(stage, { actor: 'e0', target: 'dragon', text: `-${h.enemyAttack}` }, { ...o, onImpact: hurt('dragon', h.enemyAttack) });
         if (!alive()) return;
         await claw(stage, { actor: 'dragon', target: 'e0', text: `-${h.claw}` }, { ...o, onImpact: hurt('enemy', h.claw) });
+        if (busy) {
+          if (!alive()) return;
+          await claw(stage, { actor: 'dragon2', target: 'e1', text: `-${h.claw}` }, o);
+          if (!alive()) return;
+          await enemyAttack(stage, { actor: 'e1', target: 'dragon2', text: `-${h.enemyAttack}` }, o);
+        }
         await sleep(layout.beats.slotMs);
         if (!alive()) return;
         n++;
@@ -79,8 +87,9 @@ export function Bench() {
       }
     })();
     return () => { run.current++; };
-  }, [art, restarts]);
+  }, [art, restarts, busy]);
 
+  const switchScene = () => { setBusy(!busy); restart(); };
   const restart = () => {
     meter.current.reset();
     setStats(meter.current.snapshot());
@@ -109,24 +118,25 @@ export function Bench() {
             <li>Dropped frames: <b>{stats.dropped}</b> of {stats.frames + stats.dropped}</li>
             <li>Worst frame: <b>{Math.round(stats.worstMs)} ms</b></li>
             <li>Display: <b>{stats.hz} Hz</b> · Time: <b>{Math.round(stats.seconds)} s</b></li>
-            <li>Rounds: <b>{rounds}</b> · Speed: <b>{fast ? '2x' : '1x'}</b></li>
+            <li>Rounds: <b>{rounds}</b> · Speed: <b>{fast ? '2x' : '1x'}</b> · Scene: <b>{busy ? '2 vs 2' : '1 vs 1'}</b></li>
             <li>Long tasks: <b>{longTasks ?? 'n/a in this browser'}</b></li>
             <li>Stage nodes: <b>{nodes}</b> of {layout.maxNodes} · <b>{standalone ? 'Home Screen app' : 'Browser'}</b></li>
             {prefersReducedMotion() && <li class="bench-warn">Reduce Motion is on. Idle loops are off, so the numbers will look better than real play.</li>}
           </ul>
           {result && (
             <p class="bench-result" data-testid="bench-result">
-              After {RESULT_ROUNDS} rounds: <b>{result.fps} fps, {result.droppedPct.toFixed(1)}% dropped</b>, worst frame {Math.round(result.worstMs)} ms, {result.hz} Hz.
+              After {RESULT_ROUNDS} rounds ({busy ? '2 vs 2' : '1 vs 1'}): <b>{result.fps} fps, {result.droppedPct.toFixed(1)}% dropped</b>, worst frame {Math.round(result.worstMs)} ms, {result.hz} Hz.
             </p>
           )}
         </div>
         <div class="bench-stage">
-          {art ? <Stage stageRef={stageRef} backdrop={art.backdrop} effects={art.effects} fighters={demoFighters(art, hp, { targeted: true })} />
+          {art ? <Stage stageRef={stageRef} backdrop={art.backdrop} effects={art.effects} fighters={demoFighters(art, hp, { targeted: true, busy })} />
             : <div class="stage stage--loading"><p class="placeholder">Loading the stage…</p></div>}
         </div>
         <div class="bench-buttons">
           <button type="button" class="button" onClick={restart} data-testid="bench-restart">Restart</button>
           <button type="button" class="button button--ghost" aria-pressed={fast} onClick={() => setFast(!fast)}>Speed {fast ? '2x' : '1x'}</button>
+          <button type="button" class="button button--ghost" onClick={switchScene} data-testid="bench-scene">{busy ? 'Scene: 2 vs 2' : 'Scene: 1 vs 1'}</button>
           <a class="button button--ghost" href="#/dev/mock">Mock battle</a>
           <a class="button button--ghost" href="#/roost">Back to the game</a>
         </div>
