@@ -161,6 +161,10 @@ Built and deployed 2026-11-11 after Eric saw B2 to B4 ("These look great ... the
 | Skin depth | Gradients, trims and static shadows only; no textures or parchment images, to keep it light and fast. |
 | Emoji left | Emoji inside running text stay as text: the favorite-food line on the Dragons screen and the item names in the battle log. |
 
+## After B5: tap for details and split targets
+
+Eric asked for more things to open details on tap (the ember and gold counters, enemy health bars) and for the rider and the dragons to be able to attack different enemies. Enemy plates became buttons that open the details sheet with exact HP, the currency counters open explainer sheets, and each attacker got its own target with a chip at the start of its order row. Details are in `docs/HANDOFF.md`.
+
 ## Questions for Eric (answered)
 
 Kept for the reasoning. My recommendation was first in each.

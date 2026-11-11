@@ -31,20 +31,27 @@ Eric asked for AdventureQuest-style graphics with a real battle stage that stays
 | B4 Scenes | Painted Roost with idling dragons, zone strips on the Map, the hatching scene | "These look great" |
 | B5 UI skin | Panel and button skin, Fredoka headings (self-hosted), 44 SVG icons replacing emoji | Deployed; feedback pending |
 
+After the graphics phases, Eric asked for more things to be tappable and for split targets. Built at the end of the same session (committed, not yet deployed):
+
+- Gold and ember counters (Roost, Map, Town, Bag) open a sheet saying how many you have, how to earn more and what they buy (`src/ui/Wallet.tsx`; amounts come from the data).
+- Enemy plates on the battle stage are buttons: a tap opens the enemy's details sheet with its exact HP, element, weakness and next move.
+- The rider, the lead dragon and the second dragon each have their own target. With two living enemies, each order row starts with a chip naming the attacker and its target (`TargetChip` in `Battle.tsx`); a tap moves that attacker to the other enemy. Tapping an enemy on the stage aims everyone at it. Combos and duo combos use the lead dragon's target. Ride mode has one unit, so one target.
+
 On the B4 build, Eric spotted his dragon showing gray on the Dragons and grooming screens but in color on the Roost. An old grayscale rule for tinting gray WebP sprites was hitting the new rig sprites. The B5 deploy fixed it, and a phone test now guards it.
 
 ## What to work on next
 
 No phase is in progress. Ask Eric what he wants next; these are the open threads, roughly in order of how much they matter to him:
 
-1. **Feedback on B5** and on the battle feel now that it's all live.
-2. **Stage node budget.** Raised from 60 to 100 without his answer. A one-on-one fight uses about 64 DOM nodes on the stage, two dragons against two enemies about 93. Ask him to run the bench's "Scene: 2 vs 2" on his iPhone and send the "After 10 rounds" line.
-3. **Element spreads.** Zone win rates average 70 to 85 percent across the three starters, but single starters dip: Tide in Thunderspire (about 60 percent, Storm beats Tide) and Verdant in Frostmere (about 52 percent, Frost beats Verdant). He hasn't said whether that's wanted. The fix would be data only (`src/data/enemies.json`), then rerun `npm run sim`.
-4. **Real-phone check.** Phase 4's done criteria include passing the mobile UX rules on two real phones. Only his iPhone has been checked.
-5. **Cosmetics** (an ember sink in the design) don't exist yet. With rigs and extras, cosmetics could be extra parts on a dragon (hats, saddles, horn caps) listed in `assets.json`.
-6. **Late-game save code.** Late-game play takes many hours; a save code for an Elder with two partners would let him look at late screens. `e2e/make-fixtures.ts` already builds such saves (`e2e/fixtures/elder.json`); turn one into an export code with `src/core/save.ts`.
-7. **First-load size.** 163 kB of JavaScript gzipped, because all SVG art ships as text in the main bundle (colors are baked in at load). If load time ever matters, split the art per zone with lazy `import.meta.glob` and preload a zone's art when a run starts.
-8. **Better art.** Everything is agent-drawn SVG. Eric may want to swap in his own art later: any part, backdrop or icon can be replaced through `src/art/assets.json` (or the icon file name) with no code change.
+1. **Deploy and feedback.** The tap-for-details and split-target work is committed on the branch but not deployed; deploy when Eric asks, then get his feedback on it, on B5 and on the battle feel.
+2. **More tappable things.** Eric wants details on tap generally. Natural next candidates: element badges (what the element beats and loses to), status chips (what the status does, turns left), and the party plates on the stage (party members already open details when tapped on the stage itself).
+3. **Stage node budget.** Raised from 60 to 100 without his answer. A one-on-one fight uses about 64 DOM nodes on the stage, two dragons against two enemies about 93. Ask him to run the bench's "Scene: 2 vs 2" on his iPhone and send the "After 10 rounds" line.
+4. **Element spreads.** Zone win rates average 70 to 85 percent across the three starters, but single starters dip: Tide in Thunderspire (about 60 percent, Storm beats Tide) and Verdant in Frostmere (about 52 percent, Frost beats Verdant). He hasn't said whether that's wanted. The fix would be data only (`src/data/enemies.json`), then rerun `npm run sim`.
+5. **Real-phone check.** Phase 4's done criteria include passing the mobile UX rules on two real phones. Only his iPhone has been checked.
+6. **Cosmetics** (an ember sink in the design) don't exist yet. With rigs and extras, cosmetics could be extra parts on a dragon (hats, saddles, horn caps) listed in `assets.json`.
+7. **Late-game save code.** Late-game play takes many hours; a save code for an Elder with two partners would let him look at late screens. `e2e/make-fixtures.ts` already builds such saves (`e2e/fixtures/elder.json`); turn one into an export code with `src/core/save.ts`.
+8. **First-load size.** 163 kB of JavaScript gzipped, because all SVG art ships as text in the main bundle (colors are baked in at load). If load time ever matters, split the art per zone with lazy `import.meta.glob` and preload a zone's art when a run starts.
+9. **Better art.** Everything is agent-drawn SVG. Eric may want to swap in his own art later: any part, backdrop or icon can be replaced through `src/art/assets.json` (or the icon file name) with no code change.
 
 ## Decisions made along the way
 
@@ -67,7 +74,9 @@ These are in addition to the Decisions table in `docs/DESIGN.md`. Eric saw each 
 | Battle speed | Eric raised the beat limit from 300 ms to 450 ms after seeing B0 (GRAPHICS_PLAN.md, G5). Timings are in `src/data/stage.json`. |
 | Offline | vite-plugin-pwa (Workbox), prompt-style updates: a "Reload" bar, never a forced reload mid-fight. The precache includes `woff2` for the heading font. |
 | Art pipeline | Agents draw SVG in the repo (GRAPHICS_PLAN.md, G2), not WebP from Eric. Parts are drawn in place on a shared canvas and rotate around pivots in `assets.json`. Tinted art uses gray tokens swapped for real colors once at load. |
-| Battle details | Plates are display only. Tap an enemy to target it, tap it again (or tap a party member) for the details sheet. |
+| Battle details | Tap an enemy to aim everyone at it; tap it again (once everyone is on it), tap its plate, or tap a party member for the details sheet. Party plates are display only. |
+| Split targets | Each attacker keeps its own target (rider, lead dragon, second dragon). The chip at the start of each order row shows and cycles it, only when two enemies are alive. |
+| Currency info | Gold and ember counters are buttons that open an explainer sheet. |
 | Simple battle | A setting (save v6) that brings back the old card layout instead of the stage. |
 | Stage node budget | 100 DOM nodes on the stage (raised from 60, see "What to work on next"). |
 | Headings | Fredoka (SIL Open Font License) from `@fontsource/fredoka`, latin 600 only. Body text is the system font at 16 px. |
@@ -90,13 +99,14 @@ src/ui/        Preact screens and pieces
   dev/                 hidden pages: #/dev/mock (mock battle), #/dev/bench (frame bench), #/dev/art (art sheet)
   Sprites.tsx          small dragon and enemy sprites: the rig when art exists, else a code-drawn shape
   Icon.tsx             UI icons from src/art/icons, with emoji fallbacks; Gold and Embers amounts
+  Wallet.tsx           tappable gold and ember counters with their explainer sheets
   art.ts               old WebP sprite lookup (still used as a second fallback)
   styles.css           base styles; skin.css layers the B5 look on top
   pwa.ts sound.ts install.ts storage.ts useSave.ts router.ts bits.tsx
 src/art/       SVG art (rigs, enemy plans and extras, backdrops, eggs, effects, icons), palette.json, assets.json
 src/data/stage.json  stage layouts, plate spots, beat timings, the demo fight (UI only, not read by src/core)
 tests/         Vitest unit tests (130), sim.ts (the balance simulator), save fixtures
-e2e/           Playwright phone tests (35, including a 4x-throttle perf test), save fixtures and make-fixtures.ts
+e2e/           Playwright phone tests (38, including a 4x-throttle perf test), save fixtures and make-fixtures.ts
 scripts/       icons.mjs builds the Home Screen icons
 tools/art/     rigpreview.mjs (render a rig or backdrop to PNG), BRIEF.md (brief for art agents), generators/
 docs/          DESIGN.md, HANDOFF.md, GRAPHICS_PLAN.md (graphics plan and results), ART_STYLE.md (art rules)
@@ -109,7 +119,7 @@ docs/          DESIGN.md, HANDOFF.md, GRAPHICS_PLAN.md (graphics plan and result
 | `npm run dev` | Local dev server |
 | `npm run test` | Unit tests (130) |
 | `npx tsc --noEmit` and `npm run lint` | Type check and lint. Lint blocks `Math.random` and browser globals in `src/core`. |
-| `npm run e2e` | Phone tests at 375 by 667 (35), about 90 seconds |
+| `npm run e2e` | Phone tests at 375 by 667 (38), about 90 seconds |
 | `npm run sim` | Balance sim: 1,000 runs per zone and level, plus campaigns from egg to level 50. Flags: `--runs`, `--campaigns`, `--zone`, `--no-campaign`, `--campaign-only`. The full run takes about 2.5 minutes. |
 | `npx tsx e2e/make-fixtures.ts` | Rebuilds the saves the phone tests load |
 | `npm run icons` | Rebuilds the Home Screen icons |
@@ -133,6 +143,7 @@ docs/          DESIGN.md, HANDOFF.md, GRAPHICS_PLAN.md (graphics plan and result
 - **HP lands on impact.** In stage mode the round loop applies each event's HP change when the move's `onImpact` fires, not when the event starts. The simple card layout still applies it at the start.
 - **The bench measures the main thread.** It counts `requestAnimationFrame` frames, so it misses frames the GPU drops. Safari runs pages at 60 Hz even on ProMotion screens. Long tasks aren't reported in Safari.
 - **Playwright.** A hash-only `page.goto` doesn't re-render the app in these tests; tap the link instead. Stage fighters bob, so element screenshots of them can time out waiting to be stable; use page screenshots with a clip.
+- **Order rows are tight.** The busiest row (Dragon with Skill, Duo and Combo, plus a target chip) is exactly 351 px at 375 wide. The split-target test fails if any order row overflows; adding a button to a row needs a layout change, not just another button.
 - **Art agents.** Give them `tools/art/BRIEF.md`, their own folders and a fragment file, and review their renders before merging. Commit their folders only after review (`git add -A src` sweeps in work in progress).
 
 ## How Eric likes to work
