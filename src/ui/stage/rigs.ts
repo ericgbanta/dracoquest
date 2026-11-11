@@ -298,10 +298,12 @@ export interface Effects { slash: string | null; spark: string | null; puff: str
 
 export async function loadEffects(element: ElementId): Promise<Effects> {
   const breath = breathColors(element);
+  // An element with its own painted breath uses it; otherwise the shared puff is recolored
+  // (an SVG puff swaps its gray tokens, a painted one, red edge and gold middle, is recolored like a dragon).
+  const own = effects.breath ? await artUrl(fill(effects.breath, { element })) : null;
   const [slash, spark, puff] = await Promise.all([
     artUrl(effects.slash ?? ''), artUrl(effects.spark ?? ''),
-    // An SVG puff swaps its gray tokens; a painted one (red edge, gold middle) is recolored like a dragon.
-    artUrl(effects.puff ?? '', breath, false, { primary: breath[palette.puffTokens.edge]!, secondary: breath[palette.puffTokens.mid]! }),
+    own ?? artUrl(effects.puff ?? '', breath, false, { primary: breath[palette.puffTokens.edge]!, secondary: breath[palette.puffTokens.mid]! }),
   ]);
   return { slash, spark, puff };
 }
