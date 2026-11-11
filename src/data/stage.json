@@ -13,6 +13,9 @@
     "enemyAttack": { "windup": 220, "lunge": 200, "hold": 50, "back": 220 },
     "knockback": { "dist": 2.6, "ms": 260 },
     "shake": { "dist": 1, "ms": 200 },
+    "punch": { "scale": 1.045, "ms": 320 },
+    "hitStop": 70,
+    "glow": { "ms": 380 },
     "number": { "ms": 950, "rise": 6, "above": 0.1 },
     "eventMs": { "act": 380, "status": 420, "heal": 560, "mp": 380, "dot": 440, "ko": 560, "shift": 640, "skip": 380, "flee": 760, "end": 950 }
   },

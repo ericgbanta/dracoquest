@@ -18,6 +18,11 @@ test('the B0 mock battle acts out a round on the stage, in portrait and landscap
   await expect(page.getByTestId('enemy-e0')).toBeVisible();
   expect(await stageNodes(page)).toBeLessThanOrEqual(layout.maxNodes);
   expect(await smallTargets(page)).toEqual([]);
+  // The second graphics pass: a foreground layer over the fighters, drifting specks, and lit rig parts.
+  await expect(page.locator('.stage-layer--front')).toHaveCount(1);
+  await expect(page.locator('.stage-ambient')).toHaveCount(1);
+  const partSvg = await page.locator('[data-fighter] img.part').first().evaluate(async (img) => (await fetch((img as HTMLImageElement).src)).text());
+  expect(partSvg).toContain('lit-g');
 
   const roc = page.locator('[data-plate=e0] [role=meter]');
   const before = Number(await roc.getAttribute('aria-valuenow'));

@@ -10,7 +10,8 @@ Smooth vector art in the spirit of a Flash-era RPG: flat fills, one shade layer,
 - Light comes from the top front. Each shape gets one shade layer on its lower back side, drawn as a separate flat shape under the outline. The shade color is the base color mixed 25 percent toward the outline color (`shadeMix` in `src/art/palette.json`).
 - Eyes are big, with a white highlight dot. Enemies get a heavy brow so they read as unfriendly from across the stage.
 - Horns, claws and teeth use bone (`#efe4c8`, shade `#cbbd99`).
-- No gradients, filters, text or embedded bitmaps in character parts. Backdrops may use one gradient for the sky.
+- No gradients, filters, text or embedded bitmaps in character parts. Draw them flat: the game adds a lighting pass to every rig part at load (a soft top light, a bottom shade and a rim on edges facing the light; `lighting` in `src/art/palette.json`).
+- Backdrops may use gradients freely, but never SVG filters, which Safari draws blurry. See "Backdrops" for the second-pass style.
 
 ## Colors
 
@@ -75,6 +76,14 @@ A backdrop is 1600 x 1100 (the stage's 16:11 shape), split into layers that stac
 - The ground's top edge sits about 75 percent of the way down. Fighters stand between 86 and 93 percent.
 - Keep the band where fighters stand (about 35 to 90 percent down) calmer and lower in contrast than the characters, and avoid the zone's enemy colors there. In Thunderspire the ground is a warm gray-violet so the dark blue Roc stands out.
 - Only one layer moves, and only slowly (`drift`, a 40 second sideways sway).
+
+The second-pass style (`docs/GRAPHICS_PLAN_2.md`; Thunderspire is the model, the other zones follow in C1):
+
+- Scenery has no dark outline, so the outlined characters stand out. Small props on the ground line (rocks, crystals) keep a thinner one.
+- Distance is shown with haze: far ridges are lighter and closer to the horizon color, each fading into a haze band at its base.
+- The sky has one light source (a moon, a sun, a glow) placed between the plates, about 40 to 55 percent across and 15 to 30 percent down, and the ground has a soft pool of light under the fighters.
+- A layer marked `"front": true` in `assets.json` is drawn over the fighters: dark, simple shapes in the bottom corners, no taller than about 10 percent of the stage, never over the middle.
+- `"ambient": { "kind": "rise" | "fall", "color": ... }` adds drifting specks over the stage.
 
 ## Eggs
 

@@ -52,5 +52,18 @@
   "enemyTokens": {
     "accent": "#505050",
     "accentShade": "#3c3c3c"
+  },
+  "lighting": {
+    "note": "Lighting pass added to every rig part once at load (src/ui/stage/rigs.ts): a top light and bottom shade over the part's own shape, and a rim on edges facing the light. Opacities 0 to 1; rim offset in share of the canvas height.",
+    "light": "#fff6dc",
+    "lightOpacity": 0.2,
+    "shade": "#1d1a2b",
+    "shadeOpacity": 0.4,
+    "rim": "#fff2c8",
+    "rimOpacity": 0.22,
+    "rimOffset": [
+      -0.008,
+      0.028
+    ]
   }
 }

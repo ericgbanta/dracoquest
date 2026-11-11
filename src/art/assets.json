@@ -1534,8 +1534,16 @@
         },
         {
           "file": "backdrops/thunderspire/ground.svg"
+        },
+        {
+          "file": "backdrops/thunderspire/fore.svg",
+          "front": true
         }
-      ]
+      ],
+      "ambient": {
+        "kind": "rise",
+        "color": "#ffe9a8"
+      }
     },
     "mossy-hollow": {
       "layers": [

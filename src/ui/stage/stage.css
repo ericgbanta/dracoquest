@@ -16,6 +16,25 @@
 }
 .stage-world { position: absolute; inset: 0; }
 .stage-layer { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.stage-layer--front { z-index: 4; }
+/* A soft vignette pulls the eye to the fighters. Static, so it never repaints. */
+.stage-world::after {
+  content: ''; position: absolute; inset: 0; z-index: 4; pointer-events: none;
+  background: radial-gradient(ellipse 75% 80% at 50% 48%, #120e2600 58%, #120e2699 100%);
+}
+/* Ambient specks: one tall node of dots that loops by half its height. */
+.stage-ambient {
+  position: absolute; left: 0; top: 0; width: 100%; height: 200%; z-index: 4; pointer-events: none; opacity: 0.85;
+  background-image:
+    radial-gradient(circle at 8% 12%, var(--amb) 0 1.2px, #0000 2.6px), radial-gradient(circle at 21% 64%, var(--amb) 0 1px, #0000 2.2px),
+    radial-gradient(circle at 34% 30%, var(--amb) 0 1.5px, #0000 3.2px), radial-gradient(circle at 47% 82%, var(--amb) 0 1px, #0000 2.2px),
+    radial-gradient(circle at 58% 18%, var(--amb) 0 1px, #0000 2.4px), radial-gradient(circle at 69% 55%, var(--amb) 0 1.6px, #0000 3.4px),
+    radial-gradient(circle at 80% 90%, var(--amb) 0 1.1px, #0000 2.4px), radial-gradient(circle at 91% 38%, var(--amb) 0 1.3px, #0000 2.8px),
+    radial-gradient(circle at 14% 92%, var(--amb) 0 1.4px, #0000 3px), radial-gradient(circle at 74% 6%, var(--amb) 0 1px, #0000 2.2px);
+  background-size: 100% 50%;
+  animation: stage-rise 18s linear infinite;
+}
+.stage-ambient--fall { animation-direction: reverse; }
 .stage-layer.anim-drift { left: -4%; width: 108%; animation: stage-drift 40s ease-in-out infinite alternate; }
 
 .actor {
@@ -72,6 +91,7 @@ button.scene-actor { cursor: pointer; }
 @keyframes stage-swish { from { transform: rotate(-3deg); } to { transform: rotate(5deg); } }
 @keyframes stage-cape { from { transform: rotate(0deg); } to { transform: rotate(5deg); } }
 @keyframes stage-ring { from { opacity: 0.45; } to { opacity: 1; } }
+@keyframes stage-rise { from { transform: translate(0, 0); } to { transform: translate(3%, -50%); } }
 @keyframes stage-drift { from { transform: translateX(0); } to { transform: translateX(-3.5%); } }
 
 /* Header over the sky. Doubled class beats the card layout's .battle-header. */
@@ -111,6 +131,7 @@ button.scene-actor { cursor: pointer; }
 .fx-spark { width: 13%; }
 .fx-slash { width: 17%; }
 .fx-flash { width: 22%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(closest-side, #fff, #fff0); }
+.fx-glow { width: 44%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(closest-side, #fff 0, var(--fx, #fff) 22%, color-mix(in srgb, var(--fx, #fff) 35%, #0000) 55%, #0000); }
 .fx-ring { width: 26%; aspect-ratio: 3 / 1; border-radius: 50%; border: 4px solid var(--fx, #fff); }
 .fx-bolt { width: 7%; height: 2.2%; }
 .fx-bolt--arrow { background: linear-gradient(90deg, #8a5a36 0 78%, #e9e4da 78%); border-radius: 2px; }

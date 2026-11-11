@@ -107,7 +107,7 @@ export function Scene({ backdrop, plainColor, actors, aspect = '16 / 11', focus 
     <div class={`stage scene${still ? ' stage--paused' : ''}`} style={{ aspectRatio: aspect }} role={label ? 'img' : undefined} aria-label={label}>
       <div class="stage-world" style={plain}>
         {backdrop?.layers.map((l, i) => (
-          <img key={i} class={`stage-layer${l.anim && !still ? ` anim-${l.anim}` : ''}`} src={l.url} alt="" draggable={false} style={{ objectPosition: focus }} />
+          <img key={i} class={`stage-layer${l.front ? ' stage-layer--front' : ''}${l.anim && !still ? ` anim-${l.anim}` : ''}`} src={l.url} alt="" draggable={false} style={{ objectPosition: focus }} />
         ))}
         {actors.map((a) => {
           const w = a.width * (a.rig?.boxScale ?? 1);

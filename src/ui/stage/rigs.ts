@@ -51,7 +51,11 @@ export interface Rig {
   parts: Part[];
 }
 
-export interface Backdrop { layers: { url: string; anim?: string | undefined }[] }
+/** Drifting specks over the whole stage (sparks, snow): one node, moved by transform only. */
+export interface Ambient { kind: 'rise' | 'fall'; color: string }
+
+/** Layers stack in order behind the fighters; a `front` layer is drawn over them. */
+export interface Backdrop { layers: { url: string; anim?: string | undefined; front?: boolean | undefined }[]; ambient?: Ambient | undefined }
 
 export interface DragonLook { element: ElementId; primary: string; secondary: string }
 
@@ -64,7 +68,7 @@ const bitmaps = import.meta.glob('../../art/**/*.{webp,png}', { query: '?url', i
 const m = manifest as unknown as {
   rigs: Record<string, RigDef>;
   enemies?: Record<string, EnemyLook>;
-  backdrops: Record<string, { layers: { file: string; anim?: string }[] }>;
+  backdrops: Record<string, { layers: { file: string; anim?: string; front?: boolean }[]; ambient?: Ambient }>;
   effects: Record<string, string>;
 };
 const rigs = m.rigs;
@@ -116,14 +120,43 @@ function recolor(svg: string, colors: Record<string, string>): string {
   return out;
 }
 
-/** URL for an art file, with colors swapped in. Null if the file is missing. Cached per file and colors. */
-export function artUrl(file: string, colors: Record<string, string> = {}): Promise<string | null> {
+/**
+ * The lighting pass for a rig part: soft top light and bottom shade clipped to the part's own
+ * shape, plus a rim on the edges that face the light. It uses masks and gradients only (no SVG
+ * filters, which Safari draws at low resolution), and it is baked into the image, so it costs
+ * nothing per frame. The gradient spans the rig's whole canvas, so parts shade as one body.
+ */
+export function lightSvg(svg: string): string {
+  const open = /<svg\b[^>]*>/.exec(svg);
+  const end = svg.lastIndexOf('</svg>');
+  const vb = open && /viewBox="([^"]+)"/.exec(open[0]);
+  if (!open || end < 0 || !vb) return svg;
+  const [x, y, w, h] = vb[1]!.trim().split(/[\s,]+/).map(Number) as [number, number, number, number];
+  if (![x, y, w, h].every(Number.isFinite)) return svg;
+  const L = palette.lighting;
+  const box = `x="${x}" y="${y}" width="${w}" height="${h}"`;
+  const [rx, ry] = L.rimOffset as [number, number];
+  const inner = svg.slice(open.index + open[0].length, end);
+  return `${svg.slice(0, open.index)}${open[0]}<defs>`
+    + `<linearGradient id="lit-g" gradientUnits="userSpaceOnUse" x1="${x + w * 0.62}" y1="${y}" x2="${x + w * 0.38}" y2="${y + h}">`
+    + `<stop offset="0.12" stop-color="${L.light}" stop-opacity="${L.lightOpacity}"/><stop offset="0.5" stop-color="${L.light}" stop-opacity="0"/>`
+    + `<stop offset="0.56" stop-color="${L.shade}" stop-opacity="0"/><stop offset="1" stop-color="${L.shade}" stop-opacity="${L.shadeOpacity}"/></linearGradient>`
+    + `<mask id="lit-a" maskUnits="userSpaceOnUse" ${box} mask-type="alpha" style="mask-type:alpha"><use href="#lit-c"/></mask>`
+    + `<mask id="lit-r" maskUnits="userSpaceOnUse" ${box}><rect ${box} fill="#fff" mask="url(#lit-a)"/>`
+    + `<g transform="translate(${(rx * h).toFixed(2)} ${(ry * h).toFixed(2)})"><rect ${box} fill="#000" mask="url(#lit-a)"/></g></mask></defs>`
+    + `<g id="lit-c">${inner}</g>`
+    + `<rect ${box} fill="url(#lit-g)" mask="url(#lit-a)"/>`
+    + `<rect ${box} fill="${L.rim}" opacity="${L.rimOpacity}" mask="url(#lit-r)"/></svg>`;
+}
+
+/** URL for an art file, with colors swapped in. Null if the file is missing. Cached per file and colors. `lit` adds the lighting pass (rig parts). */
+export function artUrl(file: string, colors: Record<string, string> = {}, lit = false): Promise<string | null> {
   const path = `../../art/${file}`;
-  const key = `${file}|${JSON.stringify(colors)}`;
+  const key = `${file}|${lit ? 'lit' : ''}|${JSON.stringify(colors)}`;
   let hit = urlCache.get(key);
   if (!hit) {
     if (svgs[path] !== undefined) {
-      const text = recolor(svgs[path]!, colors);
+      const text = lit ? lightSvg(recolor(svgs[path]!, colors)) : recolor(svgs[path]!, colors);
       hit = Promise.resolve(URL.createObjectURL(new Blob([text], { type: 'image/svg+xml' })));
     } else if (bitmaps[path]) {
       hit = bitmaps[path]!().catch(() => null);
@@ -145,7 +178,7 @@ const fill = (file: string, vars: RigVars) => file.replace(/\{(\w+)\}/g, (_, k: 
 
 async function resolveParts(defs: PartDef[], colors: Record<string, string>, vars: RigVars): Promise<Part[]> {
   return Promise.all(defs.map(async (d) => {
-    const url = d.file ? await artUrl(fill(d.file, vars), colors) : null;
+    const url = d.file ? await artUrl(fill(d.file, vars), colors, true) : null;
     const parts = d.parts ? await resolveParts(d.parts, colors, vars) : [];
     return { id: d.id, url, pivot: d.pivot ?? [0.5, 0.5], anim: d.anim, parts };
   }));
@@ -198,9 +231,9 @@ export function weaponArt(type: 'melee' | 'ranged' | 'magic'): string {
 export async function loadBackdrop(zone: string): Promise<Backdrop | null> {
   const def = backdrops[zone];
   if (!def) return null;
-  const layers = await Promise.all(def.layers.map(async (l) => ({ url: await artUrl(l.file), anim: l.anim })));
-  const ok = layers.filter((l): l is { url: string; anim: string | undefined } => !!l.url);
-  return ok.length ? { layers: ok } : null;
+  const layers = await Promise.all(def.layers.map(async (l) => ({ url: await artUrl(l.file), anim: l.anim, front: l.front })));
+  const ok = layers.filter((l): l is { url: string; anim: string | undefined; front: boolean | undefined } => !!l.url);
+  return ok.length ? { layers: ok, ambient: def.ambient } : null;
 }
 
 export interface Effects { slash: string | null; spark: string | null; puff: string | null }

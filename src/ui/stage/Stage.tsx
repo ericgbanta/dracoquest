@@ -59,9 +59,10 @@ export function Stage({ backdrop, plainColor, fighters, effects, header, paused,
     <div class={`stage${paused || hidden ? ' stage--paused' : ''}${loading ? ' stage--loading' : ''}`} ref={stageRef} data-testid="stage">
       <div class="stage-world" style={plain}>
         {backdrop?.layers.map((l, i) => (
-          <img key={i} class={`stage-layer${l.anim ? ` anim-${l.anim}` : ''}`} src={l.url} alt="" draggable={false} />
+          <img key={i} class={`stage-layer${l.front ? ' stage-layer--front' : ''}${l.anim ? ` anim-${l.anim}` : ''}`} src={l.url} alt="" draggable={false} />
         ))}
         {fighters.map((f) => <FighterView key={f.id} f={f} />)}
+        {backdrop?.ambient && <div class={`stage-ambient stage-ambient--${backdrop.ambient.kind}`} style={{ '--amb': backdrop.ambient.color }} />}
       </div>
       {header}
       {fighters.map((f) => <Plate key={f.id} f={f} />)}
@@ -69,6 +70,7 @@ export function Stage({ backdrop, plainColor, fighters, effects, header, paused,
         {effects.puff && Array.from({ length: PUFFS }, (_, i) => <img key={`p${i}`} class="fx fx-puff" src={effects.puff!} alt="" />)}
         {effects.slash && <img class="fx fx-slash" src={effects.slash} alt="" />}
         {effects.spark && <img class="fx fx-spark" src={effects.spark} alt="" />}
+        <span class="fx fx-glow" />
         <span class="fx fx-flash" />
         <span class="fx fx-ring" />
         <span class="fx fx-bolt" />

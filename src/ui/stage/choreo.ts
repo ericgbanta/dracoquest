@@ -78,17 +78,6 @@ function sidestep(stage: HTMLElement, target: HTMLElement, k: number): void {
   );
 }
 
-function shake(stage: HTMLElement, k: number): void {
-  const d = (B.shake.dist / 100) * stage.clientWidth;
-  stage.querySelector('.stage-world')?.animate(
-    [
-      { transform: 'translate(0, 0)' }, { transform: `translate(${-d}px, ${d * 0.5}px)` }, { transform: `translate(${d}px, ${-d * 0.5}px)` },
-      { transform: `translate(${-d * 0.5}px, 0)` }, { transform: 'translate(0, 0)' },
-    ],
-    { duration: B.shake.ms * k },
-  );
-}
-
 function burst(stage: HTMLElement, cls: string, p: Pt, k: number, frames: (base: string) => Keyframe[], ms: number): HTMLElement | null {
   const el = stage.querySelector<HTMLElement>(`.${cls}`);
   if (!el) return null;
@@ -113,6 +102,47 @@ function slash(stage: HTMLElement, p: Pt, k: number): void {
     { transform: `${b} rotate(-5deg) scale(1)`, opacity: 1, offset: 0.35 },
     { transform: `${b} rotate(10deg) scale(1.15)`, opacity: 0 },
   ], 240);
+}
+
+/** A soft burst of light in the attack's color where the blow lands. */
+function glow(stage: HTMLElement, p: Pt, k: number, color: string | undefined, big: boolean): void {
+  const el = stage.querySelector<HTMLElement>('.fx-glow');
+  if (!el) return;
+  el.style.setProperty('--fx', color ?? '#fff');
+  const s = big ? 1.25 : 0.7;
+  burst(stage, 'fx-glow', p, k, (b) => [
+    { transform: `${b} scale(${s * 0.35})`, opacity: 0.95 },
+    { transform: `${b} scale(${s})`, opacity: 0.6, offset: 0.3 },
+    { transform: `${b} scale(${s * 1.15})`, opacity: 0 },
+  ], B.glow.ms);
+}
+
+/** A heavy blow: the view punches in on the hit point and rattles, then settles. */
+function punch(stage: HTMLElement, p: Pt, k: number): void {
+  const world = stage.querySelector<HTMLElement>('.stage-world');
+  if (!world) return;
+  const d = (B.shake.dist / 100) * stage.clientWidth;
+  const z = B.punch.scale;
+  world.style.transformOrigin = `${p.x}px ${p.y}px`;
+  world.animate(
+    [
+      { transform: 'translate(0, 0) scale(1)' },
+      { transform: `translate(${-d}px, ${d * 0.6}px) scale(${z})`, offset: 0.12 },
+      { transform: `translate(${d}px, ${-d * 0.5}px) scale(${z})`, offset: 0.3 },
+      { transform: `translate(${-d * 0.5}px, ${d * 0.3}px) scale(${1 + (z - 1) * 0.5})`, offset: 0.5 },
+      { transform: `translate(${d * 0.25}px, 0) scale(${1 + (z - 1) * 0.2})`, offset: 0.72 },
+      { transform: 'translate(0, 0) scale(1)' },
+    ],
+    { duration: B.punch.ms * k, easing: 'ease-out' },
+  );
+}
+
+/** Hit-stop: everything already moving freezes for a few frames, so the blow reads as heavy. */
+function hitStop(stage: HTMLElement, k: number): void {
+  const running = stage.getAnimations({ subtree: true }).filter((a) => a.playState === 'running');
+  if (running.length === 0) return;
+  running.forEach((a) => a.pause());
+  window.setTimeout(() => running.forEach((a) => { if (a.playState === 'paused') a.play(); }), B.hitStop * k);
 }
 
 /** A crit: a white flash over the target. */
@@ -197,10 +227,13 @@ function land(stage: HTMLElement, target: HTMLElement, hit: HitInfo, opts: BeatO
     return;
   }
   const crit = hit.kind === 'crit';
+  // Freeze what is already moving first; the impact effects below start fresh and play through it.
+  if (strong || crit) hitStop(stage, k);
   knockback(stage, target, k, strong || crit);
+  glow(stage, p, k, hit.color, strong || crit);
   spark(stage, p, k, strong || crit);
   if (crit) flash(stage, p, k);
-  if (strong) shake(stage, k);
+  if (strong || crit) punch(stage, p, k);
   popNumber(stage, hit.target, hit.text, hit.kind, opts.fast);
 }
 
