@@ -610,13 +610,13 @@ function Results({ save, report, update, onExit, onNext }: {
       <h1 id="results-title" class={`results-title results-title--${report.outcome}`}>{title}</h1>
       {r && (
         <ul class="rewards">
-          <li data-testid="reward-xp">+{r.xp} XP{report.wellKept ? ' (Well kept bonus!)' : ''}</li>
-          <li>+{r.gold} gold</li>
+          <li data-testid="reward-xp"><Icon name="xp" fallback="" /> +{r.xp} XP{report.wellKept ? ' (Well kept bonus!)' : ''}</li>
+          <li><Icon name="gold" fallback="" /> +{r.gold} gold</li>
           {Object.entries(r.drops).map(([id, n]) => {
             const item = data.items.find((i) => i.id === id);
             return <li key={id}>+{n} <Icon name={`item-${id}`} fallback={item?.icon} size={22} /> {item?.name}</li>;
           })}
-          {report.bondGained > 0 && dragon && <li>+{report.bondGained} bond with {dragon.name}</li>}
+          {report.bondGained > 0 && dragon && <li><Icon name="bond" fallback="" /> +{report.bondGained} bond with {dragon.name}</li>}
         </ul>
       )}
       {report.egg && <p class="notice notice--ok" data-testid="egg-drop"><Icon name="egg" fallback="🥚" /> The boss dropped a {data.dragons.eggs[report.egg]?.name ?? `${data.elements.info[report.egg].name} egg`}! Incubate it in the Hatchery at the Roost.</p>}

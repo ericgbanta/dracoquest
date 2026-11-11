@@ -84,6 +84,10 @@ A backdrop is 1600 x 1100 (the stage's 16:11 shape), split into layers that stac
 
 Effects have no outline, except the hit spark. They are flat shapes in two or three tones: `slash.svg` (a crescent swoosh), `spark.svg` (a starburst) and `puff.svg` (a breath blob tinted per element).
 
+## UI icons
+
+`src/art/icons/<name>.svg`, viewBox 48 x 48, fixed colors, the same outline at about 3 units. They show at 16 to 32 px on the dark plum UI, so they are bold, simple silhouettes. Names follow the data: `item-<id>`, `food-<id>`, `status-<id>`, `intent-<kind>`, `building-<id>`, plus `gold`, `ember`, `egg`, `lock`, `town`, `event`, `feed`, `groom`, `rest`, `xp` and `bond`. A missing icon falls back to its emoji.
+
 ## Files and the manifest
 
 - Parts are SVG under `src/art/rigs/<rig>/`, backdrops under `src/art/backdrops/<zone>/`, effects under `src/art/effects/`. Each one is listed in `src/art/assets.json`.

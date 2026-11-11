@@ -1,6 +1,6 @@
 # Graphics and battle overhaul: plan
 
-Written 2026-11-11 at Eric's request. Status: B0 to B4 built and deployed (see "B1 result" and "B2 to B4 result" below). B5 (UI skin) is next, after Eric's feedback. Read `docs/HANDOFF.md` first.
+Written 2026-11-11 at Eric's request. Status: B0 to B4 built and deployed; Eric said "These look great." B5 (UI skin) built (see "B5 result" below), waiting for Eric to say whether to deploy. Read `docs/HANDOFF.md` first.
 
 The request, in Eric's words: "I think we can implement AdventureQuest-like graphics. The battling especially needs a lot of touch up. We should have us (rider and dragons) on one side and enemy on the other. Let's step it up with the graphics please but also make sure it's performant."
 
@@ -144,6 +144,22 @@ All drawn as SVG by agents following `docs/ART_STYLE.md`, reviewed in renders, a
 | Event pacing | Each event waits for its move to finish (about 0.6 s for an attack at 1x, 0.4 to 0.95 s for the rest), so a round at 1x takes about 2 to 3 seconds. |
 | Enemy art | Regular enemies and mini-bosses share body plans with per-enemy colors and extras, as the plan suggested, rather than 42 separate drawings. |
 | Map strips | Still images (no drift or idle) to keep a scrolling list cheap. |
+
+## B5 result
+
+Built 2026-11-11 after Eric saw B2 to B4 ("These look great ... then work on B5").
+
+- `src/ui/skin.css` layers a light fantasy look over the base styles, without changing any layout or tap target: panels with a soft plum gradient, a lighter edge and a dark lip; gold primary buttons with a pressed edge; plum secondary buttons; gold trim on the selected order, tab and dragon; a gold line over the tab bar; framed HP and meter bars. All shadows are static, so nothing animates paint.
+- Headings use Fredoka, a rounded font that matches the chunky art, under the SIL Open Font License. It is self-hosted from the `@fontsource/fredoka` package (latin, weight 600 only, 16 kB), and the service worker now precaches `.woff2` so it works offline. Body text stays the system font at 16 px.
+- Icons replace emoji for gold, embers, the three items, the eight foods, the twelve statuses, the five enemy intents, the care actions, the five Roost buildings, the town, the lock and the egg, plus XP, gold and bond on the results screen. They are SVG files in `src/art/icons/` drawn in the art style, shown through `src/ui/Icon.tsx`, which falls back to the old emoji if a file is missing.
+
+### Calls made in B5 (Eric can overrule any of these)
+
+| Topic | Call |
+| --- | --- |
+| Heading font | Fredoka, rounded and friendly to match the art, rather than a medieval or serif display face, which reads poorly at small sizes. |
+| Skin depth | Gradients, trims and static shadows only; no textures or parchment images, to keep it light and fast. |
+| Emoji left | Emoji inside running text stay as text: the favorite-food line on the Dragons screen and the item names in the battle log. |
 
 ## Questions for Eric (answered)
 
