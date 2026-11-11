@@ -14,8 +14,8 @@ The design lives in [docs/DESIGN.md](docs/DESIGN.md). Working rules for contribu
 | `npm run lint` | ESLint (also blocks `Math.random` and browser globals in `src/core`) |
 | `npm run e2e` | Playwright smoke test at a 375 x 667 phone viewport |
 | `npm run sim` | Balance simulator (battles arrive in Phase 1) |
-| `npm run deploy` | Test, build, and publish `dist` to the `gh-pages` branch |
+| `npm run deploy` | Test, lint and build locally, then push to `main`, which publishes to Pages |
 
-## GitHub Pages setup (one time)
+## Deployment
 
-In the repo's Settings, under Pages, choose Deploy from a branch, branch `gh-pages`, folder root. The branch is created by the first `npm run deploy`.
+Pages deploys from GitHub Actions (Settings, then Pages, then Source: GitHub Actions). `.github/workflows/deploy.yml` builds and publishes the site whenever `main` changes. You can also run it by hand from the Actions tab.

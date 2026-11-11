@@ -340,6 +340,8 @@ Eric makes sprites with AI image tools and drops them into `/src/art` as transpa
 
 GitHub still runs its own built-in pages deployment job each time the `gh-pages` branch changes. Deploying only at milestones keeps those runs rare. Skip any custom workflow file; tests run locally in step 3.
 
+> Update (2026-11-11): Eric switched Pages to deploy from GitHub Actions. Steps 3 and 4 are replaced by one workflow, `.github/workflows/deploy.yml`, that builds and publishes whenever `main` changes. `npm run deploy` runs the local checks and pushes to `main`. It stays the only workflow in the repo.
+
 ### Notes for the coding agent
 
 Keep `/src/core` free of DOM and browser APIs so it runs under Vitest. Read every number from `/src/data`. Use original art and names only, with nothing copied from Artix games. Write a balance simulator (`npm run sim`) that plays 1,000 auto-battles per zone and reports win rates and fights per level.

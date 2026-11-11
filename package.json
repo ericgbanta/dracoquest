@@ -12,7 +12,7 @@
     "lint": "eslint .",
     "sim": "tsx tests/sim.ts",
     "e2e": "playwright test",
-    "deploy": "npm run test && npm run build && gh-pages -d dist --dotfiles"
+    "deploy": "npm run test && npm run lint && npm run build && git push origin HEAD:main"
   },
   "dependencies": {
     "preact": "^11.2.0"
@@ -23,7 +23,6 @@
     "@preact/preset-vite": "^2.10.6",
     "@types/node": "^26.6.6",
     "eslint": "^10.14.0",
-    "gh-pages": "^6.3.0",
     "globals": "^17.14.0",
     "tsx": "^4.23.15",
     "typescript": "^6.0.3",

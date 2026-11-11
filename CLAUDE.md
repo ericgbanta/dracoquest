@@ -38,7 +38,7 @@ The full design lives in `docs/DESIGN.md`. Read it before starting any phase, an
 
 ## Testing
 
-- Run everything locally. Do not add GitHub Actions workflows; this project keeps Actions usage to GitHub's built-in Pages deploy.
+- Run everything locally. The only GitHub Actions workflow is `.github/workflows/deploy.yml`, which publishes to Pages. Do not add others (no CI, no test matrix).
 - Before calling a task done, run `npm run test`, `npx tsc --noEmit`, and `npm run lint`.
 - Combat, elements, leveling, and save migrations need unit tests with fixed seeds.
 - `npm run sim` runs the balance simulator (1,000 auto-battles per zone) and prints win rates and fights per level.
@@ -48,5 +48,6 @@ The full design lives in `docs/DESIGN.md`. Read it before starting any phase, an
 
 - `vite.config.ts` sets `base: '/dracoquest/'`. Routing uses the URL hash (`#/roost`).
 - `/public/.nojekyll` must exist.
-- `npm run deploy` runs tests, builds, and publishes `dist` to the `gh-pages` branch with the `gh-pages` package.
+- Pages is set to deploy from GitHub Actions. `.github/workflows/deploy.yml` runs tests, builds, and publishes `dist` whenever `main` changes, or by hand from the Actions tab.
+- `main` is what's live. Work happens on feature branches. `npm run deploy` runs tests, lint, and the build locally, then pushes the current branch to `main`, which triggers the workflow.
 - Only deploy when Eric asks, normally at the end of a phase.
