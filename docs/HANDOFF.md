@@ -50,9 +50,11 @@ After the first graphics pass Eric asked for a more modern, professional look. T
 - From the earlier C0 step, still in: a stage vignette, drifting specks per zone, and hit-stop, a camera punch and a glow on heavy hits.
 - The old SVG rigs, body plans, backdrops and their generator scripts are deleted (they are in git history before this change).
 
-Not redone yet: eggs and the hatching scene's egg (SVG), the 44 UI icons (SVG), and the UI skin. Characters don't have separately moving heads, jaws or wings anymore; they breathe and lean as one piece.
+- The UI skin (`src/ui/skin.css`) was redone to match: flat fills, a dark navy outline, one hard shade band and a hard drop edge on panels, buttons, bars and plates. No gradients.
 
-Status: built on the session branch, not deployed. The live site still has C0 with the old art. Next: Eric's verdict, then whatever he wants fixed or regenerated.
+Not redone yet: eggs and the hatching scene's egg (SVG) and the 44 UI icons (SVG). Both need new image generations, which are on hold until Eric's Codex usage resets. Characters don't have separately moving heads, jaws or wings anymore; they breathe and lean as one piece.
+
+Status: the art is deployed. The new skin and the two-enemy layout fix are on the session branch, not deployed yet. Next: Eric's verdict on his phone, then eggs, icons and livelier fights when he can generate again.
 
 ## What to work on next
 
@@ -63,7 +65,7 @@ Besides the graphics pass above, these are the open threads. Eric closed three o
 3. **Cosmetics** (an ember sink in the design) don't exist yet. With rigs and extras, cosmetics could be extra parts on a dragon (hats, saddles, horn caps) listed in `assets.json`.
 4. **Late-game save code.** Late-game play takes many hours; a save code for an Elder with two partners would let him look at late screens. `e2e/make-fixtures.ts` already builds such saves (`e2e/fixtures/elder.json`); turn one into an export code with `src/core/save.ts`.
 5. **First-load size.** 163 kB of JavaScript gzipped, because all SVG art ships as text in the main bundle (colors are baked in at load). If load time ever matters, split the art per zone with lazy `import.meta.glob` and preload a zone's art when a run starts.
-6. **Rest of the redesign.** Eggs, icons and the UI skin in the new style; separate moving parts or extra poses (an attack frame per dragon) for livelier fights; trimming the 2.6 MB precache.
+6. **Rest of the redesign.** Eggs and icons in the new style; separate moving parts or extra poses (an attack frame per dragon) for livelier fights; trimming the 2.6 MB precache.
 
 ## Decisions made along the way
 

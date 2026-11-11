@@ -24,7 +24,7 @@ def key(path):
     keep = np.zeros(n + 1, bool)
     for i in range(1, n + 1):
         # Enclosed pockets count as background only if they are the real key green, not a teal gem or a green hide.
-        keep[i] = i in edge or (sizes[i - 1] > 300 and means[i - 1] > 0.6)
+        keep[i] = i in edge or (sizes[i - 1] > 12 and means[i - 1] > 0.6)
     outside = ndi.binary_dilation(keep[lab], iterations=3)
     alpha = np.where(outside, alpha, 1.0)
     spill = np.clip(g - np.maximum(r, b), 0, 1) * (outside | (alpha < 1))

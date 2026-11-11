@@ -103,8 +103,16 @@ Numbers: 2.2 MB of WebP for the art (dragons about 60 kB each, enemies 15 to 60 
 | Dragon colors | Painted in fixed key colors and recolored in code, not generated per color. |
 | Old art deleted | The SVG rigs are gone from the tree, not kept as a fallback. Git history has them. |
 | Precache size | All art is precached so the game works offline: 2.6 MB, over the first plan's 1.5 MB art budget. |
-| Not redone | Eggs, UI icons and the UI skin are still from the first pass. |
+| Not redone | Eggs and UI icons are still from the first pass. |
 | Raw images | The generated PNGs (about 65 MB) were not committed; the packed WebPs, prompts and the style anchor were. |
+
+### After the art: skin and fixes (2026-11-11)
+
+Done without new image generations, at Eric's request:
+
+- **UI skin.** `src/ui/skin.css` now follows the art: flat fills, a dark navy outline, one hard shade band along the bottom of buttons, a hard drop edge under panels, and two-tone flat HP, MP and breath bars. Border widths are unchanged, so no layout moved. See `docs/img/skin-screens.jpg`.
+- **Two-enemy fights.** Enemies were too small there after the art swap. The two enemy slots in `src/data/stage.json` are wider now (43 and 36 percent of the stage, from 33 and 26).
+- **Cutouts.** A few enemies had small green flecks left from the background. `pack.py` now removes enclosed pockets of key green down to 12 pixels, and the art was repacked from the raw images.
 
 ## Proposed phases
 

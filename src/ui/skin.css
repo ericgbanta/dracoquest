@@ -1,87 +1,99 @@
-/* ---------- B5 skin: a light fantasy look over the base styles ----------
-   Panels get a soft gradient and a trim, buttons get a chunky edge, headings use Fredoka.
-   Shadows here are static: nothing animates box-shadow or filter. */
+/* ---------- Skin: flat cel shapes to match the painted art (docs/ART_STYLE.md) ----------
+   Like the characters: a dark navy outline, flat fills, one hard-edged shade band, a hard drop edge.
+   No gradients or soft shadows. Shadows are static: nothing animates box-shadow or filter.
+   Border widths match the base styles, so no layout changes. */
 
 :root {
-  --panel-top: #332b4e;
-  --panel-bottom: #282241;
-  --panel-edge: #4b3f70;
-  --panel-deep: #130f1e;
-  --trim: #d9a648;
-  --trim-dark: #7c5622;
+  --ink: #0d0b24;
+  --page: #241f3d;
+  --panel: #352e5c;
+  --panel-shade: #2b2550;
+  --control: #453b78;
+  --control-shade: #372f64;
+  --gold: #f8c41c;
+  --gold-shade: #e08a10;
+  --trim: #f8c41c;
+  --trim-dark: #0d0b24;
+  --panel-deep: #0d0b24;
   --heading: "Fredoka", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
-body {
-  background:
-    radial-gradient(120% 60% at 50% 0%, #2c2547 0%, #1d1a2b 60%) fixed,
-    var(--bg);
-}
+body { background: var(--page); }
 
 h1, h2, h3, .results-title, .welcome, .sheet-header h2 {
   font-family: var(--heading);
   font-weight: 600;
   letter-spacing: 0.01em;
 }
-h1 { color: #f7e9c8; text-shadow: 0 2px 0 var(--panel-deep); }
-.results-title--won { color: var(--trim); }
+h1 { color: #fff3cf; text-shadow: 0 3px 0 var(--ink); }
+.results-title--won { color: var(--gold); }
 
-/* Panels */
+/* Panels: a flat fill, an ink outline and a hard edge underneath. */
 .card, .notice, .egg-card, .care-button, .pick, .sheet, .interlude .dialogue li, .log {
-  background: linear-gradient(var(--panel-top), var(--panel-bottom));
-  border: 2px solid var(--panel-edge);
-  box-shadow: inset 0 1px 0 #ffffff12, 0 3px 0 var(--panel-deep);
+  background: var(--panel);
+  border: 2px solid var(--ink);
+  box-shadow: 0 4px 0 var(--ink);
 }
 .card { border-radius: 16px; }
-.card h2 { color: #f2dfb4; }
+.card h2 { color: #ffe9a8; }
 .notice { border-left-width: 5px; }
 .notice--ok { border-left-color: var(--ok); }
 .notice--error { border-left-color: var(--danger); }
-.sheet { border-bottom: none; border-top: 3px solid var(--trim); }
+.sheet { border-bottom: none; border-top: 4px solid var(--gold); box-shadow: 0 -3px 0 var(--ink); }
+.scene, .stage.scene { border: 2px solid var(--ink); box-shadow: 0 4px 0 var(--ink); }
 
-/* Buttons: gold primary with a pressed edge, plum ghost. */
+/* Buttons: flat gold with a darker band along the bottom, like the art's two-tone shading. */
 .button {
-  background: linear-gradient(#f6c866, #e39a34);
-  color: #2a1b08;
-  border: 2px solid var(--trim-dark);
-  box-shadow: inset 0 2px 0 #fff5, 0 3px 0 #5e3d12;
-  text-shadow: 0 1px 0 #fff4;
-}
-.button:active { transform: translateY(2px); box-shadow: inset 0 2px 0 #fff5, 0 1px 0 #5e3d12; }
-.button--ghost {
-  background: linear-gradient(#3a3159, #2b2445);
-  color: var(--text);
-  border: 2px solid #5c4d8c;
-  box-shadow: inset 0 1px 0 #ffffff14, 0 3px 0 var(--panel-deep);
+  background: var(--gold);
+  color: #24160a;
+  border: 2px solid var(--ink);
+  box-shadow: inset 0 -5px 0 var(--gold-shade), 0 4px 0 var(--ink);
   text-shadow: none;
 }
-.button--ghost:active { box-shadow: inset 0 1px 0 #ffffff14, 0 1px 0 var(--panel-deep); }
-.button--danger { background: linear-gradient(#ef7a66, #cf4b3b); color: #fff; border-color: #7a2a20; box-shadow: inset 0 2px 0 #fff4, 0 3px 0 #5a1d16; text-shadow: none; }
-.button:disabled { box-shadow: none; }
+.button:active { transform: translateY(3px); box-shadow: inset 0 -5px 0 var(--gold-shade), 0 1px 0 var(--ink); }
+.button--ghost {
+  background: var(--control);
+  color: var(--text);
+  border: 2px solid var(--ink);
+  box-shadow: inset 0 -5px 0 var(--control-shade), 0 4px 0 var(--ink);
+}
+.button--ghost:active { box-shadow: inset 0 -5px 0 var(--control-shade), 0 1px 0 var(--ink); }
+.button--danger { background: #f04a30; color: #fff; border-color: var(--ink); box-shadow: inset 0 -5px 0 #b82c1c, 0 4px 0 var(--ink); }
+.button:disabled { box-shadow: 0 2px 0 var(--ink); }
 
 .act, .list-button, .chip-button, .icon-button, .tab-pill {
-  background: linear-gradient(#3a3159, #2b2445);
-  border: 2px solid #4f4277;
-  box-shadow: inset 0 1px 0 #ffffff12, 0 2px 0 var(--panel-deep);
+  background: var(--control);
+  border: 2px solid var(--ink);
+  box-shadow: inset 0 -4px 0 var(--control-shade), 0 3px 0 var(--ink);
 }
 .act--on, .tab-pill--on, .chip-button[aria-pressed="true"] {
-  border-color: var(--trim);
-  background: linear-gradient(#5a4630, #3a2e2a);
+  border-color: var(--gold);
+  background: #5a4a26;
+  box-shadow: inset 0 -4px 0 var(--gold-shade), 0 3px 0 var(--ink);
 }
-.act:active, .list-button:active, .care-button:active { transform: translateY(1px); }
-.pick--on { border-color: var(--trim); }
-.pill { background: linear-gradient(#f6c866, #e39a34); color: #2a1b08; }
+.act:active, .list-button:active, .care-button:active { transform: translateY(2px); }
+.pick--on { border-color: var(--gold); }
+.pill { background: var(--gold); color: #24160a; border: 1px solid var(--ink); }
 
-/* Tab bar: a dark band with a gold line on top. */
+/* Tab bar: a flat band with an ink line on top. */
 .tabbar {
-  background: linear-gradient(#2c2545, #1f1a31);
-  border-top: 2px solid var(--trim-dark);
-  box-shadow: 0 -2px 0 #0004;
+  background: var(--panel-shade);
+  border-top: 3px solid var(--ink);
+  box-shadow: none;
 }
-.tab--active { color: var(--trim); }
+.tab--active { color: var(--gold); }
 
-/* Bars get a frame. */
-.bar, .sbar, .warmth-bar { border: 1px solid #0008; box-shadow: inset 0 1px 2px #0008; }
+/* Bars: an ink frame and two flat tones, lighter on top. */
+.bar, .sbar, .warmth-bar { border: 1px solid var(--ink); box-shadow: 0 2px 0 var(--ink); background: #17132e; }
+.sbar--hp .sbar-fill, .plate-bar::after { background: linear-gradient(#7be391 0 42%, #3fb85c 42%); }
+.sbar--mp .sbar-fill { background: linear-gradient(#8fb4ff 0 42%, #4a78e0 42%); }
+.sbar--breath .sbar-fill { background: linear-gradient(#ffb85c 0 42%, #f0702c 42%); }
+.plate--enemy .plate-bar::after { background: linear-gradient(#ff8d78 0 42%, #e0452f 42%); }
+
+/* Stage plates and header chips take the same outline and hard edge. */
+.plate { background: #1c1838ee; border: 2px solid var(--ink); box-shadow: 0 3px 0 #0d0b2499; }
+.plate-bar { background: #0d0b24; }
+.stage .stage-header .chip-button { background: var(--control); }
 
 /* Icons */
 .icon { display: inline-block; vertical-align: -0.2em; flex: none; }
@@ -100,7 +112,7 @@ h1 { color: #f7e9c8; text-shadow: 0 2px 0 var(--panel-deep); }
 .wallet-amount { display: flex; align-items: center; gap: 8px; font-size: 1.3rem; font-weight: 700; }
 
 /* The per-attacker target chip at the start of an order row. */
-.act--target { flex: 0 0 auto; min-width: 50px; max-width: 58px; padding: 2px; border-color: #8c5a5a; background: linear-gradient(#4a2f3f, #33242f); }
+.act--target { flex: 0 0 auto; min-width: 50px; max-width: 58px; padding: 2px; border-color: var(--ink); background: #6a3346; box-shadow: inset 0 -4px 0 #522636, 0 3px 0 var(--ink); }
 .act--target .act-who { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.04em; color: #ffb1a3; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 .act--target .act-sub { color: #f7e9c8; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 .action-row:has(.act--target) { gap: 4px; }

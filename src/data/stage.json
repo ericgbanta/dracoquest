@@ -54,8 +54,8 @@
         { "left": 54, "bottom": 10, "width": 43, "z": 2, "plate": { "right": 2, "top": 17, "width": 36, "minPx": 150 } }
       ],
       "two": [
-        { "left": 50, "bottom": 5, "width": 33, "z": 3, "plate": { "right": 34, "top": 17, "width": 29, "minPx": 110 } },
-        { "left": 72, "bottom": 30, "width": 26, "z": 1, "plate": { "right": 2, "top": 17, "width": 30, "minPx": 116 } }
+        { "left": 45, "bottom": 5, "width": 43, "z": 3, "plate": { "right": 34, "top": 17, "width": 29, "minPx": 110 } },
+        { "left": 66, "bottom": 30, "width": 36, "z": 1, "plate": { "right": 2, "top": 17, "width": 30, "minPx": 116 } }
       ]
     }
   },
