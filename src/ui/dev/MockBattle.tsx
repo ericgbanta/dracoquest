@@ -15,7 +15,7 @@ const perRound = 20;
  * to the engine; the numbers are fixed demo values from stage.json.
  */
 export function MockBattle() {
-  const [set, setSet] = useState<DemoSet>('vector');
+  const [set, setSet] = useState<DemoSet>('painted');
   const art = useDemoArt(set);
   const stageRef = useRef<HTMLDivElement>(null);
   const [hp, setHp] = useState<DemoHp>(full);

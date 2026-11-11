@@ -1,6 +1,6 @@
 # Graphics, second pass: research and plan
 
-Written 2026-11-11 at Eric's request. Status: C0 (the look proof) is built and deployed. Eric wants a bigger change than C0 delivers; see "Eric's check of C0". C1 to C4 are on hold until the art source is chosen. C1 to C4 are proposed, not started. `docs/GRAPHICS_PLAN.md` is the first pass (B0 to B5) and is finished.
+Written 2026-11-11 at Eric's request. Status: C0 (the look proof) is built and deployed. Eric wants a bigger change than C0 delivers; see "Eric's check of C0". A painted proof is built on the mock (see "Painted proof"); C1 to C4 wait on Eric's verdict on it. C1 to C4 are proposed, not started. `docs/GRAPHICS_PLAN.md` is the first pass (B0 to B5) and is finished.
 
 The request, in Eric's words: "We just finished a redesign but I really think we can take art and graphics to the next level. We should try to modernize but still keep the same adventure quest feel. Please do some research. I want to be blown away by the graphics and art but still have this performant on my iPhone 17 pro."
 
@@ -74,6 +74,19 @@ The perf test (5 percent dropped frames at 4x throttle) was noisy in the sandbox
 C0 was deployed with a second style, look B (colored outlines, a tint toward the scene's light, paper grain), behind a switch on the mock. Eric's answer: "Definitely look A but I was hoping for a pretty different and professional look honestly." Look B's code was removed (it is in git history, commit 8953a68).
 
 What that means for the plan: lighting and effects on top of the existing drawings are not enough. The drawings themselves are the limit, as the first plan's risk section predicted. The phases below need a new art source before they continue; that choice is open with Eric.
+
+## Painted proof (built 2026-11-11)
+
+Eric chose painted art from an image model. The Codex CLI, signed in to his ChatGPT subscription by device login, generates the images from inside the cloud session (`codex exec`, built-in image tool). The session's environment ("dracoquest") allows `chatgpt.com`, `auth.openai.com` and `api.openai.com` for this.
+
+`#/dev/mock` opens on the painted set, with a Painted / Vector switch. See `docs/img/c0-vector-vs-painted.png` (vector on top).
+
+- Four images: the Adult fire dragon, the rider, the Storm Roc and the Thunderspire backdrop. The dragon was generated first and passed to the others as the style reference.
+- Prompts and the shared style block are in `tools/art/painted/`. The tool can't make transparent backgrounds, so characters are generated on flat green and cut out with `key.py` (needs numpy, scipy and Pillow).
+- The art is WebP in `src/art/painted/` (422 kB for the four), listed in `assets.json` as `painted.*` rigs and a `painted.thunderspire` backdrop. Each character is one bitmap that breathes as a whole (`anim: swell`); nothing is split into parts yet.
+- The painted stage uses 45 DOM nodes, against about 67 for the vector one.
+
+What the proof does not do yet: tint dragons to the player's colors, move parts separately (head, jaw, wings), or restyle the flat breath and hit effects, which now look out of place next to the painted art. Those are the first jobs if Eric goes ahead.
 
 ## Proposed phases
 

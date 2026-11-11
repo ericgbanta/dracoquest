@@ -1517,6 +1517,101 @@
           ]
         }
       ]
+    },
+    "painted.dragon": {
+      "note": "Painted proof (docs/GRAPHICS_PLAN_2.md): one bitmap per character, generated with an image model, breathing as a whole.",
+      "size": [
+        720,
+        483
+      ],
+      "boxScale": 1.12,
+      "points": {
+        "mouth": [
+          0.99,
+          0.24
+        ],
+        "hit": [
+          0.6,
+          0.55
+        ],
+        "front": [
+          0.92,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "body",
+          "file": "painted/dragon.webp",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell"
+        }
+      ]
+    },
+    "painted.rider": {
+      "note": "Painted proof (docs/GRAPHICS_PLAN_2.md): one bitmap per character, generated with an image model, breathing as a whole.",
+      "size": [
+        360,
+        551
+      ],
+      "boxScale": 1.36,
+      "points": {
+        "hit": [
+          0.5,
+          0.45
+        ],
+        "front": [
+          0.9,
+          0.5
+        ]
+      },
+      "parts": [
+        {
+          "id": "body",
+          "file": "painted/rider.webp",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell"
+        }
+      ]
+    },
+    "painted.storm-roc": {
+      "note": "Painted proof (docs/GRAPHICS_PLAN_2.md): one bitmap per character, generated with an image model, breathing as a whole.",
+      "size": [
+        760,
+        570
+      ],
+      "boxScale": 1.24,
+      "points": {
+        "mouth": [
+          0.98,
+          0.28
+        ],
+        "hit": [
+          0.62,
+          0.5
+        ],
+        "front": [
+          0.92,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "body",
+          "file": "painted/storm-roc.webp",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell"
+        }
+      ]
     }
   },
   "backdrops": {
@@ -1663,6 +1758,17 @@
           "file": "backdrops/roost/ground.svg"
         }
       ]
+    },
+    "painted.thunderspire": {
+      "layers": [
+        {
+          "file": "painted/thunderspire.webp"
+        }
+      ],
+      "ambient": {
+        "kind": "rise",
+        "color": "#ffe9a8"
+      }
     }
   },
   "effects": {

@@ -48,7 +48,7 @@ Eric asked to take the art "to the next level", modern but still AdventureQuest 
 - Thunderspire is repainted as the model scene, with a foreground layer and drifting specks (`front` and `ambient` in `assets.json`). Every stage has a vignette.
 - Strong hits and crits get hit-stop, a camera punch and a glow (`punch`, `hitStop`, `glow` in `stage.json`).
 
-C0 is deployed. Eric's verdict: he wants a much more different and professional look than lighting on the current drawings gives. The open question is where better art comes from (see "Eric's check of C0" in the plan). Don't start C1 until he picks.
+C0 is deployed. Eric's verdict: he wants a much more different and professional look than lighting on the current drawings gives. He chose painted art from an image model, generated through the Codex CLI on his ChatGPT subscription. A painted proof (dragon, rider, Storm Roc, Thunderspire) is on `#/dev/mock` behind a Painted / Vector switch; see "Painted proof" in the plan. Next: his verdict on the proof, then player-color tinting, moving parts and painted effects.
 
 ## What to work on next
 
