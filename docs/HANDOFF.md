@@ -20,7 +20,7 @@ Eric played the deployed game and said: "This is very good."
 
 ## What to work on next
 
-**Graphics and UI, starting with the battle screen.** Eric wants an AdventureQuest-style battle: the rider and dragons on one side, enemies on the other, on a painted stage, with real attack animations, and it has to stay fast on a phone. The research and a phased plan are in `docs/GRAPHICS_PLAN.md`. Eric has answered its questions (vector art, agents draw it, every phase B0 to B5, iPhone 17 Pro in Safari); they're in its "Decisions" table. Start with phase B0 (a mock battle plus a bench route he can open on his phone) and stop there for his review before B1.
+**Graphics and UI, starting with the battle screen.** Eric wants an AdventureQuest-style battle: the rider and dragons on one side, enemies on the other, on a painted stage, with real attack animations, and it has to stay fast on a phone. The research and a phased plan are in `docs/GRAPHICS_PLAN.md`. Eric has answered its questions (vector art, agents draw it, every phase B0 to B5, iPhone 17 Pro in Safari); they're in its "Decisions" table. Phase B0 is built and deployed: a mock battle at `#/dev/mock` and a bench at `#/dev/bench`, plus a draft style guide in `docs/ART_STYLE.md`. It's waiting for his review before B1. See "B0 result" in `docs/GRAPHICS_PLAN.md`.
 
 After graphics, the open items below.
 
@@ -66,14 +66,16 @@ src/core/      pure game logic, no DOM (CLAUDE.md)
 src/data/      every balance number and all content, as JSON
 src/ui/        Preact screens and pieces
   screens/Battle.tsx   the battle screen (the graphics work starts here)
+  stage/               B0 battle stage: Stage.tsx, rigs.ts (art loader), choreo.ts (attack beats)
+  dev/                 hidden pages: #/dev/mock (mock battle), #/dev/bench (frame bench)
   Sprites.tsx          placeholder dragon and enemy art, and the manifest lookup
   art.ts               sprite manifest loader (lazy per sprite)
   pwa.ts sound.ts install.ts storage.ts useSave.ts router.ts bits.tsx styles.css
-src/art/       sprite files and assets.json (empty so far)
-tests/         Vitest unit tests (125), sim.ts (the balance simulator), save fixtures
-e2e/           Playwright phone tests (28), save fixtures and make-fixtures.ts
+src/art/       SVG rig parts, backdrops, effects, palette.json and assets.json
+tests/         Vitest unit tests (129), sim.ts (the balance simulator), save fixtures
+e2e/           Playwright phone tests (30), save fixtures and make-fixtures.ts
 scripts/       icons.mjs builds the Home Screen icons
-docs/          DESIGN.md, HANDOFF.md, GRAPHICS_PLAN.md
+docs/          DESIGN.md, HANDOFF.md, GRAPHICS_PLAN.md, ART_STYLE.md
 ```
 
 ## Commands
@@ -81,9 +83,9 @@ docs/          DESIGN.md, HANDOFF.md, GRAPHICS_PLAN.md
 | Command | What it does |
 | --- | --- |
 | `npm run dev` | Local dev server |
-| `npm run test` | Unit tests (125) |
+| `npm run test` | Unit tests (129) |
 | `npx tsc --noEmit` and `npm run lint` | Type check and lint. Lint blocks `Math.random` and browser globals in `src/core`. |
-| `npm run e2e` | Phone tests at 375 by 667 (28), about 75 seconds |
+| `npm run e2e` | Phone tests at 375 by 667 (30), about 75 seconds |
 | `npm run sim` | Balance sim: 1,000 runs per zone and level, plus campaigns from egg to level 50. Flags: `--runs`, `--campaigns`, `--zone`, `--no-campaign`, `--campaign-only`. The full run takes about 2.5 minutes. |
 | `npx tsx e2e/make-fixtures.ts` | Rebuilds the saves the phone tests load |
 | `npm run icons` | Rebuilds the Home Screen icons |

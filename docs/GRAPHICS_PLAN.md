@@ -1,6 +1,6 @@
 # Graphics and battle overhaul: plan
 
-Written 2026-11-11 at Eric's request. Status: research done and questions answered (see "Decisions" below). Not started. Read `docs/HANDOFF.md` first.
+Written 2026-11-11 at Eric's request. Status: B0 built and deployed, waiting for Eric's phone check (see "B0 result" below). Read `docs/HANDOFF.md` first.
 
 The request, in Eric's words: "I think we can implement AdventureQuest-like graphics. The battling especially needs a lot of touch up. We should have us (rider and dragons) on one side and enemy on the other. Let's step it up with the graphics please but also make sure it's performant."
 
@@ -35,6 +35,38 @@ Eric answered the questions below on 2026-11-11. These are settled:
 | G4. Target phone | iPhone 17 Pro in Safari, played both in the browser and as a Home Screen app. The budgets below are judged on that phone; the sandbox numbers are a stand-in. |
 
 B0 still ends at a checkpoint: Eric looks at the mock battle and the bench numbers on his iPhone before B1 starts.
+
+## B0 result
+
+Built 2026-11-11. Waiting for Eric to look on his iPhone before B1 starts.
+
+- Mock battle at `#/dev/mock`: the Thunderspire backdrop, the rider, an Adult fire dragon (Blaze), the Storm Roc, name plates, the status strip, the log and the order panel. Go plays a round: the rider's Attack (dash, swing, return), the dragon's Breath (rear back, a stream of fire puffs across the stage, shake) or Claw, then the Roc's Talon Rake on the dragon. The 1x/2x chip works. Tap the Roc to target it.
+- Bench at `#/dev/bench`: loops a demo round (rider attack, breath, Roc attack, claw) and shows fps, dropped frames, worst frame, refresh rate, long tasks, stage node count, and whether it runs in the browser or as a Home Screen app. After 10 rounds it pins a result line to read back. Restart clears the numbers.
+- Style guide draft: `docs/ART_STYLE.md`.
+- Code: `src/ui/stage/` (stage, rig loader, beats), `src/ui/dev/` (mock, bench, frame meter), `src/data/stage.json` (layout and timings), art under `src/art/`. The dev pages load only when opened, so the game's first load didn't grow. The real battle screen and `src/core` are untouched.
+
+Sandbox numbers (headless Chromium, no GPU, 20 seconds of the bench loop): 60 fps and 0 of about 1,190 frames dropped, both unthrottled and with the CPU throttled 4x, in portrait and landscape. Worst frame 17 ms, no long tasks. The stage uses 59 DOM nodes in the mock and 56 in the bench (budget 60). All art is 25 kB of SVG.
+
+Caveat on the bench: it counts frames with `requestAnimationFrame`, so it catches main-thread stalls (scripts, layout, style work). Safari doesn't tell a page when the compositor itself drops a frame, so a stutter that comes only from the GPU won't show in the numbers. Watch for visible hitches too. Safari also doesn't report long tasks; the bench shows "n/a" there.
+
+### Calls made in B0 (Eric can overrule any of these)
+
+| Topic | Call |
+| --- | --- |
+| 300 ms per beat | Each beat's action, up to and including the hit, takes at most 300 ms (240 ms for the rider's attack). The walk back runs into the existing 120 ms pause between events. Attacks are quick as a result. |
+| Where the mock lives | A hidden route, not the real battle. The real battle switches over in B1. |
+| Party layout | The dragon stands at the back left and the rider in front of it, closer to the enemy. |
+| Plates | Dragon plate top left, rider plate above the rider, enemy plate top right with the intent inside it. Exact numbers are in the status strip below the stage. |
+| Outline weight | About 2.5 px on a 375-wide phone, a little under the draft's 3 to 4 px. It looked right in the screenshots; raising it is a one-number change per part. |
+| Art loading | SVG parts ship as text inside the stage's code chunk (15 kB gzipped) so colors can be baked in without a network fetch. B3, with 49 enemies, should split this per zone. |
+| Node budget | Plate HP fills and the target ring are CSS pseudo-elements, to fit the mock under 60 nodes. |
+| Extra beats | The mock also has Claw and the Roc's counterattack, so a round looks like a round. |
+
+### Questions for Eric at the checkpoint
+
+1. Does the art style work for you on the phone? Anything to change before it's used for 32 dragon looks and 49 enemies?
+2. Do the attacks feel too fast at 1x? The 300 ms rule could become, say, 450 ms for the action.
+3. The bench numbers from your iPhone, in Safari and as a Home Screen app: the "After 10 rounds" line from each.
 
 ## Questions for Eric (answered)
 
