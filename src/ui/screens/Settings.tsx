@@ -100,6 +100,11 @@ export function Settings({ save, persistent, update, replace }: Props) {
             <span>Fast battles (2x animation speed)</span>
           </label>
           <label class="toggle">
+            <input type="checkbox" checked={save.settings.simpleBattle} data-testid="simple-battle"
+              onChange={(e) => update((s) => ({ ...s, settings: { ...s.settings, simpleBattle: e.currentTarget.checked } }))} />
+            <span>Simple battle (cards instead of the battle stage)</span>
+          </label>
+          <label class="toggle">
             <input type="checkbox" checked={save.settings.sound} data-testid="sound"
               onChange={(e) => {
                 const on = e.currentTarget.checked;

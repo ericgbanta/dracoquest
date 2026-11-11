@@ -128,3 +128,17 @@ describe('save v2 → v3', () => {
     expect(parseSave(JSON.stringify(withRun)).run).toBeNull();
   });
 });
+
+describe('save v5 → v6', () => {
+  it('migrates the version 5 fixture: keeps progress and settings, adds Simple battle off', async () => {
+    const fixture = (await import('./fixtures/save-v5.json')).default;
+    expect(fixture.version).toBe(5);
+    const s = parseSave(JSON.stringify(fixture));
+    expect(s.version).toBe(CURRENT_VERSION);
+    expect(s.settings.simpleBattle).toBe(false);
+    expect(s.settings.fastBattles).toBe(fixture.settings.fastBattles);
+    expect(s.settings.sound).toBe(fixture.settings.sound);
+    expect(s.rider.level).toBe(fixture.rider.level);
+    expect(s.dragons.map((d) => d.name)).toEqual(fixture.dragons.map((d) => d.name));
+  });
+});

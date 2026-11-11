@@ -13,13 +13,15 @@ import type { RunState } from './run';
 import { newRoost, type RoostState } from './roost';
 import type { DragonState, ElementId, RiderState } from './types';
 
-export const CURRENT_VERSION = 5;
+export const CURRENT_VERSION = 6;
 export const SAVE_KEY = 'dracoquest.save';
 const CODE_PREFIX = 'DQ1:'; // Code format, not save version. The save inside carries its own version.
 
 export interface Settings {
   sound: boolean;
   fastBattles: boolean;
+  /** Draw battles as the old cards instead of the side-view stage. */
+  simpleBattle: boolean;
 }
 
 export interface SaveData {
@@ -133,6 +135,11 @@ export const MIGRATIONS: Record<number, Migration> = {
     dragons: ((save.dragons as Record<string, unknown>[]) ?? []).map((d) => ({ ...d, laidEgg: false })),
     eventsClaimed: [],
   }),
+  // v5 → v6 adds the Simple battle setting (the card layout instead of the battle stage).
+  5: (save) => ({
+    ...save,
+    settings: { ...(save.settings as Record<string, unknown>), simpleBattle: false },
+  }),
 };
 
 export function newSave(now: number): SaveData {
@@ -158,7 +165,7 @@ export function newSave(now: number): SaveData {
     careStreak: { count: 0, lastDay: '' },
     eventsClaimed: [],
     stats: { fightsWon: 0, fightsLost: 0, runsCompleted: 0 },
-    settings: { sound: false, fastBattles: false },
+    settings: { sound: false, fastBattles: false, simpleBattle: false },
   };
 }
 
@@ -222,7 +229,7 @@ export function validateSave(raw: Record<string, unknown>): SaveData {
   if (!isObject(raw.stats)) fail('stats missing');
   if (!isObject(raw.settings)) fail('settings missing');
   const s = raw.settings as Record<string, unknown>;
-  if (typeof s.sound !== 'boolean' || typeof s.fastBattles !== 'boolean') fail('settings damaged');
+  if (typeof s.sound !== 'boolean' || typeof s.fastBattles !== 'boolean' || typeof s.simpleBattle !== 'boolean') fail('settings damaged');
   return raw as unknown as SaveData;
 }
 
