@@ -76,6 +76,7 @@ button.actor { cursor: pointer; }
 .anim-flap-back-big { animation: stage-flap-back-big calc(900ms * var(--idle, 1)) ease-in-out infinite alternate; }
 .anim-swish { animation: stage-swish calc(1800ms * var(--idle, 1)) ease-in-out infinite alternate; }
 .anim-cape { animation: stage-cape calc(1600ms * var(--idle, 1)) ease-in-out infinite alternate; }
+.anim-swell { animation: stage-swell calc(1500ms * var(--idle, 1)) ease-in-out infinite alternate; }
 .stage--paused * { animation-play-state: paused !important; }
 
 /* Scenes outside battle (Roost, Map banners, hatching). */
@@ -83,6 +84,8 @@ button.actor { cursor: pointer; }
 button.scene-actor { cursor: pointer; }
 
 @keyframes stage-breathe { from { transform: translateY(0); } to { transform: translateY(1.4%); } }
+/* A one-piece painted sprite breathes by swelling from its feet. */
+@keyframes stage-swell { from { transform: scale(1, 1); } to { transform: scale(1.012, 1.022); } }
 @keyframes stage-bob { from { transform: translateY(0); } to { transform: translateY(1.2%); } }
 @keyframes stage-flap { from { transform: rotate(4deg); } to { transform: rotate(-8deg); } }
 @keyframes stage-flap-back { from { transform: rotate(-3deg); } to { transform: rotate(7deg); } }
@@ -177,3 +180,7 @@ button.scene-actor { cursor: pointer; }
   .battle--stage .stage { width: min(100cqw, calc(100cqh * 16 / 11)); border-radius: 12px; }
   .battle--stage .actions { width: min(330px, 46vw); }
 }
+
+/* The mock battle's switch between art sets being compared. */
+.look-row { display: flex; align-items: center; justify-content: center; gap: 8px; }
+.look-row .chip-button { min-width: 84px; min-height: 44px; }
