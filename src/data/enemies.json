@@ -1,0 +1,379 @@
+[
+  {
+    "id": "thornling",
+    "name": "Thornling",
+    "element": "verdant",
+    "flavor": "A shrub with a grudge and very pointy elbows.",
+    "base": {
+      "hp": 40,
+      "attack": 8.75,
+      "power": 5,
+      "defense": 1,
+      "swift": 8,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 12,
+      "attack": 1.5,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1,
+      "dodge": 0.5
+    },
+    "moves": [
+      {
+        "id": "jab",
+        "name": "Thorn Jab",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "volley",
+        "name": "Thorn Volley",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "snare",
+        "name": "Root Snare",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "root",
+        "statusChance": 0.7
+      }
+    ]
+  },
+  {
+    "id": "bog-hopper",
+    "name": "Bog Hopper",
+    "element": "tide",
+    "flavor": "A toad the size of a footstool. It thinks you are a fly.",
+    "base": {
+      "hp": 48,
+      "attack": 8.75,
+      "power": 5,
+      "defense": 1,
+      "swift": 6,
+      "dodge": 3
+    },
+    "perLevel": {
+      "hp": 14,
+      "attack": 1.5,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 0.8,
+      "dodge": 0.3
+    },
+    "moves": [
+      {
+        "id": "lash",
+        "name": "Tongue Lash",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "bellyflop",
+        "name": "Bellyflop",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "mud",
+        "name": "Mud Splash",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.6,
+        "status": "soak",
+        "statusChance": 0.8
+      }
+    ]
+  },
+  {
+    "id": "moss-wisp",
+    "name": "Moss Wisp",
+    "element": "verdant",
+    "flavor": "A glowing puff of moss. Pretty, until it pecks.",
+    "base": {
+      "hp": 30,
+      "attack": 6.25,
+      "power": 5,
+      "defense": 0,
+      "swift": 12,
+      "dodge": 12
+    },
+    "perLevel": {
+      "hp": 9,
+      "attack": 1.12,
+      "power": 1,
+      "defense": 0.2,
+      "swift": 1.2,
+      "dodge": 0.8
+    },
+    "moves": [
+      {
+        "id": "peck",
+        "name": "Glow Peck",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "spore-mend",
+        "name": "Spore Mend",
+        "intent": "heal",
+        "weight": 2,
+        "heal": 0.3,
+        "target": "ally",
+        "condition": "allyHurt"
+      },
+      {
+        "id": "fade",
+        "name": "Fade",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fade",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "barkback-boar",
+    "name": "Barkback Boar",
+    "element": "stone",
+    "flavor": "Its back is half bark, half rock, and all bad mood.",
+    "base": {
+      "hp": 55,
+      "attack": 10.0,
+      "power": 5,
+      "defense": 2.5,
+      "swift": 5,
+      "dodge": 2
+    },
+    "perLevel": {
+      "hp": 15,
+      "attack": 1.75,
+      "power": 1,
+      "defense": 0.4,
+      "swift": 0.7,
+      "dodge": 0.2
+    },
+    "resist": {
+      "verdant": 1.0
+    },
+    "moves": [
+      {
+        "id": "gore",
+        "name": "Gore",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "charge",
+        "name": "Charge",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "bark-up",
+        "name": "Bark Up",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "spore-puffer",
+    "name": "Spore Puffer",
+    "element": "verdant",
+    "flavor": "A mushroom that sneezes on purpose.",
+    "base": {
+      "hp": 42,
+      "attack": 7.5,
+      "power": 5,
+      "defense": 1,
+      "swift": 7,
+      "dodge": 6
+    },
+    "perLevel": {
+      "hp": 12,
+      "attack": 1.38,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 0.8,
+      "dodge": 0.5
+    },
+    "moves": [
+      {
+        "id": "puff",
+        "name": "Puff",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "cloud",
+        "name": "Choking Cloud",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.6,
+        "status": "blind",
+        "statusChance": 0.7
+      },
+      {
+        "id": "frost-spores",
+        "name": "Frost Spores",
+        "intent": "shift",
+        "weight": 1,
+        "shiftTo": "frost",
+        "target": "self",
+        "condition": "notShifted"
+      }
+    ]
+  },
+  {
+    "id": "elder-thornling",
+    "name": "Elder Thornling",
+    "element": "verdant",
+    "miniBoss": true,
+    "flavor": "Older, bigger, and still holding the same grudge.",
+    "xpMultiplier": 2,
+    "base": {
+      "hp": 75,
+      "attack": 10.0,
+      "power": 6,
+      "defense": 1.5,
+      "swift": 8,
+      "dodge": 4
+    },
+    "perLevel": {
+      "hp": 20,
+      "attack": 1.75,
+      "power": 1,
+      "defense": 0.4,
+      "swift": 1,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "jab",
+        "name": "Thorn Jab",
+        "intent": "attack",
+        "weight": 4,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "volley",
+        "name": "Thorn Storm",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "snare",
+        "name": "Root Snare",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "root",
+        "statusChance": 0.7
+      },
+      {
+        "id": "regrow",
+        "name": "Regrow",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.2,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ]
+  },
+  {
+    "id": "bramble-troll",
+    "name": "Bramble Troll",
+    "element": "verdant",
+    "boss": true,
+    "flavor": "Guardian of Mossy Hollow. Mostly guards a nap spot.",
+    "xpMultiplier": 4,
+    "goldMultiplier": 5,
+    "base": {
+      "hp": 100,
+      "attack": 9,
+      "power": 6,
+      "defense": 2,
+      "swift": 6,
+      "dodge": 2
+    },
+    "perLevel": {
+      "hp": 16,
+      "attack": 1.4,
+      "power": 1,
+      "defense": 0.4,
+      "swift": 0.6,
+      "dodge": 0.2
+    },
+    "moves": [
+      {
+        "id": "club",
+        "name": "Club Smash",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "slam",
+        "name": "Bramble Slam",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "root",
+        "statusChance": 0.5
+      },
+      {
+        "id": "regrow",
+        "name": "Regrow",
+        "intent": "heal",
+        "weight": 2,
+        "heal": 0.15,
+        "target": "self",
+        "condition": "selfHurt"
+      },
+      {
+        "id": "thorn-hide",
+        "name": "Thorn Hide",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      },
+      {
+        "id": "rage",
+        "name": "Troll Rage",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "resist": {
+      "verdant": 0.4
+    }
+  }
+]

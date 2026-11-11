@@ -7,6 +7,16 @@
     "strong": 1.5,
     "neutral": 1.0,
     "weak": 0.75,
-    "same": 0.5
+    "same": 0.75
+  },
+  "info": {
+    "fire": { "name": "Fire", "color": "#e8603c", "status": "burn", "symbol": "▲" },
+    "frost": { "name": "Frost", "color": "#7fc8f0", "status": "chill", "symbol": "✱" },
+    "verdant": { "name": "Verdant", "color": "#5fbf5a", "status": "root", "symbol": "♣" },
+    "stone": { "name": "Stone", "color": "#a58c6a", "status": "crack", "symbol": "■" },
+    "storm": { "name": "Storm", "color": "#c9a8ff", "status": "shock", "symbol": "ϟ" },
+    "tide": { "name": "Tide", "color": "#3f8fd8", "status": "soak", "symbol": "≈" },
+    "light": { "name": "Light", "color": "#f5e27a", "status": "ward", "symbol": "☀" },
+    "shadow": { "name": "Shadow", "color": "#7a5c9e", "status": "blind", "symbol": "☾" }
   }
 }

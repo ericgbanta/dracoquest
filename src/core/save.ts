@@ -6,10 +6,15 @@
  * which the UI backs with localStorage.
  */
 import { seedFromString } from './rng';
+import { gameData } from './data';
+import { newRider } from './characters';
+import { freshCareDay, type CareDay } from './care';
+import type { RunState } from './run';
+import type { DragonState, ElementId, RiderState } from './types';
 
-export const CURRENT_VERSION = 1;
+export const CURRENT_VERSION = 2;
 export const SAVE_KEY = 'dracoquest.save';
-const CODE_PREFIX = 'DQ1:';
+const CODE_PREFIX = 'DQ1:'; // Code format, not save version. The save inside carries its own version.
 
 export interface Settings {
   sound: boolean;
@@ -20,9 +25,21 @@ export interface SaveData {
   version: number;
   createdAt: number;
   updatedAt: number;
-  /** Seed for the game's RNG. */
+  /** Current state of the game's RNG. Every random roll outside a battle advances it. */
   seed: number;
-  rider: { name: string };
+  rider: RiderState;
+  dragons: DragonState[];
+  activeDragonId: string | null;
+  /** The egg picked in the tutorial, before it hatches. */
+  egg: { element: ElementId; warmth: number } | null;
+  care: CareDay;
+  /** Fights left on the Well kept XP buff. */
+  wellKeptFights: number;
+  /** Enemy id → how many times fought and defeated. Weaknesses show after the first fight. */
+  bestiary: Record<string, { fought: number; defeated: number }>;
+  run: RunState | null;
+  bossesDefeated: string[];
+  stats: { fightsWon: number; fightsLost: number; runsCompleted: number };
   settings: Settings;
 }
 
@@ -37,8 +54,27 @@ export class SaveError extends Error {}
 /** A migration takes a save at version N and returns it at version N + 1. */
 export type Migration = (save: Record<string, unknown>) => Record<string, unknown>;
 
-/** Index N holds the migration from version N to N + 1. Version 1 is the first, so none yet. */
-export const MIGRATIONS: Record<number, Migration> = {};
+/** Index N holds the migration from version N to N + 1. */
+export const MIGRATIONS: Record<number, Migration> = {
+  // v1 (Phase 0) had only a rider name and settings. v2 adds the full rider, dragons, care, and runs.
+  1: (save) => {
+    const oldRider = (save.rider ?? {}) as { name?: unknown };
+    const name = typeof oldRider.name === 'string' && oldRider.name ? oldRider.name : 'Keeper';
+    return {
+      ...save,
+      rider: newRider(gameData, name),
+      dragons: [],
+      activeDragonId: null,
+      egg: null,
+      care: freshCareDay(''),
+      wellKeptFights: 0,
+      bestiary: {},
+      run: null,
+      bossesDefeated: [],
+      stats: { fightsWon: 0, fightsLost: 0, runsCompleted: 0 },
+    };
+  },
+};
 
 export function newSave(now: number): SaveData {
   return {
@@ -46,7 +82,16 @@ export function newSave(now: number): SaveData {
     createdAt: now,
     updatedAt: now,
     seed: seedFromString(`dracoquest-${now}`),
-    rider: { name: 'Keeper' },
+    rider: newRider(gameData, 'Keeper'),
+    dragons: [],
+    activeDragonId: null,
+    egg: null,
+    care: freshCareDay(''),
+    wellKeptFights: 0,
+    bestiary: {},
+    run: null,
+    bossesDefeated: [],
+    stats: { fightsWon: 0, fightsLost: 0, runsCompleted: 0 },
     settings: { sound: false, fastBattles: false },
   };
 }
@@ -87,10 +132,22 @@ export function validateSave(raw: Record<string, unknown>): SaveData {
     throw new SaveError(`Save is damaged: ${msg}`);
   };
   if (raw.version !== CURRENT_VERSION) fail('wrong version');
-  for (const key of ['createdAt', 'updatedAt', 'seed']) {
+  for (const key of ['createdAt', 'updatedAt', 'seed', 'wellKeptFights']) {
     if (typeof raw[key] !== 'number') fail(`${key} missing`);
   }
-  if (!isObject(raw.rider) || typeof raw.rider.name !== 'string') fail('rider missing');
+  const rider = raw.rider;
+  if (!isObject(rider) || typeof rider.name !== 'string' || typeof rider.level !== 'number' || !isObject(rider.stats)
+    || !isObject(rider.inventory)) fail('rider damaged');
+  if (!Array.isArray(raw.dragons)) fail('dragons missing');
+  for (const d of raw.dragons as unknown[]) {
+    if (!isObject(d) || typeof d.id !== 'string' || typeof d.level !== 'number' || !isObject(d.stats)) fail('dragon damaged');
+  }
+  if (raw.activeDragonId !== null && typeof raw.activeDragonId !== 'string') fail('active dragon damaged');
+  if (!isObject(raw.care) || typeof raw.care.day !== 'string') fail('care missing');
+  if (!isObject(raw.bestiary)) fail('bestiary missing');
+  if (raw.run !== null && !isObject(raw.run)) fail('run damaged');
+  if (!Array.isArray(raw.bossesDefeated)) fail('bosses missing');
+  if (!isObject(raw.stats)) fail('stats missing');
   if (!isObject(raw.settings)) fail('settings missing');
   const s = raw.settings as Record<string, unknown>;
   if (typeof s.sound !== 'boolean' || typeof s.fastBattles !== 'boolean') fail('settings damaged');

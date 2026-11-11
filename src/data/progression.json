@@ -3,5 +3,22 @@
   "xpBase": 50,
   "xpExponent": 1.6,
   "statPointsPerLevel": 3,
-  "secondPartnerRiderLevel": 25
+  "secondPartnerRiderLevel": 25,
+  "levelUpRestoresHp": true,
+
+  "enemyXpBase": 4,
+  "enemyXpExponent": 1.6,
+  "enemyGoldBase": 3,
+  "enemyGoldPerLevel": 2,
+
+  "riderBaseStats": { "strength": 5, "agility": 5, "arcana": 5, "vigor": 5 },
+
+  "bond": {
+    "max": 100,
+    "perWin": 1,
+    "perBossWin": 3
+  },
+
+  "startingInventory": { "potion": 3, "dragon-treat": 2, "mana-tonic": 1 },
+  "startingGold": 0
 }

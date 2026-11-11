@@ -1,0 +1,5 @@
+[
+  { "id": "potion", "name": "Potion", "icon": "🧪", "effect": "healRider", "fraction": 0.4, "description": "Heals the rider 40%." },
+  { "id": "dragon-treat", "name": "Dragon Treat", "icon": "🍖", "effect": "healDragon", "fraction": 0.4, "description": "Heals your dragon 40%." },
+  { "id": "mana-tonic", "name": "Mana Tonic", "icon": "🔷", "effect": "restoreMp", "fraction": 0.5, "description": "Restores half your MP." }
+]

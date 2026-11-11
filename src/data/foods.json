@@ -1,0 +1,6 @@
+[
+  { "id": "river-trout", "name": "River Trout", "icon": "🐟", "statPoints": 1, "price": 10 },
+  { "id": "sweetroot", "name": "Sweetroot", "icon": "🥕", "statPoints": 1, "price": 10 },
+  { "id": "char-pepper", "name": "Char Pepper", "icon": "🌶", "statPoints": 1, "price": 10 },
+  { "id": "mossberry-tart", "name": "Mossberry Tart", "icon": "🥧", "statPoints": 1, "price": 10 }
+]

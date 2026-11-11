@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import fixtureV1 from './fixtures/save-v1.json';
+import { gameData } from '../src/core/data';
 import {
   CURRENT_VERSION,
   SAVE_KEY,
@@ -39,10 +40,23 @@ describe('save', () => {
     expect(loaded.updatedAt).toBe(NOW + 1000);
   });
 
-  it('loads the version 1 fixture', () => {
+  it('migrates the version 1 fixture to the current version', () => {
     const s = parseSave(JSON.stringify(fixtureV1));
+    expect(s.version).toBe(CURRENT_VERSION);
     expect(s.rider.name).toBe('Fixture Keeper');
+    expect(s.rider.level).toBe(1);
+    expect(s.rider.inventory).toEqual(gameData.progression.startingInventory);
+    expect(s.dragons).toEqual([]);
+    expect(s.egg).toBeNull();
+    expect(s.run).toBeNull();
     expect(s.settings.fastBattles).toBe(true);
+    expect(s.seed).toBe(123456789);
+    expect(s.createdAt).toBe(fixtureV1.createdAt);
+  });
+
+  it('migrates a version 1 save with a missing name to the default', () => {
+    const s = parseSave(JSON.stringify({ ...fixtureV1, rider: {} }));
+    expect(s.rider.name).toBe('Keeper');
   });
 
   it('round-trips through an export code, including Unicode names', () => {
@@ -63,16 +77,16 @@ describe('save', () => {
     expect(() => importSaveCode('hello')).toThrow(SaveError);
     expect(() => importSaveCode('DQ1:!!!not-base64')).toThrow(SaveError);
     expect(() => parseSave('{not json')).toThrow(SaveError);
-    expect(() => parseSave('{"version":1}')).toThrow(SaveError);
+    expect(() => parseSave('{"version":2}')).toThrow(SaveError);
     expect(() => parseSave('{"rider":{}}')).toThrow(/version/);
     expect(() => parseSave(JSON.stringify({ ...fixtureV1, version: 999 }))).toThrow(/newer/);
   });
 
   it('throws on a damaged save in storage instead of overwriting it', () => {
     const storage = memoryStorage();
-    storage.setItem(SAVE_KEY, '{"version":1,"oops":true}');
+    storage.setItem(SAVE_KEY, '{"version":2,"oops":true}');
     expect(() => loadSave(storage, NOW)).toThrow(SaveError);
-    expect(storage.getItem(SAVE_KEY)).toBe('{"version":1,"oops":true}');
+    expect(storage.getItem(SAVE_KEY)).toBe('{"version":2,"oops":true}');
   });
 
   it('runs migrations in order up to the target version', () => {

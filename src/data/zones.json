@@ -1,0 +1,73 @@
+[
+  {
+    "id": "mossy-hollow",
+    "name": "Mossy Hollow",
+    "element": "verdant",
+    "minLevel": 1,
+    "maxLevel": 8,
+    "gate": null,
+    "blurb": "Soft moss, loud toads, and shrubs that bite.",
+    "fights": {
+      "min": 3,
+      "max": 5
+    },
+    "encounters": [
+      {
+        "enemies": [
+          "thornling"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "bog-hopper"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "barkback-boar"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "spore-puffer"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "moss-wisp",
+          "moss-wisp"
+        ],
+        "weight": 2,
+        "minLevel": 2
+      },
+      {
+        "enemies": [
+          "thornling",
+          "moss-wisp"
+        ],
+        "weight": 1,
+        "minLevel": 4
+      }
+    ],
+    "levelSpread": 1,
+    "multiEnemyLevelOffset": -1,
+    "boss": {
+      "enemy": "bramble-troll",
+      "level": 8,
+      "unlockRiderLevel": 7
+    },
+    "miniBoss": {
+      "enemy": "elder-thornling",
+      "levelOffset": 0
+    },
+    "dropChances": {
+      "potion": 0.25,
+      "dragon-treat": 0.15,
+      "mana-tonic": 0.1
+    }
+  }
+]

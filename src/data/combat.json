@@ -3,5 +3,115 @@
   "critMultiplier": 1.5,
   "damageRandMin": 0.9,
   "damageRandMax": 1.1,
-  "minDamage": 1
+  "minDamage": 1,
+  "hit": {
+    "base": 0.9,
+    "perPoint": 0.01,
+    "min": 0.6,
+    "max": 0.98
+  },
+  "crit": {
+    "base": 0.05,
+    "perAgility": 0.004,
+    "perSwift": 0.002,
+    "max": 0.4
+  },
+  "initiativeRandom": 10,
+  "rider": {
+    "baseHp": 60,
+    "hpPerVigor": 6,
+    "hpPerLevel": 5,
+    "baseMp": 12,
+    "mpPerArcana": 2,
+    "defensePerVigor": 0.3,
+    "dodgePerAgility": 0.5,
+    "aloneDamageMultiplier": 0.8
+  },
+  "dragon": {
+    "baseHp": 45,
+    "hpPerScale": 6,
+    "hpPerLevel": 4,
+    "defensePerScale": 0.5,
+    "accuracyPerSwift": 1,
+    "dodgePerSwift": 1
+  },
+  "defend": {
+    "damageTakenMultiplier": 0.5,
+    "breathBonus": 10
+  },
+  "guard": {
+    "damageTakenMultiplier": 0.75
+  },
+  "breath": {
+    "max": 100,
+    "perRound": 20,
+    "perSpirit": 1,
+    "onDealDamage": 5,
+    "onTakeDamage": 5,
+    "statusChanceBase": 0.5,
+    "statusChancePerSpirit": 0.01
+  },
+  "flee": {
+    "base": 0.5,
+    "perPoint": 0.02,
+    "min": 0.2,
+    "max": 0.9
+  },
+  "riderMoves": {
+    "attack": {
+      "name": "Strike",
+      "base": 10
+    },
+    "spells": [
+      {
+        "id": "arc-bolt",
+        "name": "Arc Bolt",
+        "kind": "damage",
+        "base": 14,
+        "mp": 4
+      },
+      {
+        "id": "mend",
+        "name": "Mend",
+        "kind": "heal",
+        "base": 16,
+        "mp": 5
+      }
+    ]
+  },
+  "dragonMoves": {
+    "claw": {
+      "name": "Claw",
+      "base": 9
+    },
+    "breath": {
+      "name": "Breath",
+      "base": 24
+    }
+  },
+  "combos": [
+    {
+      "id": "tandem-strike",
+      "name": "Tandem Strike",
+      "bond": 20,
+      "base": 30,
+      "description": "Rider and dragon hit together. Uses both actions."
+    },
+    {
+      "id": "sky-dive",
+      "name": "Sky Dive",
+      "bond": 50,
+      "base": 42,
+      "description": "Rider leaps from the dragon's back. Uses both actions."
+    },
+    {
+      "id": "kindred-roar",
+      "name": "Kindred Roar",
+      "bond": 80,
+      "base": 55,
+      "description": "A roar in the dragon's element. Uses both actions."
+    }
+  ],
+  "bigAttackMultiplier": 1.8,
+  "levelDamageScale": 0.12
 }

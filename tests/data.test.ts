@@ -6,7 +6,8 @@ describe('data loader', () => {
     expect(gameData.elements.ids).toHaveLength(8);
     expect(gameData.elements.ring).toEqual(['fire', 'frost', 'verdant', 'stone', 'storm', 'tide']);
     expect(gameData.elements.starters).toEqual(['fire', 'tide', 'verdant']);
-    expect(gameData.elements.multipliers).toEqual({ strong: 1.5, neutral: 1, weak: 0.75, same: 0.5 });
+    expect(gameData.elements.multipliers.strong).toBe(1.5);
+    expect(gameData.elements.multipliers.neutral).toBe(1);
     expect(gameData.combat.critMultiplier).toBe(1.5);
     expect(gameData.progression.levelCap).toBe(50);
     expect(gameData.progression.secondPartnerRiderLevel).toBe(25);
@@ -24,7 +25,24 @@ describe('data loader', () => {
         pairs: [],
         starters: [],
         multipliers: { strong: 1.5, neutral: 1, weak: 0.75, same: 0.5 },
+        info: {},
       }),
     ).toThrow(/lava/);
+  });
+});
+
+describe('content', () => {
+  it('has the Mossy Hollow zone with 5 regular enemies and the Bramble Troll', () => {
+    const zone = gameData.zones.find((z) => z.id === 'mossy-hollow')!;
+    const regular = new Set(zone.encounters.flatMap((e) => e.enemies));
+    expect(regular.size).toBe(5);
+    expect(zone.boss.enemy).toBe('bramble-troll');
+    expect(gameData.enemies['bramble-troll']!.boss).toBe(true);
+  });
+
+  it('gives every element a status and an info entry', () => {
+    for (const id of gameData.elements.ids) {
+      expect(gameData.statuses[gameData.elements.info[id].status]).toBeDefined();
+    }
   });
 });

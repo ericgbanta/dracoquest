@@ -1,0 +1,7 @@
+{
+  "mealsPerDay": 3,
+  "bondPerMeal": 2,
+  "favoriteBondMultiplier": 2,
+  "groom": { "durationSeconds": 10, "bondBase": 1, "tapsPerBond": 5, "maxBond": 4, "targets": 3 },
+  "wellKept": { "xpBonus": 0.1, "fights": 5 }
+}

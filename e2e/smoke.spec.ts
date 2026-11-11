@@ -80,9 +80,9 @@ test('a bad import code shows an error and keeps the current save', async ({ pag
 
 test('a damaged save is not overwritten', async ({ page }) => {
   await page.goto('./');
-  await page.evaluate(() => localStorage.setItem('dracoquest.save', '{"version":1,"broken":true}'));
+  await page.evaluate(() => localStorage.setItem('dracoquest.save', '{"version":2,"broken":true}'));
   await page.reload();
   await expect(page.getByRole('alert')).toContainText('could not be read');
   const stored = await page.evaluate(() => localStorage.getItem('dracoquest.save'));
-  expect(stored).toBe('{"version":1,"broken":true}');
+  expect(stored).toBe('{"version":2,"broken":true}');
 });
