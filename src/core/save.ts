@@ -10,9 +10,10 @@ import { gameData } from './data';
 import { newRider } from './characters';
 import { freshCareDay, type CareDay } from './care';
 import type { RunState } from './run';
+import { newRoost, type RoostState } from './roost';
 import type { DragonState, ElementId, RiderState } from './types';
 
-export const CURRENT_VERSION = 3;
+export const CURRENT_VERSION = 4;
 export const SAVE_KEY = 'dracoquest.save';
 const CODE_PREFIX = 'DQ1:'; // Code format, not save version. The save inside carries its own version.
 
@@ -42,6 +43,13 @@ export interface SaveData {
   /** Eggs from bosses, waiting for the Hatchery. */
   eggs: ElementId[];
   questsDone: string[];
+  /** Rare currency from bosses and daily care streaks. */
+  embers: number;
+  /** The second battle partner (rider level 25+). */
+  secondDragonId: string | null;
+  roost: RoostState;
+  /** Days in a row with all care done. */
+  careStreak: { count: number; lastDay: string };
   stats: { fightsWon: number; fightsLost: number; runsCompleted: number };
   settings: Settings;
 }
@@ -96,6 +104,27 @@ export const MIGRATIONS: Record<number, Migration> = {
       questsDone: [],
     };
   },
+  // v3 (Phase 2) → v4 adds the Roost: buildings, embers, a second partner, per-dragon care, and temperament.
+  3: (save) => {
+    const care = (save.care ?? {}) as { day?: string; meals?: number; groomed?: boolean; rested?: boolean; wellKeptGiven?: boolean };
+    const day = typeof care.day === 'string' ? care.day : '';
+    const dragons = ((save.dragons as Record<string, unknown>[]) ?? []).map((d) => ({
+      ...d,
+      // Today's meals and grooming move onto the lead dragon, who was the only one cared for.
+      care: d.id === save.activeDragonId ? { day, meals: care.meals ?? 0, groomed: !!care.groomed } : { day: '', meals: 0, groomed: false },
+      assignment: { kind: 'idle' },
+      temper: { bold: 0, gentle: 0, clever: 0, proud: 0 },
+    }));
+    return {
+      ...save,
+      dragons,
+      care: { day, rested: !!care.rested, wellKeptGiven: !!care.wellKeptGiven },
+      embers: 0,
+      secondDragonId: null,
+      roost: newRoost(typeof save.updatedAt === 'number' ? save.updatedAt : 0),
+      careStreak: { count: 0, lastDay: '' },
+    };
+  },
 };
 
 export function newSave(now: number): SaveData {
@@ -115,6 +144,10 @@ export function newSave(now: number): SaveData {
     bossesDefeated: [],
     eggs: [],
     questsDone: [],
+    embers: 0,
+    secondDragonId: null,
+    roost: newRoost(now),
+    careStreak: { count: 0, lastDay: '' },
     stats: { fightsWon: 0, fightsLost: 0, runsCompleted: 0 },
     settings: { sound: false, fastBattles: false },
   };
@@ -165,7 +198,7 @@ export function validateSave(raw: Record<string, unknown>): SaveData {
   if (!Array.isArray(raw.dragons)) fail('dragons missing');
   for (const d of raw.dragons as unknown[]) {
     if (!isObject(d) || typeof d.id !== 'string' || typeof d.level !== 'number' || !isObject(d.stats)
-      || !isObject(d.talents) || !isObject(d.equipment)) fail('dragon damaged');
+      || !isObject(d.talents) || !isObject(d.equipment) || !isObject(d.care) || !isObject(d.assignment) || !isObject(d.temper)) fail('dragon damaged');
   }
   if (raw.activeDragonId !== null && typeof raw.activeDragonId !== 'string') fail('active dragon damaged');
   if (!isObject(raw.care) || typeof raw.care.day !== 'string') fail('care missing');
@@ -173,6 +206,8 @@ export function validateSave(raw: Record<string, unknown>): SaveData {
   if (raw.run !== null && !isObject(raw.run)) fail('run damaged');
   if (!Array.isArray(raw.bossesDefeated)) fail('bosses missing');
   if (!Array.isArray(raw.eggs) || !Array.isArray(raw.questsDone)) fail('eggs or quests missing');
+  if (typeof raw.embers !== 'number' || !isObject(raw.roost) || !isObject(raw.careStreak)) fail('roost missing');
+  if (raw.secondDragonId !== null && typeof raw.secondDragonId !== 'string') fail('second partner damaged');
   if (!isObject(raw.stats)) fail('stats missing');
   if (!isObject(raw.settings)) fail('settings missing');
   const s = raw.settings as Record<string, unknown>;

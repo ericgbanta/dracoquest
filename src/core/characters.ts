@@ -3,7 +3,7 @@ import type { Rng } from './rng';
 import { bonusOf, dragonBonus, effectiveDragonStats, effectiveRiderStats, riderBonus } from './loadout';
 
 type RiderLike = Pick<RiderState, 'level' | 'stats'> & Partial<Pick<RiderState, 'equipment'>>;
-type DragonLike = Pick<DragonState, 'level' | 'stats'> & Partial<Pick<DragonState, 'equipment' | 'talents'>>;
+type DragonLike = Pick<DragonState, 'level' | 'stats'> & Partial<Pick<DragonState, 'equipment' | 'talents' | 'temper'>>;
 
 export function riderMaxHp(data: GameData, r: RiderLike): number {
   const c = data.combat.rider;
@@ -21,7 +21,7 @@ export function riderMaxMp(data: GameData, r: Omit<RiderLike, 'level'>): number 
 
 export function dragonMaxHp(data: GameData, d: DragonLike): number {
   const c = data.combat.dragon;
-  const full = { stats: d.stats, equipment: d.equipment ?? {}, talents: d.talents ?? {} };
+  const full = { stats: d.stats, equipment: d.equipment ?? {}, talents: d.talents ?? {}, temper: d.temper };
   const stats = effectiveDragonStats(data, full);
   return Math.round(c.baseHp + c.hpPerScale * stats.scale + c.hpPerLevel * (d.level - 1) + bonusOf(dragonBonus(data, full), 'dragonHp'));
 }
@@ -83,6 +83,9 @@ export function hatchDragon(data: GameData, rng: Rng, opts: HatchOptions): Drago
     talents: {},
     freeRespecsUsed: 0,
     equipment: {},
+    care: { day: '', meals: 0, groomed: false },
+    assignment: { kind: 'idle' },
+    temper: { bold: 0, gentle: 0, clever: 0, proud: 0 },
   };
   return { ...dragon, hp: dragonMaxHp(data, dragon) };
 }

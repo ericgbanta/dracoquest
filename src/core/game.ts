@@ -6,11 +6,15 @@ import { createRng, type Rng } from './rng';
 import { createBattle, resolveRound, type BattleEvent, type Orders, type Outcome } from './battle';
 import { dragonMaxHp, hatchDragon, restoreDragon, restoreRider, riderMaxHp, riderMaxMp } from './characters';
 import { careFor, checkWellKept, feed, groom, type FeedResult } from './care';
+import {
+  addTemper, availableTrips, buildingLevel, collectPantry, hatcherySlotsFree, incubate, nestSlots, previousDay, rollTripLoot,
+  tickPantry, trainingHours, trainingXp, tripById, upgradeCost, type TripLoot,
+} from './roost';
 import { addBond, allocateDragon, allocateRider, dragonLevelCap, giveDragonXp, giveRiderXp } from './progression';
 import { dragonBonus, gearItem, learnTalent as learn, respecCost } from './loadout';
 import { getZone, planQuest, planRun, rollRewards, type FightKind, type Rewards } from './run';
 import type { SaveData } from './save';
-import type { DragonSlot, DragonState, DragonStat, ElementId, GameData, GearSlot, RiderSlot, RiderStat, StageData, ZoneData } from './types';
+import type { BuildingId, DragonSlot, DragonState, DragonStat, ElementId, GameData, GearSlot, RiderSlot, RiderStat, StageData, ZoneData } from './types';
 import { DRAGON_SLOTS } from './types';
 
 export class GameError extends Error {}
@@ -30,8 +34,18 @@ function replaceDragon(save: SaveData, dragon: DragonState): SaveData {
   return { ...save, dragons: save.dragons.map((d) => (d.id === dragon.id ? dragon : d)) };
 }
 
-function requireDragon(save: SaveData): DragonState {
-  const d = activeDragon(save);
+/** The second battle partner, if one is set. */
+export function secondDragon(save: SaveData): DragonState | null {
+  return save.secondDragonId ? save.dragons.find((d) => d.id === save.secondDragonId) ?? null : null;
+}
+
+export function isPartner(save: SaveData, id: string): boolean {
+  return id === save.activeDragonId || id === save.secondDragonId;
+}
+
+/** A dragon by id, or the lead partner when no id is given. */
+function requireDragon(save: SaveData, id?: string): DragonState {
+  const d = id ? save.dragons.find((x) => x.id === id) : activeDragon(save);
   if (!d) throw new GameError('No dragon yet');
   return d;
 }
@@ -62,36 +76,50 @@ export function hatchEgg(
     hatchDragon(data, rng, { id: `dragon-${now.toString(36)}`, name, element: egg.element, colors, now }),
   );
   const dragon = r.value;
-  return { ...r.save, egg: null, dragons: [...r.save.dragons, dragon], activeDragonId: dragon.id };
+  if (save.dragons.length >= nestSlots(data, save.roost)) throw new GameError('The Nest is full. Upgrade it for more room.');
+  // A new dragon joins the Nest. It only becomes the lead if it's the first.
+  return { ...r.save, egg: null, dragons: [...r.save.dragons, dragon], activeDragonId: save.activeDragonId ?? dragon.id };
 }
 
 // ---------- Care ----------
 
-export function feedDragon(data: GameData, save: SaveData, foodId: string, today: string): { save: SaveData; result: FeedResult } {
-  const dragon = requireDragon(save);
+export function feedDragon(data: GameData, save: SaveData, foodId: string, today: string, dragonId?: string): { save: SaveData; result: FeedResult } {
+  const dragon = requireDragon(save, dragonId);
   if ((save.rider.inventory[foodId] ?? 0) <= 0) throw new GameError('You have none of that food. Buy some in town.');
-  const result = feed(data, dragon, careFor(save.care, today), foodId);
+  const result = feed(data, dragon, foodId, today);
+  result.dragon = addTemper(data, result.dragon, 'care');
   const inventory = { ...save.rider.inventory, [foodId]: (save.rider.inventory[foodId] ?? 0) - 1 };
-  const next = { ...replaceDragon(save, result.dragon), care: result.care, rider: { ...save.rider, inventory } };
-  return { save: grantWellKept(data, next), result };
+  const next = { ...replaceDragon(save, result.dragon), rider: { ...save.rider, inventory } };
+  return { save: grantWellKept(data, next, today), result };
 }
 
-export function groomDragon(data: GameData, save: SaveData, taps: number, today: string): { save: SaveData; bondGained: number } {
-  const dragon = requireDragon(save);
-  const r = groom(data, dragon, careFor(save.care, today), taps);
-  return { save: grantWellKept(data, { ...replaceDragon(save, r.dragon), care: r.care }), bondGained: r.bondGained };
+export function groomDragon(data: GameData, save: SaveData, taps: number, today: string, dragonId?: string): { save: SaveData; bondGained: number } {
+  const dragon = requireDragon(save, dragonId);
+  const r = groom(data, dragon, taps, today);
+  return { save: grantWellKept(data, replaceDragon(save, addTemper(data, r.dragon, 'groom')), today), bondGained: r.bondGained };
 }
 
 export function rest(data: GameData, save: SaveData, today: string): SaveData {
   if (save.run) throw new GameError('You cannot rest during a run');
   const care = { ...careFor(save.care, today), rested: true };
   const dragons = save.dragons.map((d) => restoreDragon(data, d));
-  return grantWellKept(data, { ...save, rider: restoreRider(data, save.rider), dragons, care });
+  return grantWellKept(data, { ...save, rider: restoreRider(data, save.rider), dragons, care }, today);
 }
 
-function grantWellKept(data: GameData, save: SaveData): SaveData {
-  const r = checkWellKept(data, save.care);
-  return { ...save, care: r.care, wellKeptFights: save.wellKeptFights + r.fights };
+/** Grant Well kept once a day when all care is done, plus embers for keeping a daily streak. */
+function grantWellKept(data: GameData, save: SaveData, today: string): SaveData {
+  const r = checkWellKept(data, careFor(save.care, today), save.dragons, today);
+  if (r.fights === 0) return { ...save, care: careFor(save.care, today) };
+  const e = data.roost.embers;
+  const streak = save.careStreak.lastDay === previousDay(today) ? save.careStreak.count + 1 : 1;
+  const bonus = streak % e.streakBonusEvery === 0 ? e.streakBonus : 0;
+  return {
+    ...save,
+    care: r.care,
+    wellKeptFights: save.wellKeptFights + r.fights,
+    embers: save.embers + e.wellKeptDay + bonus,
+    careStreak: { count: streak, lastDay: today },
+  };
 }
 
 // ---------- Stat points ----------
@@ -100,8 +128,8 @@ export function spendRiderPoint(save: SaveData, stat: RiderStat): SaveData {
   return { ...save, rider: allocateRider(save.rider, stat) };
 }
 
-export function spendDragonPoint(save: SaveData, stat: DragonStat): SaveData {
-  return replaceDragon(save, allocateDragon(requireDragon(save), stat));
+export function spendDragonPoint(save: SaveData, stat: DragonStat, dragonId?: string): SaveData {
+  return replaceDragon(save, allocateDragon(requireDragon(save, dragonId), stat));
 }
 
 // ---------- Zone runs ----------
@@ -145,6 +173,7 @@ export function startFight(data: GameData, save: SaveData, opts: { ride?: boolea
   const battle = createBattle(data, {
     rider: save.rider,
     dragon: activeDragon(save),
+    second: secondDragon(save),
     enemies: plan.enemies,
     seed: r.value,
     canFlee: plan.kind !== 'boss',
@@ -165,6 +194,7 @@ export interface FightReport {
   /** Set when a growth quest finished and the dragon grew. */
   grewTo?: string;
   egg?: ElementId;
+  embers?: number;
 }
 
 export interface RoundReport { save: SaveData; events: BattleEvent[]; report: FightReport | null }
@@ -194,6 +224,9 @@ function finishFight(data: GameData, save: SaveData): { save: SaveData; report: 
     rider.hp = Math.round(battle.ride.riderMaxHp * frac);
     if (dragon) dragon = { ...dragon, hp: Math.round(battle.ride.dragonMaxHp * frac) };
   } else if (dragon) dragon = { ...dragon, hp: battle.dragon ? battle.dragon.hp : 0 };
+  let second = secondDragon(save);
+  if (second && battle.second) second = { ...second, hp: battle.second.fighter.hp };
+  if (dragon && battle.skillUses > 0) dragon = addTemper(data, dragon, 'skill', battle.skillUses);
 
   const bestiary = { ...save.bestiary };
   for (const f of battle.enemies) {
@@ -250,6 +283,21 @@ function finishFight(data: GameData, save: SaveData): { save: SaveData; report: 
         dragon = addBond(data, dragon, plan.kind === 'boss' ? data.progression.bond.perBossWin : data.progression.bond.perWin);
         report.bondGained = dragon.bond - before;
       }
+      dragon = addTemper(data, dragon, plan.kind === 'boss' ? 'bossWon' : 'fightWon');
+    }
+    // The second partner shares the XP too.
+    if (second && battle.second) {
+      second = giveDragonXp(data, second, rewards.xp).state;
+      if (battle.second.fighter.hp > 0) {
+        second = addBond(data, second, plan.kind === 'boss' ? data.progression.bond.perBossWin : data.progression.bond.perWin);
+      }
+      second = addTemper(data, second, plan.kind === 'boss' ? 'bossWon' : 'fightWon');
+    }
+    if (plan.kind === 'boss') {
+      const first = !save.bossesDefeated.includes(run.zoneId);
+      const embers = first ? data.roost.embers.bossFirstKill : data.roost.embers.bossRepeat;
+      report.embers = embers;
+      next = { ...next, embers: next.embers + embers };
     }
 
     const index = run.index + 1;
@@ -286,6 +334,7 @@ function finishFight(data: GameData, save: SaveData): { save: SaveData; report: 
 
   next = { ...next, rider };
   if (dragon) next = replaceDragon(next, dragon);
+  if (second) next = replaceDragon(next, second);
   return { save: next, report };
 }
 
@@ -346,12 +395,12 @@ export function growDragon(data: GameData, dragon: DragonState): DragonState {
 
 // ---------- Talents ----------
 
-export function learnDragonTalent(data: GameData, save: SaveData, talentId: string): SaveData {
-  return replaceDragon(save, learn(data, requireDragon(save), talentId));
+export function learnDragonTalent(data: GameData, save: SaveData, talentId: string, dragonId?: string): SaveData {
+  return replaceDragon(save, learn(data, requireDragon(save, dragonId), talentId));
 }
 
-export function respecTalents(data: GameData, save: SaveData): SaveData {
-  const d = requireDragon(save);
+export function respecTalents(data: GameData, save: SaveData, dragonId?: string): SaveData {
+  const d = requireDragon(save, dragonId);
   if (Object.keys(d.talents).length === 0) throw new GameError('No talents to reset');
   const cost = respecCost(data, d);
   if (save.rider.gold < cost) throw new GameError(`A respec costs ${cost} gold`);
@@ -397,11 +446,18 @@ export function buyItem(data: GameData, save: SaveData, id: string, count = 1): 
 
 export type EquipCheck = { ok: true } | { ok: false; reason: string };
 
-export function canEquip(data: GameData, save: SaveData, gearId: string): EquipCheck {
+/** Which dragon wears a piece of dragon gear, if any. */
+export function gearWearer(save: SaveData, gearId: string): DragonState | null {
+  return save.dragons.find((d) => Object.values(d.equipment).includes(gearId)) ?? null;
+}
+
+export function canEquip(data: GameData, save: SaveData, gearId: string, dragonId?: string): EquipCheck {
   const g = gearItem(data, gearId);
   if (!g || !save.rider.gear.includes(gearId)) return { ok: false, reason: 'You do not own that' };
   if (isDragonSlot(g.slot)) {
-    const d = activeDragon(save);
+    const d = dragonId ? save.dragons.find((x) => x.id === dragonId) : activeDragon(save);
+    const wearer = gearWearer(save, gearId);
+    if (wearer && wearer.id !== d?.id) return { ok: false, reason: `${wearer.name} is wearing it` };
     if (!d || stageIndex(data, d.stage) < stageIndex(data, 'adult')) return { ok: false, reason: 'Dragon gear needs an Adult dragon' };
     if (d.level < g.level) return { ok: false, reason: `Needs dragon level ${g.level}` };
   } else if (save.rider.level < g.level) {
@@ -410,24 +466,24 @@ export function canEquip(data: GameData, save: SaveData, gearId: string): EquipC
   return { ok: true };
 }
 
-export function equip(data: GameData, save: SaveData, gearId: string): SaveData {
+export function equip(data: GameData, save: SaveData, gearId: string, dragonId?: string): SaveData {
   if (save.run?.battle) throw new GameError('You cannot change gear mid-fight');
-  const check = canEquip(data, save, gearId);
+  const check = canEquip(data, save, gearId, dragonId);
   if (!check.ok) throw new GameError(check.reason);
   const g = gearItem(data, gearId)!;
   if (isDragonSlot(g.slot)) {
-    const d = requireDragon(save);
+    const d = requireDragon(save, dragonId);
     return replaceDragon(save, clampDragonHp(data, { ...d, equipment: { ...d.equipment, [g.slot]: gearId } }));
   }
   const rider = { ...save.rider, equipment: { ...save.rider.equipment, [g.slot as RiderSlot]: gearId } };
   return { ...save, rider: clampRiderHp(data, rider) };
 }
 
-export function unequip(data: GameData, save: SaveData, slot: GearSlot): SaveData {
+export function unequip(data: GameData, save: SaveData, slot: GearSlot, dragonId?: string): SaveData {
   if (save.run?.battle) throw new GameError('You cannot change gear mid-fight');
   if (slot === 'weapon') throw new GameError('You need a weapon');
   if (isDragonSlot(slot)) {
-    const d = requireDragon(save);
+    const d = requireDragon(save, dragonId);
     const equipment = { ...d.equipment };
     delete equipment[slot];
     return replaceDragon(save, clampDragonHp(data, { ...d, equipment }));
@@ -443,4 +499,149 @@ function clampRiderHp(data: GameData, r: SaveData['rider']): SaveData['rider'] {
 
 function clampDragonHp(data: GameData, d: DragonState): DragonState {
   return { ...d, hp: Math.min(d.hp, dragonMaxHp(data, d)) };
+}
+
+// ---------- Partners ----------
+
+export function canHaveSecond(data: GameData, save: SaveData): boolean {
+  return save.rider.level >= data.progression.secondPartnerRiderLevel;
+}
+
+function freeForBattle(save: SaveData, id: string): DragonState {
+  const d = requireDragon(save, id);
+  if (d.assignment.kind === 'expedition') throw new GameError(`${d.name} is away on an expedition`);
+  return d;
+}
+
+/** Make a dragon the lead partner. A training dragon stops training (and keeps what it earned). */
+export function setLead(data: GameData, save: SaveData, id: string, now: number): SaveData {
+  if (save.run) throw new GameError('Change partners at the Roost, not mid-run');
+  freeForBattle(save, id);
+  let s = stopTraining(data, save, id, now);
+  const second = s.secondDragonId === id ? s.activeDragonId : s.secondDragonId;
+  s = { ...s, activeDragonId: id, secondDragonId: second === id ? null : second };
+  return s;
+}
+
+/** Set or clear the second partner (rider level 25+). */
+export function setSecond(data: GameData, save: SaveData, id: string | null, now: number): SaveData {
+  if (save.run) throw new GameError('Change partners at the Roost, not mid-run');
+  if (id === null) return { ...save, secondDragonId: null };
+  if (!canHaveSecond(data, save)) throw new GameError(`A second partner joins at rider level ${data.progression.secondPartnerRiderLevel}`);
+  if (id === save.activeDragonId) throw new GameError('That dragon is already your lead');
+  freeForBattle(save, id);
+  return { ...stopTraining(data, save, id, now), secondDragonId: id };
+}
+
+// ---------- Roost buildings ----------
+
+export function upgradeBuilding(data: GameData, save: SaveData, b: BuildingId, now: number): SaveData {
+  const cost = upgradeCost(data, save.roost, b);
+  if (!cost) throw new GameError('Already at the top level');
+  if (save.rider.gold < cost.gold || save.embers < cost.embers) throw new GameError(`Needs ${cost.gold} gold and ${cost.embers} embers`);
+  // Bank pantry food at the old rate before the new level applies.
+  const roost = b === 'pantry' ? tickPantry(data, save.roost, now) : save.roost;
+  return {
+    ...save,
+    rider: { ...save.rider, gold: save.rider.gold - cost.gold },
+    embers: save.embers - cost.embers,
+    roost: { ...roost, levels: { ...roost.levels, [b]: roost.levels[b] + 1 } },
+  };
+}
+
+/** Bring timers up to now without collecting anything. Safe to call on every load. */
+export function refreshRoost(data: GameData, save: SaveData, now: number): SaveData {
+  return { ...save, roost: tickPantry(data, save.roost, now) };
+}
+
+export function collectFood(data: GameData, save: SaveData, now: number): { save: SaveData; food: string[] } {
+  const r = withRng(save, (rng) => collectPantry(data, save.roost, now, rng));
+  const inventory = { ...r.save.rider.inventory };
+  for (const f of r.value.food) inventory[f] = (inventory[f] ?? 0) + 1;
+  return { save: { ...r.save, roost: r.value.roost, rider: { ...r.save.rider, inventory } }, food: r.value.food };
+}
+
+// ---------- Hatchery ----------
+
+export function incubateEgg(data: GameData, save: SaveData, index: number, now: number): SaveData {
+  const element = save.eggs[index];
+  if (!element) throw new GameError('No such egg');
+  const cost = data.roost.buildings.hatchery.incubateEmbers;
+  if (save.embers < cost) throw new GameError(`Incubating costs ${cost} embers`);
+  if (hatcherySlotsFree(data, save.roost) <= 0) throw new GameError(buildingLevel(data, save.roost, 'hatchery') ? 'The Hatchery is full' : 'Build the Hatchery first');
+  const roost = incubate(data, save.roost, element, now);
+  return { ...save, roost, embers: save.embers - cost, eggs: save.eggs.filter((_, i) => i !== index) };
+}
+
+/** Take a ready egg out of the Hatchery. It moves to the naming step (save.egg), already warm. */
+export function takeHatchedEgg(data: GameData, save: SaveData, index: number, now: number): SaveData {
+  const egg = save.roost.hatchery.eggs[index];
+  if (!egg) throw new GameError('No such egg');
+  if (now < egg.readyAt) throw new GameError('Not ready yet');
+  if (save.egg) throw new GameError('Name your last hatchling first');
+  if (save.dragons.length >= nestSlots(data, save.roost)) throw new GameError('The Nest is full. Upgrade it for more room.');
+  const eggs = save.roost.hatchery.eggs.filter((_, i) => i !== index);
+  return { ...save, egg: { element: egg.element, warmth: data.dragons.hatchTaps }, roost: { ...save.roost, hatchery: { eggs } } };
+}
+
+// ---------- Training Yard ----------
+
+export function startTraining(data: GameData, save: SaveData, id: string, now: number): SaveData {
+  if (!buildingLevel(data, save.roost, 'training')) throw new GameError('Build the Training Yard first');
+  if (isPartner(save, id)) throw new GameError('Battle partners train by fighting. Bench this dragon first.');
+  const d = requireDragon(save, id);
+  if (d.assignment.kind !== 'idle') throw new GameError(`${d.name} is busy`);
+  return replaceDragon(save, { ...d, assignment: { kind: 'training', since: now } });
+}
+
+/** Collect training XP and stop training. Does nothing if the dragon isn't training. */
+export function stopTraining(data: GameData, save: SaveData, id: string, now: number): SaveData {
+  const d = requireDragon(save, id);
+  if (d.assignment.kind !== 'training') return save;
+  const hours = trainingHours(data, save.roost, d.assignment.since, now);
+  const xp = trainingXp(data, save.roost, d, d.assignment.since, now);
+  let next = giveDragonXp(data, d, xp).state;
+  next = addTemper(data, next, 'training', Math.floor(hours / 4));
+  return replaceDragon(save, { ...next, assignment: { kind: 'idle' } });
+}
+
+/** Collect training XP so far and keep training. */
+export function collectTraining(data: GameData, save: SaveData, id: string, now: number): { save: SaveData; xp: number } {
+  const d = requireDragon(save, id);
+  if (d.assignment.kind !== 'training') throw new GameError(`${d.name} isn't training`);
+  const xp = trainingXp(data, save.roost, d, d.assignment.since, now);
+  const s = stopTraining(data, save, id, now);
+  const after = requireDragon(s, id);
+  return { save: replaceDragon(s, { ...after, assignment: { kind: 'training', since: now } }), xp };
+}
+
+// ---------- Expedition Board ----------
+
+export function startExpedition(data: GameData, save: SaveData, id: string, tripId: string, now: number): SaveData {
+  if (isPartner(save, id)) throw new GameError('Battle partners stay home. Bench this dragon first.');
+  const d = requireDragon(save, id);
+  if (d.assignment.kind !== 'idle') throw new GameError(`${d.name} is busy`);
+  const trip = tripById(data, tripId);
+  if (!trip || !availableTrips(data, save.roost, d).some((t) => t.id === tripId)) throw new GameError('That trip is not available');
+  const endsAt = now + trip.hours * 60 * 60 * 1000;
+  return replaceDragon(save, { ...d, assignment: { kind: 'expedition', trip: tripId, startedAt: now, endsAt } });
+}
+
+export function collectExpedition(data: GameData, save: SaveData, id: string, now: number): { save: SaveData; loot: TripLoot } {
+  const d = requireDragon(save, id);
+  const a = d.assignment;
+  if (a.kind !== 'expedition') throw new GameError(`${d.name} isn't on an expedition`);
+  if (now < a.endsAt) throw new GameError(`${d.name} is still away`);
+  const r = withRng(save, (rng) => rollTripLoot(data, save.roost, a.trip, d, rng));
+  const loot = r.value;
+  const inventory = { ...r.save.rider.inventory };
+  for (const f of loot.food) inventory[f] = (inventory[f] ?? 0) + 1;
+  let dragon = giveDragonXp(data, d, loot.xp).state;
+  dragon = addTemper(data, { ...dragon, assignment: { kind: 'idle' } }, 'expedition');
+  const next = {
+    ...r.save,
+    rider: { ...r.save.rider, gold: r.save.rider.gold + loot.gold, inventory },
+    embers: r.save.embers + loot.embers,
+  };
+  return { save: replaceDragon(next, dragon), loot };
 }

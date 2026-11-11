@@ -1,6 +1,38 @@
 [
-  { "id": "river-trout", "name": "River Trout", "icon": "🐟", "statPoints": 1, "price": 10 },
-  { "id": "sweetroot", "name": "Sweetroot", "icon": "🥕", "statPoints": 1, "price": 10 },
-  { "id": "char-pepper", "name": "Char Pepper", "icon": "🌶", "statPoints": 1, "price": 10 },
-  { "id": "mossberry-tart", "name": "Mossberry Tart", "icon": "🥧", "statPoints": 1, "price": 10 }
+  {
+    "id": "river-trout",
+    "name": "River Trout",
+    "icon": "\ud83d\udc1f",
+    "statPoints": 1,
+    "price": 10
+  },
+  {
+    "id": "sweetroot",
+    "name": "Sweetroot",
+    "icon": "\ud83e\udd55",
+    "statPoints": 1,
+    "price": 10
+  },
+  {
+    "id": "char-pepper",
+    "name": "Char Pepper",
+    "icon": "\ud83c\udf36",
+    "statPoints": 1,
+    "price": 10
+  },
+  {
+    "id": "mossberry-tart",
+    "name": "Mossberry Tart",
+    "icon": "\ud83e\udd67",
+    "statPoints": 1,
+    "price": 10
+  },
+  {
+    "id": "sunfruit",
+    "name": "Sunfruit",
+    "icon": "\ud83c\udf51",
+    "statPoints": 2,
+    "price": 60,
+    "premium": true
+  }
 ]

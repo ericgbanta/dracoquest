@@ -16,9 +16,10 @@ import gearJson from '../data/gear.json';
 import talentsJson from '../data/talents.json';
 import questsJson from '../data/quests.json';
 import shopJson from '../data/shop.json';
+import roostJson from '../data/roost.json';
 import type {
   CombatData, ElementsData, EnemyData, GameData, GearData, ItemData, ProgressionData, QuestData, ShopData, StatusData, StatusId,
-  TalentsData, ZoneData,
+  RoostData, TalentsData, ZoneData,
 } from './types';
 
 export type * from './types';
@@ -77,7 +78,7 @@ export function validateProgression(raw: unknown): ProgressionData {
 export interface RawData {
   elements: unknown; combat: unknown; statuses: unknown; progression: unknown; dragons: unknown;
   care: unknown; foods: unknown; items: unknown; enemies: unknown; zones: unknown;
-  gear: unknown; talents: unknown; quests: unknown; shop: unknown;
+  gear: unknown; talents: unknown; quests: unknown; shop: unknown; roost: unknown;
 }
 
 export function loadGameData(raw: RawData): GameData {
@@ -173,7 +174,16 @@ export function loadGameData(raw: RawData): GameData {
     talents,
     quests,
     shop,
+    roost: validateRoost(raw.roost, foodIds),
   };
+}
+
+function validateRoost(raw: unknown, foodIds: Set<string>): RoostData {
+  const r = raw as RoostData;
+  if (!r?.buildings?.nest || !Array.isArray(r.trips)) throw new DataError('roost: missing buildings or trips');
+  if (!foodIds.has(r.premiumFood)) throw new DataError('roost.premiumFood: unknown food');
+  for (const t of r.trips) requireNumbers(`roost.trips.${t.id}`, t, ['hours', 'minLevel', 'food', 'emberChance']);
+  return r;
 }
 
 /** The game's data, validated once at startup. */
@@ -192,4 +202,5 @@ export const gameData: GameData = loadGameData({
   talents: talentsJson,
   quests: questsJson,
   shop: shopJson,
+  roost: roostJson,
 });

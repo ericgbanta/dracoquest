@@ -6,6 +6,7 @@ import type {
   Bonus, BonusKey, DragonState, DragonStats, GameData, GearData, RiderState, RiderStats, TalentData, TalentTree,
 } from './types';
 import { DRAGON_STATS, RIDER_STATS } from './types';
+import { temperament } from './roost';
 
 export function addBonus(into: Bonus, add: Bonus | undefined, times = 1): Bonus {
   if (!add) return into;
@@ -25,8 +26,10 @@ export function riderBonus(data: GameData, rider: Pick<RiderState, 'equipment'>)
   return b;
 }
 
-export function dragonBonus(data: GameData, dragon: Pick<DragonState, 'equipment' | 'talents'>): Bonus {
+export function dragonBonus(data: GameData, dragon: Pick<DragonState, 'equipment' | 'talents'> & Partial<Pick<DragonState, 'temper'>>): Bonus {
   const b: Bonus = {};
+  const temper = temperament(data, dragon);
+  if (temper) addBonus(b, data.roost.temperament.types[temper].bonus);
   for (const id of Object.values(dragon.equipment ?? {})) addBonus(b, gearItem(data, id)?.bonus);
   for (const [id, rank] of Object.entries(dragon.talents ?? {})) addBonus(b, talentById(data, id)?.bonusPerRank, rank);
   return b;
@@ -39,7 +42,7 @@ export function effectiveRiderStats(data: GameData, rider: Pick<RiderState, 'sta
   return out;
 }
 
-export function effectiveDragonStats(data: GameData, dragon: Pick<DragonState, 'stats' | 'equipment' | 'talents'>): DragonStats {
+export function effectiveDragonStats(data: GameData, dragon: Pick<DragonState, 'stats' | 'equipment' | 'talents'> & Partial<Pick<DragonState, 'temper'>>): DragonStats {
   const b = dragonBonus(data, dragon);
   const out = { ...dragon.stats };
   for (const k of DRAGON_STATS) out[k] += bonusOf(b, k);

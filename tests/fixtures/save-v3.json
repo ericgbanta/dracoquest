@@ -1,0 +1,92 @@
+{
+ "version": 3,
+ "createdAt": 1794355200000,
+ "updatedAt": 1794355200000,
+ "seed": 1487020466,
+ "rider": {
+  "name": "Keeper",
+  "level": 15,
+  "xp": 0,
+  "statPoints": 0,
+  "stats": {
+   "strength": 19,
+   "agility": 5,
+   "arcana": 17,
+   "vigor": 18
+  },
+  "hp": 238,
+  "mp": 46,
+  "gold": 2500,
+  "inventory": {
+   "potion": 3,
+   "dragon-treat": 2,
+   "mana-tonic": 1,
+   "river-trout": 3,
+   "sweetroot": 3
+  },
+  "gear": [
+   "ash-blade",
+   "padded-vest"
+  ],
+  "equipment": {
+   "weapon": "ash-blade",
+   "armor": "padded-vest"
+  }
+ },
+ "dragons": [
+  {
+   "id": "dragon-mwbcr9c0",
+   "name": "Scorch",
+   "element": "fire",
+   "stage": "juvenile",
+   "level": 15,
+   "xp": 0,
+   "statPoints": 0,
+   "stats": {
+    "might": 24,
+    "scale": 18,
+    "swift": 5,
+    "spirit": 17
+   },
+   "hp": 209,
+   "bond": 45,
+   "colors": {
+    "primary": "#e8603c",
+    "secondary": "#f5e27a"
+   },
+   "favoriteFood": "river-trout",
+   "foodsTried": [],
+   "hatchedAt": 1794355200000,
+   "talents": {
+    "sharp-claws": 2,
+    "twin-claws": 1
+   },
+   "freeRespecsUsed": 0,
+   "equipment": {}
+  }
+ ],
+ "activeDragonId": "dragon-mwbcr9c0",
+ "egg": null,
+ "care": {
+  "day": "2026-11-11",
+  "meals": 2,
+  "groomed": true,
+  "rested": true,
+  "wellKeptGiven": false
+ },
+ "wellKeptFights": 0,
+ "bestiary": {},
+ "run": null,
+ "bossesDefeated": [],
+ "eggs": [],
+ "questsDone": [],
+ "stats": {
+  "fightsWon": 0,
+  "fightsLost": 0,
+  "runsCompleted": 0
+ },
+ "settings": {
+  "sound": false,
+  "fastBattles": true
+ }
+}

@@ -165,7 +165,9 @@ describe('life stages and growth quests', () => {
   it('grows a hatchling into a Juvenile by finishing First Flight', () => {
     let s = withDragon(rich(hatched(), 0, 9), { level: 9, xp: xpToNext(data.progression, 9) - 1, bond: 30 });
     s = { ...s, rider: { ...s.rider, hp: riderMaxHp(data, s.rider) } };
-    s = withDragon(s, { stage: 'hatchling', statPoints: 0, stats: { might: 20, scale: 20, swift: 15, spirit: 15 } });
+    s = withDragon(s, { stage: 'hatchling', statPoints: 0, stats: { might: 30, scale: 30, swift: 15, spirit: 15 } });
+    s = { ...s, rider: { ...s.rider, stats: { strength: 20, agility: 8, arcana: 15, vigor: 20 } } };
+    s = { ...s, rider: { ...s.rider, hp: riderMaxHp(data, s.rider) } };
     s = withDragon(s, { hp: dragonMaxHp(data, activeDragon(s)!) });
     s = startGrowthQuest(data, s);
     expect(s.run!.questId).toBe('first-flight');

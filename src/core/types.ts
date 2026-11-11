@@ -88,6 +88,29 @@ export interface QuestData {
   outro: DialogueLine[];
 }
 
+export type BuildingId = 'nest' | 'pantry' | 'hatchery' | 'training' | 'expeditions';
+export type TemperamentId = 'bold' | 'gentle' | 'clever' | 'proud';
+export interface Cost { gold: number; embers: number }
+
+export interface RoostData {
+  buildings: {
+    nest: { name: string; description: string; levels: { slots: number; cost: Cost | null }[] };
+    pantry: { name: string; description: string; levels: { minutesPerFood: number; store: number; premiumChance: number; cost: Cost | null }[] };
+    hatchery: { name: string; description: string; levels: { slots: number; hours: number; cost: Cost | null }[]; incubateEmbers: number };
+    training: { name: string; description: string; levels: { fightsPerHour: number; maxHours: number; cost: Cost | null }[] };
+    expeditions: { name: string; description: string; levels: { maxHours: number; lootMultiplier: number; cost: Cost | null }[] };
+  };
+  trips: { id: string; name: string; hours: number; minLevel: number; gold: [number, number]; food: number; emberChance: number; blurb: string }[];
+  premiumFood: string;
+  embers: { bossFirstKill: number; bossRepeat: number; wellKeptDay: number; streakBonusEvery: number; streakBonus: number };
+  temperament: {
+    settleAt: number;
+    points: Record<'fightWon' | 'bossWon' | 'care' | 'groom' | 'skill' | 'expedition' | 'training', number>;
+    types: Record<TemperamentId, { name: string; from: string; bonus: Bonus; passive: string; lines: string[] }>;
+  };
+  duoCombos: { id: string; name: string; bond: number; base: number; description: string }[];
+}
+
 export interface ShopData { stock: string[]; items: Record<string, number>; sellFraction: number }
 
 export interface ElementInfo { name: string; color: string; status: StatusId; symbol: string }
@@ -196,7 +219,7 @@ export interface CareData {
   wellKept: { xpBonus: number; fights: number };
 }
 
-export interface FoodData { id: string; name: string; icon: string; statPoints: number; price: number }
+export interface FoodData { id: string; name: string; icon: string; statPoints: number; price: number; premium?: boolean }
 
 export interface ItemData {
   id: string; name: string; icon: string; effect: 'healRider' | 'healDragon' | 'restoreMp'; fraction: number; description: string;
@@ -273,6 +296,7 @@ export interface GameData {
   talents: TalentsData;
   quests: Record<string, QuestData>;
   shop: ShopData;
+  roost: RoostData;
 }
 
 // ---- Persistent character state (lives in the save) ----
@@ -312,4 +336,17 @@ export interface DragonState {
   /** Free respecs used in the current life stage. */
   freeRespecsUsed: number;
   equipment: Partial<Record<DragonSlot, string>>;
+  /** Today's care for this dragon. */
+  care: DragonCare;
+  /** What the dragon is doing while not a battle partner. */
+  assignment: Assignment;
+  /** Temperament points earned by how the dragon is raised. */
+  temper: Record<TemperamentId, number>;
 }
+
+export interface DragonCare { day: string; meals: number; groomed: boolean }
+
+export type Assignment =
+  | { kind: 'idle' }
+  | { kind: 'training'; since: number }
+  | { kind: 'expedition'; trip: string; startedAt: number; endsAt: number };
