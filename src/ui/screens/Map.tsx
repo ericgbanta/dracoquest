@@ -8,7 +8,8 @@ import { EnemySprite } from '../Sprites';
 import { Scene, useBackdrop, useEnemyRig } from '../stage/Scene';
 import type { ElementId } from '../../core/types';
 import { href } from '../router';
-import { Gold, Icon } from '../Icon';
+import { Icon } from '../Icon';
+import { GoldButton } from '../Wallet';
 
 interface Props { save: SaveData; update(change: (s: SaveData) => SaveData): void }
 
@@ -17,7 +18,7 @@ export function MapScreen({ save, update }: Props) {
   const lowHp = save.rider.hp < riderMaxHp(data, save.rider) * 0.5;
   return (
     <section class="screen" aria-labelledby="screen-title">
-      <header class="screen-header"><h1 id="screen-title">Map</h1><span class="gold"><Gold amount={save.rider.gold} /></span></header>
+      <header class="screen-header"><h1 id="screen-title">Map</h1><span class="gold"><GoldButton amount={save.rider.gold} /></span></header>
       <a class="card town-card" href={href('town')} data-testid="go-town">
         <span class="care-icon" aria-hidden="true"><Icon name="town" fallback="🏘" size={32} /></span>
         <span><strong>Town</strong><span class="muted"> · Gear, potions, and dragon food</span></span>

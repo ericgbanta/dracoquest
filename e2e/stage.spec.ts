@@ -106,3 +106,70 @@ test('a dragon looks the same on every screen: no gray filter on its art', async
   await expect(page.locator('.sprite--rig img').first()).toBeVisible();
   expect(await filters()).toEqual(['none']);
 });
+
+test('gold and embers open a sheet that explains them', async ({ page }) => {
+  await loadFixture(page, 'juvenile.json');
+  await page.getByTestId('embers-info').tap();
+  await expect(page.getByTestId('embers-sheet')).toContainText('How to earn them');
+  await page.getByRole('button', { name: 'Close' }).tap();
+  await page.getByTestId('tab-map').tap();
+  await page.getByTestId('gold-info').tap();
+  await expect(page.getByTestId('gold-sheet')).toContainText('What it buys');
+  await page.getByRole('button', { name: 'Close' }).tap();
+  await page.getByTestId('tab-bag').tap();
+  await page.getByTestId('gold-info').tap();
+  await expect(page.getByTestId('gold-sheet')).toBeVisible();
+});
+
+/** Two partners against two enemies: the fixture's next fight, with a second enemy added. */
+async function twoOnTwo(page: Page) {
+  const { readFileSync } = await import('node:fs');
+  const save = JSON.parse(readFileSync('e2e/fixtures/two-partners-fight.json', 'utf8'));
+  const f = save.run.fights[save.run.index];
+  f.enemies = [{ enemyId: 'storm-roc', level: 20 }, { enemyId: 'thunder-goat', level: 20 }];
+  await page.goto('./');
+  await page.evaluate((s) => localStorage.setItem('dracoquest.save', s), JSON.stringify(save));
+  await page.goto('./#/roost');
+  await page.reload();
+  await page.getByTestId('next-fight').tap();
+  await expect(page.locator('[data-testid=stage]:not(.stage--loading)')).toBeVisible();
+}
+
+test('tapping an enemy plate shows its exact HP', async ({ page }) => {
+  await twoOnTwo(page);
+  const meter = page.locator('[data-plate=e1] [role=meter]');
+  const hp = await meter.getAttribute('aria-valuenow');
+  const max = await meter.getAttribute('aria-valuemax');
+  await page.getByTestId('plate-e1').tap();
+  await expect(page.getByTestId('fighter-details')).toContainText(`${hp}/${max}`);
+});
+
+test('the rider and the dragons can aim at different enemies', async ({ page }) => {
+  await twoOnTwo(page);
+  // Everyone starts on the first enemy; send the lead dragon at the second.
+  await expect(page.getByTestId('target-rider')).toContainText('Storm');
+  await expect(page.getByTestId('target-rider')).toContainText('Rider');
+  await page.getByTestId('target-dragon').tap();
+  await expect(page.getByTestId('target-dragon')).toContainText('Thunder');
+  await expect(page.getByTestId('target-rider')).toContainText('Storm');
+  await expect(page.getByTestId('enemy-e0')).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.getByTestId('enemy-e1')).toHaveAttribute('aria-pressed', 'true');
+  expect(await smallTargets(page)).toEqual([]);
+  // The order rows still fit a 375-wide phone with the target chips in them.
+  const overflow = await page.locator('.action-row').evaluateAll((rows) => rows.filter((r) => r.scrollWidth > r.clientWidth + 1).length);
+  expect(overflow).toBe(0);
+  await page.getByTestId('act-claw').tap();
+  await page.getByTestId('act2-guard').tap();
+  await page.getByTestId('go').tap();
+  await expect(page.locator('.results-title, [data-testid=go]:not([disabled])').first()).toBeVisible({ timeout: 20_000 });
+  await page.getByTestId('log').tap();
+  const log = (await page.getByTestId('log').textContent()) ?? '';
+  // The rider's weapon lands on (or misses) the Roc, the lead dragon's Claw on the Goat.
+  expect(log).toMatch(/Claw (hits|misses) Thunder Goat/);
+  expect(log).toMatch(/(hits|misses) Storm Roc/);
+  // Tapping an enemy on the stage aims everyone at it again.
+  if (await page.getByTestId('go').isVisible()) {
+    await page.getByTestId('enemy-e0').tap();
+    await expect(page.getByTestId('target-dragon')).toContainText('Storm');
+  }
+});

@@ -90,3 +90,18 @@ h1 { color: #f7e9c8; text-shadow: 0 2px 0 var(--panel-deep); }
 .care-icon .icon { width: 32px; height: 32px; }
 .status .icon, .intent .icon { width: 14px; height: 14px; }
 .plate .icon { width: 12px; height: 12px; vertical-align: -0.1em; }
+
+/* Tappable gold and ember counters, and their info sheets. */
+.money-button { font: inherit; color: var(--text); background: none; border: 2px solid transparent; border-radius: 10px; min-height: 44px; min-width: 44px; padding: 0 8px; cursor: pointer; }
+.money-button:active { border-color: var(--trim); }
+.wallet h3 { margin: 12px 0 4px; font-size: 1rem; color: #f2dfb4; }
+.wallet ul { margin: 0; padding-left: 20px; }
+.wallet li { margin: 4px 0; }
+.wallet-amount { display: flex; align-items: center; gap: 8px; font-size: 1.3rem; font-weight: 700; }
+
+/* The per-attacker target chip at the start of an order row. */
+.act--target { flex: 0 0 auto; min-width: 50px; max-width: 58px; padding: 2px; border-color: #8c5a5a; background: linear-gradient(#4a2f3f, #33242f); }
+.act--target .act-who { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.04em; color: #ffb1a3; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.act--target .act-sub { color: #f7e9c8; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.action-row:has(.act--target) { gap: 4px; }
+.action-row:has(.act--target) .act:not(.act--target) { font-size: 0.8rem; padding-left: 1px; padding-right: 1px; }

@@ -58,7 +58,8 @@ interface Props {
   battle: BattleState;
   zoneId: string;
   zoneElement: ElementId;
-  target: string;
+  /** The enemies being aimed at this round (one per attacker, so up to three ids, usually one). */
+  targets: string[];
   onTarget(id: string): void;
   onDetails(id: string): void;
   header: ComponentChildren;
@@ -79,7 +80,7 @@ function sized(place: Place, rig: Rig | null): Place {
 const marks = (f: Fighter) => f.statuses.map((s) => ({ id: s.id, icon: data.statuses[s.id].icon, turns: s.turns }));
 
 /** The battle stage for a real fight, plus the status strip with exact numbers under it. */
-export function BattleStage({ save, battle, zoneId, zoneElement, target, onTarget, onDetails, header, paused, stageRef }: Props) {
+export function BattleStage({ save, battle, zoneId, zoneElement, targets, onTarget, onDetails, header, paused, stageRef }: Props) {
   const lead = activeDragon(save);
   const two = battle.second ? secondDragon(save) : null;
   const ride = battle.mode === 'ride';
@@ -125,10 +126,12 @@ export function BattleStage({ save, battle, zoneId, zoneElement, target, onTarge
       fallback: <EnemySprite enemyId={enemyId} element={e.element ?? data.enemies[enemyId]?.element ?? 'stone'} size={120} plain />,
       name: battle.enemies.length > 1 ? e.name : `${e.name} · Lv ${e.level}`, hp: e.hp, maxHp: e.maxHp, facing: 'left', marks: marks(e),
       intent: intent ? { kind: intent.kind, icon: INTENTS[intent.kind].icon, text: `${INTENTS[intent.kind].label}: ${intent.name}`, big: intent.kind === 'big' } : undefined,
-      targeted: e.id === target && e.hp > 0, testid: `enemy-${e.id}`,
-      // First tap targets; tapping the target again opens its details.
-      onTap: () => (e.id === target ? onDetails(e.id) : onTarget(e.id)),
-      tapLabel: e.id === target ? `${e.name} details` : `Target ${e.name}`,
+      targeted: targets.includes(e.id) && e.hp > 0, testid: `enemy-${e.id}`,
+      // A tap aims every attacker at this enemy; tapping it again, once everyone is on it, opens its details.
+      onTap: () => (targets.every((t) => t === e.id) ? onDetails(e.id) : onTarget(e.id)),
+      tapLabel: targets.every((t) => t === e.id) ? `${e.name} details` : `Target ${e.name}`,
+      // Its plate (name, HP bar, next move) opens the details sheet with exact HP.
+      onPlate: () => onDetails(e.id),
     });
   });
 

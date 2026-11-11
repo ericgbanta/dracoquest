@@ -27,6 +27,8 @@ export interface StageFighter {
   intent?: { kind: string; icon: string; text: string; big?: boolean };
   targeted?: boolean;
   onTap?(): void;
+  /** Tapping the plate: enemies open their details (exact HP, weakness, next move). */
+  onPlate?(): void;
   /** Screen reader label for the tap, such as "Target Storm Roc". */
   tapLabel?: string;
   testid?: string;
@@ -166,6 +168,14 @@ function Plate({ f }: { f: StageFighter }) {
       {f.intent && <span class={`plate-intent intent${f.intent.big ? ' plate-intent--big' : ''}`}><Icon name={`intent-${f.intent.kind}`} fallback={f.intent.icon} /> {f.intent.text}</span>}
     </>
   );
+  if (f.onPlate) {
+    return (
+      <button type="button" class={`${cls} plate--button`} style={style} data-plate={f.id} onClick={f.onPlate}
+        aria-label={`${f.name}: ${Math.round(f.hp)} of ${f.maxHp} HP. Details`} data-testid={`plate-${f.id}`}>
+        {inner}
+      </button>
+    );
+  }
   return <div class={cls} style={style} data-plate={f.id}>{inner}</div>;
 }
 

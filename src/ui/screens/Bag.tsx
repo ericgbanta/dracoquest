@@ -10,7 +10,8 @@ import { Bar } from '../bits';
 import { Sheet } from '../Sheet';
 import { gearSummary } from './Town';
 import { href } from '../router';
-import { Gold, Icon } from '../Icon';
+import { Icon } from '../Icon';
+import { GoldButton } from '../Wallet';
 
 interface Props { save: SaveData; update(change: (s: SaveData) => SaveData): void }
 
@@ -59,7 +60,7 @@ export function Bag({ save, update }: Props) {
 
   return (
     <section class="screen" aria-labelledby="screen-title">
-      <header class="screen-header"><h1 id="screen-title">Bag</h1><span class="gold" data-testid="gold"><Gold amount={r.gold} /></span></header>
+      <header class="screen-header"><h1 id="screen-title">Bag</h1><span class="gold" data-testid="gold"><GoldButton amount={r.gold} /></span></header>
       <div class="card">
         <h2>{r.name} <span class="muted">· Rider level {r.level}</span></h2>
         <Bar kind="hp" value={r.hp} max={riderMaxHp(data, r)} label="HP" />

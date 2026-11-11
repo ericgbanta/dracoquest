@@ -90,6 +90,9 @@ button.scene-actor { cursor: pointer; }
   font: inherit; color: var(--text); text-align: left; margin: 0;
 }
 .plate--down { opacity: 0.5; }
+/* Enemy plates are buttons: a tap shows exact HP. 44 px tall to stay a fair tap target. */
+.plate--button { pointer-events: auto; min-height: 44px; display: flex; flex-direction: column; justify-content: center; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.plate--button:active { border-color: var(--trim, #d9a648); }
 .plate-marks { font-weight: 700; font-size: 11px; color: var(--muted); }
 .plate-name { display: block; font-size: 12px; font-weight: 800; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .plate-bar { display: block; height: 7px; border-radius: 4px; background: #0009; overflow: hidden; margin-top: 2px; }

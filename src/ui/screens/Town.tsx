@@ -8,6 +8,7 @@ import { href } from '../router';
 import { BackIcon } from '../icons';
 import { ElementBadge, formatBonus, todayKey } from '../bits';
 import { Gold, Icon } from '../Icon';
+import { GoldButton } from '../Wallet';
 
 interface Props { save: SaveData; update(change: (s: SaveData) => SaveData): void }
 
@@ -63,7 +64,7 @@ export function Town({ save, update }: Props) {
       <header class="screen-header">
         <a class="icon-button" href={href('map')} aria-label="Back to Map"><BackIcon /></a>
         <h1 id="screen-title">Town Shop</h1>
-        <span class="gold" data-testid="gold"><Gold amount={gold} /></span>
+        <span class="gold" data-testid="gold"><GoldButton amount={gold} /></span>
       </header>
       <p class="muted">The shopkeeper, a retired adventurer named Brindle, promises everything is "mostly new".</p>
       {event && <p class="notice notice--ok" data-testid="event-shop">{event.name} is on! Festival goods are in stock for a limited time.</p>}

@@ -15,7 +15,8 @@ import { Bar, ElementBadge, todayKey } from '../bits';
 import { Sheet } from '../Sheet';
 import { Groom } from './Groom';
 import { Buildings } from './Buildings';
-import { Embers, Icon } from '../Icon';
+import { Icon } from '../Icon';
+import { EmbersButton } from '../Wallet';
 
 interface Props { save: SaveData; update(change: (s: SaveData) => SaveData): void }
 
@@ -82,7 +83,7 @@ export function Roost({ save, update }: Props) {
     <section class="screen" aria-labelledby="screen-title">
       <header class="screen-header">
         <h1 id="screen-title">Roost</h1>
-        <span class="embers" title="Embers" data-testid="embers"><Embers amount={save.embers} /></span>
+        <span class="embers" data-testid="embers"><EmbersButton amount={save.embers} /></span>
         <a class="icon-button" href={href('settings')} aria-label="Settings" data-testid="open-settings"><GearIcon /></a>
       </header>
 

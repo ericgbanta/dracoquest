@@ -27,6 +27,8 @@ interface Props {
 type RiderPick = { type: 'attack' } | { type: 'spell'; spell: string; target: 'rider' | 'dragon' | 'enemy' } | { type: 'item'; item: string } | { type: 'defend' } | { type: 'flee' } | { type: 'ride'; move: string };
 type DragonPick = { type: 'claw' } | { type: 'breath' } | { type: 'guard' } | { type: 'combo'; combo: string } | { type: 'skill'; skill: string } | { type: 'duo'; combo: string };
 
+type Targets = { rider: string; dragon: string; second: string };
+
 interface Float { id: number; target: string; text: string; kind: 'dmg' | 'heal' | 'miss' | 'crit' }
 
 const sleep = (ms: number) => new Promise((r) => window.setTimeout(r, ms));
@@ -41,7 +43,9 @@ export function Battle({ save, update, onExit }: Props) {
   const [logOpen, setLogOpen] = useState(false);
   const [rider, setRider] = useState<RiderPick>({ type: 'attack' });
   const [dragonPick, setDragonPick] = useState<DragonPick>({ type: 'claw' });
-  const [target, setTarget] = useState('e0');
+  // Each attacker has its own target, so the rider and the dragons can split up.
+  const [targets, setTargets] = useState<Targets>({ rider: 'e0', dragon: 'e0', second: 'e0' });
+  const aimAll = (id: string) => setTargets({ rider: id, dragon: id, second: id });
   const [sheet, setSheet] = useState<'spell' | 'item' | 'skill' | 'skill2' | null>(null);
   const [secondPick, setSecondPick] = useState<DragonPick>({ type: 'claw' });
   const [lastPicks, setLastPicks] = useState<{ rider: RiderPick; dragon: DragonPick; second: DragonPick } | null>(null);
@@ -67,13 +71,22 @@ export function Battle({ save, update, onExit }: Props) {
       setSecondPick({ type: 'claw' });
       setLastPicks(null);
     }
-    setTarget(livingEnemies(live)[0]?.id ?? 'e0');
+    aimAll(livingEnemies(live)[0]?.id ?? 'e0');
   }, [battleKey]);
 
-  // Keep the target on a living enemy.
+  // Keep every target on a living enemy.
   useEffect(() => {
-    if (battle && !livingEnemies(battle).some((e) => e.id === target)) setTarget(livingEnemies(battle)[0]?.id ?? 'e0');
-  }, [battle, target]);
+    if (!battle) return;
+    const living = livingEnemies(battle).map((e) => e.id);
+    const first = living[0] ?? 'e0';
+    if ((Object.keys(targets) as (keyof Targets)[]).some((k) => !living.includes(targets[k]))) {
+      setTargets((t) => ({
+        rider: living.includes(t.rider) ? t.rider : first,
+        dragon: living.includes(t.dragon) ? t.dragon : first,
+        second: living.includes(t.second) ? t.second : first,
+      }));
+    }
+  }, [battle, targets]);
 
   if (!battle) {
     if (report) {
@@ -101,6 +114,7 @@ export function Battle({ save, update, onExit }: Props) {
 
   const toDragonOrder = (pick: DragonPick, which: 'lead' | 'second'): DragonOrder => {
     const full = which === 'lead' ? ready : ready2;
+    const target = which === 'lead' ? targets.dragon : targets.second;
     switch (pick.type) {
       case 'claw': return { type: 'claw', target };
       case 'breath': return full ? { type: 'breath', target } : { type: 'claw', target };
@@ -114,6 +128,7 @@ export function Battle({ save, update, onExit }: Props) {
   const buildOrders = (picks = { rider, dragon: dragonPick, second: secondPick }): Orders => {
     const rider = picks.rider;
     const dragonPick = picks.dragon;
+    const target = targets.rider;
     let r: RiderOrder;
     switch (rider.type) {
       case 'attack': r = { type: 'attack', target }; break;
@@ -246,6 +261,15 @@ export function Battle({ save, update, onExit }: Props) {
     <span key={f.id} class={`float float--${f.kind}`} aria-hidden="true">{f.text}</span>
   ));
 
+  const ride = battle.mode === 'ride';
+  // Targets that matter this round: the rider's, plus each dragon that is up and acting on its own.
+  const aimed = [...new Set([targets.rider, ...(!ride && dragonUp ? [targets.dragon] : []), ...(!ride && secondUp ? [targets.second] : [])])];
+  const split = livingEnemies(battle).length > 1;
+  /** The row's name, or, when the enemies can be split up, a chip with the row's name and its target. */
+  const rowHead = (who: keyof Targets, label: string, aims = true) => (split && aims ? (
+    <TargetChip battle={battle} current={targets[who]} label={label} disabled={playing} testid={`target-${who}`}
+      onPick={(id) => setTargets((t) => ({ ...t, [who]: id }))} />
+  ) : <span class="row-label">{label}</span>);
   const fightNo = (run?.index ?? 0) + 1;
   const totalFights = run?.fights.length ?? 1;
   const kind = run?.fights[run.index]?.kind;
@@ -268,8 +292,8 @@ export function Battle({ save, update, onExit }: Props) {
 
       <div class="enemies" data-count={battle.enemies.length}>
         {battle.enemies.map((e) => (
-          <EnemyCard key={e.id} enemy={e} battle={battle} save={save} targeted={e.id === target}
-            onTarget={() => e.hp > 0 && setTarget(e.id)} reg={reg(e.id)} floats={floatsFor(e.id)} />
+          <EnemyCard key={e.id} enemy={e} battle={battle} save={save} targeted={aimed.includes(e.id)}
+            onTarget={() => e.hp > 0 && aimAll(e.id)} reg={reg(e.id)} floats={floatsFor(e.id)} />
         ))}
       </div>
 
@@ -315,8 +339,8 @@ export function Battle({ save, update, onExit }: Props) {
 
         </>
       ) : (
-        <BattleStage save={save} battle={battle} zoneId={run?.zoneId ?? ''} zoneElement={zone?.element ?? 'stone'} target={target}
-          onTarget={(id) => setTarget(id)} onDetails={setDetail} paused={sheet !== null || detail !== null} stageRef={stageRef}
+        <BattleStage save={save} battle={battle} zoneId={run?.zoneId ?? ''} zoneElement={zone?.element ?? 'stone'} targets={aimed}
+          onTarget={aimAll} onDetails={setDetail} paused={sheet !== null || detail !== null} stageRef={stageRef}
           header={(
             <header class="battle-header stage-header">
         <span>{zone?.name} · {kind === 'boss' ? 'Boss' : kind === 'mini' ? 'Mini-boss' : `Fight ${fightNo}/${totalFights}`} · Round {battle.round}</span>
@@ -337,7 +361,7 @@ export function Battle({ save, update, onExit }: Props) {
       <div class="actions" aria-label="Orders">
         {battle.mode === 'ride' ? (
           <div class="action-row" role="group" aria-label="Mounted">
-            <span class="row-label">Ride</span>
+            {rowHead('rider', 'Ride')}
             {data.combat.ride.moves.map((m) => {
               const blocked = m.kind === 'breath' && !ready;
               return (
@@ -352,7 +376,7 @@ export function Battle({ save, update, onExit }: Props) {
         ) : (
         <>
         <div class={`action-row${comboPicked ? ' action-row--muted' : ''}`} role="group" aria-label="Rider">
-          <span class="row-label">Rider</span>
+          {rowHead('rider', 'Rider')}
           <Act label="Attack" on={rider.type === 'attack'} disabled={comboPicked || playing} onClick={() => setRider({ type: 'attack' })} testid="act-attack" />
           <Act label="Spell" on={rider.type === 'spell'} disabled={comboPicked || playing} onClick={() => setSheet('spell')} testid="act-spell"
             sub={rider.type === 'spell' ? data.combat.riderMoves.spells.find((s) => s.id === rider.spell)?.name : undefined} />
@@ -363,7 +387,7 @@ export function Battle({ save, update, onExit }: Props) {
         </div>
         {dragonUp ? (
           <div class="action-row" role="group" aria-label="Dragon">
-            <span class="row-label">Dragon</span>
+            {rowHead('dragon', 'Dragon')}
             <Act label="Claw" on={dragonPick.type === 'claw'} disabled={playing} onClick={() => setDragonPick({ type: 'claw' })} testid="act-claw" />
             <Act label="Breath" on={dragonPick.type === 'breath'} disabled={!ready || playing} onClick={() => setDragonPick({ type: 'breath' })}
               sub={ready ? 'Ready!' : `${Math.round((battle.breath / data.combat.breath.max) * 100)}%`} testid="act-breath" />
@@ -390,7 +414,7 @@ export function Battle({ save, update, onExit }: Props) {
         )}
         {secondUp && battle.second && (
           <div class={`action-row${duoPicked ? ' action-row--muted' : ''}`} role="group" aria-label="Second dragon">
-            <span class="row-label">{second2?.name.slice(0, 7) ?? '2nd'}</span>
+            {rowHead('second', second2?.name.slice(0, 7) ?? '2nd', !duoPicked)}
             <Act label="Claw" on={secondPick.type === 'claw'} disabled={playing || duoPicked} onClick={() => setSecondPick({ type: 'claw' })} testid="act2-claw" />
             <Act label="Breath" on={secondPick.type === 'breath'} disabled={!ready2 || playing || duoPicked} onClick={() => setSecondPick({ type: 'breath' })}
               sub={ready2 ? 'Ready!' : `${Math.round((battle.second.breath / data.combat.breath.max) * 100)}%`} testid="act2-breath" />
@@ -666,5 +690,25 @@ function FighterDetails({ id, battle, save, onClose }: { id: string; battle: Bat
         {enemy && <p class="muted">{enemy.flavor}</p>}
       </div>
     </Sheet>
+  );
+}
+
+/** Which enemy one attacker is aiming at. A tap moves it to the next living enemy. */
+function TargetChip({ battle, current, label, onPick, disabled, testid }: {
+  battle: BattleState; current: string; label: string; onPick(id: string): void; disabled?: boolean; testid: string;
+}) {
+  const living = livingEnemies(battle);
+  const i = Math.max(0, living.findIndex((e) => e.id === current));
+  const enemy = living[i];
+  if (!enemy) return null;
+  const twins = living.filter((e) => e.name === enemy.name).length > 1;
+  const short = `${enemy.name.split(' ')[0]!.slice(0, 7)}${twins ? ` ${enemy.id === 'e0' ? 'A' : 'B'}` : ''}`;
+  const next = living[(i + 1) % living.length]!;
+  return (
+    <button type="button" class="act act--target" disabled={disabled} onClick={() => onPick(next.id)} data-testid={testid}
+      aria-label={`${label} aims at ${enemy.name}. Tap to aim at ${next.name}.`}>
+      <span class="act-who">{label}</span>
+      <span class="act-sub"><span aria-hidden="true">◎ </span>{short}</span>
+    </button>
   );
 }
