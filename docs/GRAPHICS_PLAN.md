@@ -1,6 +1,6 @@
 # Graphics and battle overhaul: plan
 
-Written 2026-11-11 at Eric's request. Status: B0 done and checked on Eric's iPhone (see "B0 result" below). Next is B1. Read `docs/HANDOFF.md` first.
+Written 2026-11-11 at Eric's request. Status: B0 done and checked on Eric's iPhone. B1 built, not yet deployed (see "B1 result" below). Next is B2. Read `docs/HANDOFF.md` first.
 
 The request, in Eric's words: "I think we can implement AdventureQuest-like graphics. The battling especially needs a lot of touch up. We should have us (rider and dragons) on one side and enemy on the other. Let's step it up with the graphics please but also make sure it's performant."
 
@@ -72,6 +72,36 @@ Caveat on the bench: it counts frames with `requestAnimationFrame`, so it catche
 1. Does the art style work for you on the phone? Anything to change before it's used for 32 dragon looks and 49 enemies? (Answered: "It looks great!")
 2. Do the attacks feel too fast at 1x? The 300 ms rule could become, say, 450 ms for the action. (Answered: raise it to 450 ms.)
 3. The bench numbers from your iPhone, in Safari and as a Home Screen app: the "After 10 rounds" line from each. (Answered for Safari: 60 fps, 0.8% dropped, worst frame 61 ms.)
+
+## B1 result
+
+Built 2026-11-11, on top of the 450 ms beat change (G5).
+
+- The real battle now uses the stage. `src/ui/stage/BattleStage.tsx` turns the engine's battle state into stage fighters and draws the status strip. `src/ui/screens/Battle.tsx` keeps its round loop, orders and sheets.
+- Layouts in `src/data/stage.json`: one dragon (solo), two dragons (duo, the second partner standing behind and above the lead), Ride mode (the rider sits on the lead dragon at a saddle point), Ride mode with a second partner, and one or two enemies (the second one behind, higher and smaller).
+- Plates show the name, an HP bar, status marks (icon and turns left) and, for enemies, the next move. The status strip under the stage has the exact HP, MP and breath numbers, the Riding pill, and KO marks.
+- Tap an enemy to target it (a ring under its feet). Tap the target again, or tap the rider or a dragon, to open a details sheet: element, HP and MP, statuses, weakness (once fought), next move, and the enemy's flavor line.
+- Knocked-out party members fade to 40%. A defeated enemy fades out.
+- Art is loaded and decoded before the fighters show. A missing rig falls back to the old placeholder shape inside the same box. A zone without a painted backdrop gets a plain sky over ground tinted with the zone's element color. Only the Adult dragon, the rider, the Storm Roc and Thunderspire have real art so far (B3 draws the rest).
+- Each engine event gets a light reaction on the stage: the attacker bumps forward, the target flinches back, and the damage number pops. B2 replaces this with the full moves from the choreography table. The round loop's timing is unchanged until then.
+- Settings has a "Simple battle" switch that brings back the card layout. It's stored in the save, so the save is now version 6, with a migration and a fixture test (`tests/fixtures/save-v5.json`).
+- The bench (`#/dev/bench`) has a Scene button: 1 vs 1, or 2 vs 2 (two dragons, the rider and two Rocs), the busiest stage the game can show.
+- Tests: 130 unit tests (1 new, the v5 save fixture) and 33 phone tests (28 original, 5 for the stage). The original 28 kept their `data-testid` hooks. One test read the rider's HP through the old `.party .fighter` class; it now uses the `status-rider-hp` test id.
+
+Sandbox numbers (headless Chromium, CPU throttled 4x, 25 seconds of the bench): 1 vs 1 dropped 0 of 1,492 frames with 56 stage nodes; 2 vs 2 dropped 0 of 1,497 frames with 85 stage nodes, worst frame 33 ms. The game's first load grew from 70 to 84 kB of JavaScript gzipped, because the stage and its art now ship with the battle screen.
+
+### Calls made in B1 (Eric can overrule any of these)
+
+| Topic | Call |
+| --- | --- |
+| Details sheet | Opened by tapping a fighter (or tapping the targeted enemy again), not by tapping a plate. Plates big enough to be 44 px tap targets covered the back enemy and a second dragon on a 258 px tall stage. Plates are now display only and smaller. |
+| Two-enemy plates | Enemy names drop the level when two enemies share the stage, to fit; the level is in the details sheet. |
+| Save version | The Simple battle setting is stored in the save, which meant a change to `src/core/save.ts` (version 6). No game rules changed. |
+| Placeholders | Juvenile, Hatchling and Elder dragons, and every enemy except the Storm Roc, show their old placeholder shape until B3. |
+
+### Questions for Eric
+
+1. **Node budget.** The plan caps the stage at 60 DOM nodes. A one-dragon fight uses 56 to 59. Two dragons against one enemy use 74, and two against two use 85 to 87, because each dragon rig is about 14 nodes. In the sandbox the 2 vs 2 scene still dropped no frames under the 4x throttle. Should the cap rise to 90 for the busiest fights, or should rigs lose parts (for example, merging legs into the body) to get under 60? The bench's 2 vs 2 scene on your iPhone would settle it.
 
 ## Questions for Eric (answered)
 

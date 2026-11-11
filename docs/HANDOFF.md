@@ -20,7 +20,7 @@ Eric played the deployed game and said: "This is very good."
 
 ## What to work on next
 
-**Graphics and UI, starting with the battle screen.** Eric wants an AdventureQuest-style battle: the rider and dragons on one side, enemies on the other, on a painted stage, with real attack animations, and it has to stay fast on a phone. The research and a phased plan are in `docs/GRAPHICS_PLAN.md`. Eric has answered its questions (vector art, agents draw it, every phase B0 to B5, iPhone 17 Pro in Safari); they're in its "Decisions" table. Phase B0 is built and deployed: a mock battle at `#/dev/mock` and a bench at `#/dev/bench`, plus a draft style guide in `docs/ART_STYLE.md`. Eric checked it on his iPhone ("It looks great!"; bench 60 fps, 0.8% dropped), so B1 is next. See "B0 result" in `docs/GRAPHICS_PLAN.md`.
+**Graphics and UI, starting with the battle screen.** Eric wants an AdventureQuest-style battle: the rider and dragons on one side, enemies on the other, on a painted stage, with real attack animations, and it has to stay fast on a phone. The research and a phased plan are in `docs/GRAPHICS_PLAN.md`. Eric has answered its questions (vector art, agents draw it, every phase B0 to B5, iPhone 17 Pro in Safari); they're in its "Decisions" table. Phase B0 is built and deployed: a mock battle at `#/dev/mock` and a bench at `#/dev/bench`, plus a draft style guide in `docs/ART_STYLE.md`. Eric checked it on his iPhone ("It looks great!"; bench 60 fps, 0.8% dropped). B1 is built: the real battle now uses the stage. It isn't deployed yet. See "B1 result" in `docs/GRAPHICS_PLAN.md`, which ends with an open question about the stage node budget.
 
 After graphics, the open items below.
 
@@ -28,8 +28,7 @@ After graphics, the open items below.
 
 - **Real-phone check.** Phase 4's done criteria include passing the mobile UX rules on two real phones. Only Eric can do this.
 - **Element spreads.** Zone win rates average 70 to 85 percent across the three starters, but single starters dip: Tide in Thunderspire (about 60 percent, Storm beats Tide) and Verdant in Frostmere (about 52 percent, Frost beats Verdant). Eric hasn't said whether that's wanted. The fix would be data only (`src/data/enemies.json`).
-- **Placeholder art everywhere.** No real sprites exist. `src/art/assets.json` is empty and every sprite falls back to the code-drawn shapes in `src/ui/Sprites.tsx`.
-- **Landscape battle with two partners** truncates dragon names in the party cards. The graphics work replaces these cards anyway.
+- **Placeholder art in most places.** The battle stage has real art for the Adult dragon, the rider, the Storm Roc and Thunderspire. Everything else still falls back to the code-drawn shapes in `src/ui/Sprites.tsx` until B3.
 - **Cosmetics** (an ember sink in the design) don't exist yet.
 - **Late-game testing on the phone** takes many hours of play. A save code for a late-game character (Elder, two partners) would help Eric look at it; `e2e/make-fixtures.ts` already builds such saves.
 
@@ -50,7 +49,7 @@ These are in addition to the Decisions table in `docs/DESIGN.md`. Eric saw each 
 | Ride mode | Offered for boss fights with an Adult (or Elder) lead. One merged unit, four moves. |
 | Weapons | Melee scales with Strength, ranged with Agility, magic with Arcana. |
 | Events | Four seasonal events give a yearly gift and limited town stock. They don't change fights. |
-| Saves | Version 5. Each bump has a migration and a fixture test (`tests/fixtures/save-v1.json` to `save-v4.json`). |
+| Saves | Version 6 (B1 added `settings.simpleBattle`). Each bump has a migration and a fixture test (`tests/fixtures/save-v1.json` to `save-v5.json`). |
 | Battle speed | Eric raised the beat limit from 300 ms to 450 ms after seeing B0 (GRAPHICS_PLAN.md, G5). Timings are in `src/data/stage.json`. |
 | Offline | vite-plugin-pwa (Workbox), prompt-style updates: a "Reload" bar, never a forced reload mid-fight. |
 
@@ -67,14 +66,14 @@ src/core/      pure game logic, no DOM (CLAUDE.md)
 src/data/      every balance number and all content, as JSON
 src/ui/        Preact screens and pieces
   screens/Battle.tsx   the battle screen (the graphics work starts here)
-  stage/               B0 battle stage: Stage.tsx, rigs.ts (art loader), choreo.ts (attack beats)
+  stage/               battle stage: Stage.tsx, BattleStage.tsx (engine state to stage), rigs.ts (art loader), choreo.ts (beats)
   dev/                 hidden pages: #/dev/mock (mock battle), #/dev/bench (frame bench)
   Sprites.tsx          placeholder dragon and enemy art, and the manifest lookup
   art.ts               sprite manifest loader (lazy per sprite)
   pwa.ts sound.ts install.ts storage.ts useSave.ts router.ts bits.tsx styles.css
 src/art/       SVG rig parts, backdrops, effects, palette.json and assets.json
-tests/         Vitest unit tests (129), sim.ts (the balance simulator), save fixtures
-e2e/           Playwright phone tests (30), save fixtures and make-fixtures.ts
+tests/         Vitest unit tests (130), sim.ts (the balance simulator), save fixtures
+e2e/           Playwright phone tests (33), save fixtures and make-fixtures.ts
 scripts/       icons.mjs builds the Home Screen icons
 docs/          DESIGN.md, HANDOFF.md, GRAPHICS_PLAN.md, ART_STYLE.md
 ```
@@ -84,9 +83,9 @@ docs/          DESIGN.md, HANDOFF.md, GRAPHICS_PLAN.md, ART_STYLE.md
 | Command | What it does |
 | --- | --- |
 | `npm run dev` | Local dev server |
-| `npm run test` | Unit tests (129) |
+| `npm run test` | Unit tests (130) |
 | `npx tsc --noEmit` and `npm run lint` | Type check and lint. Lint blocks `Math.random` and browser globals in `src/core`. |
-| `npm run e2e` | Phone tests at 375 by 667 (30), about 75 seconds |
+| `npm run e2e` | Phone tests at 375 by 667 (33), about 75 seconds |
 | `npm run sim` | Balance sim: 1,000 runs per zone and level, plus campaigns from egg to level 50. Flags: `--runs`, `--campaigns`, `--zone`, `--no-campaign`, `--campaign-only`. The full run takes about 2.5 minutes. |
 | `npx tsx e2e/make-fixtures.ts` | Rebuilds the saves the phone tests load |
 | `npm run icons` | Rebuilds the Home Screen icons |
@@ -94,7 +93,7 @@ docs/          DESIGN.md, HANDOFF.md, GRAPHICS_PLAN.md, ART_STYLE.md
 
 ## Numbers to keep in mind
 
-- First load: 69 kB of JavaScript gzipped, 4.4 kB of CSS. The service worker precaches 327 kB in all.
+- First load: 84 kB of JavaScript gzipped (the battle stage and its art are part of it), 5.7 kB of CSS. The service worker precaches 399 kB in all.
 - A full egg-to-level-50 campaign in the sim takes about 800 fights, roughly 27 hours of play at 2 minutes a fight.
 - Content: 7 zones, 35 regular enemies, 7 mini-bosses, 7 bosses, 56 pieces of gear, 8 foods, 3 items, 40 talents, 3 growth quests, 6 expedition trips, 4 events.
 
