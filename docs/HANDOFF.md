@@ -94,7 +94,7 @@ docs/          DESIGN.md, HANDOFF.md, GRAPHICS_PLAN.md, ART_STYLE.md
 
 ## Numbers to keep in mind
 
-- First load: 84 kB of JavaScript gzipped (the battle stage and its art are part of it), 5.7 kB of CSS. The service worker precaches 399 kB in all.
+- First load: 148 kB of JavaScript gzipped, because all the SVG art (every rig, enemy, backdrop and egg) is bundled as text with the app so colors can be baked in. The service worker precaches 742 kB in all, under the plan's 1.5 MB art budget. Splitting the art per zone would cut the first load if it ever matters.
 - A full egg-to-level-50 campaign in the sim takes about 800 fights, roughly 27 hours of play at 2 minutes a fight.
 - Content: 7 zones, 35 regular enemies, 7 mini-bosses, 7 bosses, 56 pieces of gear, 8 foods, 3 items, 40 talents, 3 growth quests, 6 expedition trips, 4 events.
 
