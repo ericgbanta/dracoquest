@@ -147,7 +147,7 @@ button.scene-actor { cursor: pointer; }
 
 /* Portrait: the stage runs edge to edge. */
 .battle--stage .stage-box { margin: -8px -12px 0; }
-.battle--stage .log { min-height: 44px; max-height: 44px; }
+.battle--stage .log { min-height: 44px; }
 
 @media (orientation: landscape) and (max-height: 500px) {
   .battle--stage .battle-field { height: 100%; overflow: hidden; gap: 6px; }

@@ -329,7 +329,8 @@ a.button { text-decoration: none; display: inline-flex; align-items: center; jus
 .float--miss { color: var(--muted); }
 @keyframes float-up { to { transform: translate(-50%, -28px); opacity: 0; } }
 
-.log { font: inherit; text-align: left; width: 100%; min-height: 52px; max-height: 52px; overflow: hidden; background: #0004; color: var(--text); border: none; border-radius: 10px; padding: 6px 10px; font-size: 0.9rem; cursor: pointer; }
+/* Collapsed, the log shows its last two lines in full (they may wrap); open, it scrolls. */
+.log { font: inherit; text-align: left; width: 100%; min-height: 52px; background: #0004; color: var(--text); border: none; border-radius: 10px; padding: 6px 10px; font-size: 0.9rem; cursor: pointer; }
 .log--open { max-height: 40vh; overflow-y: auto; }
 .log-line { display: block; }
 

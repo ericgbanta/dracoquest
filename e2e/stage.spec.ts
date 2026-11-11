@@ -173,3 +173,26 @@ test('the rider and the dragons can aim at different enemies', async ({ page }) 
     await expect(page.getByTestId('target-dragon')).toContainText('Storm');
   }
 });
+
+test('the battle log shows its lines in full, and opens to the whole history', async ({ page }) => {
+  // Regression: the log box was pinned to 44 px, so the second line was cut off and it couldn't open.
+  await loadFixture(page, 'juvenile.json');
+  await page.getByTestId('tab-map').tap();
+  await page.getByTestId('start-mossy-hollow').tap();
+  // One round (the fixture's seed makes it the same every time) leaves the fight going with a full log.
+  await page.getByTestId('go').tap();
+  await expect(page.getByTestId('go')).toBeEnabled({ timeout: 20_000 });
+  const log = page.getByTestId('log');
+  const clipped = () => log.evaluate((el) => {
+    const box = el.getBoundingClientRect();
+    return [...el.querySelectorAll('.log-line')].filter((l) => l.getBoundingClientRect().bottom > box.bottom + 1).length;
+  });
+  await expect(log.locator('.log-line')).toHaveCount(2);
+  expect(await clipped()).toBe(0);
+  await log.tap();
+  await expect(log).toHaveAttribute('aria-expanded', 'true');
+  expect(await log.locator('.log-line').count()).toBeGreaterThan(2);
+  // Open, the history scrolls inside the box rather than spilling over the orders.
+  const scrolls = await log.evaluate((el) => getComputedStyle(el).overflowY);
+  expect(scrolls).toBe('auto');
+});
