@@ -47,13 +47,31 @@ function swingPart(f: HTMLElement | null, id: string, frames: Keyframe[], opts: 
   const own = part(f, id);
   if (own) { own.animate(frames, opts); return; }
   const share = (layout.onePiece as Record<string, number>)[id];
-  const body = part(f, 'body');
+  // Lean the group that holds every pose, so a swapped-in attack pose leans too.
+  const body = part(f, 'torso') ?? part(f, 'body');
   if (!share || !body) return;
   const leaned = frames.map((k) => ({
     ...k,
     transform: String(k.transform ?? '').replace(/rotate\((-?[\d.]+)deg\)/g, (_, d: string) => `rotate(${(Number(d) * share).toFixed(2)}deg)`),
   }));
   body.animate(leaned, opts);
+}
+
+/**
+ * Swap a one-piece sprite to its attack pose from `from` to `to` (ms into a move of `total` ms).
+ * Opacity only, in hard steps. Does nothing when the character has no attack pose.
+ */
+function strike(f: HTMLElement | null, from: number, to: number, total: number): void {
+  const pose = part(f, 'pose-attack');
+  const body = part(f, 'body');
+  if (!pose || !body) return;
+  const a = at(from, total);
+  const b = Math.max(a, at(to, total));
+  const steps = (on: number, off: number): Keyframe[] => [
+    { opacity: off, offset: 0, easing: 'steps(1, end)' }, { opacity: on, offset: a, easing: 'steps(1, end)' }, { opacity: off, offset: b }, { opacity: off, offset: 1 },
+  ];
+  pose.animate(steps(1, 0), { duration: total });
+  body.animate(steps(0, 1), { duration: total });
 }
 
 const speed = (o: { fast: boolean }) => (o.fast ? layout.fastFactor : 1);
@@ -274,6 +292,7 @@ export async function riderAttack(stage: HTMLElement, hit: HitInfo, opts: BeatOp
   const impact = windup + dash + swing;
   const dx = point(stage, target, 'front').x - point(stage, actor, 'front').x;
   const hitPt = point(stage, target, 'hit');
+  strike(actor, windup + dash * 0.7, impact + hold, total);
   actor.animate(
     [
       { transform: 'translateX(0)', offset: 0, easing: 'ease-in' },
@@ -312,6 +331,7 @@ export async function shoot(stage: HTMLElement, hit: HitInfo & { bolt: 'arrow' |
   const impact = draw + travel;
   const from = point(stage, actor, 'front');
   const to = point(stage, target, 'hit');
+  strike(actor, draw * 0.4, impact + hold, total);
   swingPart(actor, 'arm', 
     [
       { transform: 'rotate(0deg)' },
@@ -354,6 +374,7 @@ export async function claw(stage: HTMLElement, hit: HitInfo, opts: BeatOpts & { 
   const total = lunge + swipe + hold + back;
   const impact = lunge + swipe;
   const dx = (B.claw.reach / 100) * stage.clientWidth;
+  strike(actor, lunge * 0.6, impact + hold, total);
   actor.animate(
     [
       { transform: 'translateX(0)', easing: 'cubic-bezier(.3,0,.2,1)' },
@@ -394,6 +415,7 @@ export async function breath(stage: HTMLElement, hit: HitInfo, opts: BeatOpts): 
   const total = streamEnd + recover;
   const from = point(stage, actor, 'mouth');
   const to = point(stage, target, 'hit');
+  strike(actor, rear, streamEnd - travel * 0.4, total);
   swingPart(actor, 'head', 
     [
       { transform: 'rotate(0deg)', easing: 'ease-out' },
@@ -456,6 +478,7 @@ export async function lungeAt(stage: HTMLElement, hit: HitInfo, opts: BeatOpts):
   const gap = stage.clientWidth * 0.04 * -dir;
   const dx = point(stage, target, 'front').x - point(stage, actor, 'front').x + gap;
   const lean = stage.clientWidth * (hit.big ? 0.05 : 0.03) * -dir;
+  strike(actor, windup, impact + b.hold, total);
   actor.animate(
     [
       { transform: 'translate(0, 0)', easing: 'ease-out' },

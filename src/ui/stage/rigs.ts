@@ -16,6 +16,10 @@ export interface PartDef {
   pivot?: [number, number];
   anim?: string;
   parts?: PartDef[];
+  /** Where this image sits in the rig's box, as fractions (left, top, width, height). A second pose can reach outside the box. */
+  box?: [number, number, number, number];
+  /** This image's own tail tip spot, when it differs from the rig's (another pose). */
+  tip?: Omit<TipDef, 'file'>;
 }
 
 export interface RigDef {
@@ -34,7 +38,7 @@ export interface RigDef {
 export interface TipDef { file: string; at: [number, number]; width: number; rotate?: number }
 
 /** Player colors (and a tail tip) baked into a bitmap part at load. */
-interface BitmapTint { primary: string; secondary: string; tip?: { url: string; at: [number, number]; width: number; rotate: number } | undefined }
+export interface BitmapTint { primary: string; secondary: string; tip?: { url: string; at: [number, number]; width: number; rotate: number } | undefined }
 
 /** An enemy drawn from a shared body plan: its colors, size and extra parts. */
 export interface EnemyLook {
@@ -50,6 +54,7 @@ export interface Part {
   pivot: [number, number];
   anim?: string;
   parts: Part[];
+  box?: [number, number, number, number] | undefined;
 }
 
 export interface Rig {
@@ -222,9 +227,10 @@ const fill = (file: string, vars: RigVars) => file.replace(/\{(\w+)\}/g, (_, k: 
 
 async function resolveParts(defs: PartDef[], colors: Record<string, string>, vars: RigVars, tint?: BitmapTint): Promise<Part[]> {
   return Promise.all(defs.map(async (d) => {
-    const url = d.file ? await artUrl(fill(d.file, vars), colors, true, tint) : null;
+    const own = tint?.tip && d.tip ? { ...tint, tip: { url: tint.tip.url, at: d.tip.at, width: d.tip.width, rotate: d.tip.rotate ?? 0 } } : tint;
+    const url = d.file ? await artUrl(fill(d.file, vars), colors, true, own) : null;
     const parts = d.parts ? await resolveParts(d.parts, colors, vars, tint) : [];
-    return { id: d.id, url, pivot: d.pivot ?? [0.5, 0.5], anim: d.anim, parts };
+    return { id: d.id, url, pivot: d.pivot ?? [0.5, 0.5], anim: d.anim, parts, box: d.box };
   }));
 }
 

@@ -140,8 +140,12 @@ function Mount({ host, mount }: { host: Rig | null; mount: NonNullable<StageFigh
 }
 
 function PartView({ p, seat }: { p: Part; seat?: ComponentChildren }) {
-  const style = { transformOrigin: `${p.pivot[0] * 100}% ${p.pivot[1] * 100}%` };
-  const cls = `part${p.anim ? ` anim-${p.anim}` : ''}`;
+  const style = {
+    transformOrigin: `${p.pivot[0] * 100}% ${p.pivot[1] * 100}%`,
+    ...(p.box ? { left: `${p.box[0] * 100}%`, top: `${p.box[1] * 100}%`, width: `${p.box[2] * 100}%`, height: `${p.box[3] * 100}%` } : {}),
+  };
+  // A second pose (pose-attack) stays hidden until a battle move swaps it in.
+  const cls = `part${p.anim ? ` anim-${p.anim}` : ''}${p.id.startsWith('pose-') ? ' part--pose' : ''}`;
   if (p.parts.length === 0 && !seat) {
     return p.url ? <img class={cls} data-part={p.id} src={p.url} alt="" style={style} draggable={false} /> : null;
   }

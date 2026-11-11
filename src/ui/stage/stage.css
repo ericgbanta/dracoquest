@@ -53,6 +53,8 @@ button.actor { cursor: pointer; }
 .part { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 /* A painted image keeps its shape and stands on the box's ground line, whatever the rig's nominal size. */
 img.part { object-fit: contain; object-position: 50% 100%; }
+/* Another pose of the same character, swapped in by opacity during a move. */
+.part--pose { opacity: 0; }
 .mount { position: absolute; }
 .rig--rider { aspect-ratio: 120 / 170; }
 .stage--loading .actor { opacity: 0; }

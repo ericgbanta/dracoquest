@@ -68,8 +68,10 @@ export function useEggArt(element: ElementId): EggArt | null {
   return useLoaded(eggs ? `egg:${element}` : null, async () => {
     const c = data.elements.info[element].color;
     const colors = { '#9a9a9a': c, '#6e6e6e': mix(c, '#1d1a2b', 0.25), '#d6d6d6': mix(c, '#ffffff', 0.55), '#b0b0b0': mix(c, '#ffffff', 0.3) };
+    // A painted egg (red shell, gold spots) is recolored like a dragon; an SVG egg swaps its gray tokens.
+    const tint = { primary: c, secondary: mix(c, '#ffffff', 0.55) };
     const [egg, top, bottom, ...cracks] = await Promise.all([
-      artUrl(eggs!.egg, colors), artUrl(eggs!.top, colors), artUrl(eggs!.bottom, colors), ...eggs!.cracks.map((f) => artUrl(f)),
+      artUrl(eggs!.egg, colors, false, tint), artUrl(eggs!.top, colors, false, tint), artUrl(eggs!.bottom, colors, false, tint), ...eggs!.cracks.map((f) => artUrl(f)),
     ]);
     return { egg, top, bottom, cracks };
   }, (a) => [a.egg, a.top, a.bottom, ...a.cracks]);
