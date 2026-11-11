@@ -18,19 +18,33 @@ Also shipped: Home Screen install (manifest, icons, standalone tags), matching g
 
 Eric played the deployed game and said: "This is very good."
 
+## Graphics overhaul: done
+
+Eric asked for AdventureQuest-style graphics with a real battle stage that stays fast on a phone. All six graphics phases in `docs/GRAPHICS_PLAN.md` are built and live:
+
+| Phase | What it added | Eric's check |
+| --- | --- | --- |
+| B0 Look and feasibility | Mock battle (`#/dev/mock`), frame bench (`#/dev/bench`), style guide | "It looks great!"; iPhone 17 Pro bench: 60 fps, 0.8% dropped |
+| B1 Stage and rigs | The real battle on a side-view stage: layouts for one or two dragons, Ride mode, one or two enemies, plates, status strip, Simple battle setting | Deployed with no complaints |
+| B2 Choreography | Every engine event acted out (dashes, claws, breath, bolts, dives, combos, misses, crits, statuses, knockouts, victory), 450 ms beats, perf test | "These look great" |
+| B3 Art | Every dragon stage, the rider's three weapons, all 49 enemies (7 bosses as their own rigs, 42 from 12 body plans), 7 zone backdrops, the Roost, eggs, `#/dev/art` contact sheet | "These look great" |
+| B4 Scenes | Painted Roost with idling dragons, zone strips on the Map, the hatching scene | "These look great" |
+| B5 UI skin | Panel and button skin, Fredoka headings (self-hosted), 44 SVG icons replacing emoji | Deployed; feedback pending |
+
+On the B4 build, Eric spotted his dragon showing gray on the Dragons and grooming screens but in color on the Roost. An old grayscale rule for tinting gray WebP sprites was hitting the new rig sprites. The B5 deploy fixed it, and a phone test now guards it.
+
 ## What to work on next
 
-**Graphics and UI, starting with the battle screen.** Eric wants an AdventureQuest-style battle: the rider and dragons on one side, enemies on the other, on a painted stage, with real attack animations, and it has to stay fast on a phone. The research and a phased plan are in `docs/GRAPHICS_PLAN.md`. Eric has answered its questions (vector art, agents draw it, every phase B0 to B5, iPhone 17 Pro in Safari); they're in its "Decisions" table. Phase B0 is built and deployed: a mock battle at `#/dev/mock` and a bench at `#/dev/bench`, plus a draft style guide in `docs/ART_STYLE.md`. Eric checked it on his iPhone ("It looks great!"; bench 60 fps, 0.8% dropped). B1 to B4 are built and deployed: the real battle is a side-view stage with every event acted out (B2), there is art for every dragon stage, weapon, enemy, boss and zone (B3), and the Roost, Map and hatching have painted scenes (B4). Eric saw B2 to B4 live and said "These look great." B5 (the UI skin: panels, buttons, icons, a heading font) is built and waiting for his go-ahead to deploy. See "B1 result" and "B2 to B4 result" in `docs/GRAPHICS_PLAN.md`, including the calls he may overrule.
+No phase is in progress. Ask Eric what he wants next; these are the open threads, roughly in order of how much they matter to him:
 
-After graphics, the open items below.
-
-## Open items and known issues
-
-- **Real-phone check.** Phase 4's done criteria include passing the mobile UX rules on two real phones. Only Eric can do this.
-- **Element spreads.** Zone win rates average 70 to 85 percent across the three starters, but single starters dip: Tide in Thunderspire (about 60 percent, Storm beats Tide) and Verdant in Frostmere (about 52 percent, Frost beats Verdant). Eric hasn't said whether that's wanted. The fix would be data only (`src/data/enemies.json`).
-- **Art everywhere is agent-drawn SVG.** Every dragon, enemy, boss and zone has art, and the small sprites across the app draw from the same rigs. The code-drawn shapes in `src/ui/Sprites.tsx` remain only as the fallback. Eric may want better dragon art of his own later; any part can be swapped through `src/art/assets.json`.
-- **Cosmetics** (an ember sink in the design) don't exist yet.
-- **Late-game testing on the phone** takes many hours of play. A save code for a late-game character (Elder, two partners) would help Eric look at it; `e2e/make-fixtures.ts` already builds such saves.
+1. **Feedback on B5** and on the battle feel now that it's all live.
+2. **Stage node budget.** Raised from 60 to 100 without his answer. A one-on-one fight uses about 64 DOM nodes on the stage, two dragons against two enemies about 93. Ask him to run the bench's "Scene: 2 vs 2" on his iPhone and send the "After 10 rounds" line.
+3. **Element spreads.** Zone win rates average 70 to 85 percent across the three starters, but single starters dip: Tide in Thunderspire (about 60 percent, Storm beats Tide) and Verdant in Frostmere (about 52 percent, Frost beats Verdant). He hasn't said whether that's wanted. The fix would be data only (`src/data/enemies.json`), then rerun `npm run sim`.
+4. **Real-phone check.** Phase 4's done criteria include passing the mobile UX rules on two real phones. Only his iPhone has been checked.
+5. **Cosmetics** (an ember sink in the design) don't exist yet. With rigs and extras, cosmetics could be extra parts on a dragon (hats, saddles, horn caps) listed in `assets.json`.
+6. **Late-game save code.** Late-game play takes many hours; a save code for an Elder with two partners would let him look at late screens. `e2e/make-fixtures.ts` already builds such saves (`e2e/fixtures/elder.json`); turn one into an export code with `src/core/save.ts`.
+7. **First-load size.** 163 kB of JavaScript gzipped, because all SVG art ships as text in the main bundle (colors are baked in at load). If load time ever matters, split the art per zone with lazy `import.meta.glob` and preload a zone's art when a run starts.
+8. **Better art.** Everything is agent-drawn SVG. Eric may want to swap in his own art later: any part, backdrop or icon can be replaced through `src/art/assets.json` (or the icon file name) with no code change.
 
 ## Decisions made along the way
 
@@ -51,7 +65,12 @@ These are in addition to the Decisions table in `docs/DESIGN.md`. Eric saw each 
 | Events | Four seasonal events give a yearly gift and limited town stock. They don't change fights. |
 | Saves | Version 6 (B1 added `settings.simpleBattle`). Each bump has a migration and a fixture test (`tests/fixtures/save-v1.json` to `save-v5.json`). |
 | Battle speed | Eric raised the beat limit from 300 ms to 450 ms after seeing B0 (GRAPHICS_PLAN.md, G5). Timings are in `src/data/stage.json`. |
-| Offline | vite-plugin-pwa (Workbox), prompt-style updates: a "Reload" bar, never a forced reload mid-fight. |
+| Offline | vite-plugin-pwa (Workbox), prompt-style updates: a "Reload" bar, never a forced reload mid-fight. The precache includes `woff2` for the heading font. |
+| Art pipeline | Agents draw SVG in the repo (GRAPHICS_PLAN.md, G2), not WebP from Eric. Parts are drawn in place on a shared canvas and rotate around pivots in `assets.json`. Tinted art uses gray tokens swapped for real colors once at load. |
+| Battle details | Plates are display only. Tap an enemy to target it, tap it again (or tap a party member) for the details sheet. |
+| Simple battle | A setting (save v6) that brings back the old card layout instead of the stage. |
+| Stage node budget | 100 DOM nodes on the stage (raised from 60, see "What to work on next"). |
+| Headings | Fredoka (SIL Open Font License) from `@fontsource/fredoka`, latin 600 only. Body text is the system font at 16 px. |
 
 ## How the code is laid out
 
@@ -59,24 +78,28 @@ These are in addition to the Decisions table in `docs/DESIGN.md`. Eric saw each 
 src/core/      pure game logic, no DOM (CLAUDE.md)
   battle.ts      battle engine: fighters, orders, events, Ride mode, second partner
   game.ts        save-level actions (care, runs, shop, talents, Roost, events)
-  save.ts        save shape, migrations v1 to v5, export and import codes
+  save.ts        save shape, migrations v1 to v6, export and import codes
   roost.ts       buildings, timers, temperament
   loadout.ts     gear and talent bonuses, talent rules
   run.ts care.ts progression.ts characters.ts elements.ts events.ts ai.ts rng.ts data.ts types.ts
 src/data/      every balance number and all content, as JSON
 src/ui/        Preact screens and pieces
-  screens/Battle.tsx   the battle screen (the graphics work starts here)
+  screens/Battle.tsx   the battle screen: orders, the round loop (plays events through the stage), sheets, results
   stage/               battle stage: Stage.tsx, BattleStage.tsx (engine state to stage), director.ts (events to moves),
                        choreo.ts (moves), rigs.ts (art loader), Scene.tsx (Roost, Map strips, hatching)
   dev/                 hidden pages: #/dev/mock (mock battle), #/dev/bench (frame bench), #/dev/art (art sheet)
-  Sprites.tsx          placeholder dragon and enemy art, and the manifest lookup
-  art.ts               sprite manifest loader (lazy per sprite)
-  pwa.ts sound.ts install.ts storage.ts useSave.ts router.ts bits.tsx styles.css
-src/art/       SVG art (rigs, enemy body plans, backdrops, eggs, effects), palette.json and assets.json
+  Sprites.tsx          small dragon and enemy sprites: the rig when art exists, else a code-drawn shape
+  Icon.tsx             UI icons from src/art/icons, with emoji fallbacks; Gold and Embers amounts
+  art.ts               old WebP sprite lookup (still used as a second fallback)
+  styles.css           base styles; skin.css layers the B5 look on top
+  pwa.ts sound.ts install.ts storage.ts useSave.ts router.ts bits.tsx
+src/art/       SVG art (rigs, enemy plans and extras, backdrops, eggs, effects, icons), palette.json, assets.json
+src/data/stage.json  stage layouts, plate spots, beat timings, the demo fight (UI only, not read by src/core)
 tests/         Vitest unit tests (130), sim.ts (the balance simulator), save fixtures
-e2e/           Playwright phone tests (34, including a 4x-throttle perf test), save fixtures and make-fixtures.ts
+e2e/           Playwright phone tests (35, including a 4x-throttle perf test), save fixtures and make-fixtures.ts
 scripts/       icons.mjs builds the Home Screen icons
-docs/          DESIGN.md, HANDOFF.md, GRAPHICS_PLAN.md, ART_STYLE.md
+tools/art/     rigpreview.mjs (render a rig or backdrop to PNG), BRIEF.md (brief for art agents), generators/
+docs/          DESIGN.md, HANDOFF.md, GRAPHICS_PLAN.md (graphics plan and results), ART_STYLE.md (art rules)
 ```
 
 ## Commands
@@ -86,17 +109,31 @@ docs/          DESIGN.md, HANDOFF.md, GRAPHICS_PLAN.md, ART_STYLE.md
 | `npm run dev` | Local dev server |
 | `npm run test` | Unit tests (130) |
 | `npx tsc --noEmit` and `npm run lint` | Type check and lint. Lint blocks `Math.random` and browser globals in `src/core`. |
-| `npm run e2e` | Phone tests at 375 by 667 (34), about 75 seconds |
+| `npm run e2e` | Phone tests at 375 by 667 (35), about 90 seconds |
 | `npm run sim` | Balance sim: 1,000 runs per zone and level, plus campaigns from egg to level 50. Flags: `--runs`, `--campaigns`, `--zone`, `--no-campaign`, `--campaign-only`. The full run takes about 2.5 minutes. |
 | `npx tsx e2e/make-fixtures.ts` | Rebuilds the saves the phone tests load |
 | `npm run icons` | Rebuilds the Home Screen icons |
 | `npm run deploy` | Checks, builds, and pushes to `main`, which publishes. Only when Eric asks. |
+| `node tools/art/rigpreview.mjs ...` | Renders a rig or backdrop to a PNG (see `tools/art/README.md`) |
+| `#/dev/mock`, `#/dev/bench`, `#/dev/art` | Hidden pages: the B0 mock battle, the frame bench (1 vs 1 or 2 vs 2), the art contact sheet. They load on demand and work without a save. |
 
 ## Numbers to keep in mind
 
-- First load: 148 kB of JavaScript gzipped, because all the SVG art (every rig, enemy, backdrop and egg) is bundled as text with the app so colors can be baked in. The service worker precaches 742 kB in all, under the plan's 1.5 MB art budget. Splitting the art per zone would cut the first load if it ever matters.
+- First load: 163 kB of JavaScript gzipped and 7 kB of CSS, because all the SVG art is bundled as text so colors can be baked in. The service worker precaches 864 kB in all, under the plan's 1.5 MB art budget.
+- Stage: about 64 DOM nodes in a one-on-one fight, 93 at two dragons against two enemies (budget 100). The perf test drops 0 to 2.2% of frames at 4x CPU throttle (budget 5%).
+- Battle pace: each event waits for its move, so a round at 1x takes about 2 to 3 seconds; 2x halves it.
 - A full egg-to-level-50 campaign in the sim takes about 800 fights, roughly 27 hours of play at 2 minutes a fight.
 - Content: 7 zones, 35 regular enemies, 7 mini-bosses, 7 bosses, 56 pieces of gear, 8 foods, 3 items, 40 talents, 3 growth quests, 6 expedition trips, 4 events.
+
+## Gotchas
+
+- **CSS load order.** `stage.css` is imported by a component, so it loads before `styles.css` and `skin.css`. Equal-specificity rules in the later files win. That's why stage fighters use the class `.actor` (the card layout owns `.fighter`) and some stage rules are doubled up (`.stage .stage-header`).
+- **The old grayscale rule.** `.sprite img { filter: grayscale(1) }` exists for tinting gray WebP sprites. Anything drawn from rigs must opt out (`.sprite--rig img`). A phone test checks this.
+- **Move detection.** Hit events carry no move kind, so `src/ui/stage/director.ts` matches the move's name in the event text against the game data. A new move whose name isn't in the data falls back to a lunge or claw. If the engine ever adds a move field to events, use it.
+- **HP lands on impact.** In stage mode the round loop applies each event's HP change when the move's `onImpact` fires, not when the event starts. The simple card layout still applies it at the start.
+- **The bench measures the main thread.** It counts `requestAnimationFrame` frames, so it misses frames the GPU drops. Safari runs pages at 60 Hz even on ProMotion screens. Long tasks aren't reported in Safari.
+- **Playwright.** A hash-only `page.goto` doesn't re-render the app in these tests; tap the link instead. Stage fighters bob, so element screenshots of them can time out waiting to be stable; use page screenshots with a clip.
+- **Art agents.** Give them `tools/art/BRIEF.md`, their own folders and a fragment file, and review their renders before merging. Commit their folders only after review (`git add -A src` sweeps in work in progress).
 
 ## How Eric likes to work
 
@@ -105,4 +142,5 @@ docs/          DESIGN.md, HANDOFF.md, GRAPHICS_PLAN.md, ART_STYLE.md
 - Commit after each completed task. Develop on the session's feature branch; `main` is what's live.
 - Plain, direct writing in reports and docs. No em dashes.
 - He checks things on his phone, so anything visual needs to look right at 375 wide first.
+- He reports problems from his phone with screenshots. Reproduce in the sandbox at 375 wide with a save that matches his (the fixtures in `e2e/fixtures/` help), fix, and add a test that would have caught it.
 - His other game, `ericgbanta/got-sim`, is a useful reference for how he set up PWA install, art pipelines and planning docs.

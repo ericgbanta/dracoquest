@@ -1,6 +1,6 @@
 # Graphics and battle overhaul: plan
 
-Written 2026-11-11 at Eric's request. Status: B0 to B4 built and deployed; Eric said "These look great." B5 (UI skin) built (see "B5 result" below), waiting for Eric to say whether to deploy. Read `docs/HANDOFF.md` first.
+Written 2026-11-11 at Eric's request. Status: done. B0 to B5 are built and deployed (see the "result" sections below). Eric said "These look great" about B2 to B4; feedback on B5 is pending. Open questions are listed in `docs/HANDOFF.md` under "What to work on next". Read `docs/HANDOFF.md` first.
 
 The request, in Eric's words: "I think we can implement AdventureQuest-like graphics. The battling especially needs a lot of touch up. We should have us (rider and dragons) on one side and enemy on the other. Let's step it up with the graphics please but also make sure it's performant."
 
@@ -147,7 +147,7 @@ All drawn as SVG by agents following `docs/ART_STYLE.md`, reviewed in renders, a
 
 ## B5 result
 
-Built 2026-11-11 after Eric saw B2 to B4 ("These look great ... then work on B5").
+Built and deployed 2026-11-11 after Eric saw B2 to B4 ("These look great ... then work on B5"). The same deploy fixed his report that his dragon showed gray on the Dragons and grooming screens but in color on the Roost: an old grayscale rule for tinting gray WebP sprites was hitting the new rig sprites. A phone test now guards it.
 
 - `src/ui/skin.css` layers a light fantasy look over the base styles, without changing any layout or tap target: panels with a soft plum gradient, a lighter edge and a dark lip; gold primary buttons with a pressed edge; plum secondary buttons; gold trim on the selected order, tab and dragon; a gold line over the tab bar; framed HP and meter bars. All shadows are static, so nothing animates paint.
 - Headings use Fredoka, a rounded font that matches the chunky art, under the SIL Open Font License. It is self-hosted from the `@fontsource/fredoka` package (latin, weight 600 only, 16 kB), and the service worker now precaches `.woff2` so it works offline. Body text stays the system font at 16 px.

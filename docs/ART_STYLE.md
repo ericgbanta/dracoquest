@@ -101,6 +101,10 @@ Effects have no outline, except the hit spark. They are flat shapes in two or th
 - Animate only `transform` and `opacity`.
 - The stage stays under 100 DOM nodes, effects included (the B0 draft said 60; see GRAPHICS_PLAN.md, B2 to B4 calls). A one-on-one fight uses about 63, two dragons against two enemies about 93. Every part and extra is a node, so prefer fewer parts.
 
+## Tools
+
+`tools/art/rigpreview.mjs` renders a rig or backdrop to a PNG with tints and poses; `tools/art/BRIEF.md` is the brief for art agents; `tools/art/generators/` holds the scripts that drew the B3 to B5 sets. See `tools/art/README.md`.
+
 ## Review checklist
 
 Look at each new piece on a phone at 375 wide, in the mock battle or the art contact sheet (`#/dev/art`):

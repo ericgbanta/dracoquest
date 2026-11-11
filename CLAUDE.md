@@ -4,7 +4,7 @@ DracoQuest is a mobile-first, turn-based browser RPG in the style of AdventureQu
 
 The full design lives in `docs/DESIGN.md`. Read it before starting any phase, and treat its "Decisions" table as settled.
 
-Start with `docs/HANDOFF.md`: where the project stands, what to work on next, and decisions made since the design. The next piece of work is the graphics and battle overhaul in `docs/GRAPHICS_PLAN.md`.
+Start with `docs/HANDOFF.md`: where the project stands, what to work on next, and decisions made since the design. The graphics and battle overhaul in `docs/GRAPHICS_PLAN.md` is finished; art rules are in `docs/ART_STYLE.md`.
 
 ## How to work
 
@@ -22,8 +22,8 @@ Start with `docs/HANDOFF.md`: where the project stands, what to work on next, an
 
 ## Art
 
-- Sprites are AI-assisted, transparent WebP files in `/src/art`, listed in `/src/art/assets.json`.
-- Dragon base sprites are neutral gray and tinted at runtime per element and player color.
+- Art is SVG drawn in the repo (by agents, following `docs/ART_STYLE.md`), listed in `/src/art/assets.json`. Characters are rigs built from parts so they animate. Eric may swap in his own art (SVG or transparent WebP) per part through the manifest.
+- Dragon parts are neutral gray tokens, colored once at load per player color; enemy body plans are colored the same way per enemy.
 - Load every sprite through the manifest. If a sprite is missing, render a simple placeholder shape. Never block a feature on art.
 
 ## Mobile first
