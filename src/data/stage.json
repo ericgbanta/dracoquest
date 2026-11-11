@@ -1,17 +1,20 @@
 {
-  "note": "Battle stage layout and animation timings. Positions are percent of the stage: left, bottom and width of a fighter's box as a share of the stage width (bottom of the height), plates by top (share of the height) and left or right. minPx keeps plates readable on small stages. Durations are ms at 1x; 2x speed multiplies them by fastFactor. Each beat's action, up to and including the hit, stays within 450 ms (Eric's call after B0; the design said 300).",
+  "note": "Battle stage layout and animation timings. Positions are percent of the stage: left, bottom and width of a fighter's box as a share of the stage width (bottom of the height), plates by top (share of the height) and left or right. minPx keeps plates readable on small stages. Durations are ms at 1x; 2x speed multiplies them by fastFactor. Each beat's action, up to and including the hit, stays within 450 ms (Eric's call after B0; the design said 300). maxNodes is the stage's DOM node budget for the busiest fight (two dragons, the rider, two enemies); a one-on-one fight uses far fewer.",
   "aspect": [16, 11],
-  "maxNodes": 60,
+  "maxNodes": 100,
+  "particles": 4,
   "fastFactor": 0.5,
   "beats": {
     "slotMs": 620,
     "riderAttack": { "windup": 100, "dash": 190, "swing": 150, "hold": 60, "back": 200 },
+    "shoot": { "draw": 180, "travel": 240, "hold": 60, "back": 150 },
     "claw": { "lunge": 260, "swipe": 170, "hold": 50, "back": 200, "reach": 9 },
     "breath": { "rear": 150, "puffs": 6, "stagger": 34, "travel": 280, "recover": 180 },
     "enemyAttack": { "windup": 220, "lunge": 200, "hold": 50, "back": 220 },
     "knockback": { "dist": 2.6, "ms": 260 },
     "shake": { "dist": 1, "ms": 200 },
-    "number": { "ms": 950, "rise": 6, "above": 0.1 }
+    "number": { "ms": 950, "rise": 6, "above": 0.1 },
+    "eventMs": { "act": 380, "status": 420, "heal": 560, "mp": 380, "dot": 440, "ko": 560, "shift": 640, "skip": 380, "flee": 760, "end": 950 }
   },
   "demo": {
     "zone": "thunderspire",

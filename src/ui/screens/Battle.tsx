@@ -13,7 +13,7 @@ import type { SaveData } from '../../core/save';
 import { DragonSprite, EnemySprite } from '../Sprites';
 import { Bar, ElementBadge, IntentChip, prefersReducedMotion, StatusChips, vibrate } from '../bits';
 import { BattleStage } from '../stage/BattleStage';
-import { react } from '../stage/choreo';
+import { direct } from '../stage/director';
 import { Sheet } from '../Sheet';
 import { play } from '../sound';
 
@@ -156,7 +156,25 @@ export function Battle({ save, update, onExit }: Props) {
     setDisplay(view);
     const step = fast ? 150 : 300;
     for (const ev of result.events) {
-      view = applyEvent(view, ev);
+      const next = applyEvent(view, ev);
+      const stage = simple ? null : stageRef.current;
+      if (stage) {
+        // On the stage the move plays out first; HP, the log line and the sound land on impact.
+        const before = view;
+        let landed = false;
+        const onImpact = () => {
+          if (landed) return;
+          landed = true;
+          setDisplay(next);
+          setLog((l) => [...l, ev.text].slice(-40));
+          cue(ev);
+        };
+        await direct(stage, data, before, ev, { fast, reduced: prefersReducedMotion(), onImpact });
+        onImpact();
+        view = next;
+        continue;
+      }
+      view = next;
       setDisplay(view);
       setLog((l) => [...l, ev.text].slice(-40));
       playEvent(ev);
@@ -178,17 +196,18 @@ export function Battle({ save, update, onExit }: Props) {
     }
   };
 
+  /** Sound and vibration for an event on the stage, at the moment it lands. */
+  const cue = (ev: BattleEvent) => {
+    const sound = save.settings.sound;
+    if (ev.t === 'hit' && ev.crit) vibrate(40);
+    const name = ev.t === 'hit' ? (ev.crit ? 'crit' : 'hit') : ev.t === 'miss' ? 'miss' : ev.t === 'heal' ? 'heal' : null;
+    if (name) play(name, sound);
+    if (ev.t === 'ko') { play('ko', sound); vibrate([60, 40, 60]); }
+    if (ev.t === 'end') play(ev.outcome === 'won' ? 'victory' : ev.outcome === 'lost' ? 'defeat' : 'tap', sound);
+  };
+
   const playEvent = (ev: BattleEvent) => {
     const sound = save.settings.sound;
-    if (!simple && stageRef.current) {
-      react(stageRef.current, ev, { fast, reduced: prefersReducedMotion() });
-      if (ev.t === 'hit' && ev.crit) vibrate(40);
-      const cue = ev.t === 'hit' ? (ev.crit ? 'crit' : 'hit') : ev.t === 'miss' ? 'miss' : ev.t === 'heal' ? 'heal' : null;
-      if (cue) play(cue, sound);
-      if (ev.t === 'ko') { play('ko', sound); vibrate([60, 40, 60]); }
-      if (ev.t === 'end') play(ev.outcome === 'won' ? 'victory' : ev.outcome === 'lost' ? 'defeat' : 'tap', sound);
-      return;
-    }
     switch (ev.t) {
       case 'end':
         play(ev.outcome === 'won' ? 'victory' : ev.outcome === 'lost' ? 'defeat' : 'tap', sound);

@@ -46,6 +46,7 @@ interface Props {
 }
 
 const PUFFS = layout.beats.breath.puffs;
+const PARTICLES = layout.particles;
 
 /** A side-view battle stage: backdrop, fighters built from parts, plates and a pooled effects layer. */
 export function Stage({ backdrop, plainColor, fighters, effects, header, paused, loading, stageRef }: Props) {
@@ -65,6 +66,10 @@ export function Stage({ backdrop, plainColor, fighters, effects, header, paused,
         {effects.puff && Array.from({ length: PUFFS }, (_, i) => <img key={`p${i}`} class="fx fx-puff" src={effects.puff!} alt="" />)}
         {effects.slash && <img class="fx fx-slash" src={effects.slash} alt="" />}
         {effects.spark && <img class="fx fx-spark" src={effects.spark} alt="" />}
+        <span class="fx fx-flash" />
+        <span class="fx fx-ring" />
+        <span class="fx fx-bolt" />
+        {Array.from({ length: PARTICLES }, (_, i) => <span key={`q${i}`} class="fx fx-p" />)}
         <span class="fx fx-num" />
         <span class="fx fx-num" />
       </div>

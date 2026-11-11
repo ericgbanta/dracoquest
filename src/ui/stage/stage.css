@@ -36,6 +36,9 @@ button.actor { cursor: pointer; }
 .rig--rider { aspect-ratio: 120 / 170; }
 .stage--loading .actor { opacity: 0; }
 .actor--ko { opacity: 0.4; }
+/* Knocked out: slump. Defeated enemy: topple. Transforms only. */
+.actor--ko > .rig { transform: translateY(8%) rotate(-9deg); transition: transform 360ms ease-in; }
+.actor--down > .rig--left { transform: scaleX(-1) translateY(10%) rotate(22deg); transition: transform 360ms ease-in; }
 .actor--down { opacity: 0; pointer-events: none; transition: opacity 400ms ease-out; }
 .actor--down::after { display: none; }
 
@@ -100,6 +103,17 @@ button.actor { cursor: pointer; }
 .fx-puff { width: 15%; }
 .fx-spark { width: 13%; }
 .fx-slash { width: 17%; }
+.fx-flash { width: 22%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(closest-side, #fff, #fff0); }
+.fx-ring { width: 26%; aspect-ratio: 3 / 1; border-radius: 50%; border: 4px solid var(--fx, #fff); }
+.fx-bolt { width: 7%; height: 2.2%; }
+.fx-bolt--arrow { background: linear-gradient(90deg, #8a5a36 0 78%, #e9e4da 78%); border-radius: 2px; }
+.fx-bolt--orb { width: 6%; height: auto; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(closest-side, #fff, var(--fx, #c9a8ff) 55%, #fff0); }
+.fx-p { width: 3.4%; aspect-ratio: 1; border-radius: 50%; }
+.fx-p--heal { background: radial-gradient(closest-side, #f0fff4, #6fcf97 60%, #6fcf9700); }
+.fx-p--buff { background: radial-gradient(closest-side, #fff8dc, #f2c14e 60%, #f2c14e00); }
+.fx-p--burn { background: radial-gradient(closest-side, #fff3b0, #ff7b2e 60%, #ff7b2e00); border-radius: 50% 50% 50% 0; }
+.fx-p--chill { background: radial-gradient(closest-side, #ffffff, #7fc8f0 60%, #7fc8f000); }
+.fx-p--shock { background: radial-gradient(closest-side, #fff7c2, #f5e27a 60%, #f5e27a00); }
 .fx-num {
   z-index: 7; font-size: 24px; font-weight: 900; color: #fff; white-space: nowrap; line-height: 1;
   text-shadow: 0 0 3px #1d1a2b, 0 2px 0 #1d1a2b, 2px 0 0 #1d1a2b, -2px 0 0 #1d1a2b, 0 -2px 0 #1d1a2b;
@@ -107,6 +121,7 @@ button.actor { cursor: pointer; }
 .fx-num--crit { color: #ffd34d; font-size: 30px; }
 .fx-num--heal { color: #8ff0b0; }
 .fx-num--miss { color: var(--muted); font-size: 20px; }
+.fx-num--mp { color: #9fc0ff; font-size: 20px; }
 
 /* Status strip under the stage: exact numbers. */
 .status-strip { display: grid; grid-template-columns: auto 1fr 1fr; gap: 2px 8px; align-items: center; font-size: 0.8rem; }
