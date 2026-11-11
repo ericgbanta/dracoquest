@@ -80,6 +80,12 @@ Look B exists only on the mock. The real game still uses look A. Once Eric picks
 
 Not built yet from the same conversation: a moving camera (drift, parallax, push-in on a breath, cut-in banners) and a quieter interface. They are in C3 and C4 below and work with either look.
 
+## Eric's check of C0 (2026-11-11)
+
+C0 was deployed with a second style, look B (colored outlines, a tint toward the scene's light, paper grain), behind a switch on the mock. Eric's answer: "Definitely look A but I was hoping for a pretty different and professional look honestly." Look B's code was removed (it is in git history, commit 8953a68).
+
+What that means for the plan: lighting and effects on top of the existing drawings are not enough. The drawings themselves are the limit, as the first plan's risk section predicted. The phases below need a new art source before they continue; that choice is open with Eric.
+
 ## Proposed phases
 
 Each ends playable and deployable.

@@ -50,7 +50,7 @@ Eric asked to take the art "to the next level", modern but still AdventureQuest 
 
 `#/dev/mock` also has a Look A / Look B switch. B is a second style Eric asked to compare: colored outlines, characters tinted toward the scene's light, and a paper grain. It exists only on the mock.
 
-Next step: Eric compares the two looks (`docs/img/c0-look-a-b.png`, or the deployed `#/dev/mock`), picks one or a mix, and answers the checkpoint questions in the plan. Then C1 repaints the other zones and the Roost, which currently show lit characters on old scenery.
+C0 is deployed. Eric's verdict: he wants a much more different and professional look than lighting on the current drawings gives. The open question is where better art comes from (see "Eric's check of C0" in the plan). Don't start C1 until he picks.
 
 ## What to work on next
 
