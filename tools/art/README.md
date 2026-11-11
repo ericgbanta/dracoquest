@@ -2,7 +2,7 @@
 
 The game's characters, backdrops and effects are painted images in `src/art/painted/`, listed in `src/art/assets.json`. They were generated with an image model (the Codex CLI's built-in image tool, on Eric's ChatGPT subscription), then cut out and packed by the scripts in `painted/`. Read `docs/ART_STYLE.md` before adding or replacing art.
 
-The packed WebP files are the source of truth. The raw generated PNGs (about 2 MB each) were not kept.
+The packed WebP files are the source of truth. The raw generated PNGs (about 2 MB each, 61 of them) lived in the session's container and were not kept, so `pack.py` has nothing to repack until images are generated again.
 
 ## painted/
 

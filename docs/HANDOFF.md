@@ -1,6 +1,6 @@
 # Handoff
 
-Last updated 2026-11-11. Read this first, then `CLAUDE.md` and `docs/DESIGN.md`. Everything described here is merged to `main` and live. A ready-to-paste prompt for starting a new session is in `docs/NEXT_PROMPT.md`.
+Last updated 2026-11-11. Read this first, then `CLAUDE.md` and `docs/DESIGN.md`. Everything described here is merged to `main` and live (last deploy: commit 07bba0a, the art redesign). A ready-to-paste prompt for starting a new session is in `docs/NEXT_PROMPT.md`.
 
 ## Where things stand
 
@@ -20,6 +20,8 @@ Eric played the deployed game and said: "This is very good."
 
 ## Graphics overhaul: done
 
+The stage, choreography and scenes from this pass are still in use. Its art (B3) and skin (B5) were replaced by the art redesign below.
+
 Eric asked for AdventureQuest-style graphics with a real battle stage that stays fast on a phone. All six graphics phases in `docs/GRAPHICS_PLAN.md` are built and live:
 
 | Phase | What it added | Eric's check |
@@ -29,7 +31,7 @@ Eric asked for AdventureQuest-style graphics with a real battle stage that stays
 | B2 Choreography | Every engine event acted out (dashes, claws, breath, bolts, dives, combos, misses, crits, statuses, knockouts, victory), 450 ms beats, perf test | "These look great" |
 | B3 Art | Every dragon stage, the rider's three weapons, all 49 enemies (7 bosses as their own rigs, 42 from 12 body plans), 7 zone backdrops, the Roost, eggs, `#/dev/art` contact sheet | "These look great" |
 | B4 Scenes | Painted Roost with idling dragons, zone strips on the Map, the hatching scene | "These look great" |
-| B5 UI skin | Panel and button skin, Fredoka headings (self-hosted), 44 SVG icons replacing emoji | Deployed; feedback pending |
+| B5 UI skin | Panel and button skin, Fredoka headings (self-hosted), 44 SVG icons replacing emoji | "This actually feels good" |
 
 After the graphics phases, Eric asked for more things to be tappable and for split targets. Built at the end of the same session and deployed, along with a fix for the battle log:
 
@@ -40,36 +42,49 @@ After the graphics phases, Eric asked for more things to be tappable and for spl
 
 On the B4 build, Eric spotted his dragon showing gray on the Dragons and grooming screens but in color on the Roost. An old grayscale rule for tinting gray WebP sprites was hitting the new rig sprites. The B5 deploy fixed it, and a phone test now guards it.
 
-## Art redesign: built, waiting for Eric
+## Art redesign: done and live
 
-After the first graphics pass Eric asked for a more modern, professional look. The full story is in `docs/GRAPHICS_PLAN_2.md`. Where it ended up:
+After the first graphics pass Eric asked for a more modern, professional look. The full story, including what was tried and dropped, is in `docs/GRAPHICS_PLAN_2.md`. Where it ended up, all deployed on 2026-11-11:
 
-- All character, backdrop and effect art was replaced with painted images in a cel-shaded cartoon style Eric picked from samples ("A with C simpler shapes", `docs/img/style-options.jpg`). The rules are in `docs/ART_STYLE.md`.
-- The images were generated with the Codex CLI's image tool on Eric's ChatGPT subscription, from inside the cloud session, and cut out and packed by `tools/art/painted/` (see `tools/art/README.md`). The cloud environment "dracoquest" allows the three OpenAI hosts this needs.
-- Each character is one image. Dragons are painted red and gold and recolored to player colors at load, with an element tail tip drawn on (`src/ui/stage/tint.ts`, `tintBitmap` in `rigs.ts`).
-- From the earlier C0 step, still in: a stage vignette, drifting specks per zone, and hit-stop, a camera punch and a glow on heavy hits.
-- The old SVG rigs, body plans, backdrops and their generator scripts are deleted (they are in git history before this change).
+- **Style.** A cel-shaded cartoon built from simple shapes, which Eric picked from six samples ("A with C simpler shapes", `docs/img/style-options.jpg`). The rules are in `docs/ART_STYLE.md`.
+- **Art.** Every character, backdrop and effect is a painted WebP in `src/art/painted/`: four dragon stages, the rider with three weapons and a mounted pose, all 49 enemies, seven zone backdrops and the Roost, a breath burst per element, tail tips, slash and spark. The egg and all 44 UI icons are painted too.
+- **Poses.** Each character is one image that breathes and leans as a whole, plus an attack pose that is swapped in during its attack. No separately moving heads, jaws or wings.
+- **Player colors.** Dragons are painted red and gold and recolored to player colors at load, with an element tail tip drawn on (`src/ui/stage/tint.ts`, `tintBitmap` in `rigs.ts`). The egg is recolored per element the same way.
+- **Skin.** `src/ui/skin.css` matches the art: flat fills, a dark navy outline, one hard shade band and a hard drop edge. No gradients.
+- **Stage feel.** A vignette, drifting specks per zone, and hit-stop, a camera punch and a glow on heavy hits.
+- **Removed.** The old SVG rigs, body plans, backdrops, icons and the scripts that drew them. They are in git history before commit 9d17550.
 
-- The UI skin (`src/ui/skin.css`) was redone to match: flat fills, a dark navy outline, one hard shade band and a hard drop edge on panels, buttons, bars and plates. No gradients.
+Eric's verdict after seeing it on his phone: "I see the new art. It's great."
 
-- Second batch (12 more images): the egg (recolored per element, split in two for hatching), all 44 UI icons, and attack poses for the four dragon stages and the three rider weapons, swapped in during attacks.
+### How the art was made
 
-- Third batch (15 more images): a breath burst for each of the eight elements, and attack poses for all 49 enemies (seven bosses alone, the rest from seven sheets).
+The images were generated with the Codex CLI's built-in image tool, signed in to Eric's ChatGPT subscription, from inside the cloud session: 61 generations in all, every one usable on the first run. `tools/art/README.md` has the steps and `tools/art/painted/` has the prompts, the style reference image and the scripts that cut out and pack the art.
 
-Not redone: the three crack lines on the egg (SVG). Characters have two poses (idle and attack), no hurt or defeat pose. Characters don't have separately moving heads, jaws or wings anymore; they breathe and lean as one piece.
+To generate more art in a new session:
 
-Status: the art, skin, egg, icons and the dragon and rider attack poses are deployed and Eric likes them ("It's great"). The element breath bursts and the enemy attack poses are on the session branch, not deployed yet.
+1. Start the session on the "dracoquest" cloud environment, which allows `chatgpt.com`, `auth.openai.com` and `api.openai.com`.
+2. `npm install -g @openai/codex`, then `codex login --device-auth`. Eric enters the code it prints on his phone. The earlier session was logged out when it closed.
+3. Follow `tools/art/README.md`. Run `codex logout` when done.
+
+The raw generated PNGs lived only in that session's container and are gone. The packed WebPs in the repo are the source of truth. Repacking an image means generating it again; changing sizes, boxes or placements only needs `assets.json`.
+
+### Not done, and things to check
+
+- Eric has not yet said whether enemies visibly snap to their attack pose on his phone. The phone test covers it, but no screenshot caught the moment.
+- No hurt or defeat poses. The three crack lines on a warming egg are still SVG.
+- The offline download is 4.7 MB, three times the first plan's 1.5 MB art budget. See "Numbers to keep in mind".
+- `docs/GRAPHICS_PLAN_2.md` still lists phases C1 to C4, written before the painted art. Their ideas on camera moves and screen transitions are unbuilt.
 
 ## What to work on next
 
-Besides the graphics pass above, these are the open threads. Eric closed three on 2026-11-11: the B5 look, battle feel and split targets are good; tap for details is good as it stands; the 100-node stage budget is fine.
+No task is in progress. These are the open threads. Eric closed three on 2026-11-11: the B5 look, battle feel and split targets are good; tap for details is good as it stands; the 100-node stage budget is fine.
 
 1. **Element spreads.** Zone win rates average 70 to 85 percent across the three starters, but single starters dip: Tide in Thunderspire (about 60 percent, Storm beats Tide) and Verdant in Frostmere (about 52 percent, Frost beats Verdant). He hasn't said whether that's wanted. The fix would be data only (`src/data/enemies.json`), then rerun `npm run sim`.
 2. **Real-phone check.** Phase 4's done criteria include passing the mobile UX rules on two real phones. Only his iPhone has been checked.
-3. **Cosmetics** (an ember sink in the design) don't exist yet. With rigs and extras, cosmetics could be extra parts on a dragon (hats, saddles, horn caps) listed in `assets.json`.
+3. **Cosmetics** (an ember sink in the design) don't exist yet. They could be painted overlays drawn onto a dragon at load, the way tail tips are.
 4. **Late-game save code.** Late-game play takes many hours; a save code for an Elder with two partners would let him look at late screens. `e2e/make-fixtures.ts` already builds such saves (`e2e/fixtures/elder.json`); turn one into an export code with `src/core/save.ts`.
-5. **First-load size.** 163 kB of JavaScript gzipped, because all SVG art ships as text in the main bundle (colors are baked in at load). If load time ever matters, split the art per zone with lazy `import.meta.glob` and preload a zone's art when a run starts.
-6. **Rest of the redesign.** Hurt or defeat poses; trimming the 4.7 MB precache (for example, caching each zone's art on first visit instead of up front, at the cost of placeholder shapes when offline in a zone never visited).
+5. **Download size.** First-load JavaScript is 108 kB gzipped, but the service worker precaches 4.7 MB of art in the background. If that matters, cache each zone's art on first visit instead (`vite.config.ts`, Workbox `runtimeCaching`), at the cost of placeholder shapes when offline in a zone never visited.
+6. **More art.** Hurt or defeat poses, painted crack lines for the egg, cosmetics as painted overlays. Needs Codex image generations (see "How the art was made").
 
 ## Decisions made along the way
 
