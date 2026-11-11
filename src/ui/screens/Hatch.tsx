@@ -1,4 +1,4 @@
-import { useRef, useState } from 'preact/hooks';
+import { useEffect, useRef, useState } from 'preact/hooks';
 import { gameData as data } from '../../core/data';
 import { chooseEgg, eggReady, hatchEgg, warmEgg } from '../../core/game';
 import type { SaveData } from '../../core/save';
@@ -6,6 +6,8 @@ import type { ElementId } from '../../core/types';
 import { DragonSprite } from '../Sprites';
 import { ElementBadge, prefersReducedMotion, vibrate } from '../bits';
 import { href } from '../router';
+import { RigView } from '../stage/Stage';
+import { useDragonRig, useEggArt } from '../stage/Scene';
 
 interface Props {
   save: SaveData;
@@ -52,7 +54,21 @@ function PickEgg({ update }: Pick<Props, 'update'>) {
   );
 }
 
+/** The egg from the art manifest in its element's color, with cracks laid on top. Falls back to a plain shape. */
 function Egg({ element, size, cracks = 0 }: { element: ElementId; size: number; cracks?: number }) {
+  const art = useEggArt(element);
+  if (art?.egg) {
+    return (
+      <span class="egg-art" style={{ width: size, height: size * 1.25 }} aria-hidden="true">
+        <img src={art.egg} alt="" draggable={false} />
+        {art.cracks.slice(0, Math.min(3, cracks)).map((u, i) => u && <img key={i} src={u} alt="" draggable={false} />)}
+      </span>
+    );
+  }
+  return <PlainEgg element={element} size={size} cracks={cracks} />;
+}
+
+function PlainEgg({ element, size, cracks = 0 }: { element: ElementId; size: number; cracks?: number }) {
   const c = data.elements.info[element].color;
   return (
     <svg width={size} height={size * 1.2} viewBox="0 0 100 120" aria-hidden="true" class="egg-svg">
@@ -129,9 +145,7 @@ function NameDragon({ save, update }: Props) {
       <header class="screen-header screen-header--center">
         <h1 id="screen-title">It's hatching!</h1>
       </header>
-      <div class="hatch-preview">
-        <DragonSprite element={egg.element} stage="hatchling" primary={primary} secondary={secondary} size={150} class="pop-in" />
-      </div>
+      <Hatching element={egg.element} primary={primary} secondary={secondary} />
       <div class="card">
         <label for="dragon-name">Name your dragon</label>
         <div class="row">
@@ -164,5 +178,46 @@ function ColorPicker({ label, value, onPick, testid }: { label: string; value: s
         ))}
       </div>
     </fieldset>
+  );
+}
+
+/**
+ * The moment of hatching: the egg's cap pops off, the hatchling springs out and
+ * idles in the colors being picked. Only transform and opacity animate.
+ */
+function Hatching({ element, primary, secondary }: { element: ElementId; primary: string; secondary: string }) {
+  const art = useEggArt(element);
+  const rig = useDragonRig({ element, stage: 'hatchling', colors: { primary, secondary } });
+  const top = useRef<HTMLImageElement>(null);
+  const bottom = useRef<HTMLImageElement>(null);
+  const baby = useRef<HTMLDivElement>(null);
+  const [done, setDone] = useState(false);
+  useEffect(() => {
+    if (!art || done) return;
+    if (prefersReducedMotion()) { setDone(true); return; }
+    top.current?.animate(
+      [{ transform: 'translate(0, 0) rotate(0)', opacity: 1 }, { transform: 'translate(10%, -60%) rotate(35deg)', opacity: 1, offset: 0.55 }, { transform: 'translate(30%, -20%) rotate(80deg)', opacity: 0 }],
+      { duration: 900, delay: 250, easing: 'cubic-bezier(.2,.7,.4,1)', fill: 'forwards' },
+    );
+    bottom.current?.animate([{ opacity: 1 }, { opacity: 1, offset: 0.7 }, { opacity: 0 }], { duration: 1500, delay: 250, fill: 'forwards' });
+    const pop = baby.current?.animate(
+      [{ transform: 'translateY(20%) scale(0.5)', opacity: 0 }, { transform: 'translateY(-8%) scale(1.08)', opacity: 1, offset: 0.6 }, { transform: 'translateY(0) scale(1)', opacity: 1 }],
+      { duration: 700, delay: 450, easing: 'ease-out', fill: 'backwards' },
+    );
+    pop?.finished.then(() => setDone(true)).catch(() => undefined);
+  }, [!!art]);
+  const dragon = rig
+    ? <RigView rig={rig} facing="right" />
+    : <DragonSprite element={element} stage="hatchling" primary={primary} secondary={secondary} size={150} />;
+  return (
+    <div class="hatch-preview hatch-scene" data-testid="hatch-scene">
+      <div class="hatch-baby" ref={baby}>{dragon}</div>
+      {art?.top && art.bottom && !done && (
+        <>
+          <img class="hatch-shell" ref={bottom} src={art.bottom} alt="" draggable={false} />
+          <img class="hatch-shell" ref={top} src={art.top} alt="" draggable={false} />
+        </>
+      )}
+    </div>
   );
 }

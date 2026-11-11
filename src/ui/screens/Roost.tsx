@@ -10,6 +10,7 @@ import type { DragonState } from '../../core/types';
 import { href } from '../router';
 import { GearIcon } from '../icons';
 import { DragonSprite } from '../Sprites';
+import { dragonFallback, IDLE_PACE, Scene, useBackdrop, useDragonRigs, type SceneActor } from '../stage/Scene';
 import { Bar, ElementBadge, todayKey } from '../bits';
 import { Sheet } from '../Sheet';
 import { Groom } from './Groom';
@@ -74,6 +75,7 @@ export function Roost({ save, update }: Props) {
 
   const second = secondDragon(save);
   const event = activeEvent(data, today);
+  const home = save.dragons.filter((d) => d.assignment.kind !== 'expedition' || d.id === dragon.id);
 
   return (
     <section class="screen" aria-labelledby="screen-title">
@@ -111,9 +113,9 @@ export function Roost({ save, update }: Props) {
         </div>
       )}
 
+      <RoostScene dragons={home} selectedId={dragon.id} onPick={(id) => { setSelectedId(id); setToast(''); }} />
+
       <div class="card roost-dragon">
-        <DragonSprite element={dragon.element} stage={dragon.stage} primary={dragon.colors.primary} secondary={dragon.colors.secondary} size={140}
-          class={`idle${temper ? ` idle--${temper}` : ''}`} />
         <div class="roost-dragon-info">
           <p class="welcome" data-testid="welcome">{dragon.name}</p>
           <p class="muted">Lv {dragon.level} · {data.dragons.stages.find((s) => s.id === dragon.stage)?.name} <ElementBadge element={dragon.element} small /></p>
@@ -183,5 +185,29 @@ export function Roost({ save, update }: Props) {
         </Sheet>
       )}
     </section>
+  );
+}
+
+/** The painted Roost with every dragon at home idling in it. Tap a dragon to pick it. */
+function RoostScene({ dragons, selectedId, onPick }: { dragons: DragonState[]; selectedId: string; onPick(id: string): void }) {
+  const backdrop = useBackdrop('roost');
+  const shown = dragons.slice(0, 5);
+  const rigs = useDragonRigs(shown);
+  const n = shown.length;
+  const width = n <= 1 ? 46 : n === 2 ? 40 : n === 3 ? 33 : 27;
+  const actors: SceneActor[] = shown.map((d, i) => {
+    const t = temperament(data, d);
+    const back = n > 2 && i % 2 === 1;
+    return {
+      id: d.id, rig: rigs[d.id] ?? null, fallback: dragonFallback(d),
+      left: n <= 1 ? 27 : 2 + (i * (96 - width)) / (n - 1), bottom: back ? 20 : 7, width, z: d.id === selectedId ? 5 : back ? 1 : 2,
+      pace: t ? IDLE_PACE[t] : 1, selected: n > 1 && d.id === selectedId,
+      label: `${d.name}${d.id === selectedId ? ', selected' : ''}`, onTap: n > 1 ? () => onPick(d.id) : undefined, testid: `roost-${d.name}`,
+    };
+  });
+  return (
+    <div class="roost-scene" data-testid="roost-scene">
+      <Scene backdrop={backdrop} plainColor="#a58c6a" actors={actors} label={n > 1 ? undefined : `${shown[0]?.name ?? 'Your dragon'} in the Roost`} />
+    </div>
   );
 }

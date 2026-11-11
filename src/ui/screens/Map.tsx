@@ -5,6 +5,8 @@ import { riderMaxHp } from '../../core/characters';
 import type { SaveData } from '../../core/save';
 import { ElementBadge } from '../bits';
 import { EnemySprite } from '../Sprites';
+import { Scene, useBackdrop, useEnemyRig } from '../stage/Scene';
+import type { ElementId } from '../../core/types';
 import { href } from '../router';
 
 interface Props { save: SaveData; update(change: (s: SaveData) => SaveData): void }
@@ -28,12 +30,12 @@ export function MapScreen({ save, update }: Props) {
         const beaten = save.bossesDefeated.includes(zone.id);
         return (
           <article key={zone.id} class={`card zone${lock ? ' zone--locked' : ''}`} data-testid={`zone-${zone.id}`}>
+            <ZoneBanner zoneId={zone.id} element={zone.element} bossId={boss.id} bossElement={boss.element} name={`${zone.name}, home of the ${boss.name}`} />
             <div class="zone-head">
               <div>
                 <h2>{lock && <span aria-hidden="true">🔒 </span>}{zone.name}</h2>
                 <p class="muted">Levels {zone.minLevel} to {zone.maxLevel} · <ElementBadge element={zone.element} small /></p>
               </div>
-              <EnemySprite enemyId={boss.id} element={boss.element} size={64} />
             </div>
             <p>{zone.blurb}</p>
             {lock ? (
@@ -56,5 +58,17 @@ export function MapScreen({ save, update }: Props) {
         );
       })}
     </section>
+  );
+}
+
+/** A strip of the zone's backdrop with its boss standing on the right. Still, to save battery on a long list. */
+function ZoneBanner({ zoneId, element, bossId, bossElement, name }: { zoneId: string; element: ElementId; bossId: string; bossElement: ElementId; name: string }) {
+  const backdrop = useBackdrop(zoneId);
+  const rig = useEnemyRig(bossId);
+  return (
+    <div class="zone-banner">
+      <Scene backdrop={backdrop} plainColor={data.elements.info[element].color} still aspect="16 / 7" focus="center 78%" label={name}
+        actors={[{ id: bossId, rig, fallback: <EnemySprite enemyId={bossId} element={bossElement} size={96} />, left: 62, bottom: 4, width: 34, facing: 'left' }]} />
+    </div>
   );
 }

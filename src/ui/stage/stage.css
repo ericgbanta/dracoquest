@@ -49,15 +49,19 @@ button.actor { cursor: pointer; }
 }
 
 /* Idle loops: slow and cheap. */
-.anim-breathe { animation: stage-breathe 1300ms ease-in-out infinite alternate; }
-.anim-bob { animation: stage-bob 1200ms ease-in-out infinite alternate; }
-.anim-flap { animation: stage-flap 1300ms ease-in-out infinite alternate; }
-.anim-flap-back { animation: stage-flap-back 1300ms ease-in-out infinite alternate; }
-.anim-flap-big { animation: stage-flap-big 900ms ease-in-out infinite alternate; }
-.anim-flap-back-big { animation: stage-flap-back-big 900ms ease-in-out infinite alternate; }
-.anim-swish { animation: stage-swish 1800ms ease-in-out infinite alternate; }
-.anim-cape { animation: stage-cape 1600ms ease-in-out infinite alternate; }
+.anim-breathe { animation: stage-breathe calc(1300ms * var(--idle, 1)) ease-in-out infinite alternate; }
+.anim-bob { animation: stage-bob calc(1200ms * var(--idle, 1)) ease-in-out infinite alternate; }
+.anim-flap { animation: stage-flap calc(1300ms * var(--idle, 1)) ease-in-out infinite alternate; }
+.anim-flap-back { animation: stage-flap-back calc(1300ms * var(--idle, 1)) ease-in-out infinite alternate; }
+.anim-flap-big { animation: stage-flap-big calc(900ms * var(--idle, 1)) ease-in-out infinite alternate; }
+.anim-flap-back-big { animation: stage-flap-back-big calc(900ms * var(--idle, 1)) ease-in-out infinite alternate; }
+.anim-swish { animation: stage-swish calc(1800ms * var(--idle, 1)) ease-in-out infinite alternate; }
+.anim-cape { animation: stage-cape calc(1600ms * var(--idle, 1)) ease-in-out infinite alternate; }
 .stage--paused * { animation-play-state: paused !important; }
+
+/* Scenes outside battle (Roost, Map banners, hatching). */
+.scene { border-radius: var(--radius); }
+button.scene-actor { cursor: pointer; }
 
 @keyframes stage-breathe { from { transform: translateY(0); } to { transform: translateY(1.4%); } }
 @keyframes stage-bob { from { transform: translateY(0); } to { transform: translateY(1.2%); } }
