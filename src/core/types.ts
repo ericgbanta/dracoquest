@@ -11,7 +11,84 @@ export const RIDER_STATS: readonly RiderStat[] = ['strength', 'agility', 'arcana
 export const DRAGON_STATS: readonly DragonStat[] = ['might', 'scale', 'swift', 'spirit'];
 
 export type StatusId =
-  | 'burn' | 'chill' | 'root' | 'crack' | 'shock' | 'soak' | 'blind' | 'ward' | 'fury' | 'harden' | 'fade';
+  | 'burn' | 'chill' | 'root' | 'crack' | 'shock' | 'soak' | 'blind' | 'ward' | 'fury' | 'harden' | 'fade' | 'taunt';
+
+/** Stat and effect bonuses from gear and talents. Every key is optional and adds up. */
+export type BonusKey =
+  | RiderStat | DragonStat
+  | 'riderHp' | 'riderMp' | 'riderDefense' | 'riderCrit' | 'riderDamagePct'
+  | 'dragonHp' | 'dragonDefense' | 'dragonCrit' | 'dragonDodge'
+  | 'clawPct' | 'breathPct' | 'breathPerRound' | 'breathStatusChance' | 'strongBonus'
+  | 'guardReduction' | 'healPct' | 'comboPct' | 'goldPct' | 'dropPct';
+export type Bonus = Partial<Record<BonusKey, number>>;
+
+export type WeaponType = 'melee' | 'ranged' | 'magic';
+export type RiderSlot = 'weapon' | 'armor' | 'trinket';
+export type DragonSlot = 'saddle' | 'horn' | 'charm';
+export type GearSlot = RiderSlot | DragonSlot;
+export const RIDER_SLOTS: readonly RiderSlot[] = ['weapon', 'armor', 'trinket'];
+export const DRAGON_SLOTS: readonly DragonSlot[] = ['saddle', 'horn', 'charm'];
+
+export interface GearData {
+  id: string;
+  name: string;
+  slot: GearSlot;
+  level: number;
+  price: number;
+  bonus: Bonus;
+  description: string;
+  weaponType?: WeaponType;
+  element?: ElementId | null;
+  damage?: number;
+}
+
+export type TalentTree = 'protection' | 'elemental' | 'fighting' | 'assistance' | 'mischief';
+
+export interface TalentSkill {
+  kind: 'damage' | 'heal' | 'healAll' | 'buff' | 'debuff' | 'taunt' | 'cleanse';
+  cooldown: number;
+  base?: number;
+  hits?: number;
+  element?: 'dragon' | null;
+  status?: StatusId;
+  statusChance?: number;
+  target?: 'rider' | 'dragon';
+  fraction?: number;
+}
+
+export interface TalentData {
+  id: string;
+  tree: TalentTree;
+  name: string;
+  /** Points already spent in this tree before this talent can be learned. */
+  tier: number;
+  ranks: number;
+  description: string;
+  bonusPerRank?: Bonus;
+  skill?: TalentSkill;
+}
+
+export interface TalentsData {
+  trees: { id: TalentTree; name: string; focus: string }[];
+  respec: { freePerStage: number; goldPerDragonLevel: number };
+  talents: TalentData[];
+}
+
+export interface DialogueLine { speaker: 'rider' | 'dragon' | 'narrator'; text: string }
+
+export interface QuestStep { intro: DialogueLine[]; enemies: string[]; levelOffset: number }
+
+export interface QuestData {
+  id: string;
+  name: string;
+  stage: string;
+  zone: string;
+  description: string;
+  steps: QuestStep[];
+  outro: DialogueLine[];
+}
+
+export interface ShopData { stock: string[]; items: Record<string, number>; sellFraction: number }
 
 export interface ElementInfo { name: string; color: string; status: StatusId; symbol: string }
 
@@ -25,6 +102,10 @@ export interface ElementsData {
 }
 
 export interface SpellData { id: string; name: string; kind: 'damage' | 'heal'; base: number; mp: number }
+export interface RideMove {
+  id: string; name: string; kind: 'damage' | 'breath' | 'defend' | 'buff'; description: string;
+  base?: number; heal?: number; status?: StatusId;
+}
 export interface ComboData { id: string; name: string; bond: number; base: number; description: string }
 
 export interface CombatData {
@@ -52,7 +133,8 @@ export interface CombatData {
   dragonMoves: { claw: { name: string; base: number }; breath: { name: string; base: number } };
   combos: ComboData[];
   bigAttackMultiplier: number;
-  /** Player move base damage grows by this fraction per level above 1 (stands in for gear). */
+  ride: { defenseShare: number; breathPerRoundBonus: number; moves: RideMove[] };
+  /** Player move base damage grows by this fraction per level above 1. */
   levelDamageScale: number;
 }
 
@@ -78,9 +160,22 @@ export interface ProgressionData {
   bond: { max: number; perWin: number; perBossWin: number };
   startingInventory: Record<string, number>;
   startingGold: number;
+  startingGear: Partial<Record<RiderSlot, string>>;
 }
 
-export interface StageData { id: string; name: string; minLevel: number; maxLevel: number; bond: number }
+export interface StageData {
+  id: string;
+  name: string;
+  minLevel: number;
+  maxLevel: number;
+  bond: number;
+  breathMultiplier: number;
+  growthStatPoints: number;
+  quest?: string | null;
+  unlocks: string[];
+  /** False for stages a later phase adds. */
+  available?: boolean;
+}
 
 export interface DragonsData {
   stages: StageData[];
@@ -151,7 +246,6 @@ export interface ZoneData {
   element: ElementId;
   minLevel: number;
   maxLevel: number;
-  gate: string | null;
   blurb: string;
   fights: { min: number; max: number };
   encounters: EncounterData[];
@@ -160,6 +254,8 @@ export interface ZoneData {
   boss: { enemy: string; level: number; unlockRiderLevel: number };
   miniBoss: { enemy: string; levelOffset: number };
   dropChances: Record<string, number>;
+  gate: { stage: string; text: string } | null;
+  eggDrop: { element: ElementId; chance: number } | null;
 }
 
 export interface GameData {
@@ -173,6 +269,10 @@ export interface GameData {
   items: ItemData[];
   enemies: Record<string, EnemyData>;
   zones: ZoneData[];
+  gear: Record<string, GearData>;
+  talents: TalentsData;
+  quests: Record<string, QuestData>;
+  shop: ShopData;
 }
 
 // ---- Persistent character state (lives in the save) ----
@@ -187,6 +287,9 @@ export interface RiderState {
   mp: number;
   gold: number;
   inventory: Record<string, number>;
+  /** Gear ids the rider owns, including equipped ones (dragon gear too). */
+  gear: string[];
+  equipment: Partial<Record<RiderSlot, string>>;
 }
 
 export interface DragonState {
@@ -204,4 +307,9 @@ export interface DragonState {
   favoriteFood: string;
   foodsTried: string[];
   hatchedAt: number;
+  /** Talent id → rank. */
+  talents: Record<string, number>;
+  /** Free respecs used in the current life stage. */
+  freeRespecsUsed: number;
+  equipment: Partial<Record<DragonSlot, string>>;
 }

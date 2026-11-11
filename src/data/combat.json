@@ -113,5 +113,39 @@
     }
   ],
   "bigAttackMultiplier": 1.8,
-  "levelDamageScale": 0.12
+  "levelDamageScale": 0.12,
+  "ride": {
+    "defenseShare": 0.6,
+    "breathPerRoundBonus": 5,
+    "moves": [
+      {
+        "id": "dive",
+        "name": "Diving Strike",
+        "kind": "damage",
+        "base": 30,
+        "description": "Swoop down and hit hard."
+      },
+      {
+        "id": "skyfire",
+        "name": "Skyfire",
+        "kind": "breath",
+        "base": 48,
+        "description": "Full breath from the sky. Needs a full meter."
+      },
+      {
+        "id": "wing-shield",
+        "name": "Wing Shield",
+        "kind": "defend",
+        "heal": 0.06,
+        "description": "Halve damage this round and heal a little."
+      },
+      {
+        "id": "soar",
+        "name": "Soar",
+        "kind": "buff",
+        "status": "fade",
+        "description": "Fly high. Harder to hit for 2 rounds."
+      }
+    ]
+  }
 }

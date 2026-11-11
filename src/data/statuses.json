@@ -1,13 +1,110 @@
 {
-  "burn":  { "name": "Burn",  "icon": "🔥", "short": "BRN", "duration": 3, "kind": "debuff", "dotFraction": 0.06, "description": "Takes fire damage each round." },
-  "chill": { "name": "Chill", "icon": "❄", "short": "CHL", "duration": 2, "kind": "debuff", "initiativeMultiplier": 0.6, "description": "Acts later." },
-  "root":  { "name": "Root",  "icon": "🌿", "short": "RT",  "duration": 2, "kind": "debuff", "noDodge": true, "description": "Cannot dodge." },
-  "crack": { "name": "Crack", "icon": "⛏", "short": "CRK", "duration": 3, "kind": "debuff", "defenseMultiplier": 0.5, "damageTakenMultiplier": 1.15, "description": "Lower defense." },
-  "shock": { "name": "Shock", "icon": "⚡", "short": "SHK", "duration": 2, "kind": "debuff", "skipChance": 0.3, "description": "May skip a turn." },
-  "soak":  { "name": "Soak",  "icon": "💧", "short": "SK",  "duration": 3, "kind": "debuff", "stormDamageMultiplier": 1.3, "description": "Takes more Storm damage." },
-  "blind": { "name": "Blind", "icon": "🌑", "short": "BLD", "duration": 2, "kind": "debuff", "accuracyPenalty": 0.3, "description": "Misses more." },
-  "ward":  { "name": "Ward",  "icon": "🛡", "short": "WRD", "duration": 3, "kind": "buff", "shieldFraction": 0.15, "description": "A shield absorbs damage." },
-  "fury":  { "name": "Fury",  "icon": "💢", "short": "FRY", "duration": 3, "kind": "buff", "damageMultiplier": 1.3, "description": "Hits harder." },
-  "harden":{ "name": "Harden","icon": "🪨", "short": "HRD", "duration": 3, "kind": "buff", "defenseBonus": 4, "description": "Higher defense." },
-  "fade":  { "name": "Fade",  "icon": "👻", "short": "FDE", "duration": 2, "kind": "buff", "dodgeBonus": 20, "description": "Harder to hit." }
+  "burn": {
+    "name": "Burn",
+    "icon": "\ud83d\udd25",
+    "short": "BRN",
+    "duration": 3,
+    "kind": "debuff",
+    "dotFraction": 0.06,
+    "description": "Takes fire damage each round."
+  },
+  "chill": {
+    "name": "Chill",
+    "icon": "\u2744",
+    "short": "CHL",
+    "duration": 2,
+    "kind": "debuff",
+    "initiativeMultiplier": 0.6,
+    "description": "Acts later."
+  },
+  "root": {
+    "name": "Root",
+    "icon": "\ud83c\udf3f",
+    "short": "RT",
+    "duration": 2,
+    "kind": "debuff",
+    "noDodge": true,
+    "description": "Cannot dodge."
+  },
+  "crack": {
+    "name": "Crack",
+    "icon": "\u26cf",
+    "short": "CRK",
+    "duration": 3,
+    "kind": "debuff",
+    "defenseMultiplier": 0.5,
+    "damageTakenMultiplier": 1.15,
+    "description": "Lower defense."
+  },
+  "shock": {
+    "name": "Shock",
+    "icon": "\u26a1",
+    "short": "SHK",
+    "duration": 2,
+    "kind": "debuff",
+    "skipChance": 0.3,
+    "description": "May skip a turn."
+  },
+  "soak": {
+    "name": "Soak",
+    "icon": "\ud83d\udca7",
+    "short": "SK",
+    "duration": 3,
+    "kind": "debuff",
+    "stormDamageMultiplier": 1.3,
+    "description": "Takes more Storm damage."
+  },
+  "blind": {
+    "name": "Blind",
+    "icon": "\ud83c\udf11",
+    "short": "BLD",
+    "duration": 2,
+    "kind": "debuff",
+    "accuracyPenalty": 0.3,
+    "description": "Misses more."
+  },
+  "ward": {
+    "name": "Ward",
+    "icon": "\ud83d\udee1",
+    "short": "WRD",
+    "duration": 3,
+    "kind": "buff",
+    "shieldFraction": 0.15,
+    "description": "A shield absorbs damage."
+  },
+  "fury": {
+    "name": "Fury",
+    "icon": "\ud83d\udca2",
+    "short": "FRY",
+    "duration": 3,
+    "kind": "buff",
+    "damageMultiplier": 1.3,
+    "description": "Hits harder."
+  },
+  "harden": {
+    "name": "Harden",
+    "icon": "\ud83e\udea8",
+    "short": "HRD",
+    "duration": 3,
+    "kind": "buff",
+    "defenseBonus": 4,
+    "description": "Higher defense."
+  },
+  "fade": {
+    "name": "Fade",
+    "icon": "\ud83d\udc7b",
+    "short": "FDE",
+    "duration": 2,
+    "kind": "buff",
+    "dodgeBonus": 20,
+    "description": "Harder to hit."
+  },
+  "taunt": {
+    "name": "Taunt",
+    "icon": "\ud83d\udce3",
+    "short": "TNT",
+    "duration": 2,
+    "kind": "buff",
+    "description": "Enemies must attack this dragon."
+  }
 }

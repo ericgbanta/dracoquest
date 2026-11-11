@@ -1,0 +1,39 @@
+{
+  "stock": [
+    "hunters-sling",
+    "apprentice-wand",
+    "bramble-saber",
+    "tidecaller-bow",
+    "ember-rod",
+    "coral-cutlass",
+    "frostbite-crossbow",
+    "cinder-staff",
+    "magma-maul",
+    "galeshot-longbow",
+    "stonesong-scepter",
+    "thunder-glaive",
+    "stormwing-bow",
+    "verdant-codex",
+    "leather-jerkin",
+    "shellplate",
+    "ashguard-mail",
+    "skyforged-plate",
+    "lucky-pebble",
+    "mana-locket",
+    "brawlers-band",
+    "keepers-charm",
+    "stormglass-pendant",
+    "rope-saddle",
+    "ridgeback-saddle",
+    "iron-horn-cap",
+    "gilded-horn-cap",
+    "river-scale-charm",
+    "ember-scale-charm"
+  ],
+  "items": {
+    "potion": 25,
+    "dragon-treat": 25,
+    "mana-tonic": 30
+  },
+  "sellFraction": 0.5
+}

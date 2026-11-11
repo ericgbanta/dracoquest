@@ -1,19 +1,29 @@
 import type { DragonState, DragonStats, ElementId, GameData, RiderState } from './types';
 import type { Rng } from './rng';
+import { bonusOf, dragonBonus, effectiveDragonStats, effectiveRiderStats, riderBonus } from './loadout';
 
-export function riderMaxHp(data: GameData, r: Pick<RiderState, 'level' | 'stats'>): number {
+type RiderLike = Pick<RiderState, 'level' | 'stats'> & Partial<Pick<RiderState, 'equipment'>>;
+type DragonLike = Pick<DragonState, 'level' | 'stats'> & Partial<Pick<DragonState, 'equipment' | 'talents'>>;
+
+export function riderMaxHp(data: GameData, r: RiderLike): number {
   const c = data.combat.rider;
-  return Math.round(c.baseHp + c.hpPerVigor * r.stats.vigor + c.hpPerLevel * (r.level - 1));
+  const full = { stats: r.stats, equipment: r.equipment ?? {} };
+  const stats = effectiveRiderStats(data, full);
+  return Math.round(c.baseHp + c.hpPerVigor * stats.vigor + c.hpPerLevel * (r.level - 1) + bonusOf(riderBonus(data, full), 'riderHp'));
 }
 
-export function riderMaxMp(data: GameData, r: Pick<RiderState, 'stats'>): number {
+export function riderMaxMp(data: GameData, r: Omit<RiderLike, 'level'>): number {
   const c = data.combat.rider;
-  return Math.round(c.baseMp + c.mpPerArcana * r.stats.arcana);
+  const full = { stats: r.stats, equipment: r.equipment ?? {} };
+  const stats = effectiveRiderStats(data, full);
+  return Math.round(c.baseMp + c.mpPerArcana * stats.arcana + bonusOf(riderBonus(data, full), 'riderMp'));
 }
 
-export function dragonMaxHp(data: GameData, d: Pick<DragonState, 'level' | 'stats'>): number {
+export function dragonMaxHp(data: GameData, d: DragonLike): number {
   const c = data.combat.dragon;
-  return Math.round(c.baseHp + c.hpPerScale * d.stats.scale + c.hpPerLevel * (d.level - 1));
+  const full = { stats: d.stats, equipment: d.equipment ?? {}, talents: d.talents ?? {} };
+  const stats = effectiveDragonStats(data, full);
+  return Math.round(c.baseHp + c.hpPerScale * stats.scale + c.hpPerLevel * (d.level - 1) + bonusOf(dragonBonus(data, full), 'dragonHp'));
 }
 
 export function newRider(data: GameData, name: string): RiderState {
@@ -29,6 +39,8 @@ export function newRider(data: GameData, name: string): RiderState {
     mp: riderMaxMp(data, base),
     gold: p.startingGold,
     inventory: { ...p.startingInventory },
+    gear: Object.values(p.startingGear).filter((x): x is string => !!x),
+    equipment: { ...p.startingGear },
   };
 }
 
@@ -68,6 +80,9 @@ export function hatchDragon(data: GameData, rng: Rng, opts: HatchOptions): Drago
     favoriteFood: rng.pick(data.foods).id,
     foodsTried: [],
     hatchedAt: opts.now,
+    talents: {},
+    freeRespecsUsed: 0,
+    equipment: {},
   };
   return { ...dragon, hp: dragonMaxHp(data, dragon) };
 }

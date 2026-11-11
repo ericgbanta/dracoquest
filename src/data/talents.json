@@ -1,0 +1,460 @@
+{
+  "trees": [
+    {
+      "id": "protection",
+      "name": "Protection",
+      "focus": "Shields the rider, taunts, damage reduction"
+    },
+    {
+      "id": "elemental",
+      "name": "Elemental",
+      "focus": "Breath power, element effects"
+    },
+    {
+      "id": "fighting",
+      "name": "Fighting",
+      "focus": "Claw combos and crits"
+    },
+    {
+      "id": "assistance",
+      "name": "Assistance",
+      "focus": "Healing, buffs, faster breath"
+    },
+    {
+      "id": "mischief",
+      "name": "Mischief",
+      "focus": "Debuffs, steals, odd tricks"
+    }
+  ],
+  "respec": {
+    "freePerStage": 1,
+    "goldPerDragonLevel": 40
+  },
+  "talents": [
+    {
+      "id": "thick-hide",
+      "tree": "protection",
+      "name": "Thick Hide",
+      "tier": 0,
+      "ranks": 3,
+      "description": "+1.5 dragon defense per rank.",
+      "bonusPerRank": {
+        "dragonDefense": 1.5
+      }
+    },
+    {
+      "id": "steady-wings",
+      "tree": "protection",
+      "name": "Steady Wings",
+      "tier": 0,
+      "ranks": 3,
+      "description": "Guard takes 8% less damage per rank.",
+      "bonusPerRank": {
+        "guardReduction": 0.08
+      }
+    },
+    {
+      "id": "taunting-roar",
+      "tree": "protection",
+      "name": "Taunting Roar",
+      "tier": 2,
+      "ranks": 1,
+      "description": "Skill: every enemy attacks your dragon for 2 rounds.",
+      "skill": {
+        "kind": "taunt",
+        "status": "taunt",
+        "cooldown": 4
+      }
+    },
+    {
+      "id": "shield-of-scales",
+      "tree": "protection",
+      "name": "Shield of Scales",
+      "tier": 4,
+      "ranks": 3,
+      "description": "+1 rider defense per rank.",
+      "bonusPerRank": {
+        "riderDefense": 1
+      }
+    },
+    {
+      "id": "stalwart",
+      "tree": "protection",
+      "name": "Stalwart",
+      "tier": 4,
+      "ranks": 1,
+      "description": "+40 dragon HP.",
+      "bonusPerRank": {
+        "dragonHp": 40
+      }
+    },
+    {
+      "id": "warding-wing",
+      "tree": "protection",
+      "name": "Warding Wing",
+      "tier": 7,
+      "ranks": 1,
+      "description": "Skill: wrap the rider in a Ward shield.",
+      "skill": {
+        "kind": "buff",
+        "status": "ward",
+        "target": "rider",
+        "cooldown": 4
+      }
+    },
+    {
+      "id": "iron-heart",
+      "tree": "protection",
+      "name": "Iron Heart",
+      "tier": 10,
+      "ranks": 3,
+      "description": "+25 dragon HP and +1 defense per rank.",
+      "bonusPerRank": {
+        "dragonHp": 25,
+        "dragonDefense": 1
+      }
+    },
+    {
+      "id": "kindled-breath",
+      "tree": "elemental",
+      "name": "Kindled Breath",
+      "tier": 0,
+      "ranks": 3,
+      "description": "+8% breath damage per rank.",
+      "bonusPerRank": {
+        "breathPct": 0.08
+      }
+    },
+    {
+      "id": "deep-lungs",
+      "tree": "elemental",
+      "name": "Deep Lungs",
+      "tier": 0,
+      "ranks": 3,
+      "description": "+3 breath meter per round per rank.",
+      "bonusPerRank": {
+        "breathPerRound": 3
+      }
+    },
+    {
+      "id": "elemental-burst",
+      "tree": "elemental",
+      "name": "Elemental Burst",
+      "tier": 2,
+      "ranks": 1,
+      "description": "Skill: a quick blast in your element.",
+      "skill": {
+        "kind": "damage",
+        "base": 20,
+        "element": "dragon",
+        "cooldown": 3
+      }
+    },
+    {
+      "id": "lingering-element",
+      "tree": "elemental",
+      "name": "Lingering Element",
+      "tier": 4,
+      "ranks": 3,
+      "description": "+8% breath status chance per rank.",
+      "bonusPerRank": {
+        "breathStatusChance": 0.08
+      }
+    },
+    {
+      "id": "attuned",
+      "tree": "elemental",
+      "name": "Attuned",
+      "tier": 4,
+      "ranks": 1,
+      "description": "Strong element hits deal 15% more.",
+      "bonusPerRank": {
+        "strongBonus": 0.15
+      }
+    },
+    {
+      "id": "cleansing-flame",
+      "tree": "elemental",
+      "name": "Cleansing Flame",
+      "tier": 7,
+      "ranks": 1,
+      "description": "Skill: clear bad statuses from rider and dragon.",
+      "skill": {
+        "kind": "cleanse",
+        "cooldown": 4
+      }
+    },
+    {
+      "id": "primal-breath",
+      "tree": "elemental",
+      "name": "Primal Breath",
+      "tier": 10,
+      "ranks": 3,
+      "description": "+10% breath damage per rank.",
+      "bonusPerRank": {
+        "breathPct": 0.1
+      }
+    },
+    {
+      "id": "sharp-claws",
+      "tree": "fighting",
+      "name": "Sharp Claws",
+      "tier": 0,
+      "ranks": 3,
+      "description": "+10% claw damage per rank.",
+      "bonusPerRank": {
+        "clawPct": 0.1
+      }
+    },
+    {
+      "id": "keen-eye",
+      "tree": "fighting",
+      "name": "Keen Eye",
+      "tier": 0,
+      "ranks": 3,
+      "description": "+3% dragon crit chance per rank.",
+      "bonusPerRank": {
+        "dragonCrit": 0.03
+      }
+    },
+    {
+      "id": "twin-claws",
+      "tree": "fighting",
+      "name": "Twin Claws",
+      "tier": 2,
+      "ranks": 1,
+      "description": "Skill: two quick claw swipes.",
+      "skill": {
+        "kind": "damage",
+        "base": 9,
+        "hits": 2,
+        "cooldown": 2
+      }
+    },
+    {
+      "id": "ferocity",
+      "tree": "fighting",
+      "name": "Ferocity",
+      "tier": 4,
+      "ranks": 3,
+      "description": "+1 Might per rank.",
+      "bonusPerRank": {
+        "might": 1
+      }
+    },
+    {
+      "id": "pounce",
+      "tree": "fighting",
+      "name": "Pounce",
+      "tier": 4,
+      "ranks": 1,
+      "description": "Skill: a big leaping strike.",
+      "skill": {
+        "kind": "damage",
+        "base": 24,
+        "cooldown": 3
+      }
+    },
+    {
+      "id": "rending-strike",
+      "tree": "fighting",
+      "name": "Rending Strike",
+      "tier": 7,
+      "ranks": 1,
+      "description": "Skill: a strike that Cracks armor.",
+      "skill": {
+        "kind": "damage",
+        "base": 14,
+        "status": "crack",
+        "statusChance": 1,
+        "cooldown": 3
+      }
+    },
+    {
+      "id": "frenzy",
+      "tree": "fighting",
+      "name": "Frenzy",
+      "tier": 10,
+      "ranks": 3,
+      "description": "+5% claw and +10% combo damage per rank.",
+      "bonusPerRank": {
+        "clawPct": 0.05,
+        "comboPct": 0.1
+      }
+    },
+    {
+      "id": "soothing-hum",
+      "tree": "assistance",
+      "name": "Soothing Hum",
+      "tier": 0,
+      "ranks": 1,
+      "description": "Skill: heal the rider.",
+      "skill": {
+        "kind": "heal",
+        "base": 22,
+        "target": "rider",
+        "cooldown": 3
+      }
+    },
+    {
+      "id": "quick-charge",
+      "tree": "assistance",
+      "name": "Quick Charge",
+      "tier": 0,
+      "ranks": 3,
+      "description": "+2 breath meter per round per rank.",
+      "bonusPerRank": {
+        "breathPerRound": 2
+      }
+    },
+    {
+      "id": "rally",
+      "tree": "assistance",
+      "name": "Rally",
+      "tier": 2,
+      "ranks": 1,
+      "description": "Skill: the rider gets Fury for 3 rounds.",
+      "skill": {
+        "kind": "buff",
+        "status": "fury",
+        "target": "rider",
+        "cooldown": 4
+      }
+    },
+    {
+      "id": "mending-aura",
+      "tree": "assistance",
+      "name": "Mending Aura",
+      "tier": 4,
+      "ranks": 3,
+      "description": "Healing is 10% stronger per rank.",
+      "bonusPerRank": {
+        "healPct": 0.1
+      }
+    },
+    {
+      "id": "bonded-souls",
+      "tree": "assistance",
+      "name": "Bonded Souls",
+      "tier": 4,
+      "ranks": 1,
+      "description": "Combos deal 20% more.",
+      "bonusPerRank": {
+        "comboPct": 0.2
+      }
+    },
+    {
+      "id": "second-wind",
+      "tree": "assistance",
+      "name": "Second Wind",
+      "tier": 7,
+      "ranks": 1,
+      "description": "Skill: heal rider and dragon 20% each.",
+      "skill": {
+        "kind": "healAll",
+        "fraction": 0.2,
+        "cooldown": 5
+      }
+    },
+    {
+      "id": "guardian-spirit",
+      "tree": "assistance",
+      "name": "Guardian Spirit",
+      "tier": 10,
+      "ranks": 3,
+      "description": "+1 rider defense and +5% healing per rank.",
+      "bonusPerRank": {
+        "riderDefense": 1,
+        "healPct": 0.05
+      }
+    },
+    {
+      "id": "pickpocket",
+      "tree": "mischief",
+      "name": "Pickpocket",
+      "tier": 0,
+      "ranks": 3,
+      "description": "+10% gold from fights per rank.",
+      "bonusPerRank": {
+        "goldPct": 0.1
+      }
+    },
+    {
+      "id": "dirty-tricks",
+      "tree": "mischief",
+      "name": "Dirty Tricks",
+      "tier": 0,
+      "ranks": 3,
+      "description": "+3 dragon dodge per rank.",
+      "bonusPerRank": {
+        "dragonDodge": 3
+      }
+    },
+    {
+      "id": "sneezing-fit",
+      "tree": "mischief",
+      "name": "Sneezing Fit",
+      "tier": 2,
+      "ranks": 1,
+      "description": "Skill: sneeze on an enemy. It is Blinded.",
+      "skill": {
+        "kind": "debuff",
+        "status": "blind",
+        "statusChance": 1,
+        "cooldown": 3
+      }
+    },
+    {
+      "id": "trip-up",
+      "tree": "mischief",
+      "name": "Trip Up",
+      "tier": 4,
+      "ranks": 1,
+      "description": "Skill: a small hit that Chills the target.",
+      "skill": {
+        "kind": "damage",
+        "base": 8,
+        "status": "chill",
+        "statusChance": 1,
+        "cooldown": 2
+      }
+    },
+    {
+      "id": "sticky-fingers",
+      "tree": "mischief",
+      "name": "Sticky Fingers",
+      "tier": 4,
+      "ranks": 3,
+      "description": "+10% item drop chance per rank.",
+      "bonusPerRank": {
+        "dropPct": 0.1
+      }
+    },
+    {
+      "id": "jinx",
+      "tree": "mischief",
+      "name": "Jinx",
+      "tier": 7,
+      "ranks": 1,
+      "description": "Skill: Crack an enemy without touching it.",
+      "skill": {
+        "kind": "debuff",
+        "status": "crack",
+        "statusChance": 1,
+        "cooldown": 3
+      }
+    },
+    {
+      "id": "shadow-step",
+      "tree": "mischief",
+      "name": "Shadow Step",
+      "tier": 10,
+      "ranks": 3,
+      "description": "+3 dodge and +2% crit per rank.",
+      "bonusPerRank": {
+        "dragonDodge": 3,
+        "dragonCrit": 0.02
+      }
+    }
+  ]
+}

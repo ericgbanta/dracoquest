@@ -5,11 +5,11 @@
 import type { Rng } from './rng';
 import { enemyGold, enemyXp } from './progression';
 import type { BattleState, EnemySpawn } from './battle';
-import type { GameData, ZoneData } from './types';
+import type { Bonus, DialogueLine, ElementId, GameData, QuestData, ZoneData } from './types';
 
-export type FightKind = 'normal' | 'mini' | 'boss';
+export type FightKind = 'normal' | 'mini' | 'boss' | 'quest';
 
-export interface PlannedFight { kind: FightKind; enemies: EnemySpawn[] }
+export interface PlannedFight { kind: FightKind; enemies: EnemySpawn[]; intro?: DialogueLine[] }
 
 export interface RunState {
   zoneId: string;
@@ -17,10 +17,12 @@ export interface RunState {
   /** Index of the current fight. */
   index: number;
   battle: BattleState | null;
+  /** Set for a growth quest run. */
+  questId?: string;
   totals: { xp: number; gold: number; drops: Record<string, number> };
 }
 
-export interface Rewards { xp: number; gold: number; drops: Record<string, number> }
+export interface Rewards { xp: number; gold: number; drops: Record<string, number>; egg?: ElementId }
 
 export function getZone(data: GameData, zoneId: string): ZoneData {
   const z = data.zones.find((x) => x.id === zoneId);
@@ -64,8 +66,17 @@ export function planRun(data: GameData, zoneId: string, riderLevel: number, rng:
   return fights;
 }
 
+/** The fights of a growth quest, levelled to the dragon. */
+export function planQuest(quest: QuestData, dragonLevel: number): PlannedFight[] {
+  return quest.steps.map((step) => ({
+    kind: 'quest',
+    intro: step.intro,
+    enemies: step.enemies.map((id) => ({ enemyId: id, level: Math.max(1, dragonLevel + step.levelOffset) })),
+  }));
+}
+
 /** XP, gold, and item drops for winning a battle. */
-export function rollRewards(data: GameData, zoneId: string, battle: BattleState, rng: Rng, xpBonus = 0): Rewards {
+export function rollRewards(data: GameData, zoneId: string, battle: BattleState, rng: Rng, xpBonus = 0, mods: Bonus = {}): Rewards {
   const zone = getZone(data, zoneId);
   let xp = 0;
   let gold = 0;
@@ -75,10 +86,10 @@ export function rollRewards(data: GameData, zoneId: string, battle: BattleState,
     gold += enemyGold(data.progression, f.level, e.goldMultiplier ?? 1);
   }
   xp = Math.round(xp * (1 + xpBonus));
-  gold = Math.round(gold * rng.float(0.8, 1.2));
+  gold = Math.round(gold * rng.float(0.8, 1.2) * (1 + (mods.goldPct ?? 0)));
   const drops: Record<string, number> = {};
   for (const [item, chance] of Object.entries(zone.dropChances)) {
-    if (rng.chance(chance)) drops[item] = (drops[item] ?? 0) + 1;
+    if (rng.chance(chance * (1 + (mods.dropPct ?? 0)))) drops[item] = (drops[item] ?? 0) + 1;
   }
   return { xp, gold, drops };
 }

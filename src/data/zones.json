@@ -68,6 +68,229 @@
       "potion": 0.25,
       "dragon-treat": 0.15,
       "mana-tonic": 0.1
+    },
+    "eggDrop": null
+  },
+  {
+    "id": "saltmarsh-shore",
+    "name": "Saltmarsh Shore",
+    "element": "tide",
+    "minLevel": 6,
+    "maxLevel": 14,
+    "gate": null,
+    "blurb": "Sandy beaches, salty crabs, and gulls with criminal records.",
+    "fights": {
+      "min": 3,
+      "max": 5
+    },
+    "encounters": [
+      {
+        "enemies": [
+          "pincher-crab"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "gull-bandit"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "brine-slime"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "kelp-lurker"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "shell-knight"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "pincher-crab",
+          "gull-bandit"
+        ],
+        "weight": 1
+      }
+    ],
+    "levelSpread": 1,
+    "multiEnemyLevelOffset": -1,
+    "boss": {
+      "enemy": "crab-king",
+      "level": 14,
+      "unlockRiderLevel": 13
+    },
+    "miniBoss": {
+      "enemy": "big-pincher",
+      "levelOffset": 0
+    },
+    "dropChances": {
+      "potion": 0.25,
+      "dragon-treat": 0.15,
+      "mana-tonic": 0.1
+    },
+    "eggDrop": {
+      "element": "tide",
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "cinder-pass",
+    "name": "Cinder Pass",
+    "element": "fire",
+    "minLevel": 12,
+    "maxLevel": 20,
+    "gate": {
+      "stage": "juvenile",
+      "text": "Needs a Juvenile dragon to brave the heat"
+    },
+    "blurb": "A mountain road paved with warm rocks. Some of them bite.",
+    "fights": {
+      "min": 3,
+      "max": 5
+    },
+    "encounters": [
+      {
+        "enemies": [
+          "ember-imp"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "ash-lizard"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "cinder-beetle"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "smog-bat"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "lava-toad"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "ember-imp",
+          "ember-imp"
+        ],
+        "weight": 1
+      }
+    ],
+    "levelSpread": 1,
+    "multiEnemyLevelOffset": -1,
+    "boss": {
+      "enemy": "magma-wyrm",
+      "level": 20,
+      "unlockRiderLevel": 19
+    },
+    "miniBoss": {
+      "enemy": "imp-chieftain",
+      "levelOffset": 0
+    },
+    "dropChances": {
+      "potion": 0.25,
+      "dragon-treat": 0.15,
+      "mana-tonic": 0.1
+    },
+    "eggDrop": {
+      "element": "fire",
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "thunderspire",
+    "name": "Thunderspire",
+    "element": "storm",
+    "minLevel": 18,
+    "maxLevel": 28,
+    "gate": {
+      "stage": "juvenile",
+      "text": "Needs a Juvenile dragon that can fly"
+    },
+    "blurb": "A spire so tall it gets struck by lightning for fun.",
+    "fights": {
+      "min": 3,
+      "max": 5
+    },
+    "encounters": [
+      {
+        "enemies": [
+          "spark-sprite"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "thunder-goat"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "cliff-harpy"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "gale-hawk"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "granite-ram"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "spark-sprite",
+          "gale-hawk"
+        ],
+        "weight": 1
+      }
+    ],
+    "levelSpread": 1,
+    "multiEnemyLevelOffset": -1,
+    "boss": {
+      "enemy": "storm-roc",
+      "level": 28,
+      "unlockRiderLevel": 27
+    },
+    "miniBoss": {
+      "enemy": "thunderhead",
+      "levelOffset": 0
+    },
+    "dropChances": {
+      "potion": 0.25,
+      "dragon-treat": 0.15,
+      "mana-tonic": 0.1
+    },
+    "eggDrop": {
+      "element": "storm",
+      "chance": 0.1
     }
   }
 ]

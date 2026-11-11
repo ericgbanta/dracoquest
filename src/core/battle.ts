@@ -9,8 +9,9 @@
 import { createRng, type Rng } from './rng';
 import { elementMultiplier, matchup, type Matchup } from './elements';
 import { dragonMaxHp, riderMaxHp, riderMaxMp } from './characters';
+import { addBonus, bonusOf, dragonBonus, effectiveDragonStats, effectiveRiderStats, learnedSkills, riderBonus, riderWeapon, talentById } from './loadout';
 import type {
-  DragonState, ElementId, EnemyData, EnemyMove, GameData, IntentKind, RiderState, StatusId,
+  Bonus, DragonState, ElementId, EnemyData, EnemyMove, GameData, IntentKind, RiderState, StatusId, WeaponType,
 } from './types';
 
 export interface StatusInstance { id: StatusId; turns: number; shield?: number }
@@ -60,6 +61,19 @@ export interface BattleState {
   inventory: Record<string, number>;
   canFlee: boolean;
   outcome: Outcome;
+  /** 'ride': rider and dragon fight as one mounted unit (Adult dragons, boss fights). */
+  mode: 'normal' | 'ride';
+  weapon: { name: string; damage: number; element: ElementId | null; type: WeaponType };
+  /** Bonuses for the rider side (gear plus the dragon's rider-boosting talents). */
+  riderMods: Bonus;
+  dragonMods: Bonus;
+  breathMultiplier: number;
+  spirit: number;
+  /** Learned talent skills and rounds left before each can be used again. */
+  skills: string[];
+  cooldowns: Record<string, number>;
+  /** Max HP of each half of a mounted unit, to split HP after the fight. */
+  ride: { riderMaxHp: number; dragonMaxHp: number; dragonName: string } | null;
 }
 
 export type RiderOrder =
@@ -67,13 +81,15 @@ export type RiderOrder =
   | { type: 'spell'; spell: string; target: string }
   | { type: 'item'; item: string }
   | { type: 'defend' }
-  | { type: 'flee' };
+  | { type: 'flee' }
+  | { type: 'ride'; move: string; target: string };
 
 export type DragonOrder =
   | { type: 'claw'; target: string }
   | { type: 'breath'; target: string }
   | { type: 'guard' }
-  | { type: 'combo'; combo: string; target: string };
+  | { type: 'combo'; combo: string; target: string }
+  | { type: 'skill'; skill: string; target: string };
 
 export interface Orders { rider: RiderOrder; dragon?: DragonOrder }
 
@@ -99,32 +115,54 @@ export interface BattleSetup {
   enemies: EnemySpawn[];
   seed: number;
   canFlee: boolean;
+  /** Fight mounted. Needs a dragon that is awake. */
+  ride?: boolean;
 }
 
 // ---------- Setup ----------
 
-function riderFighter(data: GameData, r: RiderState): Fighter {
+const WEAPON_STAT: Record<WeaponType, 'strength' | 'agility' | 'arcana'> = { melee: 'strength', ranged: 'agility', magic: 'arcana' };
+
+function riderFighter(data: GameData, r: RiderState, mods: Bonus): Fighter {
   const c = data.combat;
+  const st = effectiveRiderStats(data, r);
+  const weapon = riderWeapon(data, r);
   return {
     id: 'rider', kind: 'rider', name: r.name, element: null, level: r.level,
     maxHp: riderMaxHp(data, r), hp: r.hp, maxMp: riderMaxMp(data, r), mp: r.mp,
-    power: r.stats.strength, magic: r.stats.arcana,
-    accuracy: r.stats.agility, dodge: r.stats.agility * c.rider.dodgePerAgility, swift: r.stats.agility,
-    defense: r.stats.vigor * c.rider.defensePerVigor,
-    critChance: Math.min(c.crit.max, c.crit.base + r.stats.agility * c.crit.perAgility),
+    power: st[WEAPON_STAT[weapon.weaponType ?? 'melee']], magic: st.arcana,
+    accuracy: st.agility, dodge: st.agility * c.rider.dodgePerAgility, swift: st.agility,
+    defense: st.vigor * c.rider.defensePerVigor + bonusOf(mods, 'riderDefense'),
+    critChance: Math.min(c.crit.max, c.crit.base + st.agility * c.crit.perAgility + bonusOf(mods, 'riderCrit')),
     statuses: [],
   };
 }
 
-function dragonFighter(data: GameData, d: DragonState): Fighter {
+function dragonFighter(data: GameData, d: DragonState, mods: Bonus): Fighter {
   const c = data.combat;
+  const st = effectiveDragonStats(data, d);
   return {
     id: 'dragon', kind: 'dragon', name: d.name, element: d.element, level: d.level,
     maxHp: dragonMaxHp(data, d), hp: d.hp, maxMp: 0, mp: 0,
-    power: d.stats.might, magic: d.stats.spirit,
-    accuracy: d.stats.swift * c.dragon.accuracyPerSwift, dodge: d.stats.swift * c.dragon.dodgePerSwift, swift: d.stats.swift,
-    defense: d.stats.scale * c.dragon.defensePerScale,
-    critChance: Math.min(c.crit.max, c.crit.base + d.stats.swift * c.crit.perSwift),
+    power: st.might, magic: st.spirit,
+    accuracy: st.swift * c.dragon.accuracyPerSwift, dodge: st.swift * c.dragon.dodgePerSwift + bonusOf(mods, 'dragonDodge'), swift: st.swift,
+    defense: st.scale * c.dragon.defensePerScale + bonusOf(mods, 'dragonDefense'),
+    critChance: Math.min(c.crit.max, c.crit.base + st.swift * c.crit.perSwift + bonusOf(mods, 'dragonCrit')),
+    statuses: [],
+  };
+}
+
+/** Rider and dragon merged into one mounted unit for Ride mode. */
+function mountFighter(data: GameData, rider: Fighter, dragon: Fighter): Fighter {
+  const c = data.combat;
+  return {
+    id: 'rider', kind: 'rider', name: `${rider.name} & ${dragon.name}`, element: dragon.element,
+    level: Math.max(rider.level, dragon.level),
+    maxHp: rider.maxHp + dragon.maxHp, hp: rider.hp + dragon.hp, maxMp: rider.maxMp, mp: rider.mp,
+    power: (rider.power + dragon.power) / 2, magic: rider.magic,
+    accuracy: Math.max(rider.accuracy, dragon.accuracy), dodge: dragon.dodge, swift: Math.max(rider.swift, dragon.swift),
+    defense: (rider.defense + dragon.defense) * c.ride.defenseShare,
+    critChance: Math.max(rider.critChance, dragon.critChance),
     statuses: [],
   };
 }
@@ -147,12 +185,35 @@ export function createBattle(data: GameData, setup: BattleSetup): BattleState {
     if (!e) throw new Error(`Unknown enemy ${s.enemyId}`);
     return enemyFighter(data, e, s.level, i);
   });
-  const dragon = setup.dragon && setup.dragon.hp > 0 ? dragonFighter(data, setup.dragon) : null;
+  const awake = setup.dragon && setup.dragon.hp > 0 ? setup.dragon : null;
+  const dMods = awake ? dragonBonus(data, awake) : {};
+  // The rider side gets gear bonuses plus any rider-boosting talents from an awake dragon.
+  const rMods = addBonus(riderBonus(data, setup.rider), {
+    riderDefense: bonusOf(dMods, 'riderDefense'), riderCrit: bonusOf(dMods, 'riderCrit'), riderDamagePct: bonusOf(dMods, 'riderDamagePct'),
+  });
+  let rider = riderFighter(data, setup.rider, rMods);
+  let dragon = awake ? dragonFighter(data, awake, dMods) : null;
+  let ride: BattleState['ride'] = null;
+  if (setup.ride && dragon) {
+    ride = { riderMaxHp: rider.maxHp, dragonMaxHp: dragon.maxHp, dragonName: dragon.name };
+    rider = mountFighter(data, rider, dragon);
+    dragon = null;
+  }
+  const weapon = riderWeapon(data, setup.rider);
+  const stage = setup.dragon ? data.dragons.stages.find((st) => st.id === setup.dragon!.stage) : undefined;
   const rng = createRng(setup.seed);
   const state: BattleState = {
-    rngState: 0, round: 1, rider: riderFighter(data, setup.rider), dragon, enemies,
+    rngState: 0, round: 1, rider, dragon, enemies,
     breath: 0, bond: setup.dragon?.bond ?? 0, intents: {}, inventory: { ...setup.rider.inventory },
     canFlee: setup.canFlee && !enemies.some((e) => e.boss), outcome: 'ongoing',
+    mode: ride ? 'ride' : 'normal',
+    weapon: { name: weapon.name, damage: weapon.damage ?? 10, element: weapon.element ?? null, type: weapon.weaponType ?? 'melee' },
+    riderMods: rMods, dragonMods: dMods,
+    breathMultiplier: stage?.breathMultiplier ?? 1,
+    spirit: awake ? effectiveDragonStats(data, awake).spirit : 0,
+    skills: awake && !ride ? learnedSkills(data, awake).map((t) => t.id) : [],
+    cooldowns: {},
+    ride,
   };
   chooseIntents(data, state, rng);
   state.rngState = rng.getState();
@@ -192,6 +253,10 @@ export function comboAvailable(data: GameData, state: BattleState, comboId: stri
 
 export function breathReady(data: GameData, state: BattleState): boolean {
   return state.breath >= data.combat.breath.max;
+}
+
+export function skillReady(state: BattleState, skillId: string): boolean {
+  return state.skills.includes(skillId) && (state.cooldowns[skillId] ?? 0) <= 0 && alive(state.dragon);
 }
 
 function moveAllowed(state: BattleState, self: Fighter, m: EnemyMove): boolean {
@@ -251,6 +316,8 @@ interface AttackSpec {
   element: ElementId | null;
   label: string;
   damageMultiplier?: number;
+  /** Extra bonus for strong element hits (Attuned talent). */
+  strongBonus?: number;
 }
 
 export interface DamageInputs { base: number; stat: number; element: number; crit: boolean; roll: number; defense: number }
@@ -283,6 +350,7 @@ function strike(ctx: RoundCtx, attacker: Fighter, target: Fighter, spec: AttackS
 
   let mult = elementMultiplier(data.elements, spec.element, target.element, target.resist);
   if (spec.element === 'storm' && has(target, 'soak')) mult *= st.soak.stormDamageMultiplier ?? 1;
+  if (spec.strongBonus && mult > data.elements.multipliers.neutral) mult *= 1 + spec.strongBonus;
   const crit = rng.chance(attacker.critChance);
   const levelScale = attacker.kind === 'enemy' ? 1 : 1 + c.levelDamageScale * (attacker.level - 1);
   let base = spec.base * levelScale * (spec.damageMultiplier ?? 1);
@@ -328,10 +396,19 @@ function koText(f: Fighter): string {
 }
 
 function heal(ctx: RoundCtx, actor: Fighter, target: Fighter, amount: number): void {
+  if (actor.kind !== 'enemy') amount *= 1 + bonusOf(ctx.state.riderMods, 'healPct') + bonusOf(ctx.state.dragonMods, 'healPct');
   const before = target.hp;
   target.hp = Math.min(target.maxHp, target.hp + Math.round(amount));
   const healed = target.hp - before;
   ctx.events.push({ t: 'heal', actor: actor.id, target: target.id, amount: healed, text: `${target.name} recovers ${healed} HP.` });
+}
+
+/** Healing that talents and gear don't boost (items). */
+function healRaw(ctx: RoundCtx, target: Fighter, amount: number): void {
+  const before = target.hp;
+  target.hp = Math.min(target.maxHp, target.hp + Math.round(amount));
+  const healed = target.hp - before;
+  ctx.events.push({ t: 'heal', actor: 'rider', target: target.id, amount: healed, text: `${target.name} recovers ${healed} HP.` });
 }
 
 /** First living enemy matching `id`, or the first living enemy. */
@@ -341,7 +418,9 @@ function enemyTarget(state: BattleState, id: string): Fighter | null {
 }
 
 function riderDamageMultiplier(data: GameData, state: BattleState): number {
-  return state.dragon && state.dragon.hp > 0 ? 1 : data.combat.rider.aloneDamageMultiplier;
+  const pct = 1 + bonusOf(state.riderMods, 'riderDamagePct');
+  if (state.mode === 'ride') return pct;
+  return (state.dragon && state.dragon.hp > 0 ? 1 : data.combat.rider.aloneDamageMultiplier) * pct;
 }
 
 // ---------- Actions ----------
@@ -354,7 +433,7 @@ function riderAct(ctx: RoundCtx, order: RiderOrder): void {
 
   const basicAttack = (targetId: string) => {
     const t = enemyTarget(state, targetId);
-    if (t) strike(ctx, rider, t, { base: c.riderMoves.attack.base, stat: rider.power, element: null, label: c.riderMoves.attack.name, damageMultiplier: alone });
+    if (t) strike(ctx, rider, t, { base: state.weapon.damage, stat: rider.power, element: state.weapon.element, label: state.weapon.name, damageMultiplier: alone });
   };
 
   switch (order.type) {
@@ -385,14 +464,18 @@ function riderAct(ctx: RoundCtx, order: RiderOrder): void {
         events.push({ t: 'act', actor: 'rider', text: `${rider.name} digs through the bag and finds nothing.` });
         return;
       }
-      if (item.effect === 'healDragon' && !alive(state.dragon)) {
+      if (item.effect === 'healDragon' && !alive(state.dragon) && state.mode !== 'ride') {
         events.push({ t: 'act', actor: 'rider', text: `The ${item.name} can't wake a knocked-out dragon.` });
         return;
       }
       state.inventory[item.id] = (state.inventory[item.id] ?? 0) - 1;
       events.push({ t: 'act', actor: 'rider', text: `${rider.name} uses a ${item.name}.` });
-      if (item.effect === 'healRider') heal(ctx, rider, rider, rider.maxHp * item.fraction);
-      else if (item.effect === 'healDragon') heal(ctx, rider, state.dragon!, state.dragon!.maxHp * item.fraction);
+      if (state.ride && item.effect !== 'restoreMp') {
+        // Mounted: potions heal the rider's share, treats the dragon's share.
+        const share = item.effect === 'healRider' ? state.ride.riderMaxHp : state.ride.dragonMaxHp;
+        healRaw(ctx, rider, share * item.fraction);
+      } else if (item.effect === 'healRider') healRaw(ctx, rider, rider.maxHp * item.fraction);
+      else if (item.effect === 'healDragon') healRaw(ctx, state.dragon!, state.dragon!.maxHp * item.fraction);
       else {
         const before = rider.mp;
         rider.mp = Math.min(rider.maxMp, rider.mp + Math.round(rider.maxMp * item.fraction));
@@ -402,6 +485,9 @@ function riderAct(ctx: RoundCtx, order: RiderOrder): void {
     }
     case 'defend':
       events.push({ t: 'act', actor: 'rider', text: `${rider.name} raises a guard.` });
+      return;
+    case 'ride':
+      rideAct(ctx, order);
       return;
     case 'flee': {
       if (!state.canFlee) {
@@ -423,13 +509,13 @@ function riderAct(ctx: RoundCtx, order: RiderOrder): void {
 }
 
 function dragonAct(ctx: RoundCtx, order: DragonOrder): void {
-  const { data, state, events, rng } = ctx;
+  const { data, state, events } = ctx;
   const dragon = state.dragon!;
   const c = data.combat;
 
   const claw = (targetId: string) => {
     const t = enemyTarget(state, targetId);
-    if (t) strike(ctx, dragon, t, { base: c.dragonMoves.claw.base, stat: dragon.power, element: null, label: c.dragonMoves.claw.name });
+    if (t) strike(ctx, dragon, t, { base: c.dragonMoves.claw.base, stat: dragon.power, element: null, label: c.dragonMoves.claw.name, damageMultiplier: 1 + bonusOf(state.dragonMods, 'clawPct') });
   };
 
   switch (order.type) {
@@ -444,24 +530,130 @@ function dragonAct(ctx: RoundCtx, order: DragonOrder): void {
       state.breath = 0;
       const t = enemyTarget(state, order.target);
       if (!t) return;
-      const dealt = strike(ctx, dragon, t, { base: c.dragonMoves.breath.base, stat: dragon.power, element: dragon.element, label: c.dragonMoves.breath.name });
-      if (dealt > 0 && dragon.element) {
-        const statusId = data.elements.info[dragon.element].status;
-        const chance = c.breath.statusChanceBase + dragon.magic * c.breath.statusChancePerSpirit;
-        if (rng.chance(chance)) {
-          const s = data.statuses[statusId];
-          // Buff statuses (Ward) protect the rider instead of hurting the enemy.
-          if (s.kind === 'buff') addStatus(data, state.rider, statusId, events);
-          else if (t.hp > 0) addStatus(data, t, statusId, events);
-        }
-      }
+      const dealt = strike(ctx, dragon, t, breathSpec(ctx, dragon, c.dragonMoves.breath.base, c.dragonMoves.breath.name));
+      if (dealt > 0) breathStatus(ctx, dragon, t);
       return;
     }
+    case 'skill':
+      skillAct(ctx, order);
+      return;
     case 'guard':
       events.push({ t: 'act', actor: 'dragon', text: `${dragon.name} spreads its wings over ${state.rider.name}.` });
       return;
     case 'combo':
       return; // Combos are resolved separately; they use both actions.
+  }
+}
+
+function breathSpec(ctx: RoundCtx, source: Fighter, base: number, label: string): AttackSpec {
+  const { state } = ctx;
+  return {
+    base: base * state.breathMultiplier, stat: source.power, element: source.element, label,
+    damageMultiplier: 1 + bonusOf(state.dragonMods, 'breathPct'), strongBonus: bonusOf(state.dragonMods, 'strongBonus'),
+  };
+}
+
+function breathStatus(ctx: RoundCtx, source: Fighter, target: Fighter): void {
+  const { data, state, rng, events } = ctx;
+  if (!source.element) return;
+  const c = data.combat;
+  const statusId = data.elements.info[source.element].status;
+  const chance = c.breath.statusChanceBase + state.spirit * c.breath.statusChancePerSpirit + bonusOf(state.dragonMods, 'breathStatusChance');
+  if (!rng.chance(chance)) return;
+  // Buff statuses (Ward) protect the rider instead of hurting the enemy.
+  if (data.statuses[statusId].kind === 'buff') addStatus(data, state.rider, statusId, events);
+  else if (target.hp > 0) addStatus(data, target, statusId, events);
+}
+
+function skillAct(ctx: RoundCtx, order: Extract<DragonOrder, { type: 'skill' }>): void {
+  const { data, state, events, rng } = ctx;
+  const dragon = state.dragon!;
+  const talent = talentById(data, order.skill);
+  const skill = talent?.skill;
+  if (!talent || !skill || !skillReady(state, talent.id)) {
+    events.push({ t: 'act', actor: 'dragon', text: `${dragon.name} isn't ready to do that yet.` });
+    return;
+  }
+  state.cooldowns[talent.id] = skill.cooldown + 1; // +1 because cooldowns tick at the end of this round
+  const statusOn = (target: Fighter) => {
+    if (skill.status && target.hp > 0 && rng.chance(skill.statusChance ?? 1)) addStatus(data, target, skill.status, events);
+  };
+  switch (skill.kind) {
+    case 'damage': {
+      const t = enemyTarget(state, order.target);
+      if (!t) return;
+      events.push({ t: 'act', actor: 'dragon', text: `${dragon.name} uses ${talent.name}!` });
+      let dealt = 0;
+      for (let i = 0; i < (skill.hits ?? 1) && t.hp > 0; i++) {
+        dealt += strike(ctx, dragon, t, {
+          base: skill.base ?? 10, stat: dragon.power, element: skill.element === 'dragon' ? dragon.element : null, label: talent.name,
+          damageMultiplier: 1 + bonusOf(state.dragonMods, 'clawPct'), strongBonus: bonusOf(state.dragonMods, 'strongBonus'),
+        });
+      }
+      if (dealt > 0) statusOn(t);
+      return;
+    }
+    case 'debuff': {
+      const t = enemyTarget(state, order.target);
+      if (!t) return;
+      events.push({ t: 'act', actor: 'dragon', text: `${dragon.name} uses ${talent.name} on ${t.name}.` });
+      statusOn(t);
+      return;
+    }
+    case 'heal':
+      events.push({ t: 'act', actor: 'dragon', text: `${dragon.name} uses ${talent.name}.` });
+      heal(ctx, dragon, skill.target === 'dragon' ? dragon : state.rider, (skill.base ?? 10) * (1 + dragon.magic / data.combat.statDivisor) * (1 + data.combat.levelDamageScale * (dragon.level - 1)));
+      return;
+    case 'healAll':
+      events.push({ t: 'act', actor: 'dragon', text: `${dragon.name} uses ${talent.name}.` });
+      heal(ctx, dragon, state.rider, state.rider.maxHp * (skill.fraction ?? 0.1));
+      heal(ctx, dragon, dragon, dragon.maxHp * (skill.fraction ?? 0.1));
+      return;
+    case 'buff':
+      events.push({ t: 'act', actor: 'dragon', text: `${dragon.name} uses ${talent.name}.` });
+      if (skill.status) addStatus(data, skill.target === 'dragon' ? dragon : state.rider, skill.status, events);
+      return;
+    case 'taunt':
+      events.push({ t: 'act', actor: 'dragon', text: `${dragon.name} lets out a ${talent.name}! Every enemy glares at it.` });
+      addStatus(data, dragon, skill.status ?? 'taunt', events);
+      return;
+    case 'cleanse':
+      for (const f of [state.rider, dragon]) f.statuses = f.statuses.filter((x) => data.statuses[x.id].kind === 'buff');
+      events.push({ t: 'act', actor: 'dragon', text: `${dragon.name} uses ${talent.name}. Bad statuses burn away.` });
+      return;
+  }
+}
+
+function rideAct(ctx: RoundCtx, order: Extract<RiderOrder, { type: 'ride' }>): void {
+  const { data, state, events } = ctx;
+  const unit = state.rider;
+  const move = data.combat.ride.moves.find((m) => m.id === order.move);
+  if (!move) return;
+  const t = enemyTarget(state, order.target);
+  switch (move.kind) {
+    case 'damage':
+      if (t) strike(ctx, unit, t, { base: move.base ?? 20, stat: unit.power, element: null, label: move.name, damageMultiplier: riderDamageMultiplier(data, state) });
+      return;
+    case 'breath': {
+      if (state.breath < data.combat.breath.max) {
+        events.push({ t: 'act', actor: 'rider', text: `The breath meter isn't full. ${unit.name} dive instead!` });
+        if (t) strike(ctx, unit, t, { base: data.combat.ride.moves[0]?.base ?? 20, stat: unit.power, element: null, label: 'Diving Strike' });
+        return;
+      }
+      state.breath = 0;
+      if (!t) return;
+      const dealt = strike(ctx, unit, t, breathSpec(ctx, unit, move.base ?? 40, move.name));
+      if (dealt > 0) breathStatus(ctx, unit, t);
+      return;
+    }
+    case 'defend':
+      events.push({ t: 'act', actor: 'rider', text: `${unit.name} wrap up in a ${move.name}.` });
+      healRaw(ctx, unit, unit.maxHp * (move.heal ?? 0));
+      return;
+    case 'buff':
+      events.push({ t: 'act', actor: 'rider', text: `${unit.name} use ${move.name}.` });
+      if (move.status) addStatus(data, unit, move.status, events);
+      return;
   }
 }
 
@@ -474,6 +666,7 @@ function comboAct(ctx: RoundCtx, order: Extract<DragonOrder, { type: 'combo' }>)
   const element = combo.id === 'kindred-roar' ? state.dragon.element : null;
   strike(ctx, state.dragon, t, {
     base: combo.base, stat: (state.rider.power + state.dragon.power) / 2, element, label: combo.name,
+    damageMultiplier: 1 + bonusOf(state.dragonMods, 'comboPct'),
   });
 }
 
@@ -506,11 +699,12 @@ function enemyAct(ctx: RoundCtx, enemy: Fighter): void {
     case 'attack':
     case 'big': {
       let target: Fighter = state.rider;
-      if (alive(state.dragon) && rng.chance(0.5)) target = state.dragon;
+      const taunting = alive(state.dragon) && has(state.dragon, 'taunt');
+      if (alive(state.dragon) && (taunting || rng.chance(0.5))) target = state.dragon;
       let guardMult = 1;
       if (target.kind === 'rider' && ctx.dragonGuarding && alive(state.dragon)) {
         target = state.dragon;
-        guardMult = data.combat.guard.damageTakenMultiplier;
+        guardMult = Math.max(0.2, data.combat.guard.damageTakenMultiplier - bonusOf(state.dragonMods, 'guardReduction'));
         events.push({ t: 'act', actor: 'dragon', text: `${state.dragon.name} takes the hit for ${state.rider.name}!` });
       }
       const big = move.intent === 'big' ? data.combat.bigAttackMultiplier : 1;
@@ -539,7 +733,7 @@ function cloneState(s: BattleState): BattleState {
   const cf = (f: Fighter): Fighter => ({ ...f, statuses: f.statuses.map((x) => ({ ...x })) });
   return {
     ...s, rider: cf(s.rider), dragon: s.dragon ? cf(s.dragon) : null, enemies: s.enemies.map(cf),
-    intents: { ...s.intents }, inventory: { ...s.inventory },
+    intents: { ...s.intents }, inventory: { ...s.inventory }, cooldowns: { ...s.cooldowns },
   };
 }
 
@@ -557,7 +751,7 @@ export function resolveRound(data: GameData, prev: BattleState, orders: Orders):
 
   const ctx: RoundCtx = {
     data, state, rng, events: [],
-    riderDefending: !combo && orders.rider.type === 'defend',
+    riderDefending: !combo && (orders.rider.type === 'defend' || (orders.rider.type === 'ride' && orders.rider.move === 'wing-shield')),
     dragonGuarding: !combo && dragonOrder?.type === 'guard',
     breathGain: 0,
   };
@@ -621,9 +815,11 @@ function endOfRound(ctx: RoundCtx, comboUsed: boolean): void {
     }
     f.statuses = f.statuses.filter((s) => s.turns > 0 && !(s.id === 'ward' && (s.shield ?? 0) <= 0));
   }
-  if (alive(state.dragon)) {
-    let gain = c.breath.perRound + state.dragon.magic * c.breath.perSpirit + ctx.breathGain;
-    if (ctx.riderDefending && !comboUsed) gain += c.defend.breathBonus;
+  if (alive(state.dragon) || (state.mode === 'ride' && alive(state.rider))) {
+    let gain = c.breath.perRound + state.spirit * c.breath.perSpirit + ctx.breathGain + bonusOf(state.dragonMods, 'breathPerRound');
+    if (state.mode === 'ride') gain += c.ride.breathPerRoundBonus;
+    else if (ctx.riderDefending && !comboUsed) gain += c.defend.breathBonus;
     state.breath = Math.min(c.breath.max, state.breath + Math.round(gain));
   }
+  for (const id of Object.keys(state.cooldowns)) state.cooldowns[id] = Math.max(0, (state.cooldowns[id] ?? 0) - 1);
 }

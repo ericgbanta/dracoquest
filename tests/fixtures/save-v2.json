@@ -1,0 +1,44 @@
+{
+  "version": 2,
+  "createdAt": 1794355200000,
+  "updatedAt": 1794441600000,
+  "seed": 987654321,
+  "rider": {
+    "name": "Ash",
+    "level": 4,
+    "xp": 30,
+    "statPoints": 0,
+    "stats": { "strength": 8, "agility": 5, "arcana": 8, "vigor": 8 },
+    "hp": 80,
+    "mp": 20,
+    "gold": 210,
+    "inventory": { "potion": 4, "dragon-treat": 1, "mana-tonic": 0 }
+  },
+  "dragons": [
+    {
+      "id": "dragon-abc",
+      "name": "Cinder",
+      "element": "fire",
+      "stage": "hatchling",
+      "level": 4,
+      "xp": 12,
+      "statPoints": 1,
+      "stats": { "might": 10, "scale": 7, "swift": 5, "spirit": 7 },
+      "hp": 70,
+      "bond": 18,
+      "colors": { "primary": "#e8603c", "secondary": "#f5e27a" },
+      "favoriteFood": "sweetroot",
+      "foodsTried": ["river-trout", "sweetroot"],
+      "hatchedAt": 1794355260000
+    }
+  ],
+  "activeDragonId": "dragon-abc",
+  "egg": null,
+  "care": { "day": "2026-11-11", "meals": 2, "groomed": true, "rested": false, "wellKeptGiven": false },
+  "wellKeptFights": 0,
+  "bestiary": { "thornling": { "fought": 5, "defeated": 5 } },
+  "run": null,
+  "bossesDefeated": [],
+  "stats": { "fightsWon": 22, "fightsLost": 1, "runsCompleted": 4 },
+  "settings": { "sound": false, "fastBattles": true }
+}

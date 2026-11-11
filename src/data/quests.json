@@ -1,0 +1,130 @@
+[
+  {
+    "id": "first-flight",
+    "name": "First Flight",
+    "stage": "juvenile",
+    "zone": "mossy-hollow",
+    "description": "Your dragon is ready to try its wings. Something in Mossy Hollow disagrees.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "dragon",
+            "text": "*flaps hard, lifts one inch, lands on your foot*"
+          },
+          {
+            "speaker": "rider",
+            "text": "Good start! Let's find a clearing with fewer roots."
+          },
+          {
+            "speaker": "narrator",
+            "text": "Two Moss Wisps drift over to watch. Then they start pecking."
+          }
+        ],
+        "enemies": [
+          "moss-wisp",
+          "moss-wisp"
+        ],
+        "levelOffset": 0
+      },
+      {
+        "intro": [
+          {
+            "speaker": "rider",
+            "text": "One more try. Run, jump, flap!"
+          },
+          {
+            "speaker": "narrator",
+            "text": "An Elder Thornling is sleeping in the clearing. Was sleeping."
+          }
+        ],
+        "enemies": [
+          "elder-thornling"
+        ],
+        "levelOffset": 0
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "Your dragon takes off, circles the clearing twice, and only hits one tree."
+      },
+      {
+        "speaker": "rider",
+        "text": "That counts. You're flying!"
+      }
+    ]
+  },
+  {
+    "id": "trial-of-wings",
+    "name": "Trial of Wings",
+    "stage": "adult",
+    "zone": "thunderspire",
+    "description": "To grow up, your dragon must fly to the top of Thunderspire. The locals have opinions.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "rider",
+            "text": "Up we go. Try not to look down."
+          },
+          {
+            "speaker": "dragon",
+            "text": "*looks down immediately*"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A Gale Hawk is not impressed by your flying."
+          }
+        ],
+        "enemies": [
+          "gale-hawk"
+        ],
+        "levelOffset": 0
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "Halfway up, a Cliff Harpy starts singing. Your ears would like to leave."
+          }
+        ],
+        "enemies": [
+          "cliff-harpy",
+          "spark-sprite"
+        ],
+        "levelOffset": -1
+      },
+      {
+        "intro": [
+          {
+            "speaker": "rider",
+            "text": "Almost at the top!"
+          },
+          {
+            "speaker": "narrator",
+            "text": "The Thunderhead that lives up here wants a word. The word is lightning."
+          }
+        ],
+        "enemies": [
+          "thunderhead"
+        ],
+        "levelOffset": 0
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "At the top of Thunderspire, your dragon roars. It's a real roar now, deep enough to rattle the clouds."
+      },
+      {
+        "speaker": "rider",
+        "text": "Look at you. All grown up. Can I ride you now? Please?"
+      },
+      {
+        "speaker": "dragon",
+        "text": "*kneels down so you can climb on*"
+      }
+    ]
+  }
+]

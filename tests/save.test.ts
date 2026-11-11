@@ -45,7 +45,7 @@ describe('save', () => {
     expect(s.version).toBe(CURRENT_VERSION);
     expect(s.rider.name).toBe('Fixture Keeper');
     expect(s.rider.level).toBe(1);
-    expect(s.rider.inventory).toEqual(gameData.progression.startingInventory);
+    expect(s.rider.inventory.potion).toBe(gameData.progression.startingInventory.potion);
     expect(s.dragons).toEqual([]);
     expect(s.egg).toBeNull();
     expect(s.run).toBeNull();
@@ -100,5 +100,31 @@ describe('save', () => {
 
   it('fails clearly when a migration step is missing', () => {
     expect(() => migrate({ version: 1 }, {}, 2)).toThrow(/No migration from version 1/);
+  });
+});
+
+describe('save v2 → v3', () => {
+  it('migrates the version 2 fixture: keeps progress, adds gear, talents, food, eggs', async () => {
+    const fixture = (await import('./fixtures/save-v2.json')).default;
+    const s = parseSave(JSON.stringify(fixture));
+    expect(s.version).toBe(CURRENT_VERSION);
+    expect(s.rider.level).toBe(4);
+    expect(s.rider.gold).toBe(210);
+    expect(s.rider.inventory.potion).toBe(4);
+    expect(s.rider.inventory['river-trout']).toBe(3);
+    expect(s.rider.equipment.weapon).toBe('ash-blade');
+    expect(s.rider.gear).toContain('padded-vest');
+    expect(s.dragons[0]!.talents).toEqual({});
+    expect(s.dragons[0]!.equipment).toEqual({});
+    expect(s.dragons[0]!.bond).toBe(18);
+    expect(s.eggs).toEqual([]);
+    expect(s.questsDone).toEqual([]);
+    expect(s.bestiary.thornling!.fought).toBe(5);
+  });
+
+  it('drops an unfinished v2 run instead of crashing', async () => {
+    const fixture = (await import('./fixtures/save-v2.json')).default;
+    const withRun = { ...fixture, run: { zoneId: 'mossy-hollow', fights: [], index: 0, battle: null, totals: { xp: 0, gold: 0, drops: {} } } };
+    expect(parseSave(JSON.stringify(withRun)).run).toBeNull();
   });
 });

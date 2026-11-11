@@ -12,7 +12,7 @@ import { freshCareDay, type CareDay } from './care';
 import type { RunState } from './run';
 import type { DragonState, ElementId, RiderState } from './types';
 
-export const CURRENT_VERSION = 2;
+export const CURRENT_VERSION = 3;
 export const SAVE_KEY = 'dracoquest.save';
 const CODE_PREFIX = 'DQ1:'; // Code format, not save version. The save inside carries its own version.
 
@@ -39,6 +39,9 @@ export interface SaveData {
   bestiary: Record<string, { fought: number; defeated: number }>;
   run: RunState | null;
   bossesDefeated: string[];
+  /** Eggs from bosses, waiting for the Hatchery. */
+  eggs: ElementId[];
+  questsDone: string[];
   stats: { fightsWon: number; fightsLost: number; runsCompleted: number };
   settings: Settings;
 }
@@ -74,6 +77,25 @@ export const MIGRATIONS: Record<number, Migration> = {
       stats: { fightsWon: 0, fightsLost: 0, runsCompleted: 0 },
     };
   },
+  // v2 (Phase 1) → v3 adds gear, talents, eggs, quests, and food in the bag (food was free before).
+  2: (save) => {
+    const rider = (save.rider ?? {}) as Record<string, unknown>;
+    const inventory = { ...((rider.inventory as Record<string, number>) ?? {}) };
+    inventory['river-trout'] = (inventory['river-trout'] ?? 0) + 3;
+    inventory['sweetroot'] = (inventory['sweetroot'] ?? 0) + 3;
+    const dragons = ((save.dragons as Record<string, unknown>[]) ?? []).map((d) => ({
+      ...d, talents: {}, freeRespecsUsed: 0, equipment: {},
+    }));
+    // A v2 run has no weapon data in its battle, so drop an unfinished run. Rewards were already banked.
+    return {
+      ...save,
+      rider: { ...rider, inventory, gear: ['ash-blade', 'padded-vest'], equipment: { weapon: 'ash-blade', armor: 'padded-vest' } },
+      dragons,
+      run: null,
+      eggs: [],
+      questsDone: [],
+    };
+  },
 };
 
 export function newSave(now: number): SaveData {
@@ -91,6 +113,8 @@ export function newSave(now: number): SaveData {
     bestiary: {},
     run: null,
     bossesDefeated: [],
+    eggs: [],
+    questsDone: [],
     stats: { fightsWon: 0, fightsLost: 0, runsCompleted: 0 },
     settings: { sound: false, fastBattles: false },
   };
@@ -137,16 +161,18 @@ export function validateSave(raw: Record<string, unknown>): SaveData {
   }
   const rider = raw.rider;
   if (!isObject(rider) || typeof rider.name !== 'string' || typeof rider.level !== 'number' || !isObject(rider.stats)
-    || !isObject(rider.inventory)) fail('rider damaged');
+    || !isObject(rider.inventory) || !Array.isArray(rider.gear) || !isObject(rider.equipment)) fail('rider damaged');
   if (!Array.isArray(raw.dragons)) fail('dragons missing');
   for (const d of raw.dragons as unknown[]) {
-    if (!isObject(d) || typeof d.id !== 'string' || typeof d.level !== 'number' || !isObject(d.stats)) fail('dragon damaged');
+    if (!isObject(d) || typeof d.id !== 'string' || typeof d.level !== 'number' || !isObject(d.stats)
+      || !isObject(d.talents) || !isObject(d.equipment)) fail('dragon damaged');
   }
   if (raw.activeDragonId !== null && typeof raw.activeDragonId !== 'string') fail('active dragon damaged');
   if (!isObject(raw.care) || typeof raw.care.day !== 'string') fail('care missing');
   if (!isObject(raw.bestiary)) fail('bestiary missing');
   if (raw.run !== null && !isObject(raw.run)) fail('run damaged');
   if (!Array.isArray(raw.bossesDefeated)) fail('bosses missing');
+  if (!Array.isArray(raw.eggs) || !Array.isArray(raw.questsDone)) fail('eggs or quests missing');
   if (!isObject(raw.stats)) fail('stats missing');
   if (!isObject(raw.settings)) fail('settings missing');
   const s = raw.settings as Record<string, unknown>;

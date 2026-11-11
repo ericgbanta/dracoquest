@@ -12,8 +12,13 @@ import foodsJson from '../data/foods.json';
 import itemsJson from '../data/items.json';
 import enemiesJson from '../data/enemies.json';
 import zonesJson from '../data/zones.json';
+import gearJson from '../data/gear.json';
+import talentsJson from '../data/talents.json';
+import questsJson from '../data/quests.json';
+import shopJson from '../data/shop.json';
 import type {
-  CombatData, ElementsData, EnemyData, GameData, ItemData, ProgressionData, StatusData, StatusId, ZoneData,
+  CombatData, ElementsData, EnemyData, GameData, GearData, ItemData, ProgressionData, QuestData, ShopData, StatusData, StatusId,
+  TalentsData, ZoneData,
 } from './types';
 
 export type * from './types';
@@ -72,6 +77,7 @@ export function validateProgression(raw: unknown): ProgressionData {
 export interface RawData {
   elements: unknown; combat: unknown; statuses: unknown; progression: unknown; dragons: unknown;
   care: unknown; foods: unknown; items: unknown; enemies: unknown; zones: unknown;
+  gear: unknown; talents: unknown; quests: unknown; shop: unknown;
 }
 
 export function loadGameData(raw: RawData): GameData {
@@ -113,8 +119,43 @@ export function loadGameData(raw: RawData): GameData {
     if (!enemies[z.miniBoss.enemy]) throw new DataError(`zones.${z.id}: unknown mini-boss`);
     for (const id of Object.keys(z.dropChances)) if (!itemIds.has(id)) throw new DataError(`zones.${z.id}: unknown drop "${id}"`);
   }
+  const foodIds = new Set((raw.foods as { id: string }[]).map((f) => f.id));
   for (const id of Object.keys(progression.startingInventory)) {
-    if (!itemIds.has(id)) throw new DataError(`progression.startingInventory: unknown item "${id}"`);
+    if (!itemIds.has(id) && !foodIds.has(id)) throw new DataError(`progression.startingInventory: unknown item "${id}"`);
+  }
+
+  const gear: Record<string, GearData> = {};
+  for (const g of raw.gear as GearData[]) {
+    if (gear[g.id]) throw new DataError(`gear: duplicate id "${g.id}"`);
+    if (g.slot === 'weapon' && (typeof g.damage !== 'number' || !g.weaponType)) throw new DataError(`gear.${g.id}: weapons need damage and weaponType`);
+    if (g.element && !elementIds.has(g.element)) throw new DataError(`gear.${g.id}: unknown element`);
+    gear[g.id] = g;
+  }
+
+  const talents = raw.talents as TalentsData;
+  const treeIds = new Set(talents.trees.map((t) => t.id));
+  const talentIds = new Set<string>();
+  for (const t of talents.talents) {
+    if (talentIds.has(t.id)) throw new DataError(`talents: duplicate id "${t.id}"`);
+    talentIds.add(t.id);
+    if (!treeIds.has(t.tree)) throw new DataError(`talents.${t.id}: unknown tree`);
+    if (t.skill?.status && !statuses[t.skill.status]) throw new DataError(`talents.${t.id}: unknown status`);
+  }
+
+  const quests: Record<string, QuestData> = {};
+  for (const q of raw.quests as QuestData[]) {
+    for (const step of q.steps) for (const id of step.enemies) if (!enemies[id]) throw new DataError(`quests.${q.id}: unknown enemy "${id}"`);
+    quests[q.id] = q;
+  }
+  for (const st of (raw.dragons as GameData['dragons']).stages) {
+    if (st.quest && !quests[st.quest]) throw new DataError(`dragons.stages.${st.id}: unknown quest`);
+  }
+
+  const shop = raw.shop as ShopData;
+  for (const id of shop.stock) if (!gear[id]) throw new DataError(`shop.stock: unknown gear "${id}"`);
+  for (const id of Object.keys(shop.items)) if (!itemIds.has(id)) throw new DataError(`shop.items: unknown item "${id}"`);
+  for (const z of zones) {
+    if (z.gate && !(raw.dragons as GameData['dragons']).stages.some((st) => st.id === z.gate!.stage)) throw new DataError(`zones.${z.id}: unknown gate stage`);
   }
 
   return {
@@ -128,6 +169,10 @@ export function loadGameData(raw: RawData): GameData {
     items,
     enemies,
     zones,
+    gear,
+    talents,
+    quests,
+    shop,
   };
 }
 
@@ -143,4 +188,8 @@ export const gameData: GameData = loadGameData({
   items: itemsJson,
   enemies: enemiesJson,
   zones: zonesJson,
+  gear: gearJson,
+  talents: talentsJson,
+  quests: questsJson,
+  shop: shopJson,
 });

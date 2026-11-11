@@ -1,0 +1,402 @@
+[
+  {
+    "id": "ash-blade",
+    "name": "Ash Training Blade",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": null,
+    "level": 1,
+    "damage": 10,
+    "price": 0,
+    "bonus": {},
+    "description": "Mostly a stick, but a confident stick."
+  },
+  {
+    "id": "hunters-sling",
+    "name": "Hunter's Sling",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": null,
+    "level": 1,
+    "damage": 9,
+    "price": 40,
+    "bonus": {
+      "agility": 1
+    },
+    "description": "For flinging pebbles with intent."
+  },
+  {
+    "id": "apprentice-wand",
+    "name": "Apprentice Wand",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": null,
+    "level": 1,
+    "damage": 9,
+    "price": 40,
+    "bonus": {
+      "arcana": 1
+    },
+    "description": "Still has the price tag on it."
+  },
+  {
+    "id": "bramble-saber",
+    "name": "Bramble Saber",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": "verdant",
+    "level": 5,
+    "damage": 13,
+    "price": 150,
+    "bonus": {
+      "strength": 1
+    },
+    "description": "Grown, not forged. Slightly prickly to hold."
+  },
+  {
+    "id": "tidecaller-bow",
+    "name": "Tidecaller Bow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": "tide",
+    "level": 5,
+    "damage": 12,
+    "price": 150,
+    "bonus": {
+      "agility": 2
+    },
+    "description": "The string is always a bit damp."
+  },
+  {
+    "id": "ember-rod",
+    "name": "Ember Rod",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": "fire",
+    "level": 5,
+    "damage": 12,
+    "price": 150,
+    "bonus": {
+      "arcana": 2
+    },
+    "description": "Toasts bread at range."
+  },
+  {
+    "id": "coral-cutlass",
+    "name": "Coral Cutlass",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": "tide",
+    "level": 10,
+    "damage": 16,
+    "price": 420,
+    "bonus": {
+      "strength": 2
+    },
+    "description": "Sharp, pink, and fashionable."
+  },
+  {
+    "id": "frostbite-crossbow",
+    "name": "Frostbite Crossbow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": "frost",
+    "level": 10,
+    "damage": 15,
+    "price": 420,
+    "bonus": {
+      "agility": 3
+    },
+    "description": "Bolts arrive cold."
+  },
+  {
+    "id": "cinder-staff",
+    "name": "Cinder Staff",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": "fire",
+    "level": 10,
+    "damage": 15,
+    "price": 420,
+    "bonus": {
+      "arcana": 3
+    },
+    "description": "Warm in winter. Too warm in summer."
+  },
+  {
+    "id": "magma-maul",
+    "name": "Magma Maul",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": "fire",
+    "level": 16,
+    "damage": 20,
+    "price": 900,
+    "bonus": {
+      "strength": 3,
+      "riderCrit": 0.02
+    },
+    "description": "Heavy, hot, and loud."
+  },
+  {
+    "id": "galeshot-longbow",
+    "name": "Galeshot Longbow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": "storm",
+    "level": 16,
+    "damage": 19,
+    "price": 900,
+    "bonus": {
+      "agility": 4
+    },
+    "description": "Arrows hum on the way out."
+  },
+  {
+    "id": "stonesong-scepter",
+    "name": "Stonesong Scepter",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": "stone",
+    "level": 16,
+    "damage": 19,
+    "price": 900,
+    "bonus": {
+      "arcana": 4
+    },
+    "description": "It hums in a very low voice."
+  },
+  {
+    "id": "thunder-glaive",
+    "name": "Thunder Glaive",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": "storm",
+    "level": 22,
+    "damage": 25,
+    "price": 1600,
+    "bonus": {
+      "strength": 4,
+      "riderCrit": 0.03
+    },
+    "description": "Crackles when you point it at things."
+  },
+  {
+    "id": "stormwing-bow",
+    "name": "Stormwing Bow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": "storm",
+    "level": 22,
+    "damage": 24,
+    "price": 1600,
+    "bonus": {
+      "agility": 5
+    },
+    "description": "Made from a feather of something huge."
+  },
+  {
+    "id": "verdant-codex",
+    "name": "Verdant Codex",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": "verdant",
+    "level": 22,
+    "damage": 24,
+    "price": 1600,
+    "bonus": {
+      "arcana": 5
+    },
+    "description": "A spellbook with moss for a bookmark."
+  },
+  {
+    "id": "padded-vest",
+    "name": "Padded Vest",
+    "slot": "armor",
+    "level": 1,
+    "price": 0,
+    "bonus": {
+      "riderDefense": 1
+    },
+    "description": "Like a quilt that believes in you."
+  },
+  {
+    "id": "leather-jerkin",
+    "name": "Leather Jerkin",
+    "slot": "armor",
+    "level": 4,
+    "price": 120,
+    "bonus": {
+      "riderDefense": 2,
+      "riderHp": 10
+    },
+    "description": "Smells like adventure and old shoes."
+  },
+  {
+    "id": "shellplate",
+    "name": "Shellplate",
+    "slot": "armor",
+    "level": 9,
+    "price": 380,
+    "bonus": {
+      "riderDefense": 3,
+      "riderHp": 25
+    },
+    "description": "Pieced together from very large shells."
+  },
+  {
+    "id": "ashguard-mail",
+    "name": "Ashguard Mail",
+    "slot": "armor",
+    "level": 15,
+    "price": 850,
+    "bonus": {
+      "riderDefense": 5,
+      "riderHp": 40
+    },
+    "description": "Fireproof, mostly."
+  },
+  {
+    "id": "skyforged-plate",
+    "name": "Skyforged Plate",
+    "slot": "armor",
+    "level": 21,
+    "price": 1500,
+    "bonus": {
+      "riderDefense": 7,
+      "riderHp": 60
+    },
+    "description": "Light as a cloud, hard as a mountain."
+  },
+  {
+    "id": "lucky-pebble",
+    "name": "Lucky Pebble",
+    "slot": "trinket",
+    "level": 1,
+    "price": 30,
+    "bonus": {
+      "agility": 1
+    },
+    "description": "Probably lucky. Definitely a pebble."
+  },
+  {
+    "id": "mana-locket",
+    "name": "Mana Locket",
+    "slot": "trinket",
+    "level": 6,
+    "price": 200,
+    "bonus": {
+      "riderMp": 8,
+      "arcana": 1
+    },
+    "description": "Holds a tiny portrait of a tiny wizard."
+  },
+  {
+    "id": "brawlers-band",
+    "name": "Brawler's Band",
+    "slot": "trinket",
+    "level": 8,
+    "price": 260,
+    "bonus": {
+      "strength": 2,
+      "vigor": 1
+    },
+    "description": "Knuckles not included."
+  },
+  {
+    "id": "keepers-charm",
+    "name": "Keeper's Charm",
+    "slot": "trinket",
+    "level": 14,
+    "price": 700,
+    "bonus": {
+      "vigor": 2,
+      "riderHp": 20,
+      "healPct": 0.1
+    },
+    "description": "Given to keepers who remember to feed their dragon."
+  },
+  {
+    "id": "stormglass-pendant",
+    "name": "Stormglass Pendant",
+    "slot": "trinket",
+    "level": 20,
+    "price": 1300,
+    "bonus": {
+      "agility": 3,
+      "arcana": 3,
+      "riderCrit": 0.02
+    },
+    "description": "A little storm in a bottle on a string."
+  },
+  {
+    "id": "rope-saddle",
+    "name": "Rope Saddle",
+    "slot": "saddle",
+    "level": 25,
+    "price": 600,
+    "bonus": {
+      "dragonHp": 30,
+      "dragonDefense": 2
+    },
+    "description": "Itchy, but it holds."
+  },
+  {
+    "id": "ridgeback-saddle",
+    "name": "Ridgeback Saddle",
+    "slot": "saddle",
+    "level": 27,
+    "price": 1200,
+    "bonus": {
+      "dragonHp": 60,
+      "dragonDefense": 4
+    },
+    "description": "Comes with cup holders. Just the one."
+  },
+  {
+    "id": "iron-horn-cap",
+    "name": "Iron Horn Cap",
+    "slot": "horn",
+    "level": 25,
+    "price": 600,
+    "bonus": {
+      "might": 3
+    },
+    "description": "Makes every headbutt count."
+  },
+  {
+    "id": "gilded-horn-cap",
+    "name": "Gilded Horn Cap",
+    "slot": "horn",
+    "level": 27,
+    "price": 1200,
+    "bonus": {
+      "might": 5,
+      "dragonCrit": 0.03
+    },
+    "description": "Shiny. Your dragon will not stop looking at itself."
+  },
+  {
+    "id": "river-scale-charm",
+    "name": "River Scale Charm",
+    "slot": "charm",
+    "level": 25,
+    "price": 600,
+    "bonus": {
+      "spirit": 3
+    },
+    "description": "A smooth stone tied into the scales."
+  },
+  {
+    "id": "ember-scale-charm",
+    "name": "Ember Scale Charm",
+    "slot": "charm",
+    "level": 27,
+    "price": 1200,
+    "bonus": {
+      "spirit": 5,
+      "breathPct": 0.1
+    },
+    "description": "Glows faintly when your dragon is happy."
+  }
+]

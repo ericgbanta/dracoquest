@@ -17,7 +17,10 @@ const TODAY = '2026-11-11';
 function hatched(element: 'fire' | 'tide' | 'verdant' = 'fire'): SaveData {
   let s = chooseEgg(data, newSave(NOW), element);
   for (let i = 0; i < data.dragons.hatchTaps; i++) s = warmEgg(data, s);
-  return hatchEgg(data, s, 'Pip', { primary: '#e8603c', secondary: '#f5e27a' }, NOW);
+  s = hatchEgg(data, s, 'Pip', { primary: '#e8603c', secondary: '#f5e27a' }, NOW);
+  const inventory = { ...s.rider.inventory };
+  for (const f of data.foods) inventory[f.id] = 5;
+  return { ...s, rider: { ...s.rider, inventory } };
 }
 
 describe('egg and hatching', () => {
@@ -56,6 +59,13 @@ describe('care', () => {
     expect(() => feedDragon(data, s, food.id, TODAY)).toThrow(RangeError);
     // A new day resets the meal count.
     expect(() => feedDragon(data, s, food.id, '2026-11-12')).not.toThrow();
+    expect(s.rider.inventory[food.id]).toBe(5 - data.care.mealsPerDay);
+  });
+
+  it('feeding needs food in the bag', () => {
+    const s = hatched();
+    const empty = { ...s, rider: { ...s.rider, inventory: { ...s.rider.inventory, sweetroot: 0 } } };
+    expect(() => feedDragon(data, empty, 'sweetroot', TODAY)).toThrow(GameError);
   });
 
   it('the favorite food gives double bond', () => {

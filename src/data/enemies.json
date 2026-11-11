@@ -375,5 +375,1124 @@
     "resist": {
       "verdant": 0.4
     }
+  },
+  {
+    "id": "pincher-crab",
+    "name": "Pincher Crab",
+    "element": "tide",
+    "flavor": "Walks sideways, holds grudges forwards.",
+    "base": {
+      "hp": 49.5,
+      "attack": 8.75,
+      "power": 5,
+      "defense": 1.6,
+      "swift": 5.6,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 14.3,
+      "attack": 1.5,
+      "power": 1,
+      "defense": 0.48,
+      "swift": 0.72,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "pinch",
+        "name": "Pinch",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "clamp",
+        "name": "Claw Clamp",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "shell-up",
+        "name": "Shell Up",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "gull-bandit",
+    "name": "Gull Bandit",
+    "element": "storm",
+    "flavor": "Has stolen 400 sandwiches and counting.",
+    "base": {
+      "hp": 36.0,
+      "attack": 8.75,
+      "power": 5,
+      "defense": 1,
+      "swift": 10.5,
+      "dodge": 9.0
+    },
+    "perLevel": {
+      "hp": 10.4,
+      "attack": 1.5,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1.35,
+      "dodge": 0.72
+    },
+    "moves": [
+      {
+        "id": "peck",
+        "name": "Peck",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "dive-bomb",
+        "name": "Dive Bomb",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "flap",
+        "name": "Flap Away",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fade",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "brine-slime",
+    "name": "Brine Slime",
+    "element": "tide",
+    "flavor": "Salty in every sense.",
+    "base": {
+      "hp": 51.75,
+      "attack": 8.75,
+      "power": 5,
+      "defense": 0.7,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 14.95,
+      "attack": 1.5,
+      "power": 1,
+      "defense": 0.21,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "slap",
+        "name": "Slime Slap",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "spray",
+        "name": "Brine Spray",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.6,
+        "status": "soak",
+        "statusChance": 0.8
+      },
+      {
+        "id": "reform",
+        "name": "Reform",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.25,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ]
+  },
+  {
+    "id": "kelp-lurker",
+    "name": "Kelp Lurker",
+    "element": "verdant",
+    "flavor": "Looks like seaweed. Is seaweed. Is angry seaweed.",
+    "base": {
+      "hp": 45,
+      "attack": 8.75,
+      "power": 5,
+      "defense": 1,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 13,
+      "attack": 1.5,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "lash",
+        "name": "Kelp Lash",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "tangle",
+        "name": "Tangle",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "root",
+        "statusChance": 0.7
+      },
+      {
+        "id": "undertow",
+        "name": "Undertow",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      }
+    ]
+  },
+  {
+    "id": "shell-knight",
+    "name": "Shell Knight",
+    "element": "stone",
+    "flavor": "A hermit crab in borrowed armor. Very polite. Very stabby.",
+    "base": {
+      "hp": 47.25,
+      "attack": 8.75,
+      "power": 5,
+      "defense": 1.4,
+      "swift": 5.6,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 13.65,
+      "attack": 1.5,
+      "power": 1,
+      "defense": 0.42,
+      "swift": 0.72,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "jab",
+        "name": "Lance Jab",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "bash",
+        "name": "Shell Bash",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "crack-shot",
+        "name": "Crack Shot",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.6,
+        "status": "crack",
+        "statusChance": 0.7
+      }
+    ]
+  },
+  {
+    "id": "big-pincher",
+    "name": "Big Pincher",
+    "element": "tide",
+    "flavor": "The Pincher Crab everyone else is scared of.",
+    "base": {
+      "hp": 76.5,
+      "attack": 10.06,
+      "power": 5,
+      "defense": 1.4,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 22.1,
+      "attack": 1.72,
+      "power": 1,
+      "defense": 0.42,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "pinch",
+        "name": "Big Pinch",
+        "intent": "attack",
+        "weight": 4,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "clamp",
+        "name": "Mega Clamp",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "shell-up",
+        "name": "Shell Up",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      },
+      {
+        "id": "molt",
+        "name": "Quick Molt",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.2,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "miniBoss": true,
+    "xpMultiplier": 2
+  },
+  {
+    "id": "crab-king",
+    "name": "Crab King",
+    "element": "tide",
+    "flavor": "Ruler of Saltmarsh Shore. The crown is a bottle cap.",
+    "base": {
+      "hp": 108.0,
+      "attack": 8.75,
+      "power": 5,
+      "defense": 1.5,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 31.2,
+      "attack": 1.5,
+      "power": 1,
+      "defense": 0.45,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "royal-pinch",
+        "name": "Royal Pinch",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "tidal-crush",
+        "name": "Tidal Crush",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "soak",
+        "statusChance": 0.6
+      },
+      {
+        "id": "decree",
+        "name": "Royal Decree",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self",
+        "condition": "selfHurt"
+      },
+      {
+        "id": "molt",
+        "name": "Royal Molt",
+        "intent": "heal",
+        "weight": 2,
+        "heal": 0.12,
+        "target": "self",
+        "condition": "selfHurt"
+      },
+      {
+        "id": "shell-up",
+        "name": "Shell Up",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      }
+    ],
+    "boss": true,
+    "xpMultiplier": 4,
+    "goldMultiplier": 5
+  },
+  {
+    "id": "ember-imp",
+    "name": "Ember Imp",
+    "element": "fire",
+    "flavor": "Laughs at its own jokes. They are not good.",
+    "base": {
+      "hp": 38.25,
+      "attack": 8.75,
+      "power": 5,
+      "defense": 1,
+      "swift": 9.1,
+      "dodge": 6.5
+    },
+    "perLevel": {
+      "hp": 11.05,
+      "attack": 1.5,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1.17,
+      "dodge": 0.52
+    },
+    "moves": [
+      {
+        "id": "poke",
+        "name": "Pitchfork Poke",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "fling",
+        "name": "Fling Ember",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "burn",
+        "statusChance": 0.6
+      },
+      {
+        "id": "cackle",
+        "name": "Cackle",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "ash-lizard",
+    "name": "Ash Lizard",
+    "element": "fire",
+    "flavor": "Basks on lava rocks. Regrets nothing.",
+    "base": {
+      "hp": 45,
+      "attack": 8.75,
+      "power": 5,
+      "defense": 1,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 13,
+      "attack": 1.5,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "bite",
+        "name": "Bite",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "flame-lick",
+        "name": "Flame Lick",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "bask",
+        "name": "Bask",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.25,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ]
+  },
+  {
+    "id": "cinder-beetle",
+    "name": "Cinder Beetle",
+    "element": "stone",
+    "flavor": "A beetle with a coal for a back.",
+    "base": {
+      "hp": 49.5,
+      "attack": 8.75,
+      "power": 5,
+      "defense": 1.6,
+      "swift": 4.9,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 14.3,
+      "attack": 1.5,
+      "power": 1,
+      "defense": 0.48,
+      "swift": 0.63,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "ram",
+        "name": "Ram",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "ember-shell",
+        "name": "Ember Shell",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      },
+      {
+        "id": "molten-charge",
+        "name": "Molten Charge",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "crack",
+        "statusChance": 0.4
+      }
+    ]
+  },
+  {
+    "id": "smog-bat",
+    "name": "Smog Bat",
+    "element": "fire",
+    "flavor": "Coughs constantly. Mostly on you.",
+    "base": {
+      "hp": 36.0,
+      "attack": 8.75,
+      "power": 5,
+      "defense": 1,
+      "swift": 9.8,
+      "dodge": 8.5
+    },
+    "perLevel": {
+      "hp": 10.4,
+      "attack": 1.5,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1.26,
+      "dodge": 0.68
+    },
+    "moves": [
+      {
+        "id": "bite",
+        "name": "Bat Bite",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "smog",
+        "name": "Smog Cloud",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.6,
+        "status": "blind",
+        "statusChance": 0.7
+      },
+      {
+        "id": "flutter",
+        "name": "Flutter",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fade",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "lava-toad",
+    "name": "Lava Toad",
+    "element": "fire",
+    "flavor": "The Bog Hopper's spicy cousin.",
+    "base": {
+      "hp": 51.75,
+      "attack": 8.75,
+      "power": 5,
+      "defense": 1,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 14.95,
+      "attack": 1.5,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "tongue",
+        "name": "Tongue Lash",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "lava-spit",
+        "name": "Lava Spit",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "burn",
+        "statusChance": 0.7
+      },
+      {
+        "id": "belly-slam",
+        "name": "Belly Slam",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      }
+    ]
+  },
+  {
+    "id": "imp-chieftain",
+    "name": "Imp Chieftain",
+    "element": "fire",
+    "flavor": "Wears a crown made of other imps' hats.",
+    "base": {
+      "hp": 76.5,
+      "attack": 10.06,
+      "power": 5,
+      "defense": 1,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 22.1,
+      "attack": 1.72,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "poke",
+        "name": "Royal Poke",
+        "intent": "attack",
+        "weight": 4,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "fling",
+        "name": "Fireball Toss",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "burn",
+        "statusChance": 0.5
+      },
+      {
+        "id": "cackle",
+        "name": "Evil Cackle",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self"
+      },
+      {
+        "id": "rally",
+        "name": "Imp Rally",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.2,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "miniBoss": true,
+    "xpMultiplier": 2
+  },
+  {
+    "id": "magma-wyrm",
+    "name": "Magma Wyrm",
+    "element": "fire",
+    "flavor": "It lives in the volcano. It IS mostly volcano.",
+    "base": {
+      "hp": 112.5,
+      "attack": 9.19,
+      "power": 5,
+      "defense": 1.4,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 32.5,
+      "attack": 1.58,
+      "power": 1,
+      "defense": 0.42,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "tail-whip",
+        "name": "Tail Whip",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "magma-breath",
+        "name": "Magma Breath",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "burn",
+        "statusChance": 0.6
+      },
+      {
+        "id": "molten-scales",
+        "name": "Molten Scales",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      },
+      {
+        "id": "erupt",
+        "name": "Erupt",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self",
+        "condition": "selfHurt"
+      },
+      {
+        "id": "cool-off",
+        "name": "Cool Off",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.12,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "boss": true,
+    "xpMultiplier": 4,
+    "goldMultiplier": 5
+  },
+  {
+    "id": "spark-sprite",
+    "name": "Spark Sprite",
+    "element": "storm",
+    "flavor": "A tiny ball of static with a big attitude.",
+    "base": {
+      "hp": 36.0,
+      "attack": 8.75,
+      "power": 5,
+      "defense": 1,
+      "swift": 10.5,
+      "dodge": 8.5
+    },
+    "perLevel": {
+      "hp": 10.4,
+      "attack": 1.5,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1.35,
+      "dodge": 0.68
+    },
+    "moves": [
+      {
+        "id": "spark",
+        "name": "Spark",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "zap",
+        "name": "Zap",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.8,
+        "status": "shock",
+        "statusChance": 0.5
+      },
+      {
+        "id": "flicker",
+        "name": "Flicker",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fade",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "thunder-goat",
+    "name": "Thunder Goat",
+    "element": "storm",
+    "flavor": "Climbs cliffs, eats tin cans, fears nothing.",
+    "base": {
+      "hp": 49.5,
+      "attack": 8.75,
+      "power": 5,
+      "defense": 1,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 14.3,
+      "attack": 1.5,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "headbutt",
+        "name": "Headbutt",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "thunder-charge",
+        "name": "Thunder Charge",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "shock",
+        "statusChance": 0.4
+      },
+      {
+        "id": "stomp",
+        "name": "Stomp",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.8
+      }
+    ]
+  },
+  {
+    "id": "cliff-harpy",
+    "name": "Cliff Harpy",
+    "element": "storm",
+    "flavor": "Sings beautifully. Only knows one song. It is a scream.",
+    "base": {
+      "hp": 45,
+      "attack": 8.75,
+      "power": 5,
+      "defense": 1,
+      "swift": 8.4,
+      "dodge": 6.0
+    },
+    "perLevel": {
+      "hp": 13,
+      "attack": 1.5,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1.08,
+      "dodge": 0.48
+    },
+    "moves": [
+      {
+        "id": "talon",
+        "name": "Talon",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "gust",
+        "name": "Gust",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "shriek",
+        "name": "Shriek",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "gale-hawk",
+    "name": "Gale Hawk",
+    "element": "storm",
+    "flavor": "Faster than you. Smugger than you.",
+    "base": {
+      "hp": 40.5,
+      "attack": 8.75,
+      "power": 5,
+      "defense": 1,
+      "swift": 11.2,
+      "dodge": 7.5
+    },
+    "perLevel": {
+      "hp": 11.7,
+      "attack": 1.5,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1.44,
+      "dodge": 0.6
+    },
+    "moves": [
+      {
+        "id": "dive",
+        "name": "Dive",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "gale",
+        "name": "Gale Slash",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "soar",
+        "name": "Soar",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fade",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "granite-ram",
+    "name": "Granite Ram",
+    "element": "stone",
+    "flavor": "Its horns are literal rocks. It is very proud of them.",
+    "base": {
+      "hp": 51.75,
+      "attack": 8.75,
+      "power": 5,
+      "defense": 1.6,
+      "swift": 5.6,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 14.95,
+      "attack": 1.5,
+      "power": 1,
+      "defense": 0.48,
+      "swift": 0.72,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "ram",
+        "name": "Ram",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "rockslide",
+        "name": "Rockslide",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "crack",
+        "statusChance": 0.4
+      },
+      {
+        "id": "brace",
+        "name": "Brace",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "thunderhead",
+    "name": "Thunderhead",
+    "element": "storm",
+    "flavor": "A grumpy cloud that wants your lunch money.",
+    "base": {
+      "hp": 76.5,
+      "attack": 10.06,
+      "power": 5,
+      "defense": 1,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 22.1,
+      "attack": 1.72,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "rumble",
+        "name": "Rumble",
+        "intent": "attack",
+        "weight": 4,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "bolt",
+        "name": "Lightning Bolt",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "shock",
+        "statusChance": 0.5
+      },
+      {
+        "id": "drizzle",
+        "name": "Drizzle",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.2,
+        "target": "self",
+        "condition": "selfHurt"
+      },
+      {
+        "id": "static",
+        "name": "Static Charge",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self"
+      }
+    ],
+    "miniBoss": true,
+    "xpMultiplier": 2
+  },
+  {
+    "id": "storm-roc",
+    "name": "Storm Roc",
+    "element": "storm",
+    "flavor": "A bird so big it has its own weather.",
+    "base": {
+      "hp": 117.0,
+      "attack": 9.19,
+      "power": 5,
+      "defense": 1.4,
+      "swift": 8.4,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 33.8,
+      "attack": 1.58,
+      "power": 1,
+      "defense": 0.42,
+      "swift": 1.08,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "talon-rake",
+        "name": "Talon Rake",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "lightning-dive",
+        "name": "Lightning Dive",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "shock",
+        "statusChance": 0.5
+      },
+      {
+        "id": "cyclone",
+        "name": "Cyclone",
+        "intent": "big",
+        "weight": 1,
+        "power": 0.9,
+        "physical": true
+      },
+      {
+        "id": "ride-wind",
+        "name": "Ride the Wind",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fade",
+        "target": "self"
+      },
+      {
+        "id": "storm-call",
+        "name": "Storm Call",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self",
+        "condition": "selfHurt"
+      },
+      {
+        "id": "preen",
+        "name": "Preen",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.1,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "boss": true,
+    "xpMultiplier": 4,
+    "goldMultiplier": 5
   }
 ]
