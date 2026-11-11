@@ -1,35 +1,33 @@
 # Art tools
 
-The game's art is SVG in `src/art/`, listed in `src/art/assets.json`. Those files are the source of truth: edit them directly, or regenerate a set with the scripts here. Read `docs/ART_STYLE.md` before drawing anything.
+The game's characters, backdrops and effects are painted images in `src/art/painted/`, listed in `src/art/assets.json`. They were generated with an image model (the Codex CLI's built-in image tool, on Eric's ChatGPT subscription), then cut out and packed by the scripts in `painted/`. Read `docs/ART_STYLE.md` before adding or replacing art.
 
-## rigpreview.mjs
+The packed WebP files are the source of truth. The raw generated PNGs (about 2 MB each) were not kept.
 
-Renders a rig or a backdrop the way the battle stage does (nested parts, pivots, gray tokens swapped for colors), so you can check joints, tints and poses without running the game.
+## painted/
 
-```
-node tools/art/rigpreview.mjs --manifest src/art/assets.json --rig dragon.elder --out tools/art/out/elder.png
-  [--width 400] [--bg "#8a74b8"] [--colors "#e8603c,#f2a541,#5fbf5a"]   primary, secondary, accent
-  [--vars element=fire,weapon=bow] [--pose head=-18,jaw=26] [--flip] [--grid]
-node tools/art/rigpreview.mjs --manifest src/art/assets.json --backdrop frostmere --out tools/art/out/bg.png --width 800
-```
+| File | What it is |
+| --- | --- |
+| `style.txt` | The style block every prompt ends with. Change the look here. |
+| `anchor.png` | The style reference image passed to every generation (`-i`). |
+| `prompts/p-anchor.txt` | The prompt that made the anchor. |
+| `jobs.py` | Writes one prompt per image into `v2/prompts/`: 4 dragon stages, tail tips, 4 rider poses, 7 bosses, 7 enemy sheets (six enemies each), 8 backdrops, effects. |
+| `prompts/` | The prompts as they were run, for reference. |
+| `run.sh` | Runs `codex exec` for each named prompt, five at a time, skipping images that already exist. |
+| `pack.py` | Cuts characters out of the green background, splits sheets into single enemies, crops, resizes and writes WebP into `src/art/painted/`. Needs Python 3 with numpy, scipy and Pillow. |
+| `zones.json` | Which enemies are on which sheet, in reading order. |
 
-`--manifest` can be any JSON with a `rigs` (or `backdrops`) object in the `assets.json` format, so a draft rig can be previewed before it's merged. Enemies drawn from body plans live under `enemies` in `assets.json`; to preview one with its extras, write a scratch rig entry with the extras added as children of their parent part. `tools/art/out/` is git-ignored scratch space.
+## Making or replacing art
 
-The in-game check is the hidden contact sheet at `#/dev/art`, which shows every sprite at phone size and tags anything missing as a placeholder.
+The scripts expect a scratch folder laid out as `v2/` (style.txt, anchor.png, prompts/, out/), with the commands run from its parent. Copy this folder to a scratch folder as `v2/` first.
 
-## BRIEF.md
+1. Sign in once: `codex login --device-auth` (the session's environment must allow `chatgpt.com`, `auth.openai.com` and `api.openai.com`).
+2. Edit `jobs.py` (or write a prompt file by hand), then `python3 v2/jobs.py`.
+3. `./v2/run.sh <name> ...` for the images you want. Delete `v2/out/<name>.png` first to redo one.
+4. Look at the results. The image tool can't make transparent backgrounds, so characters come on flat green.
+5. `python3 v2/pack.py /path/to/repo` repacks everything it finds in `v2/out/`.
+6. If an image's size changed, update its `size` (and `points`) in `assets.json`. Check `#/dev/art` at phone size.
 
-The brief given to the agents that drew the B3 to B5 art: the rules (original designs only, plain SVG, gray tokens, pivots, no edits outside their folders), the animation names, the rig points and how to check work. Reuse it when handing art to an agent, and add the task-specific part (what to draw, which folder, where the manifest fragment goes). Agents write a manifest fragment; merge it into `assets.json` yourself after looking at their renders.
+Notes from the first run: each image takes one to two minutes; five at a time worked; a `-i` reference must come before `--` and the prompt; `codex exec` needs `< /dev/null` or it waits on stdin. Image turns use the subscription's Codex limits several times faster than normal turns.
 
-## generators/
-
-The scripts the agents wrote to produce each set. They are a convenience, not a build step. They were run once from a scratch folder in a cloud session, so expect to fix paths before rerunning: scratch paths now point at `/home/user/dracoquest/tools/art/out/`, and some preview helpers expect `rigpreview.mjs` or manifest files in that folder. Each writes SVGs into `src/art/` and a manifest fragment to merge.
-
-| Folder | Draws | Needs |
-| --- | --- | --- |
-| `dragons/` | Hatchling, Juvenile and Elder rigs, element tail tips, the rider's bow and staff | Python 3 |
-| `bosses/` | The six bosses other than the Storm Roc (one script per boss, shared `lib.py`) | Python 3 |
-| `enemies/` | The 12 enemy body plans, the 66 per-enemy extras and the `enemies` table (`make.py` runs it all) | Python 3, `shapely`, Pillow |
-| `icons/` | The 44 UI icons (`gen.py`), and a contact sheet (`sheet.mjs`) | Python 3 |
-
-The B0 art (Adult dragon, rider, Storm Roc, Thunderspire, effects), the backdrops and the eggs have no generator here; edit their SVGs directly.
+Eric can also drop in his own art: a transparent WebP or PNG, facing right, pointed at from `assets.json`.

@@ -40,15 +40,19 @@ After the graphics phases, Eric asked for more things to be tappable and for spl
 
 On the B4 build, Eric spotted his dragon showing gray on the Dragons and grooming screens but in color on the Roost. An old grayscale rule for tinting gray WebP sprites was hitting the new rig sprites. The B5 deploy fixed it, and a phone test now guards it.
 
-## Graphics, second pass: C0 built, waiting for Eric
+## Art redesign: built, waiting for Eric
 
-Eric asked to take the art "to the next level", modern but still AdventureQuest in feel, and fast on his iPhone 17 Pro. The research, the plan (C0 to C4) and the calls made are in `docs/GRAPHICS_PLAN_2.md`. C0, the look proof, is built and deployed:
+After the first graphics pass Eric asked for a more modern, professional look. The full story is in `docs/GRAPHICS_PLAN_2.md`. Where it ended up:
 
-- Every rig part gets a lighting pass at load (`lightSvg` in `src/ui/stage/rigs.ts`, numbers in `palette.json` under `lighting`).
-- Thunderspire is repainted as the model scene, with a foreground layer and drifting specks (`front` and `ambient` in `assets.json`). Every stage has a vignette.
-- Strong hits and crits get hit-stop, a camera punch and a glow (`punch`, `hitStop`, `glow` in `stage.json`).
+- All character, backdrop and effect art was replaced with painted images in a cel-shaded cartoon style Eric picked from samples ("A with C simpler shapes", `docs/img/style-options.jpg`). The rules are in `docs/ART_STYLE.md`.
+- The images were generated with the Codex CLI's image tool on Eric's ChatGPT subscription, from inside the cloud session, and cut out and packed by `tools/art/painted/` (see `tools/art/README.md`). The cloud environment "dracoquest" allows the three OpenAI hosts this needs.
+- Each character is one image. Dragons are painted red and gold and recolored to player colors at load, with an element tail tip drawn on (`src/ui/stage/tint.ts`, `tintBitmap` in `rigs.ts`).
+- From the earlier C0 step, still in: a stage vignette, drifting specks per zone, and hit-stop, a camera punch and a glow on heavy hits.
+- The old SVG rigs, body plans, backdrops and their generator scripts are deleted (they are in git history before this change).
 
-C0 is deployed. Eric's verdict: he wants a much more different and professional look than lighting on the current drawings gives. He chose painted art from an image model, generated through the Codex CLI on his ChatGPT subscription. A painted proof (dragon, rider, Storm Roc, Thunderspire) is on `#/dev/mock` behind a Painted / Vector switch; see "Painted proof" in the plan. Next: his verdict on the proof, then player-color tinting, moving parts and painted effects.
+Not redone yet: eggs and the hatching scene's egg (SVG), the 44 UI icons (SVG), and the UI skin. Characters don't have separately moving heads, jaws or wings anymore; they breathe and lean as one piece.
+
+Status: built on the session branch, not deployed. The live site still has C0 with the old art. Next: Eric's verdict, then whatever he wants fixed or regenerated.
 
 ## What to work on next
 
@@ -59,7 +63,7 @@ Besides the graphics pass above, these are the open threads. Eric closed three o
 3. **Cosmetics** (an ember sink in the design) don't exist yet. With rigs and extras, cosmetics could be extra parts on a dragon (hats, saddles, horn caps) listed in `assets.json`.
 4. **Late-game save code.** Late-game play takes many hours; a save code for an Elder with two partners would let him look at late screens. `e2e/make-fixtures.ts` already builds such saves (`e2e/fixtures/elder.json`); turn one into an export code with `src/core/save.ts`.
 5. **First-load size.** 163 kB of JavaScript gzipped, because all SVG art ships as text in the main bundle (colors are baked in at load). If load time ever matters, split the art per zone with lazy `import.meta.glob` and preload a zone's art when a run starts.
-6. **Better art.** Everything is agent-drawn SVG. Eric may want to swap in his own art later: any part, backdrop or icon can be replaced through `src/art/assets.json` (or the icon file name) with no code change.
+6. **Rest of the redesign.** Eggs, icons and the UI skin in the new style; separate moving parts or extra poses (an attack frame per dragon) for livelier fights; trimming the 2.6 MB precache.
 
 ## Decisions made along the way
 
@@ -81,7 +85,7 @@ These are in addition to the Decisions table in `docs/DESIGN.md`. Eric saw each 
 | Saves | Version 6 (B1 added `settings.simpleBattle`). Each bump has a migration and a fixture test (`tests/fixtures/save-v1.json` to `save-v5.json`). |
 | Battle speed | Eric raised the beat limit from 300 ms to 450 ms after seeing B0 (GRAPHICS_PLAN.md, G5). Timings are in `src/data/stage.json`. |
 | Offline | vite-plugin-pwa (Workbox), prompt-style updates: a "Reload" bar, never a forced reload mid-fight. The precache includes `woff2` for the heading font. |
-| Art pipeline | Agents draw SVG in the repo (GRAPHICS_PLAN.md, G2), not WebP from Eric. Parts are drawn in place on a shared canvas and rotate around pivots in `assets.json`. Tinted art uses gray tokens swapped for real colors once at load. |
+| Art pipeline | Painted WebP generated with an image model and packed by `tools/art/painted/` (replaced the agent-drawn SVG of the first pass on 2026-11-11). One image per character; dragons are recolored to player colors once at load. |
 | Battle details | Tap an enemy to aim everyone at it; tap it again (once everyone is on it), tap its plate, or tap a party member for the details sheet. Party plates are display only. |
 | Split targets | Each attacker keeps its own target (rider, lead dragon, second dragon). The chip at the start of each order row shows and cycles it, only when two enemies are alive. |
 | Currency info | Gold and ember counters are buttons that open an explainer sheet. |
@@ -103,7 +107,8 @@ src/data/      every balance number and all content, as JSON
 src/ui/        Preact screens and pieces
   screens/Battle.tsx   the battle screen: orders, the round loop (plays events through the stage), sheets, results
   stage/               battle stage: Stage.tsx, BattleStage.tsx (engine state to stage), director.ts (events to moves),
-                       choreo.ts (moves), rigs.ts (art loader), Scene.tsx (Roost, Map strips, hatching)
+                       choreo.ts (moves), rigs.ts (art loader), tint.ts (player colors on painted dragons),
+                       Scene.tsx (Roost, Map strips, hatching)
   dev/                 hidden pages: #/dev/mock (mock battle), #/dev/bench (frame bench), #/dev/art (art sheet)
   Sprites.tsx          small dragon and enemy sprites: the rig when art exists, else a code-drawn shape
   Icon.tsx             UI icons from src/art/icons, with emoji fallbacks; Gold and Embers amounts
@@ -111,12 +116,12 @@ src/ui/        Preact screens and pieces
   art.ts               old WebP sprite lookup (still used as a second fallback)
   styles.css           base styles; skin.css layers the B5 look on top
   pwa.ts sound.ts install.ts storage.ts useSave.ts router.ts bits.tsx
-src/art/       SVG art (rigs, enemy plans and extras, backdrops, eggs, effects, icons), palette.json, assets.json
+src/art/       painted/ (WebP characters, backdrops, effects, tail tips), eggs and icons (SVG), palette.json, assets.json
 src/data/stage.json  stage layouts, plate spots, beat timings, the demo fight (UI only, not read by src/core)
-tests/         Vitest unit tests (133), sim.ts (the balance simulator), save fixtures
+tests/         Vitest unit tests (136), sim.ts (the balance simulator), save fixtures
 e2e/           Playwright phone tests (39, including a 4x-throttle perf test), save fixtures and make-fixtures.ts
 scripts/       icons.mjs builds the Home Screen icons
-tools/art/     rigpreview.mjs (render a rig or backdrop to PNG), BRIEF.md (brief for art agents), generators/
+tools/art/     painted/ (prompts, the style anchor, and the scripts that generate, cut out and pack the art)
 docs/          DESIGN.md, HANDOFF.md, GRAPHICS_PLAN_2.md (second graphics pass: research, C0 result, C1 to C4), NEXT_PROMPT.md (prompt for a new session), GRAPHICS_PLAN.md (graphics plan and results), ART_STYLE.md (art rules)
 ```
 
@@ -125,20 +130,19 @@ docs/          DESIGN.md, HANDOFF.md, GRAPHICS_PLAN_2.md (second graphics pass: 
 | Command | What it does |
 | --- | --- |
 | `npm run dev` | Local dev server |
-| `npm run test` | Unit tests (133) |
+| `npm run test` | Unit tests (136) |
 | `npx tsc --noEmit` and `npm run lint` | Type check and lint. Lint blocks `Math.random` and browser globals in `src/core`. |
 | `npm run e2e` | Phone tests at 375 by 667 (39), about 95 seconds |
 | `npm run sim` | Balance sim: 1,000 runs per zone and level, plus campaigns from egg to level 50. Flags: `--runs`, `--campaigns`, `--zone`, `--no-campaign`, `--campaign-only`. The full run takes about 2.5 minutes. |
 | `npx tsx e2e/make-fixtures.ts` | Rebuilds the saves the phone tests load |
 | `npm run icons` | Rebuilds the Home Screen icons |
 | `npm run deploy` | Checks, builds, and pushes to `main`, which publishes. Only when Eric asks. |
-| `node tools/art/rigpreview.mjs ...` | Renders a rig or backdrop to a PNG (see `tools/art/README.md`) |
 | `#/dev/mock`, `#/dev/bench`, `#/dev/art` | Hidden pages: the B0 mock battle, the frame bench (1 vs 1 or 2 vs 2), the art contact sheet. They load on demand and work without a save. |
 
 ## Numbers to keep in mind
 
-- First load: 163 kB of JavaScript gzipped and 7 kB of CSS, because all the SVG art is bundled as text so colors can be baked in. The service worker precaches 864 kB in all, under the plan's 1.5 MB art budget.
-- Stage: about 67 DOM nodes in a one-on-one fight, 98 at two dragons against two enemies (budget 100). The perf test dropped 0 to 2.2% of frames at 4x CPU throttle when B2 was built (budget 5%), but it is noisy: on 2026-11-11 unchanged `main` scored 4.8 to 7.5% in the sandbox. Run it a few times and compare against `main` before blaming a change.
+- First load: 108 kB of JavaScript gzipped (down from 163, since the SVG art no longer ships as text). The painted art is 2.2 MB of WebP, loaded as needed and all precached by the service worker for offline play: 2.6 MB in total, over the first plan's 1.5 MB art budget.
+- Stage: about 48 DOM nodes in a one-on-one fight, 64 at two dragons against two enemies (budget 100). The perf test (5% dropped frames at 4x CPU throttle) usually reads 0.3 to 2%, but it is noisy in the sandbox and sometimes reads 5 to 7% on unchanged code. Run it a few times before blaming a change.
 - Battle pace: each event waits for its move, so a round at 1x takes about 2 to 3 seconds; 2x halves it.
 - A full egg-to-level-50 campaign in the sim takes about 800 fights, roughly 27 hours of play at 2 minutes a fight.
 - Content: 7 zones, 35 regular enemies, 7 mini-bosses, 7 bosses, 56 pieces of gear, 8 foods, 3 items, 40 talents, 3 growth quests, 6 expedition trips, 4 events.
@@ -153,7 +157,8 @@ docs/          DESIGN.md, HANDOFF.md, GRAPHICS_PLAN_2.md (second graphics pass: 
 - **Playwright.** A hash-only `page.goto` doesn't re-render the app in these tests; tap the link instead. Stage fighters bob, so element screenshots of them can time out waiting to be stable; use page screenshots with a clip.
 - **Tests that end early.** A battle test that loops rounds and returns when the fight ends can pass without checking anything. Check after a fixed number of rounds with a seeded fixture, and fail if the fight is already over.
 - **Order rows are tight.** The busiest row (Dragon with Skill, Duo and Combo, plus a target chip) is exactly 351 px at 375 wide. The split-target test fails if any order row overflows; adding a button to a row needs a layout change, not just another button.
-- **Art agents.** Give them `tools/art/BRIEF.md`, their own folders and a fragment file, and review their renders before merging. Commit their folders only after review (`git add -A src` sweeps in work in progress).
+- **Generating art.** `codex exec` needs `< /dev/null`, and a `-i` reference image must come before `--` and the prompt. The image tool can't make transparent backgrounds; characters come on flat green and `pack.py` cuts them out. Keep bright green out of the art itself.
+- **Dragon colors.** New dragon art must stick to the key colors (red body, gold belly, cream horns) or the recolor will miss or hit the wrong areas. `tests/tint.test.ts` holds the measured colors.
 
 ## How Eric likes to work
 

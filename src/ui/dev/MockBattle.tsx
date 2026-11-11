@@ -2,7 +2,7 @@ import { useRef, useState } from 'preact/hooks';
 import { prefersReducedMotion } from '../bits';
 import { Stage } from '../stage/Stage';
 import { breath, claw, enemyAttack, riderAttack, type BeatOpts } from '../stage/choreo';
-import { demo, demoFighters, StageBar, useDemoArt, type DemoHp, type DemoSet } from './demo';
+import { demo, demoFighters, StageBar, useDemoArt, type DemoHp } from './demo';
 
 type RiderPick = 'attack' | 'spell' | 'item' | 'defend';
 type DragonPick = 'claw' | 'breath' | 'guard';
@@ -15,8 +15,7 @@ const perRound = 20;
  * to the engine; the numbers are fixed demo values from stage.json.
  */
 export function MockBattle() {
-  const [set, setSet] = useState<DemoSet>('painted');
-  const art = useDemoArt(set);
+  const art = useDemoArt();
   const stageRef = useRef<HTMLDivElement>(null);
   const [hp, setHp] = useState<DemoHp>(full);
   const [breathMeter, setBreath] = useState(demo.dragon.breath);
@@ -125,11 +124,7 @@ export function MockBattle() {
               {played && <button type="button" class="button button--ghost repeat" onClick={go} disabled={playing} data-testid="repeat">Repeat</button>}
               <button type="button" class="button button--go" onClick={go} disabled={playing || !art} data-testid="go">{playing ? '…' : 'Go!'}</button>
             </div>
-            <div class="look-row" role="group" aria-label="Art set">
-              <button type="button" class="chip-button" aria-pressed={set === 'painted'} onClick={() => setSet('painted')} data-testid="art-painted">Painted</button>
-              <button type="button" class="chip-button" aria-pressed={set === 'vector'} onClick={() => setSet('vector')} data-testid="art-vector">Vector</button>
-              <a class="dev-link" href="#/dev/bench">Open the bench</a>
-            </div>
+            <a class="dev-link" href="#/dev/bench">Open the bench</a>
           </div>
         </section>
       </main>

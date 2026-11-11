@@ -60,9 +60,9 @@
     }
   },
   "mount": {
-    "width": 0.36,
-    "seat": [0.5, 0.7],
-    "saddle": [0.45, 0.48]
+    "width": 0.42,
+    "seat": [0.45, 0.66],
+    "saddle": [0.55, 0.5]
   },
   "plainBackdrop": { "sky": "#3d2f6e", "skyLow": "#8a6aa8", "groundMix": 0.55, "groundTop": 76 }
 }

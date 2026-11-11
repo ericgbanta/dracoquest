@@ -1,6 +1,6 @@
 # Graphics, second pass: research and plan
 
-Written 2026-11-11 at Eric's request. Status: C0 (the look proof) is built and deployed. Eric wants a bigger change than C0 delivers; see "Eric's check of C0". A painted proof is built on the mock (see "Painted proof"); C1 to C4 wait on Eric's verdict on it. C1 to C4 are proposed, not started. `docs/GRAPHICS_PLAN.md` is the first pass (B0 to B5) and is finished.
+Written 2026-11-11 at Eric's request. Status: C0 (the look proof) is built and deployed. Eric wants a bigger change than C0 delivers; see "Eric's check of C0". The art has since been redone as painted images in a style Eric chose (see "The art redesign"). The C1 to C4 phases below were written before that and are kept for their ideas on effects, camera and interface. C1 to C4 are proposed, not started. `docs/GRAPHICS_PLAN.md` is the first pass (B0 to B5) and is finished.
 
 The request, in Eric's words: "We just finished a redesign but I really think we can take art and graphics to the next level. We should try to modernize but still keep the same adventure quest feel. Please do some research. I want to be blown away by the graphics and art but still have this performant on my iPhone 17 pro."
 
@@ -75,18 +75,36 @@ C0 was deployed with a second style, look B (colored outlines, a tint toward the
 
 What that means for the plan: lighting and effects on top of the existing drawings are not enough. The drawings themselves are the limit, as the first plan's risk section predicted. The phases below need a new art source before they continue; that choice is open with Eric.
 
-## Painted proof (built 2026-11-11)
+## The art redesign (built 2026-11-11)
 
 Eric chose painted art from an image model. The Codex CLI, signed in to his ChatGPT subscription by device login, generates the images from inside the cloud session (`codex exec`, built-in image tool). The session's environment ("dracoquest") allows `chatgpt.com`, `auth.openai.com` and `api.openai.com` for this.
 
-`#/dev/mock` opens on the painted set, with a Painted / Vector switch. See `docs/img/c0-vector-vs-painted.png` (vector on top).
+1. **First proof.** Four images in a detailed painterly style (dragon, rider, Storm Roc, Thunderspire) on the mock. Eric: "This is great but I don't like the generated art style."
+2. **Style options.** The same dragon in six styles (`docs/img/style-options.jpg`): cel-shaded cartoon, storybook gouache, flat graphic, inked graphic novel, 3D toy, anime RPG. Eric: "let's go A with C simpler shapes. Go redesign the whole thing!"
+3. **The full set.** One anchor dragon in the chosen style, then 32 images with the anchor as style reference: 4 dragon stages, a sheet of 8 tail tips, 4 rider poses, 7 bosses, 7 sheets of six enemies, 8 backdrops and an effects sheet. All 32 came out usable on the first run.
 
-- Four images: the Adult fire dragon, the rider, the Storm Roc and the Thunderspire backdrop. The dragon was generated first and passed to the others as the style reference.
-- Prompts and the shared style block are in `tools/art/painted/`. The tool can't make transparent backgrounds, so characters are generated on flat green and cut out with `key.py` (needs numpy, scipy and Pillow).
-- The art is WebP in `src/art/painted/` (422 kB for the four), listed in `assets.json` as `painted.*` rigs and a `painted.thunderspire` backdrop. Each character is one bitmap that breathes as a whole (`anim: swell`); nothing is split into parts yet.
-- The painted stage uses 45 DOM nodes, against about 67 for the vector one.
+What changed in the game:
 
-What the proof does not do yet: tint dragons to the player's colors, move parts separately (head, jaw, wings), or restyle the flat breath and hit effects, which now look out of place next to the painted art. Those are the first jobs if Eric goes ahead.
+- Every rig in `assets.json` now points at a painted WebP in `src/art/painted/`: `dragon.<stage>`, `rider`, `rider.mounted` and all 49 `enemy.<id>`. Backdrops are one image per zone plus the Roost. The Roost, Map strips, Dragons screen, hatching scene and art sheet pick the new art up through the same loader.
+- Dragons are painted red and gold and recolored to each player's colors when they load, keeping the flat shadow shapes (`src/ui/stage/tint.ts`). The element tail tip is drawn on in the same step.
+- The breath puff is recolored per element the same way.
+- Ride mode uses a seated rider image placed on the dragon's saddle point.
+- Each character is one piece. It breathes by swelling from its feet, and battle moves lean the whole body where they used to turn a head or an arm.
+- The old SVG rigs, enemy body plans, backdrops and effect files are deleted, along with the scripts that drew them.
+
+Numbers: 2.2 MB of WebP for the art (dragons about 60 kB each, enemies 15 to 60 kB, backdrops about 100 kB). First-load JavaScript fell from 163 to 108 kB gzipped. The service worker precaches 2.6 MB in all. The stage uses 48 nodes one on one and 64 in the busiest fight (budget 100). Tests: 136 unit tests and 39 phone tests pass; the perf test read 0.3 to 1.8 percent dropped frames over four runs (and once 5.4, see the note on noise above).
+
+### Calls made (Eric can overrule any of these)
+
+| Topic | Call |
+| --- | --- |
+| One image per character | No separately moving heads, jaws, wings or arms. Simpler and lighter, but less lively than the old rigs. Extra poses (an attack frame) or cut parts could come later. |
+| Enemy sheets | The 42 regular enemies and mini-bosses were generated six to a sheet, one sheet per zone, to save image generations. Bosses were generated alone at full size. |
+| Dragon colors | Painted in fixed key colors and recolored in code, not generated per color. |
+| Old art deleted | The SVG rigs are gone from the tree, not kept as a fallback. Git history has them. |
+| Precache size | All art is precached so the game works offline: 2.6 MB, over the first plan's 1.5 MB art budget. |
+| Not redone | Eggs, UI icons and the UI skin are still from the first pass. |
+| Raw images | The generated PNGs (about 65 MB) were not committed; the packed WebPs, prompts and the style anchor were. |
 
 ## Proposed phases
 

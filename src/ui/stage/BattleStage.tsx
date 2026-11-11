@@ -26,8 +26,8 @@ const none: Effects = { slash: null, spark: null, puff: null };
 const look = (d: DragonState) => ({ element: d.element, primary: d.colors.primary, secondary: d.colors.secondary });
 const lookKey = (d: DragonState | null) => (d ? `${d.element}.${d.stage}.${d.colors.primary}.${d.colors.secondary}` : '-');
 
-function useBattleArt(zoneId: string, weapon: string, lead: DragonState | null, second: DragonState | null, enemyIds: string[]): BattleArt | null {
-  const key = [zoneId, weapon, lookKey(lead), lookKey(second), ...enemyIds].join('|');
+function useBattleArt(zoneId: string, weapon: string, ride: boolean, lead: DragonState | null, second: DragonState | null, enemyIds: string[]): BattleArt | null {
+  const key = [zoneId, ride ? 'mounted' : weapon, lookKey(lead), lookKey(second), ...enemyIds].join('|');
   const [art, setArt] = useState<BattleArt | null>(null);
   useEffect(() => {
     let live = true;
@@ -35,7 +35,8 @@ function useBattleArt(zoneId: string, weapon: string, lead: DragonState | null, 
       const ids = [...new Set(enemyIds)];
       const [backdrop, rider, leadRig, secondRig, effects, ...enemyRigs] = await Promise.all([
         loadBackdrop(zoneId),
-        loadRig('rider', undefined, { weapon }),
+        // Riding uses the seated rider.
+        ride ? loadRig('rider.mounted') : loadRig('rider', undefined, { weapon }),
         lead ? loadRig(`dragon.${lead.stage}`, look(lead)) : Promise.resolve(null),
         second ? loadRig(`dragon.${second.stage}`, look(second)) : Promise.resolve(null),
         loadEffects(lead?.element ?? 'fire'),
@@ -84,7 +85,7 @@ export function BattleStage({ save, battle, zoneId, zoneElement, targets, onTarg
   const lead = activeDragon(save);
   const two = battle.second ? secondDragon(save) : null;
   const ride = battle.mode === 'ride';
-  const art = useBattleArt(zoneId, weaponArt(battle.weapon.type), lead, two, battle.enemies.map((e) => e.enemyId ?? ''));
+  const art = useBattleArt(zoneId, weaponArt(battle.weapon.type), ride, lead, two, battle.enemies.map((e) => e.enemyId ?? ''));
   const ready = !!art;
   const party = parties[ride ? (two ? 'rideDuo' : 'ride') : (two ? 'duo' : 'solo')]!;
   const riderFallback = <RiderPlaceholder />;

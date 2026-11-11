@@ -1,1563 +1,256 @@
 {
-  "note": "Map sprite keys to files in /src/art. Dragon keys are dragon.<element>.<stage> (neutral gray, tinted at runtime). Enemy keys are enemy.<id>. Missing files fall back to placeholder shapes. 'rigs' are battle-stage characters built from parts: each part is drawn in place on the rig's full canvas (size in viewBox units, facing right), with its pivot as a fraction of that canvas. {element} in a file name is filled in per dragon and {weapon} (sword, bow, staff) per rider. 'points' are spots on the rig (mouth, hit, front) as fractions. See docs/ART_STYLE.md.",
+  "note": "Maps art keys to files in /src/art. 'rigs' are the characters: dragon.<stage> (painted with a red body and gold belly, recolored to each player's colors at load, with an element tail tip drawn on), rider ({weapon} is sword, bow or staff), rider.mounted, and enemy.<id>. Each is one painted image inside a 'torso' group that breathes; 'points' are spots on the image (mouth, hit, front, saddle) as fractions. A rig may still be built from several SVG or WebP parts drawn in place on a shared canvas, each with a pivot. Missing files fall back to placeholder shapes. See docs/ART_STYLE.md.",
   "sprites": {},
   "rigs": {
-    "dragon.adult": {
+    "dragon.hatchling": {
       "size": [
-        260,
-        200
+        640,
+        551
       ],
       "tint": "dragon",
+      "boxScale": 0.6,
       "points": {
         "mouth": [
-          0.95,
-          0.41
+          0.97,
+          0.42
         ],
         "hit": [
-          0.5,
+          0.55,
           0.6
         ],
         "front": [
-          0.86,
+          0.9,
           0.6
-        ],
-        "saddle": [
-          0.45,
-          0.49
         ]
       },
       "parts": [
-        {
-          "id": "leg-back",
-          "file": "rigs/dragon-adult/leg-back.svg"
-        },
         {
           "id": "torso",
-          "pivot": [
-            0.5,
-            0.85
-          ],
-          "anim": "breathe",
-          "parts": [
-            {
-              "id": "wing-back",
-              "file": "rigs/dragon-adult/wing-back.svg",
-              "pivot": [
-                0.56,
-                0.49
-              ],
-              "anim": "flap-back"
-            },
-            {
-              "id": "tail",
-              "file": "rigs/dragon-adult/tail.svg",
-              "pivot": [
-                0.38,
-                0.64
-              ],
-              "anim": "swish",
-              "parts": [
-                {
-                  "id": "tail-tip",
-                  "file": "rigs/dragon-adult/tail-tip-{element}.svg"
-                }
-              ]
-            },
-            {
-              "id": "body",
-              "file": "rigs/dragon-adult/body.svg"
-            },
-            {
-              "id": "head",
-              "file": "rigs/dragon-adult/head.svg",
-              "pivot": [
-                0.7,
-                0.37
-              ],
-              "parts": [
-                {
-                  "id": "jaw",
-                  "file": "rigs/dragon-adult/jaw.svg",
-                  "pivot": [
-                    0.75,
-                    0.41
-                  ]
-                }
-              ]
-            },
-            {
-              "id": "wing-front",
-              "file": "rigs/dragon-adult/wing-front.svg",
-              "pivot": [
-                0.485,
-                0.52
-              ],
-              "anim": "flap"
-            }
-          ]
-        },
-        {
-          "id": "leg-front",
-          "file": "rigs/dragon-adult/leg-front.svg",
-          "pivot": [
-            0.58,
-            0.66
-          ]
-        }
-      ]
-    },
-    "rider": {
-      "size": [
-        120,
-        170
-      ],
-      "points": {
-        "hit": [
-          0.5,
-          0.55
-        ],
-        "front": [
-          0.8,
-          0.5
-        ]
-      },
-      "parts": [
-        {
-          "id": "all",
           "pivot": [
             0.5,
             1
           ],
-          "anim": "bob",
+          "anim": "swell",
           "parts": [
             {
-              "id": "cape",
-              "file": "rigs/rider/cape.svg",
+              "id": "body",
+              "file": "painted/dragon-hatchling.webp",
               "pivot": [
                 0.5,
-                0.365
-              ],
-              "anim": "cape"
-            },
-            {
-              "id": "body",
-              "file": "rigs/rider/body.svg"
-            },
-            {
-              "id": "head",
-              "file": "rigs/rider/head.svg",
-              "pivot": [
-                0.51,
-                0.365
-              ]
-            },
-            {
-              "id": "arm",
-              "file": "rigs/rider/arm-{weapon}.svg",
-              "pivot": [
-                0.567,
-                0.41
+                0.95
               ]
             }
-          ]
-        }
-      ]
-    },
-    "enemy.storm-roc": {
-      "size": [
-        260,
-        270
-      ],
-      "points": {
-        "hit": [
-          0.5,
-          0.55
-        ],
-        "front": [
-          0.78,
-          0.5
-        ]
-      },
-      "parts": [
-        {
-          "id": "legs",
-          "file": "rigs/storm-roc/legs.svg"
-        },
-        {
-          "id": "torso",
-          "pivot": [
-            0.5,
-            0.8
-          ],
-          "anim": "breathe",
-          "parts": [
-            {
-              "id": "wing-back",
-              "file": "rigs/storm-roc/wing-back.svg",
-              "pivot": [
-                0.48,
-                0.51
-              ],
-              "anim": "flap-back-big"
-            },
-            {
-              "id": "tail",
-              "file": "rigs/storm-roc/tail.svg",
-              "pivot": [
-                0.35,
-                0.7
-              ],
-              "anim": "swish"
-            },
-            {
-              "id": "body",
-              "file": "rigs/storm-roc/body.svg"
-            },
-            {
-              "id": "wing-front",
-              "file": "rigs/storm-roc/wing-front.svg",
-              "pivot": [
-                0.58,
-                0.49
-              ],
-              "anim": "flap-big"
-            },
-            {
-              "id": "head",
-              "file": "rigs/storm-roc/head.svg",
-              "pivot": [
-                0.69,
-                0.47
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    "dragon.hatchling": {
-      "size": [
-        200,
-        170
-      ],
-      "tint": "dragon",
-      "boxScale": 0.62,
-      "points": {
-        "mouth": [
-          0.945,
-          0.506
-        ],
-        "hit": [
-          0.48,
-          0.694
-        ],
-        "front": [
-          0.85,
-          0.612
-        ]
-      },
-      "parts": [
-        {
-          "id": "leg-back",
-          "file": "rigs/dragon-hatchling/leg-back.svg"
-        },
-        {
-          "id": "torso",
-          "pivot": [
-            0.5,
-            0.85
-          ],
-          "anim": "breathe",
-          "parts": [
-            {
-              "id": "wing-back",
-              "file": "rigs/dragon-hatchling/wing-back.svg",
-              "pivot": [
-                0.59,
-                0.576
-              ],
-              "anim": "flap-back"
-            },
-            {
-              "id": "tail",
-              "file": "rigs/dragon-hatchling/tail.svg",
-              "pivot": [
-                0.32,
-                0.776
-              ],
-              "anim": "swish"
-            },
-            {
-              "id": "body",
-              "file": "rigs/dragon-hatchling/body.svg"
-            },
-            {
-              "id": "head",
-              "file": "rigs/dragon-hatchling/head.svg",
-              "pivot": [
-                0.64,
-                0.541
-              ],
-              "parts": [
-                {
-                  "id": "jaw",
-                  "file": "rigs/dragon-hatchling/jaw.svg",
-                  "pivot": [
-                    0.77,
-                    0.529
-                  ]
-                }
-              ]
-            },
-            {
-              "id": "wing-front",
-              "file": "rigs/dragon-hatchling/wing-front.svg",
-              "pivot": [
-                0.52,
-                0.6
-              ],
-              "anim": "flap"
-            }
-          ]
-        },
-        {
-          "id": "leg-front",
-          "file": "rigs/dragon-hatchling/leg-front.svg",
-          "pivot": [
-            0.56,
-            0.788
           ]
         }
       ]
     },
     "dragon.juvenile": {
       "size": [
-        240,
-        190
+        710,
+        437
       ],
       "tint": "dragon",
-      "boxScale": 0.84,
+      "boxScale": 0.92,
       "points": {
         "mouth": [
-          0.971,
-          0.368
-        ],
-        "hit": [
-          0.492,
-          0.642
-        ],
-        "front": [
-          0.85,
-          0.6
-        ]
-      },
-      "parts": [
-        {
-          "id": "leg-back",
-          "file": "rigs/dragon-juvenile/leg-back.svg"
-        },
-        {
-          "id": "torso",
-          "pivot": [
-            0.5,
-            0.85
-          ],
-          "anim": "breathe",
-          "parts": [
-            {
-              "id": "wing-back",
-              "file": "rigs/dragon-juvenile/wing-back.svg",
-              "pivot": [
-                0.58,
-                0.508
-              ],
-              "anim": "flap-back"
-            },
-            {
-              "id": "tail",
-              "file": "rigs/dragon-juvenile/tail.svg",
-              "pivot": [
-                0.375,
-                0.642
-              ],
-              "anim": "swish",
-              "parts": [
-                {
-                  "id": "tail-tip",
-                  "file": "rigs/dragon-juvenile/tail-tip-{element}.svg"
-                }
-              ]
-            },
-            {
-              "id": "body",
-              "file": "rigs/dragon-juvenile/body.svg"
-            },
-            {
-              "id": "head",
-              "file": "rigs/dragon-juvenile/head.svg",
-              "pivot": [
-                0.708,
-                0.368
-              ],
-              "parts": [
-                {
-                  "id": "jaw",
-                  "file": "rigs/dragon-juvenile/jaw.svg",
-                  "pivot": [
-                    0.792,
-                    0.379
-                  ]
-                }
-              ]
-            },
-            {
-              "id": "wing-front",
-              "file": "rigs/dragon-juvenile/wing-front.svg",
-              "pivot": [
-                0.524,
-                0.53
-              ],
-              "anim": "flap"
-            }
-          ]
-        },
-        {
-          "id": "leg-front",
-          "file": "rigs/dragon-juvenile/leg-front.svg",
-          "pivot": [
-            0.608,
-            0.663
-          ]
-        }
-      ]
-    },
-    "dragon.elder": {
-      "size": [
-        300,
-        244
-      ],
-      "tint": "dragon",
-      "boxScale": 1.12,
-      "points": {
-        "mouth": [
-          0.967,
-          0.418
-        ],
-        "hit": [
-          0.467,
-          0.672
-        ],
-        "front": [
-          0.847,
-          0.623
-        ],
-        "saddle": [
-          0.487,
-          0.512
-        ]
-      },
-      "parts": [
-        {
-          "id": "leg-back",
-          "file": "rigs/dragon-elder/leg-back.svg"
-        },
-        {
-          "id": "torso",
-          "pivot": [
-            0.5,
-            0.85
-          ],
-          "anim": "breathe",
-          "parts": [
-            {
-              "id": "wing-back",
-              "file": "rigs/dragon-elder/wing-back.svg",
-              "pivot": [
-                0.614,
-                0.548
-              ],
-              "anim": "flap-back"
-            },
-            {
-              "id": "tail",
-              "file": "rigs/dragon-elder/tail.svg",
-              "pivot": [
-                0.373,
-                0.713
-              ],
-              "anim": "swish",
-              "parts": [
-                {
-                  "id": "tail-tip",
-                  "file": "rigs/dragon-elder/tail-tip-{element}.svg"
-                }
-              ]
-            },
-            {
-              "id": "body",
-              "file": "rigs/dragon-elder/body.svg"
-            },
-            {
-              "id": "head",
-              "file": "rigs/dragon-elder/head.svg",
-              "pivot": [
-                0.687,
-                0.418
-              ],
-              "parts": [
-                {
-                  "id": "jaw",
-                  "file": "rigs/dragon-elder/jaw.svg",
-                  "pivot": [
-                    0.773,
-                    0.434
-                  ]
-                }
-              ]
-            },
-            {
-              "id": "wing-front",
-              "file": "rigs/dragon-elder/wing-front.svg",
-              "pivot": [
-                0.532,
-                0.577
-              ],
-              "anim": "flap"
-            }
-          ]
-        },
-        {
-          "id": "leg-front",
-          "file": "rigs/dragon-elder/leg-front.svg",
-          "pivot": [
-            0.62,
-            0.73
-          ]
-        }
-      ]
-    },
-    "enemy.bramble-troll": {
-      "size": [
-        260,
-        270
-      ],
-      "boxScale": 1.05,
-      "points": {
-        "hit": [
-          0.5,
-          0.63
-        ],
-        "front": [
-          0.846,
-          0.556
-        ]
-      },
-      "parts": [
-        {
-          "id": "legs",
-          "file": "rigs/bramble-troll/legs.svg"
-        },
-        {
-          "id": "torso",
-          "pivot": [
-            0.5,
-            0.926
-          ],
-          "anim": "breathe",
-          "parts": [
-            {
-              "id": "body",
-              "file": "rigs/bramble-troll/body.svg"
-            },
-            {
-              "id": "head",
-              "file": "rigs/bramble-troll/head.svg",
-              "pivot": [
-                0.692,
-                0.519
-              ]
-            },
-            {
-              "id": "arm",
-              "file": "rigs/bramble-troll/arm.svg",
-              "pivot": [
-                0.538,
-                0.519
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    "enemy.crab-king": {
-      "size": [
-        260,
-        270
-      ],
-      "boxScale": 1,
-      "points": {
-        "hit": [
-          0.485,
-          0.652
-        ],
-        "front": [
-          0.823,
-          0.63
-        ]
-      },
-      "parts": [
-        {
-          "id": "legs",
-          "file": "rigs/crab-king/legs.svg"
-        },
-        {
-          "id": "torso",
-          "pivot": [
-            0.485,
-            0.889
-          ],
-          "anim": "breathe",
-          "parts": [
-            {
-              "id": "body",
-              "file": "rigs/crab-king/body.svg"
-            },
-            {
-              "id": "head",
-              "file": "rigs/crab-king/head.svg",
-              "pivot": [
-                0.538,
-                0.504
-              ]
-            },
-            {
-              "id": "arm",
-              "file": "rigs/crab-king/arm.svg",
-              "pivot": [
-                0.685,
-                0.674
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    "enemy.magma-wyrm": {
-      "size": [
-        260,
-        270
-      ],
-      "boxScale": 1,
-      "points": {
-        "hit": [
-          0.5,
-          0.741
-        ],
-        "front": [
-          0.846,
-          0.593
-        ],
-        "mouth": [
-          0.96,
-          0.43
-        ]
-      },
-      "parts": [
-        {
-          "id": "legs",
-          "file": "rigs/magma-wyrm/legs.svg"
-        },
-        {
-          "id": "torso",
-          "pivot": [
-            0.5,
-            0.926
-          ],
-          "anim": "breathe",
-          "parts": [
-            {
-              "id": "tail",
-              "file": "rigs/magma-wyrm/tail.svg",
-              "pivot": [
-                0.277,
-                0.756
-              ],
-              "anim": "swish"
-            },
-            {
-              "id": "body",
-              "file": "rigs/magma-wyrm/body.svg"
-            },
-            {
-              "id": "head",
-              "file": "rigs/magma-wyrm/head.svg",
-              "pivot": [
-                0.746,
-                0.504
-              ],
-              "parts": [
-                {
-                  "id": "jaw",
-                  "file": "rigs/magma-wyrm/jaw.svg",
-                  "pivot": [
-                    0.738,
-                    0.467
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    "enemy.glacier-hydra": {
-      "size": [
-        260,
-        270
-      ],
-      "boxScale": 1.1,
-      "points": {
-        "hit": [
-          0.462,
-          0.741
-        ],
-        "front": [
-          0.769,
-          0.63
-        ],
-        "mouth": [
-          0.97,
+          0.98,
           0.29
-        ]
-      },
-      "parts": [
-        {
-          "id": "legs",
-          "file": "rigs/glacier-hydra/legs.svg"
-        },
-        {
-          "id": "torso",
-          "pivot": [
-            0.462,
-            0.926
-          ],
-          "anim": "breathe",
-          "parts": [
-            {
-              "id": "head-2",
-              "file": "rigs/glacier-hydra/head-2.svg",
-              "pivot": [
-                0.515,
-                0.667
-              ]
-            },
-            {
-              "id": "body",
-              "file": "rigs/glacier-hydra/body.svg"
-            },
-            {
-              "id": "head-3",
-              "file": "rigs/glacier-hydra/head-3.svg",
-              "pivot": [
-                0.623,
-                0.77
-              ]
-            },
-            {
-              "id": "head",
-              "file": "rigs/glacier-hydra/head.svg",
-              "pivot": [
-                0.615,
-                0.704
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    "enemy.iron-golem": {
-      "size": [
-        260,
-        270
-      ],
-      "boxScale": 1.1,
-      "points": {
-        "hit": [
-          0.469,
-          0.556
-        ],
-        "front": [
-          0.815,
-          0.519
-        ]
-      },
-      "parts": [
-        {
-          "id": "legs",
-          "file": "rigs/iron-golem/legs.svg"
-        },
-        {
-          "id": "torso",
-          "pivot": [
-            0.469,
-            0.889
-          ],
-          "anim": "breathe",
-          "parts": [
-            {
-              "id": "body",
-              "file": "rigs/iron-golem/body.svg"
-            },
-            {
-              "id": "arm",
-              "file": "rigs/iron-golem/arm.svg",
-              "pivot": [
-                0.669,
-                0.43
-              ]
-            },
-            {
-              "id": "head",
-              "file": "rigs/iron-golem/head.svg",
-              "pivot": [
-                0.615,
-                0.356
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    "enemy.eclipse-dragon": {
-      "size": [
-        260,
-        270
-      ],
-      "boxScale": 1.1,
-      "points": {
-        "hit": [
-          0.538,
-          0.63
-        ],
-        "front": [
-          0.792,
-          0.519
-        ],
-        "mouth": [
-          0.97,
-          0.38
-        ]
-      },
-      "parts": [
-        {
-          "id": "legs",
-          "file": "rigs/eclipse-dragon/legs.svg"
-        },
-        {
-          "id": "torso",
-          "pivot": [
-            0.5,
-            0.889
-          ],
-          "anim": "breathe",
-          "parts": [
-            {
-              "id": "wing-back",
-              "file": "rigs/eclipse-dragon/wing-back.svg",
-              "pivot": [
-                0.5,
-                0.489
-              ],
-              "anim": "flap-back-big"
-            },
-            {
-              "id": "tail",
-              "file": "rigs/eclipse-dragon/tail.svg",
-              "pivot": [
-                0.338,
-                0.726
-              ],
-              "anim": "swish"
-            },
-            {
-              "id": "body",
-              "file": "rigs/eclipse-dragon/body.svg"
-            },
-            {
-              "id": "wing-front",
-              "file": "rigs/eclipse-dragon/wing-front.svg",
-              "pivot": [
-                0.6,
-                0.496
-              ],
-              "anim": "flap-big"
-            },
-            {
-              "id": "head",
-              "file": "rigs/eclipse-dragon/head.svg",
-              "pivot": [
-                0.738,
-                0.37
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    "plan.beast": {
-      "size": [
-        260,
-        270
-      ],
-      "tint": "enemy",
-      "points": {
-        "hit": [
-          0.5,
-          0.667
-        ],
-        "front": [
-          0.769,
-          0.63
-        ]
-      },
-      "parts": [
-        {
-          "id": "legs",
-          "file": "rigs/plans/beast/legs.svg"
-        },
-        {
-          "id": "torso",
-          "pivot": [
-            0.5,
-            0.889
-          ],
-          "anim": "breathe",
-          "parts": [
-            {
-              "id": "tail",
-              "file": "rigs/plans/beast/tail.svg",
-              "pivot": [
-                0.308,
-                0.6
-              ],
-              "anim": "swish"
-            },
-            {
-              "id": "body",
-              "file": "rigs/plans/beast/body.svg"
-            },
-            {
-              "id": "head",
-              "file": "rigs/plans/beast/head.svg",
-              "pivot": [
-                0.7,
-                0.578
-              ]
-            }
-          ]
-        },
-        {
-          "id": "leg-front",
-          "file": "rigs/plans/beast/leg-front.svg",
-          "pivot": [
-            0.662,
-            0.689
-          ]
-        }
-      ]
-    },
-    "plan.lizard": {
-      "size": [
-        260,
-        270
-      ],
-      "tint": "enemy",
-      "points": {
-        "hit": [
-          0.515,
-          0.77
-        ],
-        "front": [
-          0.792,
-          0.741
-        ]
-      },
-      "parts": [
-        {
-          "id": "legs",
-          "file": "rigs/plans/lizard/legs.svg"
-        },
-        {
-          "id": "torso",
-          "pivot": [
-            0.5,
-            0.926
-          ],
-          "anim": "breathe",
-          "parts": [
-            {
-              "id": "tail",
-              "file": "rigs/plans/lizard/tail.svg",
-              "pivot": [
-                0.354,
-                0.696
-              ],
-              "anim": "swish"
-            },
-            {
-              "id": "body",
-              "file": "rigs/plans/lizard/body.svg"
-            },
-            {
-              "id": "head",
-              "file": "rigs/plans/lizard/head.svg",
-              "pivot": [
-                0.731,
-                0.726
-              ]
-            }
-          ]
-        },
-        {
-          "id": "leg-front",
-          "file": "rigs/plans/lizard/leg-front.svg",
-          "pivot": [
-            0.708,
-            0.8
-          ]
-        }
-      ]
-    },
-    "plan.biped": {
-      "size": [
-        260,
-        270
-      ],
-      "tint": "enemy",
-      "points": {
-        "hit": [
-          0.5,
-          0.726
-        ],
-        "front": [
-          0.685,
-          0.667
-        ]
-      },
-      "parts": [
-        {
-          "id": "legs",
-          "file": "rigs/plans/biped/legs.svg"
-        },
-        {
-          "id": "body",
-          "file": "rigs/plans/biped/body.svg",
-          "pivot": [
-            0.5,
-            0.926
-          ],
-          "anim": "breathe",
-          "parts": [
-            {
-              "id": "head",
-              "file": "rigs/plans/biped/head.svg",
-              "pivot": [
-                0.523,
-                0.607
-              ]
-            },
-            {
-              "id": "arm",
-              "file": "rigs/plans/biped/arm.svg",
-              "pivot": [
-                0.531,
-                0.667
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    "plan.blob": {
-      "size": [
-        260,
-        270
-      ],
-      "tint": "enemy",
-      "points": {
-        "hit": [
-          0.5,
-          0.778
-        ],
-        "front": [
-          0.854,
-          0.778
-        ]
-      },
-      "parts": [
-        {
-          "id": "body",
-          "file": "rigs/plans/blob/body.svg",
-          "pivot": [
-            0.5,
-            0.985
-          ],
-          "anim": "breathe",
-          "parts": [
-            {
-              "id": "jaw",
-              "file": "rigs/plans/blob/jaw.svg",
-              "pivot": [
-                0.562,
-                0.83
-              ]
-            },
-            {
-              "id": "head",
-              "file": "rigs/plans/blob/head.svg",
-              "pivot": [
-                0.677,
-                0.704
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    "plan.bat": {
-      "size": [
-        260,
-        270
-      ],
-      "tint": "enemy",
-      "points": {
-        "hit": [
-          0.538,
-          0.541
-        ],
-        "front": [
-          0.708,
-          0.541
-        ]
-      },
-      "parts": [
-        {
-          "id": "all",
-          "pivot": [
-            0.5,
-            0.741
-          ],
-          "anim": "bob",
-          "parts": [
-            {
-              "id": "wing-back",
-              "file": "rigs/plans/bat/wing-back.svg",
-              "pivot": [
-                0.508,
-                0.467
-              ],
-              "anim": "flap-back-big"
-            },
-            {
-              "id": "body",
-              "file": "rigs/plans/bat/body.svg"
-            },
-            {
-              "id": "wing-front",
-              "file": "rigs/plans/bat/wing-front.svg",
-              "pivot": [
-                0.469,
-                0.519
-              ],
-              "anim": "flap-big"
-            }
-          ]
-        }
-      ]
-    },
-    "plan.bird": {
-      "size": [
-        260,
-        270
-      ],
-      "tint": "enemy",
-      "points": {
-        "hit": [
-          0.492,
-          0.593
-        ],
-        "front": [
-          0.754,
-          0.504
-        ]
-      },
-      "parts": [
-        {
-          "id": "all",
-          "pivot": [
-            0.5,
-            0.778
-          ],
-          "anim": "bob",
-          "parts": [
-            {
-              "id": "wing-back",
-              "file": "rigs/plans/bird/wing-back.svg",
-              "pivot": [
-                0.508,
-                0.496
-              ],
-              "anim": "flap-back-big"
-            },
-            {
-              "id": "body",
-              "file": "rigs/plans/bird/body.svg"
-            },
-            {
-              "id": "head",
-              "file": "rigs/plans/bird/head.svg",
-              "pivot": [
-                0.638,
-                0.489
-              ]
-            },
-            {
-              "id": "wing-front",
-              "file": "rigs/plans/bird/wing-front.svg",
-              "pivot": [
-                0.508,
-                0.504
-              ],
-              "anim": "flap-big"
-            }
-          ]
-        }
-      ]
-    },
-    "plan.sprite": {
-      "size": [
-        260,
-        270
-      ],
-      "tint": "enemy",
-      "points": {
-        "hit": [
-          0.538,
-          0.533
-        ],
-        "front": [
-          0.7,
-          0.533
-        ]
-      },
-      "parts": [
-        {
-          "id": "all",
-          "pivot": [
-            0.5,
-            0.704
-          ],
-          "anim": "bob",
-          "parts": [
-            {
-              "id": "tail",
-              "file": "rigs/plans/sprite/tail.svg",
-              "pivot": [
-                0.508,
-                0.637
-              ],
-              "anim": "swish"
-            },
-            {
-              "id": "body",
-              "file": "rigs/plans/sprite/body.svg"
-            },
-            {
-              "id": "wing-front",
-              "file": "rigs/plans/sprite/wing-front.svg",
-              "pivot": [
-                0.662,
-                0.637
-              ],
-              "anim": "flap"
-            }
-          ]
-        }
-      ]
-    },
-    "plan.crab": {
-      "size": [
-        260,
-        270
-      ],
-      "tint": "enemy",
-      "points": {
-        "hit": [
-          0.492,
-          0.741
-        ],
-        "front": [
-          0.754,
-          0.704
-        ]
-      },
-      "parts": [
-        {
-          "id": "legs",
-          "file": "rigs/plans/crab/legs.svg"
-        },
-        {
-          "id": "body",
-          "file": "rigs/plans/crab/body.svg",
-          "pivot": [
-            0.492,
-            0.926
-          ],
-          "anim": "breathe",
-          "parts": [
-            {
-              "id": "head",
-              "file": "rigs/plans/crab/head.svg",
-              "pivot": [
-                0.608,
-                0.63
-              ]
-            },
-            {
-              "id": "arm",
-              "file": "rigs/plans/crab/arm.svg",
-              "pivot": [
-                0.654,
-                0.807
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    "plan.bug": {
-      "size": [
-        260,
-        270
-      ],
-      "tint": "enemy",
-      "points": {
-        "hit": [
-          0.477,
-          0.756
-        ],
-        "front": [
-          0.792,
-          0.763
-        ]
-      },
-      "parts": [
-        {
-          "id": "legs",
-          "file": "rigs/plans/bug/legs.svg"
-        },
-        {
-          "id": "body",
-          "file": "rigs/plans/bug/body.svg",
-          "pivot": [
-            0.477,
-            0.926
-          ],
-          "anim": "breathe",
-          "parts": [
-            {
-              "id": "head",
-              "file": "rigs/plans/bug/head.svg",
-              "pivot": [
-                0.692,
-                0.8
-              ]
-            }
-          ]
-        },
-        {
-          "id": "leg-front",
-          "file": "rigs/plans/bug/leg-front.svg",
-          "pivot": [
-            0.631,
-            0.83
-          ]
-        }
-      ]
-    },
-    "plan.plant": {
-      "size": [
-        260,
-        270
-      ],
-      "tint": "enemy",
-      "points": {
-        "hit": [
-          0.508,
-          0.622
-        ],
-        "front": [
-          0.746,
-          0.622
-        ]
-      },
-      "parts": [
-        {
-          "id": "legs",
-          "file": "rigs/plans/plant/legs.svg"
-        },
-        {
-          "id": "body",
-          "file": "rigs/plans/plant/body.svg",
-          "pivot": [
-            0.5,
-            0.926
-          ],
-          "anim": "breathe",
-          "parts": [
-            {
-              "id": "arm",
-              "file": "rigs/plans/plant/arm.svg",
-              "pivot": [
-                0.585,
-                0.733
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    "plan.cloud": {
-      "size": [
-        260,
-        270
-      ],
-      "tint": "enemy",
-      "points": {
-        "hit": [
-          0.515,
-          0.519
-        ],
-        "front": [
-          0.823,
-          0.533
-        ]
-      },
-      "parts": [
-        {
-          "id": "all",
-          "pivot": [
-            0.5,
-            0.741
-          ],
-          "anim": "bob",
-          "parts": [
-            {
-              "id": "body",
-              "file": "rigs/plans/cloud/body.svg"
-            },
-            {
-              "id": "arm",
-              "file": "rigs/plans/cloud/arm.svg",
-              "pivot": [
-                0.715,
-                0.704
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    "plan.moth": {
-      "size": [
-        260,
-        270
-      ],
-      "tint": "enemy",
-      "points": {
-        "hit": [
-          0.538,
-          0.541
-        ],
-        "front": [
-          0.754,
-          0.519
-        ]
-      },
-      "parts": [
-        {
-          "id": "all",
-          "pivot": [
-            0.5,
-            0.741
-          ],
-          "anim": "bob",
-          "parts": [
-            {
-              "id": "wing-back",
-              "file": "rigs/plans/moth/wing-back.svg",
-              "pivot": [
-                0.508,
-                0.526
-              ],
-              "anim": "flap-back"
-            },
-            {
-              "id": "body",
-              "file": "rigs/plans/moth/body.svg"
-            },
-            {
-              "id": "wing-front",
-              "file": "rigs/plans/moth/wing-front.svg",
-              "pivot": [
-                0.485,
-                0.533
-              ],
-              "anim": "flap"
-            }
-          ]
-        }
-      ]
-    },
-    "painted.dragon": {
-      "note": "Painted proof (docs/GRAPHICS_PLAN_2.md): one bitmap per character, generated with an image model, breathing as a whole.",
-      "size": [
-        720,
-        483
-      ],
-      "boxScale": 1.12,
-      "points": {
-        "mouth": [
-          0.99,
-          0.24
         ],
         "hit": [
           0.6,
-          0.55
+          0.6
         ],
         "front": [
-          0.92,
+          0.93,
           0.6
+        ],
+        "saddle": [
+          0.6,
+          0.5
         ]
       },
       "parts": [
         {
-          "id": "body",
-          "file": "painted/dragon.webp",
+          "id": "torso",
           "pivot": [
             0.5,
             1
           ],
-          "anim": "swell"
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/dragon-juvenile.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ],
+      "tip": {
+        "file": "painted/tips/{element}.webp",
+        "at": [
+          0.115,
+          0.44
+        ],
+        "width": 0.14,
+        "rotate": -80
+      }
+    },
+    "dragon.adult": {
+      "size": [
+        640,
+        459
+      ],
+      "tint": "dragon",
+      "boxScale": 0.95,
+      "points": {
+        "mouth": [
+          0.97,
+          0.4
+        ],
+        "hit": [
+          0.6,
+          0.6
+        ],
+        "front": [
+          0.92,
+          0.6
+        ],
+        "saddle": [
+          0.58,
+          0.5
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/dragon-adult.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ],
+      "tip": {
+        "file": "painted/tips/{element}.webp",
+        "at": [
+          0.125,
+          0.3
+        ],
+        "width": 0.15,
+        "rotate": -10
+      }
+    },
+    "dragon.elder": {
+      "size": [
+        724,
+        421
+      ],
+      "tint": "dragon",
+      "boxScale": 1.08,
+      "points": {
+        "mouth": [
+          0.83,
+          0.34
+        ],
+        "hit": [
+          0.62,
+          0.62
+        ],
+        "front": [
+          0.9,
+          0.62
+        ],
+        "saddle": [
+          0.62,
+          0.55
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/dragon-elder.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ],
+      "tip": {
+        "file": "painted/tips/{element}.webp",
+        "at": [
+          0.135,
+          0.765
+        ],
+        "width": 0.13,
+        "rotate": -115
+      }
+    },
+    "rider": {
+      "size": [
+        334,
+        460
+      ],
+      "boxScale": 1.3,
+      "points": {
+        "hit": [
+          0.45,
+          0.45
+        ],
+        "front": [
+          0.85,
+          0.5
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/rider-{weapon}.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
         }
       ]
     },
-    "painted.rider": {
-      "note": "Painted proof (docs/GRAPHICS_PLAN_2.md): one bitmap per character, generated with an image model, breathing as a whole.",
+    "rider.mounted": {
       "size": [
-        360,
-        551
+        374,
+        460
       ],
-      "boxScale": 1.36,
       "points": {
         "hit": [
           0.5,
@@ -1571,29 +264,27 @@
       "parts": [
         {
           "id": "body",
-          "file": "painted/rider.webp",
+          "file": "painted/rider-mounted.webp",
           "pivot": [
             0.5,
-            1
-          ],
-          "anim": "swell"
+            0.9
+          ]
         }
       ]
     },
-    "painted.storm-roc": {
-      "note": "Painted proof (docs/GRAPHICS_PLAN_2.md): one bitmap per character, generated with an image model, breathing as a whole.",
+    "enemy.bramble-troll": {
       "size": [
-        760,
-        570
+        720,
+        579
       ],
-      "boxScale": 1.24,
+      "boxScale": 1.15,
       "points": {
         "mouth": [
-          0.98,
-          0.28
+          0.95,
+          0.3
         ],
         "hit": [
-          0.62,
+          0.6,
           0.5
         ],
         "front": [
@@ -1603,178 +294,2080 @@
       },
       "parts": [
         {
-          "id": "body",
-          "file": "painted/storm-roc.webp",
+          "id": "torso",
           "pivot": [
             0.5,
             1
           ],
-          "anim": "swell"
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/bramble-troll.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.thornling": {
+      "size": [
+        400,
+        353
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/thornling.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.bog-hopper": {
+      "size": [
+        400,
+        280
+      ],
+      "boxScale": 0.51,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/bog-hopper.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.barkback-boar": {
+      "size": [
+        400,
+        275
+      ],
+      "boxScale": 0.56,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/barkback-boar.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.spore-puffer": {
+      "size": [
+        400,
+        365
+      ],
+      "boxScale": 0.4,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/spore-puffer.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.moss-wisp": {
+      "size": [
+        391,
+        342
+      ],
+      "boxScale": 0.48,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/moss-wisp.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.elder-thornling": {
+      "size": [
+        392,
+        400
+      ],
+      "boxScale": 0.65,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/elder-thornling.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.crab-king": {
+      "size": [
+        720,
+        478
+      ],
+      "boxScale": 1.15,
+      "points": {
+        "mouth": [
+          0.95,
+          0.3
+        ],
+        "hit": [
+          0.6,
+          0.5
+        ],
+        "front": [
+          0.92,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/crab-king.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.pincher-crab": {
+      "size": [
+        400,
+        236
+      ],
+      "boxScale": 0.43,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/pincher-crab.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.gull-bandit": {
+      "size": [
+        400,
+        363
+      ],
+      "boxScale": 0.53,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/gull-bandit.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.brine-slime": {
+      "size": [
+        400,
+        291
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/brine-slime.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.kelp-lurker": {
+      "size": [
+        400,
+        311
+      ],
+      "boxScale": 0.57,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/kelp-lurker.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.shell-knight": {
+      "size": [
+        400,
+        355
+      ],
+      "boxScale": 0.54,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/shell-knight.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.big-pincher": {
+      "size": [
+        400,
+        317
+      ],
+      "boxScale": 0.65,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/big-pincher.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.magma-wyrm": {
+      "size": [
+        720,
+        484
+      ],
+      "boxScale": 1.15,
+      "points": {
+        "mouth": [
+          0.95,
+          0.3
+        ],
+        "hit": [
+          0.6,
+          0.5
+        ],
+        "front": [
+          0.92,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/magma-wyrm.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.ember-imp": {
+      "size": [
+        377,
+        373
+      ],
+      "boxScale": 0.44,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/ember-imp.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.ash-lizard": {
+      "size": [
+        400,
+        212
+      ],
+      "boxScale": 0.49,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/ash-lizard.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.cinder-beetle": {
+      "size": [
+        400,
+        278
+      ],
+      "boxScale": 0.54,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/cinder-beetle.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.smog-bat": {
+      "size": [
+        400,
+        272
+      ],
+      "boxScale": 0.44,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/smog-bat.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.lava-toad": {
+      "size": [
+        400,
+        286
+      ],
+      "boxScale": 0.54,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/lava-toad.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.imp-chieftain": {
+      "size": [
+        327,
+        400
+      ],
+      "boxScale": 0.64,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/imp-chieftain.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.storm-roc": {
+      "size": [
+        720,
+        496
+      ],
+      "boxScale": 1.15,
+      "points": {
+        "mouth": [
+          0.95,
+          0.3
+        ],
+        "hit": [
+          0.6,
+          0.5
+        ],
+        "front": [
+          0.92,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/storm-roc.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.spark-sprite": {
+      "size": [
+        344,
+        338
+      ],
+      "boxScale": 0.43,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/spark-sprite.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.thunder-goat": {
+      "size": [
+        400,
+        378
+      ],
+      "boxScale": 0.54,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/thunder-goat.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.cliff-harpy": {
+      "size": [
+        394,
+        400
+      ],
+      "boxScale": 0.57,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/cliff-harpy.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.gale-hawk": {
+      "size": [
+        377,
+        400
+      ],
+      "boxScale": 0.55,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/gale-hawk.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.granite-ram": {
+      "size": [
+        376,
+        400
+      ],
+      "boxScale": 0.57,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/granite-ram.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.thunderhead": {
+      "size": [
+        400,
+        350
+      ],
+      "boxScale": 0.65,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/thunderhead.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.glacier-hydra": {
+      "size": [
+        720,
+        490
+      ],
+      "boxScale": 1.15,
+      "points": {
+        "mouth": [
+          0.95,
+          0.3
+        ],
+        "hit": [
+          0.6,
+          0.5
+        ],
+        "front": [
+          0.92,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/glacier-hydra.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.frostbite-hare": {
+      "size": [
+        400,
+        360
+      ],
+      "boxScale": 0.42,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/frostbite-hare.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.ice-wraith": {
+      "size": [
+        388,
+        400
+      ],
+      "boxScale": 0.62,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/ice-wraith.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.glacier-turtle": {
+      "size": [
+        400,
+        316
+      ],
+      "boxScale": 0.54,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/glacier-turtle.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.yeti-cub": {
+      "size": [
+        344,
+        400
+      ],
+      "boxScale": 0.54,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/yeti-cub.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.rime-wolf": {
+      "size": [
+        400,
+        289
+      ],
+      "boxScale": 0.55,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/rime-wolf.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.rime-alpha": {
+      "size": [
+        400,
+        315
+      ],
+      "boxScale": 0.65,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/rime-alpha.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.iron-golem": {
+      "size": [
+        720,
+        620
+      ],
+      "boxScale": 1.15,
+      "points": {
+        "mouth": [
+          0.95,
+          0.3
+        ],
+        "hit": [
+          0.6,
+          0.5
+        ],
+        "front": [
+          0.92,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/iron-golem.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.tunnel-mole": {
+      "size": [
+        400,
+        289
+      ],
+      "boxScale": 0.44,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/tunnel-mole.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.crystal-crawler": {
+      "size": [
+        400,
+        314
+      ],
+      "boxScale": 0.52,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/crystal-crawler.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.lantern-gnome": {
+      "size": [
+        400,
+        383
+      ],
+      "boxScale": 0.43,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/lantern-gnome.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.gemback-lizard": {
+      "size": [
+        400,
+        279
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/gemback-lizard.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.rust-sprite": {
+      "size": [
+        353,
+        400
+      ],
+      "boxScale": 0.48,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/rust-sprite.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.foreman-golem": {
+      "size": [
+        400,
+        377
+      ],
+      "boxScale": 0.65,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/foreman-golem.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.eclipse-dragon": {
+      "size": [
+        720,
+        501
+      ],
+      "boxScale": 1.15,
+      "points": {
+        "mouth": [
+          0.95,
+          0.3
+        ],
+        "hit": [
+          0.6,
+          0.5
+        ],
+        "front": [
+          0.92,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/eclipse-dragon.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.dawn-sprite": {
+      "size": [
+        371,
+        363
+      ],
+      "boxScale": 0.46,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/dawn-sprite.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.dusk-bat": {
+      "size": [
+        400,
+        291
+      ],
+      "boxScale": 0.53,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/dusk-bat.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.sun-knight": {
+      "size": [
+        400,
+        391
+      ],
+      "boxScale": 0.55,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/sun-knight.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.shade-stalker": {
+      "size": [
+        373,
+        400
+      ],
+      "boxScale": 0.62,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/shade-stalker.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.twilight-moth": {
+      "size": [
+        400,
+        300
+      ],
+      "boxScale": 0.54,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/twilight-moth.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.eclipse-herald": {
+      "size": [
+        400,
+        334
+      ],
+      "boxScale": 0.65,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/eclipse-herald.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            }
+          ]
         }
       ]
     }
   },
   "backdrops": {
-    "thunderspire": {
+    "mossy-hollow": {
       "layers": [
         {
-          "file": "backdrops/thunderspire/sky.svg"
-        },
-        {
-          "file": "backdrops/thunderspire/far.svg"
-        },
-        {
-          "file": "backdrops/thunderspire/clouds.svg",
-          "anim": "drift"
-        },
-        {
-          "file": "backdrops/thunderspire/ground.svg"
-        },
-        {
-          "file": "backdrops/thunderspire/fore.svg",
-          "front": true
+          "file": "painted/backdrops/mossy-hollow.webp"
         }
       ],
       "ambient": {
         "kind": "rise",
-        "color": "#ffe9a8"
+        "color": "#e8f8a8"
       }
-    },
-    "mossy-hollow": {
-      "layers": [
-        {
-          "file": "backdrops/mossy-hollow/sky.svg"
-        },
-        {
-          "file": "backdrops/mossy-hollow/far.svg"
-        },
-        {
-          "file": "backdrops/mossy-hollow/motes.svg",
-          "anim": "drift"
-        },
-        {
-          "file": "backdrops/mossy-hollow/ground.svg"
-        }
-      ]
     },
     "saltmarsh-shore": {
       "layers": [
         {
-          "file": "backdrops/saltmarsh-shore/sky.svg"
-        },
-        {
-          "file": "backdrops/saltmarsh-shore/far.svg"
-        },
-        {
-          "file": "backdrops/saltmarsh-shore/clouds.svg",
-          "anim": "drift"
-        },
-        {
-          "file": "backdrops/saltmarsh-shore/ground.svg"
+          "file": "painted/backdrops/saltmarsh-shore.webp"
         }
       ]
     },
     "cinder-pass": {
       "layers": [
         {
-          "file": "backdrops/cinder-pass/sky.svg"
-        },
-        {
-          "file": "backdrops/cinder-pass/far.svg"
-        },
-        {
-          "file": "backdrops/cinder-pass/embers.svg",
-          "anim": "drift"
-        },
-        {
-          "file": "backdrops/cinder-pass/ground.svg"
+          "file": "painted/backdrops/cinder-pass.webp"
         }
-      ]
+      ],
+      "ambient": {
+        "kind": "rise",
+        "color": "#ffb060"
+      }
     },
-    "frostmere": {
+    "thunderspire": {
       "layers": [
         {
-          "file": "backdrops/frostmere/sky.svg"
-        },
-        {
-          "file": "backdrops/frostmere/far.svg"
-        },
-        {
-          "file": "backdrops/frostmere/snow.svg",
-          "anim": "drift"
-        },
-        {
-          "file": "backdrops/frostmere/ground.svg"
-        }
-      ]
-    },
-    "deepstone-mines": {
-      "layers": [
-        {
-          "file": "backdrops/deepstone-mines/sky.svg"
-        },
-        {
-          "file": "backdrops/deepstone-mines/far.svg"
-        },
-        {
-          "file": "backdrops/deepstone-mines/dust.svg",
-          "anim": "drift"
-        },
-        {
-          "file": "backdrops/deepstone-mines/ground.svg"
-        }
-      ]
-    },
-    "eclipse-peak": {
-      "layers": [
-        {
-          "file": "backdrops/eclipse-peak/sky.svg"
-        },
-        {
-          "file": "backdrops/eclipse-peak/far.svg"
-        },
-        {
-          "file": "backdrops/eclipse-peak/mist.svg",
-          "anim": "drift"
-        },
-        {
-          "file": "backdrops/eclipse-peak/ground.svg"
-        }
-      ]
-    },
-    "roost": {
-      "layers": [
-        {
-          "file": "backdrops/roost/sky.svg"
-        },
-        {
-          "file": "backdrops/roost/far.svg"
-        },
-        {
-          "file": "backdrops/roost/clouds.svg",
-          "anim": "drift"
-        },
-        {
-          "file": "backdrops/roost/ground.svg"
-        }
-      ]
-    },
-    "painted.thunderspire": {
-      "layers": [
-        {
-          "file": "painted/thunderspire.webp"
+          "file": "painted/backdrops/thunderspire.webp"
         }
       ],
       "ambient": {
         "kind": "rise",
         "color": "#ffe9a8"
       }
+    },
+    "frostmere": {
+      "layers": [
+        {
+          "file": "painted/backdrops/frostmere.webp"
+        }
+      ],
+      "ambient": {
+        "kind": "fall",
+        "color": "#ffffff"
+      }
+    },
+    "deepstone-mines": {
+      "layers": [
+        {
+          "file": "painted/backdrops/deepstone-mines.webp"
+        }
+      ],
+      "ambient": {
+        "kind": "rise",
+        "color": "#e8d8b0"
+      }
+    },
+    "eclipse-peak": {
+      "layers": [
+        {
+          "file": "painted/backdrops/eclipse-peak.webp"
+        }
+      ],
+      "ambient": {
+        "kind": "rise",
+        "color": "#f5e27a"
+      }
+    },
+    "roost": {
+      "layers": [
+        {
+          "file": "painted/backdrops/roost.webp"
+        }
+      ]
     }
   },
   "effects": {
-    "slash": "effects/slash.svg",
-    "spark": "effects/spark.svg",
-    "puff": "effects/puff.svg"
+    "slash": "painted/fx/slash.webp",
+    "spark": "painted/fx/spark.webp",
+    "puff": "painted/fx/puff.webp"
   },
   "eggs": {
     "size": [
@@ -1789,1044 +2382,5 @@
     ],
     "top": "eggs/egg-top.svg",
     "bottom": "eggs/egg-bottom.svg"
-  },
-  "enemies": {
-    "thornling": {
-      "rig": "plan.plant",
-      "colors": [
-        "#5fbf5a",
-        "#a6e07a",
-        "#7a5534"
-      ],
-      "scale": 0.81,
-      "extras": [
-        {
-          "parent": "body",
-          "id": "thorns",
-          "file": "rigs/extras/thornling-thorns.svg",
-          "pivot": [
-            0.5,
-            0.63
-          ]
-        }
-      ]
-    },
-    "bog-hopper": {
-      "rig": "plan.blob",
-      "colors": [
-        "#4a9fb0",
-        "#d4ecc4",
-        "#2f6b8a"
-      ],
-      "scale": 0.83,
-      "extras": [
-        {
-          "parent": "root",
-          "id": "feet",
-          "file": "rigs/extras/bog-hopper-feet.svg",
-          "pivot": [
-            0.769,
-            0.926
-          ]
-        }
-      ]
-    },
-    "barkback-boar": {
-      "rig": "plan.beast",
-      "colors": [
-        "#8a6650",
-        "#d9b99a",
-        "#4e3a2e"
-      ],
-      "scale": 0.9,
-      "extras": [
-        {
-          "parent": "head",
-          "id": "face",
-          "file": "rigs/extras/barkback-boar-face.svg",
-          "pivot": [
-            0.808,
-            0.519
-          ]
-        },
-        {
-          "parent": "body",
-          "id": "bark",
-          "file": "rigs/extras/barkback-boar-bark.svg",
-          "pivot": [
-            0.5,
-            0.519
-          ]
-        }
-      ]
-    },
-    "spore-puffer": {
-      "rig": "plan.blob",
-      "colors": [
-        "#e9dcc0",
-        "#fff6e2",
-        "#c24e44"
-      ],
-      "scale": 0.65,
-      "extras": [
-        {
-          "parent": "body",
-          "id": "cap",
-          "file": "rigs/extras/spore-puffer-cap.svg",
-          "pivot": [
-            0.5,
-            0.519
-          ]
-        },
-        {
-          "parent": "root",
-          "id": "spores",
-          "file": "rigs/extras/spore-puffer-spores.svg",
-          "pivot": [
-            0.5,
-            0.37
-          ]
-        }
-      ]
-    },
-    "moss-wisp": {
-      "rig": "plan.sprite",
-      "colors": [
-        "#8fd46a",
-        "#e0f8b0",
-        "#4f8a3a"
-      ],
-      "scale": 0.78,
-      "extras": [
-        {
-          "parent": "body",
-          "id": "moss",
-          "file": "rigs/extras/moss-wisp-moss.svg",
-          "pivot": [
-            0.538,
-            0.407
-          ]
-        }
-      ]
-    },
-    "elder-thornling": {
-      "rig": "plan.plant",
-      "colors": [
-        "#3f8a46",
-        "#8fcf6a",
-        "#5a3c2a"
-      ],
-      "scale": 1.05,
-      "extras": [
-        {
-          "parent": "body",
-          "id": "crown",
-          "file": "rigs/extras/elder-thornling-crown.svg",
-          "pivot": [
-            0.5,
-            0.444
-          ]
-        },
-        {
-          "parent": "body",
-          "id": "brows",
-          "file": "rigs/extras/elder-thornling-brows.svg",
-          "pivot": [
-            0.654,
-            0.593
-          ]
-        }
-      ]
-    },
-    "pincher-crab": {
-      "rig": "plan.crab",
-      "colors": [
-        "#4a8fd4",
-        "#d4eaf6",
-        "#f2c14e"
-      ],
-      "scale": 0.69,
-      "extras": []
-    },
-    "gull-bandit": {
-      "rig": "plan.bird",
-      "colors": [
-        "#e4e9ee",
-        "#ffffff",
-        "#f2c14e"
-      ],
-      "scale": 0.85,
-      "extras": [
-        {
-          "parent": "head",
-          "id": "mask",
-          "file": "rigs/extras/gull-bandit-mask.svg",
-          "pivot": [
-            0.677,
-            0.407
-          ]
-        }
-      ]
-    },
-    "brine-slime": {
-      "rig": "plan.blob",
-      "colors": [
-        "#3fb4c4",
-        "#b8eef2",
-        "#e6fbff"
-      ],
-      "scale": 0.81,
-      "extras": [
-        {
-          "parent": "body",
-          "id": "salt",
-          "file": "rigs/extras/brine-slime-salt.svg",
-          "pivot": [
-            0.5,
-            0.63
-          ]
-        }
-      ]
-    },
-    "kelp-lurker": {
-      "rig": "plan.blob",
-      "colors": [
-        "#3d7a4c",
-        "#9cc87a",
-        "#86a83a"
-      ],
-      "scale": 0.93,
-      "extras": [
-        {
-          "parent": "body",
-          "id": "kelp",
-          "file": "rigs/extras/kelp-lurker-kelp.svg",
-          "pivot": [
-            0.423,
-            0.667
-          ]
-        },
-        {
-          "parent": "head",
-          "id": "frond",
-          "file": "rigs/extras/kelp-lurker-frond.svg",
-          "pivot": [
-            0.615,
-            0.519
-          ]
-        }
-      ]
-    },
-    "shell-knight": {
-      "rig": "plan.crab",
-      "colors": [
-        "#e0905a",
-        "#f6d8b8",
-        "#7a5a8a"
-      ],
-      "scale": 0.87,
-      "extras": [
-        {
-          "parent": "head",
-          "id": "helmet",
-          "file": "rigs/extras/shell-knight-helmet.svg",
-          "pivot": [
-            0.608,
-            0.519
-          ]
-        },
-        {
-          "parent": "arm",
-          "id": "spear",
-          "file": "rigs/extras/shell-knight-spear.svg",
-          "pivot": [
-            0.846,
-            0.704
-          ]
-        }
-      ]
-    },
-    "big-pincher": {
-      "rig": "plan.crab",
-      "colors": [
-        "#2b5c9e",
-        "#bcd6ee",
-        "#e8603c"
-      ],
-      "scale": 1.05,
-      "extras": [
-        {
-          "parent": "body",
-          "id": "spikes",
-          "file": "rigs/extras/big-pincher-spikes.svg",
-          "pivot": [
-            0.492,
-            0.704
-          ]
-        },
-        {
-          "parent": "arm",
-          "id": "claw",
-          "file": "rigs/extras/big-pincher-claw.svg",
-          "pivot": [
-            0.846,
-            0.704
-          ]
-        }
-      ]
-    },
-    "ember-imp": {
-      "rig": "plan.biped",
-      "colors": [
-        "#e8603c",
-        "#f6c08a",
-        "#3a2a30"
-      ],
-      "scale": 0.71,
-      "extras": [
-        {
-          "parent": "head",
-          "id": "horns",
-          "file": "rigs/extras/ember-imp-horns.svg",
-          "pivot": [
-            0.538,
-            0.37
-          ]
-        },
-        {
-          "parent": "legs",
-          "id": "tail",
-          "file": "rigs/extras/ember-imp-tail.svg",
-          "pivot": [
-            0.346,
-            0.815
-          ]
-        }
-      ]
-    },
-    "ash-lizard": {
-      "rig": "plan.lizard",
-      "colors": [
-        "#6e6264",
-        "#cdbcae",
-        "#ff8a3a"
-      ],
-      "scale": 0.79,
-      "extras": [
-        {
-          "parent": "body",
-          "id": "embers",
-          "file": "rigs/extras/ash-lizard-embers.svg",
-          "pivot": [
-            0.5,
-            0.741
-          ]
-        }
-      ]
-    },
-    "cinder-beetle": {
-      "rig": "plan.bug",
-      "colors": [
-        "#3a3438",
-        "#7a6c6a",
-        "#a58c6a"
-      ],
-      "scale": 0.87,
-      "extras": [
-        {
-          "parent": "body",
-          "id": "coal",
-          "file": "rigs/extras/cinder-beetle-coal.svg",
-          "pivot": [
-            0.477,
-            0.741
-          ]
-        },
-        {
-          "parent": "head",
-          "id": "horn",
-          "file": "rigs/extras/cinder-beetle-horn.svg",
-          "pivot": [
-            0.769,
-            0.741
-          ]
-        }
-      ]
-    },
-    "smog-bat": {
-      "rig": "plan.bat",
-      "colors": [
-        "#6c6274",
-        "#b8a8b4",
-        "#e8603c"
-      ],
-      "scale": 0.71,
-      "extras": [
-        {
-          "parent": "body",
-          "id": "smog",
-          "file": "rigs/extras/smog-bat-smog.svg",
-          "pivot": [
-            0.577,
-            0.593
-          ]
-        }
-      ]
-    },
-    "lava-toad": {
-      "rig": "plan.blob",
-      "colors": [
-        "#c4462c",
-        "#f2a541",
-        "#ffd24a"
-      ],
-      "scale": 0.87,
-      "extras": [
-        {
-          "parent": "root",
-          "id": "feet",
-          "file": "rigs/extras/lava-toad-feet.svg",
-          "pivot": [
-            0.769,
-            0.926
-          ]
-        },
-        {
-          "parent": "body",
-          "id": "lava",
-          "file": "rigs/extras/lava-toad-lava.svg",
-          "pivot": [
-            0.423,
-            0.578
-          ]
-        }
-      ]
-    },
-    "imp-chieftain": {
-      "rig": "plan.biped",
-      "colors": [
-        "#b8342a",
-        "#f2a541",
-        "#2a1f2a"
-      ],
-      "scale": 1.04,
-      "extras": [
-        {
-          "parent": "head",
-          "id": "crown",
-          "file": "rigs/extras/imp-chieftain-crown.svg",
-          "pivot": [
-            0.538,
-            0.333
-          ]
-        },
-        {
-          "parent": "legs",
-          "id": "tail",
-          "file": "rigs/extras/imp-chieftain-tail.svg",
-          "pivot": [
-            0.346,
-            0.815
-          ]
-        }
-      ]
-    },
-    "spark-sprite": {
-      "rig": "plan.sprite",
-      "colors": [
-        "#c9a8ff",
-        "#fff7c2",
-        "#f5e27a"
-      ],
-      "scale": 0.7,
-      "extras": [
-        {
-          "parent": "body",
-          "id": "zaps",
-          "file": "rigs/extras/spark-sprite-zaps.svg",
-          "pivot": [
-            0.538,
-            0.407
-          ]
-        }
-      ]
-    },
-    "thunder-goat": {
-      "rig": "plan.beast",
-      "colors": [
-        "#7470a8",
-        "#e4dcf6",
-        "#f5e27a"
-      ],
-      "scale": 0.88,
-      "extras": [
-        {
-          "parent": "head",
-          "id": "horns",
-          "file": "rigs/extras/thunder-goat-horns.svg",
-          "pivot": [
-            0.808,
-            0.519
-          ]
-        }
-      ]
-    },
-    "cliff-harpy": {
-      "rig": "plan.bird",
-      "colors": [
-        "#8a62a8",
-        "#f0dcf2",
-        "#f2c14e"
-      ],
-      "scale": 0.92,
-      "extras": [
-        {
-          "parent": "head",
-          "id": "hair",
-          "file": "rigs/extras/cliff-harpy-hair.svg",
-          "pivot": [
-            0.654,
-            0.37
-          ]
-        },
-        {
-          "parent": "head",
-          "id": "scream",
-          "file": "rigs/extras/cliff-harpy-scream.svg",
-          "pivot": [
-            0.769,
-            0.467
-          ]
-        }
-      ]
-    },
-    "gale-hawk": {
-      "rig": "plan.bird",
-      "colors": [
-        "#4f62a8",
-        "#dfe6f5",
-        "#f2c14e"
-      ],
-      "scale": 0.89,
-      "extras": [
-        {
-          "parent": "head",
-          "id": "crest",
-          "file": "rigs/extras/gale-hawk-crest.svg",
-          "pivot": [
-            0.638,
-            0.393
-          ]
-        }
-      ]
-    },
-    "granite-ram": {
-      "rig": "plan.beast",
-      "colors": [
-        "#9a8c7c",
-        "#ece4d2",
-        "#5e5246"
-      ],
-      "scale": 0.92,
-      "extras": [
-        {
-          "parent": "body",
-          "id": "wool",
-          "file": "rigs/extras/granite-ram-wool.svg",
-          "pivot": [
-            0.5,
-            0.593
-          ]
-        },
-        {
-          "parent": "head",
-          "id": "horns",
-          "file": "rigs/extras/granite-ram-horns.svg",
-          "pivot": [
-            0.731,
-            0.489
-          ]
-        }
-      ]
-    },
-    "thunderhead": {
-      "rig": "plan.cloud",
-      "colors": [
-        "#646286",
-        "#c4c0e0",
-        "#f5e27a"
-      ],
-      "scale": 1.05,
-      "extras": [
-        {
-          "parent": "root",
-          "id": "bolts",
-          "file": "rigs/extras/thunderhead-bolts.svg",
-          "pivot": [
-            0.385,
-            0.778
-          ]
-        },
-        {
-          "parent": "body",
-          "id": "brows",
-          "file": "rigs/extras/thunderhead-brows.svg",
-          "pivot": [
-            0.654,
-            0.444
-          ]
-        }
-      ]
-    },
-    "frostbite-hare": {
-      "rig": "plan.beast",
-      "colors": [
-        "#eef3f8",
-        "#c4e4f6",
-        "#d2e8f6"
-      ],
-      "scale": 0.68,
-      "extras": [
-        {
-          "parent": "head",
-          "id": "ears",
-          "file": "rigs/extras/frostbite-hare-ears.svg",
-          "pivot": [
-            0.754,
-            0.444
-          ]
-        },
-        {
-          "parent": "tail",
-          "id": "puff",
-          "file": "rigs/extras/frostbite-hare-puff.svg",
-          "pivot": [
-            0.2,
-            0.496
-          ]
-        }
-      ]
-    },
-    "ice-wraith": {
-      "rig": "plan.sprite",
-      "colors": [
-        "#bfe4f8",
-        "#eaf8ff",
-        "#5aa0d0"
-      ],
-      "scale": 1.0,
-      "extras": [
-        {
-          "parent": "body",
-          "id": "icicles",
-          "file": "rigs/extras/ice-wraith-icicles.svg",
-          "pivot": [
-            0.538,
-            0.444
-          ]
-        }
-      ]
-    },
-    "glacier-turtle": {
-      "rig": "plan.lizard",
-      "colors": [
-        "#6a9890",
-        "#d8e8e0",
-        "#4a7a8a"
-      ],
-      "scale": 0.87,
-      "extras": [
-        {
-          "parent": "body",
-          "id": "shell",
-          "file": "rigs/extras/glacier-turtle-shell.svg",
-          "pivot": [
-            0.5,
-            0.667
-          ]
-        }
-      ]
-    },
-    "yeti-cub": {
-      "rig": "plan.biped",
-      "colors": [
-        "#eef2f8",
-        "#9cbcd8",
-        "#5c7898"
-      ],
-      "scale": 0.87,
-      "extras": [
-        {
-          "parent": "head",
-          "id": "fur",
-          "file": "rigs/extras/yeti-cub-fur.svg",
-          "pivot": [
-            0.538,
-            0.444
-          ]
-        },
-        {
-          "parent": "body",
-          "id": "tufts",
-          "file": "rigs/extras/yeti-cub-tufts.svg",
-          "pivot": [
-            0.5,
-            0.778
-          ]
-        }
-      ]
-    },
-    "rime-wolf": {
-      "rig": "plan.beast",
-      "colors": [
-        "#8aa6c6",
-        "#e8f2fa",
-        "#4a6688"
-      ],
-      "scale": 0.89,
-      "extras": [
-        {
-          "parent": "head",
-          "id": "ears",
-          "file": "rigs/extras/rime-wolf-ears.svg",
-          "pivot": [
-            0.769,
-            0.444
-          ]
-        },
-        {
-          "parent": "tail",
-          "id": "bushy",
-          "file": "rigs/extras/rime-wolf-bushy.svg",
-          "pivot": [
-            0.308,
-            0.593
-          ]
-        }
-      ]
-    },
-    "rime-alpha": {
-      "rig": "plan.beast",
-      "colors": [
-        "#4a6890",
-        "#e2eef8",
-        "#bfe6fa"
-      ],
-      "scale": 1.05,
-      "extras": [
-        {
-          "parent": "head",
-          "id": "ears",
-          "file": "rigs/extras/rime-alpha-ears.svg",
-          "pivot": [
-            0.769,
-            0.444
-          ]
-        },
-        {
-          "parent": "body",
-          "id": "mane",
-          "file": "rigs/extras/rime-alpha-mane.svg",
-          "pivot": [
-            0.615,
-            0.519
-          ]
-        }
-      ]
-    },
-    "tunnel-mole": {
-      "rig": "plan.beast",
-      "colors": [
-        "#6a5866",
-        "#f0a8b4",
-        "#5a4a58"
-      ],
-      "scale": 0.71,
-      "extras": [
-        {
-          "parent": "head",
-          "id": "face",
-          "file": "rigs/extras/tunnel-mole-face.svg",
-          "pivot": [
-            0.846,
-            0.519
-          ]
-        },
-        {
-          "parent": "leg-front",
-          "id": "claws",
-          "file": "rigs/extras/tunnel-mole-claws.svg",
-          "pivot": [
-            0.731,
-            0.948
-          ]
-        }
-      ]
-    },
-    "crystal-crawler": {
-      "rig": "plan.bug",
-      "colors": [
-        "#5a4a7c",
-        "#9a88c0",
-        "#3c3256"
-      ],
-      "scale": 0.84,
-      "extras": [
-        {
-          "parent": "legs",
-          "id": "more-legs",
-          "file": "rigs/extras/crystal-crawler-more-legs.svg",
-          "pivot": [
-            0.462,
-            0.815
-          ]
-        },
-        {
-          "parent": "body",
-          "id": "crystals",
-          "file": "rigs/extras/crystal-crawler-crystals.svg",
-          "pivot": [
-            0.477,
-            0.556
-          ]
-        }
-      ]
-    },
-    "lantern-gnome": {
-      "rig": "plan.biped",
-      "colors": [
-        "#6a5a9e",
-        "#f0e2c4",
-        "#6a4a3a"
-      ],
-      "scale": 0.7,
-      "extras": [
-        {
-          "parent": "head",
-          "id": "hat",
-          "file": "rigs/extras/lantern-gnome-hat.svg",
-          "pivot": [
-            0.538,
-            0.407
-          ]
-        },
-        {
-          "parent": "arm",
-          "id": "pick",
-          "file": "rigs/extras/lantern-gnome-pick.svg",
-          "pivot": [
-            0.692,
-            0.704
-          ]
-        }
-      ]
-    },
-    "gemback-lizard": {
-      "rig": "plan.lizard",
-      "colors": [
-        "#7a6858",
-        "#dccab2",
-        "#5fc8c0"
-      ],
-      "scale": 0.81,
-      "extras": [
-        {
-          "parent": "body",
-          "id": "gems",
-          "file": "rigs/extras/gemback-lizard-gems.svg",
-          "pivot": [
-            0.538,
-            0.63
-          ]
-        }
-      ]
-    },
-    "rust-sprite": {
-      "rig": "plan.sprite",
-      "colors": [
-        "#c4703a",
-        "#f2c494",
-        "#6a3a28"
-      ],
-      "scale": 0.78,
-      "extras": [
-        {
-          "parent": "body",
-          "id": "bolts",
-          "file": "rigs/extras/rust-sprite-bolts.svg",
-          "pivot": [
-            0.538,
-            0.481
-          ]
-        }
-      ]
-    },
-    "foreman-golem": {
-      "rig": "plan.biped",
-      "colors": [
-        "#8a8478",
-        "#bab2a2",
-        "#585246"
-      ],
-      "scale": 1.05,
-      "extras": [
-        {
-          "parent": "head",
-          "id": "hardhat",
-          "file": "rigs/extras/foreman-golem-hardhat.svg",
-          "pivot": [
-            0.538,
-            0.37
-          ]
-        },
-        {
-          "parent": "arm",
-          "id": "clipboard",
-          "file": "rigs/extras/foreman-golem-clipboard.svg",
-          "pivot": [
-            0.692,
-            0.8
-          ]
-        }
-      ]
-    },
-    "dawn-sprite": {
-      "rig": "plan.sprite",
-      "colors": [
-        "#f5dc6a",
-        "#fff4c8",
-        "#f2a541"
-      ],
-      "scale": 0.75,
-      "extras": [
-        {
-          "parent": "body",
-          "id": "rays",
-          "file": "rigs/extras/dawn-sprite-rays.svg",
-          "pivot": [
-            0.538,
-            0.519
-          ]
-        }
-      ]
-    },
-    "dusk-bat": {
-      "rig": "plan.bat",
-      "colors": [
-        "#4a3a6c",
-        "#a88cc8",
-        "#f5e27a"
-      ],
-      "scale": 0.85,
-      "extras": [
-        {
-          "parent": "body",
-          "id": "moon",
-          "file": "rigs/extras/dusk-bat-moon.svg",
-          "pivot": [
-            0.538,
-            0.444
-          ]
-        }
-      ]
-    },
-    "sun-knight": {
-      "rig": "plan.biped",
-      "colors": [
-        "#d4dae6",
-        "#f5e27a",
-        "#8a6a3a"
-      ],
-      "scale": 0.89,
-      "extras": [
-        {
-          "parent": "head",
-          "id": "helmet",
-          "file": "rigs/extras/sun-knight-helmet.svg",
-          "pivot": [
-            0.538,
-            0.444
-          ]
-        },
-        {
-          "parent": "arm",
-          "id": "sword",
-          "file": "rigs/extras/sun-knight-sword.svg",
-          "pivot": [
-            0.692,
-            0.741
-          ]
-        }
-      ]
-    },
-    "shade-stalker": {
-      "rig": "plan.sprite",
-      "colors": [
-        "#3a2e52",
-        "#7a5c9e",
-        "#c9a8ff"
-      ],
-      "scale": 1.0,
-      "extras": [
-        {
-          "parent": "body",
-          "id": "hood",
-          "file": "rigs/extras/shade-stalker-hood.svg",
-          "pivot": [
-            0.538,
-            0.481
-          ]
-        }
-      ]
-    },
-    "twilight-moth": {
-      "rig": "plan.moth",
-      "colors": [
-        "#5e4c96",
-        "#f5b880",
-        "#f5e27a"
-      ],
-      "scale": 0.86,
-      "extras": [
-        {
-          "parent": "root",
-          "id": "dust",
-          "file": "rigs/extras/twilight-moth-dust.svg",
-          "pivot": [
-            0.5,
-            0.741
-          ]
-        }
-      ]
-    },
-    "eclipse-herald": {
-      "rig": "plan.biped",
-      "colors": [
-        "#3a2e5a",
-        "#c9a8ff",
-        "#f5e27a"
-      ],
-      "scale": 1.05,
-      "extras": [
-        {
-          "parent": "head",
-          "id": "hood",
-          "file": "rigs/extras/eclipse-herald-hood.svg",
-          "pivot": [
-            0.538,
-            0.444
-          ]
-        },
-        {
-          "parent": "arm",
-          "id": "horn",
-          "file": "rigs/extras/eclipse-herald-horn.svg",
-          "pivot": [
-            0.692,
-            0.778
-          ]
-        }
-      ]
-    }
   }
 }

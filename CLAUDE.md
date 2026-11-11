@@ -4,7 +4,7 @@ DracoQuest is a mobile-first, turn-based browser RPG in the style of AdventureQu
 
 The full design lives in `docs/DESIGN.md`. Read it before starting any phase, and treat its "Decisions" table as settled.
 
-Start with `docs/HANDOFF.md`: where the project stands, what to work on next, and decisions made since the design. The graphics and battle overhaul in `docs/GRAPHICS_PLAN.md` is finished; a second graphics pass is planned and in progress in `docs/GRAPHICS_PLAN_2.md`; art rules are in `docs/ART_STYLE.md`.
+Start with `docs/HANDOFF.md`: where the project stands, what to work on next, and decisions made since the design. The graphics and battle overhaul in `docs/GRAPHICS_PLAN.md` is finished; the art redesign that followed is recorded in `docs/GRAPHICS_PLAN_2.md`; art rules are in `docs/ART_STYLE.md`.
 
 ## How to work
 
@@ -22,8 +22,8 @@ Start with `docs/HANDOFF.md`: where the project stands, what to work on next, an
 
 ## Art
 
-- Art is SVG drawn in the repo (by agents, following `docs/ART_STYLE.md`), listed in `/src/art/assets.json`. Characters are rigs built from parts so they animate. Eric may swap in his own art (SVG or transparent WebP) per part through the manifest.
-- Dragon parts are neutral gray tokens, colored once at load per player color; enemy body plans are colored the same way per enemy.
+- Characters, backdrops and effects are painted WebP images in `/src/art/painted`, generated with an image model and packed by `tools/art/painted` (see `tools/art/README.md`), following `docs/ART_STYLE.md`. Every file is listed in `/src/art/assets.json`. Eric may swap in his own art through the manifest.
+- Dragons are painted in key colors (red body, gold belly) and recolored once at load per player color, with an element tail tip drawn on.
 - Load every sprite through the manifest. If a sprite is missing, render a simple placeholder shape. Never block a feature on art.
 
 ## Mobile first

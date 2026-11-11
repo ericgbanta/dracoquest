@@ -18,16 +18,13 @@ test('the B0 mock battle acts out a round on the stage, in portrait and landscap
   await expect(page.getByTestId('enemy-e0')).toBeVisible();
   expect(await stageNodes(page)).toBeLessThanOrEqual(layout.maxNodes);
   expect(await smallTargets(page)).toEqual([]);
-  // The mock opens on the painted proof: one bitmap per character.
+  // Painted art: each fighter is one bitmap, the dragon's is recolored to the player's colors, and the zone has drifting specks.
   await expect(page.locator('[data-fighter=dragon] img.part')).toHaveCount(1);
+  const dragonSrc = await page.locator('[data-fighter=dragon] img.part').getAttribute('src');
+  expect(dragonSrc).toMatch(/^blob:/);
   expect(await page.locator('[data-fighter=dragon] img.part').evaluate((img) => (img as HTMLImageElement).naturalWidth)).toBeGreaterThan(300);
-  await page.getByTestId('art-vector').tap();
-  await expect(page.locator('.stage-layer--front')).toHaveCount(1);
-  // The second graphics pass: a foreground layer over the fighters, drifting specks, and lit rig parts.
-  await expect(page.locator('.stage-layer--front')).toHaveCount(1);
+  expect(await page.locator('[data-fighter=e0] img.part').evaluate((img) => (img as HTMLImageElement).naturalWidth)).toBeGreaterThan(300);
   await expect(page.locator('.stage-ambient')).toHaveCount(1);
-  const partSvg = await page.locator('[data-fighter] img.part').first().evaluate(async (img) => (await fetch((img as HTMLImageElement).src)).text());
-  expect(partSvg).toContain('lit-g');
 
   const roc = page.locator('[data-plate=e0] [role=meter]');
   const before = Number(await roc.getAttribute('aria-valuenow'));

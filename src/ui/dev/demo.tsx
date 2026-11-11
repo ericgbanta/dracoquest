@@ -25,22 +25,17 @@ export interface DemoArt {
 }
 
 /** Load and decode every image the demo fight needs before the stage shows. */
-/** The demo's art set: the SVG rigs the game uses, or the painted proof (docs/GRAPHICS_PLAN_2.md). */
-export type DemoSet = 'vector' | 'painted';
-
-export function useDemoArt(set: DemoSet = 'vector'): DemoArt | null {
+export function useDemoArt(): DemoArt | null {
   const [art, setArt] = useState<DemoArt | null>(null);
   useEffect(() => {
     let live = true;
     (async () => {
       const d2 = demo.dragon2;
-      const painted = set === 'painted';
-      setArt(null);
       const [backdrop, rider, dragon, enemy, effects, dragon2] = await Promise.all([
-        loadBackdrop(painted ? `painted.${demo.zone}` : demo.zone),
-        painted ? loadRig('painted.rider') : loadRig('rider', undefined, { weapon: 'sword' }),
-        painted ? loadRig('painted.dragon') : loadRig(`dragon.${demo.dragon.stage}`, { element: dragonElement, primary: demo.dragon.primary, secondary: demo.dragon.secondary }),
-        loadRig(painted ? 'painted.storm-roc' : `enemy.${demo.enemy.enemyId}`),
+        loadBackdrop(demo.zone),
+        loadRig('rider', undefined, { weapon: 'sword' }),
+        loadRig(`dragon.${demo.dragon.stage}`, { element: dragonElement, primary: demo.dragon.primary, secondary: demo.dragon.secondary }),
+        loadRig(`enemy.${demo.enemy.enemyId}`),
         loadEffects(dragonElement),
         loadRig(`dragon.${d2.stage}`, { element: d2.element as ElementId, primary: d2.primary, secondary: d2.secondary }),
       ]);
@@ -51,7 +46,7 @@ export function useDemoArt(set: DemoSet = 'vector'): DemoArt | null {
       if (live) setArt({ backdrop, rider, dragon, dragon2, enemy, effects });
     })();
     return () => { live = false; };
-  }, [set]);
+  }, []);
   return art;
 }
 

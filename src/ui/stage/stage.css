@@ -51,6 +51,8 @@ button.actor { cursor: pointer; }
 .rig--fallback { aspect-ratio: 1; display: flex; align-items: flex-end; justify-content: center; }
 .rig--fallback > svg { width: 100%; height: auto; }
 .part { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+/* A painted image keeps its shape and stands on the box's ground line, whatever the rig's nominal size. */
+img.part { object-fit: contain; object-position: 50% 100%; }
 .mount { position: absolute; }
 .rig--rider { aspect-ratio: 120 / 170; }
 .stage--loading .actor { opacity: 0; }
@@ -181,6 +183,3 @@ button.scene-actor { cursor: pointer; }
   .battle--stage .actions { width: min(330px, 46vw); }
 }
 
-/* The mock battle's switch between art sets being compared. */
-.look-row { display: flex; align-items: center; justify-content: center; gap: 8px; }
-.look-row .chip-button { min-width: 84px; min-height: 44px; }
