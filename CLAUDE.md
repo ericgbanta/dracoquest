@@ -4,6 +4,8 @@ DracoQuest is a mobile-first, turn-based browser RPG in the style of AdventureQu
 
 The full design lives in `docs/DESIGN.md`. Read it before starting any phase, and treat its "Decisions" table as settled.
 
+Start with `docs/HANDOFF.md`: where the project stands, what to work on next, and decisions made since the design. The next piece of work is the graphics and battle overhaul in `docs/GRAPHICS_PLAN.md`.
+
 ## How to work
 
 - Build one phase at a time, following "Build phases for the coding agent" in `docs/DESIGN.md`. When a phase meets its done criteria, stop and report what was built and how it was tested.
