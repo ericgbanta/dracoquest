@@ -1,6 +1,6 @@
-# Art style guide (draft)
+# Art style guide
 
-Draft from phase B0 of `docs/GRAPHICS_PLAN.md`. Eric settles it after looking at the mock battle (`#/dev/mock`) on his phone. Everything below describes the B0 samples: the Adult fire dragon, the rider, the Storm Roc, the Thunderspire backdrop and three effects.
+Written in phase B0 of `docs/GRAPHICS_PLAN.md`. Eric looked at the mock battle (`#/dev/mock`) on his iPhone and approved the look. Everything below describes the B0 samples: the Adult fire dragon, the rider, the Storm Roc, the Thunderspire backdrop and three effects.
 
 ## The look
 

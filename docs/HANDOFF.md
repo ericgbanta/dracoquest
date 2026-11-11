@@ -20,7 +20,7 @@ Eric played the deployed game and said: "This is very good."
 
 ## What to work on next
 
-**Graphics and UI, starting with the battle screen.** Eric wants an AdventureQuest-style battle: the rider and dragons on one side, enemies on the other, on a painted stage, with real attack animations, and it has to stay fast on a phone. The research and a phased plan are in `docs/GRAPHICS_PLAN.md`. Eric has answered its questions (vector art, agents draw it, every phase B0 to B5, iPhone 17 Pro in Safari); they're in its "Decisions" table. Phase B0 is built and deployed: a mock battle at `#/dev/mock` and a bench at `#/dev/bench`, plus a draft style guide in `docs/ART_STYLE.md`. It's waiting for his review before B1. See "B0 result" in `docs/GRAPHICS_PLAN.md`.
+**Graphics and UI, starting with the battle screen.** Eric wants an AdventureQuest-style battle: the rider and dragons on one side, enemies on the other, on a painted stage, with real attack animations, and it has to stay fast on a phone. The research and a phased plan are in `docs/GRAPHICS_PLAN.md`. Eric has answered its questions (vector art, agents draw it, every phase B0 to B5, iPhone 17 Pro in Safari); they're in its "Decisions" table. Phase B0 is built and deployed: a mock battle at `#/dev/mock` and a bench at `#/dev/bench`, plus a draft style guide in `docs/ART_STYLE.md`. Eric checked it on his iPhone ("It looks great!"; bench 60 fps, 0.8% dropped), so B1 is next. See "B0 result" in `docs/GRAPHICS_PLAN.md`.
 
 After graphics, the open items below.
 

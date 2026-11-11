@@ -1,6 +1,6 @@
 # Graphics and battle overhaul: plan
 
-Written 2026-11-11 at Eric's request. Status: B0 built and deployed, waiting for Eric's phone check (see "B0 result" below). Read `docs/HANDOFF.md` first.
+Written 2026-11-11 at Eric's request. Status: B0 done and checked on Eric's iPhone (see "B0 result" below). Next is B1. Read `docs/HANDOFF.md` first.
 
 The request, in Eric's words: "I think we can implement AdventureQuest-like graphics. The battling especially needs a lot of touch up. We should have us (rider and dragons) on one side and enemy on the other. Let's step it up with the graphics please but also make sure it's performant."
 
@@ -38,7 +38,11 @@ B0 still ends at a checkpoint: Eric looks at the mock battle and the bench numbe
 
 ## B0 result
 
-Built 2026-11-11. Waiting for Eric to look on his iPhone before B1 starts.
+Built 2026-11-11. Eric checked it on his iPhone the same day and said: "It looks great!"
+
+Phone numbers (iPhone 17 Pro, Safari, bench at 1x): "After 10 rounds: 60 fps, 0.8% dropped, worst frame 61 ms, 60 Hz." That is within the 5% budget. The Home Screen app wasn't measured; Eric expects it to be similar, since it runs the same Safari engine. The 61 ms worst frame is one hitch of about three frames; B2's perf test should watch for it. Safari runs pages at 60 Hz by default even on ProMotion screens, so 60 is the ceiling there.
+
+The art style in `docs/ART_STYLE.md` is accepted as the base for B1 to B3.
 
 - Mock battle at `#/dev/mock`: the Thunderspire backdrop, the rider, an Adult fire dragon (Blaze), the Storm Roc, name plates, the status strip, the log and the order panel. Go plays a round: the rider's Attack (dash, swing, return), the dragon's Breath (rear back, a stream of fire puffs across the stage, shake) or Claw, then the Roc's Talon Rake on the dragon. The 1x/2x chip works. Tap the Roc to target it.
 - Bench at `#/dev/bench`: loops a demo round (rider attack, breath, Roc attack, claw) and shows fps, dropped frames, worst frame, refresh rate, long tasks, stage node count, and whether it runs in the browser or as a Home Screen app. After 10 rounds it pins a result line to read back. Restart clears the numbers.
@@ -64,9 +68,9 @@ Caveat on the bench: it counts frames with `requestAnimationFrame`, so it catche
 
 ### Questions for Eric at the checkpoint
 
-1. Does the art style work for you on the phone? Anything to change before it's used for 32 dragon looks and 49 enemies?
+1. Does the art style work for you on the phone? Anything to change before it's used for 32 dragon looks and 49 enemies? (Answered: "It looks great!")
 2. Do the attacks feel too fast at 1x? The 300 ms rule could become, say, 450 ms for the action.
-3. The bench numbers from your iPhone, in Safari and as a Home Screen app: the "After 10 rounds" line from each.
+3. The bench numbers from your iPhone, in Safari and as a Home Screen app: the "After 10 rounds" line from each. (Answered for Safari: 60 fps, 0.8% dropped, worst frame 61 ms.)
 
 ## Questions for Eric (answered)
 
