@@ -293,6 +293,104 @@
         },
         "enemy": "old-croaker"
       }
+    ],
+    "rustcliff-ruins": [
+      {
+        "id": "cog-sweep",
+        "kind": "defeat",
+        "count": 5,
+        "text": "Sweep up 5 Cog Crawlers",
+        "reward": {
+          "gold": 220,
+          "materials": {
+            "ore": 2
+          }
+        },
+        "enemy": "cog-crawler"
+      },
+      {
+        "id": "sentry-duty",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Relieve 4 Brass Sentries",
+        "reward": {
+          "gold": 220,
+          "embers": 1
+        },
+        "enemy": "brass-sentry"
+      },
+      {
+        "id": "boiler-cooldown",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Cool down 3 Boiler Bots",
+        "reward": {
+          "gold": 200,
+          "embers": 1
+        },
+        "enemy": "boiler-bot"
+      },
+      {
+        "id": "hound-walk",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Walk 3 Spark Hounds",
+        "reward": {
+          "gold": 200,
+          "materials": {
+            "ore": 2
+          }
+        },
+        "enemy": "spark-hound"
+      },
+      {
+        "id": "gargoyle-nap",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Put 3 Gargoyle Pups back to sleep",
+        "reward": {
+          "gold": 220,
+          "materials": {
+            "crystal": 1
+          }
+        },
+        "enemy": "gargoyle-pup"
+      },
+      {
+        "id": "ruin-wins",
+        "kind": "wins",
+        "count": 6,
+        "text": "Win 6 fights in the ruins",
+        "reward": {
+          "gold": 280,
+          "materials": {
+            "ore": 3
+          }
+        }
+      },
+      {
+        "id": "ruin-clear",
+        "kind": "clear",
+        "count": 2,
+        "text": "Finish 2 runs in the ruins",
+        "reward": {
+          "gold": 340,
+          "embers": 2
+        }
+      },
+      {
+        "id": "clank-salute",
+        "kind": "defeat",
+        "count": 1,
+        "text": "Defeat Captain Clank",
+        "reward": {
+          "gold": 280,
+          "materials": {
+            "crystal": 1
+          }
+        },
+        "enemy": "captain-clank"
+      }
     ]
   }
 }

@@ -20,6 +20,7 @@
       "blurb": "Storm peaks, frozen lakes and the deep places of the world.",
       "zones": [
         "thunderspire",
+        "rustcliff-ruins",
         "frostmere",
         "deepstone-mines",
         "eclipse-peak"
@@ -35,16 +36,16 @@
   ],
   "upcoming": [
     {
-      "name": "Rustcliff Ruins",
+      "name": "Moonwell Woods",
       "region": "highlands",
-      "minLevel": 20,
-      "maxLevel": 30,
-      "gate": "cinder-pass",
+      "minLevel": 30,
+      "maxLevel": 40,
+      "gate": "thunderspire",
       "elements": [
-        "stone",
-        "fire"
+        "shadow",
+        "frost"
       ],
-      "blurb": "A ruined fortress where old machines still keep watch. Mostly over nothing."
+      "blurb": "A forest that only wakes at night, when the moonwell glows and the trees start gossiping."
     }
   ]
 }

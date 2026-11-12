@@ -27,12 +27,13 @@ test('the Map groups zones into regions and teases the next area', async ({ page
   await expect(page.getByTestId('region-wilds')).toContainText('The Wilds');
   await expect(page.getByTestId('region-highlands')).toContainText('The High Lands');
   await expect(page.getByTestId('region-wilds').getByTestId('zone-mossy-hollow')).toBeVisible();
-  // Whispering Fen is built and open (level 15, Bramble Troll beaten); the next teaser is Rustcliff Ruins.
+  // Whispering Fen is built and open (level 15, Bramble Troll beaten); Rustcliff Ruins is built; the next teaser is Moonwell Woods.
   await expect(page.getByTestId('region-wilds').getByTestId('start-whispering-fen')).toBeVisible();
   const teaser = page.getByTestId('zone-teaser');
   await expect(page.getByTestId('region-highlands').getByTestId('zone-teaser')).toBeVisible();
-  await expect(teaser).toContainText('Rustcliff Ruins');
-  await expect(teaser).toContainText('Opens at level 20, after you beat the Magma Wyrm');
+  await expect(teaser).toContainText('Moonwell Woods');
+  await expect(teaser).toContainText('Opens at level 30, after you beat the Storm Roc');
+  await expect(page.getByTestId('zone-rustcliff-ruins')).toContainText('Opens at rider level 20, after you beat the Magma Wyrm');
   await expect(page.getByTestId('story-mossy-hollow')).toHaveText('Story 0 of 4');
   await expect(page.getByTestId('story-cinder-pass')).toHaveCount(0);
   await page.getByTestId('story-mossy-hollow').scrollIntoViewIfNeeded();
@@ -150,4 +151,31 @@ test('the Whisperwillow boss fight shows the boss art', async ({ page }) => {
   await expect.poll(async () => (await page.locator('[data-testid=stage] img').evaluateAll((els) => els.map((e) => (e as HTMLImageElement).src))).some((src) => /whisperwillow-[^/]*\.webp/.test(src))).toBe(true);
   await page.waitForTimeout(600);
   await page.screenshot({ path: 'test-results/fen-boss.png' });
+});
+
+test('Rustcliff Ruins opens at level 20 after the Magma Wyrm, and its fights use the Ruins art', async ({ page }) => {
+  await load(page, 'juvenile.json', (s) => {
+    s.bossesDefeated = ['mossy-hollow', 'cinder-pass'];
+    s.rider.level = 21;
+  });
+  await page.getByTestId('tab-map').tap();
+  await page.getByTestId('start-rustcliff-ruins').tap();
+  await expect(page.locator('[data-testid=stage]:not(.stage--loading)')).toBeVisible();
+  const ruins = /(cog-crawler|brass-sentry|boiler-bot|spark-hound|gargoyle-pup)-[^/]*\.webp/;
+  await expect.poll(async () => (await page.locator('[data-testid=stage] img').evaluateAll((els) => els.map((e) => (e as HTMLImageElement).src))).some((src) => ruins.test(src))).toBe(true);
+  await page.waitForTimeout(600);
+  await page.screenshot({ path: 'test-results/ruins-fight.png' });
+});
+
+test('the Cinderforge Colossus boss fight shows the boss art', async ({ page }) => {
+  await load(page, 'juvenile.json', (s) => {
+    s.bossesDefeated = ['mossy-hollow', 'cinder-pass'];
+    s.rider.level = 29;
+    s.run = { zoneId: 'rustcliff-ruins', fights: [{ kind: 'boss', enemies: [{ enemyId: 'cinderforge-colossus', level: 30 }] }], index: 0, battle: null, totals: { xp: 0, gold: 0, drops: {} } };
+  });
+  await page.getByTestId('next-fight').tap();
+  await expect(page.locator('[data-testid=stage]:not(.stage--loading)')).toBeVisible();
+  await expect.poll(async () => (await page.locator('[data-testid=stage] img').evaluateAll((els) => els.map((e) => (e as HTMLImageElement).src))).some((src) => /cinderforge-colossus-[^/]*\.webp/.test(src))).toBe(true);
+  await page.waitForTimeout(600);
+  await page.screenshot({ path: 'test-results/ruins-boss.png' });
 });

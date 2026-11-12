@@ -3001,5 +3001,386 @@
     "boss": true,
     "xpMultiplier": 4,
     "goldMultiplier": 5
+  },
+  {
+    "id": "cog-crawler",
+    "name": "Cog Crawler",
+    "element": "stone",
+    "flavor": "A clockwork beetle. Ticks when it is thinking. Ticks a lot.",
+    "base": {
+      "hp": 80.933,
+      "attack": 10.949,
+      "power": 5,
+      "defense": 1,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 11.441,
+      "attack": 1.107,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "grind",
+        "name": "Gear Grind",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "spring-snap",
+        "name": "Spring Snap",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "oil-up",
+        "name": "Oil Up",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "brass-sentry",
+    "name": "Brass Sentry",
+    "element": "stone",
+    "flavor": "Still guarding the gate. The gate fell down 300 years ago.",
+    "base": {
+      "hp": 84.634,
+      "attack": 10.949,
+      "power": 5,
+      "defense": 1.6,
+      "swift": 5.6,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 11.968,
+      "attack": 1.107,
+      "power": 1,
+      "defense": 0.48,
+      "swift": 0.72,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "spear-jab",
+        "name": "Spear Jab",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "rust-rattle",
+        "name": "Rust Rattle",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "crack",
+        "statusChance": 0.5
+      },
+      {
+        "id": "shield-up",
+        "name": "Shield Up",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "boiler-bot",
+    "name": "Boiler Bot",
+    "element": "fire",
+    "flavor": "A round little boiler on legs. Whistles when angry. Always whistling.",
+    "base": {
+      "hp": 73.582,
+      "attack": 10.949,
+      "power": 5,
+      "defense": 1,
+      "swift": 8.4,
+      "dodge": 6.0
+    },
+    "perLevel": {
+      "hp": 10.404,
+      "attack": 1.107,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1.08,
+      "dodge": 0.48
+    },
+    "moves": [
+      {
+        "id": "boiler-bash",
+        "name": "Boiler Bash",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "steam-puff",
+        "name": "Steam Puff",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "burn",
+        "statusChance": 0.6
+      },
+      {
+        "id": "overheat",
+        "name": "Overheat",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      }
+    ]
+  },
+  {
+    "id": "spark-hound",
+    "name": "Spark Hound",
+    "element": "fire",
+    "flavor": "A clockwork dog with a coal for a heart. Very good boy. Very hot boy.",
+    "base": {
+      "hp": 66.231,
+      "attack": 10.949,
+      "power": 5,
+      "defense": 1,
+      "swift": 11.2,
+      "dodge": 7.5
+    },
+    "perLevel": {
+      "hp": 9.367,
+      "attack": 1.107,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1.44,
+      "dodge": 0.6
+    },
+    "moves": [
+      {
+        "id": "bite",
+        "name": "Gear Bite",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "ember-bark",
+        "name": "Ember Bark",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.6,
+        "status": "burn",
+        "statusChance": 0.6
+      },
+      {
+        "id": "wag",
+        "name": "Happy Wag",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "gargoyle-pup",
+    "name": "Gargoyle Pup",
+    "element": "stone",
+    "flavor": "A stone gargoyle that only just woke up. It is grumpy about it.",
+    "base": {
+      "hp": 58.873,
+      "attack": 10.949,
+      "power": 5,
+      "defense": 1,
+      "swift": 10.5,
+      "dodge": 8.5
+    },
+    "perLevel": {
+      "hp": 8.321,
+      "attack": 1.107,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1.35,
+      "dodge": 0.68
+    },
+    "moves": [
+      {
+        "id": "claw",
+        "name": "Stone Claw",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "stone-skin",
+        "name": "Stone Skin",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      },
+      {
+        "id": "pounce",
+        "name": "Pounce",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "crack",
+        "statusChance": 0.4
+      }
+    ]
+  },
+  {
+    "id": "captain-clank",
+    "name": "Captain Clank",
+    "element": "stone",
+    "flavor": "The fortress captain, a dented automaton who still salutes everyone.",
+    "base": {
+      "hp": 125.104,
+      "attack": 12.596,
+      "power": 5,
+      "defense": 1,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 17.688,
+      "attack": 1.276,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "halberd",
+        "name": "Halberd Sweep",
+        "intent": "attack",
+        "weight": 4,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "shield-bash",
+        "name": "Shield Bash",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "crack",
+        "statusChance": 0.5
+      },
+      {
+        "id": "brace",
+        "name": "Brace",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      },
+      {
+        "id": "rewind",
+        "name": "Rewind Gears",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.2,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "miniBoss": true,
+    "xpMultiplier": 2
+  },
+  {
+    "id": "cinderforge-colossus",
+    "name": "Cinderforge Colossus",
+    "element": "stone",
+    "flavor": "The ruins' last guardian, a stone giant with a furnace for a heart.",
+    "base": {
+      "hp": 239.115,
+      "attack": 12.666,
+      "power": 5,
+      "defense": 1.4,
+      "swift": 8.4,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 33.805,
+      "attack": 1.283,
+      "power": 1,
+      "defense": 0.42,
+      "swift": 1.08,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "hammer-fist",
+        "name": "Hammer Fist",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "furnace-blast",
+        "name": "Furnace Blast",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "burn",
+        "statusChance": 0.6
+      },
+      {
+        "id": "stone-wall",
+        "name": "Stone Wall",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      },
+      {
+        "id": "stoke",
+        "name": "Stoke the Furnace",
+        "intent": "shift",
+        "weight": 1,
+        "shiftTo": "fire",
+        "target": "self",
+        "condition": "notShifted"
+      },
+      {
+        "id": "grind",
+        "name": "Grinding Rage",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self",
+        "condition": "selfHurt"
+      },
+      {
+        "id": "patch",
+        "name": "Patch Up",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.12,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "boss": true,
+    "xpMultiplier": 4,
+    "goldMultiplier": 5
   }
 ]

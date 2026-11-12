@@ -97,7 +97,15 @@
     "lilypad-scepter",
     "mistcaller-rod",
     "waders-of-the-fen",
-    "firefly-jar"
+    "firefly-jar",
+    "ruinstone-maul",
+    "kilnfire-sabre",
+    "gargoyle-crossbow",
+    "cinderbolt-bow",
+    "rune-brick-staff",
+    "bellows-wand",
+    "rivetmail",
+    "oil-lamp-charm"
   ],
   "items": {
     "potion": 25,

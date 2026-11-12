@@ -24,11 +24,11 @@ function hatched(): SaveData {
 const withDragon = (s: SaveData, patch: Partial<DragonState>): SaveData => ({ ...s, dragons: s.dragons.map((d) => ({ ...d, ...patch })) });
 
 describe('the full world', () => {
-  it('has 8 zones (7 main and Whispering Fen), 40 regular enemies, 8 bosses, and 50+ items', () => {
-    expect(data.zones).toHaveLength(8);
+  it('has 9 zones (7 main and 2 side areas), 45 regular enemies, 9 bosses, and 50+ items', () => {
+    expect(data.zones).toHaveLength(9);
     const regular = new Set(data.zones.flatMap((z) => z.encounters.flatMap((e) => e.enemies)));
-    expect(regular.size).toBe(40);
-    expect(data.zones.map((z) => data.enemies[z.boss.enemy]!.boss)).toEqual(Array(8).fill(true));
+    expect(regular.size).toBe(45);
+    expect(data.zones.map((z) => data.enemies[z.boss.enemy]!.boss)).toEqual(Array(9).fill(true));
     expect(Object.keys(data.gear).length + data.items.length + data.foods.length).toBeGreaterThanOrEqual(60);
     expect(data.zones.at(-1)!.maxLevel).toBe(data.progression.levelCap);
   });

@@ -463,6 +463,115 @@
     }
   },
   {
+    "id": "rustcliff-ruins",
+    "name": "Rustcliff Ruins",
+    "element": "stone",
+    "elements": [
+      "stone",
+      "fire"
+    ],
+    "minLevel": 20,
+    "maxLevel": 30,
+    "gate": null,
+    "unlock": {
+      "level": 20,
+      "afterBoss": "cinder-pass"
+    },
+    "blurb": "A ruined fortress where old machines still keep watch. Mostly over nothing.",
+    "fights": {
+      "min": 3,
+      "max": 5
+    },
+    "encounters": [
+      {
+        "enemies": [
+          "cog-crawler"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "brass-sentry"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "boiler-bot"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "spark-hound"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "gargoyle-pup"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "cog-crawler",
+          "cog-crawler"
+        ],
+        "weight": 1,
+        "minLevel": 22
+      },
+      {
+        "enemies": [
+          "spark-hound",
+          "gargoyle-pup"
+        ],
+        "weight": 1,
+        "minLevel": 24
+      }
+    ],
+    "levelSpread": 1,
+    "multiEnemyLevelOffset": -1,
+    "boss": {
+      "enemy": "cinderforge-colossus",
+      "level": 30,
+      "unlockRiderLevel": 29,
+      "trophy": {
+        "gear": "cogwright-armor",
+        "chance": 0.25
+      }
+    },
+    "miniBoss": {
+      "enemy": "captain-clank",
+      "levelOffset": 0,
+      "trophy": {
+        "gear": "cogwright-trinket",
+        "chance": 0.25
+      }
+    },
+    "dropChances": {
+      "potion": 0.25,
+      "dragon-treat": 0.15,
+      "mana-tonic": 0.1
+    },
+    "eggDrop": {
+      "element": "stone",
+      "chance": 0.1,
+      "elements": [
+        "stone",
+        "fire"
+      ]
+    },
+    "gearDrops": {
+      "chance": 0.06,
+      "gear": [
+        "cogwright-melee",
+        "cogwright-ranged",
+        "cogwright-magic"
+      ]
+    }
+  },
+  {
     "id": "frostmere",
     "name": "Frostmere",
     "element": "frost",

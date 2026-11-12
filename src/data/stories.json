@@ -1016,5 +1016,433 @@
       "gold": 450,
       "embers": 6
     }
+  },
+  {
+    "id": "the-archivist",
+    "zone": "rustcliff-ruins",
+    "name": "The Archivist",
+    "minLevel": 20,
+    "description": "A gnome historian is studying the ruins. The ruins are studying her back.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "Oh, splendid, a dragon keeper! I'm Odd. Archivist Odd. I'm cataloguing the fortress, and the fortress keeps trying to catalogue me.",
+            "name": "Archivist Odd"
+          },
+          {
+            "speaker": "rider",
+            "text": "We'll keep the machines off you."
+          },
+          {
+            "speaker": "narrator",
+            "text": "A Cog Crawler ticks out of a crack in the wall."
+          }
+        ],
+        "enemies": [
+          "cog-crawler"
+        ],
+        "level": 20
+      },
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "That one's a Brass Sentry. Model seven. Very polite. Very stabby.",
+            "name": "Archivist Odd"
+          },
+          {
+            "speaker": "dragon",
+            "text": "*sniffs the sentry, gets a static shock, sulks*"
+          }
+        ],
+        "enemies": [
+          "brass-sentry"
+        ],
+        "level": 21
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "Marvelous! Three hundred years and they still work. Mostly. Here, a little something from my research budget.",
+        "name": "Archivist Odd"
+      },
+      {
+        "speaker": "narrator",
+        "text": "Odd writes 'keeper: useful' in a very small notebook."
+      }
+    ],
+    "reward": {
+      "xp": 180,
+      "gold": 260,
+      "items": {
+        "potion": 1
+      }
+    }
+  },
+  {
+    "id": "steam-and-whistles",
+    "zone": "rustcliff-ruins",
+    "name": "Steam and Whistles",
+    "minLevel": 22,
+    "requires": "the-archivist",
+    "description": "The old boiler room is whistling again. Odd wants to know why. So does everyone's ears.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "The boilers haven't run in centuries, and yet... listen.",
+            "name": "Archivist Odd"
+          },
+          {
+            "speaker": "narrator",
+            "text": "WHEEEEEEE. A Boiler Bot waddles out, whistling furiously."
+          }
+        ],
+        "enemies": [
+          "boiler-bot"
+        ],
+        "level": 22
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "Behind it, a Spark Hound guards the boiler room door, wagging its tail so hard sparks fly."
+          },
+          {
+            "speaker": "dragon",
+            "text": "*wags back, confused but happy*"
+          }
+        ],
+        "enemies": [
+          "spark-hound",
+          "boiler-bot"
+        ],
+        "level": 23
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "Inside, the old furnace is lit. Someone has been feeding it coal."
+      },
+      {
+        "speaker": "npc",
+        "text": "Fascinating. Something in the fortress is waking up, and it's hungry for fire.",
+        "name": "Archivist Odd"
+      },
+      {
+        "speaker": "narrator",
+        "text": "A crate of spare coal sits by the door. Odd's eyes light up. So do the Spark Hounds'."
+      }
+    ],
+    "reward": {
+      "xp": 210,
+      "gold": 200
+    },
+    "choice": {
+      "prompt": "The crate of coal: who gets it?",
+      "options": [
+        {
+          "id": "hounds",
+          "label": "Feed it to the Spark Hounds",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "The Spark Hounds crunch the coal happily and follow you around for a bit. One leaves you a shiny scale it found."
+            }
+          ],
+          "reward": {
+            "materials": {
+              "scale": 1
+            },
+            "embers": 2
+          },
+          "temper": "gentle"
+        },
+        {
+          "id": "odd",
+          "label": "Give it to Odd for her research",
+          "lines": [
+            {
+              "speaker": "npc",
+              "text": "For science! And also for heating my tea. Take this, I won't need it anymore.",
+              "name": "Archivist Odd"
+            }
+          ],
+          "reward": {
+            "gold": 320,
+            "materials": {
+              "ore": 2
+            }
+          },
+          "temper": "clever"
+        }
+      ]
+    }
+  },
+  {
+    "id": "gargoyle-watch",
+    "zone": "rustcliff-ruins",
+    "name": "Gargoyle Watch",
+    "minLevel": 24,
+    "requires": "steam-and-whistles",
+    "description": "The gargoyles on the walls have started waking up. One at a time. Grumpily.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "The gargoyles were carved to wake if the fortress was in danger. So... is it?",
+            "name": "Archivist Odd"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A Gargoyle Pup yawns, stretches, and notices you."
+          }
+        ],
+        "enemies": [
+          "gargoyle-pup"
+        ],
+        "level": 24
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "Two more pups drop from the battlements. They look extremely awake now."
+          },
+          {
+            "speaker": "dragon",
+            "text": "*does its best gargoyle impression, perfectly still, fooling no one*"
+          }
+        ],
+        "enemies": [
+          "gargoyle-pup",
+          "cog-crawler"
+        ],
+        "level": 25
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "The gargoyles only wake when the captain sounds the alarm. And the captain... oh dear. The captain.",
+        "name": "Archivist Odd"
+      },
+      {
+        "speaker": "narrator",
+        "text": "A distant bell rings, slightly off-key."
+      }
+    ],
+    "reward": {
+      "xp": 240,
+      "gold": 300,
+      "materials": {
+        "ore": 3
+      }
+    }
+  },
+  {
+    "id": "captain-clank",
+    "zone": "rustcliff-ruins",
+    "name": "Captain Clank",
+    "minLevel": 26,
+    "requires": "gargoyle-watch",
+    "description": "The fortress captain has woken up and has orders to follow. Very, very old orders.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "He's in the great hall, rallying the guard. Do be careful, he's very formal about stabbing.",
+            "name": "Archivist Odd"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A squad of Brass Sentries forms up in the hall."
+          }
+        ],
+        "enemies": [
+          "brass-sentry",
+          "brass-sentry"
+        ],
+        "level": 26
+      },
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "HALT! Intruders in the fortress! By order of the King, who is... where is the King?",
+            "name": "Captain Clank"
+          },
+          {
+            "speaker": "rider",
+            "text": "The King's been gone for 300 years, Captain."
+          },
+          {
+            "speaker": "npc",
+            "text": "Then I shall defend the fortress until he returns! EN GARDE!",
+            "name": "Captain Clank"
+          }
+        ],
+        "enemies": [
+          "captain-clank"
+        ],
+        "level": 27,
+        "mini": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "You fight with honor. The fortress... has no king? Then whom do I serve?",
+        "name": "Captain Clank"
+      },
+      {
+        "speaker": "npc",
+        "text": "Perhaps yourself, Captain? Or perhaps a nice museum?",
+        "name": "Archivist Odd"
+      },
+      {
+        "speaker": "npc",
+        "text": "A museum. I... would like that. Beware the Colossus below. Its furnace has been lit.",
+        "name": "Captain Clank"
+      }
+    ],
+    "reward": {
+      "xp": 280,
+      "gold": 350,
+      "embers": 3
+    },
+    "choice": {
+      "prompt": "Captain Clank needs a new purpose. What do you suggest?",
+      "options": [
+        {
+          "id": "museum",
+          "label": "Guard Odd's new museum",
+          "lines": [
+            {
+              "speaker": "npc",
+              "text": "A museum guard! I shall salute every visitor. Twice.",
+              "name": "Captain Clank"
+            },
+            {
+              "speaker": "npc",
+              "text": "Free security! You're a genius, keeper.",
+              "name": "Archivist Odd"
+            }
+          ],
+          "reward": {
+            "gold": 250,
+            "materials": {
+              "crystal": 1
+            }
+          },
+          "temper": "clever"
+        },
+        {
+          "id": "train",
+          "label": "Train with you at the Roost",
+          "lines": [
+            {
+              "speaker": "npc",
+              "text": "A sparring partner for your dragon! I accept. I shall be gentle. I shall not be gentle.",
+              "name": "Captain Clank"
+            },
+            {
+              "speaker": "dragon",
+              "text": "*looks thrilled and slightly worried*"
+            }
+          ],
+          "reward": {
+            "embers": 3,
+            "items": {
+              "dragon-treat": 2
+            }
+          },
+          "temper": "bold"
+        }
+      ]
+    }
+  },
+  {
+    "id": "the-cinderforge-colossus",
+    "zone": "rustcliff-ruins",
+    "name": "The Cinderforge Colossus",
+    "minLevel": 29,
+    "requires": "captain-clank",
+    "description": "Deep under the ruins, the fortress's last guardian has stoked its furnace. It wants to rebuild the walls. With you inside them.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "The forge hall. The Colossus is down there. I'll be up here. Taking notes. From a distance.",
+            "name": "Archivist Odd"
+          },
+          {
+            "speaker": "narrator",
+            "text": "The forge's guard hounds come bounding up the stairs."
+          }
+        ],
+        "enemies": [
+          "spark-hound",
+          "boiler-bot"
+        ],
+        "level": 29
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "The Cinderforge Colossus rises from the forge, stone hands glowing, furnace roaring in its chest."
+          },
+          {
+            "speaker": "npc",
+            "text": "WALLS. MUST. BE. REBUILT.",
+            "name": "Cinderforge Colossus"
+          },
+          {
+            "speaker": "dragon",
+            "text": "*growls at the heat, then sneezes a puff of smoke back at it*"
+          }
+        ],
+        "enemies": [
+          "cinderforge-colossus"
+        ],
+        "level": 30,
+        "boss": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "The Colossus's furnace sputters out with a long, tired sigh. It sits down, very gently, and goes back to sleep."
+      },
+      {
+        "speaker": "npc",
+        "text": "History made! And written down! Mostly legible!",
+        "name": "Archivist Odd"
+      },
+      {
+        "speaker": "npc",
+        "text": "The fortress is at peace. Museum hours begin at nine.",
+        "name": "Captain Clank"
+      },
+      {
+        "speaker": "dragon",
+        "text": "*curls up next to the warm forge, very pleased*"
+      }
+    ],
+    "reward": {
+      "xp": 450,
+      "gold": 700,
+      "embers": 7
+    }
   }
 ]

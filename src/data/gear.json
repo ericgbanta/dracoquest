@@ -1977,5 +1977,194 @@
       "riderMp": 10
     },
     "description": "Carved from a fallen Whisperwillow twig. It tells you secrets. Bad ones."
+  },
+  {
+    "id": "cogwright-melee",
+    "name": "Cogwright Wrench-Axe",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": null,
+    "level": 22,
+    "damage": 26,
+    "price": 1600,
+    "bonus": {
+      "strength": 4
+    },
+    "description": "Tightens bolts. Loosens enemies."
+  },
+  {
+    "id": "cogwright-ranged",
+    "name": "Cogwright Rivet Bow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": null,
+    "level": 22,
+    "damage": 25,
+    "price": 1600,
+    "bonus": {
+      "agility": 5
+    },
+    "description": "Fires rivets with a satisfying clank."
+  },
+  {
+    "id": "cogwright-magic",
+    "name": "Cogwright Spark Coil",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": null,
+    "level": 22,
+    "damage": 25,
+    "price": 1600,
+    "bonus": {
+      "arcana": 5
+    },
+    "description": "A coil of copper that hums with old magic."
+  },
+  {
+    "id": "cogwright-armor",
+    "name": "Cogwright Furnace Plate",
+    "slot": "armor",
+    "level": 29,
+    "price": 2600,
+    "bonus": {
+      "riderDefense": 9,
+      "riderHp": 85
+    },
+    "description": "Plated with the Colossus's cooled furnace door. Toasty."
+  },
+  {
+    "id": "cogwright-trinket",
+    "name": "Cogwright Captain's Badge",
+    "slot": "trinket",
+    "level": 23,
+    "price": 1700,
+    "bonus": {
+      "strength": 3,
+      "vigor": 3
+    },
+    "description": "Captain Clank's badge of office. He salutes it, even now."
+  },
+  {
+    "id": "ruinstone-maul",
+    "name": "Ruinstone Maul",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": "stone",
+    "level": 23,
+    "damage": 26,
+    "price": 1800,
+    "bonus": {
+      "strength": 4
+    },
+    "description": "A chunk of fortress wall on a stick."
+  },
+  {
+    "id": "kilnfire-sabre",
+    "name": "Kilnfire Sabre",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": "fire",
+    "level": 23,
+    "damage": 26,
+    "price": 1800,
+    "bonus": {
+      "strength": 4
+    },
+    "description": "Glows like a kiln. Smells like toast."
+  },
+  {
+    "id": "gargoyle-crossbow",
+    "name": "Gargoyle Crossbow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": "stone",
+    "level": 23,
+    "damage": 25,
+    "price": 1800,
+    "bonus": {
+      "agility": 5
+    },
+    "description": "Carved like a gargoyle. It glares at your targets."
+  },
+  {
+    "id": "cinderbolt-bow",
+    "name": "Cinderbolt Bow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": "fire",
+    "level": 23,
+    "damage": 25,
+    "price": 1800,
+    "bonus": {
+      "agility": 5
+    },
+    "description": "Each arrow leaves a little trail of smoke."
+  },
+  {
+    "id": "rune-brick-staff",
+    "name": "Rune-Brick Staff",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": "stone",
+    "level": 23,
+    "damage": 25,
+    "price": 1800,
+    "bonus": {
+      "arcana": 5
+    },
+    "description": "A staff with an old rune brick on top. Heavy, but wise."
+  },
+  {
+    "id": "bellows-wand",
+    "name": "Bellows Wand",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": "fire",
+    "level": 23,
+    "damage": 25,
+    "price": 1800,
+    "bonus": {
+      "arcana": 5
+    },
+    "description": "Squeeze it to fan your spells hotter."
+  },
+  {
+    "id": "rivetmail",
+    "name": "Rivetmail",
+    "slot": "armor",
+    "level": 23,
+    "price": 1700,
+    "bonus": {
+      "riderDefense": 7,
+      "riderHp": 60
+    },
+    "description": "Mail made of a thousand old rivets. Clinks when you walk."
+  },
+  {
+    "id": "oil-lamp-charm",
+    "name": "Oil Lamp Charm",
+    "slot": "trinket",
+    "level": 23,
+    "price": 1600,
+    "bonus": {
+      "vigor": 2,
+      "arcana": 2,
+      "riderMp": 8
+    },
+    "description": "A tiny lamp that never runs out. Probably."
+  },
+  {
+    "id": "clockwork-heart",
+    "name": "Clockwork Heart",
+    "slot": "trinket",
+    "level": 26,
+    "price": 2000,
+    "bonus": {
+      "strength": 3,
+      "agility": 3,
+      "vigor": 3,
+      "riderCrit": 0.02
+    },
+    "description": "Ticks in time with yours. Slightly faster when you are brave."
   }
 ]

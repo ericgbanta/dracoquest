@@ -8,7 +8,7 @@ import { CURRENT_VERSION, newSave, parseSave } from '../src/core/save';
 import { chooseEgg, GameError, type FightReport, hatchEgg, playRound, setSpells, startFight, startRun, warmEgg } from '../src/core/game';
 import { defaultLoadout, knownSpells, learnSpells, riderLoadout, setLoadout, SpellError } from '../src/core/spells';
 import { xpToNext } from '../src/core/progression';
-import type { RiderState } from '../src/core/types';
+import type { ElementId, RiderState } from '../src/core/types';
 import fixtureV6 from './fixtures/save-v6.json';
 
 const data = gameData;
@@ -38,9 +38,13 @@ describe('spell data', () => {
   });
 
   it('teaches a strong spell for each zone within two levels of the zone opening', () => {
+    // Two-element areas need a spell that beats either of their elements.
+    const ring = data.elements.ring;
+    const beats = (a: ElementId, b: ElementId) => ring.indexOf(b) === (ring.indexOf(a) + 1) % ring.length;
     for (const zone of data.zones) {
-      if (zone.element === 'light' || zone.element === 'shadow') continue;
-      const strong = knownSpells(data, zone.minLevel + 2).find((s) => s.element && data.elements.ring.indexOf(zone.element) === (data.elements.ring.indexOf(s.element) + 1) % 6);
+      const els = (zone.elements ?? [zone.element]).filter((el) => ring.includes(el));
+      if (!els.length) continue;
+      const strong = knownSpells(data, zone.minLevel + 2).find((s) => s.element && els.some((el) => beats(s.element!, el)));
       expect(strong, zone.id).toBeDefined();
     }
   });

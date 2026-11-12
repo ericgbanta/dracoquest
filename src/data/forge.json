@@ -87,6 +87,17 @@
       }
     },
     {
+      "gear": "clockwork-heart",
+      "forgeLevel": 2,
+      "gold": 1800,
+      "embers": 8,
+      "materials": {
+        "ore": 10,
+        "crystal": 3,
+        "scale": 1
+      }
+    },
+    {
       "gear": "forgeheart-amulet",
       "forgeLevel": 2,
       "gold": 1500,

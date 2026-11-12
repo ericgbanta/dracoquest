@@ -139,6 +139,35 @@
     ]
   },
   {
+    "id": "cogwright",
+    "name": "Cogwright",
+    "zone": "rustcliff-ruins",
+    "description": "Clockwork gear from the ruins. Full set hits like a hammer.",
+    "pieces": [
+      "cogwright-melee",
+      "cogwright-ranged",
+      "cogwright-magic",
+      "cogwright-armor",
+      "cogwright-trinket"
+    ],
+    "bonuses": [
+      {
+        "pieces": 2,
+        "bonus": {
+          "strength": 2,
+          "riderDefense": 2
+        }
+      },
+      {
+        "pieces": 3,
+        "bonus": {
+          "riderDamagePct": 0.05,
+          "riderCrit": 0.02
+        }
+      }
+    ]
+  },
+  {
     "id": "glacierguard",
     "name": "Glacierguard",
     "zone": "frostmere",
