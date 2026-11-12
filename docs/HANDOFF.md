@@ -1,6 +1,6 @@
 # Handoff
 
-Last updated 2026-11-11. Read this first, then `CLAUDE.md` and `docs/DESIGN.md`. Everything described here is merged to `main` and live (the art redesign and the Mossy Egg in the town shop were the last deploys). A ready-to-paste prompt for starting a new session is in `docs/NEXT_PROMPT.md`.
+Last updated 2026-11-12. Read this first, then `CLAUDE.md` and `docs/DESIGN.md`. Everything described here is merged to `main` and live (the art redesign and the Mossy Egg in the town shop were the last deploys). A ready-to-paste prompt for starting a new session is in `docs/NEXT_PROMPT.md`.
 
 ## Where things stand
 
@@ -107,6 +107,7 @@ These are in addition to the Decisions table in `docs/DESIGN.md`. Eric saw each 
 | Weapons | Melee scales with Strength, ranged with Agility, magic with Arcana. |
 | Events | Four seasonal events give a yearly gift and limited town stock. They don't change fights. |
 | Saves | Version 6 (B1 added `settings.simpleBattle`). Each bump has a migration and a fixture test (`tests/fixtures/save-v1.json` to `save-v5.json`). |
+| Save slots | Up to 3 saved games per device, added 2026-11-12 at Eric's request. Slot 1 is the original `dracoquest.save` key, so a save made before slots existed stays put as slot 1. Slots 2 and 3 are `dracoquest.save.2` and `.3`, and `dracoquest.slot` holds the slot in play (missing or bad means slot 1). The save object did not change, so no version bump. The list is in Settings ("Saved games"): Play or New game on other slots, Delete with a confirm, and the slot in play can't be deleted (Start over clears it instead). Export, import and Start over act on the slot in play. Settings such as sound live in each save, so they are per slot. |
 | Battle speed | Eric raised the beat limit from 300 ms to 450 ms after seeing B0 (GRAPHICS_PLAN.md, G5). Timings are in `src/data/stage.json`. |
 | Offline | vite-plugin-pwa (Workbox), prompt-style updates: a "Reload" bar, never a forced reload mid-fight. The precache includes `woff2` for the heading font. |
 | Art pipeline | Painted WebP generated with an image model and packed by `tools/art/painted/` (replaced the agent-drawn SVG of the first pass on 2026-11-11). One image per character; dragons are recolored to player colors once at load. |
@@ -123,7 +124,7 @@ These are in addition to the Decisions table in `docs/DESIGN.md`. Eric saw each 
 src/core/      pure game logic, no DOM (CLAUDE.md)
   battle.ts      battle engine: fighters, orders, events, Ride mode, second partner
   game.ts        save-level actions (care, runs, shop, talents, Roost, events)
-  save.ts        save shape, migrations v1 to v6, export and import codes
+  save.ts        save shape, migrations v1 to v6, export and import codes, save slots
   roost.ts       buildings, timers, temperament
   loadout.ts     gear and talent bonuses, talent rules
   run.ts care.ts progression.ts characters.ts elements.ts events.ts ai.ts rng.ts data.ts types.ts
@@ -142,8 +143,8 @@ src/ui/        Preact screens and pieces
   pwa.ts sound.ts install.ts storage.ts useSave.ts router.ts bits.tsx
 src/art/       painted/ (WebP characters, attack poses, backdrops, effects, tail tips), eggs/ and icons/ (WebP), palette.json, assets.json
 src/data/stage.json  stage layouts, plate spots, beat timings, the demo fight (UI only, not read by src/core)
-tests/         Vitest unit tests (139), sim.ts (the balance simulator), save fixtures
-e2e/           Playwright phone tests (40, including a 4x-throttle perf test), save fixtures and make-fixtures.ts
+tests/         Vitest unit tests (145), sim.ts (the balance simulator), save fixtures
+e2e/           Playwright phone tests (44, including a 4x-throttle perf test), save fixtures and make-fixtures.ts
 scripts/       icons.mjs builds the Home Screen icons
 tools/art/     painted/ (prompts, the style anchor, and the scripts that generate, cut out and pack the art)
 docs/          DESIGN.md, HANDOFF.md, ART_GENERATION.md (how to make new art), GRAPHICS_PLAN_2.md (second graphics pass: research, C0 result, C1 to C4), NEXT_PROMPT.md (prompt for a new session), GRAPHICS_PLAN.md (graphics plan and results), ART_STYLE.md (art rules)
@@ -154,9 +155,9 @@ docs/          DESIGN.md, HANDOFF.md, ART_GENERATION.md (how to make new art), G
 | Command | What it does |
 | --- | --- |
 | `npm run dev` | Local dev server |
-| `npm run test` | Unit tests (139) |
+| `npm run test` | Unit tests (145) |
 | `npx tsc --noEmit` and `npm run lint` | Type check and lint. Lint blocks `Math.random` and browser globals in `src/core`. |
-| `npm run e2e` | Phone tests at 375 by 667 (40), about 95 seconds |
+| `npm run e2e` | Phone tests at 375 by 667 (44), about 110 seconds |
 | `npm run sim` | Balance sim: 1,000 runs per zone and level, plus campaigns from egg to level 50. Flags: `--runs`, `--campaigns`, `--zone`, `--no-campaign`, `--campaign-only`. The full run takes about 2.5 minutes. |
 | `npx tsx e2e/make-fixtures.ts` | Rebuilds the saves the phone tests load |
 | `npm run icons` | Rebuilds the Home Screen icons |

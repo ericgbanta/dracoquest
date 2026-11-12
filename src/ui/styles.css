@@ -434,3 +434,9 @@ p, p.muted, .notice, .lead, li { font-size: max(1rem, 16px); }
 .sprite--rig { display: inline-flex; align-items: flex-end; justify-content: center; }
 .sprite--rig > .rig { width: 100%; }
 .sprite--rig * { animation: none !important; }
+
+/* Saved games list in Settings */
+.save-slot { gap: 6px; }
+.save-slot .button { flex: none; min-width: 64px; padding-left: 10px; padding-right: 10px; }
+.save-slot--active strong { color: var(--accent); }
+.save-slot-playing { flex: none; font-weight: 700; color: var(--accent); min-height: 44px; display: inline-flex; align-items: center; padding: 0 6px; }

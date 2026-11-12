@@ -1,6 +1,6 @@
 import { useState } from 'preact/hooks';
-import { exportSaveCode, importSaveCode, newSave, SaveError, type SaveData } from '../../core/save';
-import { href } from '../router';
+import { exportSaveCode, importSaveCode, newSave, SaveError, type SaveData, type SlotSummary } from '../../core/save';
+import { href, navigate } from '../router';
 import { BackIcon } from '../icons';
 import { isIos, isStandalone } from '../install';
 import { play } from '../sound';
@@ -10,11 +10,15 @@ interface Props {
   persistent: boolean;
   update(change: (s: SaveData) => SaveData): void;
   replace(next: SaveData): void;
+  slot: number;
+  slots: SlotSummary[];
+  switchSlot(slot: number): void;
+  deleteSlot(slot: number): void;
 }
 
 type Notice = { kind: 'ok' | 'error'; text: string } | null;
 
-export function Settings({ save, persistent, update, replace }: Props) {
+export function Settings({ save, persistent, update, replace, slot, slots, switchSlot, deleteSlot }: Props) {
   const [name, setName] = useState(save?.rider.name ?? '');
   const [exportCode, setExportCode] = useState('');
   const [importText, setImportText] = useState('');
@@ -55,8 +59,25 @@ export function Settings({ save, persistent, update, replace }: Props) {
     }
   };
 
+  const playSlot = (n: number) => {
+    switchSlot(n);
+    navigate('roost');
+  };
+
+  const doDelete = (n: number) => {
+    const s = slots.find((x) => x.slot === n);
+    const who = s?.state === 'ok' ? `${s.riderName}'s save` : 'this save';
+    if (!window.confirm(`Delete ${who} in slot ${n}? It cannot be undone. Export a code first if you want to keep it.`)) return;
+    try {
+      deleteSlot(n);
+      setNotice({ kind: 'ok', text: `Slot ${n} is empty now.` });
+    } catch (err) {
+      setNotice({ kind: 'error', text: err instanceof SaveError ? err.message : 'Could not delete that save.' });
+    }
+  };
+
   const doReset = () => {
-    if (!window.confirm('Start over? This deletes your save on this device. Export a code first if you want to keep it.')) return;
+    if (!window.confirm(`Start over in slot ${slot}? This deletes the save in this slot. Your other slots are kept. Export a code first if you want to keep it.`)) return;
     const fresh = newSave(Date.now());
     replace(fresh);
     setName(fresh.rider.name);
@@ -78,6 +99,14 @@ export function Settings({ save, persistent, update, replace }: Props) {
       {!persistent && (
         <p class="notice notice--error">This browser is blocking storage, so progress will not be kept. Export a code before you leave.</p>
       )}
+
+      <div class="card" data-testid="save-slots">
+        <h2>Saved games</h2>
+        {slots.map((s) => (
+          <SlotRow key={s.slot} summary={s} active={s.slot === slot} onPlay={() => playSlot(s.slot)} onDelete={() => doDelete(s.slot)} />
+        ))}
+        <p class="muted">Each slot is its own game, with its own dragons, gold and settings. Export and import below work on the slot in play.</p>
+      </div>
 
       {save && (
         <form class="card" onSubmit={saveName}>
@@ -145,15 +174,68 @@ export function Settings({ save, persistent, update, replace }: Props) {
         <textarea id="import-code" class="code" rows={4} value={importText}
           onInput={(e) => setImportText(e.currentTarget.value)} data-testid="import-code" />
         <button type="submit" class="button" disabled={!importText.trim()} data-testid="import">Import save code</button>
-        <p class="muted">Importing replaces the save on this device.</p>
+        <p class="muted">Importing replaces the save in slot {slot}. Your other slots are kept.</p>
       </form>
 
       <div class="card">
         <h2>Danger zone</h2>
-        <button type="button" class="button button--danger" onClick={doReset}>Start a new save</button>
+        <button type="button" class="button button--danger" onClick={doReset} data-testid="reset">Start over in slot {slot}</button>
       </div>
 
       <p class="muted version">DracoQuest {save ? `· save v${save.version}` : ''}</p>
     </section>
+  );
+}
+
+/** "today", "yesterday" or "5 days ago", from the device clock. */
+function playedAgo(at: number, now: number): string {
+  const days = Math.max(0, Math.round((new Date(now).setHours(0, 0, 0, 0) - new Date(at).setHours(0, 0, 0, 0)) / 86_400_000));
+  if (days === 0) return 'today';
+  if (days === 1) return 'yesterday';
+  return `${days} days ago`;
+}
+
+interface SlotRowProps {
+  summary: SlotSummary;
+  active: boolean;
+  onPlay(): void;
+  onDelete(): void;
+}
+
+function SlotRow({ summary: s, active, onPlay, onDelete }: SlotRowProps) {
+  let title: string;
+  let detail: string;
+  if (s.state === 'empty') {
+    title = `Slot ${s.slot}`;
+    detail = 'Empty';
+  } else if (s.state === 'damaged') {
+    title = `Slot ${s.slot}`;
+    detail = 'This save cannot be read';
+  } else {
+    title = `${s.riderName}, level ${s.riderLevel}`;
+    const dragon = s.dragon ? `${s.dragon.name}, ${s.dragon.stage}` : 'No dragon yet';
+    const more = s.dragonCount > 1 ? ` and ${s.dragonCount - 1} more` : '';
+    detail = `Slot ${s.slot} · ${dragon}${more} · played ${playedAgo(s.updatedAt, Date.now())}`;
+  }
+  return (
+    <div class={`slot-row save-slot${active ? ' save-slot--active' : ''}`} data-testid={`slot-${s.slot}`}>
+      <div>
+        <strong>{title}</strong>
+        <span class="muted">{detail}</span>
+      </div>
+      {active ? (
+        <span class="save-slot-playing" data-testid={`slot-playing-${s.slot}`}>Playing</span>
+      ) : (
+        <>
+          <button type="button" class="button" onClick={onPlay} data-testid={`slot-play-${s.slot}`}>
+            {s.state === 'empty' ? 'New game' : 'Play'}
+          </button>
+          {s.state !== 'empty' && (
+            <button type="button" class="button button--ghost" onClick={onDelete} aria-label={`Delete slot ${s.slot}`}
+              data-testid={`slot-delete-${s.slot}`}>Delete</button>
+          )}
+        </>
+      )}
+    </div>
   );
 }

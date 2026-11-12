@@ -279,17 +279,94 @@ export function importSaveCode(code: string): SaveData {
   return parseSave(json);
 }
 
+/** How many saved games one device can hold. */
+export const SLOT_COUNT = 3;
+/** Which slot is in play. Kept outside the save so the save's shape never changes. */
+export const ACTIVE_SLOT_KEY = 'dracoquest.slot';
+
+/**
+ * Storage key for a slot. Slot 1 keeps the original key, so a save made
+ * before slots existed is slot 1 and is never moved or rewritten.
+ */
+export function slotKey(slot: number): string {
+  return slot === 1 ? SAVE_KEY : `${SAVE_KEY}.${slot}`;
+}
+
+function isSlot(n: number): boolean {
+  return Number.isInteger(n) && n >= 1 && n <= SLOT_COUNT;
+}
+
+/** The slot in play. Anything missing or unreadable means slot 1. */
+export function readActiveSlot(storage: SaveStorage): number {
+  const n = Number(storage.getItem(ACTIVE_SLOT_KEY));
+  return isSlot(n) ? n : 1;
+}
+
+export function writeActiveSlot(storage: SaveStorage, slot: number): void {
+  if (!isSlot(slot)) throw new SaveError(`There is no save slot ${slot}`);
+  storage.setItem(ACTIVE_SLOT_KEY, String(slot));
+}
+
 /** Load from storage, or start a new save if there is none. Throws SaveError on a damaged save. */
-export function loadSave(storage: SaveStorage, now: number): SaveData {
-  const json = storage.getItem(SAVE_KEY);
+export function loadSave(storage: SaveStorage, now: number, slot = 1): SaveData {
+  const json = storage.getItem(slotKey(slot));
   if (json === null) return newSave(now);
   return parseSave(json);
 }
 
-export function writeSave(storage: SaveStorage, save: SaveData, now: number): SaveData {
+export function writeSave(storage: SaveStorage, save: SaveData, now: number, slot = 1): SaveData {
   const stamped = { ...save, updatedAt: now };
-  storage.setItem(SAVE_KEY, serializeSave(stamped));
+  storage.setItem(slotKey(slot), serializeSave(stamped));
   return stamped;
+}
+
+/** What the saved games list shows for one slot. */
+export type SlotSummary =
+  | { slot: number; state: 'empty' }
+  | { slot: number; state: 'damaged'; error: string }
+  | {
+    slot: number;
+    state: 'ok';
+    riderName: string;
+    riderLevel: number;
+    /** The lead dragon, or null before the first egg hatches. */
+    dragon: { name: string; element: ElementId; stage: string; level: number } | null;
+    dragonCount: number;
+    updatedAt: number;
+  };
+
+/** Reads a slot for the list without changing what is stored. */
+export function slotSummary(storage: SaveStorage, slot: number): SlotSummary {
+  const json = storage.getItem(slotKey(slot));
+  if (json === null) return { slot, state: 'empty' };
+  let save: SaveData;
+  try {
+    save = parseSave(json);
+  } catch (err) {
+    return { slot, state: 'damaged', error: err instanceof SaveError ? err.message : 'Unknown error' };
+  }
+  const lead = save.dragons.find((d) => d.id === save.activeDragonId) ?? save.dragons[0] ?? null;
+  const stageName = (id: string) => gameData.dragons.stages.find((st) => st.id === id)?.name ?? id;
+  return {
+    slot,
+    state: 'ok',
+    riderName: save.rider.name,
+    riderLevel: save.rider.level,
+    dragon: lead ? { name: lead.name, element: lead.element, stage: stageName(lead.stage), level: lead.level } : null,
+    dragonCount: save.dragons.length,
+    updatedAt: save.updatedAt,
+  };
+}
+
+export function listSlots(storage: SaveStorage): SlotSummary[] {
+  return Array.from({ length: SLOT_COUNT }, (_, i) => slotSummary(storage, i + 1));
+}
+
+/** Deletes one slot's save. The slot in play cannot be deleted; start a new save in it instead. */
+export function deleteSlot(storage: SaveStorage, slot: number): void {
+  if (!isSlot(slot)) throw new SaveError(`There is no save slot ${slot}`);
+  if (slot === readActiveSlot(storage)) throw new SaveError('That save is in play. Switch to another slot first.');
+  storage.removeItem(slotKey(slot));
 }
 
 /** In-memory storage for tests and for browsers with storage blocked. */

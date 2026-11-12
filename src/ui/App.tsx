@@ -14,7 +14,8 @@ import { applyUpdate, dismissOfflineReady, usePwa } from './pwa';
 
 export function App() {
   const route = useRoute();
-  const { save, loadError, persistent, update, replace } = useSave();
+  const saveApi = useSave();
+  const { save, loadError, update, slot } = saveApi;
   const pwa = usePwa();
   const devPage = useDevPage();
   // The battle screen stays open after the run ends so the results can show.
@@ -22,6 +23,8 @@ export function App() {
   useEffect(() => {
     if (save?.run) setBattleOpen(true);
   }, [!!save?.run]);
+  // A different saved game starts on its own screen: its battle if it has a run, else the Roost.
+  useEffect(() => setBattleOpen(!!save?.run), [slot]);
 
   // Hidden dev pages (mock battle, bench) work with or without a save.
   if (devPage) return <DevLoader page={devPage} />;
@@ -34,19 +37,19 @@ export function App() {
           <p class="notice notice--error" role="alert">
             Your save could not be read ({loadError}). Import a save code below, or start a new save.
           </p>
-          <Settings save={null} persistent={persistent} update={update} replace={replace} />
+          <Settings key={`settings-${slot}`} {...saveApi} />
         </main>
       </div>
     );
   }
 
-  const settings = <Settings save={save} persistent={persistent} update={update} replace={replace} />;
+  const settings = <Settings key={`settings-${slot}`} {...saveApi} />;
 
   // First session (pick, warm, and hatch an egg), or naming a hatchling from the Hatchery.
   if (save.dragons.length === 0 || (save.egg && !save.run)) {
     return (
       <div class="app">
-        <main class="content" key={route === 'settings' ? 'settings' : 'hatch'}>
+        <main class="content" key={`${slot}-${route === 'settings' ? 'settings' : 'hatch'}`}>
           {route === 'settings' ? settings : <Hatch save={save} update={update} />}
         </main>
       </div>
@@ -56,7 +59,7 @@ export function App() {
   if (battleOpen) {
     return (
       <div class="app app--battle">
-        <main class="content content--battle">
+        <main class="content content--battle" key={slot}>
           <Battle save={save} update={update} onExit={() => { setBattleOpen(false); window.location.hash = '#/roost'; }} />
         </main>
       </div>
@@ -85,7 +88,7 @@ export function App() {
           <button type="button" class="button button--ghost" onClick={dismissOfflineReady}>OK</button>
         </div>
       )}
-      <main class="content" key={route}>{body}</main>
+      <main class="content" key={`${slot}-${route}`}>{body}</main>
       <TabBar current={route} />
     </div>
   );
