@@ -12,6 +12,10 @@ import type { SaveData } from '../../core/save';
 import { DRAGON_SLOTS, RIDER_SLOTS, RIDER_STATS, type GearSlot, type RiderStat } from '../../core/types';
 import { Bar, ElementBadge, formatBonus } from '../bits';
 import { Sheet } from '../Sheet';
+import { Fold, SubTabs, usePref } from '../Fold';
+
+const BAG_TABS = ['gear', 'stats', 'spells', 'items'] as const;
+type BagTab = (typeof BAG_TABS)[number];
 import { gearSummary } from './Town';
 import { href } from '../router';
 import { Icon } from '../Icon';
@@ -35,6 +39,7 @@ export function Bag({ save, update }: Props) {
   const dragon = activeDragon(save);
   const [slot, setSlot] = useState<GearSlot | null>(null);
   const [notice, setNotice] = useState('');
+  const [tab, setTab] = usePref<BagTab>('bag.tab', 'gear', BAG_TABS);
   const equippedIn = (s: GearSlot) => (DRAGON_SLOTS as readonly string[]).includes(s) ? dragon?.equipment[s as 'saddle'] : r.equipment[s as 'weapon'];
 
   const act = (fn: (s: SaveData) => SaveData, ok: string) => {
@@ -73,8 +78,14 @@ export function Bag({ save, update }: Props) {
         <Bar kind="mp" value={r.mp} max={riderMaxMp(data, r)} label="MP" />
         <Bar kind="xp" value={r.xp} max={xpToNext(data.progression, r.level)} label="XP" />
       </div>
+      <SubTabs id="bag" label="Bag sections" value={tab} onChange={(t) => { setTab(t); setNotice(''); }} tabs={[
+        { id: 'gear', label: 'Gear' },
+        { id: 'stats', label: 'Stats', badge: r.statPoints },
+        { id: 'spells', label: 'Spells' },
+        { id: 'items', label: 'Items' },
+      ]} />
       {notice && <p class="notice notice--ok" role="status" data-testid="bag-notice">{notice}</p>}
-      <div class="card">
+      {tab === 'gear' && <div class="card">
         <h2>Gear</h2>
         {RIDER_SLOTS.map(slotRow)}
         {equippedSets(data, r.equipment).map(({ set, count }) => (
@@ -94,8 +105,8 @@ export function Bag({ save, update }: Props) {
           </>
         )}
         <a class="button button--ghost button--block" href={href('town')}>Shop in town</a>
-      </div>
-      <div class="card">
+      </div>}
+      {tab === 'stats' && <div class="card">
         <h2>Stats {r.statPoints > 0 && <span class="pill" data-testid="rider-points">{r.statPoints} to spend</span>}</h2>
         {RIDER_STATS.map((k) => (
           <div key={k} class="stat-row">
@@ -107,9 +118,9 @@ export function Bag({ save, update }: Props) {
             )}
           </div>
         ))}
-      </div>
-      <SpellsCard save={save} act={act} />
-      <div class="card">
+      </div>}
+      {tab === 'spells' && <SpellsCard save={save} act={act} />}
+      {tab === 'items' && <div class="card">
         <h2>Items</h2>
         {data.items.map((item) => (
           <div key={item.id} class="stat-row">
@@ -129,8 +140,8 @@ export function Bag({ save, update }: Props) {
             <span class="stat-value">×{r.inventory[f.id] ?? 0}</span>
           </div>
         ))}
-      </div>
-      <div class="card">
+      </div>}
+      {tab === 'items' && <div class="card">
         <h2>Eggs</h2>
         {save.eggs.length === 0 ? (
           <p class="muted">No eggs yet. Zone bosses guard eggs of their element.</p>
@@ -142,7 +153,7 @@ export function Bag({ save, update }: Props) {
             <p class="muted">Incubate them in the Hatchery at the Roost.</p>
           </>
         )}
-      </div>
+      </div>}
 
       {slot && (
         <Sheet title={SLOT_NAMES[slot]} onClose={() => setSlot(null)}>
@@ -217,13 +228,16 @@ function SpellsCard({ save, act }: { save: SaveData; act(fn: (s: SaveData) => Sa
         </div>
       ))}
       {spare.length > 0 && full && <p class="muted">Remove a spell to make room.</p>}
-      {locked.length > 0 && <h3 class="section-title">Still to learn</h3>}
-      {locked.map((sp) => (
-        <div key={sp.id} class="spell-row spell-row--locked" data-testid={`spell-row-${sp.id}`}>
-          {info(sp)}
-          <span class="muted">Level {sp.level}</span>
-        </div>
-      ))}
+      {locked.length > 0 && (
+        <Fold id="bag.spells.locked" plain title="Still to learn" summary={`${locked.length} more, next at level ${locked[0]!.level}`}>
+          {locked.map((sp) => (
+            <div key={sp.id} class="spell-row spell-row--locked" data-testid={`spell-row-${sp.id}`}>
+              {info(sp)}
+              <span class="muted">Level {sp.level}</span>
+            </div>
+          ))}
+        </Fold>
+      )}
     </div>
   );
 }

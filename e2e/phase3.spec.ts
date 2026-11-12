@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { openFold } from './helpers';
 import { readFileSync } from 'node:fs';
 
 async function load(page: Page, fixture: string, hash = '#/roost') {
@@ -13,6 +14,7 @@ test('timers keep running while the app is closed for a day', async ({ page }) =
   const start = new Date(1794355200000); // the fixture's save time
   await page.clock.install({ time: start });
   await load(page, 'juvenile.json');
+  await openFold(page, 'roost.pantry');
   await expect(page.getByTestId('pantry-status')).toContainText('0 of 4 food ready');
   // Close the app, come back a day later.
   await page.goto('about:blank');
@@ -43,6 +45,7 @@ test('collect an expedition, send a dragon training, and set partners', async ({
   await load(page, 'roost.json');
   await page.getByTestId('collect-trip-Fern').tap();
   await expect(page.getByTestId('toast')).toContainText('Fern is back with');
+  await openFold(page, 'roost.training');
   await page.getByTestId('train-Fern').tap();
   await expect(page.getByTestId('toast')).toContainText('Fern starts training');
   await page.getByTestId('tab-dragons').tap();

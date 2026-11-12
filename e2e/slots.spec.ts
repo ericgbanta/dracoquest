@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { openFold } from './helpers';
 import { readFileSync } from 'node:fs';
 
 /** Puts a fixture where a save made before slots existed lives, then opens the game. */
@@ -67,6 +68,7 @@ test('starting over clears only the slot in play', async ({ page }) => {
   await page.getByTestId('slot-play-3').tap();
   await expect(page.getByTestId('egg-fire')).toBeVisible();
   await page.goto('./#/settings');
+  await openFold(page, 'settings.danger');
   page.once('dialog', (d) => d.accept());
   await page.getByTestId('reset').tap();
   await expect(page.getByTestId('notice')).toHaveText('New save started.');

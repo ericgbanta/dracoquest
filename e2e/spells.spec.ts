@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { openFold, tab } from './helpers';
 import { readFileSync } from 'node:fs';
 
 async function load(page: Page, fixture: string) {
@@ -20,9 +21,11 @@ test('the Bag picks four spells to take into battle', async ({ page }) => {
   // The juvenile fixture is a level 15 rider who still has only the two starting spells picked.
   await load(page, 'juvenile.json');
   await page.getByTestId('tab-bag').tap();
+  await tab(page, 'bag', 'spells');
   const card = page.getByTestId('spells');
   await card.scrollIntoViewIfNeeded();
   await expect(page.getByTestId('loadout-count')).toHaveText('2 of 4 in battle');
+  await openFold(page, 'bag.spells.locked');
   await expect(page.getByTestId('spell-row-thorn-snare')).toContainText('Level 30');
 
   await page.getByTestId('spell-add-frost-dart').tap();
@@ -45,6 +48,7 @@ test('the Bag picks four spells to take into battle', async ({ page }) => {
 test('a picked spell is cast in battle and shows its element', async ({ page }) => {
   await load(page, 'juvenile.json');
   await page.getByTestId('tab-bag').tap();
+  await tab(page, 'bag', 'spells');
   await page.getByTestId('spell-add-frost-dart').tap();
   await page.getByTestId('spell-add-bright-ward').tap();
 

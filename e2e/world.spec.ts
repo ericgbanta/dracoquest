@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { openFold } from './helpers';
 import { readFileSync } from 'node:fs';
 import type { SaveData } from '../src/core/save';
 
@@ -34,10 +35,16 @@ test('the Map groups zones into regions and teases the next area', async ({ page
   await expect(page.getByTestId('region-beyond')).toContainText('Beyond the Peak');
   await expect(teaser).toContainText('Sunken Spires');
   await expect(teaser).toContainText('Opens at level 50, after you beat the Eclipse Dragon');
+  // Rider level 15: the Wilds are open, the High Lands fold away until opened.
+  await expect(page.getByTestId('fold-map.highlands')).toHaveAttribute('aria-expanded', 'false');
+  await openFold(page, 'map.highlands');
   await expect(page.getByTestId('zone-gilded-wastes')).toContainText('Opens at rider level 40, after you beat the Glacier Hydra');
   await expect(page.getByTestId('zone-moonwell-woods')).toContainText('Opens at rider level 30, after you beat the Storm Roc');
   await expect(page.getByTestId('zone-rustcliff-ruins')).toContainText('Opens at rider level 20, after you beat the Magma Wyrm');
-  await expect(page.getByTestId('story-mossy-hollow')).toHaveText('Story 0 of 4');
+  // Mossy Hollow (levels 1 to 8) is below the rider, so it folds to one row with a Hunt button.
+  await expect(page.getByTestId('start-mossy-hollow')).toHaveText('Hunt');
+  await openFold(page, 'map.zone.mossy-hollow');
+  await expect(page.getByTestId('story-mossy-hollow')).toHaveAttribute('aria-label', 'Story, 0 of 4 done');
   await expect(page.getByTestId('story-cinder-pass')).toHaveCount(0);
   await page.getByTestId('story-mossy-hollow').scrollIntoViewIfNeeded();
   await page.waitForTimeout(300);
@@ -49,6 +56,7 @@ test('a story quest plays with dialogue and ends with its reward', async ({ page
   await load(page, 'juvenile.json');
   const potions = (await stored(page)).rider.inventory.potion ?? 0;
   await page.getByTestId('tab-map').tap();
+  await openFold(page, 'map.zone.mossy-hollow');
   await page.getByTestId('story-mossy-hollow').tap();
   await expect(page.getByTestId('story-the-spore-cloud')).toContainText('Finish "Wren\'s Garden" first');
   await page.waitForTimeout(300);
@@ -75,7 +83,8 @@ test('a finished quest with a choice can be decided from the story list', async 
   await load(page, 'juvenile.json', (s) => { s.questsDone = ['wrens-garden', 'the-spore-cloud']; });
   const before = (await stored(page)).embers;
   await page.getByTestId('tab-map').tap();
-  await expect(page.getByTestId('story-mossy-hollow')).toHaveText('Story 2 of 4 · choose!');
+  await openFold(page, 'map.zone.mossy-hollow');
+  await expect(page.getByTestId('story-mossy-hollow')).toHaveAttribute('aria-label', 'Story, 2 of 4 done, a choice is waiting');
   await page.getByTestId('story-mossy-hollow').tap();
   await expect(page.getByTestId('pending-the-spore-cloud')).toContainText('What do you do with the jar of spores?');
   await page.getByTestId('choice-give').tap();
@@ -94,6 +103,7 @@ test('finished bounties are claimed from the board', async ({ page }) => {
     s.bounties = { day: '2026-11-12', progress, claimed: [] };
   });
   await page.getByTestId('tab-map').tap();
+  await openFold(page, 'map.zone.mossy-hollow');
   await expect(page.getByTestId('bounties-mossy-hollow')).toHaveAttribute('aria-label', 'Bounties, 3 ready to claim');
   await page.getByTestId('bounties-mossy-hollow').tap();
   const before = (await stored(page)).rider.gold;

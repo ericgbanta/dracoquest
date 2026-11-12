@@ -10,6 +10,16 @@ import { BackIcon } from '../icons';
 import { ElementBadge, formatBonus, todayKey } from '../bits';
 import { Gold, Icon } from '../Icon';
 import { GoldButton } from '../Wallet';
+import { usePref } from '../Fold';
+import { riderWeapon } from '../../core/loadout';
+
+const KINDS = ['all', 'melee', 'ranged', 'magic', 'armor', 'trinket'] as const;
+type Kind = (typeof KINDS)[number];
+const WEAPON_KINDS: readonly Kind[] = ['melee', 'ranged', 'magic'];
+const KIND_LABELS: Record<Kind, string> = { all: 'All', melee: 'Melee', ranged: 'Ranged', magic: 'Magic', armor: 'Armor', trinket: 'Trinkets' };
+/** "Near my level" shows gear from this many levels below to this many above. A UI filter, not a balance number. */
+const NEAR_BELOW = 8;
+const NEAR_ABOVE = 5;
 
 interface Props { save: SaveData; update(change: (s: SaveData) => SaveData): void }
 
@@ -49,12 +59,23 @@ export function Town({ save, update }: Props) {
     }
   };
 
-  const stock = shopGear(data, today).map((id) => data.gear[id]!).filter((g) => {
-    if (tab === 'weapons') return g.slot === 'weapon';
-    if (tab === 'armor') return g.slot === 'armor' || g.slot === 'trinket';
+  // Weapons start filtered to the type the rider wields.
+  const [kind, setKind] = usePref<Kind>('town.kind', (riderWeapon(data, save.rider).weaponType ?? 'all') as Kind, KINDS);
+  const [range, setRange] = usePref<'near' | 'all'>('town.range', 'near', ['near', 'all']);
+  // "Near my level": a little below the rider's (or the lead dragon's, for dragon gear) level to a little above.
+  const near = (g: GearData) => {
+    const lv = tab === 'dragon' ? dragon?.level ?? save.rider.level : save.rider.level;
+    return !!g.event || (g.level >= lv - NEAR_BELOW && g.level <= lv + NEAR_ABOVE);
+  };
+  const inTab = shopGear(data, today).map((id) => data.gear[id]!).filter((g) => {
+    if (tab === 'weapons') return g.slot === 'weapon' && (kind === 'all' || !WEAPON_KINDS.includes(kind) || g.weaponType === kind);
+    if (tab === 'armor') return (g.slot === 'armor' || g.slot === 'trinket') && (kind === 'all' || WEAPON_KINDS.includes(kind) || g.slot === kind);
     if (tab === 'dragon') return g.slot === 'saddle' || g.slot === 'horn' || g.slot === 'charm';
     return false;
-  }).sort((a, b) => a.level - b.level || a.price - b.price);
+  });
+  const stock = inTab.filter((g) => range === 'all' || near(g)).sort((a, b) => a.level - b.level || a.price - b.price);
+  const hidden = inTab.length - stock.length;
+  const kinds: Kind[] = tab === 'weapons' ? ['all', 'melee', 'ranged', 'magic'] : tab === 'armor' ? ['all', 'armor', 'trinket'] : [];
 
   const supplies = [
     ...data.items.map((i) => ({ id: i.id, name: i.name, icon: i.icon, iconName: `item-${i.id}`, note: i.description })),
@@ -80,6 +101,22 @@ export function Town({ save, update }: Props) {
       {notice && <p class="notice notice--ok" role="status" data-testid="shop-notice">{notice}</p>}
       {tab === 'dragon' && <p class="muted">Saddles, horn caps, and scale charms fit Adult dragons only{dragon ? `. ${dragon.name} is a ${dragon.stage}.` : '.'}</p>}
 
+      {tab !== 'supplies' && (
+        <div class="chip-row" role="group" aria-label="Filter the shop">
+          {kinds.map((k) => (
+            <button key={k} type="button" aria-pressed={kind === k || (k === 'all' && !kinds.includes(kind))}
+              class={`tab-pill${kind === k || (k === 'all' && !kinds.includes(kind)) ? ' tab-pill--on' : ''}`}
+              onClick={() => setKind(k)} data-testid={`shop-kind-${k}`}>{KIND_LABELS[k]}</button>
+          ))}
+          <button type="button" aria-pressed={range === 'near'} class={`tab-pill${range === 'near' ? ' tab-pill--on' : ''}`}
+            onClick={() => setRange(range === 'near' ? 'all' : 'near')} data-testid="shop-range">
+            {range === 'near' ? 'Near my level' : 'All levels'}
+          </button>
+        </div>
+      )}
+      {tab !== 'supplies' && range === 'near' && hidden > 0 && (
+        <p class="muted">Showing gear near your level. <button type="button" class="link-button" onClick={() => setRange('all')} data-testid="shop-show-all">Show all {inTab.length}</button></p>
+      )}
       {tab !== 'supplies' ? (
         <div class="list">
           {stock.map((g) => {

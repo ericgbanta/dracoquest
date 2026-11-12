@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { openFold } from './helpers';
 import { readFileSync } from 'node:fs';
 import type { SaveData } from '../src/core/save';
 
@@ -21,7 +22,8 @@ async function smallTargets(page: Page, scope: string): Promise<string[]> {
 test('each zone on the Map lists its treasures and where they drop', async ({ page }) => {
   await load(page, 'juvenile.json', (s) => { s.rider.gear.push('bramblewarden-trinket'); });
   await page.getByTestId('tab-map').tap();
-  await expect(page.getByTestId('treasures-mossy-hollow')).toHaveText('Treasures: 1 of 5 found');
+  await openFold(page, 'map.zone.mossy-hollow');
+  await expect(page.getByTestId('treasures-mossy-hollow')).toHaveAttribute('aria-label', 'Treasures: 1 of 5 found');
   await page.getByTestId('treasures-mossy-hollow').tap();
   await expect(page.getByTestId('treasure-set-bramblewarden')).toContainText('2 pieces');
   await expect(page.getByTestId('treasure-bramblewarden-armor')).toContainText('Dropped by the Bramble Troll');
@@ -52,6 +54,9 @@ test('the shop sells a second weapon of another element at each tier', async ({ 
   await load(page, 'juvenile.json');
   await page.getByTestId('tab-map').tap();
   await page.getByTestId('go-town').tap();
+  // The shop starts filtered to the rider's weapon type and level; show everything.
+  await page.getByTestId('shop-kind-all').tap();
+  await page.getByTestId('shop-range').tap();
   await expect(page.getByTestId('buy-cobble-cudgel')).toBeVisible();
   await expect(page.getByTestId('buy-icicle-wand')).toBeVisible();
   await page.getByTestId('shop-tab-armor').tap();

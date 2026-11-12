@@ -4,6 +4,7 @@ import { href, navigate } from '../router';
 import { BackIcon } from '../icons';
 import { isIos, isStandalone } from '../install';
 import { play } from '../sound';
+import { Fold } from '../Fold';
 
 interface Props {
   save: SaveData | null;
@@ -100,17 +101,16 @@ export function Settings({ save, persistent, update, replace, slot, slots, switc
         <p class="notice notice--error">This browser is blocking storage, so progress will not be kept. Export a code before you leave.</p>
       )}
 
-      <div class="card" data-testid="save-slots">
-        <h2>Saved games</h2>
+      <Fold id="settings.slots" title="Saved games" summary={`Slot ${slot} in play`} defaultOpen testid="save-slots">
         {slots.map((s) => (
           <SlotRow key={s.slot} summary={s} active={s.slot === slot} onPlay={() => playSlot(s.slot)} onDelete={() => doDelete(s.slot)} />
         ))}
         <p class="muted">Each slot is its own game, with its own dragons, gold and settings. Export and import below work on the slot in play.</p>
-      </div>
+      </Fold>
 
       {save && (
-        <form class="card" onSubmit={saveName}>
-          <h2>Rider</h2>
+        <Fold id="settings.rider" title="Rider" summary={save.rider.name}>
+        <form onSubmit={saveName}>
           <label for="rider-name">Name</label>
           <div class="row">
             <input id="rider-name" type="text" maxLength={24} autoComplete="off" value={name}
@@ -118,11 +118,11 @@ export function Settings({ save, persistent, update, replace, slot, slots, switc
             <button type="submit" class="button" data-testid="save-name">Save</button>
           </div>
         </form>
+        </Fold>
       )}
 
       {save && (
-        <div class="card">
-          <h2>Battle and sound</h2>
+        <Fold id="settings.battle" title="Battle and sound" summary={[save.settings.fastBattles ? 'Fast' : '', save.settings.simpleBattle ? 'Simple' : '', save.settings.sound ? 'Sound on' : 'Sound off'].filter(Boolean).join(' · ')}>
           <label class="toggle">
             <input type="checkbox" checked={save.settings.fastBattles} data-testid="fast-battles"
               onChange={(e) => update((s) => ({ ...s, settings: { ...s.settings, fastBattles: e.currentTarget.checked } }))} />
@@ -143,44 +143,41 @@ export function Settings({ save, persistent, update, replace, slot, slots, switc
             <span>Sound effects</span>
           </label>
           <p class="muted">Animations follow your phone's reduce-motion setting.</p>
-        </div>
+        </Fold>
       )}
 
       {!isStandalone() && (
-        <div class="card" data-testid="install-tip">
-          <h2>Add to Home Screen</h2>
+        <Fold id="settings.install" title="Add to Home Screen" summary="Play full screen" testid="install-tip">
           {isIos() ? (
             <p>In Safari, tap the Share button, then <strong>Add to Home Screen</strong>. DracoQuest opens full screen, like an app.</p>
           ) : (
             <p>In Chrome, open the ⋮ menu and tap <strong>Add to Home screen</strong> or <strong>Install app</strong>. DracoQuest opens full screen, like an app.</p>
           )}
           <p class="muted">The Home Screen app keeps its own save on some phones (iPhones especially). Export a save code here first, then import it in the Home Screen app.</p>
-        </div>
+        </Fold>
       )}
 
-      <div class="card">
-        <h2>Save code</h2>
+      <Fold id="settings.backup" title="Back up or move" summary="Save codes" forceOpen={!save}>
+        <h3>Export a save code</h3>
         <p class="muted">Your progress lives in this browser. Clearing site data deletes it. Export a code to back it up or move it to another device.</p>
         <button type="button" class="button" onClick={doExport} disabled={!save} data-testid="export">Export save code</button>
         {exportCode && (
           <textarea class="code" readOnly rows={4} value={exportCode} aria-label="Your save code"
             onFocus={(e) => e.currentTarget.select()} data-testid="export-code" />
         )}
-      </div>
-
-      <form class="card" onSubmit={doImport}>
-        <h2>Import</h2>
+      <form onSubmit={doImport}>
+        <h3>Import a save code</h3>
         <label for="import-code">Paste a save code</label>
         <textarea id="import-code" class="code" rows={4} value={importText}
           onInput={(e) => setImportText(e.currentTarget.value)} data-testid="import-code" />
         <button type="submit" class="button" disabled={!importText.trim()} data-testid="import">Import save code</button>
         <p class="muted">Importing replaces the save in slot {slot}. Your other slots are kept.</p>
       </form>
+      </Fold>
 
-      <div class="card">
-        <h2>Danger zone</h2>
+      <Fold id="settings.danger" title="Danger zone" summary="Start over">
         <button type="button" class="button button--danger" onClick={doReset} data-testid="reset">Start over in slot {slot}</button>
-      </div>
+      </Fold>
 
       <p class="muted version">DracoQuest {save ? `· save v${save.version}` : ''}</p>
     </section>

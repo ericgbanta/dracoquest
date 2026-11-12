@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { openFold, tab } from './helpers';
 
 async function hatch(page: Page, name = 'Cinder', egg = 'fire') {
   await page.goto('./');
@@ -95,6 +96,7 @@ test('Roost care: feed, groom and play, rest, and the Well kept buff', async ({ 
   await page.getByTestId('care-rest').tap();
   await expect(page.getByText(/Well kept: \+10% XP for 5 more fights/)).toBeVisible();
   await page.getByTestId('tab-dragons').tap();
+  await tab(page, 'dragons', 'stats');
   await expect(page.getByTestId('dragon-points')).toHaveText('1 to spend');
   await page.getByTestId('dragon-plus-might').tap();
   await expect(page.getByTestId('dragon-points')).toHaveCount(0);
@@ -116,6 +118,7 @@ test('a save survives a reload, including mid-battle', async ({ page }) => {
 test('an exported save code imports into a fresh browser', async ({ browser, page }) => {
   await hatch(page, 'Traveler 🐉');
   await page.goto('./#/settings');
+  await openFold(page, 'settings.backup');
   await page.getByTestId('export').tap();
   const code = await page.getByTestId('export-code').inputValue();
   expect(code).toMatch(/^DQ1:/);
@@ -125,6 +128,7 @@ test('an exported save code imports into a fresh browser', async ({ browser, pag
   await page2.goto('./');
   await expect(page2.getByTestId('egg-fire')).toBeVisible();
   await page2.goto('./#/settings');
+  await openFold(page2, 'settings.backup');
   await page2.getByTestId('import-code').fill(code);
   await page2.getByTestId('import').tap();
   await expect(page2.getByTestId('notice')).toContainText('Save loaded');
@@ -137,6 +141,7 @@ test('an exported save code imports into a fresh browser', async ({ browser, pag
 test('a bad import code shows an error and keeps the current save', async ({ page }) => {
   await hatch(page, 'Keepme');
   await page.goto('./#/settings');
+  await openFold(page, 'settings.backup');
   await page.getByTestId('import-code').fill('not a code');
   await page.getByTestId('import').tap();
   await expect(page.getByTestId('notice')).toHaveText('That is not a DracoQuest save code');
@@ -161,6 +166,7 @@ test('a Phase 0 (version 1) save migrates and keeps the rider name', async ({ pa
   await page.reload();
   await expect(page.getByTestId('egg-fire')).toBeVisible();
   await page.goto('./#/settings');
+  await openFold(page, 'settings.rider');
   await expect(page.getByTestId('rider-name')).toHaveValue('Old Friend');
 });
 

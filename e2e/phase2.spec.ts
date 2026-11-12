@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { tab } from './helpers';
 import { readFileSync } from 'node:fs';
 
 async function load(page: Page, fixture: string, hash = '#/roost') {
@@ -58,6 +59,7 @@ test('buy a Mossy Egg in town; it lands in the Bag', async ({ page }) => {
   expect(await buy.evaluate((el) => (el as HTMLElement).offsetHeight)).toBeGreaterThanOrEqual(44);
   await page.getByRole('link', { name: 'Back to Map' }).tap();
   await page.getByTestId('tab-bag').tap();
+  await tab(page, 'bag', 'items');
   await expect(page.getByTestId('eggs')).toContainText('Mossy Egg');
 });
 
@@ -79,6 +81,7 @@ test('buy a weapon in town and equip it from the Bag', async ({ page }) => {
 
 test('learn talents and use a talent skill in battle', async ({ page }) => {
   await load(page, 'juvenile.json', '#/dragons');
+  await tab(page, 'dragons', 'talents');
   await expect(page.getByTestId('talent-points')).toHaveText('3 to spend');
   await page.getByTestId('learn-thick-hide').tap();
   await page.getByTestId('learn-thick-hide').tap();
@@ -125,6 +128,7 @@ test('an Adult rides into battle and beats the Storm Roc', async ({ page }) => {
   await expect(page.getByTestId('egg-drop')).toContainText('Thunder Egg');
   await page.getByTestId('go-home').tap();
   await page.getByTestId('tab-bag').tap();
+  await tab(page, 'bag', 'items');
   await expect(page.getByTestId('eggs')).toContainText('Thunder Egg');
 });
 

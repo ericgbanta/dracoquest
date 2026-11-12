@@ -11,6 +11,7 @@ import { formatDuration, useNow } from '../bits';
 import { Sheet } from '../Sheet';
 import { Embers, Gold, Icon } from '../Icon';
 import { ForgeSheet } from './Forge';
+import { Fold } from '../Fold';
 import { formatMaterials, maxPlus } from '../../core/forge';
 
 interface Props {
@@ -54,11 +55,8 @@ export function Buildings({ save, update, onMessage }: Props) {
     );
   };
 
-  const head = (b: BuildingId) => (
-    <div class="building-head">
-      <h3><Icon name={`building-${b}`} fallback={ICONS[b]} size={24} /> {data.roost.buildings[b].name}</h3>
-      <span class="pill pill--muted">{save.roost.levels[b] > 0 ? `Lv ${save.roost.levels[b]}` : 'Not built'}</span>
-    </div>
+  const title = (b: BuildingId) => (
+    <><Icon name={`building-${b}`} fallback={ICONS[b]} size={24} /> {data.roost.buildings[b].name}</>
   );
 
   const pantry = buildingLevel(data, roost, 'pantry');
@@ -66,19 +64,33 @@ export function Buildings({ save, update, onMessage }: Props) {
   const hatchery = buildingLevel(data, roost, 'hatchery');
   const training = buildingLevel(data, roost, 'training');
   const board = buildingLevel(data, roost, 'expeditions');
+  const lv = (b: BuildingId) => (save.roost.levels[b] > 0 ? `Lv ${save.roost.levels[b]}` : 'Not built');
+  const readyEggs = roost.hatchery.eggs.filter((e) => now >= e.readyAt).length;
+  const trainees = benched.filter((d) => d.assignment.kind === 'training');
+  const trips = benched.filter((d) => d.assignment.kind === 'expedition');
+  const tripsBack = trips.filter((d) => d.assignment.kind === 'expedition' && now >= d.assignment.endsAt).length;
+  const summaries: Record<BuildingId, string> = {
+    nest: `${lv('nest')} · ${save.dragons.length} of ${nestSlots(data, roost)} dragons`,
+    pantry: pantry ? `${lv('pantry')} · ${roost.pantry.stored} of ${pantry.store} food ready` : lv('pantry'),
+    hatchery: !hatchery ? lv('hatchery') : readyEggs ? `${readyEggs} ready to hatch!` : roost.hatchery.eggs.length ? `${roost.hatchery.eggs.length} incubating` : save.eggs.length ? `${save.eggs.length} egg${save.eggs.length === 1 ? '' : 's'} to incubate` : `${lv('hatchery')} · empty`,
+    training: !trainees.length ? lv('training') : `${trainees.map((d) => d.name).join(', ')} training`,
+    expeditions: !board ? lv('expeditions') : tripsBack ? `${tripsBack} back home!` : trips.length ? `${trips.length} away` : `${lv('expeditions')} · ${idleBench.length} free`,
+    forge: save.roost.levels.forge > 0 ? `Up to +${maxPlus(data, save.roost)}` : lv('forge'),
+  };
+  const attention: Record<BuildingId, boolean> = {
+    nest: false, pantry: roost.pantry.stored > 0, hatchery: readyEggs > 0, training: false, expeditions: tripsBack > 0, forge: false,
+  };
 
   return (
     <section class="buildings" aria-labelledby="buildings-title">
       <h2 id="buildings-title" class="section-title">The Roost</h2>
 
-      <div class="card building" data-testid="building-nest">
-        {head('nest')}
+      <Fold id="roost.nest" class="building" testid="building-nest" title={title('nest')} summary={summaries.nest} forceOpen={attention.nest}>
         <p>{save.dragons.length} of {nestSlots(data, roost)} dragon spots used.</p>
         {upgradeButton('nest')}
-      </div>
+      </Fold>
 
-      <div class="card building" data-testid="building-pantry">
-        {head('pantry')}
+      <Fold id="roost.pantry" class="building" testid="building-pantry" title={title('pantry')} summary={summaries.pantry} forceOpen={attention.pantry}>
         {pantry && (
           <>
             <p data-testid="pantry-status">
@@ -98,10 +110,9 @@ export function Buildings({ save, update, onMessage }: Props) {
           </>
         )}
         {upgradeButton('pantry')}
-      </div>
+      </Fold>
 
-      <div class="card building" data-testid="building-hatchery">
-        {head('hatchery')}
+      <Fold id="roost.hatchery" class="building" testid="building-hatchery" title={title('hatchery')} summary={summaries.hatchery} forceOpen={attention.hatchery}>
         {!hatchery && <p class="muted">{data.roost.buildings.hatchery.description} Bosses drop eggs.</p>}
         {hatchery && (
           <>
@@ -135,10 +146,9 @@ export function Buildings({ save, update, onMessage }: Props) {
           </>
         )}
         {upgradeButton('hatchery')}
-      </div>
+      </Fold>
 
-      <div class="card building" data-testid="building-training">
-        {head('training')}
+      <Fold id="roost.training" class="building" testid="building-training" title={title('training')} summary={summaries.training} forceOpen={attention.training}>
         {!training && <p class="muted">{data.roost.buildings.training.description}</p>}
         {training && (
           <>
@@ -172,10 +182,9 @@ export function Buildings({ save, update, onMessage }: Props) {
           </>
         )}
         {upgradeButton('training')}
-      </div>
+      </Fold>
 
-      <div class="card building" data-testid="building-expeditions">
-        {head('expeditions')}
+      <Fold id="roost.expeditions" class="building" testid="building-expeditions" title={title('expeditions')} summary={summaries.expeditions} forceOpen={attention.expeditions}>
         {!board && <p class="muted">{data.roost.buildings.expeditions.description}</p>}
         {board && (
           <>
@@ -209,7 +218,7 @@ export function Buildings({ save, update, onMessage }: Props) {
           </>
         )}
         {upgradeButton('expeditions')}
-      </div>
+      </Fold>
 
       {tripFor && (
         <Sheet title={`Send ${tripFor.name}`} onClose={() => setTripFor(null)}>
@@ -224,8 +233,7 @@ export function Buildings({ save, update, onMessage }: Props) {
           </div>
         </Sheet>
       )}
-      <div class="card building" data-testid="building-forge">
-        {head('forge')}
+      <Fold id="roost.forge" class="building" testid="building-forge" title={title('forge')} summary={summaries.forge} forceOpen={attention.forge}>
         {save.roost.levels.forge === 0 ? (
           <p class="muted">{data.roost.buildings.forge.description} Expeditions and bosses bring back materials.</p>
         ) : (
@@ -235,7 +243,7 @@ export function Buildings({ save, update, onMessage }: Props) {
           </>
         )}
         {upgradeButton('forge')}
-      </div>
+      </Fold>
       {forgeOpen && <ForgeSheet save={save} update={update} onClose={() => setForgeOpen(false)} />}
     </section>
   );

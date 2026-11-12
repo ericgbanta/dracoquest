@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { openFold } from './helpers';
 import layout from '../src/data/stage.json' with { type: 'json' };
 
 async function smallTargets(page: Page): Promise<string[]> {
@@ -93,6 +94,7 @@ test('a real fight uses the stage: tap to target, tap again for details, tap a p
 test('the Simple battle setting brings back the card layout', async ({ page }) => {
   await loadFixture(page, 'juvenile.json');
   await page.getByRole('link', { name: 'Settings' }).tap();
+  await openFold(page, 'settings.battle');
   await page.getByTestId('simple-battle').check();
   await page.getByTestId('tab-map').tap();
   await page.getByTestId('start-mossy-hollow').tap();

@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { openFold, tab } from './helpers';
 import { readFileSync } from 'node:fs';
 
 async function load(page: Page, fixture: string, hash = '#/roost') {
@@ -55,11 +56,13 @@ test('an Elder lays its one egg', async ({ page }) => {
   await expect(page.getByTestId('dragons-notice')).toContainText('laid an egg');
   await expect(page.getByTestId('egg-laying')).toContainText('has laid its egg');
   await page.getByTestId('tab-bag').tap();
+  await tab(page, 'bag', 'items');
   await expect(page.getByTestId('eggs')).toContainText('Ember Egg');
 });
 
 test('sound is off by default and can be turned on', async ({ page }) => {
   await load(page, 'juvenile.json', '#/settings');
+  await openFold(page, 'settings.battle');
   await expect(page.getByTestId('sound')).not.toBeChecked();
   await page.getByTestId('sound').tap();
   await expect(page.getByTestId('sound')).toBeChecked();

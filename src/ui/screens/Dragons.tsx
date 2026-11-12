@@ -14,6 +14,10 @@ import { Bar, ElementBadge } from '../bits';
 import { beats, weaknessesOf } from '../../core/elements';
 import type { ElementId } from '../../core/types';
 import { Embers, Gold } from '../Icon';
+import { SubTabs, usePref } from '../Fold';
+
+const DRAGON_TABS = ['overview', 'stats', 'talents'] as const;
+type DragonTab = (typeof DRAGON_TABS)[number];
 
 const names = (els: ElementId[]) => els.map((e) => data.elements.info[e].name).join(', ') || 'nothing';
 
@@ -30,6 +34,7 @@ export function Dragons({ save, update }: Props) {
   const lead = activeDragon(save);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [notice, setNotice] = useState('');
+  const [tab, setTab] = usePref<DragonTab>('dragons.tab', 'overview', DRAGON_TABS);
   if (!lead) return null;
   const d = save.dragons.find((x) => x.id === selectedId) ?? lead;
   const second = secondDragon(save);
@@ -64,8 +69,13 @@ export function Dragons({ save, update }: Props) {
           ))}
         </div>
       )}
+      <SubTabs id="dragons" label="Dragon sections" value={tab} onChange={(t) => { setTab(t); setNotice(''); }} tabs={[
+        { id: 'overview', label: 'Overview' },
+        { id: 'stats', label: 'Stats', badge: d.statPoints },
+        { id: 'talents', label: 'Talents', badge: talentPointsLeft(data, d) },
+      ]} />
       {notice && <p class="notice notice--ok" role="status" data-testid="dragons-notice">{notice}</p>}
-      {save.dragons.length > 1 && (
+      {tab === 'overview' && save.dragons.length > 1 && (
         <div class="card partners">
           <h2>Battle partner</h2>
           <p class="muted">
@@ -79,6 +89,7 @@ export function Dragons({ save, update }: Props) {
           </div>
         </div>
       )}
+      {tab === 'overview' && <>
       <div class="card dragon-sheet">
         <DragonSprite element={d.element} stage={d.stage} primary={d.colors.primary} secondary={d.colors.secondary} size={140} class="idle" />
         <div>
@@ -112,7 +123,8 @@ export function Dragons({ save, update }: Props) {
           )}
         </div>
       )}
-      <div class="card">
+      </>}
+      {tab === 'stats' && <div class="card">
         <h2>Stats {d.statPoints > 0 && <span class="pill" data-testid="dragon-points">{d.statPoints} to spend</span>}</h2>
         {DRAGON_STATS.map((k) => (
           <div key={k} class="stat-row">
@@ -124,8 +136,8 @@ export function Dragons({ save, update }: Props) {
             )}
           </div>
         ))}
-      </div>
-      {data.dragons.stages.findIndex((st) => st.id === d.stage) >= data.dragons.stages.findIndex((st) => st.id === data.dragons.eggLaying.stage) && (
+      </div>}
+      {tab === 'overview' && data.dragons.stages.findIndex((st) => st.id === d.stage) >= data.dragons.stages.findIndex((st) => st.id === data.dragons.eggLaying.stage) && (
         <div class="card" data-testid="egg-laying">
           <h2>Lay an egg</h2>
           {d.laidEgg ? (
@@ -141,11 +153,11 @@ export function Dragons({ save, update }: Props) {
           )}
         </div>
       )}
-      <Talents save={save} update={update} dragonId={d.id} />
-      <div class="card">
+      {tab === 'talents' && <Talents save={save} update={update} dragonId={d.id} />}
+      {tab === 'overview' && <div class="card">
         <h2>Favorite food</h2>
         <p>{favoriteKnown && favorite ? `${favorite.icon} ${favorite.name}. ${d.name} gets double bond from it.` : `Still a mystery. Tried ${d.foodsTried.length} of ${data.foods.length} foods.`}</p>
-      </div>
+      </div>}
     </section>
   );
 }
