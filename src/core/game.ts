@@ -182,6 +182,15 @@ function stageIndex(data: GameData, stage: string): number {
 
 /** Why a zone is locked, or null if it's open. */
 export function zoneLock(data: GameData, save: SaveData, zone: ZoneData): string | null {
+  if (zone.unlock) {
+    const after = data.zones.find((z) => z.id === zone.unlock!.afterBoss);
+    const boss = after ? data.enemies[after.boss.enemy]?.name : undefined;
+    const needLevel = save.rider.level < zone.unlock.level;
+    const needBoss = !save.bossesDefeated.includes(zone.unlock.afterBoss);
+    if (needLevel && needBoss) return `Opens at rider level ${zone.unlock.level}, after you beat the ${boss}`;
+    if (needLevel) return `Opens at rider level ${zone.unlock.level}`;
+    if (needBoss) return `Opens after you beat the ${boss}`;
+  }
   if (!zone.gate) return null;
   const d = activeDragon(save);
   if (!d || stageIndex(data, d.stage) < stageIndex(data, zone.gate.stage)) return zone.gate.text;

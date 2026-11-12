@@ -397,6 +397,10 @@ export interface ZoneData {
   gearDrops?: { chance: number; gear: string[] };
   dropChances: Record<string, number>;
   gate: { stage: string; text: string } | null;
+  /** New areas open at a rider level once another zone's boss is beaten. */
+  unlock?: { level: number; afterBoss: string };
+  /** Areas with more than one main element list them all; `element` is the first. */
+  elements?: ElementId[];
   /** Bosses drop an egg: always the first time, then by chance. `elements` picks one at random. */
   eggDrop: { element: ElementId; chance: number; elements?: ElementId[] } | null;
 }

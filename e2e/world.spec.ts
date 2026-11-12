@@ -27,9 +27,12 @@ test('the Map groups zones into regions and teases the next area', async ({ page
   await expect(page.getByTestId('region-wilds')).toContainText('The Wilds');
   await expect(page.getByTestId('region-highlands')).toContainText('The High Lands');
   await expect(page.getByTestId('region-wilds').getByTestId('zone-mossy-hollow')).toBeVisible();
+  // Whispering Fen is built and open (level 15, Bramble Troll beaten); the next teaser is Rustcliff Ruins.
+  await expect(page.getByTestId('region-wilds').getByTestId('start-whispering-fen')).toBeVisible();
   const teaser = page.getByTestId('zone-teaser');
-  await expect(teaser).toContainText('Whispering Fen');
-  await expect(teaser).toContainText('You are ready for it');
+  await expect(page.getByTestId('region-highlands').getByTestId('zone-teaser')).toBeVisible();
+  await expect(teaser).toContainText('Rustcliff Ruins');
+  await expect(teaser).toContainText('Opens at level 20, after you beat the Magma Wyrm');
   await expect(page.getByTestId('story-mossy-hollow')).toHaveText('Story 0 of 4');
   await expect(page.getByTestId('story-cinder-pass')).toHaveCount(0);
   await page.getByTestId('story-mossy-hollow').scrollIntoViewIfNeeded();
@@ -116,4 +119,12 @@ test('area art is cached the first time a zone shows it, not up front', async ({
     if (!(await caches.keys()).includes('dracoquest-area-art')) return 0;
     return (await (await caches.open('dracoquest-area-art')).keys()).length;
   }), { timeout: 15_000 }).toBeGreaterThan(0);
+});
+
+test('Whispering Fen stays locked until the Bramble Troll is beaten', async ({ page }) => {
+  await load(page, 'juvenile.json', (s) => { s.bossesDefeated = []; });
+  await page.getByTestId('tab-map').tap();
+  const fen = page.getByTestId('zone-whispering-fen');
+  await expect(fen).toContainText('Opens after you beat the Bramble Troll');
+  await expect(page.getByTestId('start-whispering-fen')).toHaveCount(0);
 });

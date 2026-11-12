@@ -9,6 +9,7 @@
       "zones": [
         "mossy-hollow",
         "saltmarsh-shore",
+        "whispering-fen",
         "cinder-pass"
       ]
     },
@@ -34,16 +35,16 @@
   ],
   "upcoming": [
     {
-      "name": "Whispering Fen",
-      "region": "wilds",
-      "minLevel": 10,
-      "maxLevel": 20,
-      "gate": "mossy-hollow",
+      "name": "Rustcliff Ruins",
+      "region": "highlands",
+      "minLevel": 20,
+      "maxLevel": 30,
+      "gate": "cinder-pass",
       "elements": [
-        "verdant",
-        "tide"
+        "stone",
+        "fire"
       ],
-      "blurb": "A foggy marsh where the will-o'-wisps whisper your name. Usually wrong."
+      "blurb": "A ruined fortress where old machines still keep watch. Mostly over nothing."
     }
   ]
 }

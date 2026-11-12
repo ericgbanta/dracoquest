@@ -1786,5 +1786,196 @@
       "arcana": 8
     },
     "description": "Twinkles when it casts. Show-off."
+  },
+  {
+    "id": "mirewalker-melee",
+    "name": "Mirewalker Reedblade",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": null,
+    "level": 12,
+    "damage": 19,
+    "price": 560,
+    "bonus": {
+      "strength": 3
+    },
+    "description": "Light as a reed, sharp as gossip."
+  },
+  {
+    "id": "mirewalker-ranged",
+    "name": "Mirewalker Lantern Bow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": null,
+    "level": 12,
+    "damage": 17,
+    "price": 560,
+    "bonus": {
+      "agility": 3
+    },
+    "description": "Arrows glow like will-o'-wisps."
+  },
+  {
+    "id": "mirewalker-magic",
+    "name": "Mirewalker Willow Wand",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": null,
+    "level": 12,
+    "damage": 17,
+    "price": 560,
+    "bonus": {
+      "arcana": 3
+    },
+    "description": "A twig of the Whisperwillow. It still whispers."
+  },
+  {
+    "id": "mirewalker-armor",
+    "name": "Mirewalker Bark Robe",
+    "slot": "armor",
+    "level": 19,
+    "price": 1250,
+    "bonus": {
+      "riderDefense": 6,
+      "riderHp": 55
+    },
+    "description": "Woven from the Whisperwillow's bark. It hums lullabies."
+  },
+  {
+    "id": "mirewalker-trinket",
+    "name": "Mirewalker Croak Stone",
+    "slot": "trinket",
+    "level": 13,
+    "price": 640,
+    "bonus": {
+      "vigor": 2,
+      "riderMp": 6,
+      "healPct": 0.05
+    },
+    "description": "Old Croaker's lucky stone. Smells faintly of pond."
+  },
+  {
+    "id": "fenwood-club",
+    "name": "Fenwood Club",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": "verdant",
+    "level": 13,
+    "damage": 18,
+    "price": 700,
+    "bonus": {
+      "strength": 2,
+      "vigor": 1
+    },
+    "description": "Carved from bog oak. Floats, oddly."
+  },
+  {
+    "id": "bogwater-trident",
+    "name": "Bogwater Trident",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": "tide",
+    "level": 13,
+    "damage": 18,
+    "price": 700,
+    "bonus": {
+      "strength": 2,
+      "vigor": 1
+    },
+    "description": "Three prongs, all slightly muddy."
+  },
+  {
+    "id": "cattail-bow",
+    "name": "Cattail Bow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": "verdant",
+    "level": 13,
+    "damage": 17,
+    "price": 700,
+    "bonus": {
+      "agility": 3
+    },
+    "description": "Strung with a very tough cattail."
+  },
+  {
+    "id": "drizzle-sling",
+    "name": "Drizzle Sling",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": "tide",
+    "level": 13,
+    "damage": 17,
+    "price": 700,
+    "bonus": {
+      "agility": 3
+    },
+    "description": "Flings raindrops really, really hard."
+  },
+  {
+    "id": "lilypad-scepter",
+    "name": "Lilypad Scepter",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": "verdant",
+    "level": 13,
+    "damage": 17,
+    "price": 700,
+    "bonus": {
+      "arcana": 3
+    },
+    "description": "A frog sat on it once. Now it's magic."
+  },
+  {
+    "id": "mistcaller-rod",
+    "name": "Mistcaller Rod",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": "tide",
+    "level": 13,
+    "damage": 17,
+    "price": 700,
+    "bonus": {
+      "arcana": 3
+    },
+    "description": "Calls mist. The mist does not always come."
+  },
+  {
+    "id": "waders-of-the-fen",
+    "name": "Waders of the Fen",
+    "slot": "armor",
+    "level": 13,
+    "price": 640,
+    "bonus": {
+      "riderDefense": 4,
+      "riderHp": 30,
+      "agility": 1
+    },
+    "description": "Keep your feet dry. Mostly."
+  },
+  {
+    "id": "firefly-jar",
+    "name": "Firefly Jar",
+    "slot": "trinket",
+    "level": 13,
+    "price": 600,
+    "bonus": {
+      "agility": 2,
+      "arcana": 2
+    },
+    "description": "A jar of friendly fireflies. They help you aim."
+  },
+  {
+    "id": "whisperwood-charm",
+    "name": "Whisperwood Charm",
+    "slot": "trinket",
+    "level": 15,
+    "price": 900,
+    "bonus": {
+      "arcana": 2,
+      "vigor": 2,
+      "riderMp": 10
+    },
+    "description": "Carved from a fallen Whisperwillow twig. It tells you secrets. Bad ones."
   }
 ]

@@ -176,6 +176,111 @@
     }
   },
   {
+    "id": "whispering-fen",
+    "name": "Whispering Fen",
+    "element": "verdant",
+    "elements": [
+      "verdant",
+      "tide"
+    ],
+    "minLevel": 10,
+    "maxLevel": 20,
+    "gate": null,
+    "unlock": {
+      "level": 10,
+      "afterBoss": "mossy-hollow"
+    },
+    "blurb": "A foggy marsh where the will-o'-wisps whisper your name. Usually wrong.",
+    "fights": {
+      "min": 3,
+      "max": 5
+    },
+    "encounters": [
+      {
+        "enemies": [
+          "murk-toad"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "will-o-whisper"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "reed-stalker"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "bogling"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "lily-snapper"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "bogling",
+          "bogling"
+        ],
+        "weight": 1,
+        "minLevel": 12
+      },
+      {
+        "enemies": [
+          "murk-toad",
+          "will-o-whisper"
+        ],
+        "weight": 1,
+        "minLevel": 14
+      }
+    ],
+    "levelSpread": 1,
+    "multiEnemyLevelOffset": -1,
+    "boss": {
+      "enemy": "whisperwillow",
+      "level": 20,
+      "unlockRiderLevel": 19,
+      "trophy": {
+        "gear": "mirewalker-armor",
+        "chance": 0.25
+      }
+    },
+    "miniBoss": {
+      "enemy": "old-croaker",
+      "levelOffset": 0,
+      "trophy": {
+        "gear": "mirewalker-trinket",
+        "chance": 0.25
+      }
+    },
+    "dropChances": {
+      "potion": 0.25,
+      "dragon-treat": 0.15,
+      "mana-tonic": 0.1
+    },
+    "eggDrop": {
+      "element": "verdant",
+      "chance": 0.1
+    },
+    "gearDrops": {
+      "chance": 0.06,
+      "gear": [
+        "mirewalker-melee",
+        "mirewalker-ranged",
+        "mirewalker-magic"
+      ]
+    }
+  },
+  {
     "id": "cinder-pass",
     "name": "Cinder Pass",
     "element": "fire",

@@ -77,6 +77,16 @@
   },
   "recipes": [
     {
+      "gear": "whisperwood-charm",
+      "forgeLevel": 1,
+      "gold": 700,
+      "embers": 4,
+      "materials": {
+        "ore": 6,
+        "crystal": 2
+      }
+    },
+    {
       "gear": "forgeheart-amulet",
       "forgeLevel": 2,
       "gold": 1500,

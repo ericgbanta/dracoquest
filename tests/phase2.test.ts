@@ -46,9 +46,11 @@ describe('eggs in the shop', () => {
     expect(s.eggs).toEqual(hatched().eggs);
   });
 
-  it('only sells elements no boss drops', () => {
-    const dropped = new Set(data.zones.flatMap((z) => (z.eggDrop ? [z.eggDrop.element, ...(z.eggDrop.elements ?? [])] : [])));
-    for (const { element } of shopEggs(data)) expect(dropped.has(element)).toBe(false);
+  it('sells the Mossy (Verdant) Egg, the one starter egg the early bosses do not drop', () => {
+    // Eric asked for it on 2026-11-11. Whispering Fen's boss (levels 10 to 20) now drops Verdant eggs too; the shop keeps it.
+    expect(shopEggs(data).map((e) => e.element)).toEqual(['verdant']);
+    const early = new Set(data.zones.filter((z) => z.minLevel < 10).flatMap((z) => (z.eggDrop ? [z.eggDrop.element, ...(z.eggDrop.elements ?? [])] : [])));
+    expect(early.has('verdant')).toBe(false);
   });
 });
 

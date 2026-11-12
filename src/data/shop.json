@@ -89,7 +89,15 @@
     "spark-scale-charm",
     "hex-scale-charm",
     "stormeye-scale-charm",
-    "wyrdscale-charm"
+    "wyrdscale-charm",
+    "fenwood-club",
+    "bogwater-trident",
+    "cattail-bow",
+    "drizzle-sling",
+    "lilypad-scepter",
+    "mistcaller-rod",
+    "waders-of-the-fen",
+    "firefly-jar"
   ],
   "items": {
     "potion": 25,

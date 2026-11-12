@@ -56,7 +56,7 @@ export function MapScreen({ save, update }: Props) {
                   <div class="zone-head">
                     <div>
                       <h2>{lock && <><Icon name="lock" fallback="🔒" size={20} /> </>}{zone.name}</h2>
-                      <p class="muted">Levels {zone.minLevel} to {zone.maxLevel} · <ElementBadge element={zone.element} small /></p>
+                      <p class="muted">Levels {zone.minLevel} to {zone.maxLevel} · {(zone.elements ?? [zone.element]).map((el) => <ElementBadge key={el} element={el} small />)}</p>
                     </div>
                   </div>
                   <p>{zone.blurb}</p>

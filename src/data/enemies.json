@@ -2618,5 +2618,388 @@
     "boss": true,
     "xpMultiplier": 5,
     "goldMultiplier": 6
+  },
+  {
+    "id": "murk-toad",
+    "name": "Murk Toad",
+    "element": "tide",
+    "flavor": "Sits in the mud all day. Is, technically, also mud.",
+    "base": {
+      "hp": 51.75,
+      "attack": 8.31,
+      "power": 5,
+      "defense": 1,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 14.95,
+      "attack": 1.425,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "tongue",
+        "name": "Tongue Lash",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "mud-spit",
+        "name": "Mud Spit",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "soak",
+        "statusChance": 0.6
+      },
+      {
+        "id": "belly-flop",
+        "name": "Belly Flop",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      }
+    ]
+  },
+  {
+    "id": "will-o-whisper",
+    "name": "Will-o'-Whisper",
+    "element": "verdant",
+    "flavor": "A floating lantern that whispers your name. Usually wrong.",
+    "base": {
+      "hp": 36.0,
+      "attack": 8.31,
+      "power": 5,
+      "defense": 1,
+      "swift": 9.8,
+      "dodge": 8.5
+    },
+    "perLevel": {
+      "hp": 10.4,
+      "attack": 1.425,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1.26,
+      "dodge": 0.68
+    },
+    "moves": [
+      {
+        "id": "flicker",
+        "name": "Flicker Touch",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "lure",
+        "name": "Lure",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.6,
+        "status": "root",
+        "statusChance": 0.6
+      },
+      {
+        "id": "vanish",
+        "name": "Vanish",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fade",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "reed-stalker",
+    "name": "Reed Stalker",
+    "element": "verdant",
+    "flavor": "A long-legged bird that pretends to be a reed. Badly.",
+    "base": {
+      "hp": 45,
+      "attack": 8.31,
+      "power": 5,
+      "defense": 1,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 13,
+      "attack": 1.425,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "spear-beak",
+        "name": "Spear Beak",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "reed-volley",
+        "name": "Reed Volley",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "preen",
+        "name": "Preen",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.25,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ]
+  },
+  {
+    "id": "bogling",
+    "name": "Bogling",
+    "element": "stone",
+    "flavor": "A small mud goblin who thinks it is very scary.",
+    "base": {
+      "hp": 38.25,
+      "attack": 8.31,
+      "power": 5,
+      "defense": 1,
+      "swift": 9.1,
+      "dodge": 6.5
+    },
+    "perLevel": {
+      "hp": 11.05,
+      "attack": 1.425,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1.17,
+      "dodge": 0.52
+    },
+    "moves": [
+      {
+        "id": "mud-slap",
+        "name": "Mud Slap",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "sticky-mud",
+        "name": "Sticky Mud",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "chill",
+        "statusChance": 0.6
+      },
+      {
+        "id": "giggle",
+        "name": "Giggle",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "lily-snapper",
+    "name": "Lily Snapper",
+    "element": "verdant",
+    "flavor": "A turtle wearing a lily pad. It is very proud of the lily pad.",
+    "base": {
+      "hp": 49.5,
+      "attack": 8.31,
+      "power": 5,
+      "defense": 1.6,
+      "swift": 4.9,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 14.3,
+      "attack": 1.425,
+      "power": 1,
+      "defense": 0.48,
+      "swift": 0.63,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "snap",
+        "name": "Snap",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "pad-shell",
+        "name": "Pad Shell",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      },
+      {
+        "id": "lily-crash",
+        "name": "Lily Crash",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "root",
+        "statusChance": 0.4
+      }
+    ]
+  },
+  {
+    "id": "old-croaker",
+    "name": "Old Croaker",
+    "element": "tide",
+    "flavor": "The oldest toad in the Fen. Her croak shakes the reeds.",
+    "base": {
+      "hp": 76.5,
+      "attack": 9.56,
+      "power": 5,
+      "defense": 1,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 22.1,
+      "attack": 1.634,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "tongue",
+        "name": "Long Tongue",
+        "intent": "attack",
+        "weight": 4,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "croak-quake",
+        "name": "Croak Quake",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "soak",
+        "statusChance": 0.5
+      },
+      {
+        "id": "swell",
+        "name": "Swell Up",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      },
+      {
+        "id": "gulp",
+        "name": "Gulp a Fly",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.2,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "miniBoss": true,
+    "xpMultiplier": 2
+  },
+  {
+    "id": "whisperwillow",
+    "name": "Whisperwillow",
+    "element": "verdant",
+    "flavor": "An ancient willow whose branches whisper. Mostly complaints.",
+    "base": {
+      "hp": 112.5,
+      "attack": 8.73,
+      "power": 5,
+      "defense": 1.4,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 32.5,
+      "attack": 1.501,
+      "power": 1,
+      "defense": 0.42,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "branch-sweep",
+        "name": "Branch Sweep",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "root-grasp",
+        "name": "Root Grasp",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.8,
+        "status": "root",
+        "statusChance": 0.6
+      },
+      {
+        "id": "weeping-flood",
+        "name": "Weeping Flood",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "soak",
+        "statusChance": 0.5
+      },
+      {
+        "id": "rain-song",
+        "name": "Rain Song",
+        "intent": "shift",
+        "weight": 1,
+        "shiftTo": "tide",
+        "target": "self",
+        "condition": "notShifted"
+      },
+      {
+        "id": "whisper",
+        "name": "Angry Whisper",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self",
+        "condition": "selfHurt"
+      },
+      {
+        "id": "drink-deep",
+        "name": "Drink Deep",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.12,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "boss": true,
+    "xpMultiplier": 4,
+    "goldMultiplier": 5
   }
 ]

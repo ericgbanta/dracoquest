@@ -602,5 +602,419 @@
       "gold": 350,
       "embers": 5
     }
+  },
+  {
+    "id": "lost-in-the-fog",
+    "zone": "whispering-fen",
+    "name": "Lost in the Fog",
+    "minLevel": 10,
+    "description": "Ferryman Bo has lost his way in his own marsh. That has never happened before. He says.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "Ahoy, keeper! The fog rolled in thick and now every reed looks like every other reed.",
+            "name": "Ferryman Bo"
+          },
+          {
+            "speaker": "rider",
+            "text": "We'll find the channel. Stay close."
+          },
+          {
+            "speaker": "narrator",
+            "text": "Something giggles in the mud."
+          }
+        ],
+        "enemies": [
+          "bogling"
+        ],
+        "level": 10
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "A lantern bobs over the water, whispering. It says your name. It says it wrong."
+          },
+          {
+            "speaker": "dragon",
+            "text": "*snaps at the lantern, misses, sulks*"
+          }
+        ],
+        "enemies": [
+          "will-o-whisper"
+        ],
+        "level": 11
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "The channel! I knew where it was the whole time. Mostly. Here, for your trouble.",
+        "name": "Ferryman Bo"
+      },
+      {
+        "speaker": "narrator",
+        "text": "Bo's raft is held together with string and optimism."
+      }
+    ],
+    "reward": {
+      "xp": 90,
+      "gold": 120,
+      "items": {
+        "potion": 1
+      }
+    }
+  },
+  {
+    "id": "the-whispering-lights",
+    "zone": "whispering-fen",
+    "name": "The Whispering Lights",
+    "minLevel": 12,
+    "requires": "lost-in-the-fog",
+    "description": "The wisps are leading travelers into the deep marsh. Bo wants to know why.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "Three travelers this week, all following lights into the bog. All came back muddy and grumpy.",
+            "name": "Ferryman Bo"
+          },
+          {
+            "speaker": "rider",
+            "text": "Let's follow the lights ourselves."
+          }
+        ],
+        "enemies": [
+          "will-o-whisper",
+          "will-o-whisper"
+        ],
+        "level": 12
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "The lights lead to a clearing. A Reed Stalker stands very still, pretending to be a reed."
+          },
+          {
+            "speaker": "dragon",
+            "text": "*sniffs the reed. The reed sneezes.*"
+          }
+        ],
+        "enemies": [
+          "reed-stalker"
+        ],
+        "level": 13
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "Behind the Reed Stalker the wisps gather around a cracked lantern, flickering and lost."
+      },
+      {
+        "speaker": "rider",
+        "text": "They're not leading people astray. They're lost too."
+      },
+      {
+        "speaker": "narrator",
+        "text": "You could carry the lantern back to Bo. Or set it on the old stone shrine, where the wisps used to rest."
+      }
+    ],
+    "reward": {
+      "xp": 110,
+      "gold": 100
+    },
+    "choice": {
+      "prompt": "What do you do with the cracked lantern?",
+      "options": [
+        {
+          "id": "shrine",
+          "label": "Return it to the shrine",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "The wisps settle into the shrine with a happy hum. One of them drops a glowing crystal at your feet."
+            }
+          ],
+          "reward": {
+            "embers": 2,
+            "materials": {
+              "crystal": 1
+            }
+          },
+          "temper": "gentle"
+        },
+        {
+          "id": "sell",
+          "label": "Sell it to Bo",
+          "lines": [
+            {
+              "speaker": "npc",
+              "text": "A real wisp lantern! Collectors pay a fortune for these. Well, a small fortune. Here.",
+              "name": "Ferryman Bo"
+            }
+          ],
+          "reward": {
+            "gold": 260
+          },
+          "temper": "proud"
+        }
+      ]
+    }
+  },
+  {
+    "id": "toad-trouble",
+    "zone": "whispering-fen",
+    "name": "Toad Trouble",
+    "minLevel": 14,
+    "requires": "the-whispering-lights",
+    "description": "The Murk Toads are singing all night. The whole Fen wants to sleep.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "RIBBIT. RIBBIT. All night! I haven't slept since Tuesday!",
+            "name": "Ferryman Bo"
+          },
+          {
+            "speaker": "rider",
+            "text": "Which Tuesday?"
+          },
+          {
+            "speaker": "npc",
+            "text": "I don't know anymore!",
+            "name": "Ferryman Bo"
+          }
+        ],
+        "enemies": [
+          "murk-toad"
+        ],
+        "level": 14
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "The choir's conductor appears: a Lily Snapper with a very small baton."
+          },
+          {
+            "speaker": "dragon",
+            "text": "*tries to eat the baton*"
+          }
+        ],
+        "enemies": [
+          "lily-snapper",
+          "murk-toad"
+        ],
+        "level": 15
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "The toads fall silent. A huge croak rolls across the marsh from somewhere deeper in."
+      },
+      {
+        "speaker": "npc",
+        "text": "That... that's Old Croaker. The toads only sing when she's cranky.",
+        "name": "Ferryman Bo"
+      }
+    ],
+    "reward": {
+      "xp": 130,
+      "gold": 160,
+      "materials": {
+        "ore": 2
+      }
+    }
+  },
+  {
+    "id": "old-croakers-pond",
+    "zone": "whispering-fen",
+    "name": "Old Croaker's Pond",
+    "minLevel": 16,
+    "requires": "toad-trouble",
+    "description": "Old Croaker is cranky because something is draining her pond. She thinks it's you.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "The pond is half empty. Bogling footprints lead everywhere."
+          },
+          {
+            "speaker": "rider",
+            "text": "Someone's been digging channels."
+          }
+        ],
+        "enemies": [
+          "bogling",
+          "bogling"
+        ],
+        "level": 16
+      },
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "WHO drains my pond? Was it you? It smells like you.",
+            "name": "Old Croaker"
+          },
+          {
+            "speaker": "rider",
+            "text": "It wasn't us! But we'll prove it."
+          },
+          {
+            "speaker": "npc",
+            "text": "Prove it by losing!",
+            "name": "Old Croaker"
+          }
+        ],
+        "enemies": [
+          "old-croaker"
+        ],
+        "level": 17,
+        "mini": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "Hmph. You fight like you've got nothing to hide. The water's flowing to the old willow. It's always the willow.",
+        "name": "Old Croaker"
+      },
+      {
+        "speaker": "narrator",
+        "text": "Old Croaker gives you a smooth stone. It's warm, and it smells like pond."
+      }
+    ],
+    "reward": {
+      "xp": 160,
+      "gold": 200,
+      "embers": 2
+    },
+    "choice": {
+      "prompt": "The Boglings dug the channels to water their mushroom farm. What now?",
+      "options": [
+        {
+          "id": "share",
+          "label": "Help them share the water",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "You dig one more channel, so the pond and the farm both get some. The Boglings give you a basket of mushrooms and a very muddy hug."
+            }
+          ],
+          "reward": {
+            "items": {
+              "dragon-treat": 2
+            },
+            "materials": {
+              "ore": 2
+            }
+          },
+          "temper": "clever"
+        },
+        {
+          "id": "fill",
+          "label": "Fill in the channels",
+          "lines": [
+            {
+              "speaker": "npc",
+              "text": "Ha! My pond! You're all right, keeper.",
+              "name": "Old Croaker"
+            },
+            {
+              "speaker": "narrator",
+              "text": "The Boglings glare at you from the reeds."
+            }
+          ],
+          "reward": {
+            "gold": 180
+          },
+          "temper": "bold"
+        }
+      ]
+    }
+  },
+  {
+    "id": "the-whisperwillow",
+    "zone": "whispering-fen",
+    "name": "The Whisperwillow",
+    "minLevel": 19,
+    "requires": "old-croakers-pond",
+    "description": "At the heart of the Fen, an ancient willow drinks the marsh dry and whispers about it.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "I'll row you to the heart of the Fen. I'll also row away very fast afterwards.",
+            "name": "Ferryman Bo"
+          },
+          {
+            "speaker": "narrator",
+            "text": "The guards of the willow rise out of the reeds."
+          }
+        ],
+        "enemies": [
+          "reed-stalker",
+          "lily-snapper"
+        ],
+        "level": 19
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "The Whisperwillow towers over a dry, cracked pond. Its branches hiss."
+          },
+          {
+            "speaker": "npc",
+            "text": "Thirsty. Always thirsty. The marsh is MINE to drink.",
+            "name": "Whisperwillow"
+          },
+          {
+            "speaker": "dragon",
+            "text": "*growls, then whispers back, which confuses everyone*"
+          }
+        ],
+        "enemies": [
+          "whisperwillow"
+        ],
+        "level": 20,
+        "boss": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "The willow's roots let go. Water rushes back into the ponds and channels of the Fen."
+      },
+      {
+        "speaker": "npc",
+        "text": "Fine. I'll share. But I'm going to complain about it.",
+        "name": "Whisperwillow"
+      },
+      {
+        "speaker": "npc",
+        "text": "The fog's lifting! I can see my house! I can see... three of my houses? Oh, that's just the one, it's very long.",
+        "name": "Ferryman Bo"
+      },
+      {
+        "speaker": "dragon",
+        "text": "*splashes in the new puddles, completely delighted*"
+      }
+    ],
+    "reward": {
+      "xp": 300,
+      "gold": 450,
+      "embers": 6
+    }
   }
 ]

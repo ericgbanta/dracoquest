@@ -56,6 +56,35 @@
     ]
   },
   {
+    "id": "mirewalker",
+    "name": "Mirewalker",
+    "zone": "whispering-fen",
+    "description": "Marsh gear from the Fen. Full set gets you through any bog.",
+    "pieces": [
+      "mirewalker-melee",
+      "mirewalker-ranged",
+      "mirewalker-magic",
+      "mirewalker-armor",
+      "mirewalker-trinket"
+    ],
+    "bonuses": [
+      {
+        "pieces": 2,
+        "bonus": {
+          "riderMp": 8,
+          "arcana": 1
+        }
+      },
+      {
+        "pieces": 3,
+        "bonus": {
+          "riderDefense": 3,
+          "healPct": 0.08
+        }
+      }
+    ]
+  },
+  {
     "id": "emberheart",
     "name": "Emberheart",
     "zone": "cinder-pass",

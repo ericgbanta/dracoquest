@@ -120,8 +120,11 @@ function onLevelCharacter(element: ElementId, level: number, seed: number, withS
     s = { ...s, dragons: [...s.dragons, second], secondDragonId: 'second', roost: { ...s.roost, levels: { ...s.roost.levels, nest: 3 } } };
     s = spendAll(s);
   }
+  // Bosses a player at this level has normally beaten, so areas that open after a boss are open.
+  const beaten = data.zones.filter((z) => level > z.boss.unlockRiderLevel).map((z) => z.id);
   return {
     ...s,
+    bossesDefeated: beaten,
     rider: { ...s.rider, hp: riderMaxHp(data, s.rider), mp: riderMaxMp(data, s.rider) },
     dragons: s.dragons.map((d) => ({ ...d, hp: dragonMaxHp(data, d) })),
   };

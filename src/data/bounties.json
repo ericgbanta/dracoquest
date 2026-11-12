@@ -195,6 +195,104 @@
         },
         "enemy": "big-pincher"
       }
+    ],
+    "whispering-fen": [
+      {
+        "id": "toad-hush",
+        "kind": "defeat",
+        "count": 5,
+        "text": "Hush 5 Murk Toads",
+        "reward": {
+          "gold": 130,
+          "materials": {
+            "ore": 1
+          }
+        },
+        "enemy": "murk-toad"
+      },
+      {
+        "id": "wisp-catch",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Catch 4 Will-o'-Whispers",
+        "reward": {
+          "gold": 120,
+          "embers": 1
+        },
+        "enemy": "will-o-whisper"
+      },
+      {
+        "id": "reed-count",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Spot 3 Reed Stalkers",
+        "reward": {
+          "gold": 120,
+          "materials": {
+            "ore": 1
+          }
+        },
+        "enemy": "reed-stalker"
+      },
+      {
+        "id": "bogling-chase",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Chase off 4 Boglings",
+        "reward": {
+          "gold": 120,
+          "embers": 1
+        },
+        "enemy": "bogling"
+      },
+      {
+        "id": "snapper-snap",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Out-snap 3 Lily Snappers",
+        "reward": {
+          "gold": 130,
+          "materials": {
+            "ore": 2
+          }
+        },
+        "enemy": "lily-snapper"
+      },
+      {
+        "id": "fen-wins",
+        "kind": "wins",
+        "count": 6,
+        "text": "Win 6 fights in the Fen",
+        "reward": {
+          "gold": 160,
+          "materials": {
+            "ore": 2
+          }
+        }
+      },
+      {
+        "id": "fen-clear",
+        "kind": "clear",
+        "count": 2,
+        "text": "Finish 2 runs in the Fen",
+        "reward": {
+          "gold": 200,
+          "embers": 2
+        }
+      },
+      {
+        "id": "croaker-visit",
+        "kind": "defeat",
+        "count": 1,
+        "text": "Defeat Old Croaker",
+        "reward": {
+          "gold": 160,
+          "materials": {
+            "crystal": 1
+          }
+        },
+        "enemy": "old-croaker"
+      }
     ]
   }
 }
