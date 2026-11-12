@@ -81,6 +81,23 @@ describe('save', () => {
     expect(importSaveCode(messy)).toEqual(newSave(NOW));
   });
 
+  it('accepts a code that lost its DQ1: start when copied', () => {
+    const code = exportSaveCode(newSave(NOW));
+    expect(importSaveCode(code.slice('DQ1:'.length))).toEqual(newSave(NOW));
+  });
+
+  it('finds a code inside a longer pasted message and ignores invisible characters', () => {
+    const code = exportSaveCode(newSave(NOW));
+    const zw = '\u200b';
+    const pasted = `My save:\n${code.slice(0, 30)}${zw}${code.slice(30)}\n\nSent from my iPhone`;
+    expect(importSaveCode(pasted)).toEqual(newSave(NOW));
+  });
+
+  it('says a code that was cut short is damaged, not that it is not a code', () => {
+    const code = exportSaveCode(newSave(NOW));
+    expect(() => importSaveCode(code.slice(0, 60))).toThrow(/damaged/);
+  });
+
   it('rejects bad codes and damaged saves', () => {
     expect(() => importSaveCode('hello')).toThrow(SaveError);
     expect(() => importSaveCode('DQ1:!!!not-base64')).toThrow(SaveError);

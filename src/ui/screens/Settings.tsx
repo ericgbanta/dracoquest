@@ -34,15 +34,50 @@ export function Settings({ save, persistent, update, replace, slot, slots, switc
     setNotice({ kind: 'ok', text: 'Name saved.' });
   };
 
+  // Selects the whole code. iPhones ignore select() on its own, so set the range too.
+  const selectAll = (el: HTMLTextAreaElement) => {
+    el.focus();
+    el.select();
+    el.setSelectionRange(0, el.value.length);
+  };
+
+  const copyCode = async (code: string) => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setNotice({ kind: 'ok', text: 'Save code copied. Keep it somewhere safe, like Notes.' });
+    } catch {
+      const box = document.querySelector<HTMLTextAreaElement>('[data-testid="export-code"]');
+      if (box) selectAll(box);
+      setNotice({ kind: 'ok', text: 'Could not copy by itself. The code is selected below: tap Copy, or use Share.' });
+    }
+  };
+
   const doExport = async () => {
     if (!save) return;
     const code = exportSaveCode(save);
     setExportCode(code);
+    await copyCode(code);
+  };
+
+  const canShare = typeof navigator !== 'undefined' && typeof navigator.share === 'function';
+  const shareCode = async () => {
     try {
-      await navigator.clipboard.writeText(code);
-      setNotice({ kind: 'ok', text: 'Save code copied. Keep it somewhere safe.' });
+      await navigator.share({ title: 'DracoQuest save code', text: exportCode });
+    } catch (err) {
+      if (err instanceof DOMException && err.name === 'AbortError') return; // closed the share sheet
+      setNotice({ kind: 'error', text: 'Could not open sharing. Use Copy instead.' });
+    }
+  };
+
+  const canPaste = typeof navigator !== 'undefined' && typeof navigator.clipboard?.readText === 'function';
+  const pasteCode = async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      if (!text.trim()) return setNotice({ kind: 'error', text: 'The clipboard is empty. Copy your save code first.' });
+      setImportText(text);
+      setNotice(null);
     } catch {
-      setNotice({ kind: 'ok', text: 'Save code is below. Select it and copy it.' });
+      setNotice({ kind: 'error', text: 'Could not read the clipboard. Long-press the box below and tap Paste.' });
     }
   };
 
@@ -162,15 +197,25 @@ export function Settings({ save, persistent, update, replace, slot, slots, switc
         <p class="muted">Your progress lives in this browser. Clearing site data deletes it. Export a code to back it up or move it to another device.</p>
         <button type="button" class="button" onClick={doExport} disabled={!save} data-testid="export">Export save code</button>
         {exportCode && (
-          <textarea class="code" readOnly rows={4} value={exportCode} aria-label="Your save code"
-            onFocus={(e) => e.currentTarget.select()} data-testid="export-code" />
+          <>
+            <textarea class="code" readOnly rows={4} value={exportCode} aria-label="Your save code"
+              onFocus={(e) => selectAll(e.currentTarget)} data-testid="export-code" />
+            <div class="row">
+              <button type="button" class="button" onClick={() => copyCode(exportCode)} data-testid="copy-code">Copy</button>
+              {canShare && <button type="button" class="button" onClick={shareCode} data-testid="share-code">Share</button>}
+            </div>
+          </>
         )}
       <form onSubmit={doImport}>
         <h3>Import a save code</h3>
         <label for="import-code">Paste a save code</label>
         <textarea id="import-code" class="code" rows={4} value={importText}
+          autocapitalize="off" autocomplete="off" spellcheck={false}
           onInput={(e) => setImportText(e.currentTarget.value)} data-testid="import-code" />
-        <button type="submit" class="button" disabled={!importText.trim()} data-testid="import">Import save code</button>
+        <div class="row">
+          {canPaste && <button type="button" class="button" onClick={pasteCode} data-testid="paste-code">Paste</button>}
+          <button type="submit" class="button" disabled={!importText.trim()} data-testid="import">Import save code</button>
+        </div>
         <p class="muted">Importing replaces the save in slot {slot}. Your other slots are kept.</p>
       </form>
       </Fold>

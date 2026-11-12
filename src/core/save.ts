@@ -307,16 +307,44 @@ export function exportSaveCode(save: SaveData): string {
   return CODE_PREFIX + toBase64(serializeSave(save));
 }
 
-export function importSaveCode(code: string): SaveData {
-  const trimmed = code.replace(/\s+/g, '');
-  if (!trimmed.startsWith(CODE_PREFIX)) throw new SaveError('That is not a DracoQuest save code');
+// Characters a phone can slip into copied text without showing them.
+const INVISIBLE = /[\u200b-\u200f\u2060\ufeff]/g;
+const BASE64 = /^[A-Za-z0-9+/]+=*$/;
+
+function decodeCode(body: string): SaveData {
   let json: string;
   try {
-    json = fromBase64(trimmed.slice(CODE_PREFIX.length));
+    json = fromBase64(body);
+    JSON.parse(json);
   } catch {
-    throw new SaveError('Save code is damaged');
+    throw new SaveError('Save code is damaged or cut short. Copy the whole code and try again.');
   }
   return parseSave(json);
+}
+
+/**
+ * Reads a save code. Forgiving about how it was copied: spaces and line breaks anywhere,
+ * a code inside a longer message, or a code missing its "DQ1:" start (an iPhone treats
+ * the colon as a word break, so selecting the code by tapping it can leave the start off).
+ */
+export function importSaveCode(code: string): SaveData {
+  const text = code.replace(INVISIBLE, '');
+  const compact = text.replace(/\s+/g, '');
+  const tries: string[] = [];
+  if (compact.startsWith(CODE_PREFIX)) tries.push(compact.slice(CODE_PREFIX.length));
+  const inside = text.match(/DQ1:\s*([A-Za-z0-9+/]+=*)/);
+  if (inside?.[1]) tries.push(inside[1]);
+  if (BASE64.test(compact) && compact.length >= 20) tries.push(compact);
+  if (tries.length === 0) throw new SaveError('That is not a DracoQuest save code');
+  let first: unknown;
+  for (const body of new Set(tries)) {
+    try {
+      return decodeCode(body);
+    } catch (err) {
+      first ??= err;
+    }
+  }
+  throw first;
 }
 
 /** How many saved games one device can hold. */

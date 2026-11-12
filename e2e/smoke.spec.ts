@@ -142,6 +142,44 @@ test('an exported save code imports into a fresh browser', async ({ browser, pag
   await fresh.close();
 });
 
+test('Copy puts the save code on the clipboard and Paste fills the import box', async ({ browser }) => {
+  const ctx = await browser.newContext({
+    viewport: { width: 375, height: 667 }, isMobile: true, hasTouch: true,
+    permissions: ['clipboard-read', 'clipboard-write'],
+  });
+  const page = await ctx.newPage();
+  await hatch(page, 'Paster');
+  await page.goto('./#/settings');
+  await openFold(page, 'settings.backup');
+  await page.getByTestId('export').tap();
+  const code = await page.getByTestId('export-code').inputValue();
+  await expect(page.getByTestId('notice')).toContainText('copied');
+  await page.evaluate(() => navigator.clipboard.writeText('something else'));
+  await page.getByTestId('copy-code').tap();
+  await page.getByTestId('paste-code').tap();
+  await expect(page.getByTestId('import-code')).toHaveValue(code);
+  await ctx.close();
+});
+
+test('a code copied without its DQ1: start still imports', async ({ browser, page }) => {
+  await hatch(page, 'Halfcopy');
+  await page.goto('./#/settings');
+  await openFold(page, 'settings.backup');
+  await page.getByTestId('export').tap();
+  const code = (await page.getByTestId('export-code').inputValue()).slice('DQ1:'.length);
+
+  const fresh = await browser.newContext({ viewport: { width: 375, height: 667 }, isMobile: true, hasTouch: true });
+  const page2 = await fresh.newPage();
+  await page2.goto('./#/settings');
+  await openFold(page2, 'settings.backup');
+  await page2.getByTestId('import-code').fill(code);
+  await page2.getByTestId('import').tap();
+  await expect(page2.getByTestId('notice')).toContainText('Save loaded');
+  await page2.getByTestId('tab-roost').tap();
+  await expect(page2.getByTestId('welcome')).toHaveText('Halfcopy');
+  await fresh.close();
+});
+
 test('a bad import code shows an error and keeps the current save', async ({ page }) => {
   await hatch(page, 'Keepme');
   await page.goto('./#/settings');
