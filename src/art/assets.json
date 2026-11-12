@@ -4009,6 +4009,363 @@
           ]
         }
       ]
+    },
+    "enemy.sand-scarab": {
+      "size": [
+        400,
+        242
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/sand-scarab.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/sand-scarab-attack.webp",
+              "box": [
+                -0.0063,
+                0.1038,
+                1.0275,
+                0.8954
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.mirage-jackal": {
+      "size": [
+        400,
+        328
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/mirage-jackal.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/mirage-jackal-attack.webp",
+              "box": [
+                -0.0633,
+                0.1545,
+                1.095,
+                0.8448
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.glimmer-lizard": {
+      "size": [
+        400,
+        219
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/glimmer-lizard.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/glimmer-lizard-attack.webp",
+              "box": [
+                -0.045,
+                0.0858,
+                0.9975,
+                0.9123
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.dune-sentinel": {
+      "size": [
+        324,
+        400
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/dune-sentinel.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/dune-sentinel-attack.webp",
+              "box": [
+                -0.0544,
+                0.1373,
+                1.2354,
+                0.8625
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.treasure-mimic": {
+      "size": [
+        400,
+        338
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/treasure-mimic.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/treasure-mimic-attack.webp",
+              "box": [
+                -0.0083,
+                0.0614,
+                1.0175,
+                0.9385
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.riddle-sphinx": {
+      "size": [
+        400,
+        398
+      ],
+      "boxScale": 0.65,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/riddle-sphinx.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/riddle-sphinx-attack.webp",
+              "box": [
+                -0.0815,
+                0.1179,
+                1.0975,
+                0.8813
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.aurum-basilisk": {
+      "size": [
+        720,
+        470
+      ],
+      "boxScale": 1.0,
+      "points": {
+        "mouth": [
+          0.92,
+          0.45
+        ],
+        "hit": [
+          0.6,
+          0.55
+        ],
+        "front": [
+          0.92,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/aurum-basilisk.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/aurum-basilisk-attack.webp",
+              "box": [
+                0.0262,
+                0.1298,
+                1.0028,
+                0.8693
+              ]
+            }
+          ]
+        }
+      ]
     }
   },
   "backdrops": {
@@ -4123,6 +4480,17 @@
       "ambient": {
         "kind": "rise",
         "color": "#fff3a8"
+      }
+    },
+    "gilded-wastes": {
+      "layers": [
+        {
+          "file": "painted/backdrops/gilded-wastes.webp"
+        }
+      ],
+      "ambient": {
+        "kind": "rise",
+        "color": "#fff6c8"
       }
     }
   },
