@@ -4,7 +4,7 @@ Paste this into a new session, and replace the last section with what you want d
 
 ---
 
-You're picking up DracoQuest (repo ericgbanta/dracoquest), a mobile-first, turn-based dragon-raising RPG in the AdventureQuest style. It's a static Vite + Preact + TypeScript site on GitHub Pages at https://ericgbanta.github.io/dracoquest/. All five design phases and the battle stage are built and live. The art was then redone as painted, cel-shaded images (dragons, rider, all 49 enemies, backdrops, effects, egg, icons), with attack poses and a matching UI skin, and that is live too. The town shop also sells a Mossy (Verdant) Egg for 1,500 gold.
+You're picking up DracoQuest (repo ericgbanta/dracoquest), a mobile-first, turn-based dragon-raising RPG in the AdventureQuest style. It's a static Vite + Preact + TypeScript site on GitHub Pages at https://ericgbanta.github.io/dracoquest/. All five design phases and the battle stage are built and live. The art was then redone as painted, cel-shaded images (dragons, rider, all 49 enemies, backdrops, effects, egg, icons), with attack poses and a matching UI skin, and that is live too. The town shop also sells a Mossy (Verdant) Egg for 1,500 gold. A device holds up to three saved games (Settings, Saved games), and the rider learns ten spells by level and takes four into battle (Bag, Spells).
 
 Start from `main` (it has everything, docs included) and develop on the session's feature branch. Read these in order before doing anything:
 1. `CLAUDE.md`: the rules (pure `src/core`, seeded RNG, all numbers in JSON, mobile-first, save migrations, local testing, deploy only when I ask).
@@ -16,9 +16,9 @@ How I like to work: one task at a time; commit after each; plain writing with no
 New art always goes through `docs/ART_GENERATION.md`: the Codex CLI on my ChatGPT subscription, in the cel-shaded style we chose, using the style text and reference image in `tools/art/painted`. It uses my Codex limits, so tell me how many images a task needs first. I'll need to enter a device login code, and the session must be on the "dracoquest" environment.
 
 Open threads, from `docs/HANDOFF.md`, if I haven't picked one below:
-- Rider spells: the rider has two fixed spells and learns none. A way to learn more is a possible new feature, not designed yet (see the handoff for the questions to ask me).
+- Rider spells: built; see the handoff for two open balance questions.
 - Whether enemies visibly snap to their attack pose on my phone.
-- Element balance: Tide starters win about 60 percent in Thunderspire and Verdant about 52 percent in Frostmere.
+- Element balance: after spells, Fire starters win about 95 percent in Frostmere; the old dips (Tide in Thunderspire, Verdant in Frostmere) are now about 70 and 68 percent.
 - Cosmetics (an ember sink), a late-game save code, the 4.7 MB offline download.
 - More art: hurt or defeat poses, painted egg cracks. Camera moves and screen transitions from the C phases in `docs/GRAPHICS_PLAN_2.md`.
 

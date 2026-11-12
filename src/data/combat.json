@@ -67,15 +67,110 @@
         "id": "arc-bolt",
         "name": "Arc Bolt",
         "kind": "damage",
+        "level": 1,
         "base": 14,
-        "mp": 4
+        "mp": 4,
+        "description": "A crackle of raw magic. No element."
       },
       {
         "id": "mend",
         "name": "Mend",
         "kind": "heal",
+        "level": 1,
         "base": 16,
-        "mp": 5
+        "mp": 5,
+        "description": "Heals the rider or the lead dragon."
+      },
+      {
+        "id": "frost-dart",
+        "name": "Frost Dart",
+        "kind": "damage",
+        "level": 3,
+        "element": "frost",
+        "status": "chill",
+        "statusChance": 0.4,
+        "base": 13,
+        "mp": 4,
+        "description": "An icy dart that may Chill."
+      },
+      {
+        "id": "static-lash",
+        "name": "Static Lash",
+        "kind": "damage",
+        "level": 6,
+        "element": "storm",
+        "status": "shock",
+        "statusChance": 0.3,
+        "base": 14,
+        "mp": 5,
+        "description": "A storm whip that may Shock."
+      },
+      {
+        "id": "bright-ward",
+        "name": "Bright Ward",
+        "kind": "buff",
+        "level": 10,
+        "status": "ward",
+        "base": 0,
+        "mp": 6,
+        "description": "Wraps the rider or the lead dragon in a Ward shield."
+      },
+      {
+        "id": "tide-surge",
+        "name": "Tide Surge",
+        "kind": "damage",
+        "level": 12,
+        "element": "tide",
+        "status": "soak",
+        "statusChance": 0.5,
+        "base": 15,
+        "mp": 5,
+        "description": "A crashing wave that may Soak."
+      },
+      {
+        "id": "ember-lance",
+        "name": "Ember Lance",
+        "kind": "damage",
+        "level": 15,
+        "element": "fire",
+        "status": "burn",
+        "statusChance": 0.4,
+        "base": 16,
+        "mp": 6,
+        "description": "A spear of flame that may Burn."
+      },
+      {
+        "id": "shale-spike",
+        "name": "Shale Spike",
+        "kind": "damage",
+        "level": 18,
+        "element": "stone",
+        "status": "crack",
+        "statusChance": 0.4,
+        "base": 17,
+        "mp": 6,
+        "description": "A stone spike that may Crack."
+      },
+      {
+        "id": "greater-mend",
+        "name": "Greater Mend",
+        "kind": "heal",
+        "level": 24,
+        "base": 30,
+        "mp": 9,
+        "description": "A big heal for the rider or the lead dragon."
+      },
+      {
+        "id": "thorn-snare",
+        "name": "Thorn Snare",
+        "kind": "damage",
+        "level": 30,
+        "element": "verdant",
+        "status": "root",
+        "statusChance": 0.5,
+        "base": 18,
+        "mp": 7,
+        "description": "Grasping thorns that may Root."
       }
     ]
   },

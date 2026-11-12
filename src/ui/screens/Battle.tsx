@@ -8,7 +8,8 @@ import { activeDragon, canRide, leaveRun, playRound, secondDragon, startFight, t
 import { talentById } from '../../core/loadout';
 import type { DialogueLine } from '../../core/types';
 import { getZone } from '../../core/run';
-import { weaknessesOf } from '../../core/elements';
+import { matchup, weaknessesOf } from '../../core/elements';
+import { spellById } from '../../core/spells';
 import type { SaveData } from '../../core/save';
 import { DragonSprite, EnemySprite } from '../Sprites';
 import { Bar, ElementBadge, IntentChip, prefersReducedMotion, StatusChips, vibrate } from '../bits';
@@ -379,7 +380,7 @@ export function Battle({ save, update, onExit }: Props) {
           {rowHead('rider', 'Rider')}
           <Act label="Attack" on={rider.type === 'attack'} disabled={comboPicked || playing} onClick={() => setRider({ type: 'attack' })} testid="act-attack" />
           <Act label="Spell" on={rider.type === 'spell'} disabled={comboPicked || playing} onClick={() => setSheet('spell')} testid="act-spell"
-            sub={rider.type === 'spell' ? data.combat.riderMoves.spells.find((s) => s.id === rider.spell)?.name : undefined} />
+            sub={rider.type === 'spell' ? spellById(data, rider.spell)?.name : undefined} />
           <Act label="Item" on={rider.type === 'item'} disabled={comboPicked || playing} onClick={() => setSheet('item')} testid="act-item"
             sub={rider.type === 'item' ? data.items.find((i) => i.id === rider.item)?.name : undefined} />
           <Act label="Defend" on={rider.type === 'defend'} disabled={comboPicked || playing} onClick={() => setRider({ type: 'defend' })} testid="act-defend" />
@@ -438,30 +439,41 @@ export function Battle({ save, update, onExit }: Props) {
       {sheet === 'spell' && (
         <Sheet title="Spells" onClose={() => setSheet(null)}>
           <div class="list">
-            {data.combat.riderMoves.spells.map((s) => {
+            {battle.spells.map((id) => spellById(data, id)).filter((s) => !!s).map((s) => {
               const afford = battle.rider.mp >= s.mp;
+              const cost = <span class="muted">· {s.mp} MP</span>;
               if (s.kind === 'damage') {
+                const foe = battle.enemies.find((e) => e.id === targets.rider && e.hp > 0) ?? battle.enemies.find((e) => e.hp > 0);
+                const m = foe && s.element ? matchup(data.elements, s.element, foe.element) : 'neutral';
                 return (
-                  <button key={s.id} type="button" class="list-button" disabled={!afford} data-testid={`spell-${s.id}`}
+                  <button key={s.id} type="button" class="list-button spell-button" disabled={!afford} data-testid={`spell-${s.id}`}
                     onClick={() => { setRider({ type: 'spell', spell: s.id, target: 'enemy' }); setSheet(null); }}>
-                    {s.name} <span class="muted">· {s.mp} MP · hits the target</span>
+                    <span class="spell-name">{s.name} {s.element && <ElementBadge element={s.element} small />} {cost}</span>
+                    <span class="muted spell-desc">
+                      {s.description}
+                      {foe && m === 'strong' && <strong class="spell-strong"> Strong against {foe.name}.</strong>}
+                      {foe && (m === 'weak' || m === 'same') && <> {foe.name} resists it.</>}
+                    </span>
                   </button>
                 );
               }
               return [
-                <button key={`${s.id}-r`} type="button" class="list-button" disabled={!afford} data-testid={`spell-${s.id}-rider`}
+                <button key={`${s.id}-r`} type="button" class="list-button spell-button" disabled={!afford} data-testid={`spell-${s.id}-rider`}
                   onClick={() => { setRider({ type: 'spell', spell: s.id, target: 'rider' }); setSheet(null); }}>
-                  {s.name} on {battle.rider.name} <span class="muted">· {s.mp} MP</span>
+                  <span class="spell-name">{s.name} on {battle.rider.name} {cost}</span>
+                  <span class="muted spell-desc">{s.description}</span>
                 </button>,
                 dragonUp && (
-                  <button key={`${s.id}-d`} type="button" class="list-button" disabled={!afford}
+                  <button key={`${s.id}-d`} type="button" class="list-button spell-button" disabled={!afford} data-testid={`spell-${s.id}-dragon`}
                     onClick={() => { setRider({ type: 'spell', spell: s.id, target: 'dragon' }); setSheet(null); }}>
-                    {s.name} on {battle.dragon?.name} <span class="muted">· {s.mp} MP</span>
+                    <span class="spell-name">{s.name} on {battle.dragon?.name} {cost}</span>
                   </button>
                 ),
               ];
             })}
+            {battle.spells.length === 0 && <p class="muted">No spells in your loadout. Pick spells in the Bag.</p>}
           </div>
+          <p class="muted">Change which spells you bring in the Bag, between fights.</p>
         </Sheet>
       )}
       {sheet === 'skill' && (
@@ -655,6 +667,11 @@ function Results({ save, report, update, onExit, onNext }: {
         </>
       )}
       {report.riderLevelsGained > 0 && <p class="notice notice--ok" data-testid="level-up">{save.rider.name} reached level {save.rider.level}! Spend stat points in the Bag.</p>}
+      {report.spellsLearned?.map((sp) => (
+        <p key={sp.id} class="notice notice--ok" data-testid={`learned-${sp.id}`}>
+          New spell: {sp.name}! {sp.equipped ? 'It is in your spell loadout.' : 'Your loadout is full. Swap it in from the Bag.'}
+        </p>
+      ))}
       {report.dragonLevelsGained > 0 && dragon && <p class="notice notice--ok">{dragon.name} reached level {dragon.level}! Spend stat points in Dragons.</p>}
       {report.outcome === 'lost' && <p>You limp back to the Roost. Everything you earned this run is safe. Rest up and try again.</p>}
       {report.outcome === 'fled' && <p>You escape back to the Roost with everything you earned so far.</p>}

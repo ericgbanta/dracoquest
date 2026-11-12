@@ -11,11 +11,12 @@
  */
 import { gameData as data } from '../src/core/data';
 import { createRng } from '../src/core/rng';
-import { autoOrders } from '../src/core/ai';
+import { autoOrders, suggestedLoadout } from '../src/core/ai';
 import {
   activeDragon, buyGear, buyItem, canEquip, canHaveSecond, canRide, chooseEgg, equip, growthStatus, hatchEgg, incubateEgg, learnDragonTalent,
   playRound, rest, secondDragon, setLead, setSecond, spendDragonPoint, spendRiderPoint, startFight, startGrowthQuest, startRun,
   takeHatchedEgg, upgradeBuilding, warmEgg, zoneLock,
+  setSpells,
 } from '../src/core/game';
 import { newSave, type SaveData } from '../src/core/save';
 import { dragonBaseStats, dragonMaxHp, riderMaxHp, riderMaxMp } from '../src/core/characters';
@@ -123,6 +124,11 @@ function onLevelCharacter(element: ElementId, level: number, seed: number, withS
   };
 }
 
+/** Pick spells for the zone, the way a player would before a run. */
+function withLoadout(s: SaveData, zone: ZoneData): SaveData {
+  return setSpells(data, s, suggestedLoadout(data, s.rider.level, zone.element));
+}
+
 interface RunStats { won: boolean; fights: number; fightsWon: number; rounds: number; bossFought: boolean; bossWon: boolean; xp: number; gold: number }
 
 function playRun(save: SaveData, start: (s: SaveData) => SaveData): { save: SaveData; stats: RunStats } {
@@ -171,7 +177,7 @@ if (!SKIP_LEVELS) {
         for (let i = 0; i < RUNS; i++) {
           const base = onLevelCharacter(element, level, rng.int(1, 2 ** 31), zone.minLevel >= data.progression.secondPartnerRiderLevel);
           if (zoneLock(data, base, zone)) continue;
-          const { stats } = playRun(base, (s) => startRun(data, s, zone.id));
+          const { stats } = playRun(base, (s) => startRun(data, withLoadout(s, zone), zone.id));
           wins += stats.won ? 1 : 0;
           fights += stats.fights;
           fightsWon += stats.fightsWon;
@@ -255,7 +261,7 @@ if (!SKIP_CAMPAIGN) {
         const d = activeDragon(s)!;
         const growing = growthStatus(data, d).ready;
         const zone = pickZone(s);
-        const r = playRun(s, growing ? (x) => startGrowthQuest(data, x) : (x) => startRun(data, x, zone.id));
+        const r = playRun(withLoadout(s, zone), growing ? (x) => startGrowthQuest(data, x) : (x) => startRun(data, x, zone.id));
         s = r.save;
         if (growingSecond) s = setLead(data, s, leadId, clock);
         fights += r.stats.fights;

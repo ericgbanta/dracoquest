@@ -1,4 +1,5 @@
 import type { DragonState, DragonStats, ElementId, GameData, RiderState } from './types';
+import { defaultLoadout } from './spells';
 import type { Rng } from './rng';
 import { bonusOf, dragonBonus, effectiveDragonStats, effectiveRiderStats, riderBonus } from './loadout';
 
@@ -41,6 +42,7 @@ export function newRider(data: GameData, name: string): RiderState {
     inventory: { ...p.startingInventory },
     gear: Object.values(p.startingGear).filter((x): x is string => !!x),
     equipment: { ...p.startingGear },
+    spells: defaultLoadout(data, 1),
   };
 }
 

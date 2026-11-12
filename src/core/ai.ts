@@ -4,7 +4,27 @@
  */
 import { breathReady, comboAvailable, enemyMove, livingEnemies, skillReady, type BattleState, type Orders } from './battle';
 import { talentById } from './loadout';
-import type { GameData } from './types';
+import { elementMultiplier } from './elements';
+import { knownSpells, spellById } from './spells';
+import type { ElementId, GameData, SpellData } from './types';
+
+/** How well a damage spell does against an element: base power times the element multiplier. */
+function spellScore(data: GameData, s: SpellData, element: ElementId | null, resist?: Partial<Record<ElementId, number>>): number {
+  return s.base * elementMultiplier(data.elements, s.element ?? null, element, resist);
+}
+
+/**
+ * A sensible loadout for a zone: the best heal, the two best damage spells
+ * against the zone's element, and Ward when there is room.
+ */
+export function suggestedLoadout(data: GameData, level: number, zoneElement: ElementId | null): string[] {
+  const known = knownSpells(data, level);
+  const heal = known.filter((s) => s.kind === 'heal').sort((a, b) => b.base - a.base)[0];
+  const damage = known.filter((s) => s.kind === 'damage').sort((a, b) => spellScore(data, b, zoneElement) - spellScore(data, a, zoneElement));
+  const buff = known.find((s) => s.kind === 'buff');
+  const picks = [heal, damage[0], buff, damage[1], damage[2]].filter((s): s is SpellData => !!s);
+  return [...new Set(picks.map((s) => s.id))].slice(0, data.progression.spellLoadoutSize);
+}
 
 export function autoOrders(data: GameData, state: BattleState): Orders {
   const enemies = livingEnemies(state);
@@ -23,15 +43,25 @@ export function autoOrders(data: GameData, state: BattleState): Orders {
   }
 
   const dragon = state.dragon && state.dragon.hp > 0 ? state.dragon : null;
-  const spells = data.combat.riderMoves.spells;
-  const bolt = spells.find((s) => s.kind === 'damage');
-  const mend = spells.find((s) => s.kind === 'heal');
+  const loadout = state.spells.map((id) => spellById(data, id)).filter((x): x is SpellData => !!x);
+  const heals = loadout.filter((x) => x.kind === 'heal').sort((a, b) => b.base - a.base);
+  const healSpell = heals.find((x) => rider.mp >= x.mp);
+  // Keep enough MP for the cheapest heal before spending on anything else.
+  const reserve = heals.length ? Math.min(...heals.map((x) => x.mp)) : 0;
+  const ward = loadout.find((x) => x.kind === 'buff' && x.status === 'ward');
+  const neutral = data.elements.multipliers.neutral;
+  const damage = loadout
+    .filter((x) => x.kind === 'damage' && rider.mp >= x.mp + reserve)
+    .map((x) => ({ x, score: spellScore(data, x, target.element, target.resist) }))
+    .sort((a, b) => b.score - a.score)[0];
+  const warded = rider.statuses.some((x) => x.id === 'ward');
 
   let riderOrder: Orders['rider'];
   if (riderPct < 0.35 && has('potion')) riderOrder = { type: 'item', item: 'potion' };
-  else if (riderPct < 0.55 && mend && rider.mp >= mend.mp) riderOrder = { type: 'spell', spell: mend.id, target: 'rider' };
+  else if (riderPct < 0.55 && healSpell) riderOrder = { type: 'spell', spell: healSpell.id, target: 'rider' };
   else if (dragon && dragon.hp / dragon.maxHp < 0.3 && has('dragon-treat')) riderOrder = { type: 'item', item: 'dragon-treat' };
-  else if (bolt && mend && rider.mp >= bolt.mp + mend.mp && state.weapon.type !== 'magic') riderOrder = { type: 'spell', spell: bolt.id, target: target.id };
+  else if (ward && bigIncoming && !warded && riderPct < 0.8 && rider.mp >= ward.mp + reserve) riderOrder = { type: 'spell', spell: ward.id, target: 'rider' };
+  else if (damage && (state.weapon.type !== 'magic' || damage.score > damage.x.base * neutral)) riderOrder = { type: 'spell', spell: damage.x.id, target: target.id };
   else riderOrder = { type: 'attack', target: target.id };
 
   if (!dragon) return { rider: riderOrder };
@@ -42,7 +72,7 @@ export function autoOrders(data: GameData, state: BattleState): Orders {
 
   const heal = skill('heal') ?? skill('healAll');
   if (heal && riderPct < 0.5) return order({ type: 'skill', skill: heal.id, target: 'rider' });
-  const riderAttacking = riderOrder.type === 'attack' || (riderOrder.type === 'spell' && riderOrder.spell === bolt?.id);
+  const riderAttacking = riderOrder.type === 'attack' || (riderOrder.type === 'spell' && spellById(data, riderOrder.spell)?.kind === 'damage');
   const combo = [...data.combat.combos].reverse().find((c) => comboAvailable(data, state, c.id));
   if (combo && riderAttacking) return order({ type: 'combo', combo: combo.id, target: target.id });
   if (breathReady(data, state)) return order({ type: 'breath', target: target.id });

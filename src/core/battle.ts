@@ -9,6 +9,7 @@
 import { createRng, type Rng } from './rng';
 import { elementMultiplier, matchup, type Matchup } from './elements';
 import { dragonMaxHp, riderMaxHp, riderMaxMp } from './characters';
+import { riderLoadout } from './spells';
 import { addBonus, bonusOf, dragonBonus, effectiveDragonStats, effectiveRiderStats, learnedSkills, riderBonus, riderWeapon, talentById } from './loadout';
 import type {
   Bonus, DragonState, ElementId, EnemyData, EnemyMove, GameData, IntentKind, RiderState, StatusId, WeaponType,
@@ -78,6 +79,8 @@ export interface BattleState {
   second: SecondDragon | null;
   /** Talent skills used this fight, for temperament. */
   skillUses: number;
+  /** The rider's spell loadout for this fight. */
+  spells: string[];
 }
 
 export interface SecondDragon {
@@ -235,6 +238,7 @@ export function createBattle(data: GameData, setup: BattleSetup): BattleState {
     ride,
     second: null,
     skillUses: 0,
+    spells: riderLoadout(data, setup.rider),
   };
   const two = setup.second && setup.second.hp > 0 ? setup.second : null;
   if (two) {
@@ -528,8 +532,13 @@ function riderAct(ctx: RoundCtx, order: RiderOrder): void {
       basicAttack(order.target);
       return;
     case 'spell': {
-      const spell = c.riderMoves.spells.find((s) => s.id === order.spell);
-      if (!spell || rider.mp < spell.mp) {
+      const spell = state.spells.includes(order.spell) ? c.riderMoves.spells.find((s) => s.id === order.spell) : undefined;
+      if (!spell) {
+        events.push({ t: 'act', actor: 'rider', text: `${rider.name} doesn't know that spell and attacks instead.` });
+        basicAttack(order.target);
+        return;
+      }
+      if (rider.mp < spell.mp) {
         events.push({ t: 'act', actor: 'rider', text: `${rider.name} is out of MP and attacks instead.` });
         basicAttack(order.target);
         return;
@@ -537,12 +546,15 @@ function riderAct(ctx: RoundCtx, order: RiderOrder): void {
       rider.mp -= spell.mp;
       if (spell.kind === 'damage') {
         const t = enemyTarget(state, order.target);
-        if (t) strike(ctx, rider, t, { base: spell.base, stat: rider.magic, element: null, label: spell.name, damageMultiplier: alone });
-      } else {
-        const target = order.target === 'dragon' && alive(state.dragon) ? state.dragon : rider;
-        events.push({ t: 'act', actor: 'rider', text: `${rider.name} casts ${spell.name}.` });
-        heal(ctx, rider, target, spell.base * (1 + c.levelDamageScale * (rider.level - 1)) * (1 + rider.magic / c.statDivisor));
+        if (!t) return;
+        const dealt = strike(ctx, rider, t, { base: spell.base, stat: rider.magic, element: spell.element ?? null, label: spell.name, damageMultiplier: alone });
+        if (dealt > 0 && spell.status && t.hp > 0 && ctx.rng.chance(spell.statusChance ?? 1)) addStatus(data, t, spell.status, events);
+        return;
       }
+      const target = order.target === 'dragon' && alive(state.dragon) ? state.dragon : rider;
+      events.push({ t: 'act', actor: 'rider', text: `${rider.name} casts ${spell.name}.` });
+      if (spell.kind === 'buff') addStatus(data, target, spell.status!, events);
+      else heal(ctx, rider, target, spell.base * (1 + c.levelDamageScale * (rider.level - 1)) * (1 + rider.magic / c.statDivisor));
       return;
     }
     case 'item': {

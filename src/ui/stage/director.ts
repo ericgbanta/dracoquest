@@ -48,6 +48,15 @@ export function classify(data: GameData, state: BattleState, ev: { actor: string
   return 'lunge';
 }
 
+const ORB = '#c9a8ff';
+
+/** Orb color for a rider spell or magic weapon: the spell's element, else the weapon's, else violet. */
+export function spellColor(data: GameData, state: BattleState, text: string): string {
+  const spell = data.combat.riderMoves.spells.find((s) => mentions(text, s.name));
+  const el = spell ? spell.element : state.weapon.element;
+  return el ? data.elements.info[el].color : ORB;
+}
+
 /** Play one event on the stage. Resolves when the next event may start. */
 export async function direct(stage: HTMLElement, data: GameData, state: BattleState, ev: BattleEvent, opts: DirectorOpts): Promise<void> {
   const k = opts.fast ? layout.fastFactor : 1;
@@ -69,7 +78,7 @@ export async function direct(stage: HTMLElement, data: GameData, state: BattleSt
       switch (move) {
         case 'slash': return riderAttack(stage, hit, beat);
         case 'arrow': return shoot(stage, { ...hit, bolt: 'arrow' }, beat);
-        case 'spell': return shoot(stage, { ...hit, bolt: 'orb', color: '#c9a8ff' }, beat);
+        case 'spell': return shoot(stage, { ...hit, bolt: 'orb', color: spellColor(data, state, ev.text) }, beat);
         case 'claw': return claw(stage, hit, beat);
         case 'breath': return breath(stage, hit, beat);
         case 'combo': return together(stage, { ...hit, actor: 'dragon' }, 'rider', beat);

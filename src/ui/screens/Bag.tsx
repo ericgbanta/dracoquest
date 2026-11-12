@@ -1,12 +1,14 @@
 import { useState } from 'preact/hooks';
 import { gameData as data } from '../../core/data';
-import { activeDragon, canEquip, equip, GameError, sellGear, spendRiderPoint, unequip } from '../../core/game';
+import { activeDragon, canEquip, equip, GameError, sellGear, setSpells, spendRiderPoint, unequip } from '../../core/game';
+import { riderLoadout, spellById } from '../../core/spells';
+import type { SpellData } from '../../core/types';
 import { riderMaxHp, riderMaxMp } from '../../core/characters';
 import { gearItem } from '../../core/loadout';
 import { xpToNext } from '../../core/progression';
 import type { SaveData } from '../../core/save';
 import { DRAGON_SLOTS, RIDER_SLOTS, RIDER_STATS, type GearSlot, type RiderStat } from '../../core/types';
-import { Bar } from '../bits';
+import { Bar, ElementBadge } from '../bits';
 import { Sheet } from '../Sheet';
 import { gearSummary } from './Town';
 import { href } from '../router';
@@ -92,6 +94,7 @@ export function Bag({ save, update }: Props) {
           </div>
         ))}
       </div>
+      <SpellsCard save={save} act={act} />
       <div class="card">
         <h2>Items</h2>
         {data.items.map((item) => (
@@ -153,5 +156,53 @@ export function Bag({ save, update }: Props) {
         </Sheet>
       )}
     </section>
+  );
+}
+
+/** The rider's spells: the loadout taken into battle, other learned spells, and spells still to learn. */
+function SpellsCard({ save, act }: { save: SaveData; act(fn: (s: SaveData) => SaveData, ok: string): void }) {
+  const r = save.rider;
+  const size = data.progression.spellLoadoutSize;
+  const loadout = riderLoadout(data, r);
+  const all = [...data.combat.riderMoves.spells].sort((a, b) => a.level - b.level);
+  const spare = all.filter((sp) => sp.level <= r.level && !loadout.includes(sp.id));
+  const locked = all.filter((sp) => sp.level > r.level);
+  const full = loadout.length >= size;
+
+  const info = (sp: SpellData) => (
+    <div>
+      <strong class="spell-name">{sp.name} {sp.element && <ElementBadge element={sp.element} small />}</strong>
+      <span class="muted">{sp.mp} MP · {sp.description}</span>
+    </div>
+  );
+
+  return (
+    <div class="card" data-testid="spells">
+      <h2>Spells <span class="loadout-count muted" data-testid="loadout-count">{loadout.length} of {size} in battle</span></h2>
+      {loadout.map((id) => spellById(data, id)!).map((sp) => (
+        <div key={sp.id} class="spell-row" data-testid={`spell-row-${sp.id}`}>
+          {info(sp)}
+          <button type="button" class="button button--ghost" data-testid={`spell-remove-${sp.id}`}
+            onClick={() => act((s) => setSpells(data, s, loadout.filter((x) => x !== sp.id)), `${sp.name} stays home.`)}>Remove</button>
+        </div>
+      ))}
+      {loadout.length === 0 && <p class="muted">No spells picked. Add some below.</p>}
+      {spare.length > 0 && <h3 class="section-title">Learned</h3>}
+      {spare.map((sp) => (
+        <div key={sp.id} class="spell-row" data-testid={`spell-row-${sp.id}`}>
+          {info(sp)}
+          <button type="button" class={`button${full ? ' button--ghost' : ''}`} disabled={full} data-testid={`spell-add-${sp.id}`}
+            onClick={() => act((s) => setSpells(data, s, [...loadout, sp.id]), `${sp.name} is ready for battle.`)}>{full ? 'Full' : 'Add'}</button>
+        </div>
+      ))}
+      {spare.length > 0 && full && <p class="muted">Remove a spell to make room.</p>}
+      {locked.length > 0 && <h3 class="section-title">Still to learn</h3>}
+      {locked.map((sp) => (
+        <div key={sp.id} class="spell-row spell-row--locked" data-testid={`spell-row-${sp.id}`}>
+          {info(sp)}
+          <span class="muted">Level {sp.level}</span>
+        </div>
+      ))}
+    </div>
   );
 }

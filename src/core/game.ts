@@ -17,6 +17,7 @@ import type { SaveData } from './save';
 import type { BuildingId, DragonSlot, DragonState, DragonStat, ElementId, GameData, GearSlot, RiderSlot, RiderStat, StageData, ZoneData } from './types';
 import { DRAGON_SLOTS } from './types';
 import { activeEvent, eventKey, eventOnlyIds } from './events';
+import { learnSpells, setLoadout, SpellError } from './spells';
 
 export class GameError extends Error {}
 
@@ -129,6 +130,16 @@ export function spendRiderPoint(save: SaveData, stat: RiderStat): SaveData {
   return { ...save, rider: allocateRider(save.rider, stat) };
 }
 
+/** Set the rider's spell loadout. */
+export function setSpells(data: GameData, save: SaveData, ids: string[]): SaveData {
+  try {
+    return { ...save, rider: setLoadout(data, save.rider, ids) };
+  } catch (e) {
+    if (e instanceof SpellError) throw new GameError(e.message);
+    throw e;
+  }
+}
+
 export function spendDragonPoint(save: SaveData, stat: DragonStat, dragonId?: string): SaveData {
   return replaceDragon(save, allocateDragon(requireDragon(save, dragonId), stat));
 }
@@ -196,6 +207,8 @@ export interface FightReport {
   grewTo?: string;
   egg?: ElementId;
   embers?: number;
+  /** Spells the rider learned from this fight's level-ups, and whether each went into the loadout. */
+  spellsLearned?: { id: string; name: string; equipped: boolean }[];
 }
 
 export interface RoundReport { save: SaveData; events: BattleEvent[]; report: FightReport | null }
@@ -264,9 +277,17 @@ function finishFight(data: GameData, save: SaveData): { save: SaveData; report: 
     report.rewards = rewards;
     report.wellKept = wellKept;
 
+    const levelBefore = rider.level;
     const rl = giveRiderXp(data, rider, rewards.xp);
     rider = rl.state;
     report.riderLevelsGained = rl.levelsGained;
+    if (rl.levelsGained > 0) {
+      const learnt = learnSpells(data, rider, levelBefore);
+      rider = learnt.rider;
+      if (learnt.learned.length) {
+        report.spellsLearned = learnt.learned.map((sp) => ({ id: sp.id, name: sp.name, equipped: rider.spells.includes(sp.id) }));
+      }
+    }
     rider.gold += rewards.gold;
     rider.inventory = { ...rider.inventory };
     for (const [item, n] of Object.entries(rewards.drops)) rider.inventory[item] = (rider.inventory[item] ?? 0) + n;

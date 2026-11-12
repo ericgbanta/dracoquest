@@ -11,9 +11,10 @@ import { newRider } from './characters';
 import { freshCareDay, type CareDay } from './care';
 import type { RunState } from './run';
 import { newRoost, type RoostState } from './roost';
+import { defaultLoadout } from './spells';
 import type { DragonState, ElementId, RiderState } from './types';
 
-export const CURRENT_VERSION = 6;
+export const CURRENT_VERSION = 7;
 export const SAVE_KEY = 'dracoquest.save';
 const CODE_PREFIX = 'DQ1:'; // Code format, not save version. The save inside carries its own version.
 
@@ -140,6 +141,19 @@ export const MIGRATIONS: Record<number, Migration> = {
     ...save,
     settings: { ...(save.settings as Record<string, unknown>), simpleBattle: false },
   }),
+  // v6 → v7 adds rider spells: a loadout of the first spells the rider's level has learned.
+  // A battle in progress keeps the two spells every rider had before.
+  6: (save) => {
+    const rider = (save.rider ?? {}) as Record<string, unknown>;
+    const level = typeof rider.level === 'number' ? rider.level : 1;
+    const run = save.run as Record<string, unknown> | null | undefined;
+    const battle = run?.battle as Record<string, unknown> | null | undefined;
+    return {
+      ...save,
+      rider: { ...rider, spells: defaultLoadout(gameData, level) },
+      run: run && battle ? { ...run, battle: { ...battle, spells: defaultLoadout(gameData, 1) } } : run ?? null,
+    };
+  },
 };
 
 export function newSave(now: number): SaveData {
@@ -210,7 +224,8 @@ export function validateSave(raw: Record<string, unknown>): SaveData {
   }
   const rider = raw.rider;
   if (!isObject(rider) || typeof rider.name !== 'string' || typeof rider.level !== 'number' || !isObject(rider.stats)
-    || !isObject(rider.inventory) || !Array.isArray(rider.gear) || !isObject(rider.equipment)) fail('rider damaged');
+    || !isObject(rider.inventory) || !Array.isArray(rider.gear) || !isObject(rider.equipment)
+    || !Array.isArray(rider.spells) || !(rider.spells as unknown[]).every((x) => typeof x === 'string')) fail('rider damaged');
   if (!Array.isArray(raw.dragons)) fail('dragons missing');
   for (const d of raw.dragons as unknown[]) {
     if (!isObject(d) || typeof d.id !== 'string' || typeof d.level !== 'number' || !isObject(d.stats)

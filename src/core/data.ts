@@ -72,7 +72,7 @@ export function validateCombat(raw: unknown): CombatData {
 }
 
 export function validateProgression(raw: unknown): ProgressionData {
-  requireNumbers('progression', raw, ['levelCap', 'xpBase', 'xpExponent', 'statPointsPerLevel', 'secondPartnerRiderLevel']);
+  requireNumbers('progression', raw, ['levelCap', 'xpBase', 'xpExponent', 'statPointsPerLevel', 'secondPartnerRiderLevel', 'spellLoadoutSize']);
   return raw as ProgressionData;
 }
 
@@ -142,6 +142,20 @@ export function loadGameData(raw: RawData): GameData {
     talentIds.add(t.id);
     if (!treeIds.has(t.tree)) throw new DataError(`talents.${t.id}: unknown tree`);
     if (t.skill?.status && !statuses[t.skill.status]) throw new DataError(`talents.${t.id}: unknown status`);
+  }
+
+  const spellIds = new Set<string>();
+  for (const sp of combat.riderMoves.spells) {
+    if (spellIds.has(sp.id)) throw new DataError(`combat.riderMoves.spells: duplicate id "${sp.id}"`);
+    spellIds.add(sp.id);
+    if (!['damage', 'heal', 'buff'].includes(sp.kind)) throw new DataError(`spells.${sp.id}: unknown kind`);
+    if (!(Number.isInteger(sp.level) && sp.level >= 1 && sp.level <= progression.levelCap)) throw new DataError(`spells.${sp.id}: bad level`);
+    if (sp.element && !elementIds.has(sp.element)) throw new DataError(`spells.${sp.id}: unknown element`);
+    if (sp.status && !statuses[sp.status]) throw new DataError(`spells.${sp.id}: unknown status`);
+    if (sp.kind === 'buff' && !sp.status) throw new DataError(`spells.${sp.id}: buff spells need a status`);
+  }
+  if (combat.riderMoves.spells.filter((sp) => sp.level === 1).length > progression.spellLoadoutSize) {
+    throw new DataError('spells: more level 1 spells than loadout slots');
   }
 
   const quests: Record<string, QuestData> = {};

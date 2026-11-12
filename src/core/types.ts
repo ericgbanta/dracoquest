@@ -134,7 +134,22 @@ export interface ElementsData {
   info: Record<ElementId, ElementInfo>;
 }
 
-export interface SpellData { id: string; name: string; kind: 'damage' | 'heal'; base: number; mp: number }
+export interface SpellData {
+  id: string;
+  name: string;
+  /** damage hits an enemy; heal and buff target the rider or the lead dragon. */
+  kind: 'damage' | 'heal' | 'buff';
+  /** Rider level that teaches the spell. */
+  level: number;
+  /** Damage spells only. No element means neutral against everything. */
+  element?: ElementId;
+  /** Damage spells: may inflict this on a hit. Buff spells: always grant it. */
+  status?: StatusId;
+  statusChance?: number;
+  base: number;
+  mp: number;
+  description: string;
+}
 export interface RideMove {
   id: string; name: string; kind: 'damage' | 'breath' | 'defend' | 'buff'; description: string;
   base?: number; heal?: number; status?: StatusId;
@@ -184,6 +199,8 @@ export interface ProgressionData {
   xpExponent: number;
   statPointsPerLevel: number;
   secondPartnerRiderLevel: number;
+  /** How many spells the rider takes into battle. */
+  spellLoadoutSize: number;
   levelUpRestoresHp: boolean;
   enemyXpBase: number;
   enemyXpExponent: number;
@@ -338,6 +355,8 @@ export interface RiderState {
   /** Gear ids the rider owns, including equipped ones (dragon gear too). */
   gear: string[];
   equipment: Partial<Record<RiderSlot, string>>;
+  /** Spell loadout: the spells the rider takes into battle, in order. */
+  spells: string[];
 }
 
 export interface DragonState {
