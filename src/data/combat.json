@@ -183,6 +183,16 @@
         "base": 19,
         "mp": 7,
         "description": "A bolt of living shadow that may Blind."
+      },
+      {
+        "id": "radiant-lance",
+        "name": "Radiant Lance",
+        "kind": "damage",
+        "level": 42,
+        "element": "light",
+        "base": 20,
+        "mp": 7,
+        "description": "A lance of pure sunlight. Strong against Shadow."
       }
     ]
   },

@@ -24,6 +24,7 @@
         "frostmere",
         "moonwell-woods",
         "deepstone-mines",
+        "gilded-wastes",
         "eclipse-peak"
       ]
     },
@@ -37,16 +38,16 @@
   ],
   "upcoming": [
     {
-      "name": "Gilded Wastes",
-      "region": "highlands",
-      "minLevel": 40,
-      "maxLevel": 50,
-      "gate": "frostmere",
+      "name": "Sunken Spires",
+      "region": "beyond",
+      "minLevel": 50,
+      "maxLevel": 60,
+      "gate": "eclipse-peak",
       "elements": [
-        "light",
-        "stone"
+        "tide",
+        "storm"
       ],
-      "blurb": "A desert of buried treasure, where the sand glitters and the dunes keep secrets."
+      "blurb": "A drowned city where storms walk on the water. The first land beyond the peak."
     }
   ]
 }

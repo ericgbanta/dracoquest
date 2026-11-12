@@ -27,12 +27,14 @@ test('the Map groups zones into regions and teases the next area', async ({ page
   await expect(page.getByTestId('region-wilds')).toContainText('The Wilds');
   await expect(page.getByTestId('region-highlands')).toContainText('The High Lands');
   await expect(page.getByTestId('region-wilds').getByTestId('zone-mossy-hollow')).toBeVisible();
-  // Whispering Fen is built and open (level 15, Bramble Troll beaten); Rustcliff Ruins and Moonwell Woods are built; the next teaser is the Gilded Wastes.
+  // Whispering Fen is built and open (level 15, Bramble Troll beaten); the side areas are built; the next teaser is Sunken Spires, beyond the peak.
   await expect(page.getByTestId('region-wilds').getByTestId('start-whispering-fen')).toBeVisible();
   const teaser = page.getByTestId('zone-teaser');
-  await expect(page.getByTestId('region-highlands').getByTestId('zone-teaser')).toBeVisible();
-  await expect(teaser).toContainText('Gilded Wastes');
-  await expect(teaser).toContainText('Opens at level 40, after you beat the Glacier Hydra');
+  await expect(page.getByTestId('region-beyond').getByTestId('zone-teaser')).toBeVisible();
+  await expect(page.getByTestId('region-beyond')).toContainText('Beyond the Peak');
+  await expect(teaser).toContainText('Sunken Spires');
+  await expect(teaser).toContainText('Opens at level 50, after you beat the Eclipse Dragon');
+  await expect(page.getByTestId('zone-gilded-wastes')).toContainText('Opens at rider level 40, after you beat the Glacier Hydra');
   await expect(page.getByTestId('zone-moonwell-woods')).toContainText('Opens at rider level 30, after you beat the Storm Roc');
   await expect(page.getByTestId('zone-rustcliff-ruins')).toContainText('Opens at rider level 20, after you beat the Magma Wyrm');
   await expect(page.getByTestId('story-mossy-hollow')).toHaveText('Story 0 of 4');
@@ -206,4 +208,31 @@ test('the Moonwell Wyrm boss fight shows the boss art', async ({ page }) => {
   await expect.poll(async () => (await page.locator('[data-testid=stage] img').evaluateAll((els) => els.map((e) => (e as HTMLImageElement).src))).some((src) => /moonwell-wyrm-[^/]*\.webp/.test(src))).toBe(true);
   await page.waitForTimeout(600);
   await page.screenshot({ path: 'test-results/moonwell-boss.png' });
+});
+
+test('the Gilded Wastes open at level 40 after the Glacier Hydra, and their fights use the Wastes art', async ({ page }) => {
+  await load(page, 'elder.json', (s) => {
+    s.bossesDefeated = ['mossy-hollow', 'saltmarsh-shore', 'cinder-pass', 'thunderspire', 'frostmere'];
+    s.rider.level = 41;
+  });
+  await page.getByTestId('tab-map').tap();
+  await page.getByTestId('start-gilded-wastes').tap();
+  await expect(page.locator('[data-testid=stage]:not(.stage--loading)')).toBeVisible();
+  const wastes = /(sand-scarab|mirage-jackal|glimmer-lizard|dune-sentinel|treasure-mimic)-[^/]*\.webp/;
+  await expect.poll(async () => (await page.locator('[data-testid=stage] img').evaluateAll((els) => els.map((e) => (e as HTMLImageElement).src))).some((src) => wastes.test(src))).toBe(true);
+  await page.waitForTimeout(600);
+  await page.screenshot({ path: 'test-results/wastes-fight.png' });
+});
+
+test('the Aurum Basilisk boss fight shows the boss art', async ({ page }) => {
+  await load(page, 'elder.json', (s) => {
+    s.bossesDefeated = ['mossy-hollow', 'saltmarsh-shore', 'cinder-pass', 'thunderspire', 'frostmere'];
+    s.rider.level = 49;
+    s.run = { zoneId: 'gilded-wastes', fights: [{ kind: 'boss', enemies: [{ enemyId: 'aurum-basilisk', level: 50 }] }], index: 0, battle: null, totals: { xp: 0, gold: 0, drops: {} } };
+  });
+  await page.getByTestId('next-fight').tap();
+  await expect(page.locator('[data-testid=stage]:not(.stage--loading)')).toBeVisible();
+  await expect.poll(async () => (await page.locator('[data-testid=stage] img').evaluateAll((els) => els.map((e) => (e as HTMLImageElement).src))).some((src) => /aurum-basilisk-[^/]*\.webp/.test(src))).toBe(true);
+  await page.waitForTimeout(600);
+  await page.screenshot({ path: 'test-results/wastes-boss.png' });
 });

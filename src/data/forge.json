@@ -109,6 +109,17 @@
       }
     },
     {
+      "gear": "sunforged-crown",
+      "forgeLevel": 3,
+      "gold": 4500,
+      "embers": 16,
+      "materials": {
+        "ore": 15,
+        "crystal": 7,
+        "scale": 3
+      }
+    },
+    {
       "gear": "forgeheart-amulet",
       "forgeLevel": 2,
       "gold": 1500,

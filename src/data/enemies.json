@@ -3764,5 +3764,390 @@
     "boss": true,
     "xpMultiplier": 4,
     "goldMultiplier": 5
+  },
+  {
+    "id": "sand-scarab",
+    "name": "Sand Scarab",
+    "element": "stone",
+    "flavor": "A beetle with a golden shell. Rolls things. Mostly you.",
+    "base": {
+      "hp": 119.02,
+      "attack": 8.1,
+      "power": 5,
+      "defense": 1.6,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 34.38,
+      "attack": 1.39,
+      "power": 1,
+      "defense": 0.48,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "horn",
+        "name": "Horn Butt",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "roll",
+        "name": "Sand Roll",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "crack",
+        "statusChance": 0.4
+      },
+      {
+        "id": "shell",
+        "name": "Golden Shell",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "mirage-jackal",
+    "name": "Mirage Jackal",
+    "element": "light",
+    "flavor": "Is it there? Is it not? It is there, and it is biting.",
+    "base": {
+      "hp": 90.0,
+      "attack": 7.87,
+      "power": 5,
+      "defense": 1,
+      "swift": 10.5,
+      "dodge": 8.5
+    },
+    "perLevel": {
+      "hp": 26.0,
+      "attack": 1.35,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1.35,
+      "dodge": 0.68
+    },
+    "moves": [
+      {
+        "id": "bite",
+        "name": "Bite",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "glare",
+        "name": "Dazzling Glare",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.6,
+        "status": "blind",
+        "statusChance": 0.6
+      },
+      {
+        "id": "shimmer",
+        "name": "Shimmer Away",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fade",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "glimmer-lizard",
+    "name": "Glimmer Lizard",
+    "element": "light",
+    "flavor": "A lizard that sunbathes so hard it started to glow.",
+    "base": {
+      "hp": 95.62,
+      "attack": 7.87,
+      "power": 5,
+      "defense": 1,
+      "swift": 9.1,
+      "dodge": 6.5
+    },
+    "perLevel": {
+      "hp": 27.62,
+      "attack": 1.35,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1.17,
+      "dodge": 0.52
+    },
+    "moves": [
+      {
+        "id": "tail",
+        "name": "Tail Whip",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "flash",
+        "name": "Sun Flash",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "blind",
+        "statusChance": 0.4
+      },
+      {
+        "id": "bask",
+        "name": "Bask",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.25,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ]
+  },
+  {
+    "id": "dune-sentinel",
+    "name": "Dune Sentinel",
+    "element": "stone",
+    "flavor": "A sandstone statue that guards a door. The door is long gone.",
+    "base": {
+      "hp": 129.38,
+      "attack": 7.87,
+      "power": 5,
+      "defense": 1.6,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 37.38,
+      "attack": 1.35,
+      "power": 1,
+      "defense": 0.48,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "slam",
+        "name": "Stone Slam",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "sandstorm",
+        "name": "Sandstorm",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "blind",
+        "statusChance": 0.4
+      },
+      {
+        "id": "stand",
+        "name": "Stand Guard",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "treasure-mimic",
+    "name": "Treasure Mimic",
+    "element": "stone",
+    "flavor": "Looks like treasure. Has teeth. Was not treasure.",
+    "base": {
+      "hp": 112.5,
+      "attack": 7.87,
+      "power": 5,
+      "defense": 1,
+      "swift": 9.1,
+      "dodge": 7.0
+    },
+    "perLevel": {
+      "hp": 32.5,
+      "attack": 1.35,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1.17,
+      "dodge": 0.56
+    },
+    "moves": [
+      {
+        "id": "chomp",
+        "name": "Chomp",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "coin-spit",
+        "name": "Coin Spit",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "crack",
+        "statusChance": 0.5
+      },
+      {
+        "id": "play-dead",
+        "name": "Play Treasure",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "riddle-sphinx",
+    "name": "Riddle Sphinx",
+    "element": "light",
+    "flavor": "Asks a riddle. Never waits for the answer. Pounces.",
+    "base": {
+      "hp": 196.88,
+      "attack": 9.04,
+      "power": 5,
+      "defense": 1,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 56.88,
+      "attack": 1.55,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "paw",
+        "name": "Mighty Paw",
+        "intent": "attack",
+        "weight": 4,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "riddle",
+        "name": "Baffling Riddle",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "blind",
+        "statusChance": 0.5
+      },
+      {
+        "id": "preen",
+        "name": "Regal Preen",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self"
+      },
+      {
+        "id": "sunbath",
+        "name": "Sunbath",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.2,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "miniBoss": true,
+    "xpMultiplier": 2
+  },
+  {
+    "id": "aurum-basilisk",
+    "name": "Aurum Basilisk",
+    "element": "stone",
+    "flavor": "A golden basilisk. Its gaze turns things to gold, including, it hopes, you.",
+    "base": {
+      "hp": 315.0,
+      "attack": 8.27,
+      "power": 5,
+      "defense": 1.5,
+      "swift": 7.7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 91.0,
+      "attack": 1.42,
+      "power": 1,
+      "defense": 0.45,
+      "swift": 0.99,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "crush",
+        "name": "Coil Crush",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "gilded-gaze",
+        "name": "Gilded Gaze",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.8,
+        "status": "crack",
+        "statusChance": 0.6
+      },
+      {
+        "id": "sand-tide",
+        "name": "Sand Tide",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "blind",
+        "statusChance": 0.4
+      },
+      {
+        "id": "sun-crown",
+        "name": "Crown of the Sun",
+        "intent": "shift",
+        "weight": 1,
+        "shiftTo": "light",
+        "target": "self",
+        "condition": "notShifted"
+      },
+      {
+        "id": "gold-scales",
+        "name": "Gold Scales",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      },
+      {
+        "id": "hoard",
+        "name": "Count the Hoard",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.12,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "boss": true,
+    "xpMultiplier": 5,
+    "goldMultiplier": 6
   }
 ]

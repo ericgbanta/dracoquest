@@ -863,6 +863,115 @@
     }
   },
   {
+    "id": "gilded-wastes",
+    "name": "Gilded Wastes",
+    "element": "stone",
+    "elements": [
+      "stone",
+      "light"
+    ],
+    "minLevel": 40,
+    "maxLevel": 50,
+    "gate": null,
+    "unlock": {
+      "level": 40,
+      "afterBoss": "frostmere"
+    },
+    "blurb": "A desert of buried treasure, where the sand glitters and the dunes keep secrets.",
+    "fights": {
+      "min": 3,
+      "max": 5
+    },
+    "encounters": [
+      {
+        "enemies": [
+          "sand-scarab"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "mirage-jackal"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "glimmer-lizard"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "dune-sentinel"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "treasure-mimic"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "mirage-jackal",
+          "mirage-jackal"
+        ],
+        "weight": 1,
+        "minLevel": 42
+      },
+      {
+        "enemies": [
+          "sand-scarab",
+          "glimmer-lizard"
+        ],
+        "weight": 1,
+        "minLevel": 44
+      }
+    ],
+    "levelSpread": 1,
+    "multiEnemyLevelOffset": -1,
+    "boss": {
+      "enemy": "aurum-basilisk",
+      "level": 50,
+      "unlockRiderLevel": 49,
+      "trophy": {
+        "gear": "sunseeker-armor",
+        "chance": 0.25
+      }
+    },
+    "miniBoss": {
+      "enemy": "riddle-sphinx",
+      "levelOffset": 0,
+      "trophy": {
+        "gear": "sunseeker-trinket",
+        "chance": 0.25
+      }
+    },
+    "dropChances": {
+      "potion": 0.25,
+      "dragon-treat": 0.15,
+      "mana-tonic": 0.1
+    },
+    "eggDrop": {
+      "element": "light",
+      "chance": 0.1,
+      "elements": [
+        "light",
+        "stone"
+      ]
+    },
+    "gearDrops": {
+      "chance": 0.06,
+      "gear": [
+        "sunseeker-melee",
+        "sunseeker-ranged",
+        "sunseeker-magic"
+      ]
+    }
+  },
+  {
     "id": "eclipse-peak",
     "name": "Eclipse Peak",
     "element": "shadow",

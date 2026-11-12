@@ -113,7 +113,15 @@
     "starless-tome",
     "frostlight-wand",
     "owlfeather-coat",
-    "moonpetal-pin"
+    "moonpetal-pin",
+    "dunebreaker",
+    "dawnglass-blade",
+    "scarab-sling",
+    "sunbeam-bow",
+    "sandglass-orb",
+    "halo-scepter",
+    "nomad-wraps",
+    "oasis-charm"
   ],
   "items": {
     "potion": 25,

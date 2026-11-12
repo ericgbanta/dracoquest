@@ -489,6 +489,104 @@
         },
         "enemy": "duskhorn"
       }
+    ],
+    "gilded-wastes": [
+      {
+        "id": "scarab-roundup",
+        "kind": "defeat",
+        "count": 5,
+        "text": "Round up 5 Sand Scarabs",
+        "reward": {
+          "gold": 600,
+          "materials": {
+            "ore": 2
+          }
+        },
+        "enemy": "sand-scarab"
+      },
+      {
+        "id": "mirage-check",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Prove 4 Mirage Jackals are real",
+        "reward": {
+          "gold": 580,
+          "embers": 1
+        },
+        "enemy": "mirage-jackal"
+      },
+      {
+        "id": "lizard-shade",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Give 3 Glimmer Lizards some shade",
+        "reward": {
+          "gold": 580,
+          "embers": 1
+        },
+        "enemy": "glimmer-lizard"
+      },
+      {
+        "id": "sentinel-shift",
+        "kind": "defeat",
+        "count": 3,
+        "text": "End the shift of 3 Dune Sentinels",
+        "reward": {
+          "gold": 600,
+          "materials": {
+            "ore": 3
+          }
+        },
+        "enemy": "dune-sentinel"
+      },
+      {
+        "id": "mimic-check",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Open 3 chests that bite back",
+        "reward": {
+          "gold": 620,
+          "materials": {
+            "crystal": 1
+          }
+        },
+        "enemy": "treasure-mimic"
+      },
+      {
+        "id": "waste-wins",
+        "kind": "wins",
+        "count": 6,
+        "text": "Win 6 fights in the Wastes",
+        "reward": {
+          "gold": 720,
+          "materials": {
+            "ore": 3
+          }
+        }
+      },
+      {
+        "id": "waste-clear",
+        "kind": "clear",
+        "count": 2,
+        "text": "Finish 2 runs in the Wastes",
+        "reward": {
+          "gold": 850,
+          "embers": 2
+        }
+      },
+      {
+        "id": "sphinx-visit",
+        "kind": "defeat",
+        "count": 1,
+        "text": "Defeat the Riddle Sphinx",
+        "reward": {
+          "gold": 720,
+          "materials": {
+            "scale": 1
+          }
+        },
+        "enemy": "riddle-sphinx"
+      }
     ]
   }
 }

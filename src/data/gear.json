@@ -2357,5 +2357,198 @@
       "healPct": 0.05
     },
     "description": "Holds a tiny drop of the moonwell. It hums lullabies."
+  },
+  {
+    "id": "sunseeker-melee",
+    "name": "Sunseeker Khopesh",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": null,
+    "level": 42,
+    "damage": 42,
+    "price": 6200,
+    "bonus": {
+      "strength": 8
+    },
+    "description": "A curved blade that catches the sun. And the occasional mirage."
+  },
+  {
+    "id": "sunseeker-ranged",
+    "name": "Sunseeker Dune Bow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": null,
+    "level": 42,
+    "damage": 41,
+    "price": 6200,
+    "bonus": {
+      "agility": 9
+    },
+    "description": "Its arrows never miss in the desert. They might elsewhere."
+  },
+  {
+    "id": "sunseeker-magic",
+    "name": "Sunseeker Sunstaff",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": null,
+    "level": 42,
+    "damage": 41,
+    "price": 6200,
+    "bonus": {
+      "arcana": 9
+    },
+    "description": "Topped with a sliver of the midday sun. Bring sunscreen."
+  },
+  {
+    "id": "sunseeker-armor",
+    "name": "Sunseeker Basilisk Mail",
+    "slot": "armor",
+    "level": 49,
+    "price": 8500,
+    "bonus": {
+      "riderDefense": 15,
+      "riderHp": 175
+    },
+    "description": "Golden scales from the Aurum Basilisk. Priceless, and very shiny."
+  },
+  {
+    "id": "sunseeker-trinket",
+    "name": "Sunseeker Sphinx Riddle",
+    "slot": "trinket",
+    "level": 44,
+    "price": 6800,
+    "bonus": {
+      "arcana": 5,
+      "agility": 5,
+      "vigor": 4
+    },
+    "description": "A scroll with the sphinx's best riddle. Nobody knows the answer."
+  },
+  {
+    "id": "dunebreaker",
+    "name": "Dunebreaker",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": "stone",
+    "level": 45,
+    "damage": 43,
+    "price": 7000,
+    "bonus": {
+      "strength": 8,
+      "vigor": 1
+    },
+    "description": "A sandstone maul. It breaks dunes. Mostly into smaller dunes."
+  },
+  {
+    "id": "dawnglass-blade",
+    "name": "Dawnglass Blade",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": "light",
+    "level": 45,
+    "damage": 43,
+    "price": 7000,
+    "bonus": {
+      "strength": 8,
+      "vigor": 1
+    },
+    "description": "Forged from desert glass that holds the sunrise."
+  },
+  {
+    "id": "scarab-sling",
+    "name": "Scarab Sling",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": "stone",
+    "level": 45,
+    "damage": 42,
+    "price": 7000,
+    "bonus": {
+      "agility": 9
+    },
+    "description": "Slings golden pebbles. The scarabs want them back."
+  },
+  {
+    "id": "sunbeam-bow",
+    "name": "Sunbeam Bow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": "light",
+    "level": 45,
+    "damage": 42,
+    "price": 7000,
+    "bonus": {
+      "agility": 9
+    },
+    "description": "Shoots arrows of pure sunlight. Very bright. Very fast."
+  },
+  {
+    "id": "sandglass-orb",
+    "name": "Sandglass Orb",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": "stone",
+    "level": 45,
+    "damage": 42,
+    "price": 7000,
+    "bonus": {
+      "arcana": 9
+    },
+    "description": "An hourglass that never runs out of sand."
+  },
+  {
+    "id": "halo-scepter",
+    "name": "Halo Scepter",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": "light",
+    "level": 45,
+    "damage": 42,
+    "price": 7000,
+    "bonus": {
+      "arcana": 9
+    },
+    "description": "Wears a tiny halo. Insists it is not a crown."
+  },
+  {
+    "id": "nomad-wraps",
+    "name": "Nomad Wraps",
+    "slot": "armor",
+    "level": 45,
+    "price": 6600,
+    "bonus": {
+      "riderDefense": 13,
+      "riderHp": 150
+    },
+    "description": "Cool by day, warm by night, sandy always."
+  },
+  {
+    "id": "oasis-charm",
+    "name": "Oasis Charm",
+    "slot": "trinket",
+    "level": 45,
+    "price": 6400,
+    "bonus": {
+      "vigor": 4,
+      "arcana": 4,
+      "riderMp": 12,
+      "healPct": 0.05
+    },
+    "description": "A drop of oasis water in a glass bead. Refreshing just to hold."
+  },
+  {
+    "id": "sunforged-crown",
+    "name": "Sunforged Crown",
+    "slot": "trinket",
+    "level": 47,
+    "price": 8000,
+    "bonus": {
+      "strength": 5,
+      "agility": 5,
+      "arcana": 5,
+      "vigor": 5
+    },
+    "description": "Made from gold the Basilisk didn't need. It needed all of it."
   }
 ]

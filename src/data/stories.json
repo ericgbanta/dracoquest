@@ -1874,5 +1874,444 @@
       "gold": 1000,
       "embers": 8
     }
+  },
+  {
+    "id": "the-prospector",
+    "zone": "gilded-wastes",
+    "name": "The Prospector",
+    "minLevel": 40,
+    "description": "Prospector Goldie has a treasure map, a shovel, and a lot of sand in her boots.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "Howdy! You look like someone who can carry heavy treasure. Or fight things that sit on heavy treasure.",
+            "name": "Prospector Goldie"
+          },
+          {
+            "speaker": "rider",
+            "text": "Mostly the second one."
+          },
+          {
+            "speaker": "narrator",
+            "text": "A Sand Scarab rolls a huge golden ball straight at you."
+          }
+        ],
+        "enemies": [
+          "sand-scarab"
+        ],
+        "level": 40
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "Something shimmers on the dune ahead. A jackal. Two jackals? No, one jackal and a mirage of a jackal."
+          },
+          {
+            "speaker": "dragon",
+            "text": "*bites the mirage, gets a mouthful of sand*"
+          }
+        ],
+        "enemies": [
+          "mirage-jackal"
+        ],
+        "level": 41
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "Ha! That's the spirit! Here's your cut of nothing, since we haven't found anything yet. Kidding. Here.",
+        "name": "Prospector Goldie"
+      },
+      {
+        "speaker": "narrator",
+        "text": "Goldie hands you a pouch of coins. Some of them are real."
+      }
+    ],
+    "reward": {
+      "xp": 550,
+      "gold": 800,
+      "items": {
+        "potion": 2
+      }
+    }
+  },
+  {
+    "id": "mirage-trouble",
+    "zone": "gilded-wastes",
+    "name": "Mirage Trouble",
+    "minLevel": 42,
+    "requires": "the-prospector",
+    "description": "Goldie keeps digging up treasure that turns out to be mirages. Something is playing tricks.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "Third chest today that vanished when I opened it! I'm starting to take it personally.",
+            "name": "Prospector Goldie"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A Glimmer Lizard suns itself on a rock, glowing so bright the air shimmers."
+          }
+        ],
+        "enemies": [
+          "glimmer-lizard"
+        ],
+        "level": 42
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "The shimmer clears. A real chest sits in the sand. It has teeth."
+          },
+          {
+            "speaker": "npc",
+            "text": "Oh, come ON.",
+            "name": "Prospector Goldie"
+          },
+          {
+            "speaker": "dragon",
+            "text": "*growls at the chest. The chest growls back.*"
+          }
+        ],
+        "enemies": [
+          "treasure-mimic",
+          "mirage-jackal"
+        ],
+        "level": 43
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "When the mimic stops chomping, it spits out a little pile of real gold and a strange map piece."
+      },
+      {
+        "speaker": "npc",
+        "text": "A map to the Sunken Vault! Folks say it's guarded by a sphinx. Folks also say I talk too much.",
+        "name": "Prospector Goldie"
+      },
+      {
+        "speaker": "narrator",
+        "text": "The mimic sulks. It liked that gold."
+      }
+    ],
+    "reward": {
+      "xp": 600,
+      "gold": 600
+    },
+    "choice": {
+      "prompt": "The mimic looks sad without its gold. What do you do?",
+      "options": [
+        {
+          "id": "keep",
+          "label": "Keep the gold",
+          "lines": [
+            {
+              "speaker": "npc",
+              "text": "Finders keepers! Well. Fighters keepers.",
+              "name": "Prospector Goldie"
+            }
+          ],
+          "reward": {
+            "gold": 700
+          },
+          "temper": "proud"
+        },
+        {
+          "id": "return",
+          "label": "Toss the mimic a few coins back",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "The mimic snaps up the coins and wags its lid like a happy dog. It coughs up a glittering crystal it had been saving."
+            }
+          ],
+          "reward": {
+            "materials": {
+              "crystal": 2
+            },
+            "embers": 3
+          },
+          "temper": "gentle"
+        }
+      ]
+    }
+  },
+  {
+    "id": "the-buried-gate",
+    "zone": "gilded-wastes",
+    "name": "The Buried Gate",
+    "minLevel": 44,
+    "requires": "mirage-trouble",
+    "description": "The map leads to a gate half-buried in sand, guarded by statues that are not as still as statues should be.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "There! The gate! And there! The guards. And there... is that one blinking?",
+            "name": "Prospector Goldie"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A Dune Sentinel grinds to life, sand pouring from its shoulders."
+          }
+        ],
+        "enemies": [
+          "dune-sentinel"
+        ],
+        "level": 44
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "More sentinels wake along the gate. And a Sand Scarab, who seems to be their supervisor."
+          },
+          {
+            "speaker": "dragon",
+            "text": "*digs furiously at the sand, mostly getting it in everyone's face*"
+          }
+        ],
+        "enemies": [
+          "dune-sentinel",
+          "sand-scarab"
+        ],
+        "level": 45
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "The gate creaks open. Beyond it, a long stair leads down into golden light."
+      },
+      {
+        "speaker": "npc",
+        "text": "The Sunken Vault. My grandmother looked for this her whole life. She'd be so jealous.",
+        "name": "Prospector Goldie"
+      },
+      {
+        "speaker": "narrator",
+        "text": "A voice echoes up the stairs. 'Who walks my stair without a riddle?'"
+      }
+    ],
+    "reward": {
+      "xp": 650,
+      "gold": 900,
+      "materials": {
+        "ore": 4,
+        "crystal": 1
+      }
+    }
+  },
+  {
+    "id": "the-riddle-sphinx",
+    "zone": "gilded-wastes",
+    "name": "The Riddle Sphinx",
+    "minLevel": 46,
+    "requires": "the-buried-gate",
+    "description": "The Riddle Sphinx guards the vault with riddles. She asks them very fast and attacks immediately after.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "The stair is lined with jackals and lizards, all waiting for the sphinx's show."
+          },
+          {
+            "speaker": "npc",
+            "text": "Remind me why we're doing this?",
+            "name": "Prospector Goldie"
+          },
+          {
+            "speaker": "rider",
+            "text": "Treasure."
+          }
+        ],
+        "enemies": [
+          "mirage-jackal",
+          "glimmer-lizard"
+        ],
+        "level": 46
+      },
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "What walks on four legs, flies on two wings, and is about to lose? Too slow! It's your dragon!",
+            "name": "Riddle Sphinx"
+          },
+          {
+            "speaker": "dragon",
+            "text": "*looks deeply offended*"
+          },
+          {
+            "speaker": "rider",
+            "text": "That's not even a riddle!"
+          }
+        ],
+        "enemies": [
+          "riddle-sphinx"
+        ],
+        "level": 47,
+        "mini": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "Fine, fine. You may pass. But the Basilisk below will turn you to gold, and then I shall use you as a doorstop.",
+        "name": "Riddle Sphinx"
+      },
+      {
+        "speaker": "npc",
+        "text": "She's not wrong about the Basilisk. Its gaze turns things to gold. My grandmother's hat is down there. Solid gold.",
+        "name": "Prospector Goldie"
+      },
+      {
+        "speaker": "narrator",
+        "text": "The sphinx sulks, and offers one last riddle as a gift."
+      }
+    ],
+    "reward": {
+      "xp": 700,
+      "gold": 1000,
+      "embers": 4
+    },
+    "choice": {
+      "prompt": "The sphinx offers a riddle. Answer it, or ask her a riddle back?",
+      "options": [
+        {
+          "id": "answer",
+          "label": "Answer her riddle",
+          "lines": [
+            {
+              "speaker": "npc",
+              "text": "Correct! Nobody ever gets that one. Take this, clever one.",
+              "name": "Riddle Sphinx"
+            }
+          ],
+          "reward": {
+            "materials": {
+              "scale": 2
+            },
+            "gold": 300
+          },
+          "temper": "clever"
+        },
+        {
+          "id": "ask",
+          "label": "Ask her one back",
+          "lines": [
+            {
+              "speaker": "rider",
+              "text": "What has a mane, two wings, and talks too much?"
+            },
+            {
+              "speaker": "npc",
+              "text": "...I don't like this riddle. Take your prize and go.",
+              "name": "Riddle Sphinx"
+            },
+            {
+              "speaker": "dragon",
+              "text": "*snickers*"
+            }
+          ],
+          "reward": {
+            "embers": 4,
+            "items": {
+              "mana-tonic": 2
+            }
+          },
+          "temper": "bold"
+        }
+      ]
+    }
+  },
+  {
+    "id": "the-aurum-basilisk",
+    "zone": "gilded-wastes",
+    "name": "The Aurum Basilisk",
+    "minLevel": 49,
+    "requires": "the-riddle-sphinx",
+    "description": "In the heart of the Sunken Vault coils the Aurum Basilisk, guarding a hoard it has turned to gold one adventurer at a time.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "Golden statues everywhere. Hope none of them are folks I know. Ooh, that one's my grandmother's hat!",
+            "name": "Prospector Goldie"
+          },
+          {
+            "speaker": "narrator",
+            "text": "The vault's last guardians rise from the treasure piles."
+          }
+        ],
+        "enemies": [
+          "treasure-mimic",
+          "dune-sentinel"
+        ],
+        "level": 49
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "The Aurum Basilisk uncoils from a mountain of gold, eyes blazing like twin suns."
+          },
+          {
+            "speaker": "npc",
+            "text": "More gold for the hoard. Look at me. LOOK at me.",
+            "name": "Aurum Basilisk"
+          },
+          {
+            "speaker": "rider",
+            "text": "Don't look at it!"
+          },
+          {
+            "speaker": "dragon",
+            "text": "*squeezes its eyes shut and charges anyway*"
+          }
+        ],
+        "enemies": [
+          "aurum-basilisk"
+        ],
+        "level": 50,
+        "boss": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "The Basilisk's glow fades. All around the vault, golden statues crack, and adventurers step out, blinking and confused."
+      },
+      {
+        "speaker": "npc",
+        "text": "Grandma?!",
+        "name": "Prospector Goldie"
+      },
+      {
+        "speaker": "npc",
+        "text": "Goldie? You got old! Where's my hat?",
+        "name": "Grandma Goldie"
+      },
+      {
+        "speaker": "narrator",
+        "text": "Somewhere far beyond the peak, past the edge of every map, a drowned city waits."
+      }
+    ],
+    "reward": {
+      "xp": 1100,
+      "gold": 1600,
+      "embers": 10
+    }
   }
 ]

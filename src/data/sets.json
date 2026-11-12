@@ -254,6 +254,35 @@
     ]
   },
   {
+    "id": "sunseeker",
+    "name": "Sunseeker",
+    "zone": "gilded-wastes",
+    "description": "Treasure-hunter's gear from the desert. Full set finds more gold.",
+    "pieces": [
+      "sunseeker-melee",
+      "sunseeker-ranged",
+      "sunseeker-magic",
+      "sunseeker-armor",
+      "sunseeker-trinket"
+    ],
+    "bonuses": [
+      {
+        "pieces": 2,
+        "bonus": {
+          "arcana": 4,
+          "agility": 4
+        }
+      },
+      {
+        "pieces": 3,
+        "bonus": {
+          "riderDamagePct": 0.06,
+          "goldPct": 0.1
+        }
+      }
+    ]
+  },
+  {
     "id": "twilight-regalia",
     "name": "Twilight Regalia",
     "zone": "eclipse-peak",
