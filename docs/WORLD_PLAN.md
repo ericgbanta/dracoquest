@@ -1,6 +1,6 @@
 # World expansion: plan
 
-Written 2026-11-12 at Eric's request. Status: proposed, nothing built. Questions for Eric are at the end; the plan assumes the recommended answers until he says otherwise.
+Written 2026-11-12 at Eric's request. Status: planned, nothing built. Eric answered the open questions the same day (see "Eric's answers"); the plan below follows them.
 
 The request, in Eric's words: "I now want to expand the game with unlockable areas and more levels to go on adventures. Just like adventure quest you could choose and the game grows. Maybe we can do 1 area at a time and they unlock every 10-15 levels for the rider."
 
@@ -22,23 +22,30 @@ DracoQuest has the hunting part (zone runs) but not the choosing part. The plan 
 
 ## The shape of the expansion
 
-### Raise the level cap to 100, one area at a time
+### Nine new areas: four inside levels 1 to 50, five above it
 
-Five new areas, one every 10 levels from 50 to 100. Each area raises the level cap by 10 when it ships, so the game is never capped above its content. Eric can stop after any area and the game is complete at that cap.
+Eric wants the cap raised to 100 **and** more places to go below 50. So there are two kinds of new area:
 
-| Area | Rider levels | Unlocks at | Theme (working names, Eric can rename) | Main elements |
-| --- | --- | --- | --- | --- |
-| 8. Sunken Spires | 50 to 60 | Level 50, after the Eclipse Dragon | A drowned city, storms over the water | Tide, Storm |
-| 9. Emberwild | 60 to 70 | Level 60, after the Sunken Spires boss | A volcanic jungle | Fire, Verdant |
-| 10. Skyreach Isles | 70 to 80 | Level 70 | Floating islands, sun and wind | Storm, Light |
-| 11. Hollow Crown | 80 to 90 | Level 80 | An underground kingdom | Stone, Shadow |
-| 12. Starfall Summit | 90 to 100 | Level 90 | Where the stars land. The final area | Light, Shadow |
+- **Side areas (levels 10 to 50).** One new area in each 10-level band, next to the existing zones. They don't raise the cap. They give a player a second place to go at the same level, with its own story, enemies and gear set. This is the AQ feeling of choosing where to adventure.
+- **Frontier areas (levels 50 to 100).** One every 10 levels. Each raises the level cap by 10 when it ships, so the game is never capped above its content. Eric can stop after any area and the game is complete at that cap.
 
-Two elements per area, unlike the single-element early zones. That makes the element choice in a fight matter more and gives every starter a good and a bad matchup in each area.
+| Area | Kind | Rider levels | Unlocks after | Theme (working names, Eric can rename) | Main elements |
+| --- | --- | --- | --- | --- | --- |
+| A. Whispering Fen | Side | 10 to 20 | Level 10 and the Bramble Troll | A foggy marsh of will-o'-wisps | Verdant, Tide |
+| B. Rustcliff Ruins | Side | 20 to 30 | Level 20 and the Magma Wyrm | A ruined fortress of old machines | Stone, Fire |
+| C. Moonwell Woods | Side | 30 to 40 | Level 30 and the Storm Roc | A forest that only wakes at night | Shadow, Frost |
+| D. Gilded Wastes | Side | 40 to 50 | Level 40 and the Glacier Hydra | A desert of buried treasure | Light, Stone |
+| 8. Sunken Spires | Frontier | 50 to 60 | Level 50 and the Eclipse Dragon | A drowned city, storms over the water | Tide, Storm |
+| 9. Emberwild | Frontier | 60 to 70 | Level 60 and the Sunken Spires boss | A volcanic jungle | Fire, Verdant |
+| 10. Skyreach Isles | Frontier | 70 to 80 | Level 70 and the Emberwild boss | Floating islands, sun and wind | Storm, Light |
+| 11. Hollow Crown | Frontier | 80 to 90 | Level 80 and the Skyreach boss | An underground kingdom | Stone, Shadow |
+| 12. Starfall Summit | Frontier | 90 to 100 | Level 90 and the Hollow Crown boss | Where the stars land. The final area | Light, Shadow |
+
+Two elements per new area, unlike the single-element early zones. That makes the element choice in a fight matter more and gives every starter a good and a bad matchup in each area.
 
 ### Unlocking
 
-An area opens when the rider reaches its level **and** has beaten the previous area's boss. The Map shows the next locked area as a teaser card ("Opens at level 60, after the Tidelord falls") so the player can see the world growing ahead of them.
+An area opens when the rider reaches its level **and** has beaten the boss named in the table (Eric's pick). For a side area that is a main zone's boss just below its band; for a frontier area it is the previous frontier boss. The Map shows the next locked area as a teaser card ("Opens at level 60, after the Tidelord falls") so the player can see the world growing ahead of them.
 
 ### Three kinds of adventure per area
 
@@ -52,13 +59,15 @@ Story quests may offer a **choice** at one or two points, AQ-style ("Help the dr
 
 ### The Map grows into regions
 
-With 12 areas the Map list gets long. Group it into regions with a header each: "The Wilds" (zones 1 to 4), "The High Lands" (5 to 7), and "Beyond the Peak" (8 to 12). Each region collapses to a strip of banners once all its areas are done. Locked areas show as dimmed teaser cards.
+With 16 areas the Map list gets long. Group it into regions with a header each, by level band: "The Wilds" (levels 1 to 20: zones 1 to 3 and Whispering Fen), "The High Lands" (20 to 50: zones 4 to 7 and side areas B to D), and "Beyond the Peak" (50 to 100: frontier areas 8 to 12). Each region collapses to a strip of banners once all its areas are done. Locked areas show as dimmed teaser cards.
 
 A painted world map with areas lighting up is a possible extra later (one Codex image), not part of this plan.
 
-### Dragons past level 50
+### Dragons stay at level 50
 
-Dragons currently stop at Elder, level 50. Recommended: a fifth life stage, **Ancient** (levels 50 to 100), unlocked by a growth quest in the Sunken Spires. Ancient dragons get one more talent point every two levels and a second capstone talent. It needs one new dragon painting and its attack pose (2 images), in the same key colors so the recolor works.
+Eric's call: dragons cap at 50 while the rider keeps leveling to 100. Dragons still share XP up to 50 and keep their talents and gear.
+
+What this means for balance: past 50 the rider's power keeps growing (stat points, gear, the 12 percent per level damage scale) while the dragon's stops. Frontier enemies are tuned in the sim with that in mind, so the rider carries more of the fight at high levels and the dragon becomes the reliable support (breath, guard, heals, combos). If dragons fall too far behind, the gentlest fix is letting the Forge upgrade dragon gear too, which needs the Forge's dragon bonus path; a new dragon stage stays off the table unless Eric asks.
 
 ### What each new area contains
 
@@ -71,13 +80,13 @@ Dragons currently stop at Elder, level 50. Recommended: a fifth life stage, **An
 | Shop tier | 6 to 9 pieces | One weapon per type in each of the area's elements, an armor, a trinket |
 | Story quests | 4 to 6 | With one or two choices |
 | Bounty pool | 8 to 10 | Three posted each day |
-| Spell | 0 or 1 | Light and Shadow have no rider spell yet: Radiant Lance in Skyreach, Umbral Bolt in Hollow Crown |
+| Spell | 0 or 1 | Light and Shadow have no rider spell yet: Umbral Bolt from Moonwell Woods (about level 32), Radiant Lance from the Gilded Wastes (about level 42). Frontier areas may add stronger versions |
 | Forge recipe | 1 | A piece made from the area's materials |
 | Art | about 15 images | 1 backdrop, 7 enemies with attack poses (14). See below |
 
 ### Art
 
-Each area needs about 15 Codex images, made with `docs/ART_GENERATION.md` in the chosen style: 1 backdrop and 7 enemies with attack poses. The Ancient dragon adds 2. Five areas and the dragon come to about 77 images, against 61 for the whole art redesign.
+Each area needs about 15 Codex images, made with `docs/ART_GENERATION.md` in the chosen style: 1 backdrop and 7 enemies with attack poses. Nine areas come to about 135 images, against 61 for the whole art redesign, spread over nine phases.
 
 The game never blocks on art (CLAUDE.md), so an area's code and data can be built and tested with placeholder shapes, and its art generated in one batch when Eric is ready to spend the Codex limits. Eric is told the count before each batch.
 
@@ -98,21 +107,31 @@ One phase at a time, each committed, tested and deployed when Eric says so.
 
 Done when: the Map shows regions and a teaser for area 8; Mossy Hollow and Saltmarsh Shore each have a playable story chain and daily bounties; save v9 migrates from a v8 fixture; tests, lint, type check and phone tests pass.
 
-### W1. Sunken Spires and the level cap to 60
+### W1 to W4. Side areas, one at a time
+
+Whispering Fen (10 to 20), then Rustcliff Ruins, Moonwell Woods and the Gilded Wastes. Each phase:
+
+- All the area content from the table above, built and tested with placeholder shapes first.
+- Its art batch (about 15 images), generated when Eric is ready.
+- The sim gets the area added: on-level win rate 70 to 85 percent across the three starters, and the main zone at the same level is not made worse.
+
+Done when: a character at the area's level who has beaten the gate boss can unlock it, play its story to the boss, hunt it and take bounties; tests and phone tests pass.
+
+### W5. Sunken Spires and the level cap to 60
 
 - The level cap goes to 60. The XP curve, enemy XP taper and gold are extended and checked in the sim (target about 20 to 22 fights per level).
-- All the area content from the table above, the Ancient stage and its growth quest.
-- Art batch: about 17 images (the area plus the Ancient dragon).
+- Rider-only growth past 50: stat points, gear tiers, the Forge, spells. The dragon stays at 50.
+- All the area content and its art batch.
 
 Done when: a level 50 character who has beaten the Eclipse Dragon can unlock the area, play its story to the boss, and reach level 60; the sim shows a 70 to 85 percent on-level win rate across the three starters; the campaign reaches 60.
 
-### W2 to W5. One area each
+### W6 to W9. One frontier area each
 
-Same checklist, each raising the cap by 10. Light and Shadow spells arrive in W3 and W4. W5 ends with a final boss and a short closing story.
+Same checklist, each raising the cap by 10. W9 ends with a final boss and a short closing story.
 
 ### Story chains for the older zones
 
-Once W0 proves the format, story chains for zones 3 to 7 can be written in any order, between new areas or after them. They need no art.
+Once W0 proves the format, story chains for zones 3 to 7 can be written in any order, between new areas or after them. They need no art. Eric can also reorder the phases, for example doing the first frontier area before the last side area.
 
 ## Risks and how the plan handles them
 
@@ -120,13 +139,16 @@ Once W0 proves the format, story chains for zones 3 to 7 can be written in any o
 - **Playtime.** Each area is about 7 hours of hunting at the current pace. If that feels too long, story quests and bounties give bigger XP rewards so a player who mixes adventures levels faster than one who only hunts.
 - **Art cost.** About 15 Codex images per area. Building with placeholders first means art never holds up the code.
 - **Download size.** Solved by per-area caching in W0.
-- **Talents running out.** At 50 a dragon has about 40 points. The Ancient stage's half-rate points and a second capstone keep growth going without new trees. If more is wanted, a sixth talent tree is a separate project.
+- **Dragons falling behind past 50.** Dragons stop at 50 by Eric's choice. The sim watches how much of the damage the dragon still deals in frontier fights; Forge upgrades for dragon gear are the planned fix if it drops too far.
+- **The 1 to 50 curve.** Side areas add places to go, not XP to the curve, so leveling speed below 50 does not change. Their XP and gold match the main zone at the same level.
 
-## Questions for Eric
+## Eric's answers (2026-11-12)
 
-1. **How far:** level 100 with five areas (recommended), or a different cap?
-2. **Unlock rule:** level plus beating the previous boss (recommended), or level alone?
-3. **Story choices:** small choices that change rewards and temperament (recommended), or real branches where players can miss content?
-4. **Dragons past 50:** a new Ancient stage (recommended, 2 more images), or dragons stay at 50 while the rider keeps going?
-5. **Names and themes:** keep the working names above, or does he want to name the areas himself?
-6. **Order:** start with W0 (new adventure kinds in existing zones, no art), or go straight to the first new area?
+| Question | Answer |
+| --- | --- |
+| How far | Level 100, and also more areas inside levels 1 to 50. That gives four side areas and five frontier areas |
+| Unlock rule | Level plus beating the gate boss |
+| Story choices | Small: they change rewards and temperament, no branches |
+| Dragons past 50 | Dragons cap at 50; no new stage |
+| Where to start | W0: story quests and bounties in existing zones, no art |
+| Names and themes | Not answered yet; the working names stand until Eric renames them |

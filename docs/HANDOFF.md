@@ -73,7 +73,7 @@ The raw generated PNGs lived only in that session's container and are gone. The 
 
 ## What to work on next
 
-**World expansion (planned 2026-11-12).** Eric wants new areas that unlock every 10 or so rider levels and more kinds of adventure, AQ-style. The plan is `docs/WORLD_PLAN.md`: raise the cap to 100 one area at a time, add story quests with choices and daily bounties to every area, and a fifth dragon stage. It opens with questions for Eric; check his answers before building.
+**World expansion (planned 2026-11-12).** Eric wants new areas that unlock every 10 or so rider levels and more kinds of adventure, AQ-style. The plan is `docs/WORLD_PLAN.md`: four side areas inside levels 10 to 50, five frontier areas that raise the cap to 100, and story quests with small choices plus daily bounties in every area. Dragons stay capped at 50. Eric answered the open questions (end of the plan); next is phase W0.
 
 No task is in progress. These are the open threads. Eric closed three on 2026-11-11: the B5 look, battle feel and split targets are good; tap for details is good as it stands; the 100-node stage budget is fine.
 
