@@ -148,8 +148,8 @@ src/ui/        Preact screens and pieces
   pwa.ts sound.ts install.ts storage.ts useSave.ts router.ts bits.tsx
 src/art/       painted/ (WebP characters, attack poses, backdrops, effects, tail tips), eggs/ and icons/ (WebP), palette.json, assets.json
 src/data/stage.json  stage layouts, plate spots, beat timings, the demo fight (UI only, not read by src/core)
-tests/         Vitest unit tests (185), sim.ts (the balance simulator), save fixtures
-e2e/           Playwright phone tests (51, including a 4x-throttle perf test), save fixtures and make-fixtures.ts
+tests/         Vitest unit tests (196), sim.ts (the balance simulator), save fixtures
+e2e/           Playwright phone tests (59, including a 4x-throttle perf test), save fixtures and make-fixtures.ts
 scripts/       icons.mjs builds the Home Screen icons
 tools/art/     painted/ (prompts, the style anchor, and the scripts that generate, cut out and pack the art)
 docs/          DESIGN.md, HANDOFF.md, WORLD_PLAN.md (world expansion plan), ART_GENERATION.md (how to make new art), GRAPHICS_PLAN_2.md (second graphics pass: research, C0 result, C1 to C4), NEXT_PROMPT.md (prompt for a new session), GRAPHICS_PLAN.md (graphics plan and results), ART_STYLE.md (art rules)
@@ -160,9 +160,9 @@ docs/          DESIGN.md, HANDOFF.md, WORLD_PLAN.md (world expansion plan), ART_
 | Command | What it does |
 | --- | --- |
 | `npm run dev` | Local dev server |
-| `npm run test` | Unit tests (185) |
+| `npm run test` | Unit tests (196) |
 | `npx tsc --noEmit` and `npm run lint` | Type check and lint. Lint blocks `Math.random` and browser globals in `src/core`. |
-| `npm run e2e` | Phone tests at 375 by 667 (51), about 2 minutes |
+| `npm run e2e` | Phone tests at 375 by 667 (59), about 2 minutes |
 | `npm run sim` | Balance sim: 1,000 runs per zone and level, plus campaigns from egg to level 50. Flags: `--runs`, `--campaigns`, `--zone`, `--no-campaign`, `--campaign-only`. The full run takes about 2.5 minutes. |
 | `npx tsx e2e/make-fixtures.ts` | Rebuilds the saves the phone tests load |
 | `npm run icons` | Rebuilds the Home Screen icons |
