@@ -1,0 +1,606 @@
+[
+  {
+    "id": "wrens-garden",
+    "zone": "mossy-hollow",
+    "name": "Wren's Garden",
+    "minLevel": 2,
+    "description": "Old Wren the herbalist can't reach her garden. The Thornlings have opinions about that.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "You there, with the dragon! My herb garden is overrun. Thornlings, everywhere, being rude.",
+            "name": "Old Wren"
+          },
+          {
+            "speaker": "rider",
+            "text": "We'll clear a path."
+          },
+          {
+            "speaker": "dragon",
+            "text": "*sniffs a Thornling, sneezes on it*"
+          }
+        ],
+        "enemies": [
+          "thornling"
+        ],
+        "level": 2
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "A Bog Hopper has claimed the garden pond. It is sitting on the mint."
+          },
+          {
+            "speaker": "npc",
+            "text": "Not the mint!",
+            "name": "Old Wren"
+          }
+        ],
+        "enemies": [
+          "bog-hopper"
+        ],
+        "level": 3
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "My garden! Take these, dear. Potions taste better when the mint is fresh.",
+        "name": "Old Wren"
+      },
+      {
+        "speaker": "dragon",
+        "text": "*eats a basil plant, looks very pleased with itself*"
+      }
+    ],
+    "reward": {
+      "xp": 40,
+      "gold": 60,
+      "items": {
+        "potion": 2
+      }
+    }
+  },
+  {
+    "id": "the-spore-cloud",
+    "zone": "mossy-hollow",
+    "name": "The Spore Cloud",
+    "minLevel": 4,
+    "requires": "wrens-garden",
+    "description": "A cloud of glowing spores is drifting toward the village. Wren wants a sample. So does everyone else.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "Those Spore Puffers are making the whole Hollow sneeze. Bring me a jar of spores, would you?",
+            "name": "Old Wren"
+          },
+          {
+            "speaker": "rider",
+            "text": "How hard can it be to catch a cloud?"
+          }
+        ],
+        "enemies": [
+          "spore-puffer"
+        ],
+        "level": 4
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "Two Moss Wisps zip in to guard the biggest Puffer. They glow menacingly. Mostly glow."
+          },
+          {
+            "speaker": "dragon",
+            "text": "*tries to eat a wisp, gets a mouth full of light*"
+          }
+        ],
+        "enemies": [
+          "moss-wisp",
+          "moss-wisp"
+        ],
+        "level": 5
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "You hold up a jar of glowing spores. They hum."
+      },
+      {
+        "speaker": "rider",
+        "text": "Wren wanted these. But a trader in town pays good gold for glowing things."
+      }
+    ],
+    "reward": {
+      "xp": 60,
+      "gold": 40
+    },
+    "choice": {
+      "prompt": "What do you do with the jar of spores?",
+      "options": [
+        {
+          "id": "give",
+          "label": "Give the spores to Wren",
+          "lines": [
+            {
+              "speaker": "npc",
+              "text": "Oh, splendid! I'll brew something that makes dragons glow in the dark. Here, have some embers I found.",
+              "name": "Old Wren"
+            }
+          ],
+          "reward": {
+            "embers": 3
+          },
+          "temper": "gentle"
+        },
+        {
+          "id": "sell",
+          "label": "Sell them in town",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "The trader pays in shiny coins and asks no questions. Your dragon looks a little disappointed in you."
+            }
+          ],
+          "reward": {
+            "gold": 150
+          },
+          "temper": "proud"
+        }
+      ]
+    }
+  },
+  {
+    "id": "elder-of-the-thicket",
+    "zone": "mossy-hollow",
+    "name": "Elder of the Thicket",
+    "minLevel": 6,
+    "requires": "the-spore-cloud",
+    "description": "The oldest Thornling in the Hollow wants a word. A loud, pointy word.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "A Barkback Boar blocks the path to the thicket, chewing a log thoughtfully."
+          },
+          {
+            "speaker": "rider",
+            "text": "Excuse us!"
+          },
+          {
+            "speaker": "narrator",
+            "text": "It does not excuse you."
+          }
+        ],
+        "enemies": [
+          "barkback-boar"
+        ],
+        "level": 6
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "In the heart of the thicket, the Elder Thornling rises. It has a beard of twigs."
+          },
+          {
+            "speaker": "npc",
+            "text": "Who disturbs the thicket? The spore-thief and the sneezing lizard?",
+            "name": "Elder Thornling"
+          },
+          {
+            "speaker": "dragon",
+            "text": "*sneezes, on purpose this time*"
+          }
+        ],
+        "enemies": [
+          "elder-thornling"
+        ],
+        "level": 7,
+        "mini": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "Fine. FINE. You are strong. The Troll beyond the brambles is stronger. Hah.",
+        "name": "Elder Thornling"
+      },
+      {
+        "speaker": "narrator",
+        "text": "It drops a lump of iron ore and stomps off, offended."
+      }
+    ],
+    "reward": {
+      "xp": 80,
+      "gold": 100,
+      "materials": {
+        "ore": 2
+      }
+    }
+  },
+  {
+    "id": "the-bramble-troll",
+    "zone": "mossy-hollow",
+    "name": "The Bramble Troll",
+    "minLevel": 7,
+    "requires": "elder-of-the-thicket",
+    "description": "The Bramble Troll has been hoarding the Hollow's sunshine. Time to share.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "The Troll's brambles block the light. My herbs are wilting. So am I.",
+            "name": "Old Wren"
+          },
+          {
+            "speaker": "rider",
+            "text": "We're on it."
+          },
+          {
+            "speaker": "narrator",
+            "text": "A pair of guards steps out of the brambles."
+          }
+        ],
+        "enemies": [
+          "thornling",
+          "moss-wisp"
+        ],
+        "level": 7
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "The brambles part. The Bramble Troll is sitting on a pile of stolen garden gnomes."
+          },
+          {
+            "speaker": "npc",
+            "text": "MINE. All the gnomes. All the sun.",
+            "name": "Bramble Troll"
+          },
+          {
+            "speaker": "dragon",
+            "text": "*growls in a way that is almost brave*"
+          }
+        ],
+        "enemies": [
+          "bramble-troll"
+        ],
+        "level": 8,
+        "boss": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "Sunlight floods the Hollow. Somewhere, a gnome is returned to a grateful garden."
+      },
+      {
+        "speaker": "npc",
+        "text": "You've done it! The Hollow will sing about you. Badly, but with feeling.",
+        "name": "Old Wren"
+      },
+      {
+        "speaker": "rider",
+        "text": "Where to next, partner?"
+      },
+      {
+        "speaker": "dragon",
+        "text": "*points its nose toward the sea*"
+      }
+    ],
+    "reward": {
+      "xp": 150,
+      "gold": 250,
+      "embers": 5
+    }
+  },
+  {
+    "id": "captain-pells-boat",
+    "zone": "saltmarsh-shore",
+    "name": "Captain Pell's Boat",
+    "minLevel": 7,
+    "description": "Captain Pell's boat is stuck on a sandbar. The crabs say it's theirs now.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "Ahoy! My boat, the Soggy Biscuit, is surrounded by crabs. Very rude crabs.",
+            "name": "Captain Pell"
+          },
+          {
+            "speaker": "rider",
+            "text": "We've dealt with rude before."
+          }
+        ],
+        "enemies": [
+          "pincher-crab"
+        ],
+        "level": 7
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "A Gull Bandit swoops down and steals Pell's hat."
+          },
+          {
+            "speaker": "npc",
+            "text": "MY HAT!",
+            "name": "Captain Pell"
+          }
+        ],
+        "enemies": [
+          "gull-bandit"
+        ],
+        "level": 8
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "You saved the Biscuit AND the hat. Here's something for your trouble.",
+        "name": "Captain Pell"
+      },
+      {
+        "speaker": "dragon",
+        "text": "*tries on the hat. It does not fit.*"
+      }
+    ],
+    "reward": {
+      "xp": 70,
+      "gold": 90,
+      "items": {
+        "mana-tonic": 1
+      }
+    }
+  },
+  {
+    "id": "the-slime-tide",
+    "zone": "saltmarsh-shore",
+    "name": "The Slime Tide",
+    "minLevel": 9,
+    "requires": "captain-pells-boat",
+    "description": "Brine Slimes are oozing up the beach at night. Pell thinks something is sending them.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "Every night, more slime. Every morning, more mopping. I'm a captain, not a mop!",
+            "name": "Captain Pell"
+          },
+          {
+            "speaker": "rider",
+            "text": "Let's find where they come from."
+          }
+        ],
+        "enemies": [
+          "brine-slime"
+        ],
+        "level": 9
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "The trail of slime leads into the kelp beds. Something large is wearing the kelp as a coat."
+          },
+          {
+            "speaker": "dragon",
+            "text": "*pokes the kelp. The kelp pokes back.*"
+          }
+        ],
+        "enemies": [
+          "kelp-lurker"
+        ],
+        "level": 10
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "Behind the Kelp Lurker you find a chest, half-buried, with a map inside."
+      },
+      {
+        "speaker": "npc",
+        "text": "That's the old salvage map! It shows a wreck full of gold. Or a lighthouse that needs help. The ink's smudged.",
+        "name": "Captain Pell"
+      },
+      {
+        "speaker": "rider",
+        "text": "Two marks. We can only reach one before the tide."
+      }
+    ],
+    "reward": {
+      "xp": 90,
+      "gold": 60
+    },
+    "choice": {
+      "prompt": "The tide is coming in. Which mark do you follow?",
+      "options": [
+        {
+          "id": "wreck",
+          "label": "Dig up the wreck's gold",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "You find a soggy chest of coins. Your dragon guards it like it hatched it."
+            }
+          ],
+          "reward": {
+            "gold": 220
+          },
+          "temper": "proud"
+        },
+        {
+          "id": "lighthouse",
+          "label": "Help the lighthouse keeper",
+          "lines": [
+            {
+              "speaker": "npc",
+              "text": "Bless you! The light's been out for a week. Take these, they fell from the stars. Probably.",
+              "name": "Keeper Mae"
+            }
+          ],
+          "reward": {
+            "embers": 3,
+            "materials": {
+              "crystal": 1
+            }
+          },
+          "temper": "gentle"
+        }
+      ]
+    }
+  },
+  {
+    "id": "the-shell-knights-oath",
+    "zone": "saltmarsh-shore",
+    "name": "The Shell Knight's Oath",
+    "minLevel": 11,
+    "requires": "the-slime-tide",
+    "description": "A Shell Knight challenges you to an honorable duel. Its honor is mostly shell.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "HALT! I am Sir Clamsworth, Shell Knight of the Third Tide. I challenge thee!",
+            "name": "Sir Clamsworth"
+          },
+          {
+            "speaker": "rider",
+            "text": "Is this really necessary?"
+          },
+          {
+            "speaker": "npc",
+            "text": "VERY.",
+            "name": "Sir Clamsworth"
+          }
+        ],
+        "enemies": [
+          "shell-knight"
+        ],
+        "level": 11
+      },
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "Thou fightest well. But canst thou best my squire?",
+            "name": "Sir Clamsworth"
+          },
+          {
+            "speaker": "narrator",
+            "text": "The squire is a crab. It is a very big crab. It is Big Pincher."
+          }
+        ],
+        "enemies": [
+          "big-pincher"
+        ],
+        "level": 12,
+        "mini": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "I yield! Know this: the Crab King stirs in his tide pool. He has heard of thee. He is cross.",
+        "name": "Sir Clamsworth"
+      },
+      {
+        "speaker": "dragon",
+        "text": "*clacks its jaws like a crab, badly*"
+      }
+    ],
+    "reward": {
+      "xp": 110,
+      "gold": 150,
+      "materials": {
+        "ore": 2
+      }
+    }
+  },
+  {
+    "id": "the-crab-king",
+    "zone": "saltmarsh-shore",
+    "name": "The Crab King",
+    "minLevel": 13,
+    "requires": "the-shell-knights-oath",
+    "description": "The Crab King wants the whole shore. And Pell's boat. And, oddly, the hat.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "He's sent his whole court to the docks! Crabs, gulls, the lot.",
+            "name": "Captain Pell"
+          },
+          {
+            "speaker": "rider",
+            "text": "Then we go to him."
+          }
+        ],
+        "enemies": [
+          "pincher-crab",
+          "gull-bandit"
+        ],
+        "level": 13
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "The Crab King rises from his tide pool, crown gleaming, claws snapping."
+          },
+          {
+            "speaker": "npc",
+            "text": "Bow to the King of the Shore! Also give me that hat.",
+            "name": "Crab King"
+          },
+          {
+            "speaker": "npc",
+            "text": "NEVER.",
+            "name": "Captain Pell"
+          }
+        ],
+        "enemies": [
+          "crab-king"
+        ],
+        "level": 14,
+        "boss": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "The Crab King scuttles back into the sea, crownless and grumbling."
+      },
+      {
+        "speaker": "npc",
+        "text": "The shore is free! The Soggy Biscuit sails again!",
+        "name": "Captain Pell"
+      },
+      {
+        "speaker": "dragon",
+        "text": "*stands at the front of the boat, very proud, gets splashed*"
+      }
+    ],
+    "reward": {
+      "xp": 200,
+      "gold": 350,
+      "embers": 5
+    }
+  }
+]

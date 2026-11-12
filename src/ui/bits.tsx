@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'preact/hooks';
 import { gameData } from '../core/data';
-import type { ElementId, IntentKind, StatusId } from '../core/types';
+import type { ElementId, IntentKind, StatusId, StoryReward } from '../core/types';
+import { MATERIALS } from '../core/types';
 import { Icon } from './Icon';
 
 export function ElementBadge({ element, small }: { element: ElementId; small?: boolean }) {
@@ -121,4 +122,18 @@ export function formatDuration(ms: number): string {
   const h = Math.floor(mins / 60);
   const m = mins % 60;
   return m ? `${h}h ${m}m` : `${h}h`;
+}
+
+/** "+120 gold, +2 embers, 2 Iron Ore, 2 Potions" for story and bounty rewards. */
+export function rewardText(r: StoryReward): string {
+  const parts: string[] = [];
+  if (r.xp) parts.push(`+${r.xp} XP`);
+  if (r.gold) parts.push(`+${r.gold} gold`);
+  if (r.embers) parts.push(`+${r.embers} ember${r.embers === 1 ? '' : 's'}`);
+  for (const m of MATERIALS) if (r.materials?.[m]) parts.push(`+${r.materials[m]} ${gameData.forge.materials[m].name}`);
+  for (const [id, n] of Object.entries(r.items ?? {})) {
+    const name = gameData.items.find((i) => i.id === id)?.name ?? gameData.foods.find((f) => f.id === id)?.name ?? id;
+    parts.push(`+${n} ${name}`);
+  }
+  return parts.join(', ');
 }

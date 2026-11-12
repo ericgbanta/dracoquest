@@ -14,7 +14,7 @@ import { newRoost, type RoostState } from './roost';
 import { defaultLoadout } from './spells';
 import type { DragonState, ElementId, RiderState } from './types';
 
-export const CURRENT_VERSION = 8;
+export const CURRENT_VERSION = 9;
 export const SAVE_KEY = 'dracoquest.save';
 const CODE_PREFIX = 'DQ1:'; // Code format, not save version. The save inside carries its own version.
 
@@ -57,7 +57,13 @@ export interface SaveData {
   eventsClaimed: string[];
   stats: { fightsWon: number; fightsLost: number; runsCompleted: number };
   settings: Settings;
+  /** Story quest id → the option picked at its choice. Finished story quests are in questsDone. */
+  storyChoices: Record<string, string>;
+  /** Today's bounty board: progress per "zone:bounty" key, and which were claimed. Resets when the day changes. */
+  bounties: BountyState;
 }
+
+export interface BountyState { day: string; progress: Record<string, number>; claimed: string[] }
 
 export interface SaveStorage {
   getItem(key: string): string | null;
@@ -165,6 +171,8 @@ export const MIGRATIONS: Record<number, Migration> = {
       roost: { ...roost, levels: { ...levels, forge: 0 } },
     };
   },
+  // v8 → v9 adds story quest choices and the daily bounty board.
+  8: (save) => ({ ...save, storyChoices: {}, bounties: { day: '', progress: {}, claimed: [] } }),
 };
 
 export function newSave(now: number): SaveData {
@@ -191,6 +199,8 @@ export function newSave(now: number): SaveData {
     eventsClaimed: [],
     stats: { fightsWon: 0, fightsLost: 0, runsCompleted: 0 },
     settings: { sound: false, fastBattles: false, simpleBattle: false },
+    storyChoices: {},
+    bounties: { day: '', progress: {}, claimed: [] },
   };
 }
 
@@ -256,6 +266,8 @@ export function validateSave(raw: Record<string, unknown>): SaveData {
   for (const d of raw.dragons as Record<string, unknown>[]) if (typeof d.laidEgg !== 'boolean') fail('dragon damaged');
   if (!isObject(raw.stats)) fail('stats missing');
   if (!isObject(raw.settings)) fail('settings missing');
+  const b = raw.bounties as Record<string, unknown> | undefined;
+  if (!isObject(raw.storyChoices) || !isObject(b) || typeof b.day !== 'string' || !isObject(b.progress) || !Array.isArray(b.claimed)) fail('adventures missing');
   const s = raw.settings as Record<string, unknown>;
   if (typeof s.sound !== 'boolean' || typeof s.fastBattles !== 'boolean' || typeof s.simpleBattle !== 'boolean') fail('settings damaged');
   return raw as unknown as SaveData;

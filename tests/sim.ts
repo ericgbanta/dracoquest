@@ -16,8 +16,10 @@ import {
   activeDragon, buyGear, buyItem, canEquip, canHaveSecond, canRide, chooseEgg, equip, growthStatus, hatchEgg, incubateEgg, learnDragonTalent,
   playRound, rest, secondDragon, setLead, setSecond, spendDragonPoint, spendRiderPoint, startFight, startGrowthQuest, startRun,
   takeHatchedEgg, upgradeBuilding, warmEgg, zoneLock,
-  setSpells, forgeUpgrade,
+  setSpells, forgeUpgrade, startStory, claimBounty, chooseStory,
 } from '../src/core/game';
+import { bountyBoard, storyStatus } from '../src/core/adventures';
+import type { StoryData } from '../src/core/types';
 import { upgradeCost } from '../src/core/roost';
 import { newSave, type SaveData } from '../src/core/save';
 import { dragonBaseStats, dragonMaxHp, riderMaxHp, riderMaxMp } from '../src/core/characters';
@@ -123,6 +125,31 @@ function onLevelCharacter(element: ElementId, level: number, seed: number, withS
     rider: { ...s.rider, hp: riderMaxHp(data, s.rider), mp: riderMaxMp(data, s.rider) },
     dragons: s.dragons.map((d) => ({ ...d, hp: dragonMaxHp(data, d) })),
   };
+}
+
+/** The first story quest the character can play, if any. */
+function nextStory(s: SaveData): StoryData | undefined {
+  return data.stories.find((q) => storyStatus(data, s, q).state === 'available' && !zoneLock(data, s, data.zones.find((z) => z.id === q.zone)!));
+}
+
+/** Bounties claimed in the current campaign. */
+let bountyClaims = 0;
+
+/** Claim every finished bounty on today's boards, and make story choices (always the first option). */
+function claimAllBounties(s: SaveData, today: string): SaveData {
+  for (const zoneId of Object.keys(data.bounties.pools)) {
+    for (const b of bountyBoard(data, zoneId, today)) {
+      try {
+        s = claimBounty(data, s, zoneId, b.id, today);
+        bountyClaims++;
+      } catch { /* not finished or already claimed */ }
+    }
+  }
+  for (const q of data.stories) {
+    const st = storyStatus(data, s, q);
+    if (st.state === 'done' && st.choicePending) s = chooseStory(data, s, q.id, q.choice!.options[0]!.id);
+  }
+  return s;
 }
 
 /** Pick spells for the zone, the way a player would before a run. */
@@ -266,11 +293,14 @@ if (!SKIP_CAMPAIGN) {
     const goldAtEnd: number[] = [];
     const setsFound: number[] = [];
     const plusesAtEnd: number[] = [];
+    const storiesAtEnd: number[] = [];
+    const bountiesAtEnd: number[] = [];
     const secondAt: number[] = [];
     let losses = 0, runsPlayed = 0;
     const rng = createRng(SEED * 7919 + element.length);
     for (let c = 0; c < CAMPAIGNS; c++) {
       let s = freshCharacter(element, rng.int(1, 2 ** 31));
+      bountyClaims = 0;
       let fightsAtLevel = 0;
       let fights = 0;
       let clock = 1_800_000_000_000;
@@ -289,9 +319,13 @@ if (!SKIP_CAMPAIGN) {
         }
         const d = activeDragon(s)!;
         const growing = growthStatus(data, d).ready;
-        const zone = pickZone(s);
-        const r = playRun(withLoadout(s, zone), growing ? (x) => startGrowthQuest(data, x) : (x) => startRun(data, x, zone.id));
-        s = r.save;
+        // A sim "day" is every 8 runs: bounties roll over and are claimed as they finish.
+        const today = `sim-day-${Math.floor(runs / 8)}`;
+        const story = growing ? undefined : nextStory(s);
+        const zone = story ? data.zones.find((z) => z.id === story.zone)! : pickZone(s);
+        const r = playRun(withLoadout(s, zone), growing ? (x) => startGrowthQuest(data, x)
+          : story ? (x) => startStory(data, x, story.id, today) : (x) => startRun(data, x, zone.id, today));
+        s = claimAllBounties(r.save, today);
         if (growingSecond) s = setLead(data, s, leadId, clock);
         fights += r.stats.fights;
         fightsAtLevel += r.stats.fights;
@@ -308,6 +342,8 @@ if (!SKIP_CAMPAIGN) {
         if (s.bossesDefeated.includes(finalBoss.id) && s.rider.level >= cap) {
           finished.push(fights);
           goldAtEnd.push(s.rider.gold);
+          storiesAtEnd.push(data.stories.filter((q) => s.questsDone.includes(q.id)).length);
+          bountiesAtEnd.push(bountyClaims);
           plusesAtEnd.push(Object.values(s.rider.upgrades).reduce((a, b) => a + b, 0));
           setsFound.push(data.sets.flatMap((x) => x.pieces).filter((id) => s.rider.gear.includes(id)).length);
           break;
@@ -321,6 +357,7 @@ if (!SKIP_CAMPAIGN) {
     console.log(`  First boss wins at rider level: ${data.zones.map((z) => `${z.name} ${firstBoss(z.id).length ? Math.min(...firstBoss(z.id)).toFixed(0) : '-'}`).join(', ')}`);
     console.log(`  Fights per level: ${perLevel.map((xs, i) => `${i + 1}:${avg(xs).toFixed(0)}`).join(' ')}`);
     console.log(`  Set pieces found by the end: ${(setsFound.reduce((a, b) => a + b, 0) / Math.max(1, setsFound.length)).toFixed(1)} of ${data.sets.reduce((a, x) => a + x.pieces.length, 0)}.`);
+    console.log(`  Story quests done: ${avg(storiesAtEnd).toFixed(1)} of ${data.stories.length}. Bounties claimed: ${avg(bountiesAtEnd).toFixed(0)}.`);
     console.log(`  Forge pluses on gear at the end: ${avg(plusesAtEnd).toFixed(1)}.`);
     console.log(`  Gold left at the end: ${avg(goldAtEnd).toFixed(0)}`);
     void roc;

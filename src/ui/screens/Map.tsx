@@ -4,10 +4,12 @@ import { activeDragon, startRun, zoneLock } from '../../core/game';
 import { bossUnlocked } from '../../core/run';
 import { riderMaxHp } from '../../core/characters';
 import type { SaveData } from '../../core/save';
-import { ElementBadge, formatBonus } from '../bits';
+import { ElementBadge, formatBonus, todayKey } from '../bits';
 import { Sheet } from '../Sheet';
 import { gearSummary } from './Town';
-import type { ZoneData } from '../../core/types';
+import type { UpcomingArea, ZoneData } from '../../core/types';
+import { bountiesReady, storiesFor, storyProgress, storyStatus } from '../../core/adventures';
+import { BountySheet, StorySheet } from './Adventures';
 import { EnemySprite } from '../Sprites';
 import { Scene, useBackdrop, useEnemyRig } from '../stage/Scene';
 import type { ElementId } from '../../core/types';
@@ -21,6 +23,9 @@ export function MapScreen({ save, update }: Props) {
   const dragon = activeDragon(save);
   const lowHp = save.rider.hp < riderMaxHp(data, save.rider) * 0.5;
   const [treasures, setTreasures] = useState<ZoneData | null>(null);
+  const [sheet, setSheet] = useState<{ kind: 'story' | 'bounties'; zone: ZoneData } | null>(null);
+  const today = todayKey();
+  const teaser = data.regions.upcoming[0];
   return (
     <section class="screen" aria-labelledby="screen-title">
       <header class="screen-header"><h1 id="screen-title">Map</h1><span class="gold"><GoldButton amount={save.rider.gold} /></span></header>
@@ -30,43 +35,102 @@ export function MapScreen({ save, update }: Props) {
       </a>
       {lowHp && <p class="notice notice--error">You're hurt. Rest at the Roost first, unless you like living dangerously.</p>}
       {dragon && dragon.hp <= 0 && <p class="notice notice--error">{dragon.name} is knocked out and will sit this run out. Rest to wake them.</p>}
-      {data.zones.map((zone) => {
-        const boss = data.enemies[zone.boss.enemy]!;
-        const lock = zoneLock(data, save, zone);
-        const unlocked = bossUnlocked(zone, save.rider.level);
-        const beaten = save.bossesDefeated.includes(zone.id);
+      {data.regions.regions.map((region) => {
+        const zones = region.zones.map((id) => data.zones.find((z) => z.id === id)!);
+        const tease = teaser && teaser.region === region.id ? teaser : null;
+        if (!zones.length && !tease) return null;
         return (
-          <article key={zone.id} class={`card zone${lock ? ' zone--locked' : ''}`} data-testid={`zone-${zone.id}`}>
-            <ZoneBanner zoneId={zone.id} element={zone.element} bossId={boss.id} bossElement={boss.element} name={`${zone.name}, home of the ${boss.name}`} />
-            <div class="zone-head">
-              <div>
-                <h2>{lock && <><Icon name="lock" fallback="🔒" size={20} /> </>}{zone.name}</h2>
-                <p class="muted">Levels {zone.minLevel} to {zone.maxLevel} · <ElementBadge element={zone.element} small /></p>
-              </div>
-            </div>
-            <p>{zone.blurb}</p>
-            {lock ? (
-              <p class="notice notice--error">{lock}.</p>
-            ) : (
-              <>
-                <p class="muted">
-                  {zone.fights.min} to {zone.fights.max} fights, then{' '}
-                  {unlocked ? <strong>the {boss.name}{beaten ? ' (beaten!)' : ''}</strong> : `a mini-boss. The ${boss.name} shows up at rider level ${zone.boss.unlockRiderLevel}.`}
-                  {zone.eggDrop && !beaten && ` The ${boss.name} guards a ${data.elements.info[zone.eggDrop.element].name} egg.`}
-                </p>
-                {save.rider.level < zone.minLevel - 1 && <p class="muted">Recommended level {zone.minLevel}. It's going to sting.</p>}
-                <TreasureButton zone={zone} save={save} onOpen={() => setTreasures(zone)} />
-                <button type="button" class="button button--big button--block" onClick={() => update((s) => startRun(data, s, zone.id))}
-                  data-testid={`start-${zone.id}`}>
-                  Start run
-                </button>
-              </>
-            )}
-          </article>
+          <section key={region.id} class="region" aria-labelledby={`region-${region.id}`} data-testid={`region-${region.id}`}>
+            <header class="region-head">
+              <h2 id={`region-${region.id}`}>{region.name}</h2>
+              <span class="muted">{region.levels} · {region.blurb}</span>
+            </header>
+            {zones.map((zone) => {
+              const boss = data.enemies[zone.boss.enemy]!;
+              const lock = zoneLock(data, save, zone);
+              const unlocked = bossUnlocked(zone, save.rider.level);
+              const beaten = save.bossesDefeated.includes(zone.id);
+              return (
+                <article key={zone.id} class={`card zone${lock ? ' zone--locked' : ''}`} data-testid={`zone-${zone.id}`}>
+                  <ZoneBanner zoneId={zone.id} element={zone.element} bossId={boss.id} bossElement={boss.element} name={`${zone.name}, home of the ${boss.name}`} />
+                  <div class="zone-head">
+                    <div>
+                      <h2>{lock && <><Icon name="lock" fallback="🔒" size={20} /> </>}{zone.name}</h2>
+                      <p class="muted">Levels {zone.minLevel} to {zone.maxLevel} · <ElementBadge element={zone.element} small /></p>
+                    </div>
+                  </div>
+                  <p>{zone.blurb}</p>
+                  {lock ? (
+                    <p class="notice notice--error">{lock}.</p>
+                  ) : (
+                    <>
+                      <p class="muted">
+                        {zone.fights.min} to {zone.fights.max} fights, then{' '}
+                        {unlocked ? <strong>the {boss.name}{beaten ? ' (beaten!)' : ''}</strong> : `a mini-boss. The ${boss.name} shows up at rider level ${zone.boss.unlockRiderLevel}.`}
+                        {zone.eggDrop && !beaten && ` The ${boss.name} guards a ${data.elements.info[zone.eggDrop.element].name} egg.`}
+                      </p>
+                      {save.rider.level < zone.minLevel - 1 && <p class="muted">Recommended level {zone.minLevel}. It's going to sting.</p>}
+                      <TreasureButton zone={zone} save={save} onOpen={() => setTreasures(zone)} />
+                      <AdventureButtons zone={zone} save={save} today={today} onOpen={(kind) => setSheet({ kind, zone })} />
+                      <button type="button" class="button button--big button--block" onClick={() => update((s) => startRun(data, s, zone.id, today))}
+                        data-testid={`start-${zone.id}`}>
+                        Start a hunt
+                      </button>
+                    </>
+                  )}
+                </article>
+              );
+            })}
+            {tease && <TeaserCard area={tease} save={save} />}
+          </section>
         );
       })}
       {treasures && <Treasures zone={treasures} save={save} onClose={() => setTreasures(null)} />}
+      {sheet?.kind === 'story' && <StorySheet zone={sheet.zone} save={save} update={update} today={today} onClose={() => setSheet(null)} />}
+      {sheet?.kind === 'bounties' && <BountySheet zone={sheet.zone} save={save} update={update} today={today} onClose={() => setSheet(null)} />}
     </section>
+  );
+}
+
+/** Story and bounty buttons for a zone that has them. */
+function AdventureButtons({ zone, save, today, onOpen }: { zone: ZoneData; save: SaveData; today: string; onOpen(kind: 'story' | 'bounties'): void }) {
+  const story = storyProgress(data, save, zone.id);
+  const hasBounties = !!data.bounties.pools[zone.id];
+  if (!story.total && !hasBounties) return null;
+  const pending = storiesFor(data, zone.id).some((q) => { const st = storyStatus(data, save, q); return st.state === 'done' && st.choicePending; });
+  const ready = bountiesReady(data, save.bounties, zone.id, today);
+  return (
+    <div class="adventure-buttons">
+      {story.total > 0 && (
+        <button type="button" class="button button--ghost" onClick={() => onOpen('story')} data-testid={`story-${zone.id}`}>
+          Story {story.done} of {story.total}{pending ? ' · choose!' : ''}
+        </button>
+      )}
+      {hasBounties && (
+        <button type="button" class="button button--ghost" onClick={() => onOpen('bounties')} data-testid={`bounties-${zone.id}`}
+          aria-label={ready ? `Bounties, ${ready} ready to claim` : 'Bounties'}>
+          Bounties{ready > 0 && <span class="count-pill" aria-hidden="true">{ready}</span>}
+        </button>
+      )}
+    </div>
+  );
+}
+
+/** The next area from the world plan, shown dimmed until it arrives. */
+function TeaserCard({ area, save }: { area: UpcomingArea; save: SaveData }) {
+  const gate = data.zones.find((z) => z.id === area.gate)!;
+  const boss = data.enemies[gate.boss.enemy]!;
+  const ready = save.rider.level >= area.minLevel && save.bossesDefeated.includes(gate.id);
+  return (
+    <article class="card zone zone--teaser" data-testid="zone-teaser">
+      <h2><Icon name="lock" fallback="🔒" size={20} /> {area.name}</h2>
+      <p class="muted">Levels {area.minLevel} to {area.maxLevel} · {area.elements.map((el) => <ElementBadge key={el} element={el} small />)}</p>
+      <p>{area.blurb}</p>
+      <p class="muted">
+        {ready ? 'You are ready for it. ' : `Opens at level ${area.minLevel}, after you beat the ${boss.name}. `}
+        Arrives in a future update.
+      </p>
+    </article>
   );
 }
 

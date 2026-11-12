@@ -1,0 +1,119 @@
+import { expect, test, type Page } from '@playwright/test';
+import { readFileSync } from 'node:fs';
+import type { SaveData } from '../src/core/save';
+
+const TODAY = new Date('2026-11-12T10:00:00');
+
+async function load(page: Page, fixture: string, change?: (save: SaveData) => void) {
+  const save = JSON.parse(readFileSync(`e2e/fixtures/${fixture}`, 'utf8')) as SaveData;
+  change?.(save);
+  await page.goto('./');
+  await page.evaluate((s) => { localStorage.clear(); localStorage.setItem('dracoquest.save', s); }, JSON.stringify(save));
+  await page.goto('./#/roost');
+  await page.reload();
+}
+
+const stored = (page: Page) => page.evaluate(() => JSON.parse(localStorage.getItem('dracoquest.save')!) as SaveData);
+
+async function smallTargets(page: Page, scope: string): Promise<string[]> {
+  return page.locator(`${scope} button`).evaluateAll((els) =>
+    els.filter((el) => (el as HTMLElement).offsetWidth > 0 && ((el as HTMLElement).offsetWidth < 44 || (el as HTMLElement).offsetHeight < 44))
+      .map((el) => el.outerHTML.slice(0, 60)));
+}
+
+test('the Map groups zones into regions and teases the next area', async ({ page }) => {
+  await load(page, 'juvenile.json', (s) => { s.bossesDefeated = ['mossy-hollow']; });
+  await page.getByTestId('tab-map').tap();
+  await expect(page.getByTestId('region-wilds')).toContainText('The Wilds');
+  await expect(page.getByTestId('region-highlands')).toContainText('The High Lands');
+  await expect(page.getByTestId('region-wilds').getByTestId('zone-mossy-hollow')).toBeVisible();
+  const teaser = page.getByTestId('zone-teaser');
+  await expect(teaser).toContainText('Whispering Fen');
+  await expect(teaser).toContainText('You are ready for it');
+  await expect(page.getByTestId('story-mossy-hollow')).toHaveText('Story 0 of 4');
+  await expect(page.getByTestId('story-cinder-pass')).toHaveCount(0);
+  await page.getByTestId('story-mossy-hollow').scrollIntoViewIfNeeded();
+  await page.waitForTimeout(300);
+  await page.screenshot({ path: 'test-results/world-map.png' });
+  expect(await smallTargets(page, '[data-testid=zone-mossy-hollow]')).toEqual([]);
+});
+
+test('a story quest plays with dialogue and ends with its reward', async ({ page }) => {
+  await load(page, 'juvenile.json');
+  const potions = (await stored(page)).rider.inventory.potion ?? 0;
+  await page.getByTestId('tab-map').tap();
+  await page.getByTestId('story-mossy-hollow').tap();
+  await expect(page.getByTestId('story-the-spore-cloud')).toContainText('Finish "Wren\'s Garden" first');
+  await page.waitForTimeout(300);
+  await page.screenshot({ path: 'test-results/world-story-list.png' });
+  await page.getByTestId('start-story-wrens-garden').tap();
+  // The interlude shows the quest and its opening lines, with the herbalist named.
+  await expect(page.getByRole('heading', { name: "Wren's Garden" })).toBeVisible();
+  await expect(page.getByTestId('dialogue')).toContainText('Old Wren');
+  for (let i = 0; i < 40; i++) {
+    const step = page.locator('[data-testid=story-end], [data-testid=next-fight], [data-testid=continue], [data-testid=go]:not([disabled])').first();
+    await expect(step).toBeVisible({ timeout: 15_000 });
+    if (await page.getByTestId('story-end').count()) break;
+    await step.tap();
+  }
+  await expect(page.getByTestId('story-reward')).toContainText('+2 Potion');
+  await expect(page.locator('.results-title')).toHaveText('Quest complete!');
+  const s = await stored(page);
+  expect(s.questsDone).toContain('wrens-garden');
+  // The quest gives 2 potions (the fights may drop more, so check it did not drop below the start).
+  expect(s.rider.inventory.potion).toBeGreaterThanOrEqual(potions);
+});
+
+test('a finished quest with a choice can be decided from the story list', async ({ page }) => {
+  await load(page, 'juvenile.json', (s) => { s.questsDone = ['wrens-garden', 'the-spore-cloud']; });
+  const before = (await stored(page)).embers;
+  await page.getByTestId('tab-map').tap();
+  await expect(page.getByTestId('story-mossy-hollow')).toHaveText('Story 2 of 4 · choose!');
+  await page.getByTestId('story-mossy-hollow').tap();
+  await expect(page.getByTestId('pending-the-spore-cloud')).toContainText('What do you do with the jar of spores?');
+  await page.getByTestId('choice-give').tap();
+  await expect(page.getByTestId('pending-the-spore-cloud')).toHaveCount(0);
+  const s = await stored(page);
+  expect(s.storyChoices['the-spore-cloud']).toBe('give');
+  expect(s.embers).toBe(before + 3);
+});
+
+test('finished bounties are claimed from the board', async ({ page }) => {
+  await page.clock.install({ time: TODAY });
+  await load(page, 'juvenile.json', (s) => {
+    // Mark every Mossy Hollow bounty as done for today; the board posts three of them.
+    const progress: Record<string, number> = {};
+    for (const id of ['thorn-trim', 'hopper-hop', 'boar-boredom', 'puff-patrol', 'wisp-watch', 'hollow-wins', 'hollow-clear', 'elder-visit']) progress[`mossy-hollow:${id}`] = 99;
+    s.bounties = { day: '2026-11-12', progress, claimed: [] };
+  });
+  await page.getByTestId('tab-map').tap();
+  await expect(page.getByTestId('bounties-mossy-hollow')).toHaveAttribute('aria-label', 'Bounties, 3 ready to claim');
+  await page.getByTestId('bounties-mossy-hollow').tap();
+  const before = (await stored(page)).rider.gold;
+  await page.locator('[data-testid^=claim-]').first().tap();
+  await expect(page.getByTestId('bounty-notice')).toContainText('Bounty done');
+  expect((await stored(page)).rider.gold).toBeGreaterThan(before);
+  await expect(page.locator('[data-testid^=claim-]').first()).toHaveText('Claimed');
+  await page.waitForTimeout(300);
+  await page.screenshot({ path: 'test-results/world-bounties.png' });
+  expect(await smallTargets(page, '.sheet')).toEqual([]);
+});
+
+test('area art is cached the first time a zone shows it, not up front', async ({ page }) => {
+  await load(page, 'juvenile.json');
+  await page.evaluate(async () => { await navigator.serviceWorker.ready; });
+  await page.reload();
+  await expect.poll(() => page.evaluate(() => !!navigator.serviceWorker.controller)).toBe(true);
+  const precached = await page.evaluate(async () => {
+    const names = await caches.keys();
+    const pre = names.find((n) => n.includes('precache'));
+    const keys = pre ? await (await caches.open(pre)).keys() : [];
+    return keys.map((r) => r.url).filter((u) => /\/(thornling|mossy-hollow)-[^/]*\.webp/.test(u)).length;
+  });
+  expect(precached).toBe(0);
+  await page.getByTestId('tab-map').tap();
+  await expect.poll(async () => page.evaluate(async () => {
+    if (!(await caches.keys()).includes('dracoquest-area-art')) return 0;
+    return (await (await caches.open('dracoquest-area-art')).keys()).length;
+  }), { timeout: 15_000 }).toBeGreaterThan(0);
+});

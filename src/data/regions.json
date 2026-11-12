@@ -1,0 +1,49 @@
+{
+  "note": "The Map groups zones into regions. upcoming lists areas from the world plan that aren't built yet; the Map shows the first one as a teaser card in its region.",
+  "regions": [
+    {
+      "id": "wilds",
+      "name": "The Wilds",
+      "levels": "Levels 1 to 20",
+      "blurb": "Woods, shores and smoking hills close to home.",
+      "zones": [
+        "mossy-hollow",
+        "saltmarsh-shore",
+        "cinder-pass"
+      ]
+    },
+    {
+      "id": "highlands",
+      "name": "The High Lands",
+      "levels": "Levels 20 to 50",
+      "blurb": "Storm peaks, frozen lakes and the deep places of the world.",
+      "zones": [
+        "thunderspire",
+        "frostmere",
+        "deepstone-mines",
+        "eclipse-peak"
+      ]
+    },
+    {
+      "id": "beyond",
+      "name": "Beyond the Peak",
+      "levels": "Levels 50 to 100",
+      "blurb": "Nobody has come back from here yet. Well, nobody has gone.",
+      "zones": []
+    }
+  ],
+  "upcoming": [
+    {
+      "name": "Whispering Fen",
+      "region": "wilds",
+      "minLevel": 10,
+      "maxLevel": 20,
+      "gate": "mossy-hollow",
+      "elements": [
+        "verdant",
+        "tide"
+      ],
+      "blurb": "A foggy marsh where the will-o'-wisps whisper your name. Usually wrong."
+    }
+  ]
+}

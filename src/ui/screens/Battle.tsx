@@ -4,13 +4,15 @@ import {
   breathReady, comboAvailable, duoAvailable, intentOf, livingEnemies, secondBreathReady, skillReady,
   type BattleEvent, type BattleState, type DragonOrder, type Fighter, type Orders, type RiderOrder,
 } from '../../core/battle';
-import { activeDragon, canRide, leaveRun, playRound, secondDragon, startFight, type FightReport } from '../../core/game';
+import { activeDragon, canRide, chooseStory, leaveRun, playRound, secondDragon, startFight, type FightReport } from '../../core/game';
 import { setOf, talentById } from '../../core/loadout';
 import { formatMaterials } from '../../core/forge';
 import type { DialogueLine } from '../../core/types';
 import { getZone } from '../../core/run';
 import { matchup, weaknessesOf } from '../../core/elements';
 import { spellById } from '../../core/spells';
+import { storyById } from '../../core/adventures';
+import { rewardText } from '../bits';
 import type { SaveData } from '../../core/save';
 import { DragonSprite, EnemySprite } from '../Sprites';
 import { Bar, ElementBadge, IntentChip, prefersReducedMotion, StatusChips, vibrate } from '../bits';
@@ -593,7 +595,7 @@ function EnemyCard({ enemy, battle, save, targeted, onTarget, reg, floats }: {
 
 function Dialogue({ lines, save }: { lines: DialogueLine[]; save: SaveData }) {
   const dragon = activeDragon(save);
-  const who = (l: DialogueLine) => (l.speaker === 'rider' ? save.rider.name : l.speaker === 'dragon' ? dragon?.name ?? 'Dragon' : '');
+  const who = (l: DialogueLine) => (l.speaker === 'rider' ? save.rider.name : l.speaker === 'dragon' ? dragon?.name ?? 'Dragon' : l.name ?? '');
   return (
     <ul class="dialogue" data-testid="dialogue">
       {lines.map((l, i) => (
@@ -609,7 +611,7 @@ function Dialogue({ lines, save }: { lines: DialogueLine[]; save: SaveData }) {
 function Interlude({ save, update, onExit }: Props) {
   const run = save.run!;
   const next = run.fights[run.index];
-  const quest = run.questId ? data.quests[run.questId] : undefined;
+  const quest = run.questId ? data.quests[run.questId] : run.storyId ? storyById(data, run.storyId) : undefined;
   const boss = next?.kind === 'boss';
   const bossName = boss ? data.enemies[next!.enemies[0]!.enemyId]!.name : '';
   const rideable = canRide(data, save);
@@ -640,7 +642,7 @@ function Results({ save, report, update, onExit, onNext }: {
 }) {
   const dragon = activeDragon(save);
   const r = report.rewards;
-  const title = { won: report.runComplete ? (report.kind === 'boss' ? 'Boss defeated!' : report.kind === 'quest' ? 'Quest complete!' : 'Zone run cleared!') : 'Victory!', lost: 'Defeated...', fled: 'You got away' }[report.outcome];
+  const title = { won: report.runComplete ? (report.story || report.kind === 'quest' ? 'Quest complete!' : report.kind === 'boss' ? 'Boss defeated!' : 'Zone run cleared!') : 'Victory!', lost: 'Defeated...', fled: 'You got away' }[report.outcome];
   const home = () => { if (save.run) update((s) => leaveRun(s)); onExit(); };
   return (
     <section class="screen results" aria-labelledby="results-title">
@@ -677,6 +679,7 @@ function Results({ save, report, update, onExit, onNext }: {
           <p class="notice notice--ok" data-testid="grew">{dragon.name} grew into a {data.dragons.stages.find((st) => st.id === report.grewTo)?.name}! {data.dragons.stages.find((st) => st.id === report.grewTo)?.unlocks.join(', ')} unlocked.</p>
         </>
       )}
+      {report.story && <StoryEnd save={save} story={report.story} update={update} />}
       {report.riderLevelsGained > 0 && <p class="notice notice--ok" data-testid="level-up">{save.rider.name} reached level {save.rider.level}! Spend stat points in the Bag.</p>}
       {report.spellsLearned?.map((sp) => (
         <p key={sp.id} class="notice notice--ok" data-testid={`learned-${sp.id}`}>
@@ -695,6 +698,36 @@ function Results({ save, report, update, onExit, onNext }: {
         <button type="button" class="button button--big button--block" onClick={home} data-testid="go-home">Back to the Roost</button>
       )}
     </section>
+  );
+}
+
+/** The end of a story quest: its outro, its reward, and its choice if it has one. */
+function StoryEnd({ save, story, update }: { save: SaveData; story: NonNullable<FightReport['story']>; update: Props['update'] }) {
+  const q = storyById(data, story.id)!;
+  const picked = save.storyChoices[q.id];
+  const option = q.choice?.options.find((o) => o.id === picked);
+  return (
+    <div class="story-end" data-testid="story-end">
+      <Dialogue lines={q.outro} save={save} />
+      <p class="notice notice--ok" data-testid="story-reward">{q.name}: {rewardText(story.reward)}</p>
+      {q.choice && !picked && (
+        <div class="story-choice" data-testid="story-choice">
+          <p class="lead">{q.choice.prompt}</p>
+          {q.choice.options.map((o) => (
+            <button key={o.id} type="button" class="button button--block" data-testid={`choice-${o.id}`}
+              onClick={() => update((s) => chooseStory(data, s, q.id, o.id))}>
+              {o.label} <span class="muted">· {rewardText(o.reward)}</span>
+            </button>
+          ))}
+        </div>
+      )}
+      {option && (
+        <>
+          <Dialogue lines={option.lines} save={save} />
+          <p class="notice notice--ok" data-testid="choice-made">You chose: {option.label}. {rewardText(option.reward)}</p>
+        </>
+      )}
+    </div>
   );
 }
 

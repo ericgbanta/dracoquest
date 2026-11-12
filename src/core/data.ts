@@ -15,6 +15,9 @@ import zonesJson from '../data/zones.json';
 import gearJson from '../data/gear.json';
 import setsJson from '../data/sets.json';
 import forgeJson from '../data/forge.json';
+import storiesJson from '../data/stories.json';
+import bountiesJson from '../data/bounties.json';
+import regionsJson from '../data/regions.json';
 import talentsJson from '../data/talents.json';
 import questsJson from '../data/quests.json';
 import shopJson from '../data/shop.json';
@@ -22,7 +25,7 @@ import roostJson from '../data/roost.json';
 import eventsJson from '../data/events.json';
 import type {
   CombatData, ElementsData, EnemyData, GameData, GearData, ItemData, ProgressionData, QuestData, ShopData, StatusData, StatusId,
-  EventData, ForgeData, GearSetData, RoostData, TalentsData, ZoneData,
+  BountiesData, EventData, ForgeData, GearSetData, RegionsData, RoostData, StoryData, StoryReward, TalentsData, ZoneData,
 } from './types';
 
 export type * from './types';
@@ -81,7 +84,7 @@ export function validateProgression(raw: unknown): ProgressionData {
 export interface RawData {
   elements: unknown; combat: unknown; statuses: unknown; progression: unknown; dragons: unknown;
   care: unknown; foods: unknown; items: unknown; enemies: unknown; zones: unknown;
-  gear: unknown; talents: unknown; quests: unknown; shop: unknown; roost: unknown; events: unknown; sets: unknown; forge: unknown;
+  gear: unknown; talents: unknown; quests: unknown; shop: unknown; roost: unknown; events: unknown; sets: unknown; forge: unknown; stories: unknown; bounties: unknown; regions: unknown;
 }
 
 export function loadGameData(raw: RawData): GameData {
@@ -203,7 +206,48 @@ export function loadGameData(raw: RawData): GameData {
     events: validateEvents(raw.events, new Set([...foodIds, ...itemIds, ...Object.keys(gear)])),
     sets: validateSets(raw.sets, gear, zones),
     forge: validateForge(raw.forge, gear, raw.roost as RoostData),
+    ...validateAdventures(raw, enemies, zones, new Set([...itemIds, ...foodIds]), Object.keys((raw.forge as ForgeData).materials)),
   };
+}
+
+function validateAdventures(
+  raw: RawData, enemies: Record<string, EnemyData>, zones: ZoneData[], items: Set<string>, materials: string[],
+): Pick<GameData, 'stories' | 'bounties' | 'regions'> {
+  const zoneIds = new Set(zones.map((z) => z.id));
+  const mats = new Set(materials);
+  const checkReward = (where: string, r: StoryReward) => {
+    for (const id of Object.keys(r.items ?? {})) if (!items.has(id)) throw new DataError(`${where}: unknown item "${id}"`);
+    for (const id of Object.keys(r.materials ?? {})) if (!mats.has(id)) throw new DataError(`${where}: unknown material "${id}"`);
+  };
+  const stories = raw.stories as StoryData[];
+  const storyIds = new Set<string>();
+  for (const q of stories) {
+    if (storyIds.has(q.id)) throw new DataError(`stories: duplicate id "${q.id}"`);
+    storyIds.add(q.id);
+    if (!zoneIds.has(q.zone)) throw new DataError(`stories.${q.id}: unknown zone`);
+    if (q.requires && !storyIds.has(q.requires)) throw new DataError(`stories.${q.id}: requires an unknown or later quest "${q.requires}"`);
+    for (const step of q.steps) for (const id of step.enemies) if (!enemies[id]) throw new DataError(`stories.${q.id}: unknown enemy "${id}"`);
+    checkReward(`stories.${q.id}`, q.reward);
+    for (const o of q.choice?.options ?? []) checkReward(`stories.${q.id}.${o.id}`, o.reward);
+  }
+  const bounties = raw.bounties as BountiesData;
+  for (const [zone, pool] of Object.entries(bounties.pools)) {
+    if (!zoneIds.has(zone)) throw new DataError(`bounties: unknown zone "${zone}"`);
+    if (pool.length < bounties.perDay) throw new DataError(`bounties.${zone}: fewer bounties than perDay`);
+    for (const b of pool) {
+      if (b.kind === 'defeat' && (!b.enemy || !enemies[b.enemy])) throw new DataError(`bounties.${zone}.${b.id}: unknown enemy`);
+      checkReward(`bounties.${zone}.${b.id}`, b.reward);
+    }
+  }
+  const regions = raw.regions as RegionsData;
+  const placed = regions.regions.flatMap((r) => r.zones);
+  for (const id of placed) if (!zoneIds.has(id)) throw new DataError(`regions: unknown zone "${id}"`);
+  for (const z of zones) if (!placed.includes(z.id)) throw new DataError(`regions: zone "${z.id}" is in no region`);
+  for (const u of regions.upcoming) {
+    if (!regions.regions.some((r) => r.id === u.region)) throw new DataError(`regions.upcoming.${u.name}: unknown region`);
+    if (!zoneIds.has(u.gate)) throw new DataError(`regions.upcoming.${u.name}: unknown gate zone`);
+  }
+  return { stories, bounties, regions };
 }
 
 function validateForge(raw: unknown, gear: Record<string, GearData>, roost: RoostData): ForgeData {
@@ -280,4 +324,7 @@ export const gameData: GameData = loadGameData({
   events: eventsJson,
   sets: setsJson,
   forge: forgeJson,
+  stories: storiesJson,
+  bounties: bountiesJson,
+  regions: regionsJson,
 });

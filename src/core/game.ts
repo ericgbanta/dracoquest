@@ -14,11 +14,15 @@ import { addBond, allocateDragon, allocateRider, dragonLevelCap, giveDragonXp, g
 import { bonusOf, dragonBonus, gearItem, learnTalent as learn, respecCost, riderBonus } from './loadout';
 import { getZone, planQuest, planRun, rollGear, rollRewards, type FightKind, type Rewards } from './run';
 import type { SaveData } from './save';
+import type { StoryReward } from './types';
 import type { BuildingId, DragonSlot, DragonState, DragonStat, ElementId, GameData, GearSlot, RiderSlot, RiderStat, StageData, ZoneData } from './types';
 import { DRAGON_SLOTS } from './types';
 import { activeEvent, eventKey, eventOnlyIds } from './events';
 import { learnSpells, setLoadout, SpellError } from './spells';
 import { addMaterials, craftGear, ForgeError, upgradeGear } from './forge';
+import {
+  bountiesForDay, bountyBoard, bountyDone, bountyKey, countBounties, grantReward, planStory, rewardRider, storyById, storyStatus,
+} from './adventures';
 
 export class GameError extends Error {}
 
@@ -184,13 +188,57 @@ export function zoneLock(data: GameData, save: SaveData, zone: ZoneData): string
   return null;
 }
 
-export function startRun(data: GameData, save: SaveData, zoneId: string): SaveData {
+/** Start a hunt. `today` ("YYYY-MM-DD") rolls the bounty board over to a new day. */
+export function startRun(data: GameData, save: SaveData, zoneId: string, today?: string): SaveData {
   if (save.run) throw new GameError('A run is already in progress');
   const zone = getZone(data, zoneId);
   const lock = zoneLock(data, save, zone);
   if (lock) throw new GameError(lock);
   const r = withRng(save, (rng) => planRun(data, zoneId, save.rider.level, rng));
-  return startFight(data, { ...r.save, run: { zoneId, fights: r.value, index: 0, battle: null, totals: { xp: 0, gold: 0, drops: {} } } });
+  const bounties = today ? bountiesForDay(save.bounties, today) : save.bounties;
+  return startFight(data, { ...r.save, bounties, run: { zoneId, fights: r.value, index: 0, battle: null, totals: { xp: 0, gold: 0, drops: {} } } });
+}
+
+/** Start a story quest. Like growth quests, the first fight starts from the interlude, after its dialogue. */
+export function startStory(data: GameData, save: SaveData, storyId: string, today?: string): SaveData {
+  if (save.run) throw new GameError('Finish your current run first');
+  const q = storyById(data, storyId);
+  if (!q) throw new GameError('There is no such quest');
+  const lock = zoneLock(data, save, getZone(data, q.zone));
+  if (lock) throw new GameError(lock);
+  const status = storyStatus(data, save, q);
+  if (status.state === 'done') throw new GameError('You already finished that quest');
+  if (status.state === 'locked') throw new GameError(status.reason);
+  const bounties = today ? bountiesForDay(save.bounties, today) : save.bounties;
+  return { ...save, bounties, run: { zoneId: q.zone, fights: planStory(q), index: 0, battle: null, storyId: q.id, totals: { xp: 0, gold: 0, drops: {} } } };
+}
+
+/** Pick an option at a finished story quest's choice. */
+export function chooseStory(data: GameData, save: SaveData, storyId: string, optionId: string): SaveData {
+  const q = storyById(data, storyId);
+  const option = q?.choice?.options.find((o) => o.id === optionId);
+  if (!q || !option) throw new GameError('There is no such choice');
+  const status = storyStatus(data, save, q);
+  if (status.state !== 'done') throw new GameError('Finish the quest first');
+  if (!status.choicePending) throw new GameError('You already chose');
+  let next = grantReward(save, option.reward);
+  const lead = activeDragon(next);
+  if (lead) {
+    const temper = { ...lead.temper, [option.temper]: lead.temper[option.temper] + data.progression.storyChoiceTemper };
+    next = replaceDragon(next, { ...lead, temper });
+  }
+  return { ...next, storyChoices: { ...next.storyChoices, [storyId]: optionId } };
+}
+
+/** Claim a finished bounty from today's board. */
+export function claimBounty(data: GameData, save: SaveData, zoneId: string, bountyId: string, today: string): SaveData {
+  const state = bountiesForDay(save.bounties, today);
+  const b = bountyBoard(data, zoneId, today).find((x) => x.id === bountyId);
+  if (!b) throw new GameError('That bounty is not on today\'s board');
+  const key = bountyKey(zoneId, bountyId);
+  if (state.claimed.includes(key)) throw new GameError('Already claimed');
+  if (!bountyDone(state, zoneId, b)) throw new GameError('Not finished yet');
+  return { ...grantReward(save, b.reward), bounties: { ...state, claimed: [...state.claimed, key] } };
 }
 
 /** Ride mode is offered for boss fights once the dragon is an Adult and awake. */
@@ -233,6 +281,8 @@ export interface FightReport {
   grewTo?: string;
   egg?: ElementId;
   embers?: number;
+  /** Set when this fight finished a story quest. */
+  story?: { id: string; name: string; reward: StoryReward };
   /** Spells the rider learned from this fight's level-ups, and whether each went into the loadout. */
   spellsLearned?: { id: string; name: string; equipped: boolean }[];
 }
@@ -302,6 +352,9 @@ function finishFight(data: GameData, save: SaveData): { save: SaveData; report: 
     });
     next = r.save;
     const rewards = r.value;
+    // The last fight of a story quest adds the quest's reward XP.
+    const story = run.storyId && run.index + 1 >= run.fights.length ? storyById(data, run.storyId) : undefined;
+    if (story?.reward.xp) rewards.xp += story.reward.xp;
     if (rewards.egg) {
       report.egg = rewards.egg;
       next = { ...next, eggs: [...next.eggs, rewards.egg] };
@@ -378,6 +431,16 @@ function finishFight(data: GameData, save: SaveData): { save: SaveData; report: 
       bossesDefeated: plan.kind === 'boss' && !next.bossesDefeated.includes(run.zoneId)
         ? [...next.bossesDefeated, run.zoneId] : next.bossesDefeated,
     };
+    next = { ...next, bounties: countBounties(data, next.bounties, run.zoneId, battle, complete && !run.storyId && !run.questId) };
+    if (complete && story) {
+      rider = rewardRider(rider, story.reward);
+      next = {
+        ...next,
+        embers: next.embers + (story.reward.embers ?? 0),
+        questsDone: next.questsDone.includes(story.id) ? next.questsDone : [...next.questsDone, story.id],
+      };
+      report.story = { id: story.id, name: story.name, reward: story.reward };
+    }
     if (complete && run.questId && dragon) {
       const grown = growDragon(data, dragon);
       dragon = grown;

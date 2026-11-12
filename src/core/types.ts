@@ -78,7 +78,12 @@ export interface TalentsData {
   talents: TalentData[];
 }
 
-export interface DialogueLine { speaker: 'rider' | 'dragon' | 'narrator'; text: string }
+export interface DialogueLine {
+  speaker: 'rider' | 'dragon' | 'narrator' | 'npc';
+  text: string;
+  /** Who is talking, for npc lines. */
+  name?: string;
+}
 
 export interface QuestStep { intro: DialogueLine[]; enemies: string[]; levelOffset: number }
 
@@ -91,6 +96,44 @@ export interface QuestData {
   steps: QuestStep[];
   outro: DialogueLine[];
 }
+
+/** One-time rewards for a story quest or a story choice. */
+export interface StoryReward { xp?: number; gold?: number; embers?: number; materials?: Materials; items?: Record<string, number> }
+
+export interface StoryStep {
+  intro: DialogueLine[];
+  enemies: string[];
+  /** Enemy level for this step (story quests have fixed levels). */
+  level: number;
+  /** This step is the zone's boss or mini-boss fight, with its drops. */
+  boss?: boolean;
+  mini?: boolean;
+}
+
+export interface StoryChoiceOption { id: string; label: string; lines: DialogueLine[]; reward: StoryReward; temper: TemperamentId }
+
+/** A story quest: a short chain of fights with dialogue, played once, part of a zone's story. */
+export interface StoryData {
+  id: string;
+  zone: string;
+  name: string;
+  minLevel: number;
+  /** The story quest that must be done first. */
+  requires?: string;
+  description: string;
+  steps: StoryStep[];
+  outro: DialogueLine[];
+  reward: StoryReward;
+  choice?: { prompt: string; options: StoryChoiceOption[] };
+}
+
+export type BountyKind = 'defeat' | 'wins' | 'clear';
+export interface BountyData { id: string; kind: BountyKind; count: number; text: string; reward: StoryReward; enemy?: string }
+export interface BountiesData { perDay: number; pools: Record<string, BountyData[]> }
+
+export interface RegionData { id: string; name: string; levels: string; blurb: string; zones: string[] }
+export interface UpcomingArea { name: string; region: string; minLevel: number; maxLevel: number; gate: string; elements: ElementId[]; blurb: string }
+export interface RegionsData { regions: RegionData[]; upcoming: UpcomingArea[] }
 
 export type BuildingId = 'nest' | 'pantry' | 'hatchery' | 'training' | 'expeditions' | 'forge';
 export type TemperamentId = 'bold' | 'gentle' | 'clever' | 'proud';
@@ -220,6 +263,8 @@ export interface ProgressionData {
   secondPartnerRiderLevel: number;
   /** How many spells the rider takes into battle. */
   spellLoadoutSize: number;
+  /** Temperament points a story choice gives the lead dragon. */
+  storyChoiceTemper: number;
   levelUpRestoresHp: boolean;
   enemyXpBase: number;
   enemyXpExponent: number;
@@ -375,6 +420,9 @@ export interface GameData {
   events: EventData[];
   sets: GearSetData[];
   forge: ForgeData;
+  stories: StoryData[];
+  bounties: BountiesData;
+  regions: RegionsData;
 }
 
 // ---- Persistent character state (lives in the save) ----

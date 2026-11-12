@@ -7,7 +7,7 @@ import { enemyGold, enemyXp } from './progression';
 import type { BattleState, EnemySpawn } from './battle';
 import type { Bonus, DialogueLine, ElementId, GameData, Materials, QuestData, ZoneData } from './types';
 
-export type FightKind = 'normal' | 'mini' | 'boss' | 'quest';
+export type FightKind = 'normal' | 'mini' | 'boss' | 'quest' | 'story';
 
 export interface PlannedFight { kind: FightKind; enemies: EnemySpawn[]; intro?: DialogueLine[] }
 
@@ -19,6 +19,8 @@ export interface RunState {
   battle: BattleState | null;
   /** Set for a growth quest run. */
   questId?: string;
+  /** Set for a story quest run. */
+  storyId?: string;
   totals: { xp: number; gold: number; drops: Record<string, number> };
 }
 

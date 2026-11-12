@@ -1,0 +1,200 @@
+{
+  "note": "Daily bounties. Each day the board posts perDay bounties per zone, picked by a seed made from the date and the zone. Kinds: defeat (enemies with this id defeated in won fights here), wins (fights won here), clear (zone runs finished here). Progress counts from hunts and story quests in the zone.",
+  "perDay": 3,
+  "pools": {
+    "mossy-hollow": [
+      {
+        "id": "thorn-trim",
+        "kind": "defeat",
+        "count": 5,
+        "text": "Trim back 5 Thornlings",
+        "reward": {
+          "gold": 60,
+          "materials": {
+            "ore": 1
+          }
+        },
+        "enemy": "thornling"
+      },
+      {
+        "id": "hopper-hop",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Shoo away 3 Bog Hoppers",
+        "reward": {
+          "gold": 50,
+          "embers": 1
+        },
+        "enemy": "bog-hopper"
+      },
+      {
+        "id": "boar-boredom",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Calm 3 Barkback Boars",
+        "reward": {
+          "gold": 60,
+          "materials": {
+            "ore": 1
+          }
+        },
+        "enemy": "barkback-boar"
+      },
+      {
+        "id": "puff-patrol",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Pop 3 Spore Puffers",
+        "reward": {
+          "gold": 50,
+          "embers": 1
+        },
+        "enemy": "spore-puffer"
+      },
+      {
+        "id": "wisp-watch",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Catch 4 Moss Wisps",
+        "reward": {
+          "gold": 60,
+          "embers": 1
+        },
+        "enemy": "moss-wisp"
+      },
+      {
+        "id": "hollow-wins",
+        "kind": "wins",
+        "count": 6,
+        "text": "Win 6 fights in the Hollow",
+        "reward": {
+          "gold": 80,
+          "materials": {
+            "ore": 2
+          }
+        }
+      },
+      {
+        "id": "hollow-clear",
+        "kind": "clear",
+        "count": 2,
+        "text": "Finish 2 runs in the Hollow",
+        "reward": {
+          "gold": 100,
+          "embers": 2
+        }
+      },
+      {
+        "id": "elder-visit",
+        "kind": "defeat",
+        "count": 1,
+        "text": "Defeat the Elder Thornling",
+        "reward": {
+          "gold": 80,
+          "materials": {
+            "ore": 2
+          }
+        },
+        "enemy": "elder-thornling"
+      }
+    ],
+    "saltmarsh-shore": [
+      {
+        "id": "crab-count",
+        "kind": "defeat",
+        "count": 5,
+        "text": "Pinch back at 5 Pincher Crabs",
+        "reward": {
+          "gold": 90,
+          "materials": {
+            "ore": 1
+          }
+        },
+        "enemy": "pincher-crab"
+      },
+      {
+        "id": "gull-guard",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Stop 3 Gull Bandits",
+        "reward": {
+          "gold": 80,
+          "embers": 1
+        },
+        "enemy": "gull-bandit"
+      },
+      {
+        "id": "slime-mop",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Mop up 3 Brine Slimes",
+        "reward": {
+          "gold": 80,
+          "embers": 1
+        },
+        "enemy": "brine-slime"
+      },
+      {
+        "id": "kelp-cut",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Untangle 3 Kelp Lurkers",
+        "reward": {
+          "gold": 90,
+          "materials": {
+            "ore": 1
+          }
+        },
+        "enemy": "kelp-lurker"
+      },
+      {
+        "id": "knightly-duels",
+        "kind": "defeat",
+        "count": 2,
+        "text": "Duel 2 Shell Knights",
+        "reward": {
+          "gold": 100,
+          "materials": {
+            "ore": 2
+          }
+        },
+        "enemy": "shell-knight"
+      },
+      {
+        "id": "shore-wins",
+        "kind": "wins",
+        "count": 6,
+        "text": "Win 6 fights on the shore",
+        "reward": {
+          "gold": 120,
+          "materials": {
+            "ore": 2
+          }
+        }
+      },
+      {
+        "id": "shore-clear",
+        "kind": "clear",
+        "count": 2,
+        "text": "Finish 2 runs on the shore",
+        "reward": {
+          "gold": 150,
+          "embers": 2
+        }
+      },
+      {
+        "id": "pincher-visit",
+        "kind": "defeat",
+        "count": 1,
+        "text": "Defeat Big Pincher",
+        "reward": {
+          "gold": 120,
+          "materials": {
+            "crystal": 1
+          }
+        },
+        "enemy": "big-pincher"
+      }
+    ]
+  }
+}

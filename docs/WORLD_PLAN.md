@@ -1,6 +1,6 @@
 # World expansion: plan
 
-Written 2026-11-12 at Eric's request. Status: planned, nothing built. Eric answered the open questions the same day (see "Eric's answers"); the plan below follows them.
+Written 2026-11-12 at Eric's request. Status: W0 built (2026-11-12); W1 next. Eric answered the open questions the same day (see "Eric's answers"); the plan below follows them.
 
 The request, in Eric's words: "I now want to expand the game with unlockable areas and more levels to go on adventures. Just like adventure quest you could choose and the game grows. Maybe we can do 1 area at a time and they unlock every 10-15 levels for the rider."
 
@@ -96,7 +96,7 @@ To keep the download in check as areas are added, art should be cached per area 
 
 One phase at a time, each committed, tested and deployed when Eric says so.
 
-### W0. Foundation (no new art, no new area yet)
+### W0. Foundation (no new art, no new area yet): built
 
 - Regions on the Map, teaser cards for locked areas, the unlock rule (level plus previous boss).
 - The three adventure kinds on each area card. Story quests reuse the growth-quest engine with a new `kind: 'story'`, an area id, rewards and optional choices. Bounties are new: a pool per area, three picked per day with the seeded RNG from the date, progress counted from fight events.

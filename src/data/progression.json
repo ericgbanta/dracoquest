@@ -5,6 +5,7 @@
   "statPointsPerLevel": 3,
   "secondPartnerRiderLevel": 25,
   "spellLoadoutSize": 4,
+  "storyChoiceTemper": 5,
   "levelUpRestoresHp": true,
   "enemyXpBase": 5.85,
   "enemyXpExponent": 1.326,
