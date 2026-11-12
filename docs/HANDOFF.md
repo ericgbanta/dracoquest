@@ -42,7 +42,7 @@ Each row was built, tested, committed and deployed in this order. The Decisions 
 | W0 | Map regions and a teaser card, story quests with choices, daily bounties, save v9, per-area art caching | Plan phase W0 (no art) |
 | W1 to W4 | Four side areas: Whispering Fen (10 to 20), Rustcliff Ruins (20 to 30), Moonwell Woods (30 to 40), Gilded Wastes (40 to 50). Two new spells: Umbral Bolt (Shadow) and Radiant Lance (Light) | Plan phases W1 to W4, 5 Codex generations each |
 | Less scrolling (UI) | Folds (collapsible cards) and sub-tabs on every long screen; see `docs/UI_PLAN.md` | Eric: "a lot of scrolling at times... the bag tab where everything is expanded". He asked for a plan, the build, tests, docs and a deploy without a check-in |
-| Painted Map | The Map tab is a painted map per region (The Wilds, The High Lands, Beyond the Peak) with a pin per area; tap a pin for the area's details, arrows to cycle regions. 3 Codex generations | Eric: "redesign the Map tab into an actual map where we can click on locations... different maps that we can cycle through". He added: "we might at some point add new levels to maps", so new areas are one pin each |
+| Painted Map | The Map tab is a painted map per region (The Wilds, The High Lands, Beyond the Peak) with a pin per area; tap a pin for the area's details, arrows to cycle regions. 3 Codex generations | Eric: "redesign the Map tab into an actual map where we can click on locations... different maps that we can cycle through". He added: "we might at some point add new levels to maps", so new areas are one pin each. After trying it on his phone he asked for a Map / List switch (Map by default) and reported the open zone card's banner covering its level line; both fixed |
 
 ## Where things stand now
 
