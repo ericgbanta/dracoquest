@@ -45,7 +45,7 @@ const byName = (s: SaveData, name: string) => s.dragons.find((d) => d.name === n
 describe('Roost buildings', () => {
   it('starts with a Nest and Pantry; others are built with gold and embers', () => {
     const s = hatched();
-    expect(s.roost.levels).toEqual({ nest: 1, pantry: 1, hatchery: 0, training: 0, expeditions: 0 });
+    expect(s.roost.levels).toEqual({ nest: 1, pantry: 1, hatchery: 0, training: 0, expeditions: 0, forge: 0 });
     const cost = data.roost.buildings.hatchery.levels[0]!.cost!;
     const b = upgradeBuilding(data, s, 'hatchery', NOW);
     expect(b.roost.levels.hatchery).toBe(1);

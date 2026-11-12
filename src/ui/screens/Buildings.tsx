@@ -10,6 +10,8 @@ import type { BuildingId, DragonState } from '../../core/types';
 import { formatDuration, useNow } from '../bits';
 import { Sheet } from '../Sheet';
 import { Embers, Gold, Icon } from '../Icon';
+import { ForgeSheet } from './Forge';
+import { formatMaterials, maxPlus } from '../../core/forge';
 
 interface Props {
   save: SaveData;
@@ -17,12 +19,13 @@ interface Props {
   onMessage(text: string): void;
 }
 
-const ICONS: Record<BuildingId, string> = { nest: '🪺', pantry: '🧺', hatchery: '🥚', training: '🏋', expeditions: '🗺' };
+const ICONS: Record<BuildingId, string> = { nest: '🪺', pantry: '🧺', hatchery: '🥚', training: '🏋', expeditions: '🗺', forge: '⚒' };
 const foodName = (id: string) => data.foods.find((f) => f.id === id)?.name ?? id;
 
 export function Buildings({ save, update, onMessage }: Props) {
   const now = useNow();
   const [tripFor, setTripFor] = useState<DragonState | null>(null);
+  const [forgeOpen, setForgeOpen] = useState(false);
   const roost = tickPantry(data, save.roost, now);
 
   const act = (fn: () => SaveData, ok: string) => {
@@ -190,7 +193,7 @@ export function Buildings({ save, update, onMessage }: Props) {
                       try {
                         const r = collectExpedition(data, save, d.id, Date.now());
                         update(() => r.save);
-                        const parts = [`${r.loot.gold} gold`, `${r.loot.food.length} food`, r.loot.embers ? `${r.loot.embers} embers` : ''].filter(Boolean);
+                        const parts = [`${r.loot.gold} gold`, `${r.loot.food.length} food`, r.loot.embers ? `${r.loot.embers} embers` : '', formatMaterials(data, r.loot.materials)].filter(Boolean);
                         onMessage(`${d.name} is back with ${parts.join(', ')}.`);
                       } catch (e) { onMessage(e instanceof Error ? e.message : 'That did not work.'); }
                     }}>Collect</button>
@@ -214,13 +217,26 @@ export function Buildings({ save, update, onMessage }: Props) {
             {availableTrips(data, roost, tripFor).map((t) => (
               <button key={t.id} type="button" class="list-button" data-testid={`trip-${t.id}`}
                 onClick={() => { act(() => startExpedition(data, save, tripFor.id, t.id, Date.now()), `${tripFor.name} sets off: ${t.name}.`); setTripFor(null); }}>
-                <strong>{t.name}</strong> · {t.hours}h <span class="muted">· {t.blurb}</span>
+                <strong>{t.name}</strong> · {t.hours}h <span class="muted">· {t.blurb}{t.materials ? ` Brings back ${Object.keys(t.materials).map((m) => data.forge.materials[m as 'ore'].name).join(', ')}.` : ''}</span>
               </button>
             ))}
             {availableTrips(data, roost, tripFor).length === 0 && <p class="muted">No trips for a level {tripFor.level} dragon yet.</p>}
           </div>
         </Sheet>
       )}
+      <div class="card building" data-testid="building-forge">
+        {head('forge')}
+        {save.roost.levels.forge === 0 ? (
+          <p class="muted">{data.roost.buildings.forge.description} Expeditions and bosses bring back materials.</p>
+        ) : (
+          <>
+            <p data-testid="forge-status">Upgrades rider gear up to +{maxPlus(data, save.roost)}. Materials: {formatMaterials(data, save.rider.materials) || 'none yet'}.</p>
+            <button type="button" class="button" disabled={!!save.run} onClick={() => setForgeOpen(true)} data-testid="open-forge">Open the Forge</button>
+          </>
+        )}
+        {upgradeButton('forge')}
+      </div>
+      {forgeOpen && <ForgeSheet save={save} update={update} onClose={() => setForgeOpen(false)} />}
     </section>
   );
 }

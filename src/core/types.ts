@@ -92,9 +92,23 @@ export interface QuestData {
   outro: DialogueLine[];
 }
 
-export type BuildingId = 'nest' | 'pantry' | 'hatchery' | 'training' | 'expeditions';
+export type BuildingId = 'nest' | 'pantry' | 'hatchery' | 'training' | 'expeditions' | 'forge';
 export type TemperamentId = 'bold' | 'gentle' | 'clever' | 'proud';
 export interface Cost { gold: number; embers: number }
+
+export type MaterialId = 'ore' | 'crystal' | 'scale';
+export const MATERIALS: readonly MaterialId[] = ['ore', 'crystal', 'scale'];
+export type Materials = Partial<Record<MaterialId, number>>;
+
+export interface ForgeData {
+  materials: Record<MaterialId, { name: string; description: string }>;
+  effect: { weaponDamagePct: number; bonusPct: number };
+  /** Cost of reaching each plus. A material costs `base` plus one per `perLevels` of the gear's level. */
+  upgrades: { plus: number; goldPct: number; minGold: number; embers: number; materials: Partial<Record<MaterialId, { base: number; perLevels: number }>> }[];
+  bossMaterials: Materials;
+  miniBossMaterials: Materials;
+  recipes: { gear: string; forgeLevel: number; gold: number; embers: number; materials: Materials }[];
+}
 
 export interface RoostData {
   buildings: {
@@ -103,8 +117,13 @@ export interface RoostData {
     hatchery: { name: string; description: string; levels: { slots: number; hours: number; cost: Cost | null }[]; incubateEmbers: number };
     training: { name: string; description: string; levels: { fightsPerHour: number; maxHours: number; cost: Cost | null }[] };
     expeditions: { name: string; description: string; levels: { maxHours: number; lootMultiplier: number; cost: Cost | null }[] };
+    forge: { name: string; description: string; levels: { maxPlus: number; cost: Cost | null }[] };
   };
-  trips: { id: string; name: string; hours: number; minLevel: number; gold: [number, number]; food: number; emberChance: number; blurb: string }[];
+  trips: {
+    id: string; name: string; hours: number; minLevel: number; gold: [number, number]; food: number; emberChance: number; blurb: string;
+    /** Forge materials brought back: a [min, max] roll per material. */
+    materials?: Partial<Record<MaterialId, [number, number]>>;
+  }[];
   premiumFood: string;
   embers: { bossFirstKill: number; bossRepeat: number; wellKeptDay: number; streakBonusEvery: number; streakBonus: number };
   temperament: {
@@ -355,6 +374,7 @@ export interface GameData {
   roost: RoostData;
   events: EventData[];
   sets: GearSetData[];
+  forge: ForgeData;
 }
 
 // ---- Persistent character state (lives in the save) ----
@@ -374,6 +394,10 @@ export interface RiderState {
   equipment: Partial<Record<RiderSlot, string>>;
   /** Spell loadout: the spells the rider takes into battle, in order. */
   spells: string[];
+  /** Forge materials in the bag. */
+  materials: Materials;
+  /** Gear id → Forge upgrade level (+1 to +3). */
+  upgrades: Record<string, number>;
 }
 
 export interface DragonState {

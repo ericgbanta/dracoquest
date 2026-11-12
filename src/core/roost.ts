@@ -8,7 +8,8 @@
  */
 import type { Rng } from './rng';
 import { enemyXp } from './progression';
-import type { BuildingId, Cost, DragonState, GameData, TemperamentId } from './types';
+import type { BuildingId, Cost, DragonState, GameData, Materials, TemperamentId } from './types';
+import { MATERIALS } from './types';
 export type { Assignment } from './types';
 
 const HOUR = 60 * 60 * 1000;
@@ -24,11 +25,11 @@ export interface RoostState {
   hatchery: { eggs: IncubatingEgg[] };
 }
 
-export const BUILDINGS: readonly BuildingId[] = ['nest', 'pantry', 'hatchery', 'training', 'expeditions'];
+export const BUILDINGS: readonly BuildingId[] = ['nest', 'pantry', 'hatchery', 'training', 'expeditions', 'forge'];
 
 export function newRoost(now: number): RoostState {
   return {
-    levels: { nest: 1, pantry: 1, hatchery: 0, training: 0, expeditions: 0 },
+    levels: { nest: 1, pantry: 1, hatchery: 0, training: 0, expeditions: 0, forge: 0 },
     pantry: { lastAt: now, stored: 0 },
     hatchery: { eggs: [] },
   };
@@ -140,7 +141,7 @@ export function availableTrips(data: GameData, roost: RoostState, dragon: Pick<D
   return data.roost.trips.filter((t) => t.hours <= lvl.maxHours && dragon.level >= t.minLevel);
 }
 
-export interface TripLoot { gold: number; food: string[]; embers: number; xp: number }
+export interface TripLoot { gold: number; food: string[]; embers: number; xp: number; materials: Materials }
 
 export function rollTripLoot(data: GameData, roost: RoostState, tripId: string, dragon: Pick<DragonState, 'level'>, rng: Rng): TripLoot {
   const trip = tripById(data, tripId);
@@ -149,7 +150,15 @@ export function rollTripLoot(data: GameData, roost: RoostState, tripId: string, 
   const basic = data.foods.filter((f) => !f.premium);
   const food = Array.from({ length: trip.food }, () => rng.pick(basic).id);
   const embers = rng.chance(trip.emberChance) ? rng.int(1, Math.max(1, Math.round(trip.hours / 4))) : 0;
+  const materials: Materials = {};
+  for (const m of MATERIALS) {
+    const range = trip.materials?.[m];
+    if (!range) continue;
+    const n = Math.round(rng.int(range[0], range[1]) * mult);
+    if (n > 0) materials[m] = n;
+  }
   return {
+    materials,
     gold: Math.round(rng.int(trip.gold[0], trip.gold[1]) * mult),
     food,
     embers,

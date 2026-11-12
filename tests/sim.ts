@@ -16,8 +16,9 @@ import {
   activeDragon, buyGear, buyItem, canEquip, canHaveSecond, canRide, chooseEgg, equip, growthStatus, hatchEgg, incubateEgg, learnDragonTalent,
   playRound, rest, secondDragon, setLead, setSecond, spendDragonPoint, spendRiderPoint, startFight, startGrowthQuest, startRun,
   takeHatchedEgg, upgradeBuilding, warmEgg, zoneLock,
-  setSpells,
+  setSpells, forgeUpgrade,
 } from '../src/core/game';
+import { upgradeCost } from '../src/core/roost';
 import { newSave, type SaveData } from '../src/core/save';
 import { dragonBaseStats, dragonMaxHp, riderMaxHp, riderMaxMp } from '../src/core/characters';
 import { canLearn, talentPointsLeft } from '../src/core/loadout';
@@ -215,7 +216,20 @@ function shopAndEquip(s: SaveData): SaveData {
     if (!s.rider.gear.includes(g.id) && data.shop.stock.includes(g.id) && s.rider.gold >= g.price) s = buyGear(data, s, g.id);
     if (s.rider.gear.includes(g.id) && canEquip(data, s, g.id).ok) s = equip(data, s, g.id);
   }
-  return wearSetPieces(s);
+  return useForge(wearSetPieces(s));
+}
+
+/** Build the Forge with spare gold and embers, then upgrade equipped rider gear while materials last. */
+function useForge(s: SaveData): SaveData {
+  const cost = upgradeCost(data, s.roost, 'forge');
+  if (cost && s.rider.gold >= cost.gold * 3 && s.embers >= cost.embers + 10) s = upgradeBuilding(data, s, 'forge', 0);
+  for (const slot of ['weapon', 'armor', 'trinket'] as const) {
+    const id = s.rider.equipment[slot];
+    for (let i = 0; i < 3 && id; i++) {
+      try { s = forgeUpgrade(data, s, id); } catch { break; }
+    }
+  }
+  return s;
 }
 
 /** Wear found set pieces (melee weapon only) when they are at least as new as what is equipped. */
@@ -251,6 +265,7 @@ if (!SKIP_CAMPAIGN) {
     const finished: number[] = [];
     const goldAtEnd: number[] = [];
     const setsFound: number[] = [];
+    const plusesAtEnd: number[] = [];
     const secondAt: number[] = [];
     let losses = 0, runsPlayed = 0;
     const rng = createRng(SEED * 7919 + element.length);
@@ -293,6 +308,7 @@ if (!SKIP_CAMPAIGN) {
         if (s.bossesDefeated.includes(finalBoss.id) && s.rider.level >= cap) {
           finished.push(fights);
           goldAtEnd.push(s.rider.gold);
+          plusesAtEnd.push(Object.values(s.rider.upgrades).reduce((a, b) => a + b, 0));
           setsFound.push(data.sets.flatMap((x) => x.pieces).filter((id) => s.rider.gear.includes(id)).length);
           break;
         }
@@ -305,6 +321,7 @@ if (!SKIP_CAMPAIGN) {
     console.log(`  First boss wins at rider level: ${data.zones.map((z) => `${z.name} ${firstBoss(z.id).length ? Math.min(...firstBoss(z.id)).toFixed(0) : '-'}`).join(', ')}`);
     console.log(`  Fights per level: ${perLevel.map((xs, i) => `${i + 1}:${avg(xs).toFixed(0)}`).join(' ')}`);
     console.log(`  Set pieces found by the end: ${(setsFound.reduce((a, b) => a + b, 0) / Math.max(1, setsFound.length)).toFixed(1)} of ${data.sets.reduce((a, x) => a + x.pieces.length, 0)}.`);
+    console.log(`  Forge pluses on gear at the end: ${avg(plusesAtEnd).toFixed(1)}.`);
     console.log(`  Gold left at the end: ${avg(goldAtEnd).toFixed(0)}`);
     void roc;
   }

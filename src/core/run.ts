@@ -5,7 +5,7 @@
 import type { Rng } from './rng';
 import { enemyGold, enemyXp } from './progression';
 import type { BattleState, EnemySpawn } from './battle';
-import type { Bonus, DialogueLine, ElementId, GameData, QuestData, ZoneData } from './types';
+import type { Bonus, DialogueLine, ElementId, GameData, Materials, QuestData, ZoneData } from './types';
 
 export type FightKind = 'normal' | 'mini' | 'boss' | 'quest';
 
@@ -22,7 +22,7 @@ export interface RunState {
   totals: { xp: number; gold: number; drops: Record<string, number> };
 }
 
-export interface Rewards { xp: number; gold: number; drops: Record<string, number>; egg?: ElementId; gear?: string[] }
+export interface Rewards { xp: number; gold: number; drops: Record<string, number>; egg?: ElementId; gear?: string[]; materials?: Materials }
 
 /**
  * Gear from a won fight. A boss or mini-boss drops its trophy on the first

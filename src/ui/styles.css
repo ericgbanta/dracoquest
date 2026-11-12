@@ -458,3 +458,10 @@ p, p.muted, .notice, .lead, li { font-size: max(1rem, 16px); }
 .set-on { color: var(--accent); }
 .treasure-row { display: flex; flex-direction: column; gap: 2px; padding: 8px 0; border-bottom: 1px solid var(--surface-2); }
 .treasure-row--owned strong::after { content: ' ✓'; color: var(--accent); }
+
+/* The Forge */
+.forge-row { display: flex; gap: 10px; align-items: center; background: var(--surface); border-radius: var(--radius); padding: 10px 12px; }
+.forge-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; align-items: flex-start; }
+.forge-info .muted { font-size: 0.85rem; }
+.forge-row .button { flex: none; min-width: 64px; }
+.forge-cost { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 12px; }

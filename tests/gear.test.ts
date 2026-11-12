@@ -14,7 +14,7 @@ const mossy = getZone(data, 'mossy-hollow');
 
 describe('gear data', () => {
   it('has the new shop choices, sets and trophies', () => {
-    expect(Object.keys(data.gear)).toHaveLength(131);
+    expect(Object.keys(data.gear)).toHaveLength(135);
     expect(data.sets).toHaveLength(data.zones.length);
     expect(data.shop.stock).toHaveLength(90);
   });
@@ -124,5 +124,8 @@ describe('gear drops', () => {
     expect(report?.outcome).toBe('won');
     expect(report?.rewards?.gear).toEqual(['bramblewarden-trinket']);
     expect(s.rider.gear).toContain('bramblewarden-trinket');
+    // Mini-bosses also give Forge materials.
+    expect(report?.rewards?.materials).toEqual(data.forge.miniBossMaterials);
+    expect(s.rider.materials.ore).toBe(data.forge.miniBossMaterials.ore);
   });
 });

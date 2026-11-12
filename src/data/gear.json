@@ -1729,5 +1729,62 @@
       "arcana": 5
     },
     "description": "The Eclipse Herald's seal of office."
+  },
+  {
+    "id": "forgeheart-amulet",
+    "name": "Forgeheart Amulet",
+    "slot": "trinket",
+    "level": 25,
+    "price": 1800,
+    "bonus": {
+      "strength": 3,
+      "arcana": 3,
+      "vigor": 3,
+      "riderHp": 30
+    },
+    "description": "Still warm from the anvil. Always will be."
+  },
+  {
+    "id": "starforged-blade",
+    "name": "Starforged Blade",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": null,
+    "level": 38,
+    "damage": 39,
+    "price": 4800,
+    "bonus": {
+      "strength": 7,
+      "riderCrit": 0.04
+    },
+    "description": "Hammered from a fallen star on your own Forge."
+  },
+  {
+    "id": "starforged-bow",
+    "name": "Starforged Bow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": null,
+    "level": 38,
+    "damage": 38,
+    "price": 4800,
+    "bonus": {
+      "agility": 8
+    },
+    "description": "The string is spun from starlight. Somehow."
+  },
+  {
+    "id": "starforged-staff",
+    "name": "Starforged Staff",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": null,
+    "level": 38,
+    "damage": 38,
+    "price": 4800,
+    "bonus": {
+      "arcana": 8
+    },
+    "description": "Twinkles when it casts. Show-off."
   }
 ]

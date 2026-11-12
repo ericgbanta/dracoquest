@@ -7,6 +7,7 @@ import type {
 } from './types';
 import { DRAGON_STATS, RIDER_STATS } from './types';
 import { temperament } from './roost';
+import { forgedGear } from './forge';
 
 export function addBonus(into: Bonus, add: Bonus | undefined, times = 1): Bonus {
   if (!add) return into;
@@ -50,9 +51,17 @@ export function setSize(data: GameData, set: GearSetData): number {
   return new Set(set.pieces.map((id) => data.gear[id]?.slot)).size;
 }
 
-export function riderBonus(data: GameData, rider: Pick<RiderState, 'equipment'>): Bonus {
+type RiderGear = Pick<RiderState, 'equipment'> & Partial<Pick<RiderState, 'upgrades'>>;
+
+/** An equipped piece as the Forge left it. */
+function riderPiece(data: GameData, rider: RiderGear, id: string | undefined): GearData | null {
+  const g = gearItem(data, id);
+  return g ? forgedGear(data, g, rider.upgrades?.[g.id] ?? 0) : null;
+}
+
+export function riderBonus(data: GameData, rider: RiderGear): Bonus {
   const b: Bonus = {};
-  for (const id of Object.values(rider.equipment ?? {})) addBonus(b, gearItem(data, id)?.bonus);
+  for (const id of Object.values(rider.equipment ?? {})) addBonus(b, riderPiece(data, rider, id)?.bonus);
   for (const active of equippedSets(data, rider.equipment ?? {})) for (const bonus of active.bonuses) addBonus(b, bonus);
   return b;
 }
@@ -66,7 +75,7 @@ export function dragonBonus(data: GameData, dragon: Pick<DragonState, 'equipment
   return b;
 }
 
-export function effectiveRiderStats(data: GameData, rider: Pick<RiderState, 'stats' | 'equipment'>): RiderStats {
+export function effectiveRiderStats(data: GameData, rider: Pick<RiderState, 'stats'> & RiderGear): RiderStats {
   const b = riderBonus(data, rider);
   const out = { ...rider.stats };
   for (const k of RIDER_STATS) out[k] += bonusOf(b, k);
@@ -80,9 +89,9 @@ export function effectiveDragonStats(data: GameData, dragon: Pick<DragonState, '
   return out;
 }
 
-/** The equipped weapon, or the starting weapon if none. */
-export function riderWeapon(data: GameData, rider: Pick<RiderState, 'equipment'>): GearData {
-  const w = gearItem(data, rider.equipment?.weapon);
+/** The equipped weapon (with any Forge upgrade), or the starting weapon if none. */
+export function riderWeapon(data: GameData, rider: RiderGear): GearData {
+  const w = riderPiece(data, rider, rider.equipment?.weapon);
   if (w) return w;
   const start = gearItem(data, data.progression.startingGear.weapon);
   if (!start) throw new Error('No starting weapon in data');

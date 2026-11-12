@@ -1,0 +1,124 @@
+{
+  "note": "The Forge. Upgrades add to rider gear per plus: weapons gain weaponDamagePct of their damage (at least 1) per plus; each flat bonus gains bonusPct of its value (at least 1) per plus; percent bonuses grow by bonusPct per plus. Upgrade costs scale with the gear's level: base amounts plus one more per perLevels levels. Boss and mini-boss wins give materials too.",
+  "materials": {
+    "ore": {
+      "name": "Iron Ore",
+      "description": "Common. From almost every expedition and from mini-bosses."
+    },
+    "crystal": {
+      "name": "Sky Crystal",
+      "description": "From longer expeditions and from bosses."
+    },
+    "scale": {
+      "name": "Dragonscale",
+      "description": "Rare. From the longest expeditions and from bosses."
+    }
+  },
+  "effect": {
+    "weaponDamagePct": 0.08,
+    "bonusPct": 0.15
+  },
+  "upgrades": [
+    {
+      "plus": 1,
+      "goldPct": 0.2,
+      "minGold": 20,
+      "embers": 0,
+      "materials": {
+        "ore": {
+          "base": 2,
+          "perLevels": 10
+        }
+      }
+    },
+    {
+      "plus": 2,
+      "goldPct": 0.35,
+      "minGold": 40,
+      "embers": 2,
+      "materials": {
+        "ore": {
+          "base": 3,
+          "perLevels": 10
+        },
+        "crystal": {
+          "base": 1,
+          "perLevels": 20
+        }
+      }
+    },
+    {
+      "plus": 3,
+      "goldPct": 0.5,
+      "minGold": 80,
+      "embers": 5,
+      "materials": {
+        "ore": {
+          "base": 4,
+          "perLevels": 10
+        },
+        "crystal": {
+          "base": 2,
+          "perLevels": 20
+        },
+        "scale": {
+          "base": 1,
+          "perLevels": 50
+        }
+      }
+    }
+  ],
+  "bossMaterials": {
+    "crystal": 1,
+    "scale": 1
+  },
+  "miniBossMaterials": {
+    "ore": 2
+  },
+  "recipes": [
+    {
+      "gear": "forgeheart-amulet",
+      "forgeLevel": 2,
+      "gold": 1500,
+      "embers": 8,
+      "materials": {
+        "ore": 8,
+        "crystal": 4,
+        "scale": 1
+      }
+    },
+    {
+      "gear": "starforged-blade",
+      "forgeLevel": 3,
+      "gold": 3000,
+      "embers": 15,
+      "materials": {
+        "ore": 12,
+        "crystal": 6,
+        "scale": 3
+      }
+    },
+    {
+      "gear": "starforged-bow",
+      "forgeLevel": 3,
+      "gold": 3000,
+      "embers": 15,
+      "materials": {
+        "ore": 12,
+        "crystal": 6,
+        "scale": 3
+      }
+    },
+    {
+      "gear": "starforged-staff",
+      "forgeLevel": 3,
+      "gold": 3000,
+      "embers": 15,
+      "materials": {
+        "ore": 12,
+        "crystal": 6,
+        "scale": 3
+      }
+    }
+  ]
+}

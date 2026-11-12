@@ -96,7 +96,7 @@ export function formatBonus(b: Partial<Record<string, number>>): string {
     .filter(([, v]) => v)
     .map(([k, v]) => {
       const [label, kind] = BONUS_LABELS[k] ?? [k, 'flat'];
-      const n = kind === 'pct' ? `${Math.round((v ?? 0) * 100)}%` : `${v}`;
+      const n = kind === 'pct' ? `${Math.round((v ?? 0) * 1000) / 10}%` : `${v}`;
       return `+${n} ${label}`;
     })
     .join(', ');

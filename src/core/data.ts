@@ -14,6 +14,7 @@ import enemiesJson from '../data/enemies.json';
 import zonesJson from '../data/zones.json';
 import gearJson from '../data/gear.json';
 import setsJson from '../data/sets.json';
+import forgeJson from '../data/forge.json';
 import talentsJson from '../data/talents.json';
 import questsJson from '../data/quests.json';
 import shopJson from '../data/shop.json';
@@ -21,7 +22,7 @@ import roostJson from '../data/roost.json';
 import eventsJson from '../data/events.json';
 import type {
   CombatData, ElementsData, EnemyData, GameData, GearData, ItemData, ProgressionData, QuestData, ShopData, StatusData, StatusId,
-  EventData, GearSetData, RoostData, TalentsData, ZoneData,
+  EventData, ForgeData, GearSetData, RoostData, TalentsData, ZoneData,
 } from './types';
 
 export type * from './types';
@@ -80,7 +81,7 @@ export function validateProgression(raw: unknown): ProgressionData {
 export interface RawData {
   elements: unknown; combat: unknown; statuses: unknown; progression: unknown; dragons: unknown;
   care: unknown; foods: unknown; items: unknown; enemies: unknown; zones: unknown;
-  gear: unknown; talents: unknown; quests: unknown; shop: unknown; roost: unknown; events: unknown; sets: unknown;
+  gear: unknown; talents: unknown; quests: unknown; shop: unknown; roost: unknown; events: unknown; sets: unknown; forge: unknown;
 }
 
 export function loadGameData(raw: RawData): GameData {
@@ -201,7 +202,30 @@ export function loadGameData(raw: RawData): GameData {
     roost: validateRoost(raw.roost, foodIds),
     events: validateEvents(raw.events, new Set([...foodIds, ...itemIds, ...Object.keys(gear)])),
     sets: validateSets(raw.sets, gear, zones),
+    forge: validateForge(raw.forge, gear, raw.roost as RoostData),
   };
+}
+
+function validateForge(raw: unknown, gear: Record<string, GearData>, roost: RoostData): ForgeData {
+  const f = raw as ForgeData;
+  const mats = new Set(Object.keys(f.materials ?? {}));
+  const checkMats = (where: string, m: object) => {
+    for (const k of Object.keys(m)) if (!mats.has(k)) throw new DataError(`${where}: unknown material "${k}"`);
+  };
+  f.upgrades.forEach((u, i) => {
+    if (u.plus !== i + 1) throw new DataError('forge.upgrades: pluses must run 1, 2, 3 in order');
+    checkMats(`forge.upgrades.${u.plus}`, u.materials);
+  });
+  if (f.upgrades.length < Math.max(...roost.buildings.forge.levels.map((l) => l.maxPlus))) throw new DataError('forge: a Forge level allows more pluses than are priced');
+  checkMats('forge.bossMaterials', f.bossMaterials);
+  checkMats('forge.miniBossMaterials', f.miniBossMaterials);
+  for (const r of f.recipes) {
+    if (!gear[r.gear]) throw new DataError(`forge.recipes: unknown gear "${r.gear}"`);
+    if (r.forgeLevel < 1 || r.forgeLevel > roost.buildings.forge.levels.length) throw new DataError(`forge.recipes.${r.gear}: bad Forge level`);
+    checkMats(`forge.recipes.${r.gear}`, r.materials);
+  }
+  for (const t of roost.trips) checkMats(`roost.trips.${t.id}`, t.materials ?? {});
+  return f;
 }
 
 function validateSets(raw: unknown, gear: Record<string, GearData>, zones: ZoneData[]): GearSetData[] {
@@ -255,4 +279,5 @@ export const gameData: GameData = loadGameData({
   roost: roostJson,
   events: eventsJson,
   sets: setsJson,
+  forge: forgeJson,
 });

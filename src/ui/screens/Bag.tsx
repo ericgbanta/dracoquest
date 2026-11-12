@@ -5,6 +5,8 @@ import { riderLoadout, spellById } from '../../core/spells';
 import type { SpellData } from '../../core/types';
 import { riderMaxHp, riderMaxMp } from '../../core/characters';
 import { equippedSets, gearItem, setSize } from '../../core/loadout';
+import { forgedGear, plusOf } from '../../core/forge';
+import { MATERIALS } from '../../core/types';
 import { xpToNext } from '../../core/progression';
 import type { SaveData } from '../../core/save';
 import { DRAGON_SLOTS, RIDER_SLOTS, RIDER_STATS, type GearSlot, type RiderStat } from '../../core/types';
@@ -46,7 +48,9 @@ export function Bag({ save, update }: Props) {
   };
 
   const slotRow = (s: GearSlot) => {
-    const g = gearItem(data, equippedIn(s));
+    const raw = gearItem(data, equippedIn(s));
+    // Dragon gear can't be forged, so only rider gear shows a plus.
+    const g = raw && !(DRAGON_SLOTS as readonly string[]).includes(s) ? forgedGear(data, raw, plusOf(r, raw.id)) : raw;
     return (
       <div key={s} class="slot-row">
         <div>
@@ -113,6 +117,12 @@ export function Bag({ save, update }: Props) {
             <span class="stat-value">×{r.inventory[item.id] ?? 0}</span>
           </div>
         ))}
+        {MATERIALS.filter((m) => (r.materials[m] ?? 0) > 0).map((m) => (
+          <div key={m} class="stat-row" data-testid={`material-${m}`}>
+            <div><strong>{data.forge.materials[m].name}</strong> <span class="muted">Forge material</span></div>
+            <span class="stat-value">×{r.materials[m]}</span>
+          </div>
+        ))}
         {foods.map((f) => (
           <div key={f.id} class="stat-row">
             <div><Icon name={`food-${f.id}`} fallback={f.icon} size={22} /> <strong>{f.name}</strong> <span class="muted">Dragon food</span></div>
@@ -140,11 +150,12 @@ export function Bag({ save, update }: Props) {
             {r.gear.map((id) => data.gear[id]!).filter((g) => g.slot === slot).sort((a, b) => b.level - a.level).map((g) => {
               const on = equippedIn(slot) === g.id;
               const check = canEquip(data, save, g.id);
+              const shown = forgedGear(data, g, plusOf(r, g.id));
               return (
                 <div key={g.id} class="shop-row">
                   <div class="shop-info">
-                    <strong>{g.name}{on ? ' (equipped)' : ''}</strong>
-                    <span class="muted">{gearSummary(g)}</span>
+                    <strong>{shown.name}{on ? ' (equipped)' : ''}</strong>
+                    <span class="muted">{gearSummary(shown)}</span>
                     {!check.ok && <span class="muted">{check.reason}</span>}
                   </div>
                   {!on && (

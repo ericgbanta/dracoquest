@@ -14,7 +14,7 @@ import { newRoost, type RoostState } from './roost';
 import { defaultLoadout } from './spells';
 import type { DragonState, ElementId, RiderState } from './types';
 
-export const CURRENT_VERSION = 7;
+export const CURRENT_VERSION = 8;
 export const SAVE_KEY = 'dracoquest.save';
 const CODE_PREFIX = 'DQ1:'; // Code format, not save version. The save inside carries its own version.
 
@@ -154,6 +154,17 @@ export const MIGRATIONS: Record<number, Migration> = {
       run: run && battle ? { ...run, battle: { ...battle, spells: defaultLoadout(gameData, 1) } } : run ?? null,
     };
   },
+  // v7 → v8 adds the Forge: materials and gear upgrades on the rider, and the Forge's building level.
+  7: (save) => {
+    const rider = (save.rider ?? {}) as Record<string, unknown>;
+    const roost = (save.roost ?? {}) as Record<string, unknown>;
+    const levels = (roost.levels ?? {}) as Record<string, unknown>;
+    return {
+      ...save,
+      rider: { ...rider, materials: {}, upgrades: {} },
+      roost: { ...roost, levels: { ...levels, forge: 0 } },
+    };
+  },
 };
 
 export function newSave(now: number): SaveData {
@@ -225,7 +236,8 @@ export function validateSave(raw: Record<string, unknown>): SaveData {
   const rider = raw.rider;
   if (!isObject(rider) || typeof rider.name !== 'string' || typeof rider.level !== 'number' || !isObject(rider.stats)
     || !isObject(rider.inventory) || !Array.isArray(rider.gear) || !isObject(rider.equipment)
-    || !Array.isArray(rider.spells) || !(rider.spells as unknown[]).every((x) => typeof x === 'string')) fail('rider damaged');
+    || !Array.isArray(rider.spells) || !(rider.spells as unknown[]).every((x) => typeof x === 'string')
+    || !isObject(rider.materials) || !isObject(rider.upgrades)) fail('rider damaged');
   if (!Array.isArray(raw.dragons)) fail('dragons missing');
   for (const d of raw.dragons as unknown[]) {
     if (!isObject(d) || typeof d.id !== 'string' || typeof d.level !== 'number' || !isObject(d.stats)
@@ -238,6 +250,7 @@ export function validateSave(raw: Record<string, unknown>): SaveData {
   if (!Array.isArray(raw.bossesDefeated)) fail('bosses missing');
   if (!Array.isArray(raw.eggs) || !Array.isArray(raw.questsDone)) fail('eggs or quests missing');
   if (typeof raw.embers !== 'number' || !isObject(raw.roost) || !isObject(raw.careStreak)) fail('roost missing');
+  if (!isObject((raw.roost as Record<string, unknown>).levels) || typeof ((raw.roost as Record<string, unknown>).levels as Record<string, unknown>).forge !== 'number') fail('roost damaged');
   if (raw.secondDragonId !== null && typeof raw.secondDragonId !== 'string') fail('second partner damaged');
   if (!Array.isArray(raw.eventsClaimed)) fail('events missing');
   for (const d of raw.dragons as Record<string, unknown>[]) if (typeof d.laidEgg !== 'boolean') fail('dragon damaged');

@@ -117,7 +117,7 @@
     },
     "expeditions": {
       "name": "Expedition Board",
-      "description": "Send benched dragons on timed trips for gold, food, and embers.",
+      "description": "Send benched dragons on timed trips for gold, food, embers, and Forge materials.",
       "levels": [
         {
           "maxHours": 4,
@@ -144,6 +144,33 @@
           }
         }
       ]
+    },
+    "forge": {
+      "name": "Forge",
+      "description": "Upgrades rider gear and crafts special pieces from materials.",
+      "levels": [
+        {
+          "maxPlus": 1,
+          "cost": {
+            "gold": 800,
+            "embers": 6
+          }
+        },
+        {
+          "maxPlus": 2,
+          "cost": {
+            "gold": 2500,
+            "embers": 18
+          }
+        },
+        {
+          "maxPlus": 3,
+          "cost": {
+            "gold": 6000,
+            "embers": 40
+          }
+        }
+      ]
     }
   },
   "trips": [
@@ -158,7 +185,13 @@
       ],
       "food": 1,
       "emberChance": 0.05,
-      "blurb": "Pick berries. Eat most of them. Bring some back."
+      "blurb": "Pick berries. Eat most of them. Bring some back.",
+      "materials": {
+        "ore": [
+          0,
+          1
+        ]
+      }
     },
     {
       "id": "beachcombing",
@@ -171,7 +204,13 @@
       ],
       "food": 1,
       "emberChance": 0.1,
-      "blurb": "Shiny shells, lost coins, one very confused crab."
+      "blurb": "Shiny shells, lost coins, one very confused crab.",
+      "materials": {
+        "ore": [
+          1,
+          2
+        ]
+      }
     },
     {
       "id": "ash-scavenge",
@@ -184,7 +223,17 @@
       ],
       "food": 2,
       "emberChance": 0.25,
-      "blurb": "Dig through warm ash for warm treasure."
+      "blurb": "Dig through warm ash for warm treasure.",
+      "materials": {
+        "ore": [
+          2,
+          3
+        ],
+        "crystal": [
+          0,
+          1
+        ]
+      }
     },
     {
       "id": "cloud-patrol",
@@ -197,7 +246,17 @@
       ],
       "food": 3,
       "emberChance": 0.5,
-      "blurb": "Fly lazy circles over Thunderspire. Very official."
+      "blurb": "Fly lazy circles over Thunderspire. Very official.",
+      "materials": {
+        "ore": [
+          2,
+          4
+        ],
+        "crystal": [
+          1,
+          2
+        ]
+      }
     },
     {
       "id": "long-haul",
@@ -210,7 +269,21 @@
       ],
       "food": 4,
       "emberChance": 1,
-      "blurb": "Across the map and back. Pack snacks."
+      "blurb": "Across the map and back. Pack snacks.",
+      "materials": {
+        "ore": [
+          3,
+          5
+        ],
+        "crystal": [
+          1,
+          3
+        ],
+        "scale": [
+          0,
+          1
+        ]
+      }
     },
     {
       "id": "glacier-survey",
@@ -223,7 +296,21 @@
       ],
       "food": 4,
       "emberChance": 1,
-      "blurb": "Count the icebergs. Lose count. Start again."
+      "blurb": "Count the icebergs. Lose count. Start again.",
+      "materials": {
+        "ore": [
+          3,
+          5
+        ],
+        "crystal": [
+          2,
+          3
+        ],
+        "scale": [
+          0,
+          2
+        ]
+      }
     }
   ],
   "premiumFood": "sunfruit",

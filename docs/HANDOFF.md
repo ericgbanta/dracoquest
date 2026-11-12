@@ -101,8 +101,9 @@ These are in addition to the Decisions table in `docs/DESIGN.md`. Eric saw each 
 | Ride mode | Offered for boss fights with an Adult (or Elder) lead. One merged unit, four moves. |
 | Weapons | Melee scales with Strength, ranged with Agility, magic with Arcana. |
 | Events | Four seasonal events give a yearly gift and limited town stock. They don't change fights. |
-| Saves | Version 7 (rider spells added `rider.spells`; B1's v6 added `settings.simpleBattle`). Each bump has a migration and a fixture test (`tests/fixtures/save-v1.json` to `save-v6.json`). |
+| Saves | Version 8 (the Forge added materials, upgrades and the Forge level; v7 added `rider.spells`; v6 added `settings.simpleBattle`). Each bump has a migration and a fixture test (`tests/fixtures/save-v1.json` to `save-v7.json`). |
 | Gear wave 1 | Eric asked on 2026-11-12 for more gear that fits the game; he picked trophies, zone loot, more tier choices and sets, with a Forge to follow. **Tier choices:** 40 more shop pieces. Each weapon tier from level 5 gets a second weapon per type in another element (same damage and main stat; melee twins trade crit for Vigor), so every ring element is on sale at most tiers; a light armor line (less defense and HP, plus Agility and Arcana); and dodge saddles, claw horn caps and status charms for Adults. **Sets:** one per zone in `src/data/sets.json`: three weapons (one per type, sharing the weapon slot), an armor and a trinket. 2 and 3 pieces give stacking bonuses (`equippedSets` in `loadout.ts`, added in `riderBonus`). Set weapons have no element and one more damage than the shop curve. **Trophies:** a zone's boss drops the set armor and its mini-boss the trinket, always on the first kill (counted from the bestiary, so players who beat a boss before this update rely on the 25 percent repeat chance), then 25 percent until owned (`boss.trophy`, `miniBoss.trophy` in `zones.json`). **Zone loot:** each regular fight won has a 6 percent chance to drop one of the zone's set weapons not yet owned (`gearDrops`). Quests drop no gear. Drops use `rollGear` in `run.ts`. The Map shows "Treasures: n of 5 found" per zone with a sheet saying where each piece drops; the Bag shows set progress; the results screen announces finds. No art: gear is text. No save change. |
+| Forge (gear wave 2) | Built 2026-11-12. A sixth Roost building (`buildings.forge` in `roost.json`, 3 levels capping upgrades at +1, +2, +3). Three materials, Iron Ore, Sky Crystal and Dragonscale (`src/data/forge.json`), come from expeditions (`materials` per trip, scaled by the board's loot multiplier) and from fights: each mini-boss win gives 2 ore and each boss win 1 crystal and 1 scale. Upgrades work on rider gear only (weapon, armor, trinket), because dragon bonuses are computed from the dragon alone; each plus adds 8 percent of a weapon's damage (at least 1) and 15 percent of each bonus (flat bonuses at least +1). Costs scale with the gear's level; +2 and +3 also cost embers. Four Forge-only pieces are crafted from recipes (a level 2 Forge for the Forgeheart Amulet, level 3 for the Starforged Blade, Bow and Staff). Upgrades are stored as `rider.upgrades` (gear id to plus) and applied in `riderBonus` and `riderWeapon` (`forgedGear` in `src/core/forge.ts`); selling a piece drops its upgrade. Save v8 adds `rider.materials`, `rider.upgrades` and `roost.levels.forge`. Percent bonuses now show one decimal (2.3%) so upgrades are visible. In the sim, campaigns end with about 10 pluses and about 2,500 less gold left over, and run win rates move under a point. |
 | Rider spells | Eric's picks on 2026-11-12: spells unlock by rider level, about eight with elements, a loadout of 4 (`spellLoadoutSize` in `progression.json`), power from Arcana as before. Ten spells in `riderMoves.spells` (`combat.json`): Arc Bolt and Mend at 1, Frost Dart 3, Static Lash 6, Bright Ward 10 (Ward shield on the rider or lead dragon), Tide Surge 12, Ember Lance 15, Shale Spike 18, Greater Mend 24, Thorn Snare 30. Each ring element has one damage spell that may inflict its status, timed so the spell that beats a zone's element arrives within two levels of the zone opening. A new spell fills an empty loadout slot by itself; otherwise the results screen says to swap it in from the Bag (Spells card). The battle picker shows only the loadout and marks a spell that is strong against the rider's target. No new art: spells fly as the existing orb, colored by element (`spellColor` in `director.ts`). Logic is in `src/core/spells.ts`; the auto-battler picks heals, Ward before big hits and the best spell for the target's element, and `suggestedLoadout` (in `ai.ts`) picks a loadout for the sim. |
 | Save slots | Up to 3 saved games per device, added 2026-11-12 at Eric's request. Slot 1 is the original `dracoquest.save` key, so a save made before slots existed stays put as slot 1. Slots 2 and 3 are `dracoquest.save.2` and `.3`, and `dracoquest.slot` holds the slot in play (missing or bad means slot 1). The save object did not change, so no version bump. The list is in Settings ("Saved games"): Play or New game on other slots, Delete with a confirm, and the slot in play can't be deleted (Start over clears it instead). Export, import and Start over act on the slot in play. Settings such as sound live in each save, so they are per slot. |
 | Battle speed | Eric raised the beat limit from 300 ms to 450 ms after seeing B0 (GRAPHICS_PLAN.md, G5). Timings are in `src/data/stage.json`. |
@@ -121,8 +122,9 @@ These are in addition to the Decisions table in `docs/DESIGN.md`. Eric saw each 
 src/core/      pure game logic, no DOM (CLAUDE.md)
   battle.ts      battle engine: fighters, orders, events, Ride mode, second partner
   game.ts        save-level actions (care, runs, shop, talents, Roost, events)
-  save.ts        save shape, migrations v1 to v7, export and import codes, save slots
+  save.ts        save shape, migrations v1 to v8, export and import codes, save slots
   spells.ts      rider spells: what a level knows, the loadout, learning on level-up
+  forge.ts       the Forge: gear upgrades, recipes, materials
   roost.ts       buildings, timers, temperament
   loadout.ts     gear and talent bonuses, talent rules
   run.ts care.ts progression.ts characters.ts elements.ts events.ts ai.ts rng.ts data.ts types.ts
@@ -141,8 +143,8 @@ src/ui/        Preact screens and pieces
   pwa.ts sound.ts install.ts storage.ts useSave.ts router.ts bits.tsx
 src/art/       painted/ (WebP characters, attack poses, backdrops, effects, tail tips), eggs/ and icons/ (WebP), palette.json, assets.json
 src/data/stage.json  stage layouts, plate spots, beat timings, the demo fight (UI only, not read by src/core)
-tests/         Vitest unit tests (162), sim.ts (the balance simulator), save fixtures
-e2e/           Playwright phone tests (46, including a 4x-throttle perf test), save fixtures and make-fixtures.ts
+tests/         Vitest unit tests (185), sim.ts (the balance simulator), save fixtures
+e2e/           Playwright phone tests (51, including a 4x-throttle perf test), save fixtures and make-fixtures.ts
 scripts/       icons.mjs builds the Home Screen icons
 tools/art/     painted/ (prompts, the style anchor, and the scripts that generate, cut out and pack the art)
 docs/          DESIGN.md, HANDOFF.md, ART_GENERATION.md (how to make new art), GRAPHICS_PLAN_2.md (second graphics pass: research, C0 result, C1 to C4), NEXT_PROMPT.md (prompt for a new session), GRAPHICS_PLAN.md (graphics plan and results), ART_STYLE.md (art rules)
@@ -153,9 +155,9 @@ docs/          DESIGN.md, HANDOFF.md, ART_GENERATION.md (how to make new art), G
 | Command | What it does |
 | --- | --- |
 | `npm run dev` | Local dev server |
-| `npm run test` | Unit tests (162) |
+| `npm run test` | Unit tests (185) |
 | `npx tsc --noEmit` and `npm run lint` | Type check and lint. Lint blocks `Math.random` and browser globals in `src/core`. |
-| `npm run e2e` | Phone tests at 375 by 667 (46), about 2 minutes |
+| `npm run e2e` | Phone tests at 375 by 667 (51), about 2 minutes |
 | `npm run sim` | Balance sim: 1,000 runs per zone and level, plus campaigns from egg to level 50. Flags: `--runs`, `--campaigns`, `--zone`, `--no-campaign`, `--campaign-only`. The full run takes about 2.5 minutes. |
 | `npx tsx e2e/make-fixtures.ts` | Rebuilds the saves the phone tests load |
 | `npm run icons` | Rebuilds the Home Screen icons |
@@ -168,7 +170,7 @@ docs/          DESIGN.md, HANDOFF.md, ART_GENERATION.md (how to make new art), G
 - Stage: about 51 DOM nodes in a one-on-one fight, 69 at two dragons against two enemies (budget 100). The perf test (5% dropped frames at 4x CPU throttle) usually reads 0.3 to 2%, but it is noisy in the sandbox and sometimes reads 5 to 7% on unchanged code. Run it a few times before blaming a change.
 - Battle pace: each event waits for its move, so a round at 1x takes about 2 to 3 seconds; 2x halves it.
 - A full egg-to-level-50 campaign in the sim takes about 800 fights, roughly 27 hours of play at 2 minutes a fight.
-- Content: 7 zones, 35 regular enemies, 7 mini-bosses, 7 bosses, 8 foods, 3 items, 10 rider spells, 131 pieces of gear (90 in the shop, 35 in 7 zone sets, 6 starter or festival pieces), 40 talents, 3 growth quests, 6 expedition trips, 4 events.
+- Content: 7 zones, 35 regular enemies, 7 mini-bosses, 7 bosses, 8 foods, 3 items, 10 rider spells, 135 pieces of gear (90 in the shop, 35 in 7 zone sets, 4 Forge recipes, 6 starter or festival pieces), 3 Forge materials, 40 talents, 3 growth quests, 6 expedition trips, 4 events.
 
 ## Gotchas
 

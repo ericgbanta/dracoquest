@@ -6,6 +6,7 @@ import {
 } from '../../core/battle';
 import { activeDragon, canRide, leaveRun, playRound, secondDragon, startFight, type FightReport } from '../../core/game';
 import { setOf, talentById } from '../../core/loadout';
+import { formatMaterials } from '../../core/forge';
 import type { DialogueLine } from '../../core/types';
 import { getZone } from '../../core/run';
 import { matchup, weaknessesOf } from '../../core/elements';
@@ -655,6 +656,7 @@ function Results({ save, report, update, onExit, onNext }: {
           {report.bondGained > 0 && dragon && <li><Icon name="bond" fallback="" /> +{report.bondGained} bond with {dragon.name}</li>}
         </ul>
       )}
+      {r?.materials && <p class="notice notice--ok" data-testid="materials-reward">Forge materials: +{formatMaterials(data, r.materials).replace(/, /g, ', +')}</p>}
       {r?.gear?.map((id) => {
         const g = data.gear[id]!;
         const set = setOf(data, id);

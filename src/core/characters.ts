@@ -3,7 +3,7 @@ import { defaultLoadout } from './spells';
 import type { Rng } from './rng';
 import { bonusOf, dragonBonus, effectiveDragonStats, effectiveRiderStats, riderBonus } from './loadout';
 
-type RiderLike = Pick<RiderState, 'level' | 'stats'> & Partial<Pick<RiderState, 'equipment'>>;
+type RiderLike = Pick<RiderState, 'level' | 'stats'> & Partial<Pick<RiderState, 'equipment' | 'upgrades'>>;
 type DragonLike = Pick<DragonState, 'level' | 'stats'> & Partial<Pick<DragonState, 'equipment' | 'talents' | 'temper'>>;
 
 export function riderMaxHp(data: GameData, r: RiderLike): number {
@@ -43,6 +43,8 @@ export function newRider(data: GameData, name: string): RiderState {
     gear: Object.values(p.startingGear).filter((x): x is string => !!x),
     equipment: { ...p.startingGear },
     spells: defaultLoadout(data, 1),
+    materials: {},
+    upgrades: {},
   };
 }
 

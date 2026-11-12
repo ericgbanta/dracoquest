@@ -18,6 +18,7 @@ import type { BuildingId, DragonSlot, DragonState, DragonStat, ElementId, GameDa
 import { DRAGON_SLOTS } from './types';
 import { activeEvent, eventKey, eventOnlyIds } from './events';
 import { learnSpells, setLoadout, SpellError } from './spells';
+import { addMaterials, craftGear, ForgeError, upgradeGear } from './forge';
 
 export class GameError extends Error {}
 
@@ -128,6 +129,31 @@ function grantWellKept(data: GameData, save: SaveData, today: string): SaveData 
 
 export function spendRiderPoint(save: SaveData, stat: RiderStat): SaveData {
   return { ...save, rider: allocateRider(save.rider, stat) };
+}
+
+// ---------- Forge ----------
+
+function forgeAction<T>(fn: () => T): T {
+  try {
+    return fn();
+  } catch (e) {
+    if (e instanceof ForgeError) throw new GameError(e.message);
+    throw e;
+  }
+}
+
+/** Upgrade a rider gear piece by one plus at the Forge. */
+export function forgeUpgrade(data: GameData, save: SaveData, gearId: string): SaveData {
+  if (save.run) throw new GameError('Use the Forge at the Roost, not mid-run');
+  const r = forgeAction(() => upgradeGear(data, save.rider, save.embers, save.roost, gearId));
+  return { ...save, rider: r.rider, embers: save.embers - r.embersSpent };
+}
+
+/** Craft a Forge-only piece. */
+export function forgeCraft(data: GameData, save: SaveData, gearId: string): SaveData {
+  if (save.run) throw new GameError('Use the Forge at the Roost, not mid-run');
+  const r = forgeAction(() => craftGear(data, save.rider, save.embers, save.roost, gearId));
+  return { ...save, rider: r.rider, embers: save.embers - r.embersSpent };
 }
 
 /** Set the rider's spell loadout. */
@@ -298,6 +324,11 @@ function finishFight(data: GameData, save: SaveData): { save: SaveData; report: 
     rider.inventory = { ...rider.inventory };
     for (const [item, n] of Object.entries(rewards.drops)) rider.inventory[item] = (rider.inventory[item] ?? 0) + n;
     if (rewards.gear) rider.gear = [...rider.gear, ...rewards.gear.filter((id) => !rider.gear.includes(id))];
+    const mats = plan.kind === 'boss' ? data.forge.bossMaterials : plan.kind === 'mini' ? data.forge.miniBossMaterials : null;
+    if (mats && Object.keys(mats).length) {
+      rider = addMaterials(rider, mats);
+      rewards.materials = mats;
+    }
     if (rl.levelsGained > 0 && data.progression.levelUpRestoresHp) {
       rider = { ...rider, hp: riderMaxHp(data, rider), mp: riderMaxMp(data, rider) };
     }
@@ -461,7 +492,9 @@ export function sellGear(data: GameData, save: SaveData, gearId: string): SaveDa
   const equipped = Object.values(save.rider.equipment).includes(gearId) || save.dragons.some((d) => Object.values(d.equipment).includes(gearId));
   if (equipped) throw new GameError('Unequip it first');
   const price = Math.floor(g.price * data.shop.sellFraction);
-  return { ...save, rider: { ...save.rider, gold: save.rider.gold + price, gear: save.rider.gear.filter((x) => x !== gearId) } };
+  const upgrades = { ...save.rider.upgrades };
+  delete upgrades[gearId];
+  return { ...save, rider: { ...save.rider, gold: save.rider.gold + price, gear: save.rider.gear.filter((x) => x !== gearId), upgrades } };
 }
 
 /** Price of an item or food the town sells today, or null if it doesn't. */
@@ -691,7 +724,7 @@ export function collectExpedition(data: GameData, save: SaveData, id: string, no
   dragon = addTemper(data, { ...dragon, assignment: { kind: 'idle' } }, 'expedition');
   const next = {
     ...r.save,
-    rider: { ...r.save.rider, gold: r.save.rider.gold + loot.gold, inventory },
+    rider: addMaterials({ ...r.save.rider, gold: r.save.rider.gold + loot.gold, inventory }, loot.materials),
     embers: r.save.embers + loot.embers,
   };
   return { save: replaceDragon(next, dragon), loot };
