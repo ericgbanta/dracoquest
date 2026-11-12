@@ -391,6 +391,104 @@
         },
         "enemy": "captain-clank"
       }
+    ],
+    "moonwell-woods": [
+      {
+        "id": "owl-count",
+        "kind": "defeat",
+        "count": 5,
+        "text": "Hush 5 Hoot Shades",
+        "reward": {
+          "gold": 380,
+          "materials": {
+            "ore": 2
+          }
+        },
+        "enemy": "hoot-shade"
+      },
+      {
+        "id": "shroom-pick",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Pick 4 Frostcap Shrooms",
+        "reward": {
+          "gold": 360,
+          "embers": 1
+        },
+        "enemy": "frostcap-shroom"
+      },
+      {
+        "id": "stump-hush",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Quiet 3 Snickerbarks",
+        "reward": {
+          "gold": 360,
+          "embers": 1
+        },
+        "enemy": "snickerbark"
+      },
+      {
+        "id": "fox-chase",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Chase down 4 Shadow Foxes",
+        "reward": {
+          "gold": 380,
+          "materials": {
+            "crystal": 1
+          }
+        },
+        "enemy": "shadow-fox"
+      },
+      {
+        "id": "badger-sock",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Return socks from 3 Rimeback Badgers",
+        "reward": {
+          "gold": 380,
+          "materials": {
+            "ore": 2
+          }
+        },
+        "enemy": "rimeback-badger"
+      },
+      {
+        "id": "woods-wins",
+        "kind": "wins",
+        "count": 6,
+        "text": "Win 6 fights in the woods",
+        "reward": {
+          "gold": 460,
+          "materials": {
+            "ore": 3
+          }
+        }
+      },
+      {
+        "id": "woods-clear",
+        "kind": "clear",
+        "count": 2,
+        "text": "Finish 2 runs in the woods",
+        "reward": {
+          "gold": 540,
+          "embers": 2
+        }
+      },
+      {
+        "id": "stag-visit",
+        "kind": "defeat",
+        "count": 1,
+        "text": "Defeat Duskhorn",
+        "reward": {
+          "gold": 460,
+          "materials": {
+            "crystal": 1
+          }
+        },
+        "enemy": "duskhorn"
+      }
     ]
   }
 }

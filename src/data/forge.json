@@ -98,6 +98,17 @@
       }
     },
     {
+      "gear": "moonsilver-locket",
+      "forgeLevel": 2,
+      "gold": 2800,
+      "embers": 10,
+      "materials": {
+        "ore": 12,
+        "crystal": 5,
+        "scale": 2
+      }
+    },
+    {
       "gear": "forgeheart-amulet",
       "forgeLevel": 2,
       "gold": 1500,

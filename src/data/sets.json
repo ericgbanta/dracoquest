@@ -196,6 +196,35 @@
     ]
   },
   {
+    "id": "nightwatch",
+    "name": "Nightwatch",
+    "zone": "moonwell-woods",
+    "description": "Night gear from the woods. Full set lands more crits and dodges trouble.",
+    "pieces": [
+      "nightwatch-melee",
+      "nightwatch-ranged",
+      "nightwatch-magic",
+      "nightwatch-armor",
+      "nightwatch-trinket"
+    ],
+    "bonuses": [
+      {
+        "pieces": 2,
+        "bonus": {
+          "agility": 3,
+          "riderMp": 10
+        }
+      },
+      {
+        "pieces": 3,
+        "bonus": {
+          "riderCrit": 0.04,
+          "riderHp": 50
+        }
+      }
+    ]
+  },
+  {
     "id": "deepdelver",
     "name": "Deepdelver",
     "zone": "deepstone-mines",

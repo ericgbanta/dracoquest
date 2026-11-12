@@ -3382,5 +3382,387 @@
     "boss": true,
     "xpMultiplier": 4,
     "goldMultiplier": 5
+  },
+  {
+    "id": "hoot-shade",
+    "name": "Hoot Shade",
+    "element": "shadow",
+    "flavor": "An owl made of night. Asks \"who?\" and never likes the answer.",
+    "base": {
+      "hp": 72.67,
+      "attack": 7.97,
+      "power": 5,
+      "defense": 1,
+      "swift": 8.4,
+      "dodge": 6.5
+    },
+    "perLevel": {
+      "hp": 21.0,
+      "attack": 1.37,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1.08,
+      "dodge": 0.52
+    },
+    "moves": [
+      {
+        "id": "talon",
+        "name": "Talon Swipe",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "dread-hoot",
+        "name": "Hoot of Dread",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.6,
+        "status": "blind",
+        "statusChance": 0.6
+      },
+      {
+        "id": "glide",
+        "name": "Silent Glide",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fade",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "frostcap-shroom",
+    "name": "Frostcap Shroom",
+    "element": "frost",
+    "flavor": "A glowing ice mushroom. Bonks things. Mostly shins.",
+    "base": {
+      "hp": 94.05,
+      "attack": 7.97,
+      "power": 5,
+      "defense": 1,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 27.17,
+      "attack": 1.37,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "bonk",
+        "name": "Cap Bonk",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "frost-spores",
+        "name": "Frost Spores",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "chill",
+        "statusChance": 0.6
+      },
+      {
+        "id": "cold-cap",
+        "name": "Cold Cap",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "snickerbark",
+    "name": "Snickerbark",
+    "element": "shadow",
+    "flavor": "A walking stump that giggles at its own spooky stories.",
+    "base": {
+      "hp": 85.5,
+      "attack": 7.97,
+      "power": 5,
+      "defense": 1,
+      "swift": 8.4,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 24.7,
+      "attack": 1.37,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1.08,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "poke",
+        "name": "Branch Poke",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "spooky-tale",
+        "name": "Spooky Tale",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "blind",
+        "statusChance": 0.4
+      },
+      {
+        "id": "snicker",
+        "name": "Snicker",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "shadow-fox",
+    "name": "Shadow Fox",
+    "element": "shadow",
+    "flavor": "A fox of shadow with a moon-silver tail. Steals socks. Nobody knows why.",
+    "base": {
+      "hp": 68.4,
+      "attack": 7.97,
+      "power": 5,
+      "defense": 1,
+      "swift": 10.5,
+      "dodge": 8.0
+    },
+    "perLevel": {
+      "hp": 19.76,
+      "attack": 1.37,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1.35,
+      "dodge": 0.64
+    },
+    "moves": [
+      {
+        "id": "bite",
+        "name": "Quick Bite",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "pounce",
+        "name": "Shadow Pounce",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "blind",
+        "statusChance": 0.4
+      },
+      {
+        "id": "vanish",
+        "name": "Vanish",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fade",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "rimeback-badger",
+    "name": "Rimeback Badger",
+    "element": "frost",
+    "flavor": "A badger with frosty fur and a permanently bad mood.",
+    "base": {
+      "hp": 106.88,
+      "attack": 7.97,
+      "power": 5,
+      "defense": 1.8,
+      "swift": 4.2,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 30.88,
+      "attack": 1.37,
+      "power": 1,
+      "defense": 0.54,
+      "swift": 0.54,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "claw",
+        "name": "Badger Claw",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "burrow",
+        "name": "Burrow In",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      },
+      {
+        "id": "icy-rake",
+        "name": "Icy Rake",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "chill",
+        "statusChance": 0.5
+      }
+    ]
+  },
+  {
+    "id": "duskhorn",
+    "name": "Duskhorn",
+    "element": "shadow",
+    "flavor": "The great stag of the night woods. Its antlers hold the stars.",
+    "base": {
+      "hp": 145.35,
+      "attack": 9.17,
+      "power": 5,
+      "defense": 1,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 41.99,
+      "attack": 1.57,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "charge",
+        "name": "Antler Charge",
+        "intent": "attack",
+        "weight": 4,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "moon-gore",
+        "name": "Moonlit Gore",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "blind",
+        "statusChance": 0.5
+      },
+      {
+        "id": "bellow",
+        "name": "Bellow",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self"
+      },
+      {
+        "id": "graze",
+        "name": "Graze",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.2,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "miniBoss": true,
+    "xpMultiplier": 2
+  },
+  {
+    "id": "moonwell-wyrm",
+    "name": "Moonwell Wyrm",
+    "element": "shadow",
+    "flavor": "A serpent made of night sky that lives in the moonwell and steals dreams.",
+    "base": {
+      "hp": 222.3,
+      "attack": 8.38,
+      "power": 5,
+      "defense": 1.4,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 64.22,
+      "attack": 1.44,
+      "power": 1,
+      "defense": 0.42,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "coil-strike",
+        "name": "Coil Strike",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "dream-steal",
+        "name": "Dream Steal",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.8,
+        "status": "blind",
+        "statusChance": 0.6
+      },
+      {
+        "id": "starfall",
+        "name": "Starfall Breath",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "moonfrost",
+        "name": "Moonfrost",
+        "intent": "shift",
+        "weight": 1,
+        "shiftTo": "frost",
+        "target": "self",
+        "condition": "notShifted"
+      },
+      {
+        "id": "night-scales",
+        "name": "Night Scales",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      },
+      {
+        "id": "drink-moonlight",
+        "name": "Drink Moonlight",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.12,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "boss": true,
+    "xpMultiplier": 4,
+    "goldMultiplier": 5
   }
 ]

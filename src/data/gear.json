@@ -2166,5 +2166,196 @@
       "riderCrit": 0.02
     },
     "description": "Ticks in time with yours. Slightly faster when you are brave."
+  },
+  {
+    "id": "nightwatch-melee",
+    "name": "Nightwatch Moonblade",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": null,
+    "level": 32,
+    "damage": 33,
+    "price": 3100,
+    "bonus": {
+      "strength": 5
+    },
+    "description": "Glows faintly when the moon is up. Sulks when it isn't."
+  },
+  {
+    "id": "nightwatch-ranged",
+    "name": "Nightwatch Owl Bow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": null,
+    "level": 32,
+    "damage": 32,
+    "price": 3100,
+    "bonus": {
+      "agility": 6
+    },
+    "description": "Fletched with owl feathers. Silent as a whisper."
+  },
+  {
+    "id": "nightwatch-magic",
+    "name": "Nightwatch Lantern Staff",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": null,
+    "level": 32,
+    "damage": 32,
+    "price": 3100,
+    "bonus": {
+      "arcana": 6
+    },
+    "description": "A lamplighter's staff with a little moon inside."
+  },
+  {
+    "id": "nightwatch-armor",
+    "name": "Nightwatch Wyrmstar Cloak",
+    "slot": "armor",
+    "level": 39,
+    "price": 4700,
+    "bonus": {
+      "riderDefense": 12,
+      "riderHp": 125
+    },
+    "description": "Woven from the Moonwell Wyrm's starry scales. Twinkles."
+  },
+  {
+    "id": "nightwatch-trinket",
+    "name": "Nightwatch Duskhorn Charm",
+    "slot": "trinket",
+    "level": 33,
+    "price": 3300,
+    "bonus": {
+      "agility": 4,
+      "vigor": 4
+    },
+    "description": "A tip of Duskhorn's antler. It holds a single star."
+  },
+  {
+    "id": "gloomcleaver",
+    "name": "Gloomcleaver",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": "shadow",
+    "level": 33,
+    "damage": 34,
+    "price": 3400,
+    "bonus": {
+      "strength": 5,
+      "vigor": 1
+    },
+    "description": "A heavy blade the color of midnight."
+  },
+  {
+    "id": "rime-hatchet",
+    "name": "Rime Hatchet",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": "frost",
+    "level": 33,
+    "damage": 34,
+    "price": 3400,
+    "bonus": {
+      "strength": 5,
+      "vigor": 1
+    },
+    "description": "Chops wood and freezes it at the same time."
+  },
+  {
+    "id": "nightjar-bow",
+    "name": "Nightjar Bow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": "shadow",
+    "level": 33,
+    "damage": 33,
+    "price": 3400,
+    "bonus": {
+      "agility": 6
+    },
+    "description": "Shoots arrows you only hear after they land."
+  },
+  {
+    "id": "icicle-repeater",
+    "name": "Icicle Repeater",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": "frost",
+    "level": 33,
+    "damage": 33,
+    "price": 3400,
+    "bonus": {
+      "agility": 6
+    },
+    "description": "Fires icicles. Reload with snow."
+  },
+  {
+    "id": "starless-tome",
+    "name": "Starless Tome",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": "shadow",
+    "level": 33,
+    "damage": 33,
+    "price": 3400,
+    "bonus": {
+      "arcana": 6
+    },
+    "description": "A book of night. The pages are very hard to read."
+  },
+  {
+    "id": "frostlight-wand",
+    "name": "Frostlight Wand",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": "frost",
+    "level": 33,
+    "damage": 33,
+    "price": 3400,
+    "bonus": {
+      "arcana": 6
+    },
+    "description": "Glows like moonlight on fresh snow."
+  },
+  {
+    "id": "owlfeather-coat",
+    "name": "Owlfeather Coat",
+    "slot": "armor",
+    "level": 33,
+    "price": 3200,
+    "bonus": {
+      "riderDefense": 9,
+      "riderHp": 90
+    },
+    "description": "Keeps you warm and very, very quiet."
+  },
+  {
+    "id": "moonpetal-pin",
+    "name": "Moonpetal Pin",
+    "slot": "trinket",
+    "level": 33,
+    "price": 3100,
+    "bonus": {
+      "arcana": 3,
+      "vigor": 3,
+      "riderMp": 10
+    },
+    "description": "A flower that only opens at night."
+  },
+  {
+    "id": "moonsilver-locket",
+    "name": "Moonsilver Locket",
+    "slot": "trinket",
+    "level": 36,
+    "price": 3800,
+    "bonus": {
+      "strength": 4,
+      "arcana": 4,
+      "vigor": 4,
+      "healPct": 0.05
+    },
+    "description": "Holds a tiny drop of the moonwell. It hums lullabies."
   }
 ]

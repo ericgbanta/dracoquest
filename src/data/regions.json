@@ -22,6 +22,7 @@
         "thunderspire",
         "rustcliff-ruins",
         "frostmere",
+        "moonwell-woods",
         "deepstone-mines",
         "eclipse-peak"
       ]
@@ -36,16 +37,16 @@
   ],
   "upcoming": [
     {
-      "name": "Moonwell Woods",
+      "name": "Gilded Wastes",
       "region": "highlands",
-      "minLevel": 30,
-      "maxLevel": 40,
-      "gate": "thunderspire",
+      "minLevel": 40,
+      "maxLevel": 50,
+      "gate": "frostmere",
       "elements": [
-        "shadow",
-        "frost"
+        "light",
+        "stone"
       ],
-      "blurb": "A forest that only wakes at night, when the moonwell glows and the trees start gossiping."
+      "blurb": "A desert of buried treasure, where the sand glitters and the dunes keep secrets."
     }
   ]
 }

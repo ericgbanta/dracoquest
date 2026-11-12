@@ -105,7 +105,15 @@
     "rune-brick-staff",
     "bellows-wand",
     "rivetmail",
-    "oil-lamp-charm"
+    "oil-lamp-charm",
+    "gloomcleaver",
+    "rime-hatchet",
+    "nightjar-bow",
+    "icicle-repeater",
+    "starless-tome",
+    "frostlight-wand",
+    "owlfeather-coat",
+    "moonpetal-pin"
   ],
   "items": {
     "potion": 25,

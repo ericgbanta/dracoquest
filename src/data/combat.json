@@ -171,6 +171,18 @@
         "base": 18,
         "mp": 7,
         "description": "Grasping thorns that may Root."
+      },
+      {
+        "id": "umbral-bolt",
+        "name": "Umbral Bolt",
+        "kind": "damage",
+        "level": 32,
+        "element": "shadow",
+        "status": "blind",
+        "statusChance": 0.4,
+        "base": 19,
+        "mp": 7,
+        "description": "A bolt of living shadow that may Blind."
       }
     ]
   },

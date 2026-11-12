@@ -663,6 +663,115 @@
     }
   },
   {
+    "id": "moonwell-woods",
+    "name": "Moonwell Woods",
+    "element": "shadow",
+    "elements": [
+      "shadow",
+      "frost"
+    ],
+    "minLevel": 30,
+    "maxLevel": 40,
+    "gate": null,
+    "unlock": {
+      "level": 30,
+      "afterBoss": "thunderspire"
+    },
+    "blurb": "A forest that only wakes at night, when the moonwell glows and the trees start gossiping.",
+    "fights": {
+      "min": 3,
+      "max": 5
+    },
+    "encounters": [
+      {
+        "enemies": [
+          "hoot-shade"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "frostcap-shroom"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "snickerbark"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "shadow-fox"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "rimeback-badger"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "shadow-fox",
+          "shadow-fox"
+        ],
+        "weight": 1,
+        "minLevel": 32
+      },
+      {
+        "enemies": [
+          "hoot-shade",
+          "frostcap-shroom"
+        ],
+        "weight": 1,
+        "minLevel": 34
+      }
+    ],
+    "levelSpread": 1,
+    "multiEnemyLevelOffset": -1,
+    "boss": {
+      "enemy": "moonwell-wyrm",
+      "level": 40,
+      "unlockRiderLevel": 39,
+      "trophy": {
+        "gear": "nightwatch-armor",
+        "chance": 0.25
+      }
+    },
+    "miniBoss": {
+      "enemy": "duskhorn",
+      "levelOffset": 0,
+      "trophy": {
+        "gear": "nightwatch-trinket",
+        "chance": 0.25
+      }
+    },
+    "dropChances": {
+      "potion": 0.25,
+      "dragon-treat": 0.15,
+      "mana-tonic": 0.1
+    },
+    "eggDrop": {
+      "element": "shadow",
+      "chance": 0.1,
+      "elements": [
+        "shadow",
+        "frost"
+      ]
+    },
+    "gearDrops": {
+      "chance": 0.06,
+      "gear": [
+        "nightwatch-melee",
+        "nightwatch-ranged",
+        "nightwatch-magic"
+      ]
+    }
+  },
+  {
     "id": "deepstone-mines",
     "name": "Deepstone Mines",
     "element": "stone",

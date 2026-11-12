@@ -1444,5 +1444,435 @@
       "gold": 700,
       "embers": 7
     }
+  },
+  {
+    "id": "the-lamplighter",
+    "zone": "moonwell-woods",
+    "name": "The Lamplighter",
+    "minLevel": 30,
+    "description": "Someone keeps blowing out the lanterns in Moonwell Woods. Lamplighter Nell is not amused.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "Every lantern I light, something puffs it out! Every single one!",
+            "name": "Lamplighter Nell"
+          },
+          {
+            "speaker": "rider",
+            "text": "We'll keep watch while you work."
+          },
+          {
+            "speaker": "narrator",
+            "text": "Two big round eyes blink in the dark. Hoo."
+          }
+        ],
+        "enemies": [
+          "hoot-shade"
+        ],
+        "level": 30
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "A Frostcap Shroom sits on the lantern post, glowing smugly."
+          },
+          {
+            "speaker": "npc",
+            "text": "That's not a lantern. That's a mushroom pretending to be a lantern.",
+            "name": "Lamplighter Nell"
+          },
+          {
+            "speaker": "dragon",
+            "text": "*bonks the mushroom, gets bonked back*"
+          }
+        ],
+        "enemies": [
+          "frostcap-shroom"
+        ],
+        "level": 31
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "The path is lit! Thank you, keeper. Here, take some lamp money. Don't spend it all on lamps.",
+        "name": "Lamplighter Nell"
+      },
+      {
+        "speaker": "narrator",
+        "text": "The lanterns flicker on, one by one, down the long dark path."
+      }
+    ],
+    "reward": {
+      "xp": 320,
+      "gold": 450,
+      "items": {
+        "mana-tonic": 1
+      }
+    }
+  },
+  {
+    "id": "gossip-in-the-trees",
+    "zone": "moonwell-woods",
+    "name": "Gossip in the Trees",
+    "minLevel": 32,
+    "requires": "the-lamplighter",
+    "description": "The trees are spreading rumors about you. Some of them are even true.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "The trees have been talking. They say you snore. They say your dragon eats lanterns.",
+            "name": "Lamplighter Nell"
+          },
+          {
+            "speaker": "dragon",
+            "text": "*quietly hides a lantern behind its back*"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A Snickerbark giggles from behind a log."
+          }
+        ],
+        "enemies": [
+          "snickerbark"
+        ],
+        "level": 32
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "The rumor trail leads to a ring of Snickerbarks telling spooky stories around a cold blue fire."
+          },
+          {
+            "speaker": "rider",
+            "text": "That's where the gossip starts."
+          }
+        ],
+        "enemies": [
+          "snickerbark",
+          "shadow-fox"
+        ],
+        "level": 33
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "The Snickerbarks huddle together, giggling nervously."
+      },
+      {
+        "speaker": "npc",
+        "text": "Okay, okay! We'll stop! But only if you tell us a scary story first. A good one.",
+        "name": "Snickerbark"
+      },
+      {
+        "speaker": "npc",
+        "text": "They're not bad, just bored. And loud.",
+        "name": "Lamplighter Nell"
+      }
+    ],
+    "reward": {
+      "xp": 360,
+      "gold": 380
+    },
+    "choice": {
+      "prompt": "The Snickerbarks want a scary story. What do you tell them?",
+      "options": [
+        {
+          "id": "scary",
+          "label": "Tell them a truly scary story",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "Your story is so scary the Snickerbarks hide under their own roots for a week. One of them leaves you a shiny scale as a peace offering."
+            }
+          ],
+          "reward": {
+            "materials": {
+              "scale": 1
+            },
+            "embers": 2
+          },
+          "temper": "bold"
+        },
+        {
+          "id": "funny",
+          "label": "Tell them a funny one instead",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "The Snickerbarks laugh so hard their leaves fall off. They promise to gossip only nice things from now on."
+            },
+            {
+              "speaker": "npc",
+              "text": "Nice gossip! Imagine that.",
+              "name": "Lamplighter Nell"
+            }
+          ],
+          "reward": {
+            "gold": 350,
+            "items": {
+              "dragon-treat": 2
+            }
+          },
+          "temper": "gentle"
+        }
+      ]
+    }
+  },
+  {
+    "id": "the-sock-thief",
+    "zone": "moonwell-woods",
+    "name": "The Sock Thief",
+    "minLevel": 34,
+    "requires": "gossip-in-the-trees",
+    "description": "Every camper's socks are missing. Nell suspects the foxes. Nell suspects everyone.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "I put my socks by the fire. In the morning? Gone. All of them. Even the itchy ones.",
+            "name": "Lamplighter Nell"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A Shadow Fox trots past with a striped sock in its mouth."
+          }
+        ],
+        "enemies": [
+          "shadow-fox"
+        ],
+        "level": 34
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "The fox leads you to a burrow. A Rimeback Badger is sitting on a huge pile of socks, looking extremely guilty."
+          },
+          {
+            "speaker": "dragon",
+            "text": "*sniffs the pile, sneezes, looks offended*"
+          }
+        ],
+        "enemies": [
+          "rimeback-badger",
+          "shadow-fox"
+        ],
+        "level": 35
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "The badger has been using the socks to stay warm all winter. It looks very cold now."
+      },
+      {
+        "speaker": "npc",
+        "text": "Oh, you poor thing. Fine. You can keep the itchy ones.",
+        "name": "Lamplighter Nell"
+      },
+      {
+        "speaker": "narrator",
+        "text": "Under the socks: a little stash of iron ore and a very old lantern."
+      }
+    ],
+    "reward": {
+      "xp": 400,
+      "gold": 500,
+      "materials": {
+        "ore": 3,
+        "crystal": 1
+      }
+    }
+  },
+  {
+    "id": "the-great-stag",
+    "zone": "moonwell-woods",
+    "name": "The Great Stag",
+    "minLevel": 36,
+    "requires": "the-sock-thief",
+    "description": "Duskhorn, the stag who guards the moonwell, has stopped letting anyone near it.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "Duskhorn always lets travelers drink from the moonwell. Now he charges anyone who tries.",
+            "name": "Lamplighter Nell"
+          },
+          {
+            "speaker": "narrator",
+            "text": "The forest guards the path: owls in the branches, mushrooms in the roots."
+          }
+        ],
+        "enemies": [
+          "hoot-shade",
+          "frostcap-shroom"
+        ],
+        "level": 36
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "Duskhorn steps out of the mist, stars caught in his antlers, eyes cold."
+          },
+          {
+            "speaker": "npc",
+            "text": "The well is not safe. Something sleeps in it that should not wake. Turn back.",
+            "name": "Duskhorn"
+          },
+          {
+            "speaker": "rider",
+            "text": "Then let us help."
+          }
+        ],
+        "enemies": [
+          "duskhorn"
+        ],
+        "level": 37,
+        "mini": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "You are strong. Perhaps strong enough. The Wyrm in the well has been stealing the forest's dreams. That is why the trees gossip and the foxes steal. Nobody sleeps.",
+        "name": "Duskhorn"
+      },
+      {
+        "speaker": "npc",
+        "text": "No wonder I've been so tired!",
+        "name": "Lamplighter Nell"
+      }
+    ],
+    "reward": {
+      "xp": 450,
+      "gold": 550,
+      "embers": 3
+    },
+    "choice": {
+      "prompt": "Duskhorn offers you a gift for the road. Which do you take?",
+      "options": [
+        {
+          "id": "star",
+          "label": "A star from his antlers",
+          "lines": [
+            {
+              "speaker": "npc",
+              "text": "Carry it into the dark. It will not go out.",
+              "name": "Duskhorn"
+            }
+          ],
+          "reward": {
+            "materials": {
+              "crystal": 2
+            },
+            "embers": 2
+          },
+          "temper": "proud"
+        },
+        {
+          "id": "blessing",
+          "label": "His blessing for your dragon",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "Duskhorn touches his nose to your dragon's. Your dragon stands a little taller, and very still, and very proud."
+            }
+          ],
+          "reward": {
+            "items": {
+              "dragon-treat": 3
+            },
+            "gold": 300
+          },
+          "temper": "gentle"
+        }
+      ]
+    }
+  },
+  {
+    "id": "the-moonwell-wyrm",
+    "zone": "moonwell-woods",
+    "name": "The Moonwell Wyrm",
+    "minLevel": 39,
+    "requires": "the-great-stag",
+    "description": "Deep in the moonwell sleeps a serpent of night sky, and it has been eating everyone's dreams.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "I'll light the way to the well. After that, you're on your own. I'll be over here. Holding a lantern. Supportively.",
+            "name": "Lamplighter Nell"
+          },
+          {
+            "speaker": "narrator",
+            "text": "The well's last guards slip out of the shadows."
+          }
+        ],
+        "enemies": [
+          "shadow-fox",
+          "rimeback-badger"
+        ],
+        "level": 39
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "The moonwell glows. The water rises, and rises, and becomes a long serpent made of stars."
+          },
+          {
+            "speaker": "npc",
+            "text": "Sssleep. Dream for me. I'm ssso hungry for dreams.",
+            "name": "Moonwell Wyrm"
+          },
+          {
+            "speaker": "dragon",
+            "text": "*yawns, then shakes it off and growls*"
+          }
+        ],
+        "enemies": [
+          "moonwell-wyrm"
+        ],
+        "level": 40,
+        "boss": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "The Moonwell Wyrm sinks back into the water, full and drowsy, and lets the stolen dreams drift up like fireflies."
+      },
+      {
+        "speaker": "npc",
+        "text": "Look! They're going home. Every dream in the forest.",
+        "name": "Lamplighter Nell"
+      },
+      {
+        "speaker": "npc",
+        "text": "The woods will sleep tonight. Thank you, keeper.",
+        "name": "Duskhorn"
+      },
+      {
+        "speaker": "dragon",
+        "text": "*falls asleep on the spot and snores, very loudly*"
+      }
+    ],
+    "reward": {
+      "xp": 700,
+      "gold": 1000,
+      "embers": 8
+    }
   }
 ]

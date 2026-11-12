@@ -27,12 +27,13 @@ test('the Map groups zones into regions and teases the next area', async ({ page
   await expect(page.getByTestId('region-wilds')).toContainText('The Wilds');
   await expect(page.getByTestId('region-highlands')).toContainText('The High Lands');
   await expect(page.getByTestId('region-wilds').getByTestId('zone-mossy-hollow')).toBeVisible();
-  // Whispering Fen is built and open (level 15, Bramble Troll beaten); Rustcliff Ruins is built; the next teaser is Moonwell Woods.
+  // Whispering Fen is built and open (level 15, Bramble Troll beaten); Rustcliff Ruins and Moonwell Woods are built; the next teaser is the Gilded Wastes.
   await expect(page.getByTestId('region-wilds').getByTestId('start-whispering-fen')).toBeVisible();
   const teaser = page.getByTestId('zone-teaser');
   await expect(page.getByTestId('region-highlands').getByTestId('zone-teaser')).toBeVisible();
-  await expect(teaser).toContainText('Moonwell Woods');
-  await expect(teaser).toContainText('Opens at level 30, after you beat the Storm Roc');
+  await expect(teaser).toContainText('Gilded Wastes');
+  await expect(teaser).toContainText('Opens at level 40, after you beat the Glacier Hydra');
+  await expect(page.getByTestId('zone-moonwell-woods')).toContainText('Opens at rider level 30, after you beat the Storm Roc');
   await expect(page.getByTestId('zone-rustcliff-ruins')).toContainText('Opens at rider level 20, after you beat the Magma Wyrm');
   await expect(page.getByTestId('story-mossy-hollow')).toHaveText('Story 0 of 4');
   await expect(page.getByTestId('story-cinder-pass')).toHaveCount(0);
@@ -178,4 +179,31 @@ test('the Cinderforge Colossus boss fight shows the boss art', async ({ page }) 
   await expect.poll(async () => (await page.locator('[data-testid=stage] img').evaluateAll((els) => els.map((e) => (e as HTMLImageElement).src))).some((src) => /cinderforge-colossus-[^/]*\.webp/.test(src))).toBe(true);
   await page.waitForTimeout(600);
   await page.screenshot({ path: 'test-results/ruins-boss.png' });
+});
+
+test('Moonwell Woods opens at level 30 after the Storm Roc, and its fights use the Moonwell art', async ({ page }) => {
+  await load(page, 'elder.json', (s) => {
+    s.bossesDefeated = ['mossy-hollow', 'saltmarsh-shore', 'cinder-pass', 'thunderspire'];
+    s.rider.level = 31;
+  });
+  await page.getByTestId('tab-map').tap();
+  await page.getByTestId('start-moonwell-woods').tap();
+  await expect(page.locator('[data-testid=stage]:not(.stage--loading)')).toBeVisible();
+  const woods = /(hoot-shade|frostcap-shroom|snickerbark|shadow-fox|rimeback-badger)-[^/]*\.webp/;
+  await expect.poll(async () => (await page.locator('[data-testid=stage] img').evaluateAll((els) => els.map((e) => (e as HTMLImageElement).src))).some((src) => woods.test(src))).toBe(true);
+  await page.waitForTimeout(600);
+  await page.screenshot({ path: 'test-results/moonwell-fight.png' });
+});
+
+test('the Moonwell Wyrm boss fight shows the boss art', async ({ page }) => {
+  await load(page, 'elder.json', (s) => {
+    s.bossesDefeated = ['mossy-hollow', 'saltmarsh-shore', 'cinder-pass', 'thunderspire'];
+    s.rider.level = 39;
+    s.run = { zoneId: 'moonwell-woods', fights: [{ kind: 'boss', enemies: [{ enemyId: 'moonwell-wyrm', level: 40 }] }], index: 0, battle: null, totals: { xp: 0, gold: 0, drops: {} } };
+  });
+  await page.getByTestId('next-fight').tap();
+  await expect(page.locator('[data-testid=stage]:not(.stage--loading)')).toBeVisible();
+  await expect.poll(async () => (await page.locator('[data-testid=stage] img').evaluateAll((els) => els.map((e) => (e as HTMLImageElement).src))).some((src) => /moonwell-wyrm-[^/]*\.webp/.test(src))).toBe(true);
+  await page.waitForTimeout(600);
+  await page.screenshot({ path: 'test-results/moonwell-boss.png' });
 });
