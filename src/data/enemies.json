@@ -3390,7 +3390,7 @@
     "flavor": "An owl made of night. Asks \"who?\" and never likes the answer.",
     "base": {
       "hp": 72.67,
-      "attack": 7.97,
+      "attack": 8.369,
       "power": 5,
       "defense": 1,
       "swift": 8.4,
@@ -3398,7 +3398,7 @@
     },
     "perLevel": {
       "hp": 21.0,
-      "attack": 1.37,
+      "attack": 1.439,
       "power": 1,
       "defense": 0.3,
       "swift": 1.08,
@@ -3439,7 +3439,7 @@
     "flavor": "A glowing ice mushroom. Bonks things. Mostly shins.",
     "base": {
       "hp": 94.05,
-      "attack": 7.97,
+      "attack": 8.369,
       "power": 5,
       "defense": 1,
       "swift": 7,
@@ -3447,7 +3447,7 @@
     },
     "perLevel": {
       "hp": 27.17,
-      "attack": 1.37,
+      "attack": 1.439,
       "power": 1,
       "defense": 0.3,
       "swift": 0.9,
@@ -3488,7 +3488,7 @@
     "flavor": "A walking stump that giggles at its own spooky stories.",
     "base": {
       "hp": 85.5,
-      "attack": 7.97,
+      "attack": 8.369,
       "power": 5,
       "defense": 1,
       "swift": 8.4,
@@ -3496,7 +3496,7 @@
     },
     "perLevel": {
       "hp": 24.7,
-      "attack": 1.37,
+      "attack": 1.439,
       "power": 1,
       "defense": 0.3,
       "swift": 1.08,
@@ -3537,7 +3537,7 @@
     "flavor": "A fox of shadow with a moon-silver tail. Steals socks. Nobody knows why.",
     "base": {
       "hp": 68.4,
-      "attack": 7.97,
+      "attack": 8.369,
       "power": 5,
       "defense": 1,
       "swift": 10.5,
@@ -3545,7 +3545,7 @@
     },
     "perLevel": {
       "hp": 19.76,
-      "attack": 1.37,
+      "attack": 1.439,
       "power": 1,
       "defense": 0.3,
       "swift": 1.35,
@@ -3586,7 +3586,7 @@
     "flavor": "A badger with frosty fur and a permanently bad mood.",
     "base": {
       "hp": 106.88,
-      "attack": 7.97,
+      "attack": 8.369,
       "power": 5,
       "defense": 1.8,
       "swift": 4.2,
@@ -3594,7 +3594,7 @@
     },
     "perLevel": {
       "hp": 30.88,
-      "attack": 1.37,
+      "attack": 1.439,
       "power": 1,
       "defense": 0.54,
       "swift": 0.54,
@@ -3635,7 +3635,7 @@
     "flavor": "The great stag of the night woods. Its antlers hold the stars.",
     "base": {
       "hp": 145.35,
-      "attack": 9.17,
+      "attack": 9.629,
       "power": 5,
       "defense": 1,
       "swift": 7,
@@ -3643,7 +3643,7 @@
     },
     "perLevel": {
       "hp": 41.99,
-      "attack": 1.57,
+      "attack": 1.649,
       "power": 1,
       "defense": 0.3,
       "swift": 0.9,
@@ -3695,7 +3695,7 @@
     "flavor": "A serpent made of night sky that lives in the moonwell and steals dreams.",
     "base": {
       "hp": 222.3,
-      "attack": 8.38,
+      "attack": 8.799,
       "power": 5,
       "defense": 1.4,
       "swift": 7,
@@ -3703,7 +3703,7 @@
     },
     "perLevel": {
       "hp": 64.22,
-      "attack": 1.44,
+      "attack": 1.512,
       "power": 1,
       "defense": 0.42,
       "swift": 0.9,
