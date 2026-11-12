@@ -1,6 +1,6 @@
 # Handoff
 
-Last updated 2026-11-11. Read this first, then `CLAUDE.md` and `docs/DESIGN.md`. Everything described here is merged to `main` and live (last deploy: commit 07bba0a, the art redesign). A ready-to-paste prompt for starting a new session is in `docs/NEXT_PROMPT.md`.
+Last updated 2026-11-11. Read this first, then `CLAUDE.md` and `docs/DESIGN.md`. Everything described here is merged to `main` and live (the art redesign and the Mossy Egg in the town shop were the last deploys). A ready-to-paste prompt for starting a new session is in `docs/NEXT_PROMPT.md`.
 
 ## Where things stand
 
@@ -58,13 +58,9 @@ Eric's verdict after seeing it on his phone: "I see the new art. It's great."
 
 ### How the art was made
 
-The images were generated with the Codex CLI's built-in image tool, signed in to Eric's ChatGPT subscription, from inside the cloud session: 61 generations in all, every one usable on the first run. `tools/art/README.md` has the steps and `tools/art/painted/` has the prompts, the style reference image and the scripts that cut out and pack the art.
+The images were generated with the Codex CLI's built-in image tool, signed in to Eric's ChatGPT subscription by device code, from inside the cloud session: 61 generations in all, every one usable on the first run.
 
-To generate more art in a new session:
-
-1. Start the session on the "dracoquest" cloud environment, which allows `chatgpt.com`, `auth.openai.com` and `api.openai.com`.
-2. `npm install -g @openai/codex`, then `codex login --device-auth`. Eric enters the code it prints on his phone. The earlier session was logged out when it closed.
-3. Follow `tools/art/README.md`. Run `codex logout` when done.
+`docs/ART_GENERATION.md` is the full process: the chosen style, the environment, install and sign-in steps, the prompt shape, the commands and the gotchas. Any new art goes through it. In short: start the session on the "dracoquest" cloud environment, install the CLI, run `codex login --device-auth` and have Eric enter the code, generate with `tools/art/painted/`, and `codex logout` at the end. The earlier session was logged out when it closed.
 
 The raw generated PNGs lived only in that session's container and are gone. The packed WebPs in the repo are the source of truth. Repacking an image means generating it again; changing sizes, boxes or placements only needs `assets.json`.
 
@@ -144,7 +140,7 @@ tests/         Vitest unit tests (139), sim.ts (the balance simulator), save fix
 e2e/           Playwright phone tests (40, including a 4x-throttle perf test), save fixtures and make-fixtures.ts
 scripts/       icons.mjs builds the Home Screen icons
 tools/art/     painted/ (prompts, the style anchor, and the scripts that generate, cut out and pack the art)
-docs/          DESIGN.md, HANDOFF.md, GRAPHICS_PLAN_2.md (second graphics pass: research, C0 result, C1 to C4), NEXT_PROMPT.md (prompt for a new session), GRAPHICS_PLAN.md (graphics plan and results), ART_STYLE.md (art rules)
+docs/          DESIGN.md, HANDOFF.md, ART_GENERATION.md (how to make new art), GRAPHICS_PLAN_2.md (second graphics pass: research, C0 result, C1 to C4), NEXT_PROMPT.md (prompt for a new session), GRAPHICS_PLAN.md (graphics plan and results), ART_STYLE.md (art rules)
 ```
 
 ## Commands

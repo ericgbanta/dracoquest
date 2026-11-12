@@ -4,7 +4,7 @@ DracoQuest is a mobile-first, turn-based browser RPG in the style of AdventureQu
 
 The full design lives in `docs/DESIGN.md`. Read it before starting any phase, and treat its "Decisions" table as settled.
 
-Start with `docs/HANDOFF.md`: where the project stands, what to work on next, and decisions made since the design. The graphics and battle overhaul in `docs/GRAPHICS_PLAN.md` is finished; the art redesign that followed is recorded in `docs/GRAPHICS_PLAN_2.md`; art rules are in `docs/ART_STYLE.md`.
+Start with `docs/HANDOFF.md`: where the project stands, what to work on next, and decisions made since the design. The graphics and battle overhaul in `docs/GRAPHICS_PLAN.md` is finished; the art redesign that followed is recorded in `docs/GRAPHICS_PLAN_2.md`; art rules are in `docs/ART_STYLE.md`, and the process for making new art is in `docs/ART_GENERATION.md`.
 
 ## How to work
 
@@ -22,7 +22,9 @@ Start with `docs/HANDOFF.md`: where the project stands, what to work on next, an
 
 ## Art
 
-- Characters, backdrops and effects are painted WebP images in `/src/art/painted`, generated with an image model and packed by `tools/art/painted` (see `tools/art/README.md`), following `docs/ART_STYLE.md`. Every file is listed in `/src/art/assets.json`. Eric may swap in his own art through the manifest.
+- Characters, backdrops, effects, eggs and icons are painted WebP images, in one cel-shaded cartoon style Eric chose. Every file is listed in `/src/art/assets.json`. Eric may swap in his own art through the manifest.
+- New art is always made the same way: follow `docs/ART_GENERATION.md` (the Codex CLI on Eric's ChatGPT subscription, signed in by device code, with the style text and reference image in `tools/art/painted`). Do not draw art by hand as SVG or change the style without asking Eric. Tell him how many images a task needs before generating, because it uses his Codex limits.
+- `docs/ART_STYLE.md` has the rules a finished image must meet.
 - Dragons are painted in key colors (red body, gold belly) and recolored once at load per player color, with an element tail tip drawn on.
 - Load every sprite through the manifest. If a sprite is missing, render a simple placeholder shape. Never block a feature on art.
 
