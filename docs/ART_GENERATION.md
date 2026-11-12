@@ -81,6 +81,6 @@ The scripts expect a scratch folder holding a copy of `tools/art/painted/` named
 
 ## What exists already
 
-The current set, all in this style: four dragon stages, the rider (sword, bow, staff, mounted), all 49 enemies, an attack pose for every one of those, seven zone backdrops and the Roost, a breath burst per element, tail tips, slash and spark, the egg, and 44 UI icons. The job scripts that made them are `jobs.py`, `jobs2.py` and `jobs3.py` in `tools/art/painted/`. Whispering Fen (world plan W1) came from `jobs4.py`: five generations, run as `python3 v2/jobs4.py idle`, generate, then `python3 v2/jobs4.py attack` and generate again.
+The current set, all in this style: four dragon stages, the rider (sword, bow, staff, mounted), all 49 enemies, an attack pose for every one of those, seven zone backdrops and the Roost, a breath burst per element, tail tips, slash and spark, the egg, and 44 UI icons. The job scripts that made them are `jobs.py`, `jobs2.py` and `jobs3.py` in `tools/art/painted/`. Whispering Fen (world plan W1) came from `jobs4.py` and Rustcliff Ruins (W2) from `jobs5.py`, each five generations, run as `python3 v2/jobs4.py idle`, generate, then `python3 v2/jobs4.py attack` and generate again.
 
 Not made yet: hurt or defeat poses, painted crack lines for the egg, cosmetics.
