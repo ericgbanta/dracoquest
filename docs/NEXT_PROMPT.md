@@ -16,6 +16,7 @@ How I like to work: one task at a time; commit after each; plain writing with no
 New art always goes through `docs/ART_GENERATION.md`: the Codex CLI on my ChatGPT subscription, in the cel-shaded style we chose, using the style text and reference image in `tools/art/painted`. It uses my Codex limits, so tell me how many images a task needs first. I'll need to enter a device login code, and the session must be on the "dracoquest" environment.
 
 Open threads, from `docs/HANDOFF.md`, if I haven't picked one below:
+- Rider spells: the rider has two fixed spells and learns none. A way to learn more is a possible new feature, not designed yet (see the handoff for the questions to ask me).
 - Whether enemies visibly snap to their attack pose on my phone.
 - Element balance: Tide starters win about 60 percent in Thunderspire and Verdant about 52 percent in Frostmere.
 - Cosmetics (an ember sink), a late-game save code, the 4.7 MB offline download.

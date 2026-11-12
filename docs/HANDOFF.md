@@ -75,12 +75,18 @@ The raw generated PNGs lived only in that session's container and are gone. The 
 
 No task is in progress. These are the open threads. Eric closed three on 2026-11-11: the B5 look, battle feel and split targets are good; tap for details is good as it stands; the 100-node stage budget is fine.
 
-1. **Element spreads.** Zone win rates average 70 to 85 percent across the three starters, but single starters dip: Tide in Thunderspire (about 60 percent, Storm beats Tide) and Verdant in Frostmere (about 52 percent, Frost beats Verdant). He hasn't said whether that's wanted. The fix would be data only (`src/data/enemies.json`), then rerun `npm run sim`.
-2. **Real-phone check.** Phase 4's done criteria include passing the mobile UX rules on two real phones. Only his iPhone has been checked.
-3. **Cosmetics** (an ember sink in the design) don't exist yet. They could be painted overlays drawn onto a dragon at load, the way tail tips are.
-4. **Late-game save code.** Late-game play takes many hours; a save code for an Elder with two partners would let him look at late screens. `e2e/make-fixtures.ts` already builds such saves (`e2e/fixtures/elder.json`); turn one into an export code with `src/core/save.ts`.
-5. **Download size.** First-load JavaScript is 108 kB gzipped, but the service worker precaches 4.7 MB of art in the background. If that matters, cache each zone's art on first visit instead (`vite.config.ts`, Workbox `runtimeCaching`), at the cost of placeholder shapes when offline in a zone never visited.
-6. **More art.** Hurt or defeat poses, painted crack lines for the egg, cosmetics as painted overlays. Needs Codex image generations (see "How the art was made").
+1. **Rider spells (new work stream, raised by Eric on 2026-11-12).** The rider has two fixed spells from the start, Arc Bolt (damage, 4 MP) and Mend (heal, 5 MP), in `riderMoves.spells` in `src/data/combat.json`. Nothing is learned or unlocked, and the talent trees are for dragons only. Eric asked how to get and learn spells, and letting the rider learn more as they level is a candidate feature. It has not been designed. Ask him these before building:
+   - How spells are earned: by rider level, bought as tomes in the town shop, dropped by bosses, or tied to the weapon type.
+   - How many, and whether they carry elements and statuses (the eight elements and twelve statuses already exist).
+   - Whether the rider picks a loadout of a few spells or has all of them in battle.
+
+   What it would touch: spell data stays in JSON; a "known spells" or loadout field changes the save shape, so it needs a version bump, a migration and a fixture test; the Spell button already opens a picker, but the order rows are full at 375 wide (see Gotchas); each new spell needs a stage move, or it falls back to the bolt; and `npm run sim` must be rerun, since the auto-battler's spell choices affect zone win rates.
+2. **Element spreads.** Zone win rates average 70 to 85 percent across the three starters, but single starters dip: Tide in Thunderspire (about 60 percent, Storm beats Tide) and Verdant in Frostmere (about 52 percent, Frost beats Verdant). He hasn't said whether that's wanted. The fix would be data only (`src/data/enemies.json`), then rerun `npm run sim`.
+3. **Real-phone check.** Phase 4's done criteria include passing the mobile UX rules on two real phones. Only his iPhone has been checked.
+4. **Cosmetics** (an ember sink in the design) don't exist yet. They could be painted overlays drawn onto a dragon at load, the way tail tips are.
+5. **Late-game save code.** Late-game play takes many hours; a save code for an Elder with two partners would let him look at late screens. `e2e/make-fixtures.ts` already builds such saves (`e2e/fixtures/elder.json`); turn one into an export code with `src/core/save.ts`.
+6. **Download size.** First-load JavaScript is 108 kB gzipped, but the service worker precaches 4.7 MB of art in the background. If that matters, cache each zone's art on first visit instead (`vite.config.ts`, Workbox `runtimeCaching`), at the cost of placeholder shapes when offline in a zone never visited.
+7. **More art.** Hurt or defeat poses, painted crack lines for the egg, cosmetics as painted overlays. Needs Codex image generations (see "How the art was made").
 
 ## Decisions made along the way
 
