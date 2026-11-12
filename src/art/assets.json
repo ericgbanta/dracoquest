@@ -3295,6 +3295,363 @@
           ]
         }
       ]
+    },
+    "enemy.cog-crawler": {
+      "size": [
+        373,
+        386
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/cog-crawler.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/cog-crawler-attack.webp",
+              "box": [
+                -0.1729,
+                0.0751,
+                1.2279,
+                0.9249
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.brass-sentry": {
+      "size": [
+        278,
+        400
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/brass-sentry.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/brass-sentry-attack.webp",
+              "box": [
+                0.044,
+                0.2249,
+                1.7751,
+                0.775
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.boiler-bot": {
+      "size": [
+        315,
+        400
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/boiler-bot.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/boiler-bot-attack.webp",
+              "box": [
+                -0.0571,
+                0.1554,
+                1.3415,
+                0.845
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.spark-hound": {
+      "size": [
+        400,
+        337
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/spark-hound.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/spark-hound-attack.webp",
+              "box": [
+                0.0624,
+                0.2177,
+                1.035,
+                0.7824
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.gargoyle-pup": {
+      "size": [
+        400,
+        338
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/gargoyle-pup.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/gargoyle-pup-attack.webp",
+              "box": [
+                0.1974,
+                0.0746,
+                1.1375,
+                0.9252
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.captain-clank": {
+      "size": [
+        365,
+        400
+      ],
+      "boxScale": 0.65,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/captain-clank.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/captain-clank-attack.webp",
+              "box": [
+                0.1452,
+                0.2505,
+                1.327,
+                0.75
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.cinderforge-colossus": {
+      "size": [
+        720,
+        722
+      ],
+      "boxScale": 0.9,
+      "points": {
+        "mouth": [
+          0.8,
+          0.3
+        ],
+        "hit": [
+          0.6,
+          0.5
+        ],
+        "front": [
+          0.92,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/cinderforge-colossus.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/cinderforge-colossus-attack.webp",
+              "box": [
+                -0.0702,
+                0.0128,
+                1.4806,
+                0.9874
+              ]
+            }
+          ]
+        }
+      ]
     }
   },
   "backdrops": {
@@ -3387,6 +3744,17 @@
       "ambient": {
         "kind": "rise",
         "color": "#f3e9a6"
+      }
+    },
+    "rustcliff-ruins": {
+      "layers": [
+        {
+          "file": "painted/backdrops/rustcliff-ruins.webp"
+        }
+      ],
+      "ambient": {
+        "kind": "rise",
+        "color": "#ffc98a"
       }
     }
   },
