@@ -1,6 +1,6 @@
 # World expansion: plan
 
-Written 2026-11-12 at Eric's request. Status: W0, W1 (Whispering Fen) and W2 (Rustcliff Ruins) built (2026-11-12); W3 (Moonwell Woods) next. Eric answered the open questions the same day (see "Eric's answers"); the plan below follows them.
+Written 2026-11-12 at Eric's request. Status: W0 to W3 built (2026-11-12): Whispering Fen, Rustcliff Ruins, Moonwell Woods. W4 (Gilded Wastes) next. Eric answered the open questions the same day (see "Eric's answers"); the plan below follows them.
 
 The request, in Eric's words: "I now want to expand the game with unlockable areas and more levels to go on adventures. Just like adventure quest you could choose and the game grows. Maybe we can do 1 area at a time and they unlock every 10-15 levels for the rider."
 
@@ -107,7 +107,7 @@ One phase at a time, each committed, tested and deployed when Eric says so.
 
 Done when: the Map shows regions and a teaser for the next locked area (Whispering Fen until it ships); Mossy Hollow and Saltmarsh Shore each have a playable story chain and daily bounties; save v9 migrates from a v8 fixture; tests, lint, type check and phone tests pass.
 
-### W1 to W4. Side areas, one at a time (W1 Whispering Fen and W2 Rustcliff Ruins: built)
+### W1 to W4. Side areas, one at a time (W1 Whispering Fen, W2 Rustcliff Ruins and W3 Moonwell Woods: built)
 
 Whispering Fen (10 to 20), then Rustcliff Ruins, Moonwell Woods and the Gilded Wastes. Each phase:
 
