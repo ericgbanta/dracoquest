@@ -11,8 +11,8 @@ import {
   tickPantry, trainingHours, trainingXp, tripById, upgradeCost, type TripLoot,
 } from './roost';
 import { addBond, allocateDragon, allocateRider, dragonLevelCap, giveDragonXp, giveRiderXp } from './progression';
-import { dragonBonus, gearItem, learnTalent as learn, respecCost } from './loadout';
-import { getZone, planQuest, planRun, rollRewards, type FightKind, type Rewards } from './run';
+import { bonusOf, dragonBonus, gearItem, learnTalent as learn, respecCost, riderBonus } from './loadout';
+import { getZone, planQuest, planRun, rollGear, rollRewards, type FightKind, type Rewards } from './run';
 import type { SaveData } from './save';
 import type { BuildingId, DragonSlot, DragonState, DragonStat, ElementId, GameData, GearSlot, RiderSlot, RiderStat, StageData, ZoneData } from './types';
 import { DRAGON_SLOTS } from './types';
@@ -260,6 +260,12 @@ function finishFight(data: GameData, save: SaveData): { save: SaveData; report: 
     const xpBonus = wellKept ? data.care.wellKept.xpBonus : 0;
     const r = withRng(next, (rng) => {
       const rewards = rollRewards(data, run.zoneId, battle, rng, xpBonus, dragon ? dragonBonus(data, dragon) : {});
+      // Gear: trophies from bosses and mini-boss, zone drops from regular fights. Quests drop none.
+      const foe = plan.enemies[0]?.enemyId;
+      const firstKill = !!foe && (save.bestiary[foe]?.defeated ?? 0) === 0;
+      const dropPct = bonusOf(riderBonus(data, save.rider), 'dropPct') + (dragon ? bonusOf(dragonBonus(data, dragon), 'dropPct') : 0);
+      const gear = rollGear(getZone(data, run.zoneId), plan.kind, new Set(save.rider.gear), firstKill, rng, dropPct);
+      if (gear.length) rewards.gear = gear;
       // Bosses drop an egg of their zone's element: always the first time, sometimes after.
       const zone = getZone(data, run.zoneId);
       if (plan.kind === 'boss' && zone.eggDrop) {
@@ -291,6 +297,7 @@ function finishFight(data: GameData, save: SaveData): { save: SaveData; report: 
     rider.gold += rewards.gold;
     rider.inventory = { ...rider.inventory };
     for (const [item, n] of Object.entries(rewards.drops)) rider.inventory[item] = (rider.inventory[item] ?? 0) + n;
+    if (rewards.gear) rider.gear = [...rider.gear, ...rewards.gear.filter((id) => !rider.gear.includes(id))];
     if (rl.levelsGained > 0 && data.progression.levelUpRestoresHp) {
       rider = { ...rider, hp: riderMaxHp(data, rider), mp: riderMaxMp(data, rider) };
     }

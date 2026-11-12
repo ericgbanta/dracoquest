@@ -22,7 +22,25 @@ export interface RunState {
   totals: { xp: number; gold: number; drops: Record<string, number> };
 }
 
-export interface Rewards { xp: number; gold: number; drops: Record<string, number>; egg?: ElementId }
+export interface Rewards { xp: number; gold: number; drops: Record<string, number>; egg?: ElementId; gear?: string[] }
+
+/**
+ * Gear from a won fight. A boss or mini-boss drops its trophy on the first
+ * kill, then by chance; a regular fight may drop one of the zone's gear.
+ * Nothing drops that the rider already owns.
+ */
+export function rollGear(
+  zone: ZoneData, kind: FightKind, owned: ReadonlySet<string>, firstKill: boolean, rng: Rng, dropPct = 0,
+): string[] {
+  const out: string[] = [];
+  const trophy = kind === 'boss' ? zone.boss.trophy : kind === 'mini' ? zone.miniBoss.trophy : undefined;
+  if (trophy && !owned.has(trophy.gear) && (firstKill || rng.chance(trophy.chance))) out.push(trophy.gear);
+  if (kind === 'normal' && zone.gearDrops) {
+    const left = zone.gearDrops.gear.filter((id) => !owned.has(id));
+    if (left.length && rng.chance(zone.gearDrops.chance * (1 + dropPct))) out.push(rng.pick(left));
+  }
+  return out;
+}
 
 export function getZone(data: GameData, zoneId: string): ZoneData {
   const z = data.zones.find((x) => x.id === zoneId);

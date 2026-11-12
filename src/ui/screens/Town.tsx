@@ -3,6 +3,7 @@ import { gameData as data } from '../../core/data';
 import { activeDragon, buyEgg, buyGear, buyItem, GameError, itemPrice, shopEggs, shopGear } from '../../core/game';
 import { activeEvent } from '../../core/events';
 import type { SaveData } from '../../core/save';
+import { setOf } from '../../core/loadout';
 import type { GearData } from '../../core/types';
 import { href } from '../router';
 import { BackIcon } from '../icons';
@@ -20,11 +21,13 @@ const TABS: { id: Tab; label: string }[] = [
   { id: 'supplies', label: 'Supplies' },
 ];
 
-export function gearSummary(g: GearData): string {
+export function gearSummary(g: GearData, withSet = true): string {
   const parts: string[] = [];
   if (g.slot === 'weapon') parts.push(`${g.damage} damage, ${g.weaponType}`);
   const b = formatBonus(g.bonus);
   if (b) parts.push(b);
+  const set = withSet ? setOf(data, g.id) : undefined;
+  if (set) parts.push(`${set.name} set`);
   return parts.join(' · ');
 }
 

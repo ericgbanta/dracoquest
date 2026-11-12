@@ -215,6 +215,19 @@ function shopAndEquip(s: SaveData): SaveData {
     if (!s.rider.gear.includes(g.id) && data.shop.stock.includes(g.id) && s.rider.gold >= g.price) s = buyGear(data, s, g.id);
     if (s.rider.gear.includes(g.id) && canEquip(data, s, g.id).ok) s = equip(data, s, g.id);
   }
+  return wearSetPieces(s);
+}
+
+/** Wear found set pieces (melee weapon only) when they are at least as new as what is equipped. */
+function wearSetPieces(s: SaveData): SaveData {
+  for (const set of data.sets) {
+    for (const id of set.pieces) {
+      const g = data.gear[id]!;
+      if (!s.rider.gear.includes(id) || (g.slot === 'weapon' && g.weaponType !== 'melee')) continue;
+      const current = data.gear[s.rider.equipment[g.slot as 'weapon'] ?? ''];
+      if ((!current || g.level >= current.level) && canEquip(data, s, id).ok) s = equip(data, s, id);
+    }
+  }
   return s;
 }
 
@@ -237,6 +250,7 @@ if (!SKIP_CAMPAIGN) {
     const bossAt: Record<string, number[]> = {};
     const finished: number[] = [];
     const goldAtEnd: number[] = [];
+    const setsFound: number[] = [];
     const secondAt: number[] = [];
     let losses = 0, runsPlayed = 0;
     const rng = createRng(SEED * 7919 + element.length);
@@ -276,7 +290,12 @@ if (!SKIP_CAMPAIGN) {
           fightsAtLevel = 0;
         }
         if (secondDragon(s) && secondAt.length <= c && !secondAt[c]) secondAt[c] = s.rider.level;
-        if (s.bossesDefeated.includes(finalBoss.id) && s.rider.level >= cap) { finished.push(fights); goldAtEnd.push(s.rider.gold); break; }
+        if (s.bossesDefeated.includes(finalBoss.id) && s.rider.level >= cap) {
+          finished.push(fights);
+          goldAtEnd.push(s.rider.gold);
+          setsFound.push(data.sets.flatMap((x) => x.pieces).filter((id) => s.rider.gear.includes(id)).length);
+          break;
+        }
       }
     }
     const firstBoss = (z: string) => (bossAt[z] ?? []);
@@ -285,6 +304,7 @@ if (!SKIP_CAMPAIGN) {
     console.log(`  Grew at rider level: ${['juvenile', 'adult', 'elder'].map((st) => `${st} ${avg(stageAt[st] ?? []).toFixed(0)}`).join(', ')}. Second partner from level ${avg(secondAt.filter(Boolean)).toFixed(0)}.`);
     console.log(`  First boss wins at rider level: ${data.zones.map((z) => `${z.name} ${firstBoss(z.id).length ? Math.min(...firstBoss(z.id)).toFixed(0) : '-'}`).join(', ')}`);
     console.log(`  Fights per level: ${perLevel.map((xs, i) => `${i + 1}:${avg(xs).toFixed(0)}`).join(' ')}`);
+    console.log(`  Set pieces found by the end: ${(setsFound.reduce((a, b) => a + b, 0) / Math.max(1, setsFound.length)).toFixed(1)} of ${data.sets.reduce((a, x) => a + x.pieces.length, 0)}.`);
     console.log(`  Gold left at the end: ${avg(goldAtEnd).toFixed(0)}`);
     void roc;
   }

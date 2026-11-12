@@ -58,18 +58,34 @@
     "boss": {
       "enemy": "bramble-troll",
       "level": 8,
-      "unlockRiderLevel": 7
+      "unlockRiderLevel": 7,
+      "trophy": {
+        "gear": "bramblewarden-armor",
+        "chance": 0.25
+      }
     },
     "miniBoss": {
       "enemy": "elder-thornling",
-      "levelOffset": 0
+      "levelOffset": 0,
+      "trophy": {
+        "gear": "bramblewarden-trinket",
+        "chance": 0.25
+      }
     },
     "dropChances": {
       "potion": 0.25,
       "dragon-treat": 0.15,
       "mana-tonic": 0.1
     },
-    "eggDrop": null
+    "eggDrop": null,
+    "gearDrops": {
+      "chance": 0.06,
+      "gear": [
+        "bramblewarden-melee",
+        "bramblewarden-ranged",
+        "bramblewarden-magic"
+      ]
+    }
   },
   {
     "id": "saltmarsh-shore",
@@ -127,11 +143,19 @@
     "boss": {
       "enemy": "crab-king",
       "level": 14,
-      "unlockRiderLevel": 13
+      "unlockRiderLevel": 13,
+      "trophy": {
+        "gear": "brinewalker-armor",
+        "chance": 0.25
+      }
     },
     "miniBoss": {
       "enemy": "big-pincher",
-      "levelOffset": 0
+      "levelOffset": 0,
+      "trophy": {
+        "gear": "brinewalker-trinket",
+        "chance": 0.25
+      }
     },
     "dropChances": {
       "potion": 0.25,
@@ -141,6 +165,14 @@
     "eggDrop": {
       "element": "tide",
       "chance": 0.1
+    },
+    "gearDrops": {
+      "chance": 0.06,
+      "gear": [
+        "brinewalker-melee",
+        "brinewalker-ranged",
+        "brinewalker-magic"
+      ]
     }
   },
   {
@@ -202,11 +234,19 @@
     "boss": {
       "enemy": "magma-wyrm",
       "level": 20,
-      "unlockRiderLevel": 19
+      "unlockRiderLevel": 19,
+      "trophy": {
+        "gear": "emberheart-armor",
+        "chance": 0.25
+      }
     },
     "miniBoss": {
       "enemy": "imp-chieftain",
-      "levelOffset": 0
+      "levelOffset": 0,
+      "trophy": {
+        "gear": "emberheart-trinket",
+        "chance": 0.25
+      }
     },
     "dropChances": {
       "potion": 0.25,
@@ -216,6 +256,14 @@
     "eggDrop": {
       "element": "fire",
       "chance": 0.1
+    },
+    "gearDrops": {
+      "chance": 0.06,
+      "gear": [
+        "emberheart-melee",
+        "emberheart-ranged",
+        "emberheart-magic"
+      ]
     }
   },
   {
@@ -277,11 +325,19 @@
     "boss": {
       "enemy": "storm-roc",
       "level": 28,
-      "unlockRiderLevel": 27
+      "unlockRiderLevel": 27,
+      "trophy": {
+        "gear": "stormrider-armor",
+        "chance": 0.25
+      }
     },
     "miniBoss": {
       "enemy": "thunderhead",
-      "levelOffset": 0
+      "levelOffset": 0,
+      "trophy": {
+        "gear": "stormrider-trinket",
+        "chance": 0.25
+      }
     },
     "dropChances": {
       "potion": 0.25,
@@ -291,6 +347,14 @@
     "eggDrop": {
       "element": "storm",
       "chance": 0.1
+    },
+    "gearDrops": {
+      "chance": 0.06,
+      "gear": [
+        "stormrider-melee",
+        "stormrider-ranged",
+        "stormrider-magic"
+      ]
     }
   },
   {
@@ -352,11 +416,19 @@
     "boss": {
       "enemy": "glacier-hydra",
       "level": 36,
-      "unlockRiderLevel": 35
+      "unlockRiderLevel": 35,
+      "trophy": {
+        "gear": "glacierguard-armor",
+        "chance": 0.25
+      }
     },
     "miniBoss": {
       "enemy": "rime-alpha",
-      "levelOffset": 0
+      "levelOffset": 0,
+      "trophy": {
+        "gear": "glacierguard-trinket",
+        "chance": 0.25
+      }
     },
     "dropChances": {
       "potion": 0.25,
@@ -366,6 +438,14 @@
     "eggDrop": {
       "element": "frost",
       "chance": 0.1
+    },
+    "gearDrops": {
+      "chance": 0.06,
+      "gear": [
+        "glacierguard-melee",
+        "glacierguard-ranged",
+        "glacierguard-magic"
+      ]
     }
   },
   {
@@ -427,11 +507,19 @@
     "boss": {
       "enemy": "iron-golem",
       "level": 42,
-      "unlockRiderLevel": 41
+      "unlockRiderLevel": 41,
+      "trophy": {
+        "gear": "deepdelver-armor",
+        "chance": 0.25
+      }
     },
     "miniBoss": {
       "enemy": "foreman-golem",
-      "levelOffset": 0
+      "levelOffset": 0,
+      "trophy": {
+        "gear": "deepdelver-trinket",
+        "chance": 0.25
+      }
     },
     "dropChances": {
       "potion": 0.25,
@@ -441,6 +529,14 @@
     "eggDrop": {
       "element": "stone",
       "chance": 0.1
+    },
+    "gearDrops": {
+      "chance": 0.06,
+      "gear": [
+        "deepdelver-melee",
+        "deepdelver-ranged",
+        "deepdelver-magic"
+      ]
     }
   },
   {
@@ -502,11 +598,19 @@
     "boss": {
       "enemy": "eclipse-dragon",
       "level": 50,
-      "unlockRiderLevel": 49
+      "unlockRiderLevel": 49,
+      "trophy": {
+        "gear": "twilight-regalia-armor",
+        "chance": 0.25
+      }
     },
     "miniBoss": {
       "enemy": "eclipse-herald",
-      "levelOffset": 0
+      "levelOffset": 0,
+      "trophy": {
+        "gear": "twilight-regalia-trinket",
+        "chance": 0.25
+      }
     },
     "dropChances": {
       "potion": 0.25,
@@ -520,6 +624,14 @@
         "shadow"
       ],
       "chance": 0.1
+    },
+    "gearDrops": {
+      "chance": 0.06,
+      "gear": [
+        "twilight-regalia-melee",
+        "twilight-regalia-ranged",
+        "twilight-regalia-magic"
+      ]
     }
   }
 ]

@@ -4,11 +4,11 @@ import { activeDragon, canEquip, equip, GameError, sellGear, setSpells, spendRid
 import { riderLoadout, spellById } from '../../core/spells';
 import type { SpellData } from '../../core/types';
 import { riderMaxHp, riderMaxMp } from '../../core/characters';
-import { gearItem } from '../../core/loadout';
+import { equippedSets, gearItem, setSize } from '../../core/loadout';
 import { xpToNext } from '../../core/progression';
 import type { SaveData } from '../../core/save';
 import { DRAGON_SLOTS, RIDER_SLOTS, RIDER_STATS, type GearSlot, type RiderStat } from '../../core/types';
-import { Bar, ElementBadge } from '../bits';
+import { Bar, ElementBadge, formatBonus } from '../bits';
 import { Sheet } from '../Sheet';
 import { gearSummary } from './Town';
 import { href } from '../router';
@@ -73,6 +73,16 @@ export function Bag({ save, update }: Props) {
       <div class="card">
         <h2>Gear</h2>
         {RIDER_SLOTS.map(slotRow)}
+        {equippedSets(data, r.equipment).map(({ set, count }) => (
+          <div key={set.id} class="set-status" data-testid={`set-${set.id}`}>
+            <strong>{set.name} set · {count} of {setSize(data, set)}</strong>
+            {set.bonuses.map((b) => (
+              <span key={b.pieces} class={`muted${count >= b.pieces ? ' set-on' : ''}`}>
+                {count >= b.pieces ? '✓' : '○'} {b.pieces} pieces: {formatBonus(b.bonus)}
+              </span>
+            ))}
+          </div>
+        ))}
         {dragon && (
           <>
             <h2 class="section-title">{dragon.name}'s gear (lead)</h2>

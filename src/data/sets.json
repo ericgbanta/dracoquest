@@ -1,0 +1,198 @@
+[
+  {
+    "id": "bramblewarden",
+    "name": "Bramblewarden",
+    "zone": "mossy-hollow",
+    "description": "Hardy gear from the Hollow. Full set heals better.",
+    "pieces": [
+      "bramblewarden-melee",
+      "bramblewarden-ranged",
+      "bramblewarden-magic",
+      "bramblewarden-armor",
+      "bramblewarden-trinket"
+    ],
+    "bonuses": [
+      {
+        "pieces": 2,
+        "bonus": {
+          "riderHp": 10
+        }
+      },
+      {
+        "pieces": 3,
+        "bonus": {
+          "vigor": 2,
+          "healPct": 0.1
+        }
+      }
+    ]
+  },
+  {
+    "id": "brinewalker",
+    "name": "Brinewalker",
+    "zone": "saltmarsh-shore",
+    "description": "Sea-blessed gear. Full set means plenty of MP.",
+    "pieces": [
+      "brinewalker-melee",
+      "brinewalker-ranged",
+      "brinewalker-magic",
+      "brinewalker-armor",
+      "brinewalker-trinket"
+    ],
+    "bonuses": [
+      {
+        "pieces": 2,
+        "bonus": {
+          "riderMp": 8
+        }
+      },
+      {
+        "pieces": 3,
+        "bonus": {
+          "arcana": 3,
+          "riderMp": 10
+        }
+      }
+    ]
+  },
+  {
+    "id": "emberheart",
+    "name": "Emberheart",
+    "zone": "cinder-pass",
+    "description": "Forged in the pass. Full set hits harder.",
+    "pieces": [
+      "emberheart-melee",
+      "emberheart-ranged",
+      "emberheart-magic",
+      "emberheart-armor",
+      "emberheart-trinket"
+    ],
+    "bonuses": [
+      {
+        "pieces": 2,
+        "bonus": {
+          "strength": 2
+        }
+      },
+      {
+        "pieces": 3,
+        "bonus": {
+          "riderDamagePct": 0.06
+        }
+      }
+    ]
+  },
+  {
+    "id": "stormrider",
+    "name": "Stormrider",
+    "zone": "thunderspire",
+    "description": "Sky gear from the spire. Full set lands more crits.",
+    "pieces": [
+      "stormrider-melee",
+      "stormrider-ranged",
+      "stormrider-magic",
+      "stormrider-armor",
+      "stormrider-trinket"
+    ],
+    "bonuses": [
+      {
+        "pieces": 2,
+        "bonus": {
+          "agility": 3
+        }
+      },
+      {
+        "pieces": 3,
+        "bonus": {
+          "riderCrit": 0.05
+        }
+      }
+    ]
+  },
+  {
+    "id": "glacierguard",
+    "name": "Glacierguard",
+    "zone": "frostmere",
+    "description": "Ice-hard gear from the lake. Full set is a wall.",
+    "pieces": [
+      "glacierguard-melee",
+      "glacierguard-ranged",
+      "glacierguard-magic",
+      "glacierguard-armor",
+      "glacierguard-trinket"
+    ],
+    "bonuses": [
+      {
+        "pieces": 2,
+        "bonus": {
+          "riderDefense": 3
+        }
+      },
+      {
+        "pieces": 3,
+        "bonus": {
+          "riderHp": 60,
+          "vigor": 3
+        }
+      }
+    ]
+  },
+  {
+    "id": "deepdelver",
+    "name": "Deepdelver",
+    "zone": "deepstone-mines",
+    "description": "Miner's gear. Full set finds more gold and loot.",
+    "pieces": [
+      "deepdelver-melee",
+      "deepdelver-ranged",
+      "deepdelver-magic",
+      "deepdelver-armor",
+      "deepdelver-trinket"
+    ],
+    "bonuses": [
+      {
+        "pieces": 2,
+        "bonus": {
+          "riderHp": 50
+        }
+      },
+      {
+        "pieces": 3,
+        "bonus": {
+          "strength": 3,
+          "goldPct": 0.15,
+          "dropPct": 0.2
+        }
+      }
+    ]
+  },
+  {
+    "id": "twilight-regalia",
+    "name": "Twilight Regalia",
+    "zone": "eclipse-peak",
+    "description": "Regalia of the peak. The best set in the game.",
+    "pieces": [
+      "twilight-regalia-melee",
+      "twilight-regalia-ranged",
+      "twilight-regalia-magic",
+      "twilight-regalia-armor",
+      "twilight-regalia-trinket"
+    ],
+    "bonuses": [
+      {
+        "pieces": 2,
+        "bonus": {
+          "strength": 5,
+          "arcana": 5
+        }
+      },
+      {
+        "pieces": 3,
+        "bonus": {
+          "riderDamagePct": 0.1,
+          "riderCrit": 0.03
+        }
+      }
+    ]
+  }
+]

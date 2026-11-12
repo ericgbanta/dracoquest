@@ -302,6 +302,20 @@ export interface EnemyData {
 
 export interface EncounterData { enemies: string[]; weight: number; minLevel?: number }
 
+/** Gear a boss or mini-boss drops: always on the first kill, then by chance until owned. */
+export interface TrophyData { gear: string; chance: number }
+
+/** Matching gear that gives extra bonuses when several pieces are worn together. */
+export interface GearSetData {
+  id: string;
+  name: string;
+  zone: string;
+  description: string;
+  pieces: string[];
+  /** Each tier applies once enough pieces are equipped. Tiers stack. */
+  bonuses: { pieces: number; bonus: Bonus }[];
+}
+
 export interface ZoneData {
   id: string;
   name: string;
@@ -313,8 +327,10 @@ export interface ZoneData {
   encounters: EncounterData[];
   levelSpread: number;
   multiEnemyLevelOffset: number;
-  boss: { enemy: string; level: number; unlockRiderLevel: number };
-  miniBoss: { enemy: string; levelOffset: number };
+  boss: { enemy: string; level: number; unlockRiderLevel: number; trophy?: TrophyData };
+  miniBoss: { enemy: string; levelOffset: number; trophy?: TrophyData };
+  /** Gear that regular fights in this zone can drop: one roll per fight won. */
+  gearDrops?: { chance: number; gear: string[] };
   dropChances: Record<string, number>;
   gate: { stage: string; text: string } | null;
   /** Bosses drop an egg: always the first time, then by chance. `elements` picks one at random. */
@@ -338,6 +354,7 @@ export interface GameData {
   shop: ShopData;
   roost: RoostData;
   events: EventData[];
+  sets: GearSetData[];
 }
 
 // ---- Persistent character state (lives in the save) ----

@@ -3,7 +3,7 @@
  * up into one Bonus, which the stat formulas and the battle engine read.
  */
 import type {
-  Bonus, BonusKey, DragonState, DragonStats, GameData, GearData, RiderState, RiderStats, TalentData, TalentTree,
+  Bonus, BonusKey, DragonState, DragonStats, GameData, GearData, GearSetData, RiderState, RiderStats, TalentData, TalentTree,
 } from './types';
 import { DRAGON_STATS, RIDER_STATS } from './types';
 import { temperament } from './roost';
@@ -20,9 +20,40 @@ export function gearItem(data: GameData, id: string | undefined): GearData | nul
   return id ? data.gear[id] ?? null : null;
 }
 
+export interface ActiveSet {
+  set: GearSetData;
+  /** Pieces of the set equipped. */
+  count: number;
+  /** Bonus tiers reached. */
+  bonuses: Bonus[];
+}
+
+/** Sets with at least one piece equipped, and the bonus tiers each one reaches. */
+export function equippedSets(data: GameData, equipment: Partial<Record<string, string>>): ActiveSet[] {
+  const ids = new Set(Object.values(equipment ?? {}).filter((x): x is string => !!x));
+  const out: ActiveSet[] = [];
+  for (const set of data.sets) {
+    const count = set.pieces.filter((p) => ids.has(p)).length;
+    if (count === 0) continue;
+    out.push({ set, count, bonuses: set.bonuses.filter((b) => count >= b.pieces).map((b) => b.bonus) });
+  }
+  return out;
+}
+
+/** The set a gear piece belongs to, if any. */
+export function setOf(data: GameData, gearId: string): GearSetData | undefined {
+  return data.sets.find((s) => s.pieces.includes(gearId));
+}
+
+/** How many separate slots a set fills when complete (its three weapons share one slot). */
+export function setSize(data: GameData, set: GearSetData): number {
+  return new Set(set.pieces.map((id) => data.gear[id]?.slot)).size;
+}
+
 export function riderBonus(data: GameData, rider: Pick<RiderState, 'equipment'>): Bonus {
   const b: Bonus = {};
   for (const id of Object.values(rider.equipment ?? {})) addBonus(b, gearItem(data, id)?.bonus);
+  for (const active of equippedSets(data, rider.equipment ?? {})) for (const bonus of active.bonuses) addBonus(b, bonus);
   return b;
 }
 

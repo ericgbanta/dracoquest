@@ -451,3 +451,10 @@ p, p.muted, .notice, .lead, li { font-size: max(1rem, 16px); }
 .spell-row .button { flex: none; min-width: 84px; }
 .spell-row--locked { opacity: 0.55; }
 .loadout-count { font-weight: 600; font-size: 0.95rem; }
+
+/* Gear sets: status in the Bag and treasure lists on the Map */
+.set-status { display: flex; flex-direction: column; gap: 2px; padding: 8px 0; border-bottom: 1px solid var(--surface-2); }
+.set-status .muted { font-size: 0.9rem; }
+.set-on { color: var(--accent); }
+.treasure-row { display: flex; flex-direction: column; gap: 2px; padding: 8px 0; border-bottom: 1px solid var(--surface-2); }
+.treasure-row--owned strong::after { content: ' ✓'; color: var(--accent); }

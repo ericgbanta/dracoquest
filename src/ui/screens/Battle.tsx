@@ -5,7 +5,7 @@ import {
   type BattleEvent, type BattleState, type DragonOrder, type Fighter, type Orders, type RiderOrder,
 } from '../../core/battle';
 import { activeDragon, canRide, leaveRun, playRound, secondDragon, startFight, type FightReport } from '../../core/game';
-import { talentById } from '../../core/loadout';
+import { setOf, talentById } from '../../core/loadout';
 import type { DialogueLine } from '../../core/types';
 import { getZone } from '../../core/run';
 import { matchup, weaknessesOf } from '../../core/elements';
@@ -655,6 +655,15 @@ function Results({ save, report, update, onExit, onNext }: {
           {report.bondGained > 0 && dragon && <li><Icon name="bond" fallback="" /> +{report.bondGained} bond with {dragon.name}</li>}
         </ul>
       )}
+      {r?.gear?.map((id) => {
+        const g = data.gear[id]!;
+        const set = setOf(data, id);
+        return (
+          <p key={id} class="notice notice--ok" data-testid={`gear-drop-${id}`}>
+            <Icon name="bag" fallback="🎁" /> Found the {g.name}!{set ? ` It's part of the ${set.name} set.` : ''} Equip it from the Bag.
+          </p>
+        );
+      })}
       {report.egg && <p class="notice notice--ok" data-testid="egg-drop"><Icon name="egg" fallback="🥚" /> The boss dropped a {data.dragons.eggs[report.egg]?.name ?? `${data.elements.info[report.egg].name} egg`}! Incubate it in the Hatchery at the Roost.</p>}
       {report.embers ? <p class="notice notice--ok" data-testid="embers-reward"><Icon name="ember" fallback="🔥" /> +{report.embers} embers</p> : null}
       {report.grewTo && dragon && (

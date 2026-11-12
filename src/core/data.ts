@@ -13,6 +13,7 @@ import itemsJson from '../data/items.json';
 import enemiesJson from '../data/enemies.json';
 import zonesJson from '../data/zones.json';
 import gearJson from '../data/gear.json';
+import setsJson from '../data/sets.json';
 import talentsJson from '../data/talents.json';
 import questsJson from '../data/quests.json';
 import shopJson from '../data/shop.json';
@@ -20,7 +21,7 @@ import roostJson from '../data/roost.json';
 import eventsJson from '../data/events.json';
 import type {
   CombatData, ElementsData, EnemyData, GameData, GearData, ItemData, ProgressionData, QuestData, ShopData, StatusData, StatusId,
-  EventData, RoostData, TalentsData, ZoneData,
+  EventData, GearSetData, RoostData, TalentsData, ZoneData,
 } from './types';
 
 export type * from './types';
@@ -79,7 +80,7 @@ export function validateProgression(raw: unknown): ProgressionData {
 export interface RawData {
   elements: unknown; combat: unknown; statuses: unknown; progression: unknown; dragons: unknown;
   care: unknown; foods: unknown; items: unknown; enemies: unknown; zones: unknown;
-  gear: unknown; talents: unknown; quests: unknown; shop: unknown; roost: unknown; events: unknown;
+  gear: unknown; talents: unknown; quests: unknown; shop: unknown; roost: unknown; events: unknown; sets: unknown;
 }
 
 export function loadGameData(raw: RawData): GameData {
@@ -175,6 +176,10 @@ export function loadGameData(raw: RawData): GameData {
     if (!(typeof price === 'number' && price > 0)) throw new DataError(`shop.eggs.${el}: price must be above 0`);
   }
   for (const z of zones) {
+    for (const t of [z.boss.trophy, z.miniBoss.trophy]) if (t && !gear[t.gear]) throw new DataError(`zones.${z.id}: unknown trophy "${t.gear}"`);
+    for (const id of z.gearDrops?.gear ?? []) if (!gear[id]) throw new DataError(`zones.${z.id}: unknown gear drop "${id}"`);
+  }
+  for (const z of zones) {
     if (z.gate && !(raw.dragons as GameData['dragons']).stages.some((st) => st.id === z.gate!.stage)) throw new DataError(`zones.${z.id}: unknown gate stage`);
   }
 
@@ -195,7 +200,23 @@ export function loadGameData(raw: RawData): GameData {
     shop,
     roost: validateRoost(raw.roost, foodIds),
     events: validateEvents(raw.events, new Set([...foodIds, ...itemIds, ...Object.keys(gear)])),
+    sets: validateSets(raw.sets, gear, zones),
   };
+}
+
+function validateSets(raw: unknown, gear: Record<string, GearData>, zones: ZoneData[]): GearSetData[] {
+  const sets = raw as GearSetData[];
+  const seen = new Map<string, string>();
+  for (const set of sets) {
+    if (!zones.some((z) => z.id === set.zone)) throw new DataError(`sets.${set.id}: unknown zone`);
+    for (const id of set.pieces) {
+      if (!gear[id]) throw new DataError(`sets.${set.id}: unknown gear "${id}"`);
+      if (seen.has(id)) throw new DataError(`sets.${set.id}: "${id}" is already in ${seen.get(id)}`);
+      seen.set(id, set.id);
+    }
+    for (const b of set.bonuses) if (!(b.pieces >= 2)) throw new DataError(`sets.${set.id}: a bonus needs 2 or more pieces`);
+  }
+  return sets;
 }
 
 function validateEvents(raw: unknown, known: Set<string>): EventData[] {
@@ -233,4 +254,5 @@ export const gameData: GameData = loadGameData({
   shop: shopJson,
   roost: roostJson,
   events: eventsJson,
+  sets: setsJson,
 });

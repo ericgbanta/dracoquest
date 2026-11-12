@@ -725,5 +725,1009 @@
     },
     "description": "Warm on sunny days. Always sunny somewhere.",
     "event": "sunfire-festival"
+  },
+  {
+    "id": "cobble-cudgel",
+    "name": "Cobble Cudgel",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": "stone",
+    "level": 5,
+    "damage": 13,
+    "price": 150,
+    "bonus": {
+      "strength": 1
+    },
+    "description": "A rock tied to a stick. Classic engineering."
+  },
+  {
+    "id": "static-slingshot",
+    "name": "Static Slingshot",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": "storm",
+    "level": 5,
+    "damage": 12,
+    "price": 150,
+    "bonus": {
+      "agility": 2
+    },
+    "description": "Rub it on a sweater before use."
+  },
+  {
+    "id": "icicle-wand",
+    "name": "Icicle Wand",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": "frost",
+    "level": 5,
+    "damage": 12,
+    "price": 150,
+    "bonus": {
+      "arcana": 2
+    },
+    "description": "Keep it out of hot drinks."
+  },
+  {
+    "id": "sparkbrand-saber",
+    "name": "Sparkbrand Saber",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": "storm",
+    "level": 10,
+    "damage": 16,
+    "price": 420,
+    "bonus": {
+      "strength": 2
+    },
+    "description": "Hums a little tune when swung."
+  },
+  {
+    "id": "briarwood-bow",
+    "name": "Briarwood Bow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": "verdant",
+    "level": 10,
+    "damage": 15,
+    "price": 420,
+    "bonus": {
+      "agility": 3
+    },
+    "description": "Grown, not made. Still a bit thorny."
+  },
+  {
+    "id": "pebble-orb",
+    "name": "Pebble Orb",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": "stone",
+    "level": 10,
+    "damage": 15,
+    "price": 420,
+    "bonus": {
+      "arcana": 3
+    },
+    "description": "Heavier than it looks. Much heavier."
+  },
+  {
+    "id": "hailstone-axe",
+    "name": "Hailstone Axe",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": "frost",
+    "level": 16,
+    "damage": 20,
+    "price": 900,
+    "bonus": {
+      "strength": 3,
+      "vigor": 1
+    },
+    "description": "Leaves a little snow on everything it hits."
+  },
+  {
+    "id": "riptide-recurve",
+    "name": "Riptide Recurve",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": "tide",
+    "level": 16,
+    "damage": 19,
+    "price": 900,
+    "bonus": {
+      "agility": 4
+    },
+    "description": "Pulls arrows back like the sea pulls sand."
+  },
+  {
+    "id": "mossheart-staff",
+    "name": "Mossheart Staff",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": "verdant",
+    "level": 16,
+    "damage": 19,
+    "price": 900,
+    "bonus": {
+      "arcana": 4
+    },
+    "description": "Smells like a forest after rain."
+  },
+  {
+    "id": "boulderbreaker",
+    "name": "Boulderbreaker",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": "stone",
+    "level": 22,
+    "damage": 25,
+    "price": 1600,
+    "bonus": {
+      "strength": 4,
+      "vigor": 1
+    },
+    "description": "It does what it says."
+  },
+  {
+    "id": "kindling-longbow",
+    "name": "Kindling Longbow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": "fire",
+    "level": 22,
+    "damage": 24,
+    "price": 1600,
+    "bonus": {
+      "agility": 5
+    },
+    "description": "Arrows arrive slightly toasted."
+  },
+  {
+    "id": "tidepool-scepter",
+    "name": "Tidepool Scepter",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": "tide",
+    "level": 22,
+    "damage": 24,
+    "price": 1600,
+    "bonus": {
+      "arcana": 5
+    },
+    "description": "Has a tiny crab living in it. Don't ask."
+  },
+  {
+    "id": "emberforged-blade",
+    "name": "Emberforged Blade",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": "fire",
+    "level": 29,
+    "damage": 30,
+    "price": 2600,
+    "bonus": {
+      "strength": 5,
+      "vigor": 1
+    },
+    "description": "Warm to the touch. Hot to the enemy."
+  },
+  {
+    "id": "thornstorm-bow",
+    "name": "Thornstorm Bow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": "verdant",
+    "level": 29,
+    "damage": 29,
+    "price": 2600,
+    "bonus": {
+      "agility": 6
+    },
+    "description": "Every arrow sprouts on the way."
+  },
+  {
+    "id": "wavecrest-rod",
+    "name": "Wavecrest Rod",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": "tide",
+    "level": 29,
+    "damage": 29,
+    "price": 2600,
+    "bonus": {
+      "arcana": 6
+    },
+    "description": "Hums like a seashell held to your ear."
+  },
+  {
+    "id": "rootsplitter-axe",
+    "name": "Rootsplitter Axe",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": "verdant",
+    "level": 36,
+    "damage": 35,
+    "price": 4200,
+    "bonus": {
+      "strength": 6,
+      "vigor": 2
+    },
+    "description": "Old oaks fear it. Young oaks have heard stories."
+  },
+  {
+    "id": "rimeshard-crossbow",
+    "name": "Rimeshard Crossbow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": "frost",
+    "level": 36,
+    "damage": 34,
+    "price": 4200,
+    "bonus": {
+      "agility": 7
+    },
+    "description": "Bolts of pure ice. Bring mittens."
+  },
+  {
+    "id": "abyssal-codex",
+    "name": "Abyssal Codex",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": "tide",
+    "level": 36,
+    "damage": 34,
+    "price": 4200,
+    "bonus": {
+      "arcana": 7
+    },
+    "description": "Damp pages. Very powerful damp pages."
+  },
+  {
+    "id": "duskreaver",
+    "name": "Duskreaver",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": "shadow",
+    "level": 43,
+    "damage": 41,
+    "price": 6500,
+    "bonus": {
+      "strength": 8,
+      "vigor": 2
+    },
+    "description": "Nobody sees it coming. Sometimes not even you."
+  },
+  {
+    "id": "dawnstring-bow",
+    "name": "Dawnstring Bow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": "light",
+    "level": 43,
+    "damage": 40,
+    "price": 6500,
+    "bonus": {
+      "agility": 9
+    },
+    "description": "Arrows that glow like sunrise."
+  },
+  {
+    "id": "sunlit-grimoire",
+    "name": "Sunlit Grimoire",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": "light",
+    "level": 43,
+    "damage": 40,
+    "price": 6500,
+    "bonus": {
+      "arcana": 9
+    },
+    "description": "Reading it gives you a mild tan."
+  },
+  {
+    "id": "travelers-coat",
+    "name": "Traveler's Coat",
+    "slot": "armor",
+    "level": 4,
+    "price": 120,
+    "bonus": {
+      "riderDefense": 1,
+      "riderHp": 6,
+      "agility": 1,
+      "arcana": 1
+    },
+    "description": "Lots of pockets. Most of them have snacks."
+  },
+  {
+    "id": "mistweave-robe",
+    "name": "Mistweave Robe",
+    "slot": "armor",
+    "level": 9,
+    "price": 380,
+    "bonus": {
+      "riderDefense": 2,
+      "riderHp": 15,
+      "agility": 1,
+      "arcana": 1
+    },
+    "description": "Slightly damp at all times. On purpose."
+  },
+  {
+    "id": "cinderweave-cloak",
+    "name": "Cinderweave Cloak",
+    "slot": "armor",
+    "level": 15,
+    "price": 850,
+    "bonus": {
+      "riderDefense": 3,
+      "riderHp": 24,
+      "agility": 2,
+      "arcana": 2
+    },
+    "description": "Fireproof, mostly."
+  },
+  {
+    "id": "galecloth-jerkin",
+    "name": "Galecloth Jerkin",
+    "slot": "armor",
+    "level": 21,
+    "price": 1500,
+    "bonus": {
+      "riderDefense": 4,
+      "riderHp": 36,
+      "agility": 2,
+      "arcana": 2
+    },
+    "description": "Flaps heroically even indoors."
+  },
+  {
+    "id": "snowdrift-mantle",
+    "name": "Snowdrift Mantle",
+    "slot": "armor",
+    "level": 28,
+    "price": 2400,
+    "bonus": {
+      "riderDefense": 5,
+      "riderHp": 48,
+      "agility": 3,
+      "arcana": 3
+    },
+    "description": "Soft as fresh snow, warm as a hug."
+  },
+  {
+    "id": "deepcavern-leathers",
+    "name": "Deepcavern Leathers",
+    "slot": "armor",
+    "level": 35,
+    "price": 3900,
+    "bonus": {
+      "riderDefense": 7,
+      "riderHp": 66,
+      "agility": 3,
+      "arcana": 3
+    },
+    "description": "Smells faintly of mushrooms and courage."
+  },
+  {
+    "id": "duskwalker-garb",
+    "name": "Duskwalker Garb",
+    "slot": "armor",
+    "level": 42,
+    "price": 6000,
+    "bonus": {
+      "riderDefense": 8,
+      "riderHp": 84,
+      "agility": 4,
+      "arcana": 4
+    },
+    "description": "Hard to see at night. Easy to trip over."
+  },
+  {
+    "id": "featherweight-saddle",
+    "name": "Featherweight Saddle",
+    "slot": "saddle",
+    "level": 25,
+    "price": 600,
+    "bonus": {
+      "dragonHp": 15,
+      "dragonDodge": 3
+    },
+    "description": "Barely there. Your dragon loves it."
+  },
+  {
+    "id": "swiftwind-saddle",
+    "name": "Swiftwind Saddle",
+    "slot": "saddle",
+    "level": 27,
+    "price": 1200,
+    "bonus": {
+      "dragonHp": 30,
+      "dragonDodge": 5
+    },
+    "description": "Built for loops, rolls and showing off."
+  },
+  {
+    "id": "snowrunner-saddle",
+    "name": "Snowrunner Saddle",
+    "slot": "saddle",
+    "level": 32,
+    "price": 2800,
+    "bonus": {
+      "dragonHp": 50,
+      "dragonDodge": 7
+    },
+    "description": "Sheds snow before it can settle."
+  },
+  {
+    "id": "skydancer-saddle",
+    "name": "Skydancer Saddle",
+    "slot": "saddle",
+    "level": 41,
+    "price": 5200,
+    "bonus": {
+      "dragonHp": 75,
+      "dragonDodge": 10
+    },
+    "description": "For dragons who fight like they dance."
+  },
+  {
+    "id": "serrated-horn-cap",
+    "name": "Serrated Horn Cap",
+    "slot": "horn",
+    "level": 25,
+    "price": 600,
+    "bonus": {
+      "might": 2,
+      "clawPct": 0.05
+    },
+    "description": "Little teeth on the edge. Very rude."
+  },
+  {
+    "id": "hooked-horn-cap",
+    "name": "Hooked Horn Cap",
+    "slot": "horn",
+    "level": 27,
+    "price": 1200,
+    "bonus": {
+      "might": 3,
+      "clawPct": 0.08
+    },
+    "description": "Good for grabbing, better for swiping."
+  },
+  {
+    "id": "shardtip-horn-cap",
+    "name": "Shardtip Horn Cap",
+    "slot": "horn",
+    "level": 32,
+    "price": 2800,
+    "bonus": {
+      "might": 5,
+      "clawPct": 0.1
+    },
+    "description": "Crystal points that never dull."
+  },
+  {
+    "id": "doomspike-horn-cap",
+    "name": "Doomspike Horn Cap",
+    "slot": "horn",
+    "level": 41,
+    "price": 5200,
+    "bonus": {
+      "might": 7,
+      "clawPct": 0.12
+    },
+    "description": "The name was the blacksmith's idea."
+  },
+  {
+    "id": "spark-scale-charm",
+    "name": "Spark Scale Charm",
+    "slot": "charm",
+    "level": 25,
+    "price": 600,
+    "bonus": {
+      "spirit": 2,
+      "breathStatusChance": 0.05
+    },
+    "description": "Crackles when your dragon sneezes."
+  },
+  {
+    "id": "hex-scale-charm",
+    "name": "Hex Scale Charm",
+    "slot": "charm",
+    "level": 27,
+    "price": 1200,
+    "bonus": {
+      "spirit": 3,
+      "breathStatusChance": 0.08
+    },
+    "description": "Scribbled with runes. Some are spelled right."
+  },
+  {
+    "id": "stormeye-scale-charm",
+    "name": "Storm-eye Scale Charm",
+    "slot": "charm",
+    "level": 32,
+    "price": 2800,
+    "bonus": {
+      "spirit": 5,
+      "breathStatusChance": 0.1
+    },
+    "description": "Calm in the middle, chaos all around."
+  },
+  {
+    "id": "wyrdscale-charm",
+    "name": "Wyrdscale Charm",
+    "slot": "charm",
+    "level": 41,
+    "price": 5200,
+    "bonus": {
+      "spirit": 7,
+      "breathStatusChance": 0.12
+    },
+    "description": "Hums in a key that makes enemies itchy."
+  },
+  {
+    "id": "bramblewarden-melee",
+    "name": "Bramblewarden Thornblade",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": null,
+    "level": 3,
+    "damage": 13,
+    "price": 100,
+    "bonus": {
+      "strength": 1
+    },
+    "description": "Grows back if you chip it."
+  },
+  {
+    "id": "bramblewarden-ranged",
+    "name": "Bramblewarden Vine Bow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": null,
+    "level": 3,
+    "damage": 11,
+    "price": 100,
+    "bonus": {
+      "agility": 2
+    },
+    "description": "The string is a very patient vine."
+  },
+  {
+    "id": "bramblewarden-magic",
+    "name": "Bramblewarden Acorn Staff",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": null,
+    "level": 3,
+    "damage": 11,
+    "price": 100,
+    "bonus": {
+      "arcana": 2
+    },
+    "description": "Topped with the biggest acorn in the Hollow."
+  },
+  {
+    "id": "bramblewarden-armor",
+    "name": "Bramblewarden Bark Mail",
+    "slot": "armor",
+    "level": 7,
+    "price": 260,
+    "bonus": {
+      "riderDefense": 3,
+      "riderHp": 20
+    },
+    "description": "Made from the Bramble Troll's old bark. It shed it. Probably."
+  },
+  {
+    "id": "bramblewarden-trinket",
+    "name": "Bramblewarden Acorn Charm",
+    "slot": "trinket",
+    "level": 4,
+    "price": 120,
+    "bonus": {
+      "vigor": 1,
+      "riderHp": 10
+    },
+    "description": "The Elder Thornling's favorite acorn."
+  },
+  {
+    "id": "brinewalker-melee",
+    "name": "Brinewalker Cutlass",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": null,
+    "level": 8,
+    "damage": 16,
+    "price": 310,
+    "bonus": {
+      "strength": 2
+    },
+    "description": "Salty. Like its owner."
+  },
+  {
+    "id": "brinewalker-ranged",
+    "name": "Brinewalker Harpoon Bow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": null,
+    "level": 8,
+    "damage": 15,
+    "price": 310,
+    "bonus": {
+      "agility": 3
+    },
+    "description": "Fires tiny harpoons. Mostly at crabs."
+  },
+  {
+    "id": "brinewalker-magic",
+    "name": "Brinewalker Shell Wand",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": null,
+    "level": 8,
+    "damage": 15,
+    "price": 310,
+    "bonus": {
+      "arcana": 3
+    },
+    "description": "Hold it to your ear and hear spells."
+  },
+  {
+    "id": "brinewalker-armor",
+    "name": "Brinewalker Crabshell Coat",
+    "slot": "armor",
+    "level": 13,
+    "price": 660,
+    "bonus": {
+      "riderDefense": 4,
+      "riderHp": 35
+    },
+    "description": "A gift from the Crab King. He did not mean to give it."
+  },
+  {
+    "id": "brinewalker-trinket",
+    "name": "Brinewalker Pincher Pearl",
+    "slot": "trinket",
+    "level": 9,
+    "price": 370,
+    "bonus": {
+      "arcana": 2,
+      "riderMp": 6
+    },
+    "description": "Big Pincher kept it very safe. Until now."
+  },
+  {
+    "id": "emberheart-melee",
+    "name": "Emberheart Brand",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": null,
+    "level": 14,
+    "damage": 20,
+    "price": 740,
+    "bonus": {
+      "strength": 3
+    },
+    "description": "Glows red when it is happy."
+  },
+  {
+    "id": "emberheart-ranged",
+    "name": "Emberheart Flare Bow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": null,
+    "level": 14,
+    "damage": 19,
+    "price": 740,
+    "bonus": {
+      "agility": 4
+    },
+    "description": "Every shot is a tiny firework."
+  },
+  {
+    "id": "emberheart-magic",
+    "name": "Emberheart Coal Scepter",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": null,
+    "level": 14,
+    "damage": 19,
+    "price": 740,
+    "bonus": {
+      "arcana": 4
+    },
+    "description": "Do not lick. We have all tried."
+  },
+  {
+    "id": "emberheart-armor",
+    "name": "Emberheart Wyrmscale Mail",
+    "slot": "armor",
+    "level": 19,
+    "price": 1250,
+    "bonus": {
+      "riderDefense": 6,
+      "riderHp": 55
+    },
+    "description": "Scales the Magma Wyrm left behind. Still warm."
+  },
+  {
+    "id": "emberheart-trinket",
+    "name": "Emberheart Imp Crown Ring",
+    "slot": "trinket",
+    "level": 15,
+    "price": 820,
+    "bonus": {
+      "strength": 2,
+      "agility": 2
+    },
+    "description": "The Imp Chieftain wore it as a crown. It is a ring."
+  },
+  {
+    "id": "stormrider-melee",
+    "name": "Stormrider Lance",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": null,
+    "level": 20,
+    "damage": 24,
+    "price": 1370,
+    "bonus": {
+      "strength": 4
+    },
+    "description": "Crackles in the rain."
+  },
+  {
+    "id": "stormrider-ranged",
+    "name": "Stormrider Gale Bow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": null,
+    "level": 20,
+    "damage": 23,
+    "price": 1370,
+    "bonus": {
+      "agility": 5
+    },
+    "description": "Arrows ride the wind. Sometimes the wrong wind."
+  },
+  {
+    "id": "stormrider-magic",
+    "name": "Stormrider Lightning Rod",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": null,
+    "level": 20,
+    "damage": 23,
+    "price": 1370,
+    "bonus": {
+      "arcana": 5
+    },
+    "description": "Strictly speaking, the lightning finds it."
+  },
+  {
+    "id": "stormrider-armor",
+    "name": "Stormrider Rocfeather Cloak",
+    "slot": "armor",
+    "level": 27,
+    "price": 2310,
+    "bonus": {
+      "riderDefense": 9,
+      "riderHp": 75
+    },
+    "description": "Feathers from the Storm Roc. It has plenty more."
+  },
+  {
+    "id": "stormrider-trinket",
+    "name": "Stormrider Thunderhead Stone",
+    "slot": "trinket",
+    "level": 22,
+    "price": 1600,
+    "bonus": {
+      "agility": 3,
+      "riderCrit": 0.02
+    },
+    "description": "Thunderhead dropped it. It still rumbles."
+  },
+  {
+    "id": "glacierguard-melee",
+    "name": "Glacierguard Greatsword",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": null,
+    "level": 28,
+    "damage": 30,
+    "price": 2460,
+    "bonus": {
+      "strength": 5
+    },
+    "description": "Cold enough to keep your lunch fresh."
+  },
+  {
+    "id": "glacierguard-ranged",
+    "name": "Glacierguard Iceline Bow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": null,
+    "level": 28,
+    "damage": 29,
+    "price": 2460,
+    "bonus": {
+      "agility": 6
+    },
+    "description": "The string never goes slack."
+  },
+  {
+    "id": "glacierguard-magic",
+    "name": "Glacierguard Frostglass Staff",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": null,
+    "level": 28,
+    "damage": 29,
+    "price": 2460,
+    "bonus": {
+      "arcana": 6
+    },
+    "description": "Snowflakes fall wherever you point it."
+  },
+  {
+    "id": "glacierguard-armor",
+    "name": "Glacierguard Hydrascale Plate",
+    "slot": "armor",
+    "level": 35,
+    "price": 3970,
+    "bonus": {
+      "riderDefense": 11,
+      "riderHp": 110
+    },
+    "description": "One scale from each of the Glacier Hydra's heads."
+  },
+  {
+    "id": "glacierguard-trinket",
+    "name": "Glacierguard Alpha Fang",
+    "slot": "trinket",
+    "level": 30,
+    "price": 2830,
+    "bonus": {
+      "vigor": 4,
+      "riderDefense": 2
+    },
+    "description": "The Rime Alpha's tooth, polished to a shine."
+  },
+  {
+    "id": "deepdelver-melee",
+    "name": "Deepdelver Pickaxe",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": null,
+    "level": 36,
+    "damage": 36,
+    "price": 4200,
+    "bonus": {
+      "strength": 6
+    },
+    "description": "Mines ore and enemies with equal joy."
+  },
+  {
+    "id": "deepdelver-ranged",
+    "name": "Deepdelver Rivet Crossbow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": null,
+    "level": 36,
+    "damage": 35,
+    "price": 4200,
+    "bonus": {
+      "agility": 7
+    },
+    "description": "Fires rivets. The mine has lots of rivets."
+  },
+  {
+    "id": "deepdelver-magic",
+    "name": "Deepdelver Lantern Staff",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": null,
+    "level": 36,
+    "damage": 35,
+    "price": 4200,
+    "bonus": {
+      "arcana": 7
+    },
+    "description": "Never runs out of light. Or opinions."
+  },
+  {
+    "id": "deepdelver-armor",
+    "name": "Deepdelver Golemheart Plate",
+    "slot": "armor",
+    "level": 41,
+    "price": 5840,
+    "bonus": {
+      "riderDefense": 13,
+      "riderHp": 135
+    },
+    "description": "Built around a piece of the Iron Golem's core."
+  },
+  {
+    "id": "deepdelver-trinket",
+    "name": "Deepdelver Foreman's Badge",
+    "slot": "trinket",
+    "level": 37,
+    "price": 4530,
+    "bonus": {
+      "strength": 4,
+      "vigor": 4
+    },
+    "description": "Says \"Employee of the Month\". Every month."
+  },
+  {
+    "id": "twilight-regalia-melee",
+    "name": "Twilight Regalia Sword",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": null,
+    "level": 42,
+    "damage": 41,
+    "price": 6170,
+    "bonus": {
+      "strength": 8
+    },
+    "description": "Half day, half night, all edge."
+  },
+  {
+    "id": "twilight-regalia-ranged",
+    "name": "Twilight Regalia Bow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": null,
+    "level": 42,
+    "damage": 40,
+    "price": 6170,
+    "bonus": {
+      "agility": 9
+    },
+    "description": "Shoots arrows of dusk and dawn."
+  },
+  {
+    "id": "twilight-regalia-magic",
+    "name": "Twilight Regalia Orb",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": null,
+    "level": 42,
+    "damage": 40,
+    "price": 6170,
+    "bonus": {
+      "arcana": 9
+    },
+    "description": "Shows the sky at the moment of eclipse."
+  },
+  {
+    "id": "twilight-regalia-armor",
+    "name": "Twilight Regalia Eclipse Plate",
+    "slot": "armor",
+    "level": 49,
+    "price": 8470,
+    "bonus": {
+      "riderDefense": 15,
+      "riderHp": 170
+    },
+    "description": "Scales of the Eclipse Dragon. The finest armor in the land."
+  },
+  {
+    "id": "twilight-regalia-trinket",
+    "name": "Twilight Regalia Herald's Sigil",
+    "slot": "trinket",
+    "level": 44,
+    "price": 6830,
+    "bonus": {
+      "strength": 5,
+      "agility": 5,
+      "arcana": 5
+    },
+    "description": "The Eclipse Herald's seal of office."
   }
 ]
