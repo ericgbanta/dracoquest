@@ -324,15 +324,17 @@ function decodeCode(body: string): SaveData {
 
 /**
  * Reads a save code. Forgiving about how it was copied: spaces and line breaks anywhere,
- * a code inside a longer message, or a code missing its "DQ1:" start (an iPhone treats
+ * a code inside a longer message, a "dq1:" start in small letters, or a code missing its "DQ1:" start (an iPhone treats
  * the colon as a word break, so selecting the code by tapping it can leave the start off).
  */
 export function importSaveCode(code: string): SaveData {
   const text = code.replace(INVISIBLE, '');
   const compact = text.replace(/\s+/g, '');
   const tries: string[] = [];
-  if (compact.startsWith(CODE_PREFIX)) tries.push(compact.slice(CODE_PREFIX.length));
-  const inside = text.match(/DQ1:\s*([A-Za-z0-9+/]+=*)/);
+  // The start can come back as "dq1:" (autocorrect or a notes app). Only the start is safe to
+  // match in any case: the rest is base64, where capitals matter.
+  if (compact.toUpperCase().startsWith(CODE_PREFIX)) tries.push(compact.slice(CODE_PREFIX.length));
+  const inside = text.match(/DQ1:\s*([A-Za-z0-9+/]+=*)/i);
   if (inside?.[1]) tries.push(inside[1]);
   if (BASE64.test(compact) && compact.length >= 20) tries.push(compact);
   if (tries.length === 0) throw new SaveError('That is not a DracoQuest save code');

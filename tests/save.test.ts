@@ -81,6 +81,13 @@ describe('save', () => {
     expect(importSaveCode(messy)).toEqual(newSave(NOW));
   });
 
+  it('accepts a code whose start came back as small letters', () => {
+    const code = exportSaveCode(newSave(NOW));
+    expect(importSaveCode('dq1:' + code.slice(4))).toEqual(newSave(NOW));
+    expect(importSaveCode('Dq1:' + code.slice(4))).toEqual(newSave(NOW));
+    expect(importSaveCode('My save dq1:' + code.slice(4))).toEqual(newSave(NOW));
+  });
+
   it('accepts a code that lost its DQ1: start when copied', () => {
     const code = exportSaveCode(newSave(NOW));
     expect(importSaveCode(code.slice('DQ1:'.length))).toEqual(newSave(NOW));
