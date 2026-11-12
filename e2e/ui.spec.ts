@@ -25,8 +25,8 @@ test('every main screen stays short at 375 x 667 (docs/UI_PLAN.md)', async ({ pa
     s.roost.hatchery.eggs = [];
     s.dragons = s.dragons.map((d) => ({ ...d, assignment: { kind: 'idle' as const } }));
   });
-  // Budgets in screens (667 px). Before the change: Bag 4.3, Town 15.8, Map 9.6, Roost 3.9, Dragons 3.7, Settings 3.2.
-  const budgets: [string, number][] = [['bag', 1.5], ['dragons', 2.2], ['settings', 1.6], ['town', 2.6], ['map', 3.2], ['roost', 2.6]];
+  // Budgets in screens (667 px). The Map's includes its painted map (about 0.8 screens). Before the change: Bag 4.3, Town 15.8, Map 9.6, Roost 3.9, Dragons 3.7, Settings 3.2.
+  const budgets: [string, number][] = [['bag', 1.5], ['dragons', 2.2], ['settings', 1.6], ['town', 2.6], ['map', 3.5], ['roost', 2.6]];
   for (const [route, screens] of budgets) {
     await page.goto(`./#/${route}`);
     await page.reload();

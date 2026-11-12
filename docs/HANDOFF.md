@@ -42,6 +42,7 @@ Each row was built, tested, committed and deployed in this order. The Decisions 
 | W0 | Map regions and a teaser card, story quests with choices, daily bounties, save v9, per-area art caching | Plan phase W0 (no art) |
 | W1 to W4 | Four side areas: Whispering Fen (10 to 20), Rustcliff Ruins (20 to 30), Moonwell Woods (30 to 40), Gilded Wastes (40 to 50). Two new spells: Umbral Bolt (Shadow) and Radiant Lance (Light) | Plan phases W1 to W4, 5 Codex generations each |
 | Less scrolling (UI) | Folds (collapsible cards) and sub-tabs on every long screen; see `docs/UI_PLAN.md` | Eric: "a lot of scrolling at times... the bag tab where everything is expanded". He asked for a plan, the build, tests, docs and a deploy without a check-in |
+| Painted Map | The Map tab is a painted map per region (The Wilds, The High Lands, Beyond the Peak) with a pin per area; tap a pin for the area's details, arrows to cycle regions. 3 Codex generations | Eric: "redesign the Map tab into an actual map where we can click on locations... different maps that we can cycle through". He added: "we might at some point add new levels to maps", so new areas are one pin each |
 
 ## Where things stand now
 
@@ -50,7 +51,7 @@ Each row was built, tested, committed and deployed in this order. The Decisions 
 - **Rider:** 12 spells, a loadout of 4, gear in 3 slots with 11 sets, the Forge.
 - **Dragons:** up to 6 at the Roost, two in battle from rider level 25, four life stages, talents, gear for Adults, temperament.
 - **Saves:** version 9, up to 3 slots per device, export and import codes.
-- **Tests:** 196 unit tests and 69 phone tests pass. The sim shows every zone averaging 70 to 85 percent on level across the three starters.
+- **Tests:** 197 unit tests and 70 phone tests pass. The sim shows every zone averaging 70 to 85 percent on level across the three starters.
 
 ## What to work on next
 
@@ -69,7 +70,8 @@ Raising the cap touches more than data:
 - Talents: dragons get their last talent point at 50. Nothing to do unless Eric wants more.
 - **Dragons at 50 against level 60 enemies** is the main balance risk. The sim's on-level table builds dragons at the character's level; for levels over 50 it must cap the dragon at 50 (check `onLevelCharacter` in `tests/sim.ts`). If dragons fall too far behind, the planned fix is letting the Forge upgrade dragon gear (`dragonBonus` would need the rider's upgrade map).
 - Tests that assume 50: `tests/data.test.ts` (`levelCap` is 50), `tests/phase4.test.ts` (the last zone's `maxLevel` equals the cap), `tests/progression.test.ts`. The sim's campaign ends at the cap and the last zone's boss, so it will now run to 60 and the Sunken Spires boss.
-- Art: 5 Codex generations (copy `tools/art/painted/jobs7.py` to `jobs8.py`, and add the area to `tools/art/painted/zones.json`).
+- Art: 5 Codex generations (copy `tools/art/painted/jobs7.py` to `jobs9.py`, since `jobs8.py` made the region maps, and add the area to `tools/art/painted/zones.json`).
+- Map: Sunken Spires is already painted on the Beyond the Peak map. Move its pin from `upcoming[0].pin` into the `beyond` region's `map.pins`, and give the next teaser (Emberwild) its planned pin (listed in the `regions.json` note). No new map art.
 
 Done when: a level 50 character who has beaten the Eclipse Dragon can unlock Sunken Spires, play its story to the boss and reach level 60; the sim shows 70 to 85 percent on level for all three starters; the campaign reaches 60; tests, lint, types and phone tests pass.
 
@@ -107,14 +109,22 @@ Each side area took about the same steps. Following them in order keeps the game
    - `sets.json`: the set with 2 and 3 piece bonuses (rider bonuses only).
    - `stories.json`: 5 quests chained by `requires`, fixed `level` per step, the mini-boss step marked `mini: true` and the last step `boss: true`, two `choice`s. NPCs speak with `speaker: 'npc'` and a `name`.
    - `bounties.json`: a pool of 8 (5 `defeat`, a `wins`, a `clear`, the mini-boss).
-   - `regions.json`: add the zone to its region and move the teaser (`upcoming`) on to the next planned area.
+   - `regions.json`: add the zone to its region, add its pin to the region's `map.pins` (see "Adding a place to a map" below; data validation fails if a mapped region's area has no pin), and move the teaser (`upcoming`, with its `pin`) on to the next planned area.
    - `combat.json`: a new spell if the plan calls for one.
 3. **Tests that count things** need their numbers updated: `tests/phase4.test.ts` (zones, regular enemies, bosses), `tests/gear.test.ts` (gear and shop counts), `tests/spells.test.ts` (spell count and elements). `tests/spells.test.ts` also checks a spell beating one of each zone's elements exists within two levels of the zone opening.
 4. **Balance:** `npm run sim -- --zone <id> --no-campaign` (about a minute). Aim for 70 to 85 percent on level for each starter and an average near 79. Adjust the area's enemies' `attack` and `hp` (base and perLevel together) and rerun. One starter dipping because of elements is acceptable and was accepted for Fire in the Fen (64 percent).
-5. **Phone tests:** in `e2e/world.spec.ts`, update the teaser test (the Map folds regions and zones away from the rider's level, so open them with `openFold`), and add a hunt test and a boss test that check the painted art loads (they also save screenshots to look at).
+5. **Phone tests:** in `e2e/world.spec.ts`, update the map test (the Map shows one region at a time, so cycle with `map-next`; zone cards away from the rider's level fold, so open them with `openFold`; pins are `pin-<zone>`), and add a hunt test and a boss test that check the painted art loads (they also save screenshots to look at).
 6. **Art:** copy the last `jobsN.py` to the next number and change the backdrop, boss, sheet and attack descriptions; add the area to `tools/art/painted/zones.json`. Five generations: the backdrop, the boss and the sheet first, then the two attack versions. Look at every result before packing. Pack, check the cutouts, add the rigs and backdrop to `src/art/assets.json` (regular `boxScale` 0.5, mini-boss 0.65, boss 1.15, smaller for a tall or square boss), and look at the fight and boss screenshots at 375 wide.
 7. **Docs:** a row in Decisions, the content counts, `docs/WORLD_PLAN.md` status, the job script in `docs/ART_GENERATION.md`.
 8. **Ship:** `npm run test`, `npx tsc --noEmit`, `npm run lint`, `npm run e2e`, a campaign sim (`npm run sim -- --campaign-only`), then commit, push and `npm run deploy` when Eric has said to.
+
+### Adding a place to a map
+
+Each region in `src/data/regions.json` has `map: { art, pins }`. `art` names a backdrop in `src/art/assets.json` (`map-wilds`, `map-highlands`, `map-beyond`, files in `src/art/painted/maps/`, 768 x 1152 WebP). `pins` maps a zone id (or `town`) to `[x, y]`, fractions of the map's width and height. A pin sits a little below its landmark's center so the art stays visible.
+
+- **A new area in an existing region:** if the map already paints it (Beyond the Peak paints all five frontier areas; their spots are in the `regions.json` note), add one pin. If it doesn't, add a pin on open ground; the pin, its label and its element color are enough. To give it a landmark later, generate a small landmark "sticker" (a cutout like an enemy, on the key green) rather than repainting the whole map, and draw it under the pin. That costs 1 generation; nothing for stickers is built yet.
+- **A new region:** add it to `regions` with a `map`, generate one portrait map with `tools/art/painted/jobs8.py` as the pattern (landmarks at fixed fractions, open ground left for later areas, no text), pack it to `src/art/painted/maps/<id>.webp` at 768 x 1152 with PIL (quality 82; `pack.py` doesn't handle maps), and add a `map-<id>` backdrop. The arrows and dots handle any number of regions.
+- **Finding pin spots:** look at the generated image and read off the landmark centers; the prompt's positions are only roughly followed.
 
 ## Making art (summary; the full process is `docs/ART_GENERATION.md`)
 
@@ -167,7 +177,8 @@ Spells unlock by rider level; the rider takes a **loadout of 4** into battle (`s
 
 | Topic | Decision |
 | --- | --- |
-| Regions | `src/data/regions.json` groups zones on the Map. `upcoming` lists planned areas; only the first shows, as a dimmed teaser card in its region. A region with no zones and no teaser is hidden. |
+| Regions | `src/data/regions.json` groups zones on the Map. `upcoming` lists planned areas; only the first shows, as a dimmed teaser card and a dashed `?` pin in its region. |
+| Painted map (2026-11-12) | The Map tab shows one region's painted map at a time, with arrows (`map-prev`, `map-next`) and dots; it opens on the region at the rider's level and remembers the last one viewed (`dracoquest.ui.map.region`). Each area is a pin (`pin-<zone>`) with its element symbol, a lock, or a star once the boss is beaten; the area at the rider's level glows; a badge shows ready bounties or `!` for a waiting story choice. Tapping a pin opens a sheet with the area's banner, details, Story, Bounties, Loot and Start a hunt (`pin-start-<zone>` and so on). The Wilds has a town pin that goes to the Town. Below the map is the region's list of folded zone cards with quick Hunt buttons, kept for speed and for the phone tests. Maps: `src/art/painted/maps/`, prompts in `tools/art/painted/prompts/map-*.txt`, made by `jobs8.py`. |
 | Story quests | `src/data/stories.json`, logic in `src/core/adventures.ts`. Played once, unlocked by level and the previous quest, with fixed enemy levels. A step marked `boss` or `mini` counts as that fight (trophy, egg, embers, materials, `bossesDefeated`). The last fight adds the quest's reward XP; gold, items, embers and materials land on completion. The choice can be made on the results screen or later from the story list. Mossy Hollow and Saltmarsh Shore have 4 quests; each side area has 5. |
 | Bounties | `src/data/bounties.json`: three a day per zone with a pool, picked from a seed of the date and zone. Won fights in the zone count (defeat an enemy, win fights, finish hunts). The board resets when the day changes; `startRun` and `startStory` take `today`. Rewards are gold, embers and materials. |
 | Art caching | Enemy art and zone backdrops are not precached (`globIgnores` in `vite.config.ts`, built from enemy and zone ids); they are cached on first view in `dracoquest-area-art`. The precache is about 1.8 MB instead of 4.7 MB. Offline in a zone never visited shows placeholder shapes. |
@@ -190,7 +201,7 @@ Spells unlock by rider level; the rider takes a **loadout of 4** into battle (`s
 | Art pipeline | Painted WebP from the Codex image tool, packed by `tools/art/painted/`. One image per character plus an attack pose; dragons recolored to player colors at load. |
 | Battle details and targets | Tap an enemy to aim everyone at it; tap again, tap its plate, or tap a party member for details. Each attacker keeps its own target, shown by a chip on its order row when two enemies are alive. |
 | Stage node budget | 100 DOM nodes (Eric confirmed). |
-| Less scrolling | `docs/UI_PLAN.md`. Two shared pieces in `src/ui/Fold.tsx`: **Fold** (a card whose header is a button, with a one-line summary so a closed fold still says what's inside; `forceOpen` opens it when something needs attention) and **SubTabs** (tab pills with count badges). Both remember their state per device in `localStorage` under `dracoquest.ui.*` (a viewer convenience, never game state; `usePref`). Bag: tabs Gear, Stats, Spells, Items. Dragons: tabs Overview, Stats, Talents. Settings: folds (Saved games open; export and import merged into "Back up or move", forced open when the save can't be read). Roost: each building is a fold with a status summary, opening by itself when food, an egg or a returning dragon is waiting. Map: each region is a fold (the region at the rider's level is open; a region holding only the teaser always is); each zone is a fold that is open only at the rider's level, and a closed zone keeps a quick Hunt button (same `start-<zone>` hook). Story, Bounties and Loot (treasures) share one row. Town: filter chips by weapon type (defaulting to the type the rider wields) or Armor and Trinkets, and "Near my level" (8 below to 5 above, a UI constant in `Town.tsx`) with Show all. Heights at 375 x 667 went from Bag 4.3, Town 15.8, Map 9.6, Roost 3.9, Dragons 3.7, Settings 3.2 screens to about 1.3, 1.7 to 2.1, 2.1 to 2.6, about 2 (more when buildings have things waiting), 1.5 to 1.8 and 1.4; `e2e/ui.spec.ts` holds budgets for each. |
+| Less scrolling | `docs/UI_PLAN.md`. Two shared pieces in `src/ui/Fold.tsx`: **Fold** (a card whose header is a button, with a one-line summary so a closed fold still says what's inside; `forceOpen` opens it when something needs attention) and **SubTabs** (tab pills with count badges). Both remember their state per device in `localStorage` under `dracoquest.ui.*` (a viewer convenience, never game state; `usePref`). Bag: tabs Gear, Stats, Spells, Items. Dragons: tabs Overview, Stats, Talents. Settings: folds (Saved games open; export and import merged into "Back up or move", forced open when the save can't be read). Roost: each building is a fold with a status summary, opening by itself when food, an egg or a returning dragon is waiting. Map: one painted region at a time (see the Painted map row); below the map, each zone is a fold that is open only at the rider's level, and a closed zone keeps a quick Hunt button (same `start-<zone>` hook). Story, Bounties and Loot (treasures) share one row. Town: filter chips by weapon type (defaulting to the type the rider wields) or Armor and Trinkets, and "Near my level" (8 below to 5 above, a UI constant in `Town.tsx`) with Show all. Heights at 375 x 667 went from Bag 4.3, Town 15.8, Map 9.6, Roost 3.9, Dragons 3.7, Settings 3.2 screens to about 1.3, 1.7 to 2.1, 2.1 to 2.6, about 2 (more when buildings have things waiting), 1.5 to 1.8 and 1.4; `e2e/ui.spec.ts` holds budgets for each. |
 | Headings | Fredoka (`@fontsource/fredoka`, latin 600 only). Body text is the system font at 16 px. |
 | Deploys | Pages deploys from GitHub Actions (`.github/workflows/deploy.yml`) when `main` changes. `npm run deploy` runs the checks and pushes the current branch to `main`. Only when Eric asks. |
 
@@ -222,9 +233,9 @@ src/ui/        Preact screens and pieces
   Sprites.tsx Icon.tsx Wallet.tsx art.ts bits.tsx (formatBonus, rewardText) styles.css skin.css pwa.ts sound.ts install.ts router.ts
 src/art/       painted/ (characters, attack poses, backdrops, effects, tail tips), eggs/, icons/, assets.json (the art manifest)
 tests/         Vitest unit tests (196), sim.ts (the balance simulator), save fixtures v1 to v8
-e2e/           Playwright phone tests (69), fixtures/ (built by make-fixtures.ts), specs per feature
+e2e/           Playwright phone tests (70), fixtures/ (built by make-fixtures.ts), specs per feature
                (slots, spells, gear, forge, world, ui, stage, perf, smoke, phase2 to 4), helpers.ts (openFold, tab)
-tools/art/painted/  style.txt and anchor.png (the style), jobs.py to jobs7.py (one per batch), run.sh, pack.py,
+tools/art/painted/  style.txt and anchor.png (the style), jobs.py to jobs8.py (one per batch; jobs8 is the region maps), run.sh, pack.py,
                     fix_green.py, zones.json (which sheet holds which enemies), prompts/ (every prompt that was run)
 docs/          HANDOFF.md, NEXT_PROMPT.md, WORLD_PLAN.md, UI_PLAN.md, ART_GENERATION.md, ART_STYLE.md, DESIGN.md, GRAPHICS_PLAN.md, GRAPHICS_PLAN_2.md
 ```
@@ -236,7 +247,7 @@ docs/          HANDOFF.md, NEXT_PROMPT.md, WORLD_PLAN.md, UI_PLAN.md, ART_GENERA
 | `npm run dev` | Local dev server |
 | `npm run test` | Unit tests (196) |
 | `npx tsc --noEmit` and `npm run lint` | Type check and lint. Lint blocks `Math.random`, browser globals in `src/core`, and `any`. |
-| `npm run e2e` | Phone tests at 375 by 667 (69), about 2 minutes. Builds the site first. |
+| `npm run e2e` | Phone tests at 375 by 667 (70), about 2 minutes. Builds the site first. |
 | `npm run sim` | Balance sim: 1,000 runs per zone and level, then 100 campaigns per starter from egg to the cap. Flags: `--zone <id>`, `--no-campaign`, `--campaign-only`, `--runs`, `--campaigns`. The full run takes about 4 minutes; one zone about 1 minute. |
 | `npx tsx e2e/make-fixtures.ts` | Rebuilds the saves the phone tests load (needed after every save version bump) |
 | `npm run deploy` | Tests, lint and build, then pushes the current branch to `main`, which publishes. Only when Eric asks. |
@@ -257,7 +268,7 @@ docs/          HANDOFF.md, NEXT_PROMPT.md, WORLD_PLAN.md, UI_PLAN.md, ART_GENERA
 - **HP lands on impact** in stage mode, not when the event starts.
 - **Playwright.** A hash-only `page.goto` doesn't re-render the app; tap the link instead. Use page screenshots with a wait, since stage fighters bob.
 - **Tests that end early.** A loop that stops when a fight ends can pass without checking anything. Use seeded fixtures and assert the outcome. A loop waiting for a "next" button must also check for the screen it expects to end on (the story ending).
-- **Folds and tabs hide test hooks.** A control inside a closed fold or another sub-tab isn't rendered, so a phone test must open it first: `openFold(page, '<fold id>')` (ids like `roost.forge`, `settings.backup`, `map.highlands`, `map.zone.mossy-hollow`, `bag.spells.locked`) and `tab(page, 'bag' | 'dragons', '<tab>')` from `e2e/helpers.ts`. Fold and tab state is remembered in `localStorage`, and every Playwright test starts with empty storage, so defaults apply. A new long section should be a Fold or a tab, and `e2e/ui.spec.ts` should get a height budget for any new screen.
+- **Folds and tabs hide test hooks.** A control inside a closed fold or another sub-tab isn't rendered, so a phone test must open it first: `openFold(page, '<fold id>')` (ids like `roost.forge`, `settings.backup`, `map.zone.mossy-hollow`, `bag.spells.locked`) and `tab(page, 'bag' | 'dragons', '<tab>')` from `e2e/helpers.ts`. The Map shows one region at a time (remembered per device, starting at the rider's level), so a test for a High Lands zone taps `map-next` first. Fold and tab state is remembered in `localStorage`, and every Playwright test starts with empty storage, so defaults apply. A new long section should be a Fold or a tab, and `e2e/ui.spec.ts` should get a height budget for any new screen.
 - **Order rows are tight.** The busiest row is exactly 351 px at 375 wide; adding a button needs a layout change.
 - **Save fixtures and migrations.** The phone-test saves in `e2e/fixtures/` are at the current version. After a version bump, rebuild them (`npx tsx e2e/make-fixtures.ts`), or a migration may reset fields a test sets up (the v9 migration resets `bounties`, which broke a bounty test until the fixtures were rebuilt). Keep the previous version's fixture in `tests/fixtures/` for the migration test.
 - **The sim's on-level characters** have every boss below their level marked beaten (`onLevelCharacter`), so side areas aren't locked in the table. `pickZone` grinds the highest open zone by array order, so a side area inserted after a main zone takes over its levels in the campaign.

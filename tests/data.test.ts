@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import assets from '../src/art/assets.json';
 import { DataError, gameData, validateCombat, validateElements } from '../src/core/data';
 
 describe('data loader', () => {
@@ -43,6 +44,21 @@ describe('content', () => {
   it('gives every element a status and an info entry', () => {
     for (const id of gameData.elements.ids) {
       expect(gameData.statuses[gameData.elements.info[id].status]).toBeDefined();
+    }
+  });
+});
+
+describe('region maps', () => {
+  it('give every area in a mapped region a pin on the map', () => {
+    for (const r of gameData.regions.regions) {
+      if (!r.map) continue;
+      expect(Object.keys(assets.backdrops), r.id).toContain(r.map.art);
+      for (const id of r.zones) {
+        const pin = r.map.pins[id];
+        expect(pin, `${r.id}: ${id}`).toBeDefined();
+        for (const v of pin!) expect(v).toBeGreaterThanOrEqual(0);
+        for (const v of pin!) expect(v).toBeLessThanOrEqual(1);
+      }
     }
   });
 });

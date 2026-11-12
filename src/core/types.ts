@@ -131,8 +131,14 @@ export type BountyKind = 'defeat' | 'wins' | 'clear';
 export interface BountyData { id: string; kind: BountyKind; count: number; text: string; reward: StoryReward; enemy?: string }
 export interface BountiesData { perDay: number; pools: Record<string, BountyData[]> }
 
-export interface RegionData { id: string; name: string; levels: string; blurb: string; zones: string[] }
-export interface UpcomingArea { name: string; region: string; minLevel: number; maxLevel: number; gate: string; elements: ElementId[]; blurb: string }
+/** A painted region map: the art key (a backdrop in assets.json) and pin positions as fractions of width and height. */
+export interface RegionMap {
+  art: string;
+  /** Zone id (or "town") to [x, y]. A new area on an existing map is one more pin. */
+  pins: Record<string, [number, number]>;
+}
+export interface RegionData { id: string; name: string; levels: string; blurb: string; zones: string[]; map?: RegionMap }
+export interface UpcomingArea { name: string; region: string; minLevel: number; maxLevel: number; gate: string; elements: ElementId[]; blurb: string; pin?: [number, number] }
 export interface RegionsData { regions: RegionData[]; upcoming: UpcomingArea[] }
 
 export type BuildingId = 'nest' | 'pantry' | 'hatchery' | 'training' | 'expeditions' | 'forge';

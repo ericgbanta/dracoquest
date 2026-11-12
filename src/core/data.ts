@@ -245,6 +245,14 @@ function validateAdventures(
   const placed = regions.regions.flatMap((r) => r.zones);
   for (const id of placed) if (!zoneIds.has(id)) throw new DataError(`regions: unknown zone "${id}"`);
   for (const z of zones) if (!placed.includes(z.id)) throw new DataError(`regions: zone "${z.id}" is in no region`);
+  for (const r of regions.regions) {
+    // A region with a painted map needs a pin for every area, or the area can't be reached from the map.
+    if (r.map) for (const id of r.zones) if (!r.map.pins[id]) throw new DataError(`regions.${r.id}.map: no pin for "${id}"`);
+    for (const [id, [x, y]] of Object.entries(r.map?.pins ?? {})) {
+      if (id !== 'town' && !r.zones.includes(id)) throw new DataError(`regions.${r.id}.map: pin for "${id}", which isn't in this region`);
+      if (!(x >= 0 && x <= 1 && y >= 0 && y <= 1)) throw new DataError(`regions.${r.id}.map: pin "${id}" is off the map`);
+    }
+  }
   for (const u of regions.upcoming) {
     if (!regions.regions.some((r) => r.id === u.region)) throw new DataError(`regions.upcoming.${u.name}: unknown region`);
     if (!zoneIds.has(u.gate)) throw new DataError(`regions.upcoming.${u.name}: unknown gate zone`);

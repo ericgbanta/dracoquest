@@ -6,15 +6,15 @@ import { riderMaxHp } from '../../core/characters';
 import type { SaveData } from '../../core/save';
 import { ElementBadge, formatBonus, todayKey } from '../bits';
 import { Sheet } from '../Sheet';
-import { Fold, usePref } from '../Fold';
+import { usePref } from '../Fold';
 import { gearSummary } from './Town';
-import type { UpcomingArea, ZoneData } from '../../core/types';
+import type { RegionData, UpcomingArea, ZoneData } from '../../core/types';
 import { bountiesReady, storiesFor, storyProgress, storyStatus } from '../../core/adventures';
 import { BountySheet, StorySheet } from './Adventures';
 import { EnemySprite } from '../Sprites';
 import { Scene, useBackdrop, useEnemyRig } from '../stage/Scene';
 import type { ElementId } from '../../core/types';
-import { href } from '../router';
+import { href, navigate } from '../router';
 import { Icon } from '../Icon';
 import { GoldButton } from '../Wallet';
 
@@ -27,11 +27,19 @@ export function MapScreen({ save, update }: Props) {
   const [sheet, setSheet] = useState<{ kind: 'story' | 'bounties'; zone: ZoneData } | null>(null);
   const today = todayKey();
   const teaser = data.regions.upcoming[0];
-  // The region at the rider's level starts open; the others fold away.
+  // The map starts on the region at the rider's level, and remembers the region last looked at.
   const here = [...data.regions.regions].reverse().find((r) => {
     const zs = data.zones.filter((z) => r.zones.includes(z.id));
     return zs.length > 0 && Math.min(...zs.map((z) => z.minLevel)) <= save.rider.level;
   })?.id ?? data.regions.regions[0]!.id;
+  const regionIds = data.regions.regions.map((r) => r.id);
+  const [regionId, setRegion] = usePref<string>('map.region', here, regionIds);
+  const regionIndex = Math.max(0, regionIds.indexOf(regionId));
+  const region = data.regions.regions[regionIndex]!;
+  const zones = region.zones.map((id) => data.zones.find((z) => z.id === id)!);
+  const tease = teaser && teaser.region === region.id ? teaser : null;
+  const [pinned, setPinned] = useState<string | null>(null);
+  const pinnedZone = pinned ? zones.find((z) => z.id === pinned) ?? null : null;
   return (
     <section class="screen" aria-labelledby="screen-title">
       <header class="screen-header"><h1 id="screen-title">Map</h1><span class="gold"><GoldButton amount={save.rider.gold} /></span></header>
@@ -41,24 +49,31 @@ export function MapScreen({ save, update }: Props) {
       </a>
       {lowHp && <p class="notice notice--error">You're hurt. Rest at the Roost first, unless you like living dangerously.</p>}
       {dragon && dragon.hp <= 0 && <p class="notice notice--error">{dragon.name} is knocked out and will sit this run out. Rest to wake them.</p>}
-      {data.regions.regions.map((region) => {
-        const zones = region.zones.map((id) => data.zones.find((z) => z.id === id)!);
-        const tease = teaser && teaser.region === region.id ? teaser : null;
-        if (!zones.length && !tease) return null;
-        return (
-          <Fold key={region.id} id={`map.${region.id}`} class="region-fold" testid={`region-${region.id}`} title={region.name}
-            summary={zones.length ? `${region.levels} · ${zones.filter((z) => save.bossesDefeated.includes(z.id)).length} of ${zones.length} bosses beaten` : region.levels}
-            forceOpen={region.id === here || zones.length === 0}>
-            <p class="muted region-blurb">{region.blurb}</p>
-            {zones.map((zone) => (
-              <ZoneCard key={zone.id} zone={zone} save={save} today={today}
-                onHunt={() => update((s) => startRun(data, s, zone.id, today))}
-                onOpen={(kind) => (kind === 'treasures' ? setTreasures(zone) : setSheet({ kind, zone }))} />
-            ))}
-            {tease && <TeaserCard area={tease} save={save} />}
-          </Fold>
-        );
-      })}
+      <RegionMapView save={save} region={region} regionIndex={regionIndex} onRegion={(i) => setRegion(data.regions.regions[i]!.id)}
+        teaser={tease} onPin={(id) => (id === 'town' ? navigate('town') : setPinned(id))} today={today} />
+      <section class="region-list" aria-label={`Areas in ${region.name}`} data-testid={`region-${region.id}`}>
+        <p class="muted region-blurb">{region.blurb}</p>
+        {zones.map((zone) => (
+          <ZoneCard key={zone.id} zone={zone} save={save} today={today}
+            onHunt={() => update((s) => startRun(data, s, zone.id, today))}
+            onOpen={(kind) => (kind === 'treasures' ? setTreasures(zone) : setSheet({ kind, zone }))} />
+        ))}
+        {tease && <TeaserCard area={tease} save={save} />}
+      </section>
+      {pinnedZone && (
+        <Sheet title={pinnedZone.name} onClose={() => setPinned(null)}>
+          <div data-testid={`pin-sheet-${pinnedZone.id}`}>
+            <ZoneDetails zone={pinnedZone} save={save} today={today} idPrefix="pin-"
+              onHunt={() => { setPinned(null); update((s) => startRun(data, s, pinnedZone.id, today)); }}
+              onOpen={(kind) => { setPinned(null); if (kind === 'treasures') setTreasures(pinnedZone); else setSheet({ kind, zone: pinnedZone }); }} />
+          </div>
+        </Sheet>
+      )}
+      {pinned === 'teaser' && tease && (
+        <Sheet title={tease.name} onClose={() => setPinned(null)}>
+          <TeaserCard area={tease} save={save} />
+        </Sheet>
+      )}
       {treasures && <Treasures zone={treasures} save={save} onClose={() => setTreasures(null)} />}
       {sheet?.kind === 'story' && <StorySheet zone={sheet.zone} save={save} update={update} today={today} onClose={() => setSheet(null)} />}
       {sheet?.kind === 'bounties' && <BountySheet zone={sheet.zone} save={save} update={update} today={today} onClose={() => setSheet(null)} />}
@@ -73,7 +88,6 @@ export function MapScreen({ save, update }: Props) {
 function ZoneCard({ zone, save, today, onHunt, onOpen }: {
   zone: ZoneData; save: SaveData; today: string; onHunt(): void; onOpen(kind: 'story' | 'bounties' | 'treasures'): void;
 }) {
-  const boss = data.enemies[zone.boss.enemy]!;
   const lock = zoneLock(data, save, zone);
   const unlocked = bossUnlocked(zone, save.rider.level);
   const beaten = save.bossesDefeated.includes(zone.id);
@@ -96,34 +110,103 @@ function ZoneCard({ zone, save, today, onHunt, onOpen }: {
           <button type="button" class="button zone-hunt" onClick={onHunt} data-testid={`start-${zone.id}`}>Hunt</button>
         )}
       </div>
-      {open && (
-        <>
-          <ZoneBanner zoneId={zone.id} element={zone.element} bossId={boss.id} bossElement={boss.element} name={`${zone.name}, home of the ${boss.name}`} />
-          <p class="muted">{(zone.elements ?? [zone.element]).map((el) => <ElementBadge key={el} element={el} small />)} {zone.blurb}</p>
-          {lock ? (
-            <p class="notice notice--error">{lock}.</p>
-          ) : (
-            <>
-              <p class="muted">
-                {zone.fights.min} to {zone.fights.max} fights, then{' '}
-                {unlocked ? <strong>the {boss.name}{beaten ? ' (beaten!)' : ''}</strong> : `a mini-boss. The ${boss.name} shows up at rider level ${zone.boss.unlockRiderLevel}.`}
-                {zone.eggDrop && !beaten && ` The ${boss.name} guards a ${data.elements.info[zone.eggDrop.element].name} egg.`}
-              </p>
-              {save.rider.level < zone.minLevel - 1 && <p class="muted">Recommended level {zone.minLevel}. It's going to sting.</p>}
-              <AdventureButtons zone={zone} save={save} today={today} onOpen={onOpen} />
-              <button type="button" class="button button--big button--block" onClick={onHunt} data-testid={`start-${zone.id}`}>
-                Start a hunt
-              </button>
-            </>
-          )}
-        </>
-      )}
+      {open && <ZoneDetails zone={zone} save={save} today={today} onHunt={onHunt} onOpen={onOpen} />}
     </article>
   );
 }
 
+/** A zone's banner, details, adventure buttons and hunt button: the open zone card, and the sheet a map pin opens. */
+function ZoneDetails({ zone, save, today, onHunt, onOpen, idPrefix = '' }: {
+  zone: ZoneData; save: SaveData; today: string; onHunt(): void; onOpen(kind: 'story' | 'bounties' | 'treasures'): void; idPrefix?: string;
+}) {
+  const boss = data.enemies[zone.boss.enemy]!;
+  const lock = zoneLock(data, save, zone);
+  const unlocked = bossUnlocked(zone, save.rider.level);
+  const beaten = save.bossesDefeated.includes(zone.id);
+  return (
+    <>
+      <ZoneBanner zoneId={zone.id} element={zone.element} bossId={boss.id} bossElement={boss.element} name={`${zone.name}, home of the ${boss.name}`} />
+      <p class="muted">{(zone.elements ?? [zone.element]).map((el) => <ElementBadge key={el} element={el} small />)} Levels {zone.minLevel} to {zone.maxLevel}. {zone.blurb}</p>
+      {lock ? (
+        <p class="notice notice--error">{lock}.</p>
+      ) : (
+        <>
+          <p class="muted">
+            {zone.fights.min} to {zone.fights.max} fights, then{' '}
+            {unlocked ? <strong>the {boss.name}{beaten ? ' (beaten!)' : ''}</strong> : `a mini-boss. The ${boss.name} shows up at rider level ${zone.boss.unlockRiderLevel}.`}
+            {zone.eggDrop && !beaten && ` The ${boss.name} guards a ${data.elements.info[zone.eggDrop.element].name} egg.`}
+          </p>
+          {save.rider.level < zone.minLevel - 1 && <p class="muted">Recommended level {zone.minLevel}. It's going to sting.</p>}
+          <AdventureButtons zone={zone} save={save} today={today} onOpen={onOpen} idPrefix={idPrefix} />
+          <button type="button" class="button button--big button--block" onClick={onHunt} data-testid={`${idPrefix}start-${zone.id}`}>
+            Start a hunt
+          </button>
+        </>
+      )}
+    </>
+  );
+}
+
+/** The painted map of one region, with a pin per area, and arrows to cycle regions. */
+function RegionMapView({ save, region, regionIndex, onRegion, teaser, onPin, today }: {
+  save: SaveData; region: RegionData; regionIndex: number; onRegion(i: number): void; teaser: UpcomingArea | null; onPin(id: string): void; today: string;
+}) {
+  const art = useBackdrop(region.map?.art ?? null);
+  const url = art?.layers[0]?.url;
+  const n = data.regions.regions.length;
+  const pins = Object.entries(region.map?.pins ?? {});
+  return (
+    <div class="region-map-wrap" data-testid="region-map">
+      <div class="region-switch">
+        <button type="button" class="icon-button" aria-label="Previous region" disabled={regionIndex === 0} onClick={() => onRegion(regionIndex - 1)} data-testid="map-prev">‹</button>
+        <div class="region-switch-title">
+          <h2 data-testid="map-region-name">{region.name}</h2>
+          <span class="muted">{region.levels}</span>
+        </div>
+        <button type="button" class="icon-button" aria-label="Next region" disabled={regionIndex === n - 1} onClick={() => onRegion(regionIndex + 1)} data-testid="map-next">›</button>
+      </div>
+      <div class="region-map" style={url ? { backgroundImage: `url(${url})` } : undefined}>
+        {pins.map(([id, [x, y]]) => {
+          const zone = data.zones.find((z) => z.id === id);
+          if (!zone) {
+            return id === 'town' ? (
+              <button key={id} type="button" class="map-pin map-pin--town" style={{ left: `${x * 100}%`, top: `${y * 100}%` }} onClick={() => onPin('town')}
+                aria-label="Town: gear, potions and dragon food" data-testid="pin-town">
+                <span class="map-pin-dot"><Icon name="town" fallback="🏘" size={22} /></span><span class="map-pin-label">Town</span>
+              </button>
+            ) : null;
+          }
+          const lock = zoneLock(data, save, zone);
+          const beaten = save.bossesDefeated.includes(zone.id);
+          const ready = bountiesReady(data, save.bounties, zone.id, today);
+          const choice = storiesFor(data, zone.id).some((q) => { const st = storyStatus(data, save, q); return st.state === 'done' && st.choicePending; });
+          const here = !lock && save.rider.level >= zone.minLevel - 1 && save.rider.level <= zone.maxLevel;
+          return (
+            <button key={id} type="button" class={`map-pin${lock ? ' map-pin--locked' : ''}${here ? ' map-pin--here' : ''}`}
+              style={{ left: `${x * 100}%`, top: `${y * 100}%`, '--el': data.elements.info[zone.element].color }} onClick={() => onPin(id)}
+              aria-label={`${zone.name}, levels ${zone.minLevel} to ${zone.maxLevel}${lock ? `, ${lock}` : beaten ? ', boss beaten' : ''}`} data-testid={`pin-${id}`}>
+              <span class="map-pin-dot">{lock ? <Icon name="lock" fallback="🔒" size={18} /> : beaten ? '★' : data.elements.info[zone.element].symbol}</span>
+              <span class="map-pin-label">{zone.name}</span>
+              {(ready > 0 || choice) && <span class="count-pill map-pin-badge" aria-hidden="true">{choice ? '!' : ready}</span>}
+            </button>
+          );
+        })}
+        {teaser?.pin && (
+          <button type="button" class="map-pin map-pin--teaser" style={{ left: `${teaser.pin[0] * 100}%`, top: `${teaser.pin[1] * 100}%` }}
+            onClick={() => onPin('teaser')} aria-label={`${teaser.name}, coming in a future update`} data-testid="pin-teaser">
+            <span class="map-pin-dot">?</span><span class="map-pin-label">{teaser.name}</span>
+          </button>
+        )}
+      </div>
+      <div class="region-dots" aria-hidden="true">
+        {data.regions.regions.map((r, i) => <span key={r.id} class={`region-dot${i === regionIndex ? ' region-dot--on' : ''}`} />)}
+      </div>
+    </div>
+  );
+}
+
 /** One row of buttons for a zone: its story, its bounty board and its treasures (set gear). */
-function AdventureButtons({ zone, save, today, onOpen }: { zone: ZoneData; save: SaveData; today: string; onOpen(kind: 'story' | 'bounties' | 'treasures'): void }) {
+function AdventureButtons({ zone, save, today, onOpen, idPrefix = '' }: { zone: ZoneData; save: SaveData; today: string; onOpen(kind: 'story' | 'bounties' | 'treasures'): void; idPrefix?: string }) {
   const story = storyProgress(data, save, zone.id);
   const hasBounties = !!data.bounties.pools[zone.id];
   const loot = zoneTreasure(zone);
@@ -134,19 +217,19 @@ function AdventureButtons({ zone, save, today, onOpen }: { zone: ZoneData; save:
   return (
     <div class="adventure-buttons adventure-buttons--three">
       {story.total > 0 && (
-        <button type="button" class="button button--ghost" onClick={() => onOpen('story')} data-testid={`story-${zone.id}`}
+        <button type="button" class="button button--ghost" onClick={() => onOpen('story')} data-testid={`${idPrefix}story-${zone.id}`}
           aria-label={`Story, ${story.done} of ${story.total} done${pending ? ', a choice is waiting' : ''}`}>
           Story {story.done}/{story.total}{pending && <span class="count-pill" aria-hidden="true">!</span>}
         </button>
       )}
       {hasBounties && (
-        <button type="button" class="button button--ghost" onClick={() => onOpen('bounties')} data-testid={`bounties-${zone.id}`}
+        <button type="button" class="button button--ghost" onClick={() => onOpen('bounties')} data-testid={`${idPrefix}bounties-${zone.id}`}
           aria-label={ready ? `Bounties, ${ready} ready to claim` : 'Bounties'}>
           Bounties{ready > 0 && <span class="count-pill" aria-hidden="true">{ready}</span>}
         </button>
       )}
       {loot.length > 0 && (
-        <button type="button" class="button button--ghost" onClick={() => onOpen('treasures')} data-testid={`treasures-${zone.id}`}
+        <button type="button" class="button button--ghost" onClick={() => onOpen('treasures')} data-testid={`${idPrefix}treasures-${zone.id}`}
           aria-label={`Treasures: ${found} of ${loot.length} found`}>
           Loot {found}/{loot.length}
         </button>

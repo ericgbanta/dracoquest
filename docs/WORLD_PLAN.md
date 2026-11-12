@@ -61,6 +61,8 @@ Story quests may offer a **choice** at one or two points, AQ-style ("Help the dr
 
 With 16 areas the Map list gets long. Group it into regions with a header each, by level band: "The Wilds" (levels 1 to 20: zones 1 to 3 and Whispering Fen), "The High Lands" (20 to 50: zones 4 to 7 and side areas B to D), and "Beyond the Peak" (50 to 100: frontier areas 8 to 12). Each region collapses to a strip of banners once all its areas are done. Locked areas show as dimmed teaser cards.
 
+Update (2026-11-12): each region is now a painted map with a pin per area, one region at a time with arrows to cycle (see `docs/UI_PLAN.md`, "Painted maps"). The Beyond the Peak map already paints all five frontier areas (Sunken Spires clear, the rest under mist), so W5 to W9 each add one pin and need no map art.
+
 A painted world map with areas lighting up is a possible extra later (one Codex image), not part of this plan.
 
 ### Dragons stay at level 50

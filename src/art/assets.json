@@ -4492,6 +4492,27 @@
         "kind": "rise",
         "color": "#fff6c8"
       }
+    },
+    "map-wilds": {
+      "layers": [
+        {
+          "file": "painted/maps/wilds.webp"
+        }
+      ]
+    },
+    "map-highlands": {
+      "layers": [
+        {
+          "file": "painted/maps/highlands.webp"
+        }
+      ]
+    },
+    "map-beyond": {
+      "layers": [
+        {
+          "file": "painted/maps/beyond.webp"
+        }
+      ]
     }
   },
   "effects": {

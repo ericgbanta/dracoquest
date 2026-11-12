@@ -56,3 +56,7 @@ Built as planned, with two additions found while measuring:
 | Roost | 3.6 to 3.9 | about 2 with nothing waiting; longer when buildings open themselves for food, eggs or returning dragons |
 
 `e2e/ui.spec.ts` checks a height budget for each screen, that folds and tabs remember their state, the Town's default filters, and that a folded zone's Hunt button starts a run. The other phone tests open the fold or tab they need with `e2e/helpers.ts`.
+
+## Painted maps (added 2026-11-12)
+
+Eric asked for the Map tab to become "an actual map where we can click on locations", with a map per region to cycle through. The Map now shows one region's painted map (portrait, full width) with arrows and dots to change region, and a pin per area. A pin opens a sheet with what the open zone card used to show. The folded zone list stays under the map for quick hunts. The Map's height budget went from 3.2 to 3.5 screens to make room for the map (about 0.8 screens at 375 wide). `e2e/world.spec.ts` checks the pins, the sheet, cycling regions, the town pin, the teaser pin and that the region is remembered. Adding areas later is one pin each; see "Adding a place to a map" in `docs/HANDOFF.md`.

@@ -22,34 +22,77 @@ async function smallTargets(page: Page, scope: string): Promise<string[]> {
       .map((el) => el.outerHTML.slice(0, 60)));
 }
 
-test('the Map groups zones into regions and teases the next area', async ({ page }) => {
+test('the Map shows one painted region at a time, with pins, and teases the next area', async ({ page }) => {
   await load(page, 'juvenile.json', (s) => { s.bossesDefeated = ['mossy-hollow']; });
   await page.getByTestId('tab-map').tap();
-  await expect(page.getByTestId('region-wilds')).toContainText('The Wilds');
-  await expect(page.getByTestId('region-highlands')).toContainText('The High Lands');
+  // Level 15: the map opens on the Wilds, with a pin per area and one for the town.
+  await expect(page.getByTestId('map-region-name')).toHaveText('The Wilds');
+  await expect(page.getByTestId('map-prev')).toBeDisabled();
+  for (const id of ['mossy-hollow', 'saltmarsh-shore', 'whispering-fen', 'cinder-pass', 'town']) await expect(page.getByTestId(`pin-${id}`)).toBeVisible();
+  await expect(page.getByTestId('pin-mossy-hollow')).toHaveAttribute('aria-label', /boss beaten/);
   await expect(page.getByTestId('region-wilds').getByTestId('zone-mossy-hollow')).toBeVisible();
-  // Whispering Fen is built and open (level 15, Bramble Troll beaten); the side areas are built; the next teaser is Sunken Spires, beyond the peak.
+  // Whispering Fen is open (level 15, Bramble Troll beaten).
   await expect(page.getByTestId('region-wilds').getByTestId('start-whispering-fen')).toBeVisible();
-  const teaser = page.getByTestId('zone-teaser');
-  await expect(page.getByTestId('region-beyond').getByTestId('zone-teaser')).toBeVisible();
-  await expect(page.getByTestId('region-beyond')).toContainText('Beyond the Peak');
-  await expect(teaser).toContainText('Sunken Spires');
-  await expect(teaser).toContainText('Opens at level 50, after you beat the Eclipse Dragon');
-  // Rider level 15: the Wilds are open, the High Lands fold away until opened.
-  await expect(page.getByTestId('fold-map.highlands')).toHaveAttribute('aria-expanded', 'false');
-  await openFold(page, 'map.highlands');
-  await expect(page.getByTestId('zone-gilded-wastes')).toContainText('Opens at rider level 40, after you beat the Glacier Hydra');
-  await expect(page.getByTestId('zone-moonwell-woods')).toContainText('Opens at rider level 30, after you beat the Storm Roc');
-  await expect(page.getByTestId('zone-rustcliff-ruins')).toContainText('Opens at rider level 20, after you beat the Magma Wyrm');
-  // Mossy Hollow (levels 1 to 8) is below the rider, so it folds to one row with a Hunt button.
+  // Mossy Hollow (levels 1 to 8) is below the rider, so its card folds to one row with a Hunt button.
   await expect(page.getByTestId('start-mossy-hollow')).toHaveText('Hunt');
   await openFold(page, 'map.zone.mossy-hollow');
   await expect(page.getByTestId('story-mossy-hollow')).toHaveAttribute('aria-label', 'Story, 0 of 4 done');
   await expect(page.getByTestId('story-cinder-pass')).toHaveCount(0);
-  await page.getByTestId('story-mossy-hollow').scrollIntoViewIfNeeded();
-  await page.waitForTimeout(300);
-  await page.screenshot({ path: 'test-results/world-map.png' });
   expect(await smallTargets(page, '[data-testid=zone-mossy-hollow]')).toEqual([]);
+  expect(await smallTargets(page, '[data-testid=region-map]')).toEqual([]);
+
+  // Cycle to the High Lands: locked areas say why.
+  await page.getByTestId('map-next').tap();
+  await expect(page.getByTestId('map-region-name')).toHaveText('The High Lands');
+  await expect(page.getByTestId('pin-eclipse-peak')).toBeVisible();
+  await expect(page.getByTestId('zone-gilded-wastes')).toContainText('Opens at rider level 40, after you beat the Glacier Hydra');
+  await expect(page.getByTestId('zone-moonwell-woods')).toContainText('Opens at rider level 30, after you beat the Storm Roc');
+  await expect(page.getByTestId('zone-rustcliff-ruins')).toContainText('Opens at rider level 20, after you beat the Magma Wyrm');
+  await page.waitForTimeout(400);
+  await page.screenshot({ path: 'test-results/world-map-highlands.png' });
+
+  // And Beyond the Peak: only the teaser so far.
+  await page.getByTestId('map-next').tap();
+  await expect(page.getByTestId('map-region-name')).toHaveText('Beyond the Peak');
+  await expect(page.getByTestId('map-next')).toBeDisabled();
+  const teaser = page.getByTestId('region-beyond').getByTestId('zone-teaser');
+  await expect(teaser).toContainText('Sunken Spires');
+  await expect(teaser).toContainText('Opens at level 50, after you beat the Eclipse Dragon');
+  await page.getByTestId('pin-teaser').tap();
+  await expect(page.locator('.sheet [data-testid=zone-teaser]')).toContainText('Arrives in a future update');
+  await page.waitForTimeout(400);
+  await page.screenshot({ path: 'test-results/world-map-beyond.png' });
+});
+
+test('tapping a map pin opens that area, and the map remembers its region', async ({ page }) => {
+  await load(page, 'juvenile.json');
+  await page.getByTestId('tab-map').tap();
+  await page.waitForTimeout(500);
+  await page.screenshot({ path: 'test-results/world-map.png' });
+  await page.getByTestId('pin-mossy-hollow').tap();
+  const sheet = page.getByTestId('pin-sheet-mossy-hollow');
+  await expect(sheet).toContainText('Levels 1 to 8');
+  await expect(page.getByTestId('pin-story-mossy-hollow')).toBeVisible();
+  await page.waitForTimeout(400);
+  await page.screenshot({ path: 'test-results/world-map-pin.png' });
+  // A pin's Story button opens the story sheet in place of the pin's.
+  await page.getByTestId('pin-story-mossy-hollow').tap();
+  await expect(sheet).toHaveCount(0);
+  await expect(page.locator('.sheet')).toContainText('Mossy Hollow');
+  await page.keyboard.press('Escape');
+  // The town pin goes to the town.
+  await page.getByTestId('pin-town').tap();
+  await expect(page).toHaveURL(/#\/town/);
+  // The map remembers the region last looked at.
+  await page.getByTestId('tab-map').tap();
+  await page.getByTestId('map-next').tap();
+  await page.reload();
+  await expect(page.getByTestId('map-region-name')).toHaveText('The High Lands');
+  // A pin starts a hunt from its sheet.
+  await page.getByTestId('map-prev').tap();
+  await page.getByTestId('pin-mossy-hollow').tap();
+  await page.getByTestId('pin-start-mossy-hollow').tap();
+  await expect(page.locator('[data-testid=stage], .results-title, [data-testid=go]').first()).toBeVisible();
 });
 
 test('a story quest plays with dialogue and ends with its reward', async ({ page }) => {

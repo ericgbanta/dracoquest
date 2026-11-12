@@ -1,5 +1,5 @@
 {
-  "note": "The Map groups zones into regions. upcoming lists areas from the world plan that aren't built yet; the Map shows the first one as a teaser card in its region.",
+  "note": "The Map groups zones into regions. upcoming lists areas from the world plan that aren't built yet; the Map shows the first one as a teaser card in its region. Each region has a painted map (map.art, a backdrop in assets.json) with pins at [x, y] fractions; an upcoming area's pin is on its entry. Adding an area to a map is one more pin. Planned spots on the Beyond the Peak map: Emberwild [0.24, 0.52], Skyreach Isles [0.76, 0.51], Hollow Crown [0.25, 0.31], Starfall Summit [0.66, 0.15].",
   "regions": [
     {
       "id": "wilds",
@@ -11,7 +11,17 @@
         "saltmarsh-shore",
         "whispering-fen",
         "cinder-pass"
-      ]
+      ],
+      "map": {
+        "art": "map-wilds",
+        "pins": {
+          "mossy-hollow": [0.25, 0.83],
+          "saltmarsh-shore": [0.82, 0.68],
+          "whispering-fen": [0.18, 0.47],
+          "cinder-pass": [0.73, 0.26],
+          "town": [0.57, 0.49]
+        }
+      }
     },
     {
       "id": "highlands",
@@ -26,14 +36,30 @@
         "deepstone-mines",
         "gilded-wastes",
         "eclipse-peak"
-      ]
+      ],
+      "map": {
+        "art": "map-highlands",
+        "pins": {
+          "thunderspire": [0.25, 0.81],
+          "rustcliff-ruins": [0.76, 0.81],
+          "frostmere": [0.23, 0.61],
+          "moonwell-woods": [0.73, 0.59],
+          "deepstone-mines": [0.25, 0.41],
+          "gilded-wastes": [0.72, 0.39],
+          "eclipse-peak": [0.5, 0.19]
+        }
+      }
     },
     {
       "id": "beyond",
       "name": "Beyond the Peak",
       "levels": "Levels 50 to 100",
       "blurb": "Nobody has come back from here yet. Well, nobody has gone.",
-      "zones": []
+      "zones": [],
+      "map": {
+        "art": "map-beyond",
+        "pins": {}
+      }
     }
   ],
   "upcoming": [
@@ -47,7 +73,8 @@
         "tide",
         "storm"
       ],
-      "blurb": "A drowned city where storms walk on the water. The first land beyond the peak."
+      "blurb": "A drowned city where storms walk on the water. The first land beyond the peak.",
+      "pin": [0.5, 0.88]
     }
   ]
 }
