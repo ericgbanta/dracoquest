@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { openFold, tab } from './helpers';
+import { openFold, tab, mapView } from './helpers';
 import { readFileSync } from 'node:fs';
 
 async function load(page: Page, fixture: string, hash = '#/roost') {
@@ -23,6 +23,7 @@ test('plays fully offline after the first visit', async ({ page, context }) => {
   await page.reload();
   await expect(page.getByTestId('welcome')).toHaveText('Scorch');
   await page.getByTestId('tab-map').tap();
+  await mapView(page, 'list');
   await page.getByTestId('start-mossy-hollow').tap();
   await page.getByTestId('go').tap();
   await expect(page.getByTestId('log')).not.toContainText('appears!', { timeout: 10_000 });
@@ -37,6 +38,7 @@ test('a seasonal event shows on its dates and its gift opens once', async ({ pag
   await expect(page.getByTestId('toast')).toContainText('Festival gift');
   await expect(page.getByTestId('claim-gift')).toHaveCount(0);
   await page.getByTestId('tab-map').tap();
+  await mapView(page, 'list');
   await page.getByTestId('go-town').tap();
   await expect(page.getByTestId('event-shop')).toBeVisible();
   await page.getByTestId('shop-tab-armor').tap();
@@ -70,6 +72,7 @@ test('sound is off by default and can be turned on', async ({ page }) => {
 
 test('Eclipse Peak opens for an Elder', async ({ page }) => {
   await load(page, 'elder.json', '#/map');
+  await mapView(page, 'list');
   await expect(page.getByTestId('start-eclipse-peak')).toBeVisible();
   await expect(page.getByTestId('zone-eclipse-peak')).toContainText('Eclipse Dragon');
 });

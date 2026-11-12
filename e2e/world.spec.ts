@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { openFold } from './helpers';
+import { openFold, mapView } from './helpers';
 import { readFileSync } from 'node:fs';
 import type { SaveData } from '../src/core/save';
 
@@ -25,11 +25,17 @@ async function smallTargets(page: Page, scope: string): Promise<string[]> {
 test('the Map shows one painted region at a time, with pins, and teases the next area', async ({ page }) => {
   await load(page, 'juvenile.json', (s) => { s.bossesDefeated = ['mossy-hollow']; });
   await page.getByTestId('tab-map').tap();
-  // Level 15: the map opens on the Wilds, with a pin per area and one for the town.
+  // The painted map is the default view. Level 15: it opens on the Wilds, with a pin per area and one for the town.
+  await expect(page.getByTestId('map-view-map')).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.getByTestId('region-wilds')).toHaveCount(0);
   await expect(page.getByTestId('map-region-name')).toHaveText('The Wilds');
   await expect(page.getByTestId('map-prev')).toBeDisabled();
   for (const id of ['mossy-hollow', 'saltmarsh-shore', 'whispering-fen', 'cinder-pass', 'town']) await expect(page.getByTestId(`pin-${id}`)).toBeVisible();
   await expect(page.getByTestId('pin-mossy-hollow')).toHaveAttribute('aria-label', /boss beaten/);
+  expect(await smallTargets(page, '[data-testid=region-map]')).toEqual([]);
+  // The List view shows the region's areas as cards.
+  await mapView(page, 'list');
+  await expect(page.getByTestId('pin-mossy-hollow')).toHaveCount(0);
   await expect(page.getByTestId('region-wilds').getByTestId('zone-mossy-hollow')).toBeVisible();
   // Whispering Fen is open (level 15, Bramble Troll beaten).
   await expect(page.getByTestId('region-wilds').getByTestId('start-whispering-fen')).toBeVisible();
@@ -39,15 +45,23 @@ test('the Map shows one painted region at a time, with pins, and teases the next
   await expect(page.getByTestId('story-mossy-hollow')).toHaveAttribute('aria-label', 'Story, 0 of 4 done');
   await expect(page.getByTestId('story-cinder-pass')).toHaveCount(0);
   expect(await smallTargets(page, '[data-testid=zone-mossy-hollow]')).toEqual([]);
-  expect(await smallTargets(page, '[data-testid=region-map]')).toEqual([]);
+  // The open card's level line isn't covered by its banner.
+  const line = await page.getByTestId('fold-map.zone.mossy-hollow').locator('.muted').boundingBox();
+  const banner = await page.getByTestId('zone-mossy-hollow').locator('.zone-banner').boundingBox();
+  expect(line!.y + line!.height).toBeLessThanOrEqual(banner!.y);
+  await page.waitForTimeout(400);
+  await page.screenshot({ path: 'test-results/world-map-list.png' });
 
-  // Cycle to the High Lands: locked areas say why.
+  // Cycle to the High Lands: locked areas say why. The list remembers being picked.
   await page.getByTestId('map-next').tap();
   await expect(page.getByTestId('map-region-name')).toHaveText('The High Lands');
-  await expect(page.getByTestId('pin-eclipse-peak')).toBeVisible();
   await expect(page.getByTestId('zone-gilded-wastes')).toContainText('Opens at rider level 40, after you beat the Glacier Hydra');
   await expect(page.getByTestId('zone-moonwell-woods')).toContainText('Opens at rider level 30, after you beat the Storm Roc');
   await expect(page.getByTestId('zone-rustcliff-ruins')).toContainText('Opens at rider level 20, after you beat the Magma Wyrm');
+  await page.reload();
+  await expect(page.getByTestId('zone-rustcliff-ruins')).toBeVisible();
+  await mapView(page, 'map');
+  await expect(page.getByTestId('pin-eclipse-peak')).toBeVisible();
   await page.waitForTimeout(400);
   await page.screenshot({ path: 'test-results/world-map-highlands.png' });
 
@@ -55,13 +69,15 @@ test('the Map shows one painted region at a time, with pins, and teases the next
   await page.getByTestId('map-next').tap();
   await expect(page.getByTestId('map-region-name')).toHaveText('Beyond the Peak');
   await expect(page.getByTestId('map-next')).toBeDisabled();
-  const teaser = page.getByTestId('region-beyond').getByTestId('zone-teaser');
-  await expect(teaser).toContainText('Sunken Spires');
-  await expect(teaser).toContainText('Opens at level 50, after you beat the Eclipse Dragon');
   await page.getByTestId('pin-teaser').tap();
   await expect(page.locator('.sheet [data-testid=zone-teaser]')).toContainText('Arrives in a future update');
   await page.waitForTimeout(400);
   await page.screenshot({ path: 'test-results/world-map-beyond.png' });
+  await page.keyboard.press('Escape');
+  await mapView(page, 'list');
+  const teaser = page.getByTestId('region-beyond').getByTestId('zone-teaser');
+  await expect(teaser).toContainText('Sunken Spires');
+  await expect(teaser).toContainText('Opens at level 50, after you beat the Eclipse Dragon');
 });
 
 test('tapping a map pin opens that area, and the map remembers its region', async ({ page }) => {
@@ -80,6 +96,7 @@ test('tapping a map pin opens that area, and the map remembers its region', asyn
   await expect(sheet).toHaveCount(0);
   await expect(page.locator('.sheet')).toContainText('Mossy Hollow');
   await page.keyboard.press('Escape');
+  await expect(page.locator('.sheet')).toHaveCount(0);
   // The town pin goes to the town.
   await page.getByTestId('pin-town').tap();
   await expect(page).toHaveURL(/#\/town/);
@@ -99,6 +116,7 @@ test('a story quest plays with dialogue and ends with its reward', async ({ page
   await load(page, 'juvenile.json');
   const potions = (await stored(page)).rider.inventory.potion ?? 0;
   await page.getByTestId('tab-map').tap();
+  await mapView(page, 'list');
   await openFold(page, 'map.zone.mossy-hollow');
   await page.getByTestId('story-mossy-hollow').tap();
   await expect(page.getByTestId('story-the-spore-cloud')).toContainText('Finish "Wren\'s Garden" first');
@@ -126,6 +144,7 @@ test('a finished quest with a choice can be decided from the story list', async 
   await load(page, 'juvenile.json', (s) => { s.questsDone = ['wrens-garden', 'the-spore-cloud']; });
   const before = (await stored(page)).embers;
   await page.getByTestId('tab-map').tap();
+  await mapView(page, 'list');
   await openFold(page, 'map.zone.mossy-hollow');
   await expect(page.getByTestId('story-mossy-hollow')).toHaveAttribute('aria-label', 'Story, 2 of 4 done, a choice is waiting');
   await page.getByTestId('story-mossy-hollow').tap();
@@ -146,6 +165,7 @@ test('finished bounties are claimed from the board', async ({ page }) => {
     s.bounties = { day: '2026-11-12', progress, claimed: [] };
   });
   await page.getByTestId('tab-map').tap();
+  await mapView(page, 'list');
   await openFold(page, 'map.zone.mossy-hollow');
   await expect(page.getByTestId('bounties-mossy-hollow')).toHaveAttribute('aria-label', 'Bounties, 3 ready to claim');
   await page.getByTestId('bounties-mossy-hollow').tap();
@@ -172,6 +192,7 @@ test('area art is cached the first time a zone shows it, not up front', async ({
   });
   expect(precached).toBe(0);
   await page.getByTestId('tab-map').tap();
+  await mapView(page, 'list');
   await expect.poll(async () => page.evaluate(async () => {
     if (!(await caches.keys()).includes('dracoquest-area-art')) return 0;
     return (await (await caches.open('dracoquest-area-art')).keys()).length;
@@ -181,6 +202,7 @@ test('area art is cached the first time a zone shows it, not up front', async ({
 test('Whispering Fen stays locked until the Bramble Troll is beaten', async ({ page }) => {
   await load(page, 'juvenile.json', (s) => { s.bossesDefeated = []; });
   await page.getByTestId('tab-map').tap();
+  await mapView(page, 'list');
   const fen = page.getByTestId('zone-whispering-fen');
   await expect(fen).toContainText('Opens after you beat the Bramble Troll');
   await expect(page.getByTestId('start-whispering-fen')).toHaveCount(0);
@@ -189,6 +211,7 @@ test('Whispering Fen stays locked until the Bramble Troll is beaten', async ({ p
 test('Whispering Fen fights use the painted Fen art', async ({ page }) => {
   await load(page, 'juvenile.json', (s) => { s.bossesDefeated = ['mossy-hollow']; });
   await page.getByTestId('tab-map').tap();
+  await mapView(page, 'list');
   await page.getByTestId('start-whispering-fen').tap();
   await expect(page.locator('[data-testid=stage]:not(.stage--loading)')).toBeVisible();
   const fen = /(murk-toad|will-o-whisper|reed-stalker|bogling|lily-snapper)-[^/]*\.webp/;
@@ -215,6 +238,7 @@ test('Rustcliff Ruins opens at level 20 after the Magma Wyrm, and its fights use
     s.rider.level = 21;
   });
   await page.getByTestId('tab-map').tap();
+  await mapView(page, 'list');
   await page.getByTestId('start-rustcliff-ruins').tap();
   await expect(page.locator('[data-testid=stage]:not(.stage--loading)')).toBeVisible();
   const ruins = /(cog-crawler|brass-sentry|boiler-bot|spark-hound|gargoyle-pup)-[^/]*\.webp/;
@@ -242,6 +266,7 @@ test('Moonwell Woods opens at level 30 after the Storm Roc, and its fights use t
     s.rider.level = 31;
   });
   await page.getByTestId('tab-map').tap();
+  await mapView(page, 'list');
   await page.getByTestId('start-moonwell-woods').tap();
   await expect(page.locator('[data-testid=stage]:not(.stage--loading)')).toBeVisible();
   const woods = /(hoot-shade|frostcap-shroom|snickerbark|shadow-fox|rimeback-badger)-[^/]*\.webp/;
@@ -269,6 +294,7 @@ test('the Gilded Wastes open at level 40 after the Glacier Hydra, and their figh
     s.rider.level = 41;
   });
   await page.getByTestId('tab-map').tap();
+  await mapView(page, 'list');
   await page.getByTestId('start-gilded-wastes').tap();
   await expect(page.locator('[data-testid=stage]:not(.stage--loading)')).toBeVisible();
   const wastes = /(sand-scarab|mirage-jackal|glimmer-lizard|dune-sentinel|treasure-mimic)-[^/]*\.webp/;

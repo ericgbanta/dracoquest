@@ -1,7 +1,7 @@
 import { expect, test, type Page } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 import type { SaveData } from '../src/core/save';
-import { openFold, tab } from './helpers';
+import { openFold, tab, mapView } from './helpers';
 
 /** A date outside every seasonal event, so no event card adds height. */
 const QUIET_DAY = new Date('2026-06-01T10:00:00');
@@ -63,6 +63,7 @@ test('folds remember being opened, and sub-tabs show waiting points', async ({ p
 test('the Town starts on the rider’s weapon type near their level', async ({ page }) => {
   await load(page, 'juvenile.json');
   await page.getByTestId('tab-map').tap();
+  await mapView(page, 'list');
   await page.getByTestId('go-town').tap();
   // The juvenile fixture wields a melee weapon at level 15.
   await expect(page.getByTestId('shop-kind-melee')).toHaveAttribute('aria-pressed', 'true');
@@ -80,6 +81,7 @@ test('the Town starts on the rider’s weapon type near their level', async ({ p
 test('a folded zone keeps a Hunt button that starts a run', async ({ page }) => {
   await load(page, 'juvenile.json');
   await page.getByTestId('tab-map').tap();
+  await mapView(page, 'list');
   // Level 15: Mossy Hollow (1 to 8) is folded; Cinder Pass (12 to 20) is open.
   await expect(page.getByTestId('fold-map.zone.mossy-hollow')).toHaveAttribute('aria-expanded', 'false');
   await expect(page.getByTestId('fold-map.zone.cinder-pass')).toHaveAttribute('aria-expanded', 'true');

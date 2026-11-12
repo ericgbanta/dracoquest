@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { openFold } from './helpers';
+import { openFold, mapView } from './helpers';
 import layout from '../src/data/stage.json' with { type: 'json' };
 
 async function smallTargets(page: Page): Promise<string[]> {
@@ -77,6 +77,7 @@ async function loadFixture(page: Page, fixture: string) {
 test('a real fight uses the stage: tap to target, tap again for details, tap a party member for theirs', async ({ page }) => {
   await loadFixture(page, 'juvenile.json');
   await page.getByTestId('tab-map').tap();
+  await mapView(page, 'list');
   await page.getByTestId('start-mossy-hollow').tap();
   await expect(page.locator('[data-testid=stage]:not(.stage--loading)')).toBeVisible();
   await expect(page.getByTestId('enemy-e0')).toHaveAttribute('aria-pressed', 'true');
@@ -97,6 +98,7 @@ test('the Simple battle setting brings back the card layout', async ({ page }) =
   await openFold(page, 'settings.battle');
   await page.getByTestId('simple-battle').check();
   await page.getByTestId('tab-map').tap();
+  await mapView(page, 'list');
   await page.getByTestId('start-mossy-hollow').tap();
   await expect(page.getByTestId('enemy-e0')).toBeVisible();
   await expect(page.getByTestId('stage')).toHaveCount(0);
@@ -134,6 +136,7 @@ test('gold and embers open a sheet that explains them', async ({ page }) => {
   await expect(page.getByTestId('embers-sheet')).toContainText('How to earn them');
   await page.getByRole('button', { name: 'Close' }).tap();
   await page.getByTestId('tab-map').tap();
+  await mapView(page, 'list');
   await page.getByTestId('gold-info').tap();
   await expect(page.getByTestId('gold-sheet')).toContainText('What it buys');
   await page.getByRole('button', { name: 'Close' }).tap();
@@ -199,6 +202,7 @@ test('the battle log shows its lines in full, and opens to the whole history', a
   // Regression: the log box was pinned to 44 px, so the second line was cut off and it couldn't open.
   await loadFixture(page, 'juvenile.json');
   await page.getByTestId('tab-map').tap();
+  await mapView(page, 'list');
   await page.getByTestId('start-mossy-hollow').tap();
   // One round (the fixture's seed makes it the same every time) leaves the fight going with a full log.
   await page.getByTestId('go').tap();

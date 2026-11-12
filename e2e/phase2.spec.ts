@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { tab } from './helpers';
+import { tab, mapView } from './helpers';
 import { readFileSync } from 'node:fs';
 
 async function load(page: Page, fixture: string, hash = '#/roost') {
@@ -47,6 +47,7 @@ test('buy a Mossy Egg in town; it lands in the Bag', async ({ page }) => {
   });
   await page.reload();
   await page.getByTestId('tab-map').tap();
+  await mapView(page, 'list');
   await page.getByRole('link', { name: /Town/ }).tap();
   await page.getByTestId('shop-tab-supplies').tap();
   const buy = page.getByTestId('buy-egg-verdant');
@@ -88,6 +89,7 @@ test('learn talents and use a talent skill in battle', async ({ page }) => {
   await page.getByTestId('learn-taunting-roar').tap();
   await expect(page.getByTestId('talent-points')).toHaveCount(0);
   await page.getByTestId('tab-map').tap();
+  await mapView(page, 'list');
   await page.getByTestId('start-mossy-hollow').tap();
   await page.getByTestId('act-skill').tap();
   await page.getByTestId('skill-twin-claws').tap();
@@ -134,6 +136,7 @@ test('an Adult rides into battle and beats the Storm Roc', async ({ page }) => {
 
 test('locked zones say why', async ({ page }) => {
   await load(page, 'ready-to-grow.json', '#/map');
+  await mapView(page, 'list');
   await expect(page.getByTestId('zone-cinder-pass')).toContainText('Needs a Juvenile dragon');
   await expect(page.getByTestId('start-cinder-pass')).toHaveCount(0);
 });

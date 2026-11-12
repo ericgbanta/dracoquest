@@ -38,6 +38,7 @@ export function MapScreen({ save, update }: Props) {
   const region = data.regions.regions[regionIndex]!;
   const zones = region.zones.map((id) => data.zones.find((z) => z.id === id)!);
   const tease = teaser && teaser.region === region.id ? teaser : null;
+  const [view, setView] = usePref<'map' | 'list'>('map.view', 'map', ['map', 'list']);
   const [pinned, setPinned] = useState<string | null>(null);
   const pinnedZone = pinned ? zones.find((z) => z.id === pinned) ?? null : null;
   return (
@@ -49,17 +50,29 @@ export function MapScreen({ save, update }: Props) {
       </a>
       {lowHp && <p class="notice notice--error">You're hurt. Rest at the Roost first, unless you like living dangerously.</p>}
       {dragon && dragon.hp <= 0 && <p class="notice notice--error">{dragon.name} is knocked out and will sit this run out. Rest to wake them.</p>}
-      <RegionMapView save={save} region={region} regionIndex={regionIndex} onRegion={(i) => setRegion(data.regions.regions[i]!.id)}
-        teaser={tease} onPin={(id) => (id === 'town' ? navigate('town') : setPinned(id))} today={today} />
-      <section class="region-list" aria-label={`Areas in ${region.name}`} data-testid={`region-${region.id}`}>
-        <p class="muted region-blurb">{region.blurb}</p>
-        {zones.map((zone) => (
-          <ZoneCard key={zone.id} zone={zone} save={save} today={today}
-            onHunt={() => update((s) => startRun(data, s, zone.id, today))}
-            onOpen={(kind) => (kind === 'treasures' ? setTreasures(zone) : setSheet({ kind, zone }))} />
+      <div class="map-view-switch" role="group" aria-label="Show areas as">
+        {(['map', 'list'] as const).map((v) => (
+          <button key={v} type="button" class={`tab-pill${view === v ? ' tab-pill--on' : ''}`} aria-pressed={view === v}
+            onClick={() => setView(v)} data-testid={`map-view-${v}`}>
+            {v === 'map' ? 'Map' : 'List'}
+          </button>
         ))}
-        {tease && <TeaserCard area={tease} save={save} />}
-      </section>
+      </div>
+      <RegionMapView save={save} region={region} regionIndex={regionIndex} onRegion={(i) => setRegion(data.regions.regions[i]!.id)}
+        teaser={tease} onPin={(id) => (id === 'town' ? navigate('town') : setPinned(id))} today={today} showMap={view === 'map'} />
+      {view === 'map' ? (
+        <p class="muted region-blurb region-blurb--map">{region.blurb} Tap a place to see it.</p>
+      ) : (
+        <section class="region-list" aria-label={`Areas in ${region.name}`} data-testid={`region-${region.id}`}>
+          <p class="muted region-blurb">{region.blurb}</p>
+          {zones.map((zone) => (
+            <ZoneCard key={zone.id} zone={zone} save={save} today={today}
+              onHunt={() => update((s) => startRun(data, s, zone.id, today))}
+              onOpen={(kind) => (kind === 'treasures' ? setTreasures(zone) : setSheet({ kind, zone }))} />
+          ))}
+          {tease && <TeaserCard area={tease} save={save} />}
+        </section>
+      )}
       {pinnedZone && (
         <Sheet title={pinnedZone.name} onClose={() => setPinned(null)}>
           <div data-testid={`pin-sheet-${pinnedZone.id}`}>
@@ -148,10 +161,10 @@ function ZoneDetails({ zone, save, today, onHunt, onOpen, idPrefix = '' }: {
 }
 
 /** The painted map of one region, with a pin per area, and arrows to cycle regions. */
-function RegionMapView({ save, region, regionIndex, onRegion, teaser, onPin, today }: {
-  save: SaveData; region: RegionData; regionIndex: number; onRegion(i: number): void; teaser: UpcomingArea | null; onPin(id: string): void; today: string;
+function RegionMapView({ save, region, regionIndex, onRegion, teaser, onPin, today, showMap }: {
+  save: SaveData; region: RegionData; regionIndex: number; onRegion(i: number): void; teaser: UpcomingArea | null; onPin(id: string): void; today: string; showMap: boolean;
 }) {
-  const art = useBackdrop(region.map?.art ?? null);
+  const art = useBackdrop(showMap ? region.map?.art ?? null : null);
   const url = art?.layers[0]?.url;
   const n = data.regions.regions.length;
   const pins = Object.entries(region.map?.pins ?? {});
@@ -165,7 +178,7 @@ function RegionMapView({ save, region, regionIndex, onRegion, teaser, onPin, tod
         </div>
         <button type="button" class="icon-button" aria-label="Next region" disabled={regionIndex === n - 1} onClick={() => onRegion(regionIndex + 1)} data-testid="map-next">›</button>
       </div>
-      <div class="region-map" style={url ? { backgroundImage: `url(${url})` } : undefined}>
+      {showMap && <div class="region-map" style={url ? { backgroundImage: `url(${url})` } : undefined}>
         {pins.map(([id, [x, y]]) => {
           const zone = data.zones.find((z) => z.id === id);
           if (!zone) {
@@ -197,7 +210,7 @@ function RegionMapView({ save, region, regionIndex, onRegion, teaser, onPin, tod
             <span class="map-pin-dot">?</span><span class="map-pin-label">{teaser.name}</span>
           </button>
         )}
-      </div>
+      </div>}
       <div class="region-dots" aria-hidden="true">
         {data.regions.regions.map((r, i) => <span key={r.id} class={`region-dot${i === regionIndex ? ' region-dot--on' : ''}`} />)}
       </div>

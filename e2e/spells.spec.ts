@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { openFold, tab } from './helpers';
+import { openFold, tab, mapView } from './helpers';
 import { readFileSync } from 'node:fs';
 
 async function load(page: Page, fixture: string) {
@@ -53,6 +53,8 @@ test('a picked spell is cast in battle and shows its element', async ({ page }) 
   await page.getByTestId('spell-add-bright-ward').tap();
 
   await page.getByTestId('tab-map').tap();
+
+  await mapView(page, 'list');
   await page.getByTestId('start-mossy-hollow').tap();
   await expect(page.locator('[data-testid=stage]:not(.stage--loading)')).toBeVisible();
   await page.getByTestId('act-spell').tap();

@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { openFold, tab } from './helpers';
+import { openFold, tab, mapView } from './helpers';
 
 async function hatch(page: Page, name = 'Cinder', egg = 'fire') {
   await page.goto('./');
@@ -37,6 +37,7 @@ test('a new player hatches a dragon and wins a fight within 5 minutes', async ({
   await hatch(page);
   // Fast battles keep the test quick; the flow is the same.
   await page.getByTestId('go-map').tap();
+  await mapView(page, 'list');
   await page.getByTestId('start-mossy-hollow').tap();
   await expect(page.getByTestId('go')).toBeVisible();
   await expect(page.locator('.intent').first()).toBeVisible();
@@ -68,6 +69,7 @@ test('every tap target is at least 44 x 44 px', async ({ page }) => {
     expect(await tooSmallTargets(page), route).toEqual([]);
   }
   await page.goto('./#/map');
+  await mapView(page, 'list');
   await page.getByTestId('start-mossy-hollow').tap();
   await expect(page.getByTestId('go')).toBeVisible();
   expect(await tooSmallTargets(page), 'battle').toEqual([]);
@@ -76,6 +78,7 @@ test('every tap target is at least 44 x 44 px', async ({ page }) => {
 test('the battle screen fits a 375 x 667 phone without scrolling', async ({ page }) => {
   await hatch(page);
   await page.goto('./#/map');
+  await mapView(page, 'list');
   await page.getByTestId('start-mossy-hollow').tap();
   const go = await page.getByTestId('go').boundingBox();
   expect(go!.y + go!.height).toBeLessThanOrEqual(667);
@@ -107,6 +110,7 @@ test('a save survives a reload, including mid-battle', async ({ page }) => {
   await page.reload();
   await expect(page.getByTestId('welcome')).toHaveText('Reloady');
   await page.goto('./#/map');
+  await mapView(page, 'list');
   await page.getByTestId('start-mossy-hollow').tap();
   await page.getByTestId('go').tap();
   await expect(page.getByTestId('go')).toBeEnabled();

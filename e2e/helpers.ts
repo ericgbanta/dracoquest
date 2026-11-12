@@ -10,3 +10,9 @@ export async function openFold(page: Page, id: string): Promise<void> {
 export async function tab(page: Page, group: string, id: string): Promise<void> {
   await page.getByTestId(`${group}-tab-${id}`).tap();
 }
+
+/** Switch the Map tab between the painted map (the default) and the list of areas. */
+export async function mapView(page: Page, view: 'map' | 'list'): Promise<void> {
+  const button = page.getByTestId(`map-view-${view}`);
+  if ((await button.getAttribute('aria-pressed')) !== 'true') await button.tap();
+}
