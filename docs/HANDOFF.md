@@ -73,6 +73,8 @@ The raw generated PNGs lived only in that session's container and are gone. The 
 
 ## What to work on next
 
+**World expansion (planned 2026-11-12).** Eric wants new areas that unlock every 10 or so rider levels and more kinds of adventure, AQ-style. The plan is `docs/WORLD_PLAN.md`: raise the cap to 100 one area at a time, add story quests with choices and daily bounties to every area, and a fifth dragon stage. It opens with questions for Eric; check his answers before building.
+
 No task is in progress. These are the open threads. Eric closed three on 2026-11-11: the B5 look, battle feel and split targets are good; tap for details is good as it stands; the 100-node stage budget is fine.
 
 1. **Rider spells: built 2026-11-12, not yet deployed.** See "Rider spells" under Decisions. Open questions for Eric: whether Fire in Frostmere at about 95 percent is too easy now (it was 90 before spells), and whether he wants a "best for this zone" button in the Bag, since the sim assumes the best loadout for each zone and a player who never swaps will win a little less.
@@ -147,7 +149,7 @@ tests/         Vitest unit tests (185), sim.ts (the balance simulator), save fix
 e2e/           Playwright phone tests (51, including a 4x-throttle perf test), save fixtures and make-fixtures.ts
 scripts/       icons.mjs builds the Home Screen icons
 tools/art/     painted/ (prompts, the style anchor, and the scripts that generate, cut out and pack the art)
-docs/          DESIGN.md, HANDOFF.md, ART_GENERATION.md (how to make new art), GRAPHICS_PLAN_2.md (second graphics pass: research, C0 result, C1 to C4), NEXT_PROMPT.md (prompt for a new session), GRAPHICS_PLAN.md (graphics plan and results), ART_STYLE.md (art rules)
+docs/          DESIGN.md, HANDOFF.md, WORLD_PLAN.md (world expansion plan), ART_GENERATION.md (how to make new art), GRAPHICS_PLAN_2.md (second graphics pass: research, C0 result, C1 to C4), NEXT_PROMPT.md (prompt for a new session), GRAPHICS_PLAN.md (graphics plan and results), ART_STYLE.md (art rules)
 ```
 
 ## Commands
