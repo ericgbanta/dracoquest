@@ -1,6 +1,6 @@
 # World expansion: plan
 
-Written 2026-11-12 at Eric's request. Status: W0 built (2026-11-12); W1 next. Eric answered the open questions the same day (see "Eric's answers"); the plan below follows them.
+Written 2026-11-12 at Eric's request. Status: W0 and W1 (Whispering Fen) built (2026-11-12); W2 (Rustcliff Ruins) next. Eric answered the open questions the same day (see "Eric's answers"); the plan below follows them.
 
 The request, in Eric's words: "I now want to expand the game with unlockable areas and more levels to go on adventures. Just like adventure quest you could choose and the game grows. Maybe we can do 1 area at a time and they unlock every 10-15 levels for the rider."
 
@@ -82,11 +82,11 @@ What this means for balance: past 50 the rider's power keeps growing (stat point
 | Bounty pool | 8 to 10 | Three posted each day |
 | Spell | 0 or 1 | Light and Shadow have no rider spell yet: Umbral Bolt from Moonwell Woods (about level 32), Radiant Lance from the Gilded Wastes (about level 42). Frontier areas may add stronger versions |
 | Forge recipe | 1 | A piece made from the area's materials |
-| Art | about 15 images | 1 backdrop, 7 enemies with attack poses (14). See below |
+| Art | 5 generations | 1 backdrop, 1 boss, 1 sheet of 6 enemies, and attack versions of the boss and the sheet (15 pictures from 5 generations). See below |
 
 ### Art
 
-Each area needs about 15 Codex images, made with `docs/ART_GENERATION.md` in the chosen style: 1 backdrop and 7 enemies with attack poses. Nine areas come to about 135 images, against 61 for the whole art redesign, spread over nine phases.
+Each area needs 5 Codex generations, made with `docs/ART_GENERATION.md` in the chosen style: a backdrop, the boss, one sheet holding the five enemies and the mini-boss, and attack versions of the boss and the sheet. That gives 15 pictures per area. Nine areas come to about 45 generations. The Fen's are in `tools/art/painted/jobs4.py`; copy it for the next area.
 
 The game never blocks on art (CLAUDE.md), so an area's code and data can be built and tested with placeholder shapes, and its art generated in one batch when Eric is ready to spend the Codex limits. Eric is told the count before each batch.
 
@@ -107,7 +107,7 @@ One phase at a time, each committed, tested and deployed when Eric says so.
 
 Done when: the Map shows regions and a teaser for the next locked area (Whispering Fen until it ships); Mossy Hollow and Saltmarsh Shore each have a playable story chain and daily bounties; save v9 migrates from a v8 fixture; tests, lint, type check and phone tests pass.
 
-### W1 to W4. Side areas, one at a time
+### W1 to W4. Side areas, one at a time (W1, Whispering Fen: built)
 
 Whispering Fen (10 to 20), then Rustcliff Ruins, Moonwell Woods and the Gilded Wastes. Each phase:
 

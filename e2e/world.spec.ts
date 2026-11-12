@@ -128,3 +128,26 @@ test('Whispering Fen stays locked until the Bramble Troll is beaten', async ({ p
   await expect(fen).toContainText('Opens after you beat the Bramble Troll');
   await expect(page.getByTestId('start-whispering-fen')).toHaveCount(0);
 });
+
+test('Whispering Fen fights use the painted Fen art', async ({ page }) => {
+  await load(page, 'juvenile.json', (s) => { s.bossesDefeated = ['mossy-hollow']; });
+  await page.getByTestId('tab-map').tap();
+  await page.getByTestId('start-whispering-fen').tap();
+  await expect(page.locator('[data-testid=stage]:not(.stage--loading)')).toBeVisible();
+  const fen = /(murk-toad|will-o-whisper|reed-stalker|bogling|lily-snapper)-[^/]*\.webp/;
+  await expect.poll(async () => (await page.locator('[data-testid=stage] img').evaluateAll((els) => els.map((e) => (e as HTMLImageElement).src))).some((src) => fen.test(src))).toBe(true);
+  await page.waitForTimeout(600);
+  await page.screenshot({ path: 'test-results/fen-fight.png' });
+});
+
+test('the Whisperwillow boss fight shows the boss art', async ({ page }) => {
+  await load(page, 'juvenile.json', (s) => {
+    s.bossesDefeated = ['mossy-hollow'];
+    s.run = { zoneId: 'whispering-fen', fights: [{ kind: 'boss', enemies: [{ enemyId: 'whisperwillow', level: 20 }] }], index: 0, battle: null, totals: { xp: 0, gold: 0, drops: {} } };
+  });
+  await page.getByTestId('next-fight').tap();
+  await expect(page.locator('[data-testid=stage]:not(.stage--loading)')).toBeVisible();
+  await expect.poll(async () => (await page.locator('[data-testid=stage] img').evaluateAll((els) => els.map((e) => (e as HTMLImageElement).src))).some((src) => /whisperwillow-[^/]*\.webp/.test(src))).toBe(true);
+  await page.waitForTimeout(600);
+  await page.screenshot({ path: 'test-results/fen-boss.png' });
+});

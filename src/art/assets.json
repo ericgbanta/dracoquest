@@ -2938,6 +2938,363 @@
           ]
         }
       ]
+    },
+    "enemy.murk-toad": {
+      "size": [
+        400,
+        266
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/murk-toad.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/murk-toad-attack.webp",
+              "box": [
+                0.0224,
+                0.0826,
+                1.09,
+                0.9178
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.will-o-whisper": {
+      "size": [
+        368,
+        400
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/will-o-whisper.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/will-o-whisper-attack.webp",
+              "box": [
+                0.1636,
+                0.0386,
+                0.9615,
+                0.9625
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.reed-stalker": {
+      "size": [
+        400,
+        353
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/reed-stalker.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/reed-stalker-attack.webp",
+              "box": [
+                0.0284,
+                0.1524,
+                1.185,
+                0.8472
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.bogling": {
+      "size": [
+        370,
+        373
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/bogling.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/bogling-attack.webp",
+              "box": [
+                0.0311,
+                0.0268,
+                1.1865,
+                0.9732
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.lily-snapper": {
+      "size": [
+        400,
+        297
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/lily-snapper.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/lily-snapper-attack.webp",
+              "box": [
+                0.027,
+                0.0182,
+                1.0025,
+                0.9822
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.old-croaker": {
+      "size": [
+        400,
+        332
+      ],
+      "boxScale": 0.65,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/old-croaker.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/old-croaker-attack.webp",
+              "box": [
+                0.0665,
+                0.0757,
+                1.11,
+                0.9229
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.whisperwillow": {
+      "size": [
+        720,
+        485
+      ],
+      "boxScale": 1.15,
+      "points": {
+        "mouth": [
+          0.82,
+          0.4
+        ],
+        "hit": [
+          0.6,
+          0.5
+        ],
+        "front": [
+          0.92,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/whisperwillow.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/whisperwillow-attack.webp",
+              "box": [
+                0.0304,
+                0.002,
+                1.0292,
+                0.9974
+              ]
+            }
+          ]
+        }
+      ]
     }
   },
   "backdrops": {
@@ -3020,6 +3377,17 @@
           "file": "painted/backdrops/roost.webp"
         }
       ]
+    },
+    "whispering-fen": {
+      "layers": [
+        {
+          "file": "painted/backdrops/whispering-fen.webp"
+        }
+      ],
+      "ambient": {
+        "kind": "rise",
+        "color": "#f3e9a6"
+      }
     }
   },
   "effects": {

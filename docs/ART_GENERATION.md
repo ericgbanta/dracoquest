@@ -72,6 +72,8 @@ The scripts expect a scratch folder holding a copy of `tools/art/painted/` named
 
 - `codex exec` waits on stdin. Always add `< /dev/null`.
 - `-i` takes several files, so it swallows the prompt. Put `--` before the prompt.
+- Key green can survive inside a closed shape (the Will-o'-Whisper's lantern window), where the cutout can't reach it. After packing, `python3 tools/art/painted/fix_green.py <webp>` recolors it to a soft teal, keeping the shading.
+- Sign-in codes expire after 15 minutes. If Eric can't enter one in time, stop the waiting `codex login` and start a new one for a fresh code.
 - The image tool cannot make transparent backgrounds. Characters come on flat green and `pack.py` cuts them out. Bright green in the art gets cut out too.
 - A pose is sometimes drawn a little smaller or larger than its idle image. Fix it with `POSE_SCALE` in `pack.py`, then repack.
 - The raw PNGs (about 2 MB each) are not committed. They live in the scratch folder until the session ends. Repacking an image later means generating it again, so get the packing right while the raw files exist.
@@ -79,6 +81,6 @@ The scripts expect a scratch folder holding a copy of `tools/art/painted/` named
 
 ## What exists already
 
-The current set, all in this style: four dragon stages, the rider (sword, bow, staff, mounted), all 49 enemies, an attack pose for every one of those, seven zone backdrops and the Roost, a breath burst per element, tail tips, slash and spark, the egg, and 44 UI icons. The job scripts that made them are `jobs.py`, `jobs2.py` and `jobs3.py` in `tools/art/painted/`.
+The current set, all in this style: four dragon stages, the rider (sword, bow, staff, mounted), all 49 enemies, an attack pose for every one of those, seven zone backdrops and the Roost, a breath burst per element, tail tips, slash and spark, the egg, and 44 UI icons. The job scripts that made them are `jobs.py`, `jobs2.py` and `jobs3.py` in `tools/art/painted/`. Whispering Fen (world plan W1) came from `jobs4.py`: five generations, run as `python3 v2/jobs4.py idle`, generate, then `python3 v2/jobs4.py attack` and generate again.
 
 Not made yet: hurt or defeat poses, painted crack lines for the egg, cosmetics.
