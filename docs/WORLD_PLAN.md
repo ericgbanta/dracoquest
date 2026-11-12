@@ -105,7 +105,7 @@ One phase at a time, each committed, tested and deployed when Eric says so.
 - Per-area art caching.
 - The sim learns to play story quests and bounties.
 
-Done when: the Map shows regions and a teaser for area 8; Mossy Hollow and Saltmarsh Shore each have a playable story chain and daily bounties; save v9 migrates from a v8 fixture; tests, lint, type check and phone tests pass.
+Done when: the Map shows regions and a teaser for the next locked area (Whispering Fen until it ships); Mossy Hollow and Saltmarsh Shore each have a playable story chain and daily bounties; save v9 migrates from a v8 fixture; tests, lint, type check and phone tests pass.
 
 ### W1 to W4. Side areas, one at a time
 
