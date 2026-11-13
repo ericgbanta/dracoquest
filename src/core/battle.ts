@@ -7,7 +7,8 @@
  * statuses tick, breath meters fill, and enemies choose their next intents.
  */
 import { createRng, type Rng } from './rng';
-import { attackElement, defenseMultiplier, matchup, type Matchup } from './elements';
+import { attackElement, defenseMultiplier, matchupVs, type Matchup } from './elements';
+import { elementLabel } from './eggs';
 import { dragonMaxHp, riderMaxHp, riderMaxMp } from './characters';
 import { riderLoadout } from './spells';
 import { addBonus, bonusOf, dragonBonus, effectiveDragonStats, effectiveRiderStats, learnedSkills, riderBonus, riderWeapon, talentById } from './loadout';
@@ -199,7 +200,7 @@ export function enemyFighter(data: GameData, e: EnemyData, level: number, index:
   const at = (k: keyof EnemyData['base']) => e.base[k] + e.perLevel[k] * (level - 1);
   const hp = Math.round(at('hp'));
   return {
-    id: `e${index}`, kind: 'enemy', name: e.name, element: e.element, level,
+    id: `e${index}`, kind: 'enemy', name: e.name, element: e.element, element2: e.element2 ?? null, level,
     maxHp: hp, hp, maxMp: 0, mp: 0,
     power: at('power'), magic: 0, accuracy: at('power'), dodge: at('dodge'), swift: at('swift'),
     defense: at('defense'), critChance: data.combat.crit.base, statuses: [],
@@ -502,7 +503,7 @@ function strike(ctx: RoundCtx, attacker: Fighter, target: Fighter, spec: AttackS
   const taken = dmg - absorbed;
   target.hp = Math.max(0, target.hp - taken);
 
-  const kind = matchup(data.elements, spec.element, target.element);
+  const kind = matchupVs(data.elements, spec.element, target);
   const tags = [crit ? 'Critical!' : '', mult > 1 ? "It's strong!" : mult < 1 ? 'It resists.' : ''].filter(Boolean).join(' ');
   const shieldText = absorbed ? ` (${absorbed} blocked by Ward)` : '';
   events.push({
@@ -884,8 +885,10 @@ function enemyAct(ctx: RoundCtx, enemy: Fighter): void {
     case 'shift':
       if (move.shiftTo) {
         enemy.element = move.shiftTo;
+        enemy.element2 = move.shiftTo2 ?? null;
         enemy.shifted = true;
-        events.push({ t: 'shift', actor: enemy.id, element: move.shiftTo, text: `${enemy.name} uses ${move.name} and turns ${data.elements.info[move.shiftTo].name}!` });
+        const turns = elementLabel(data.elements, { element: move.shiftTo, element2: move.shiftTo2 ?? null });
+        events.push({ t: 'shift', actor: enemy.id, element: move.shiftTo, text: `${enemy.name} uses ${move.name} and turns ${turns}!` });
       }
       return;
     case 'attack':
@@ -902,8 +905,10 @@ function enemyAct(ctx: RoundCtx, enemy: Fighter): void {
         events.push({ t: 'act', actor: guard.f.id, text: `${guard.f.name} takes the hit for ${state.rider.name}!` });
       }
       const big = move.intent === 'big' ? data.combat.bigAttackMultiplier : 1;
+      // A hybrid enemy's special moves use its better element against the target, like a hybrid dragon's breath.
+      const own = move.physical ? { element: null, factor: 1 } : attackElement(data.elements, data.combat.hybridBreathMultiplier, enemy, target);
       const dealt = strike(ctx, enemy, target, {
-        base: (enemy.attack ?? 1) * (move.power ?? 1) * big, stat: enemy.power, element: move.physical ? null : enemy.element,
+        base: (enemy.attack ?? 1) * (move.power ?? 1) * big * own.factor, stat: enemy.power, element: own.element,
         label: move.name, damageMultiplier: guardMult,
       });
       if (dealt > 0 && move.status && target.hp > 0 && rng.chance(move.statusChance ?? 1)) {

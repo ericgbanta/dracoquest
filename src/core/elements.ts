@@ -63,6 +63,26 @@ export function attackElement(
   return { element: second ? source.element2 : source.element, factor: hybridFactor };
 }
 
+/** The matchup against a fighter, hybrids included: a hybrid's is read from its averaged multiplier. */
+export function matchupVs(
+  data: ElementsData,
+  attacker: ElementId | null,
+  defender: { element: ElementId | null; element2?: ElementId | null },
+): Matchup {
+  if (!defender.element2 || !attacker) return matchup(data, attacker, defender.element);
+  const m = defenseMultiplier(data, attacker, { element: defender.element, element2: defender.element2 });
+  return m > data.multipliers.neutral ? 'strong' : m < data.multipliers.neutral ? 'weak' : 'neutral';
+}
+
+/** Elements that deal strong damage to a fighter, hybrids included. */
+export function weaknessesOfFighter(
+  data: ElementsData,
+  defender: { element: ElementId | null; element2?: ElementId | null; resist?: Partial<Record<ElementId, number>> },
+): ElementId[] {
+  if (!defender.element) return [];
+  return data.ids.filter((a) => defenseMultiplier(data, a, defender) > data.multipliers.neutral);
+}
+
 /** Elements that deal strong damage to `defender`. Used to show weaknesses. */
 export function weaknessesOf(data: ElementsData, defender: ElementId, resist?: Partial<Record<ElementId, number>>): ElementId[] {
   return data.ids.filter((a) => elementMultiplier(data, a, defender, resist) > data.multipliers.neutral);

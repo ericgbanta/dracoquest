@@ -393,6 +393,8 @@ export interface EnemyMove {
   heal?: number;
   buff?: StatusId;
   shiftTo?: ElementId;
+  /** With shiftTo, the second element of a hybrid enemy after the shift (none means it becomes a single element). */
+  shiftTo2?: ElementId;
   /** Physical moves ignore the enemy's element. */
   physical?: boolean;
   target?: 'player' | 'self' | 'ally';
@@ -405,6 +407,8 @@ export interface EnemyData {
   id: string;
   name: string;
   element: ElementId;
+  /** A hybrid enemy's second element (The Confluence). It defends and attacks like a hybrid dragon. */
+  element2?: ElementId;
   flavor: string;
   boss?: boolean;
   miniBoss?: boolean;

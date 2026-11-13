@@ -9,7 +9,7 @@ import { setOf, talentById } from '../../core/loadout';
 import { formatMaterials } from '../../core/forge';
 import type { DialogueLine } from '../../core/types';
 import { getZone } from '../../core/run';
-import { matchup, weaknessesOf } from '../../core/elements';
+import { matchupVs, weaknessesOfFighter } from '../../core/elements';
 import { spellById } from '../../core/spells';
 import { storyById } from '../../core/adventures';
 import { eggName } from '../../core/eggs';
@@ -479,7 +479,7 @@ export function Battle({ save, update, onExit }: Props) {
               const cost = <span class="muted">· {s.mp} MP</span>;
               if (s.kind === 'damage') {
                 const foe = battle.enemies.find((e) => e.id === targets.rider && e.hp > 0) ?? battle.enemies.find((e) => e.hp > 0);
-                const m = foe && s.element ? matchup(data.elements, s.element, foe.element) : 'neutral';
+                const m = foe && s.element ? matchupVs(data.elements, s.element, foe) : 'neutral';
                 return (
                   <button key={s.id} type="button" class="list-button spell-button" disabled={!afford} data-testid={`spell-${s.id}`}
                     onClick={() => { setRider({ type: 'spell', spell: s.id, target: 'enemy' }); setSheet(null); }}>
@@ -616,7 +616,7 @@ function EnemyCard({ enemy, battle, save, targeted, onTarget, reg, floats }: {
   const data_ = data.enemies[enemy.enemyId!]!;
   const intent = enemy.hp > 0 ? intentOf(data, battle, enemy) : null;
   const known = (save.bestiary[data_.id]?.fought ?? 0) > 0;
-  const weak = enemy.element ? weaknessesOf(data.elements, enemy.element, enemy.resist) : [];
+  const weak = weaknessesOfFighter(data.elements, enemy);
   return (
     <button type="button" ref={reg} class={`enemy${targeted ? ' enemy--target' : ''}${enemy.hp <= 0 ? ' enemy--down' : ''}`}
       onClick={onTarget} aria-pressed={targeted} aria-label={`Target ${enemy.name}`} data-testid={`enemy-${enemy.id}`}>
@@ -629,7 +629,7 @@ function EnemyCard({ enemy, battle, save, targeted, onTarget, reg, floats }: {
         <span class="enemy-info">
           <span class="enemy-name">{enemy.name} <span class="muted">Lv {enemy.level}</span></span>
           <span class="enemy-tags">
-            {enemy.element && <ElementBadge element={enemy.element} small />}
+            {enemy.element && <ElementBadge element={enemy.element} element2={enemy.element2} small />}
             <span class="weak">{known ? (weak.length ? `Weak: ${weak.map((w) => data.elements.info[w].name).join(', ')}` : 'No weakness') : 'Weak: ?'}</span>
           </span>
           <StatusChips statuses={enemy.statuses} />
@@ -785,12 +785,12 @@ function FighterDetails({ id, battle, save, onClose }: { id: string; battle: Bat
   if (!f) return null;
   const enemy = f.kind === 'enemy' && f.enemyId ? data.enemies[f.enemyId] : undefined;
   const known = enemy ? (save.bestiary[enemy.id]?.fought ?? 0) > 0 : false;
-  const weak = enemy && f.element ? weaknessesOf(data.elements, f.element, f.resist) : [];
+  const weak = enemy ? weaknessesOfFighter(data.elements, f) : [];
   const intent = enemy && f.hp > 0 ? intentOf(data, battle, f) : null;
   return (
     <Sheet title={`${f.name} · Lv ${f.level}`} onClose={onClose}>
       <div class="fighter-details" data-testid="fighter-details">
-        {f.element && <p><ElementBadge element={f.element} /></p>}
+        {f.element && <p><ElementBadge element={f.element} element2={f.element2} /></p>}
         <Bar kind="hp" value={f.hp} max={f.maxHp} label="HP" />
         {f.maxMp > 0 && <Bar kind="mp" value={f.mp} max={f.maxMp} label="MP" />}
         {f.statuses.length > 0 ? <p><StatusChips statuses={f.statuses} /></p> : <p class="muted">No status effects.</p>}

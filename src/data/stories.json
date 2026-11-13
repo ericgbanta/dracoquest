@@ -4967,7 +4967,7 @@
         ],
         "enemies": [
           "null-hound",
-          "hollow-coat"
+          "empty-coat"
         ],
         "level": 73
       }
@@ -5094,7 +5094,7 @@
           }
         ],
         "enemies": [
-          "hollow-coat",
+          "empty-coat",
           "orbit-jelly"
         ],
         "level": 76

@@ -59,7 +59,7 @@ AREAS = [
        ('star-mote', 'Star Mote', 'aether', 'A tiny fallen star that wants to go home. It is very cross about the whole thing.', [P('zap', 'Star Zap'), A('twinkle', 'Twinkle', 2, 0.6, 'silence', 0.5), BUFF('shine-on', 'Shine On', 'fury')]),
        ('null-hound', 'Null Hound', 'void', 'A dog-shaped hole in the world. It still wags. Nobody knows what with.', [P('bite', 'Empty Bite'), A('hollow-howl', 'Hollow Howl', 2, 0.6, 'hollow', 0.5), BUFF('vanish', 'Vanish', 'fade')]),
        ('comet-lizard', 'Comet Lizard', 'aether', 'Runs so fast it leaves a trail of sparkles. It has never once stopped to see them.', [P('tail-whip', 'Tail Whip'), BIG('comet-dash', 'Comet Dash', 'silence', 0.4), BUFF('sparkle', 'Sparkle', 'fury')]),
-       ('hollow-coat', 'Hollow Coat', 'void', 'A long coat with nobody inside. It would very much like yours.', [P('sleeve-slap', 'Sleeve Slap'), A('pocket-grab', 'Pocket Grab', 2, 0.6, 'hollow', 0.5), HEAL('patch-up', 'Patch Up', 0.15)]),
+       ('empty-coat', 'Empty Coat', 'void', 'A long coat with nobody inside. It would very much like yours.', [P('sleeve-slap', 'Sleeve Slap'), A('pocket-grab', 'Pocket Grab', 2, 0.6, 'hollow', 0.5), HEAL('patch-up', 'Patch Up', 0.15)]),
        ('orbit-jelly', 'Orbit Jelly', 'aether', 'A jellyfish floating in starlight, with three tiny moons circling it like pets.', [P('sting', 'Sting'), A('moon-toss', 'Moon Toss', 2, 0.7, 'silence', 0.4), HEAL('glow-mend', 'Glow Mend', 0.15)]),
        ('gloam-stalker', 'Gloam Stalker', 'void', 'A great cat made of the dark between stars. You only see it when it blinks.', [P('claw', 'Night Claw'), BIG('pounce', 'Gloam Pounce', 'hollow', 0.5), BUFF('fade-out', 'Fade Out', 'fade'), HEAL('lick', 'Lick Wounds', 0.2)]),
        ('nyxaris', 'Nyxaris', 'aether', 'A dragon whose wings are half a night sky and half nothing at all. She has been guarding the rift since before there were stars to count.', [P('rake', 'Starclaw'), A('starfall', 'Starfall Breath', 2, 0.8, 'silence', 0.6), BIG('rift-roar', 'Rift Roar'), SHIFT('night-turn', 'Turn to Night', 'void'), BUFF('star-scales', 'Star Scales', 'harden'), HEAL('drink-light', 'Drink the Light', 0.12)])],
@@ -74,7 +74,7 @@ AREAS = [
         "You calmed them. I'll help them back up, one at a time. It's a long ladder.", {"xp": 3600, "gold": 2800, "items": {"mana-tonic": 2}}, None),
        ('the-empty-dogs', 'The Empty Dogs', 'Null Hounds have been sniffing around the observatory. Where they walk, things go missing.', [
          (["My telescope is gone. My chair is gone. Half my sandwich is gone. Only half!"], 'Stargazer Ilo', ['null-hound'], "Something dog-shaped and empty pads out from behind the observatory, wagging nothing."),
-         ([], None, ['null-hound', 'hollow-coat'], "A coat with nobody in it floats along behind, sleeves full of telescope.")],
+         ([], None, ['null-hound', 'empty-coat'], "A coat with nobody in it floats along behind, sleeves full of telescope.")],
         "Everything is back. Except the sandwich. I don't want to know.", {"xp": 3700, "gold": 2600},
         ("The last Null Hound sits and looks at you. Something in the emptiness looks sad.",
          ('name', "Give it a name", "You call it Nothing. It wags so hard it almost becomes something. Ilo shares a bundle of supplies with you.", {"items": {"dragon-treat": 3}, "gold": 1100}, 'gentle'),
@@ -84,7 +84,7 @@ AREAS = [
          ([], None, ['comet-lizard', 'star-mote'], "A star mote hitches a ride on the next lizard's tail.")],
         "They've stopped. The rift is closing up a bit. You can almost hear it sigh.", {"xp": 3800, "gold": 3000, "materials": {"ore": 6, "crystal": 3}}, None),
        ('the-gloam-stalker', 'The Gloam Stalker', 'Something hunts in the dark between the stars. Ilo has only ever seen its eyes.', [
-         ([], None, ['hollow-coat', 'orbit-jelly'], "The stars go out one by one as you walk."),
+         ([], None, ['empty-coat', 'orbit-jelly'], "The stars go out one by one as you walk."),
          (["You can see me. Nobody sees me. That's rude."], 'Gloam Stalker', ['gloam-stalker'], "Two eyes open in the dark ahead. Then the dark stands up, and it's shaped like a very large cat.")],
         "It's gone back into the dark. I think it was only lonely. Now there's only her.", {"xp": 3900, "gold": 3200, "embers": 5},
         ("The Gloam Stalker comes back and rubs against your dragon, purring like distant thunder.",
@@ -94,7 +94,7 @@ AREAS = [
          (["She's very old and very tired. Be kind. But be ready."], 'Stargazer Ilo', ['null-hound', 'gloam-stalker'], "The last shadows of the rift gather to bar your way."),
          (["Light, then dark. Dark, then light. I have held them apart so long. Show me you can hold on too."], 'Nyxaris', ['nyxaris'], "A great dragon unfolds from the rift. One wing is full of stars. The other is not there at all, and yet it moves.")],
         "Nyxaris folds both wings, the bright one and the empty one, and lowers her head. The rift stitches itself closed. Ilo counts every star in the sky, and for the first time in weeks, none of them fall.", {"xp": 5000, "gold": 5400, "embers": 14}, None)],
-      bounty=[('mote-home', 'Send 5 Star Motes home', 'star-mote', 5), ('null-hound-walk', 'Walk 4 Null Hounds back to the rift', 'null-hound', 4), ('lizard-stop', 'Stop 4 Comet Lizards', 'comet-lizard', 4), ('coat-hang', 'Hang up 3 Hollow Coats', 'hollow-coat', 3), ('jelly-count', 'Count the moons of 3 Orbit Jellies', 'orbit-jelly', 3)],
+      bounty=[('mote-home', 'Send 5 Star Motes home', 'star-mote', 5), ('null-hound-walk', 'Walk 4 Null Hounds back to the rift', 'null-hound', 4), ('lizard-stop', 'Stop 4 Comet Lizards', 'comet-lizard', 4), ('coat-hang', 'Hang up 3 Empty Coats', 'empty-coat', 3), ('jelly-count', 'Count the moons of 3 Orbit Jellies', 'orbit-jelly', 3)],
       place='rift'),
 ]
 

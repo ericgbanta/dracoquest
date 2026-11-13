@@ -23,6 +23,7 @@ import questsJson from '../data/quests.json';
 import shopJson from '../data/shop.json';
 import roostJson from '../data/roost.json';
 import eventsJson from '../data/events.json';
+import { canMix } from './eggs';
 import type {
   CombatData, ElementsData, EnemyData, GameData, GearData, ItemData, ProgressionData, QuestData, ShopData, StatusData, StatusId,
   BountiesData, EventData, ForgeData, GearSetData, RegionsData, RoostData, StoryData, StoryReward, TalentsData, ZoneData,
@@ -104,6 +105,7 @@ export function loadGameData(raw: RawData): GameData {
   for (const e of enemyList) {
     if (enemies[e.id]) throw new DataError(`enemies: duplicate id "${e.id}"`);
     if (!elementIds.has(e.element)) throw new DataError(`enemies.${e.id}: unknown element "${e.element}"`);
+    if (e.element2 !== undefined && !canMix(elements, e.element, e.element2)) throw new DataError(`enemies.${e.id}: ${e.element} and "${e.element2}" can't mix`);
     requireNumbers(`enemies.${e.id}.base`, e.base, stats);
     requireNumbers(`enemies.${e.id}.perLevel`, e.perLevel, stats);
     if (!Array.isArray(e.moves) || e.moves.length === 0) throw new DataError(`enemies.${e.id}: no moves`);
@@ -111,6 +113,7 @@ export function loadGameData(raw: RawData): GameData {
       if (m.status && !statuses[m.status]) throw new DataError(`enemies.${e.id}.${m.id}: unknown status "${m.status}"`);
       if (m.buff && !statuses[m.buff]) throw new DataError(`enemies.${e.id}.${m.id}: unknown buff "${m.buff}"`);
       if (m.shiftTo && !elementIds.has(m.shiftTo)) throw new DataError(`enemies.${e.id}.${m.id}: unknown element`);
+      if (m.shiftTo2 && !(m.shiftTo && canMix(elements, m.shiftTo, m.shiftTo2))) throw new DataError(`enemies.${e.id}.${m.id}: bad hybrid shift`);
     }
     enemies[e.id] = e;
   }

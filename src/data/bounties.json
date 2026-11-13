@@ -1316,12 +1316,12 @@
         "id": "coat-hang",
         "kind": "defeat",
         "count": 3,
-        "text": "Hang up 3 Hollow Coats",
+        "text": "Hang up 3 Empty Coats",
         "reward": {
           "gold": 1540,
           "embers": 1
         },
-        "enemy": "hollow-coat"
+        "enemy": "empty-coat"
       },
       {
         "id": "jelly-count",

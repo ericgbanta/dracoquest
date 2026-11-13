@@ -4,13 +4,13 @@
  */
 import { breathReady, comboAvailable, enemyMove, livingEnemies, skillReady, type BattleState, type Orders } from './battle';
 import { talentById } from './loadout';
-import { elementMultiplier } from './elements';
+import { defenseMultiplier } from './elements';
 import { knownSpells, spellById } from './spells';
 import type { ElementId, GameData, SpellData } from './types';
 
-/** How well a damage spell does against an element: base power times the element multiplier. */
-function spellScore(data: GameData, s: SpellData, element: ElementId | null, resist?: Partial<Record<ElementId, number>>): number {
-  return s.base * elementMultiplier(data.elements, s.element ?? null, element, resist);
+/** How well a damage spell does against a defender (hybrids included): base power times the element multiplier. */
+function spellScore(data: GameData, s: SpellData, defender: Parameters<typeof defenseMultiplier>[2]): number {
+  return s.base * defenseMultiplier(data.elements, s.element ?? null, defender);
 }
 
 /**
@@ -20,7 +20,7 @@ function spellScore(data: GameData, s: SpellData, element: ElementId | null, res
 export function suggestedLoadout(data: GameData, level: number, zoneElement: ElementId | null): string[] {
   const known = knownSpells(data, level);
   const heal = known.filter((s) => s.kind === 'heal').sort((a, b) => b.base - a.base)[0];
-  const damage = known.filter((s) => s.kind === 'damage').sort((a, b) => spellScore(data, b, zoneElement) - spellScore(data, a, zoneElement));
+  const damage = known.filter((s) => s.kind === 'damage').sort((a, b) => spellScore(data, b, { element: zoneElement }) - spellScore(data, a, { element: zoneElement }));
   const buff = known.find((s) => s.kind === 'buff');
   const picks = [heal, damage[0], buff, damage[1], damage[2]].filter((s): s is SpellData => !!s);
   return [...new Set(picks.map((s) => s.id))].slice(0, data.progression.spellLoadoutSize);
@@ -52,7 +52,7 @@ export function autoOrders(data: GameData, state: BattleState): Orders {
   const neutral = data.elements.multipliers.neutral;
   const damage = loadout
     .filter((x) => x.kind === 'damage' && rider.mp >= x.mp + reserve)
-    .map((x) => ({ x, score: spellScore(data, x, target.element, target.resist) }))
+    .map((x) => ({ x, score: spellScore(data, x, target) }))
     .sort((a, b) => b.score - a.score)[0];
   const warded = rider.statuses.some((x) => x.id === 'ward');
 
