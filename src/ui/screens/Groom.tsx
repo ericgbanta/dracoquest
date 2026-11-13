@@ -42,7 +42,7 @@ export function Groom({ dragon, onDone }: { dragon: DragonState; onDone(taps: nu
         {!started ? 'Tap the sparkles to scratch the itchy spots!' : finished ? `Done! ${taps} scratches.` : `${left}s left · ${taps} scratches`}
       </p>
       <div class="groom-area">
-        <DragonSprite element={dragon.element} element2={dragon.element2} variant={dragon.variant} stage={dragon.stage} primary={dragon.colors.primary} secondary={dragon.colors.secondary} size={220} />
+        <DragonSprite element={dragon.element} element2={dragon.element2} variant={dragon.variant} breed={dragon.breed} stage={dragon.stage} primary={dragon.colors.primary} secondary={dragon.colors.secondary} size={220} />
         {!finished && spots.map((s) => (
           <button key={s.id} type="button" class="groom-spot" style={{ left: `${s.x}%`, top: `${s.y}%` }}
             aria-label="Scratch here" onClick={() => hit(s.id)} data-testid="groom-spot">✦</button>

@@ -297,3 +297,21 @@ describe('breeds', () => {
     expect(eggName(data, { ...plainEgg('aether'), breed: 'wyvern' })).toBe('Wyvern Starlit Egg');
   });
 });
+
+describe('the Wyrm', () => {
+  it('leans to Spirit, fills its breath faster, and its Coil stops the target dodging', () => {
+    const w = { ...hatchDragon(data, createRng(1), { id: 'w', name: 'Noodle', element: 'tide', breed: 'wyrm', colors: { primary: '#f00', secondary: '#000' }, now: 0 }), level: 20, stage: 'juvenile' };
+    const d = hatchDragon(data, createRng(1), { id: 'd', name: 'Pip', element: 'tide', colors: { primary: '#f00', secondary: '#000' }, now: 0 });
+    expect(w.stats.spirit).toBe(d.stats.spirit + 2);
+    expect(w.stats.might).toBe(d.stats.might - 1);
+    expect(learnedSkills(data, w).map((t) => t.id)).toEqual(['wyrm-coil']);
+    let rooted = false;
+    for (let seed = 1; seed <= 20 && !rooted; seed++) {
+      const s = createBattle(data, { rider: newRider(data, 'Ash'), dragon: w, enemies: [{ enemyId: 'bramble-troll', level: 10 }], seed, canFlee: true });
+      const r = resolveRound(data, s, { rider: { type: 'defend' }, dragon: { type: 'skill', skill: 'wyrm-coil', target: 'e0' } });
+      rooted = r.events.some((e) => e.t === 'status' && e.status === 'root' && e.target === 'e0');
+    }
+    expect(rooted).toBe(true);
+    expect(data.zones.find((z) => z.id === 'voidmarch')!.eggDrop!.breed).toBe('wyrm');
+  });
+});

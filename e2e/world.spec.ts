@@ -358,3 +358,32 @@ test('the Starwarden boss fight shows the boss art', async ({ page }) => {
   await page.waitForTimeout(600);
   await page.screenshot({ path: 'test-results/starglass-boss.png' });
 });
+
+test('Voidmarch opens at level 40 after the Starwarden, and its fights use the Voidmarch art', async ({ page }) => {
+  await load(page, 'elder.json', (s) => {
+    s.bossesDefeated = ['mossy-hollow', 'saltmarsh-shore', 'cinder-pass', 'thunderspire', 'starglass-hollow'];
+    s.rider.level = 41;
+  });
+  await page.getByTestId('tab-map').tap();
+  await mapView(page, 'list');
+  await mapRegion(page, 'The Hidden Reach');
+  await page.getByTestId('start-voidmarch').tap();
+  await expect(page.locator('[data-testid=stage]:not(.stage--loading)')).toBeVisible();
+  const march = /(rift-mite|shardhorn-goat|gloom-gulper|rubble-crab|echo-bat)-[^/]*\.webp/;
+  await expect.poll(async () => (await page.locator('[data-testid=stage] img').evaluateAll((els) => els.map((e) => (e as HTMLImageElement).src))).some((src) => march.test(src))).toBe(true);
+  await page.waitForTimeout(600);
+  await page.screenshot({ path: 'test-results/voidmarch-fight.png' });
+});
+
+test('the Nullmaw boss fight shows the boss art', async ({ page }) => {
+  await load(page, 'elder.json', (s) => {
+    s.bossesDefeated = ['mossy-hollow', 'saltmarsh-shore', 'cinder-pass', 'thunderspire', 'starglass-hollow'];
+    s.rider.level = 49;
+    s.run = { zoneId: 'voidmarch', fights: [{ kind: 'boss', enemies: [{ enemyId: 'nullmaw', level: 50 }] }], index: 0, battle: null, totals: { xp: 0, gold: 0, drops: {} } };
+  });
+  await page.getByTestId('next-fight').tap();
+  await expect(page.locator('[data-testid=stage]:not(.stage--loading)')).toBeVisible();
+  await expect.poll(async () => (await page.locator('[data-testid=stage] img').evaluateAll((els) => els.map((e) => (e as HTMLImageElement).src))).some((src) => /nullmaw-[^/]*\.webp/.test(src))).toBe(true);
+  await page.waitForTimeout(600);
+  await page.screenshot({ path: 'test-results/voidmarch-boss.png' });
+});

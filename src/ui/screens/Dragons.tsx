@@ -64,7 +64,7 @@ export function Dragons({ save, update }: Props) {
           {save.dragons.map((x) => (
             <button key={x.id} type="button" role="tab" aria-selected={x.id === d.id} class={`pick${x.id === d.id ? ' pick--on' : ''}`}
               onClick={() => { setSelectedId(x.id); setNotice(''); }} data-testid={`dpick-${x.name}`}>
-              <DragonSprite element={x.element} element2={x.element2} variant={x.variant} stage={x.stage} primary={x.colors.primary} secondary={x.colors.secondary} size={40} />
+              <DragonSprite element={x.element} element2={x.element2} variant={x.variant} breed={x.breed} stage={x.stage} primary={x.colors.primary} secondary={x.colors.secondary} size={40} />
               <span>{x.name}</span>
               {x.id === lead.id ? <span class="pick-tag">Lead</span> : x.id === second?.id ? <span class="pick-tag">Second</span> : x.assignment.kind !== 'idle' ? <span class="pick-tag">{x.assignment.kind === 'training' ? 'Training' : 'Away'}</span> : null}
             </button>
@@ -93,7 +93,7 @@ export function Dragons({ save, update }: Props) {
       )}
       {tab === 'overview' && <>
       <div class="card dragon-sheet">
-        <DragonSprite element={d.element} element2={d.element2} variant={d.variant} stage={d.stage} primary={d.colors.primary} secondary={d.colors.secondary} size={140} class="idle" />
+        <DragonSprite element={d.element} element2={d.element2} variant={d.variant} breed={d.breed} stage={d.stage} primary={d.colors.primary} secondary={d.colors.secondary} size={140} class="idle" />
         <div>
           <h2>{d.name}</h2>
           <p class="muted">{stage?.name}{d.breed !== 'dragon' ? ` ${data.dragons.breeds[d.breed]?.name ?? ''}` : ''} · Level {d.level} <ElementBadge element={d.element} element2={d.element2} small /> {d.variant && <VariantBadge variant={d.variant} />}</p>

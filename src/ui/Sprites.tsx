@@ -10,6 +10,8 @@ interface DragonSpriteProps {
   element2?: ElementId | null;
   /** A rare finish. */
   variant?: VariantId | null;
+  /** Body shape: its own painted art when the manifest has it. */
+  breed?: string;
   stage: string;
   primary: string;
   secondary: string;
@@ -23,8 +25,8 @@ interface DragonSpriteProps {
  * A dragon in the player's colors. Uses the gray base sprite from the
  * manifest, tinted at runtime, or a placeholder shape if the art is missing.
  */
-export function DragonSprite({ element, element2, variant, stage, primary, secondary, size = 160, class: cls = '', plain }: DragonSpriteProps) {
-  const rig = useDragonRig(plain ? null : { element, element2, variant, stage, colors: { primary, secondary } });
+export function DragonSprite({ element, element2, variant, breed, stage, primary, secondary, size = 160, class: cls = '', plain }: DragonSpriteProps) {
+  const rig = useDragonRig(plain ? null : { element, element2, variant, breed, stage, colors: { primary, secondary } });
   const url = useSprite(`dragon.${element}.${stage}`);
   if (rig) {
     return (

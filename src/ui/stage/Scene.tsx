@@ -137,5 +137,5 @@ export function Scene({ backdrop, plainColor, actors, aspect = '16 / 11', focus 
 
 /** A dragon actor, drawn from its rig or the placeholder shape. */
 export function dragonFallback(d: Look) {
-  return <DragonSprite element={d.element} element2={d.element2} variant={d.variant} stage={d.stage} primary={d.colors.primary} secondary={d.colors.secondary} size={120} plain />;
+  return <DragonSprite element={d.element} element2={d.element2} variant={d.variant} breed={d.breed} stage={d.stage} primary={d.colors.primary} secondary={d.colors.secondary} size={120} plain />;
 }

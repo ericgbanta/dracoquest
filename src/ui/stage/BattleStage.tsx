@@ -89,7 +89,7 @@ export function BattleStage({ save, battle, zoneId, zoneElement, targets, onTarg
   const ready = !!art;
   const party = parties[ride ? (two ? 'rideDuo' : 'ride') : (two ? 'duo' : 'solo')]!;
   const riderFallback = <RiderPlaceholder />;
-  const dragonFallback = (d: DragonState) => <DragonSprite element={d.element} element2={d.element2} variant={d.variant} stage={d.stage} primary={d.colors.primary} secondary={d.colors.secondary} size={120} plain />;
+  const dragonFallback = (d: DragonState) => <DragonSprite element={d.element} element2={d.element2} variant={d.variant} breed={d.breed} stage={d.stage} primary={d.colors.primary} secondary={d.colors.secondary} size={120} plain />;
 
   const fighters: StageFighter[] = [];
   if (two && battle.second && party.dragon2) {

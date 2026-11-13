@@ -218,7 +218,7 @@ function Hatching({ element, element2 = null, variant = null, breed = 'dragon', 
   }, [!!art]);
   const dragon = rig
     ? <RigView rig={rig} facing="right" />
-    : <DragonSprite element={element} element2={element2} variant={variant} stage="hatchling" primary={primary} secondary={secondary} size={150} />;
+    : <DragonSprite element={element} element2={element2} variant={variant} breed={breed} stage="hatchling" primary={primary} secondary={secondary} size={150} />;
   return (
     <div class="hatch-preview hatch-scene" data-testid="hatch-scene">
       <div class="hatch-baby" ref={baby}>{dragon}</div>
