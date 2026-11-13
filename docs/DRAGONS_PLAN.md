@@ -96,6 +96,21 @@ Each area follows the recipe in `docs/HANDOFF.md` ("How to add an area"): 5 enem
 
 The Map gets two new regions in `regions.json`, each with a painted map (1 generation each, `jobs8.py` is the pattern). The Hidden Reach sits next to the High Lands, and the Elder Wilds next to Beyond the Peak.
 
+## Chunks (Eric's grouping, 2026-11-13)
+
+The phases ship in chunks. Each chunk ends with something to play on the phone, so it's the natural point to deploy.
+
+| Chunk | Phases | Codex generations | What it gives |
+| --- | --- | --- | --- |
+| 1. Groundwork | E0 | 0 | Room for 10 dragons, eggs returned to the wild for embers, the save and engine ready for what follows |
+| 2. The Roost grows | E1, E3 | 0 | Rare finishes, breeding, hybrids |
+| 3. The Hidden Reach | E2, E4, E5 | 29 (about 17) | The new map with Starglass Hollow and Voidmarch, Aether and Void, the Wyvern and the Wyrm |
+| 4. Level 60 | W5, E8 | 5 | The cap goes to 60 and a third dragon joins fights at 60 |
+| 5. The ring grows | E6, E7 | 5 | Blight and Steel, the rebalance, Rotroot Thicket |
+| 6 to 9. One level band each | W6 and E9, W7 and E10, W8 and E11, W9 and E12 | 11, 10, 10, 18 | Each raises the cap by 10 and opens two areas at those levels |
+
+Fixed order: E0 first, W5 before anything above level 50. Chunks 2 and 3 can swap, and so can 4 and 5 (E7 waits for both).
+
 ## Phases
 
 One at a time, each tested and committed. Deploy when Eric says.
