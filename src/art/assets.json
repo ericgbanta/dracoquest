@@ -8512,6 +8512,1008 @@
           ]
         }
       ]
+    },
+    "enemy.star-sprite": {
+      "size": [
+        365,
+        378
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.93,
+          0.4
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/star-sprite.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/star-sprite-attack.webp",
+              "box": [
+                0.0808,
+                0.1111,
+                1.126,
+                0.8889
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.dusk-moth": {
+      "size": [
+        400,
+        337
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.93,
+          0.4
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/dusk-moth.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/dusk-moth-attack.webp",
+              "box": [
+                0.0184,
+                0.0231,
+                1.0075,
+                0.9765
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.meteor-tortoise": {
+      "size": [
+        400,
+        303
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.93,
+          0.4
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/meteor-tortoise.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/meteor-tortoise-attack.webp",
+              "box": [
+                -0.0021,
+                0.0168,
+                1.165,
+                0.9843
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.nightcap-owl": {
+      "size": [
+        359,
+        400
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.93,
+          0.4
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/nightcap-owl.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/nightcap-owl-attack.webp",
+              "box": [
+                0.1974,
+                0.1142,
+                1.0892,
+                0.885
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.comet-ferret": {
+      "size": [
+        400,
+        233
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.93,
+          0.4
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/comet-ferret.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/comet-ferret-attack.webp",
+              "box": [
+                0.3425,
+                0.003,
+                0.965,
+                0.996
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.eclipse-sentinel": {
+      "size": [
+        370,
+        400
+      ],
+      "boxScale": 0.65,
+      "points": {
+        "mouth": [
+          0.93,
+          0.4
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/eclipse-sentinel.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/eclipse-sentinel-attack.webp",
+              "box": [
+                0.0606,
+                0.129,
+                1.4044,
+                0.87
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.vesperax": {
+      "size": [
+        720,
+        475
+      ],
+      "boxScale": 1.1,
+      "points": {
+        "mouth": [
+          0.9,
+          0.3
+        ],
+        "hit": [
+          0.6,
+          0.55
+        ],
+        "front": [
+          0.92,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/vesperax.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/vesperax-attack.webp",
+              "box": [
+                0.2669,
+                -0.003,
+                1.0194,
+                1.0038
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.wisp-drake": {
+      "size": [
+        391,
+        354
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.93,
+          0.4
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/wisp-drake.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/wisp-drake-attack.webp",
+              "box": [
+                0.0217,
+                0.0565,
+                1.0921,
+                0.9435
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.rustback-beetle": {
+      "size": [
+        400,
+        251
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.93,
+          0.4
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/rustback-beetle.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/rustback-beetle-attack.webp",
+              "box": [
+                -0.0333,
+                0.0232,
+                1.0675,
+                0.9755
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.moldwing-bat": {
+      "size": [
+        400,
+        300
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.93,
+          0.4
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/moldwing-bat.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/moldwing-bat-attack.webp",
+              "box": [
+                0.0867,
+                0.0958,
+                1.1625,
+                0.9027
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.hush-fox": {
+      "size": [
+        400,
+        368
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.93,
+          0.4
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/hush-fox.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/hush-fox-attack.webp",
+              "box": [
+                -0.0144,
+                0.0425,
+                1.0175,
+                0.9568
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.relic-golem": {
+      "size": [
+        392,
+        400
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.93,
+          0.4
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/relic-golem.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/relic-golem-attack.webp",
+              "box": [
+                -0.0156,
+                0.115,
+                1.1442,
+                0.885
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.mossback-keeper": {
+      "size": [
+        400,
+        333
+      ],
+      "boxScale": 0.65,
+      "points": {
+        "mouth": [
+          0.93,
+          0.4
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/mossback-keeper.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/mossback-keeper-attack.webp",
+              "box": [
+                -0.0213,
+                0.0022,
+                1.0325,
+                0.9978
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.ossarion": {
+      "size": [
+        720,
+        440
+      ],
+      "boxScale": 1.1,
+      "points": {
+        "mouth": [
+          0.9,
+          0.3
+        ],
+        "hit": [
+          0.6,
+          0.55
+        ],
+        "front": [
+          0.92,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/ossarion.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/ossarion-attack.webp",
+              "box": [
+                0.001,
+                -0.0283,
+                1.0028,
+                1.0278
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "behemoth.hatchling": {
+      "size": [
+        710,
+        464
+      ],
+      "tint": "dragon",
+      "boxScale": 0.6,
+      "points": {
+        "mouth": [
+          0.97,
+          0.42
+        ],
+        "hit": [
+          0.6,
+          0.6
+        ],
+        "front": [
+          0.92,
+          0.65
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/behemoth-hatchling.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/behemoth-hatchling-attack.webp",
+              "box": [
+                -0.1021,
+                0.1004,
+                1.1634,
+                0.9
+              ],
+              "tip": {
+                "at": [
+                  0.152,
+                  0.584
+                ],
+                "width": 0.09,
+                "rotate": -75
+              }
+            }
+          ]
+        }
+      ],
+      "tip": {
+        "file": "painted/tips/{element}.webp",
+        "at": [
+          0.156,
+          0.685
+        ],
+        "width": 0.1,
+        "rotate": -75
+      }
+    },
+    "behemoth.juvenile": {
+      "size": [
+        710,
+        407
+      ],
+      "tint": "dragon",
+      "boxScale": 0.88,
+      "points": {
+        "mouth": [
+          0.97,
+          0.42
+        ],
+        "hit": [
+          0.6,
+          0.6
+        ],
+        "front": [
+          0.92,
+          0.65
+        ],
+        "saddle": [
+          0.5,
+          0.4
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/behemoth-juvenile.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/behemoth-juvenile-attack.webp",
+              "box": [
+                -0.0601,
+                0.0736,
+                1.1408,
+                0.9259
+              ],
+              "tip": {
+                "at": [
+                  0.15,
+                  0.629
+                ],
+                "width": 0.09,
+                "rotate": -75
+              }
+            }
+          ]
+        }
+      ],
+      "tip": {
+        "file": "painted/tips/{element}.webp",
+        "at": [
+          0.151,
+          0.727
+        ],
+        "width": 0.1,
+        "rotate": -75
+      }
+    },
+    "behemoth.adult": {
+      "size": [
+        710,
+        417
+      ],
+      "tint": "dragon",
+      "boxScale": 0.95,
+      "points": {
+        "mouth": [
+          0.97,
+          0.42
+        ],
+        "hit": [
+          0.6,
+          0.6
+        ],
+        "front": [
+          0.92,
+          0.65
+        ],
+        "saddle": [
+          0.5,
+          0.4
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/behemoth-adult.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/behemoth-adult-attack.webp",
+              "box": [
+                -0.0126,
+                0.0101,
+                1.0789,
+                0.9901
+              ],
+              "tip": {
+                "at": [
+                  0.155,
+                  0.661
+                ],
+                "width": 0.09,
+                "rotate": -75
+              }
+            }
+          ]
+        }
+      ],
+      "tip": {
+        "file": "painted/tips/{element}.webp",
+        "at": [
+          0.149,
+          0.729
+        ],
+        "width": 0.1,
+        "rotate": -75
+      }
+    },
+    "behemoth.elder": {
+      "size": [
+        710,
+        391
+      ],
+      "tint": "dragon",
+      "boxScale": 1.02,
+      "points": {
+        "mouth": [
+          0.97,
+          0.42
+        ],
+        "hit": [
+          0.6,
+          0.6
+        ],
+        "front": [
+          0.92,
+          0.65
+        ],
+        "saddle": [
+          0.5,
+          0.4
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/behemoth-elder.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/behemoth-elder-attack.webp",
+              "box": [
+                0.016,
+                0.021,
+                1.0493,
+                0.9783
+              ],
+              "tip": {
+                "at": [
+                  0.156,
+                  0.7
+                ],
+                "width": 0.09,
+                "rotate": -75
+              }
+            }
+          ]
+        }
+      ],
+      "tip": {
+        "file": "painted/tips/{element}.webp",
+        "at": [
+          0.148,
+          0.76
+        ],
+        "width": 0.1,
+        "rotate": -75
+      }
     }
   },
   "backdrops": {
@@ -8782,6 +9784,28 @@
       "ambient": {
         "kind": "rise",
         "color": "#f4f0ea"
+      }
+    },
+    "starfall-summit": {
+      "layers": [
+        {
+          "file": "painted/backdrops/starfall-summit.webp"
+        }
+      ],
+      "ambient": {
+        "kind": "fall",
+        "color": "#ffe28a"
+      }
+    },
+    "dragonsrest": {
+      "layers": [
+        {
+          "file": "painted/backdrops/dragonsrest.webp"
+        }
+      ],
+      "ambient": {
+        "kind": "rise",
+        "color": "#c9b6ff"
       }
     }
   },

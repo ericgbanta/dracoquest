@@ -4,10 +4,11 @@ import { readFileSync } from 'node:fs';
 
 const NOW = 1794355200000; // the fixtures' save time
 
-async function load(page: Page, fixture: string, hash = '#/roost') {
+async function load(page: Page, fixture: string, hash = '#/roost', change?: (save: { dragons: { name: string; breed: string }[] }) => void) {
   await page.clock.install({ time: new Date(NOW) });
   await page.goto('./');
-  const save = readFileSync(`e2e/fixtures/${fixture}`, 'utf8');
+  let save = readFileSync(`e2e/fixtures/${fixture}`, 'utf8');
+  if (change) { const s = JSON.parse(save); change(s); save = JSON.stringify(s); }
   await page.evaluate((s) => localStorage.setItem('dracoquest.save', s), save);
   await page.goto(`./${hash}`);
   await page.reload();
@@ -141,6 +142,34 @@ test('a Wyvern shows its own painted body, its breed and its signature skill', a
   await expect.poll(async () => (await page.locator('.dragon-sheet img').evaluateAll((els) => els.map((e) => (e as HTMLImageElement).src))).length).toBeGreaterThan(0);
   await page.waitForTimeout(500);
   await page.screenshot({ path: 'test-results/dragons-wyvern.png' });
+});
+
+test('a Behemoth shows its painted body and Brace, and braces for the party in a fight', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 667 });
+  const behemoth = (s: { dragons: { name: string; breed: string }[] }) => { s.dragons.find((d) => d.name === 'Mist')!.breed = 'behemoth'; };
+  await load(page, 'nest.json', '#/dragons', behemoth);
+  await page.getByTestId('dpick-Mist').scrollIntoViewIfNeeded();
+  await page.getByTestId('dpick-Mist').tap();
+  await expect(page.locator('.dragon-sheet')).toContainText('Behemoth');
+  await expect(page.getByTestId('signature-skill')).toContainText('Brace');
+  // The body is recolored into a blob URL, so look for the Behemoth rig's own shape (adult 710 x 417, elder 710 x 391).
+  const behemothRig = (scope: string) => page.locator(`${scope} .rig[style*="710 / 417"], ${scope} .rig[style*="710 / 391"]`).first();
+  await expect(behemothRig('.dragon-sheet')).toBeVisible();
+  await page.waitForTimeout(500);
+  await page.screenshot({ path: 'test-results/dragons-behemoth.png' });
+  // In battle (Mist is the third partner): the stage draws the Behemoth, and Brace is a skill it can use.
+  await load(page, 'trio-fight.json', '#/roost', behemoth);
+  await page.getByTestId('next-fight').tap();
+  await expect(page.locator('[data-testid=stage]:not(.stage--loading)')).toBeVisible();
+  await expect(behemothRig('[data-testid=stage]')).toBeVisible();
+  await page.getByTestId('act3-skill').tap();
+  await page.getByTestId('skill3-behemoth-brace').tap();
+  await page.getByTestId('go').tap();
+  await expect(page.getByTestId('go')).toBeEnabled({ timeout: 20_000 });
+  const s = await saved(page);
+  expect(s.run.battle.third.cooldowns['behemoth-brace']).toBeGreaterThan(0);
+  await page.waitForTimeout(600);
+  await page.screenshot({ path: 'test-results/behemoth-stage.png' });
 });
 
 test('three dragons fight together from rider level 60: three order rows, all three on the stage', async ({ page }) => {

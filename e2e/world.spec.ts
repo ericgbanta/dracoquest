@@ -73,31 +73,32 @@ test('the Map shows one painted region at a time, with pins, and teases the next
   await page.waitForTimeout(400);
   await page.screenshot({ path: 'test-results/world-map-hidden-reach.png' });
 
-  // And Beyond the Peak: Sunken Spires (locked at level 15) and the next teaser.
+  // And Beyond the Peak: Sunken Spires (locked at level 15) up to Starfall Summit. Every planned area is built, so no teasers.
   await page.getByTestId('map-next').tap();
   await expect(page.getByTestId('map-region-name')).toHaveText('Beyond the Peak');
   await expect(page.getByTestId('pin-sunken-spires')).toHaveAttribute('aria-label', /Opens at rider level 50/);
   await expect(page.getByTestId('pin-emberwild')).toBeVisible();
   await expect(page.getByTestId('pin-skyreach-isles')).toHaveAttribute('aria-label', /Opens at rider level 70/);
   await expect(page.getByTestId('pin-hollow-crown')).toHaveAttribute('aria-label', /Opens at rider level 80/);
-  await page.getByTestId('pin-teaser').tap();
-  await expect(page.locator('.sheet [data-testid=zone-teaser]')).toContainText('Arrives in a future update');
+  await expect(page.getByTestId('pin-starfall-summit')).toHaveAttribute('aria-label', /Opens at rider level 90/);
+  await expect(page.getByTestId('pin-teaser')).toHaveCount(0);
   await page.waitForTimeout(400);
   await page.screenshot({ path: 'test-results/world-map-beyond.png' });
-  await page.keyboard.press('Escape');
   await mapView(page, 'list');
-  const teaser = page.getByTestId('region-beyond').getByTestId('zone-teaser');
-  await expect(teaser).toContainText('Starfall Summit');
-  await expect(teaser).toContainText('Opens at level 90, after you beat the Hollow King');
+  await expect(page.getByTestId('zone-starfall-summit')).toContainText('Opens at rider level 90, after you beat the Hollow King');
+  await expect(page.getByTestId('zone-teaser')).toHaveCount(0);
+  await page.waitForTimeout(400);
+  await page.screenshot({ path: 'test-results/world-list-beyond.png' });
 
-  // The Elder Wilds: the Steelspine Range, Twilight Rift, The Confluence and the Dragonsrest teaser. It's the last region.
+  // The Elder Wilds: the Steelspine Range, Twilight Rift, The Confluence and Dragonsrest. It's the last region.
   await mapView(page, 'map');
   await page.getByTestId('map-next').tap();
   await expect(page.getByTestId('map-region-name')).toHaveText('The Elder Wilds');
   await expect(page.getByTestId('pin-steelspine-range')).toBeVisible();
   await expect(page.getByTestId('pin-twilight-rift')).toBeVisible();
   await expect(page.getByTestId('pin-the-confluence')).toBeVisible();
-  await expect(page.getByTestId('pin-teaser')).toBeVisible();
+  await expect(page.getByTestId('pin-dragonsrest')).toHaveAttribute('aria-label', /Opens at rider level 90/);
+  await expect(page.getByTestId('pin-teaser')).toHaveCount(0);
   await expect(page.getByTestId('map-next')).toBeDisabled();
   await page.waitForTimeout(400);
   await page.screenshot({ path: 'test-results/world-map-elder.png' });
@@ -440,6 +441,8 @@ const AREAS: [string, string, string[], string, string, number, string[]][] = [
   ['twilight-rift', 'The Elder Wilds', ['star-mote', 'null-hound', 'comet-lizard', 'empty-coat', 'orbit-jelly'], 'nyxaris', 'steelspine-range', 70, ['starglass-hollow', 'voidmarch', 'rotroot-thicket']],
   ['hollow-crown', 'Beyond the Peak', ['crown-mole', 'lantern-wraith', 'gemback-armadillo', 'shadow-jester', 'pillar-knight'], 'hollow-king', 'skyreach-isles', 80, ['frostmere', 'eclipse-peak', 'sunken-spires', 'emberwild']],
   ['the-confluence', 'The Elder Wilds', ['scald-puff', 'magma-crab', 'glacier-seal', 'monsoon-heron', 'brimstone-newt'], 'seethe', 'twilight-rift', 80, ['starglass-hollow', 'voidmarch', 'rotroot-thicket', 'steelspine-range']],
+  ['starfall-summit', 'Beyond the Peak', ['star-sprite', 'dusk-moth', 'meteor-tortoise', 'nightcap-owl', 'comet-ferret'], 'vesperax', 'hollow-crown', 90, ['frostmere', 'eclipse-peak', 'sunken-spires', 'emberwild', 'skyreach-isles']],
+  ['dragonsrest', 'The Elder Wilds', ['wisp-drake', 'rustback-beetle', 'moldwing-bat', 'hush-fox', 'relic-golem'], 'ossarion', 'the-confluence', 90, ['starglass-hollow', 'voidmarch', 'rotroot-thicket', 'steelspine-range', 'twilight-rift']],
 ];
 for (const [zone, region, regulars, boss, gate, level, more] of AREAS) {
   const beaten = ['mossy-hollow', 'saltmarsh-shore', 'cinder-pass', 'thunderspire', ...more, gate];

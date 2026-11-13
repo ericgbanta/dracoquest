@@ -229,5 +229,27 @@
       "coral-colossus"
     ],
     "boss": "seethe"
+  },
+  "starfall-summit": {
+    "regular": [
+      "star-sprite",
+      "dusk-moth",
+      "meteor-tortoise",
+      "nightcap-owl",
+      "comet-ferret",
+      "eclipse-sentinel"
+    ],
+    "boss": "vesperax"
+  },
+  "dragonsrest": {
+    "regular": [
+      "wisp-drake",
+      "rustback-beetle",
+      "moldwing-bat",
+      "hush-fox",
+      "relic-golem",
+      "mossback-keeper"
+    ],
+    "boss": "ossarion"
   }
 }
