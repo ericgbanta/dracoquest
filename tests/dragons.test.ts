@@ -318,6 +318,31 @@ describe('the Wyrm', () => {
   });
 });
 
+describe('the Behemoth', () => {
+  it('leans to Scale, and its Brace takes every hit meant for the party that round', () => {
+    const b = { ...hatchDragon(data, createRng(1), { id: 'b', name: 'Boulder', element: 'steel', breed: 'behemoth', colors: { primary: '#f00', secondary: '#000' }, now: 0 }), level: 20, stage: 'juvenile' };
+    const d = hatchDragon(data, createRng(1), { id: 'd', name: 'Pip', element: 'steel', colors: { primary: '#f00', secondary: '#000' }, now: 0 });
+    expect(b.stats.scale).toBe(d.stats.scale + 2);
+    expect(b.stats.swift).toBe(d.stats.swift - 1);
+    expect(learnedSkills(data, b).map((t) => t.id)).toEqual(['behemoth-brace']);
+    let braced = 0;
+    let riderHits = 0;
+    let unbracedRiderHits = 0;
+    for (let seed = 1; seed <= 30; seed++) {
+      const s = createBattle(data, { rider: newRider(data, 'Ash'), dragon: b, enemies: [{ enemyId: 'bramble-troll', level: 10 }], seed, canFlee: true });
+      const r = resolveRound(data, s, { rider: { type: 'attack', target: 'e0' }, dragon: { type: 'skill', skill: 'behemoth-brace', target: 'e0' } });
+      braced += r.events.filter((e) => e.t === 'hit' && e.actor === 'e0' && e.target === 'dragon').length;
+      riderHits += r.events.filter((e) => e.t === 'hit' && e.actor === 'e0' && e.target === 'rider').length;
+      expect(r.state.cooldowns['behemoth-brace']).toBeGreaterThan(0);
+      const plain = resolveRound(data, s, { rider: { type: 'attack', target: 'e0' }, dragon: { type: 'claw', target: 'e0' } });
+      unbracedRiderHits += plain.events.filter((e) => e.t === 'hit' && e.actor === 'e0' && e.target === 'rider').length;
+    }
+    expect(riderHits).toBe(0);
+    expect(braced).toBeGreaterThan(5);
+    expect(unbracedRiderHits).toBeGreaterThan(0);
+  });
+});
+
 describe('save v10 to v11', () => {
   it('adds an empty third partner seat and keeps everything else', () => {
     expect(fixtureV10.version).toBe(10);

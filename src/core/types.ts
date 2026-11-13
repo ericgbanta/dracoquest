@@ -49,7 +49,7 @@ export type TalentTree = 'protection' | 'elemental' | 'fighting' | 'assistance' 
 export type SkillTree = TalentTree | 'breed';
 
 export interface TalentSkill {
-  kind: 'damage' | 'heal' | 'healAll' | 'buff' | 'debuff' | 'taunt' | 'cleanse';
+  kind: 'damage' | 'heal' | 'healAll' | 'buff' | 'debuff' | 'taunt' | 'cleanse' | 'brace';
   cooldown: number;
   base?: number;
   hits?: number;

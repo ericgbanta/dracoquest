@@ -433,6 +433,8 @@ interface RoundCtx {
   riderDefending: boolean;
   /** The dragon guarding the rider this round, if any. */
   guardian: Slot | null;
+  /** The dragon bracing this round (the Behemoth's Brace): it takes every hit meant for the rest of the party. */
+  bracer: Slot | null;
   breathGain: number;
   breathGain2: number;
   breathGain3: number;
@@ -787,6 +789,9 @@ function skillAct(ctx: RoundCtx, order: Extract<DragonOrder, { type: 'skill' }>,
       events.push({ t: 'act', actor: dragon.id, text: `${dragon.name} lets out a ${talent.name}! Every enemy glares at it.` });
       addStatus(data, dragon, skill.status ?? 'taunt', events);
       return;
+    case 'brace':
+      events.push({ t: 'act', actor: dragon.id, text: `${dragon.name} uses ${talent.name} and plants its feet in front of everyone.` });
+      return;
     case 'cleanse':
       for (const f of [state.rider, dragon]) f.statuses = f.statuses.filter((x) => data.statuses[x.id].kind === 'buff');
       events.push({ t: 'act', actor: dragon.id, text: `${dragon.name} uses ${talent.name}. Bad statuses burn away.` });
@@ -899,7 +904,12 @@ function enemyAct(ctx: RoundCtx, enemy: Fighter): void {
       let target: Fighter = taunting ?? rng.pick([state.rider, ...dragons]);
       let guardMult = 1;
       const guard = ctx.guardian;
-      if (target.kind === 'rider' && guard && alive(guard.f)) {
+      const brace = ctx.bracer;
+      if (brace && alive(brace.f) && target !== brace.f) {
+        target = brace.f;
+        guardMult = Math.max(0.2, data.combat.guard.damageTakenMultiplier - bonusOf(brace.mods, 'guardReduction'));
+        events.push({ t: 'act', actor: brace.f.id, text: `${brace.f.name} braces and takes the hit!` });
+      } else if (target.kind === 'rider' && guard && alive(guard.f)) {
         target = guard.f;
         guardMult = Math.max(0.2, data.combat.guard.damageTakenMultiplier - bonusOf(guard.mods, 'guardReduction'));
         events.push({ t: 'act', actor: guard.f.id, text: `${guard.f.name} takes the hit for ${state.rider.name}!` });
@@ -961,11 +971,17 @@ export function resolveRound(data: GameData, prev: BattleState, orders: Orders):
   const two = secondSlot(state);
   const three = thirdSlot(state);
   const guardian = !combo && !duo && dragonOrder?.type === 'guard' ? lead : secondOrder?.type === 'guard' ? two : thirdOrder?.type === 'guard' ? three : null;
+  // Brace counts from the start of the round, like a guard, so it covers hits that land before the dragon's turn.
+  const braces = (slot: Slot | null, order: Orders['dragon'] | undefined): boolean =>
+    !!slot && order?.type === 'skill' && talentById(data, order.skill)?.skill?.kind === 'brace'
+    && skillReady(state, order.skill, slot.which) && !statusFlag(data, slot.f, 'silenced');
+  const bracer = !combo && !duo && braces(lead, dragonOrder) ? lead : braces(two, secondOrder) ? two : braces(three, thirdOrder) ? three : null;
 
   const ctx: RoundCtx = {
     data, state, rng, events: [],
     riderDefending: !combo && (orders.rider.type === 'defend' || (orders.rider.type === 'ride' && orders.rider.move === 'wing-shield')),
     guardian,
+    bracer,
     breathGain: 0,
     breathGain2: 0,
     breathGain3: 0,

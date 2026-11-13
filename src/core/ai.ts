@@ -78,6 +78,8 @@ export function autoOrders(data: GameData, state: BattleState): Orders {
   if (breathReady(data, state)) return order({ type: 'breath', target: target.id });
   const taunt = skill('taunt');
   if (taunt && bigIncoming && riderPct < 0.6) return order({ type: 'skill', skill: taunt.id, target: target.id });
+  const brace = skill('brace');
+  if (brace && bigIncoming && riderPct < 0.7) return order({ type: 'skill', skill: brace.id, target: target.id });
   if (bigIncoming && riderPct < 0.5) return order({ type: 'guard' });
   const attackSkill = skill('damage') ?? skill('debuff') ?? skill('buff');
   if (attackSkill) return order({ type: 'skill', skill: attackSkill.id, target: target.id });

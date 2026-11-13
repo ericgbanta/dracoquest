@@ -236,6 +236,23 @@
           "cooldown": 3
         }
       }
+    },
+    "behemoth": {
+      "name": "Behemoth",
+      "blurb": "A heavy armored body on four thick legs, with short wings. Slow, steady and very hard to knock over.",
+      "statLean": {
+        "scale": 2,
+        "swift": -1
+      },
+      "signature": {
+        "id": "behemoth-brace",
+        "name": "Brace",
+        "description": "Signature skill: plant its feet and take every hit meant for the party this round.",
+        "skill": {
+          "kind": "brace",
+          "cooldown": 3
+        }
+      }
     }
   },
   "variants": {
