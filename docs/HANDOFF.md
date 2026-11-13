@@ -9,7 +9,7 @@ A ready-to-paste prompt for a new session is in `docs/NEXT_PROMPT.md`.
 1. `CLAUDE.md`: the house rules (pure `src/core`, seeded RNG, every number in JSON, mobile first, save migrations, local testing, deploy only when asked).
 2. This file: what exists, why, how to extend it, and what is next.
 3. `docs/WORLD_PLAN.md`: the world expansion plan Eric approved. W5 is next.
-   `docs/DRAGONS_PLAN.md` (2026-11-13): more elements, dragon breeds, breeding, a bigger roster, rare variants and two new maps for levels 30 to 100, phases E0 to E12 interleaved with W5 to W9. Planning only; its open questions need Eric's answers.
+   `docs/DRAGONS_PLAN.md` (2026-11-13): more elements, dragon breeds, breeding, a bigger roster, rare variants and two new maps for levels 30 to 100, phases E0 to E12 interleaved with W5 to W9. Approved with all names decided (2026-11-13); E0 is next.
 4. `docs/ART_GENERATION.md` before making any art (Codex CLI on Eric's subscription), and `docs/ART_STYLE.md` for the rules a finished image must meet.
 5. `docs/DESIGN.md` for the original game design and its Decisions table (still settled). `docs/GRAPHICS_PLAN.md` and `docs/GRAPHICS_PLAN_2.md` are history for the battle stage and the painted art.
 

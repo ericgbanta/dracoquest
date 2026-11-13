@@ -27,16 +27,16 @@ The three element ideas don't cost the same, so they come in order of risk.
 
 1. **A new pair first: Aether and Void.** They beat each other and nothing else, like Light and Shadow. No existing matchup changes, so no old zone needs rebalancing.
 2. **Hybrids next, through breeding.** A hybrid dragon has two elements. Hybrids aren't new entries in the matchup table, so they also leave old zones alone.
-3. **The ring grows last: Venom and Metal**, taking it from 6 to 8. Every new element on the ring breaks one old matchup and adds two, so this phase rebalances every zone those elements touch.
+3. **The ring grows last: Blight and Steel**, taking it from 6 to 8. Every new element on the ring breaks one old matchup and adds two, so this phase rebalances every zone those elements touch.
 
-| Element | Kind | Beats | Status (working) | Dragon stat bonus | Egg (working) | First seen |
+| Element | Kind | Beats | Status | Dragon stat bonus | Egg | First seen |
 | --- | --- | --- | --- | --- | --- | --- |
 | Aether | Pair | Void | Silence: no spells, breath or special moves for 2 rounds | +1 Spirit, +1 Swift | Starlit Egg | Starglass Hollow (30 to 40) |
 | Void | Pair | Aether | Hollow: healing received halved, breath fills at half speed, 3 rounds | +1 Might, +1 Scale | Hollow Egg | Voidmarch (40 to 50) |
-| Venom | Ring, between Frost and Verdant | Verdant | Poison: damage each round that grows each round, 3 rounds | +2 Might | Fanged Egg | Blightmire (50 to 60) |
-| Metal | Ring, between Stone and Storm | Storm | Rend: basic attacks against it deal 25 percent more, 3 rounds | +2 Scale | Iron Egg | Ironvale (60 to 70) |
+| Blight | Ring, between Frost and Verdant | Verdant | Rot: damage each round that grows each round, 3 rounds | +2 Might | Rotten Egg | Rotroot Thicket (50 to 60) |
+| Steel | Ring, between Stone and Storm | Storm | Rend: basic attacks against it deal 25 percent more, 3 rounds | +2 Scale | Iron Egg | The Steelspine Range (60 to 70) |
 
-With Venom and Metal in place the ring reads: Fire beats Frost beats **Venom** beats Verdant beats Stone beats **Metal** beats Storm beats Tide beats Fire. Two old matchups go away: Frost no longer beats Verdant, and Stone no longer beats Storm. That is why the ring phase comes after the safer work and needs a full sim pass (open question 1).
+With Blight and Steel in place the ring reads: Fire beats Frost beats **Blight** beats Verdant beats Stone beats **Steel** beats Storm beats Tide beats Fire. Two old matchups go away: Frost no longer beats Verdant, and Stone no longer beats Storm. That is why the ring phase comes after the safer work and needs a full sim pass (open question 1).
 
 ### Hybrids
 
@@ -46,20 +46,20 @@ With Venom and Metal in place the ring reads: Fire beats Frost beats **Venom** b
 - **Stats:** +1 from each element's bonus instead of +2 from one.
 - **Names:** a table in `elements.json` names the common mixes (Fire and Tide is Steam, Fire and Stone is Magma, Frost and Tide is Glacier, and so on). Any mix without a name shows as "Fire-Aether".
 - **Looks:** the first element's tail tip, ringed in the second element's color, drawn in code. Breath alternates the two bursts. No new art.
-- Late areas can have hybrid enemies too (Twin Calderas, below).
+- Late areas can have hybrid enemies too (The Confluence, below).
 
 ### Breeds
 
-A breed is a body shape with its own stat lean and one signature move. The dragon that exists today becomes the **Drake** (balanced). Three new breeds, working names:
+A breed is a body shape with its own stat lean and one signature move. The dragon that exists today becomes the **Dragon** (balanced). Three new breeds, working names:
 
 | Breed | Body | Stat lean | Signature move | First found |
 | --- | --- | --- | --- | --- |
 | Wyvern | Two legs, wings as arms, long tail | More Swift, less Scale | Rake: two quick strikes, high crit | Starglass Hollow egg drops |
 | Wyrm | Long serpent body, small wings | More Spirit, breath fills faster | Coil: binds one enemy, which can't dodge | Voidmarch egg drops |
-| Bulwark | Heavy, armored, short wings | More Scale, less Swift | Brace: guards the whole party for a round | The First Nest egg drops |
+| Behemoth | Heavy, armored, short wings | More Scale, less Swift | Brace: guards the whole party for a round | Dragonsrest egg drops |
 
 - Breed is chosen when an egg is made (drops, breeding, Elder eggs) and never changes. Talents, gear, life stages and Ride mode work the same for every breed. All breeds have wings so Ride mode still fits.
-- Each breed needs 8 Codex generations: 4 life stages, idle and attack. They must be painted in the key colors so the player recolor works (`docs/ART_STYLE.md`), and each needs its tail tip point marked for the code-drawn tip. Before generating, I'll try one sheet holding all four stages; if it holds up, a breed drops to about 2 generations. If not, it's 8.
+- Each new breed needs 8 Codex generations: 4 life stages, idle and attack. They must be painted in the key colors so the player recolor works (`docs/ART_STYLE.md`), and each needs its tail tip point marked for the code-drawn tip. Before generating, I'll try one sheet holding all four stages; if it holds up, a breed drops to about 2 generations. If not, it's 8.
 
 ### Breeding
 
@@ -78,23 +78,23 @@ A breed is a body shape with its own stat lean and one signature move. The drago
 
 Players already pick their dragon's colors, so a variant is a finish on top of those colors, not a color. Four to start, all drawn in code in the recolor step: **Shimmer** (a metallic sheen), **Starry** (speckles), **Ghost** (soft see-through edges with a glow) and **Ember-eyed** (glowing eyes and spines). Cosmetic only, shown with a badge on the Dragons screen. No art; painted markings could come later.
 
-### New maps: the Rift and the Far Reaches, levels 30 to 100
+### New maps: the Hidden Reach and the Elder Wilds, levels 30 to 100
 
 Seven new areas, one per 10 levels, on two new painted maps. Together with W5 to W9 this gives two places to go in every band from 30 to 100. The areas above 50 can only ship once the matching W phase has raised the cap.
 
-| Area (working names) | Map | Levels | Elements | Unlocks after | What it brings |
+| Area | Map | Levels | Elements | Unlocks after | What it brings |
 | --- | --- | --- | --- | --- | --- |
-| Starglass Hollow | The Rift | 30 to 40 | Aether, Frost | Level 30 and the Storm Roc | Aether, Wyvern eggs |
-| Voidmarch | The Rift | 40 to 50 | Void, Stone | Level 40 and the Starglass boss | Void, Wyrm eggs |
-| Blightmire | The Rift | 50 to 60 | Venom, Verdant | Level 50 and the Voidmarch boss | Venom |
-| Ironvale | The Far Reaches | 60 to 70 | Metal, Storm | Level 60 and the Blightmire boss | Metal |
-| Riftspire | The Far Reaches | 70 to 80 | Aether, Void | Level 70 and the Ironvale boss | The pair at full strength |
-| Twin Calderas | The Far Reaches | 80 to 90 | Hybrid enemies (Steam, Magma and others) | Level 80 and the Riftspire boss | Hybrid enemies |
-| The First Nest | The Far Reaches | 90 to 100 | All four new elements | Level 90 and the Twin Calderas boss | Bulwark eggs, the home of the first dragons, a closing story |
+| Starglass Hollow | The Hidden Reach | 30 to 40 | Aether, Frost | Level 30 and the Storm Roc | Aether, Wyvern eggs |
+| Voidmarch | The Hidden Reach | 40 to 50 | Void, Stone | Level 40 and the Starglass boss | Void, Wyrm eggs |
+| Rotroot Thicket | The Hidden Reach | 50 to 60 | Blight, Verdant | Level 50 and the Voidmarch boss | Blight |
+| The Steelspine Range | The Elder Wilds | 60 to 70 | Steel, Storm | Level 60 and the Rotroot boss | Steel |
+| Twilight Rift | The Elder Wilds | 70 to 80 | Aether, Void | Level 70 and the Steelspine boss | The pair at full strength |
+| The Confluence | The Elder Wilds | 80 to 90 | Hybrid enemies (Steam, Magma and others) | Level 80 and the Twilight Rift boss | Hybrid enemies |
+| Dragonsrest | The Elder Wilds | 90 to 100 | All four new elements | Level 90 and the Confluence boss | Behemoth eggs, the home of the first dragons, a closing story |
 
 Each area follows the recipe in `docs/HANDOFF.md` ("How to add an area"): 5 enemies, a mini-boss and a boss, a story chain, a bounty pool, a gear set, a shop line, a Forge recipe and 5 Codex generations. Each new element also gets a rider spell timed to its area (the spell test requires one within two levels of the area opening), weapons in that element and a gear line.
 
-The Map gets two new regions in `regions.json`, each with a painted map (1 generation each, `jobs8.py` is the pattern). The Rift sits next to the High Lands, and the Far Reaches next to Beyond the Peak.
+The Map gets two new regions in `regions.json`, each with a painted map (1 generation each, `jobs8.py` is the pattern). The Hidden Reach sits next to the High Lands, and the Elder Wilds next to Beyond the Peak.
 
 ## Phases
 
@@ -103,7 +103,7 @@ One at a time, each tested and committed. Deploy when Eric says.
 ### E0. Foundation (no art)
 
 - Status rules in `battle.ts` read each status's effect fields (no dodge, a defense multiplier, an element it amplifies, and so on) instead of checking status ids, so a status that reuses existing effects is only data. `ElementId` stays a typed union; each phase that adds elements adds them to the union and to `elements.json` together, and the data test checks the two match.
-- Save v10: each dragon gets `breed` (default `drake`), `element2` (default none) and `variant` (default none); eggs become a list of objects (element, second element, breed, variant) instead of counts per element. Migration and a v9 fixture test.
+- Save v10: each dragon gets `breed` (default `dragon`), `element2` (default none) and `variant` (default none); eggs become a list of objects (element, second element, breed, variant) instead of counts per element. Migration and a v9 fixture test.
 - Nest levels 4 and 5 (8 and 10 dragons) and the compact Dragons list.
 - Returning unwanted eggs to the wild for embers.
 - The sim and AI understand breeds, hybrids and the new egg shape.
@@ -118,8 +118,8 @@ The four finishes in the recolor step, the hatch roll, the badge, a phone test w
 
 - Both new elements in data: statuses, stat bonuses, eggs, colors, symbols. Void eggs can't drop until Voidmarch, but a test hatches one.
 - One rider spell (Aether), gear lines in Aether.
-- The Rift region and its map. Starglass Hollow with Wyvern eggs as placeholders until E4.
-- **Art: 8 generations.** The Rift map (1), the area (5), a sheet of tail tips for all four new elements (1) and a sheet of their breath bursts (1). Doing all four now means Venom and Metal need no tips or bursts later.
+- The Hidden Reach region and its map. Starglass Hollow with Wyvern eggs as placeholders until E4.
+- **Art: 8 generations.** The Hidden Reach map (1), the area (5), a sheet of tail tips for all four new elements (1) and a sheet of their breath bursts (1). Doing all four now means Blight and Steel need no tips or bursts later.
 
 ### E3. Breeding and hybrids (no art)
 
@@ -135,11 +135,11 @@ The area (Void enters play, a Void spell), Wyrm eggs. **Art: 5 for the area and 
 
 ### Then W5 (Sunken Spires, cap 60), as planned in `docs/WORLD_PLAN.md`
 
-### E6. The ring grows: Venom and Metal (no new art)
+### E6. The ring grows: Blight and Steel (no new art)
 
-Statuses, stat bonuses, eggs, spells, gear lines. The two broken matchups change several old zones, so every zone goes through the sim again (70 to 85 percent on level for each starter) and gets retuned where it falls out. The Venom and Metal tips and bursts already exist from E2.
+Statuses, stat bonuses, eggs, spells, gear lines. The two broken matchups change several old zones, so every zone goes through the sim again (70 to 85 percent on level for each starter) and gets retuned where it falls out. The Blight and Steel tips and bursts already exist from E2.
 
-### E7. Blightmire (50 to 60). Art: 5
+### E7. Rotroot Thicket (50 to 60). Art: 5
 
 ### E8. A third partner from rider level 60 (no art)
 
@@ -147,9 +147,9 @@ The new order-row layout and the stage check, with a layout mockup for Eric befo
 
 ### Then W6 (Emberwild, cap 70)
 
-### E9. Ironvale and the Far Reaches map. Art: 6 (5 for the area, 1 for the map)
+### E9. The Steelspine Range and the Elder Wilds map. Art: 6 (5 for the area, 1 for the map)
 
-### Then W7. E10 Riftspire (art: 5). W8. E11 Twin Calderas (art: 5). W9. E12 The First Nest and the Bulwark (art: 5 plus 8 or about 2)
+### Then W7. E10 Twilight Rift (art: 5). W8. E11 The Confluence (art: 5). W9. E12 Dragonsrest and the Behemoth (art: 5 plus 8 or about 2)
 
 ## Art budget
 
@@ -174,12 +174,99 @@ That's on top of the 25 for W5 to W9. E0, E1, E3, E6 and E8 need no art, so they
 
 ## Eric's answers (2026-11-13)
 
-1. **Where Venom and Metal join the ring:** "where it makes sense". So the plan's placement stands: Venom between Frost and Verdant, Metal between Stone and Storm.
+1. **Where Blight and Steel join the ring:** "where it makes sense". So the plan's placement stands: Blight between Frost and Verdant, Steel between Stone and Storm.
 2. **A third dragon in battle at rider level 60:** yes.
 3. **Breeding pace:** 8 hours and a 3 day cooldown are fine. He also asked what happens to eggs a player doesn't want. Selling them for gold "doesn't feel right", so an unwanted egg can be **returned to the wild**, and the wild dragons leave embers in thanks. Built in E0 (see below).
-4. **Names:** a separate round of discovery questions, worked through with Eric. Until then every name here is a working name.
+4. **Names:** settled in a round of discovery questions the same day. See "Names" below.
 
 ### Returning eggs to the wild
 
 - Any egg in the bag can be returned from the Roost's egg list, after a confirm ("Return the Ember Egg to the wild? The wild dragons will leave 3 embers.").
-- Embers by egg (in `roost.json`, `releaseEmbers`): 3 for a plain egg, +2 if it's a hybrid, +2 for a breed other than the Drake, +7 for a rare variant. A plain egg pays about what one bounty pays, so it never beats hatching and raising a dragon. An incubating egg can't be returned; the egg being hatched can't either.
+- Embers by egg (in `roost.json`, `releaseEmbers`): 3 for a plain egg, +2 if it's a hybrid, +2 for a breed other than the Dragon, +7 for a rare variant. A plain egg pays about what one bounty pays, so it never beats hatching and raising a dragon. An incubating egg can't be returned; the egg being hatched can't either.
+
+## Names (decided 2026-11-13)
+
+Eric chose these in a round of discovery questions. Everything above already uses them.
+
+| Kind | Names |
+| --- | --- |
+| New elements | Aether and Void (the pair), Blight and Steel (the ring) |
+| Their statuses | Silence (Aether), Hollow (Void), Rot (Blight), Rend (Steel) |
+| Their eggs | Starlit Egg, Hollow Egg, Rotten Egg, Iron Egg |
+| Breeds | Dragon (today's body), Wyvern, Wyrm, Behemoth. Classic dragon words, his pick of style |
+| Rare finishes | Shimmer, Starry, Ghost, Ember-eyed |
+| New maps | The Hidden Reach (30 to 60), The Elder Wilds (60 to 100) |
+| Hidden Reach areas | Starglass Hollow (30 to 40), Voidmarch (40 to 50), Rotroot Thicket (50 to 60) |
+| Elder Wilds areas | The Steelspine Range (60 to 70), Twilight Rift (70 to 80), The Confluence (80 to 90), Dragonsrest (90 to 100) |
+| Frontier areas W5 to W9 | Kept as planned: Sunken Spires, Emberwild, Skyreach Isles, Hollow Crown, Starfall Summit |
+
+### Hybrid names
+
+Eric wants every mix named. Twelve elements make 64 mixes once the two opposed pairs (Light and Shadow, Aether and Void) are left out. The order of the two elements doesn't change the name. These go into `elements.json` in E3; Eric can change any of them.
+
+| First | Second | Hybrid |
+| --- | --- | --- |
+| Fire | Frost | Thaw |
+| Fire | Blight | Brimstone |
+| Fire | Verdant | Wildfire |
+| Fire | Stone | Magma |
+| Fire | Steel | Forge |
+| Fire | Storm | Plasma |
+| Fire | Tide | Steam |
+| Fire | Light | Solar |
+| Fire | Shadow | Smoke |
+| Fire | Aether | Comet |
+| Fire | Void | Ash |
+| Frost | Blight | Frostbite |
+| Frost | Verdant | Winterbloom |
+| Frost | Stone | Permafrost |
+| Frost | Steel | Coldiron |
+| Frost | Storm | Blizzard |
+| Frost | Tide | Glacier |
+| Frost | Light | Prism |
+| Frost | Shadow | Nightfrost |
+| Frost | Aether | Aurora |
+| Frost | Void | Deepfreeze |
+| Blight | Verdant | Spore |
+| Blight | Stone | Sulfur |
+| Blight | Steel | Rust |
+| Blight | Storm | Acid |
+| Blight | Tide | Bog |
+| Blight | Light | Pallor |
+| Blight | Shadow | Plague |
+| Blight | Aether | Miasma |
+| Blight | Void | Decay |
+| Verdant | Stone | Overgrowth |
+| Verdant | Steel | Ironwood |
+| Verdant | Storm | Pollen |
+| Verdant | Tide | Mangrove |
+| Verdant | Light | Bloom |
+| Verdant | Shadow | Nightshade |
+| Verdant | Aether | Lotus |
+| Verdant | Void | Wither |
+| Stone | Steel | Ore |
+| Stone | Storm | Sandstorm |
+| Stone | Tide | Coral |
+| Stone | Light | Crystal |
+| Stone | Shadow | Obsidian |
+| Stone | Aether | Meteor |
+| Stone | Void | Chasm |
+| Steel | Storm | Volt |
+| Steel | Tide | Anchor |
+| Steel | Light | Silver |
+| Steel | Shadow | Razor |
+| Steel | Aether | Starsteel |
+| Steel | Void | Gravity |
+| Storm | Tide | Monsoon |
+| Storm | Light | Flash |
+| Storm | Shadow | Thunderhead |
+| Storm | Aether | Ion |
+| Storm | Void | Vortex |
+| Tide | Light | Rainbow |
+| Tide | Shadow | Abyss |
+| Tide | Aether | Moontide |
+| Tide | Void | Maelstrom |
+| Light | Aether | Astral |
+| Light | Void | Halo |
+| Shadow | Aether | Nebula |
+| Shadow | Void | Oblivion |
