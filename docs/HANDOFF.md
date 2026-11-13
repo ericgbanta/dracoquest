@@ -8,7 +8,7 @@ A ready-to-paste prompt for a new session is in `docs/NEXT_PROMPT.md`.
 
 1. `CLAUDE.md`: the house rules (pure `src/core`, seeded RNG, every number in JSON, mobile first, save migrations, local testing, deploy only when asked).
 2. This file: what exists, why, how to extend it, and what is next.
-3. `docs/WORLD_PLAN.md`: the world expansion plan Eric approved. W5 is next.
+3. `docs/VARIETY_PLAN.md` (2026-11-13): the next piece of work, more variety for grinding. `docs/WORLD_PLAN.md`: the world expansion plan, finished.
    `docs/DRAGONS_PLAN.md` (2026-11-13): more elements, dragon breeds, breeding, a bigger roster, rare variants and two new maps for levels 30 to 100, phases E0 to E12 interleaved with W5 to W9. Approved with all names decided (2026-11-13); E0 is next.
 4. `docs/ART_GENERATION.md` before making any art (Codex CLI on Eric's subscription), and `docs/ART_STYLE.md` for the rules a finished image must meet.
 5. `docs/DESIGN.md` for the original game design and its Decisions table (still settled). `docs/GRAPHICS_PLAN.md` and `docs/GRAPHICS_PLAN_2.md` are history for the battle stage and the painted art.
@@ -73,7 +73,7 @@ Each row was built, tested, committed and deployed in this order. The Decisions 
 
 ### The dragons plan (`docs/DRAGONS_PLAN.md`) and the frontier: finished
 
-All nine chunks are built and live, and the world plan with them: 23 areas, cap 100, every area that was planned. Nothing is queued. Eric picks what comes next; the "After that" list and the open questions below are the candidates.
+All nine chunks are built and live, and the world plan with them: 23 areas, cap 100, every area that was planned. What comes next is the variety plan below.
 
 Lessons from building above level 50 (useful if the cap ever goes past 100):
 
@@ -92,6 +92,10 @@ Lessons from building above level 50 (useful if the cap ever goes past 100):
 6. **Pack:** add both areas to `tools/art/painted/zones.json`, run `pack.py`, then `python3 v2/wire_area.py <repo> <zone> <rise|fall> <color> [boss boxScale]` for each. Check every new image for trapped key green. Look at every fight and boss screenshot at 375 wide.
 7. **Phone tests:** add both to the `AREAS` loop in `e2e/world.spec.ts` and update the map test.
 8. **Ship:** test, types, lint, e2e, the full sim (campaigns must reach the cap), docs, deploy when Eric says.
+
+### Next: the variety plan (`docs/VARIETY_PLAN.md`)
+
+Eric grinds and revisits the first area and asked for research on making it less samey. The plan has nine options (champions and rare spawns, run events, daily conditions, a hunter's log, stories for five zones, echo runs, more enemies, a new low-level area, faster early levels), a recommended order, and six questions for him. Get his answers before building.
 
 ### After that
 
