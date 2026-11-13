@@ -111,6 +111,7 @@ Dropped for good (Eric, 2026-11-13): whether enemies visibly snap to their attac
 
 ### Older open threads (no art unless noted)
 
+- Cache breed art on first view instead of precaching it (about 1.15 MB off the install; see Numbers).
 - Cosmetics as an ember sink (dragon dye colors would need no art; painted overlays would).
 - A late-game save code so Eric can look at endgame screens (`e2e/fixtures/elder.json` turned into an export code with `src/core/save.ts`).
 - Art ideas: hurt or defeat poses, painted egg cracks (needs Codex).
@@ -304,7 +305,7 @@ docs/          HANDOFF.md, NEXT_PROMPT.md, WORLD_PLAN.md, UI_PLAN.md, ART_GENERA
 
 ## Numbers to keep in mind
 
-- First load: about 110 kB of JavaScript gzipped. The service worker precaches about 1.8 MB; zone art (about 4 MB and growing by about 450 KB per area) is cached on first view.
+- First load: about 110 kB of JavaScript gzipped. The service worker precaches about 4.2 MB (measured at chunk 9; the 1.8 MB noted earlier was out of date). About 1.15 MB of that is breed art (Wyvern, Wyrm and Behemoth, 8 images each), which the dragons plan meant to cache on first view like area art; adding the breed file names to `globIgnores` in `vite.config.ts` would do it. Zone art (about 5 MB and growing by about 450 KB per area) is cached on first view.
 - Stage: about 51 DOM nodes one on one, 69 at two dragons against two enemies (budget 100). The perf test (5 percent dropped frames at 4x CPU throttle) is noisy in the sandbox; run it a few times before blaming a change.
 - Campaign in the sim: about 737 fights from egg to level 50, roughly 25 hours at 2 minutes a fight, and about 1,690 fights (56 hours) to level 100, where the last two bosses (Vesperax and Ossarion) fall at rider level 99. Every campaign reaches the cap; runs won are about 93 to 94 percent.
 - Content: 23 zones (7 main, 4 side areas, 3 Hidden Reach areas, 5 frontier areas, 4 Elder Wilds areas), 161 enemies (115 regular, 23 mini-bosses, 23 bosses), 326 gear pieces (185 in the shop, 115 in 23 sets, 20 Forge recipes, plus starter and festival pieces), 21 rider spells, 88 story quests, 18 bounty pools, 12 elements, 4 breeds, 3 Forge materials, 40 talents, 3 growth quests, 6 expedition trips, 4 events.
