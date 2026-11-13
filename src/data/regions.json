@@ -122,7 +122,8 @@
       "zones": [
         "sunken-spires",
         "emberwild",
-        "skyreach-isles"
+        "skyreach-isles",
+        "hollow-crown"
       ],
       "map": {
         "art": "map-beyond",
@@ -138,6 +139,10 @@
           "skyreach-isles": [
             0.76,
             0.51
+          ],
+          "hollow-crown": [
+            0.25,
+            0.31
           ]
         }
       }
@@ -149,7 +154,8 @@
       "blurb": "Ancient wild lands at the edge of the world, where the oldest dragons live.",
       "zones": [
         "steelspine-range",
-        "twilight-rift"
+        "twilight-rift",
+        "the-confluence"
       ],
       "map": {
         "art": "map-elder-wilds",
@@ -161,6 +167,10 @@
           "twilight-rift": [
             0.7,
             0.55
+          ],
+          "the-confluence": [
+            0.29,
+            0.43
           ]
         }
       }
@@ -168,35 +178,37 @@
   ],
   "upcoming": [
     {
-      "name": "Hollow Crown",
+      "name": "Starfall Summit",
       "region": "beyond",
-      "minLevel": 80,
-      "maxLevel": 90,
-      "gate": "skyreach-isles",
+      "minLevel": 90,
+      "maxLevel": 100,
+      "gate": "hollow-crown",
       "elements": [
-        "stone",
+        "light",
         "shadow"
       ],
-      "blurb": "An underground kingdom, lost in the dark for a thousand years.",
+      "blurb": "Where the stars land. The final climb.",
       "pin": [
-        0.25,
-        0.31
+        0.66,
+        0.15
       ]
     },
     {
-      "name": "The Confluence",
+      "name": "Dragonsrest",
       "region": "elder-wilds",
-      "minLevel": 80,
-      "maxLevel": 90,
-      "gate": "twilight-rift",
+      "minLevel": 90,
+      "maxLevel": 100,
+      "gate": "the-confluence",
       "elements": [
-        "fire",
-        "tide"
+        "aether",
+        "void",
+        "blight",
+        "steel"
       ],
-      "blurb": "Where the wild elements run together and mix.",
+      "blurb": "The home of the first dragons.",
       "pin": [
-        0.29,
-        0.43
+        0.62,
+        0.17
       ]
     }
   ]

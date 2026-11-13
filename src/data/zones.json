@@ -1939,5 +1939,245 @@
         "riftwalker-magic"
       ]
     }
+  },
+  {
+    "id": "hollow-crown",
+    "name": "Hollow Crown",
+    "element": "stone",
+    "elements": [
+      "stone",
+      "shadow"
+    ],
+    "minLevel": 80,
+    "maxLevel": 90,
+    "gate": null,
+    "unlock": {
+      "level": 80,
+      "afterBoss": "skyreach-isles"
+    },
+    "blurb": "An underground kingdom, lost in the dark for a thousand years. The halls are grand, the torches are out, and something is still sitting on the throne.",
+    "fights": {
+      "min": 3,
+      "max": 5
+    },
+    "encounters": [
+      {
+        "enemies": [
+          "crown-mole"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "lantern-wraith"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "gemback-armadillo"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "shadow-jester"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "pillar-knight"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "lantern-wraith",
+          "lantern-wraith"
+        ],
+        "weight": 1,
+        "minLevel": 82
+      },
+      {
+        "enemies": [
+          "crown-mole",
+          "shadow-jester"
+        ],
+        "weight": 1,
+        "minLevel": 84
+      }
+    ],
+    "levelSpread": 1,
+    "multiEnemyLevelOffset": -3,
+    "boss": {
+      "enemy": "hollow-king",
+      "level": 90,
+      "unlockRiderLevel": 89,
+      "trophy": {
+        "gear": "deepcrown-armor",
+        "chance": 0.25
+      }
+    },
+    "miniBoss": {
+      "enemy": "shadow-chancellor",
+      "levelOffset": 0,
+      "trophy": {
+        "gear": "deepcrown-trinket",
+        "chance": 0.25
+      }
+    },
+    "dropChances": {
+      "potion": 0.25,
+      "dragon-treat": 0.15,
+      "mana-tonic": 0.1
+    },
+    "eggDrop": {
+      "element": "stone",
+      "chance": 0.1,
+      "elements": [
+        "stone",
+        "shadow"
+      ]
+    },
+    "gearDrops": {
+      "chance": 0.06,
+      "gear": [
+        "deepcrown-melee",
+        "deepcrown-ranged",
+        "deepcrown-magic"
+      ]
+    }
+  },
+  {
+    "id": "the-confluence",
+    "name": "The Confluence",
+    "element": "fire",
+    "elements": [
+      "fire",
+      "tide"
+    ],
+    "minLevel": 80,
+    "maxLevel": 90,
+    "gate": null,
+    "unlock": {
+      "level": 80,
+      "afterBoss": "twilight-rift"
+    },
+    "blurb": "Where lava runs into the sea and the wild elements mix. Everything here is two things at once, and most of it is hot.",
+    "fights": {
+      "min": 3,
+      "max": 5
+    },
+    "encounters": [
+      {
+        "enemies": [
+          "scald-puff"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "magma-crab"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "glacier-seal"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "monsoon-heron"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "brimstone-newt"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "magma-crab",
+          "magma-crab"
+        ],
+        "weight": 1,
+        "minLevel": 82
+      },
+      {
+        "enemies": [
+          "scald-puff",
+          "monsoon-heron"
+        ],
+        "weight": 1,
+        "minLevel": 84
+      }
+    ],
+    "levelSpread": 1,
+    "multiEnemyLevelOffset": -3,
+    "boss": {
+      "enemy": "seethe",
+      "level": 90,
+      "unlockRiderLevel": 89,
+      "trophy": {
+        "gear": "wellspring-armor",
+        "chance": 0.25
+      }
+    },
+    "miniBoss": {
+      "enemy": "coral-colossus",
+      "levelOffset": 0,
+      "trophy": {
+        "gear": "wellspring-trinket",
+        "chance": 0.25
+      }
+    },
+    "dropChances": {
+      "potion": 0.25,
+      "dragon-treat": 0.15,
+      "mana-tonic": 0.1
+    },
+    "eggDrop": {
+      "element": "fire",
+      "chance": 0.1,
+      "elements": [
+        "fire",
+        "tide"
+      ],
+      "hybrids": [
+        [
+          "fire",
+          "tide"
+        ],
+        [
+          "fire",
+          "stone"
+        ],
+        [
+          "frost",
+          "tide"
+        ],
+        [
+          "storm",
+          "tide"
+        ],
+        [
+          "stone",
+          "tide"
+        ]
+      ]
+    },
+    "gearDrops": {
+      "chance": 0.06,
+      "gear": [
+        "wellspring-melee",
+        "wellspring-ranged",
+        "wellspring-magic"
+      ]
+    }
   }
 ]

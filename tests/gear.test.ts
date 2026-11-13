@@ -14,9 +14,9 @@ const mossy = getZone(data, 'mossy-hollow');
 
 describe('gear data', () => {
   it('has the new shop choices, sets and trophies', () => {
-    expect(Object.keys(data.gear)).toHaveLength(282);
+    expect(Object.keys(data.gear)).toHaveLength(304);
     expect(data.sets).toHaveLength(data.zones.length);
-    expect(data.shop.stock).toHaveLength(165);
+    expect(data.shop.stock).toHaveLength(175);
   });
 
   it('sells every element of the first ring among the weapons of each tier from level 5 to 36', () => {

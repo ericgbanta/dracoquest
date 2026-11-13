@@ -277,6 +277,16 @@
         "base": 31,
         "mp": 11,
         "description": "A burst of starlight on one enemy. Hits very hard and may Silence. Strong against Void."
+      },
+      {
+        "id": "daybreak",
+        "name": "Daybreak",
+        "kind": "damage",
+        "level": 83,
+        "element": "light",
+        "base": 34,
+        "mp": 12,
+        "description": "The first light of morning, all at once, on one enemy. Hits very hard. Strong against Shadow."
       }
     ]
   },

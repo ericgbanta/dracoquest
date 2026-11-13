@@ -29,8 +29,9 @@ function setup(r: RiderState, over: Partial<BattleSetup> = {}): BattleSetup {
 const cast = (spell: string, target = 'e0'): Orders => ({ rider: { type: 'spell', spell, target }, dragon: { type: 'guard' } });
 
 describe('spell data', () => {
-  it('has nineteen spells, two from level 1, one per element of the ring plus Shadow, Light, Aether and Void, Tempest at 53, Inferno at 63 and Astral Nova at 73', () => {
-    expect(spells).toHaveLength(19);
+  it('has twenty spells, two from level 1, one per element of the ring plus Shadow, Light, Aether and Void, Tempest at 53, Inferno at 63, Astral Nova at 73 and Daybreak at 83', () => {
+    expect(spells).toHaveLength(20);
+    expect(spells.find((s) => s.id === 'daybreak')).toMatchObject({ element: 'light', level: 83 });
     expect(spells.find((s) => s.id === 'astral-nova')).toMatchObject({ element: 'aether', level: 73 });
     expect(knownSpells(data, 1).map((s) => s.id)).toEqual(['arc-bolt', 'mend']);
     const elements = [...new Set(spells.filter((s) => s.element).map((s) => s.element))].sort();

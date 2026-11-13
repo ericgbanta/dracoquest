@@ -18,7 +18,7 @@ import type { StoryReward } from './types';
 import type { BuildingId, DragonSlot, DragonState, DragonStat, EggSpec, ElementId, GameData, GearSlot, RiderSlot, RiderStat, StageData, ZoneData } from './types';
 import { DRAGON_SLOTS } from './types';
 import { activeEvent, eventKey, eventOnlyIds } from './events';
-import { breedEgg, newEgg, plainEgg, releaseValue, rollVariant } from './eggs';
+import { breedEgg, newEgg, plainEgg, releaseValue, rollVariant, zoneEgg } from './eggs';
 import { learnSpells, setLoadout, SpellError } from './spells';
 import { addMaterials, craftGear, ForgeError, upgradeGear } from './forge';
 import {
@@ -366,7 +366,7 @@ function finishFight(data: GameData, save: SaveData): { save: SaveData; report: 
       const zone = getZone(data, run.zoneId);
       if (plan.kind === 'boss' && zone.eggDrop) {
         const first = !save.bossesDefeated.includes(zone.id);
-        if (first || rng.chance(zone.eggDrop.chance)) rewards.egg = newEgg(data, rng, zone.eggDrop.elements ? rng.pick(zone.eggDrop.elements) : zone.eggDrop.element, zone.eggDrop.breed);
+        if (first || rng.chance(zone.eggDrop.chance)) rewards.egg = zoneEgg(data, rng, zone.eggDrop);
       }
       return rewards;
     });

@@ -151,7 +151,7 @@ function ZoneDetails({ zone, save, today, onHunt, onOpen, idPrefix = '' }: {
           <p class="muted">
             {zone.fights.min} to {zone.fights.max} fights, then{' '}
             {unlocked ? <strong>the {boss.name}{beaten ? ' (beaten!)' : ''}</strong> : `a mini-boss. The ${boss.name} shows up at rider level ${zone.boss.unlockRiderLevel}.`}
-            {zone.eggDrop && !beaten && ` The ${boss.name} guards a ${data.elements.info[zone.eggDrop.element].name} egg.`}
+            {zone.eggDrop && !beaten && ` The ${boss.name} guards ${zone.eggDrop.hybrids ? 'a hybrid' : `a ${data.elements.info[zone.eggDrop.element].name}`} egg.`}
           </p>
           {save.rider.level < zone.minLevel - 1 && <p class="muted">Recommended level {zone.minLevel}. It's going to sting.</p>}
           <AdventureButtons zone={zone} save={save} today={today} onOpen={onOpen} idPrefix={idPrefix} />

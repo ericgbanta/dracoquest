@@ -5,6 +5,7 @@ import { hatchDragon, newRider } from '../src/core/characters';
 import { createRng } from '../src/core/rng';
 import { defenseMultiplier, matchupVs, weaknessesOfFighter } from '../src/core/elements';
 import { autoOrders } from '../src/core/ai';
+import { zoneEgg } from '../src/core/eggs';
 import type { ElementId, EnemyData, GameData } from '../src/core/types';
 
 // A Steam (Fire and Tide) enemy that only uses its special move, and one that shifts to Magma (Fire and Stone).
@@ -103,5 +104,45 @@ describe('hybrid enemies', () => {
     s.rider.hp = s.rider.maxHp;
     const o = autoOrders(data, s);
     expect(o.rider).toMatchObject({ type: 'spell', spell: 'tempest' });
+  });
+});
+
+describe('The Confluence', () => {
+  const zone = gameData.zones.find((z) => z.id === 'the-confluence')!;
+  const ids = [...new Set(zone.encounters.flatMap((e) => e.enemies)), zone.miniBoss.enemy, zone.boss.enemy];
+
+  it('every enemy is a hybrid of two elements that can mix', () => {
+    expect(ids).toHaveLength(7);
+    for (const id of ids) {
+      const e = gameData.enemies[id]!;
+      expect(e.element2, id).toBeDefined();
+      expect(e.element2).not.toBe(e.element);
+    }
+  });
+
+  it('the boss shifts from Steam to Magma', () => {
+    const seethe = gameData.enemies.seethe!;
+    expect([seethe.element, seethe.element2]).toEqual(['fire', 'tide']);
+    expect(seethe.moves.find((m) => m.intent === 'shift')).toMatchObject({ shiftTo: 'fire', shiftTo2: 'stone' });
+  });
+
+  it('its boss drops hybrid eggs, picked with the seeded RNG', () => {
+    const seen = new Set<string>();
+    for (let seed = 1; seed <= 200; seed++) {
+      const egg = zoneEgg(gameData, createRng(seed), zone.eggDrop!);
+      expect(egg.element2, `seed ${seed}`).not.toBeNull();
+      seen.add(`${egg.element}+${egg.element2}`);
+    }
+    expect([...seen].sort()).toEqual(zone.eggDrop!.hybrids!.map(([a, b]) => `${a}+${b}`).sort());
+    expect(zoneEgg(gameData, createRng(7), zone.eggDrop!)).toEqual(zoneEgg(gameData, createRng(7), zone.eggDrop!));
+  });
+
+  it('other zones still drop eggs of one element', () => {
+    const sky = gameData.zones.find((z) => z.id === 'skyreach-isles')!;
+    for (let seed = 1; seed <= 50; seed++) {
+      const egg = zoneEgg(gameData, createRng(seed), sky.eggDrop!);
+      expect(egg.element2).toBeNull();
+      expect(['storm', 'light']).toContain(egg.element);
+    }
   });
 });

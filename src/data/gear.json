@@ -3791,5 +3791,305 @@
       "vigor": 8
     },
     "description": "Forged around a scale Nyxaris shed for you. Half of it shines and half of it is not quite there."
+  },
+  {
+    "id": "deepcrown-melee",
+    "name": "Deepcrown Warhammer",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": null,
+    "level": 82,
+    "damage": 81,
+    "price": 21000,
+    "bonus": {
+      "strength": 16
+    },
+    "description": "Found in Hollow Crown. Part of the Deepcrown set."
+  },
+  {
+    "id": "deepcrown-ranged",
+    "name": "Deepcrown Crossbow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": null,
+    "level": 82,
+    "damage": 80,
+    "price": 21000,
+    "bonus": {
+      "agility": 17
+    },
+    "description": "Found in Hollow Crown. Part of the Deepcrown set."
+  },
+  {
+    "id": "deepcrown-magic",
+    "name": "Deepcrown Lantern Staff",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": null,
+    "level": 82,
+    "damage": 80,
+    "price": 21000,
+    "bonus": {
+      "arcana": 17
+    },
+    "description": "Found in Hollow Crown. Part of the Deepcrown set."
+  },
+  {
+    "id": "deepcrown-armor",
+    "name": "Deepcrown King's Mail",
+    "slot": "armor",
+    "level": 89,
+    "price": 27500,
+    "bonus": {
+      "riderDefense": 27,
+      "riderHp": 335
+    },
+    "description": "The Hollow Crown boss's trophy. Part of the Deepcrown set."
+  },
+  {
+    "id": "deepcrown-trinket",
+    "name": "Deepcrown Chancellor's Quill",
+    "slot": "trinket",
+    "level": 84,
+    "price": 22000,
+    "bonus": {
+      "strength": 9,
+      "agility": 9,
+      "vigor": 8
+    },
+    "description": "The Hollow Crown mini-boss's trophy. Part of the Deepcrown set."
+  },
+  {
+    "id": "nightglass-sword",
+    "name": "Nightglass Sword",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": "shadow",
+    "level": 83,
+    "damage": 82,
+    "price": 22200,
+    "bonus": {
+      "strength": 16,
+      "vigor": 1
+    },
+    "description": "Black glass from the deepest mine. It never reflects anything, not even you."
+  },
+  {
+    "id": "duskstring-bow",
+    "name": "Duskstring Bow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": "shadow",
+    "level": 83,
+    "damage": 81,
+    "price": 22200,
+    "bonus": {
+      "agility": 17
+    },
+    "description": "Strung with a thread of shadow. Silent as a held breath."
+  },
+  {
+    "id": "gloomlight-scepter",
+    "name": "Gloomlight Scepter",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": "shadow",
+    "level": 83,
+    "damage": 81,
+    "price": 22200,
+    "bonus": {
+      "arcana": 17
+    },
+    "description": "It glows, but darkly. Your eyes hurt in a cozy way."
+  },
+  {
+    "id": "delvers-coat",
+    "name": "Delver's Coat",
+    "slot": "armor",
+    "level": 83,
+    "price": 21600,
+    "bonus": {
+      "riderDefense": 25,
+      "riderHp": 305
+    },
+    "description": "Many pockets, all of them full of string, chalk and emergency biscuits."
+  },
+  {
+    "id": "everburning-candle",
+    "name": "Everburning Candle",
+    "slot": "trinket",
+    "level": 83,
+    "price": 21300,
+    "bonus": {
+      "vigor": 8,
+      "arcana": 8,
+      "riderMp": 15,
+      "healPct": 0.05
+    },
+    "description": "It never goes out. You have tried. Everyone has tried."
+  },
+  {
+    "id": "crown-of-echoes",
+    "name": "Crown of Echoes",
+    "slot": "trinket",
+    "level": 86,
+    "price": 23500,
+    "bonus": {
+      "strength": 9,
+      "agility": 9,
+      "arcana": 9,
+      "vigor": 9
+    },
+    "description": "A circlet forged from the Hollow King's crown. Say something into it and the kingdom whispers back."
+  },
+  {
+    "id": "wellspring-melee",
+    "name": "Wellspring Trident",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": null,
+    "level": 82,
+    "damage": 81,
+    "price": 21000,
+    "bonus": {
+      "strength": 16
+    },
+    "description": "Found in The Confluence. Part of the Wellspring set."
+  },
+  {
+    "id": "wellspring-ranged",
+    "name": "Wellspring Geyser Bow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": null,
+    "level": 82,
+    "damage": 80,
+    "price": 21000,
+    "bonus": {
+      "agility": 17
+    },
+    "description": "Found in The Confluence. Part of the Wellspring set."
+  },
+  {
+    "id": "wellspring-magic",
+    "name": "Wellspring Kettle Staff",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": null,
+    "level": 82,
+    "damage": 80,
+    "price": 21000,
+    "bonus": {
+      "arcana": 17
+    },
+    "description": "Found in The Confluence. Part of the Wellspring set."
+  },
+  {
+    "id": "wellspring-armor",
+    "name": "Wellspring Hydra Scale",
+    "slot": "armor",
+    "level": 89,
+    "price": 27500,
+    "bonus": {
+      "riderDefense": 27,
+      "riderHp": 335
+    },
+    "description": "The The Confluence boss's trophy. Part of the Wellspring set."
+  },
+  {
+    "id": "wellspring-trinket",
+    "name": "Wellspring Coral Heart",
+    "slot": "trinket",
+    "level": 84,
+    "price": 22000,
+    "bonus": {
+      "strength": 9,
+      "agility": 9,
+      "vigor": 8
+    },
+    "description": "The The Confluence mini-boss's trophy. Part of the Wellspring set."
+  },
+  {
+    "id": "undertow-blade",
+    "name": "Undertow Blade",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": "tide",
+    "level": 83,
+    "damage": 82,
+    "price": 22200,
+    "bonus": {
+      "strength": 16,
+      "vigor": 1
+    },
+    "description": "Pulls a little toward the sea, wherever you are."
+  },
+  {
+    "id": "sea-spray-bow",
+    "name": "Sea Spray Bow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": "tide",
+    "level": 83,
+    "damage": 81,
+    "price": 22200,
+    "bonus": {
+      "agility": 17
+    },
+    "description": "Every shot comes with a fine salty mist."
+  },
+  {
+    "id": "whirlpool-staff",
+    "name": "Whirlpool Staff",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": "tide",
+    "level": 83,
+    "damage": 81,
+    "price": 22200,
+    "bonus": {
+      "arcana": 17
+    },
+    "description": "Stir your tea with it and the tea stirs back."
+  },
+  {
+    "id": "steamproof-apron",
+    "name": "Steamproof Apron",
+    "slot": "armor",
+    "level": 83,
+    "price": 21600,
+    "bonus": {
+      "riderDefense": 25,
+      "riderHp": 305
+    },
+    "description": "Brindle's spare apron. Stained in eleven elements."
+  },
+  {
+    "id": "mixing-vial",
+    "name": "Mixing Vial",
+    "slot": "trinket",
+    "level": 83,
+    "price": 21300,
+    "bonus": {
+      "vigor": 8,
+      "arcana": 8,
+      "riderMp": 15,
+      "healPct": 0.05
+    },
+    "description": "Two liquids that never quite mix, swirling forever. Calming to watch."
+  },
+  {
+    "id": "twinflow-locket",
+    "name": "Twinflow Locket",
+    "slot": "trinket",
+    "level": 86,
+    "price": 23500,
+    "bonus": {
+      "strength": 9,
+      "agility": 9,
+      "arcana": 9,
+      "vigor": 9
+    },
+    "description": "Forged from a scale off each of Seethe's heads. One side is warm and one side is cool."
   }
 ]

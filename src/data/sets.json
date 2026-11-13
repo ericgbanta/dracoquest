@@ -543,5 +543,63 @@
         }
       }
     ]
+  },
+  {
+    "id": "deepcrown",
+    "name": "Deepcrown",
+    "zone": "hollow-crown",
+    "description": "Royal gear from the lost kingdom's vaults. A full set turns you into a walking fortress.",
+    "pieces": [
+      "deepcrown-melee",
+      "deepcrown-ranged",
+      "deepcrown-magic",
+      "deepcrown-armor",
+      "deepcrown-trinket"
+    ],
+    "bonuses": [
+      {
+        "pieces": 2,
+        "bonus": {
+          "strength": 7,
+          "vigor": 7
+        }
+      },
+      {
+        "pieces": 3,
+        "bonus": {
+          "riderDefense": 8,
+          "riderHp": 150
+        }
+      }
+    ]
+  },
+  {
+    "id": "wellspring",
+    "name": "Wellspring",
+    "zone": "the-confluence",
+    "description": "Gear tempered in the boiling springs. A full set hits hard and bounces back.",
+    "pieces": [
+      "wellspring-melee",
+      "wellspring-ranged",
+      "wellspring-magic",
+      "wellspring-armor",
+      "wellspring-trinket"
+    ],
+    "bonuses": [
+      {
+        "pieces": 2,
+        "bonus": {
+          "strength": 7,
+          "arcana": 7
+        }
+      },
+      {
+        "pieces": 3,
+        "bonus": {
+          "riderDamagePct": 0.08,
+          "healPct": 0.06
+        }
+      }
+    ]
   }
 ]

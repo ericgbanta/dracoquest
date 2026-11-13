@@ -164,7 +164,17 @@
     "constellation-bow",
     "galaxy-wand",
     "duskweave-robe",
-    "quiet-stone"
+    "quiet-stone",
+    "nightglass-sword",
+    "duskstring-bow",
+    "gloomlight-scepter",
+    "delvers-coat",
+    "everburning-candle",
+    "undertow-blade",
+    "sea-spray-bow",
+    "whirlpool-staff",
+    "steamproof-apron",
+    "mixing-vial"
   ],
   "items": {
     "potion": 25,

@@ -1371,6 +1371,202 @@
         },
         "enemy": "gloam-stalker"
       }
+    ],
+    "hollow-crown": [
+      {
+        "id": "mole-crowns",
+        "kind": "defeat",
+        "count": 5,
+        "text": "Collect 5 Crown Mole crowns",
+        "reward": {
+          "gold": 1960,
+          "materials": {
+            "ore": 3
+          }
+        },
+        "enemy": "crown-mole"
+      },
+      {
+        "id": "wraith-lamps",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Relight lamps after 4 Lantern Wraiths",
+        "reward": {
+          "gold": 1940,
+          "embers": 1
+        },
+        "enemy": "lantern-wraith"
+      },
+      {
+        "id": "armadillo-gems",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Count the gems on 4 Gemback Armadillos",
+        "reward": {
+          "gold": 1960,
+          "materials": {
+            "ore": 3
+          }
+        },
+        "enemy": "gemback-armadillo"
+      },
+      {
+        "id": "jester-hush",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Hush 3 Shadow Jesters",
+        "reward": {
+          "gold": 1940,
+          "embers": 1
+        },
+        "enemy": "shadow-jester"
+      },
+      {
+        "id": "knight-relieve",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Relieve 3 Pillar Knights of duty",
+        "reward": {
+          "gold": 1960,
+          "materials": {
+            "ore": 3
+          }
+        },
+        "enemy": "pillar-knight"
+      },
+      {
+        "id": "crown-wins",
+        "kind": "wins",
+        "count": 6,
+        "text": "Win 6 fights in Hollow Crown",
+        "reward": {
+          "gold": 2100,
+          "materials": {
+            "ore": 4
+          }
+        }
+      },
+      {
+        "id": "crown-clear",
+        "kind": "clear",
+        "count": 2,
+        "text": "Finish 2 runs in Hollow Crown",
+        "reward": {
+          "gold": 2260,
+          "embers": 3
+        }
+      },
+      {
+        "id": "shadow-chancellor-hunt",
+        "kind": "defeat",
+        "count": 1,
+        "text": "Defeat the Shadow Chancellor",
+        "reward": {
+          "gold": 2100,
+          "materials": {
+            "scale": 1
+          }
+        },
+        "enemy": "shadow-chancellor"
+      }
+    ],
+    "the-confluence": [
+      {
+        "id": "puff-cool",
+        "kind": "defeat",
+        "count": 5,
+        "text": "Cool down 5 Scald Puffs",
+        "reward": {
+          "gold": 1960,
+          "materials": {
+            "ore": 3
+          }
+        },
+        "enemy": "scald-puff"
+      },
+      {
+        "id": "crab-pinch",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Out-pinch 4 Magma Crabs",
+        "reward": {
+          "gold": 1940,
+          "embers": 1
+        },
+        "enemy": "magma-crab"
+      },
+      {
+        "id": "seal-wake",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Wake 4 Glacier Seals",
+        "reward": {
+          "gold": 1960,
+          "materials": {
+            "ore": 3
+          }
+        },
+        "enemy": "glacier-seal"
+      },
+      {
+        "id": "heron-dry",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Dry off 3 Monsoon Herons",
+        "reward": {
+          "gold": 1940,
+          "embers": 1
+        },
+        "enemy": "monsoon-heron"
+      },
+      {
+        "id": "newt-air",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Air out 3 Brimstone Newts",
+        "reward": {
+          "gold": 1960,
+          "materials": {
+            "ore": 3
+          }
+        },
+        "enemy": "brimstone-newt"
+      },
+      {
+        "id": "confluence-wins",
+        "kind": "wins",
+        "count": 6,
+        "text": "Win 6 fights in the Confluence",
+        "reward": {
+          "gold": 2100,
+          "materials": {
+            "ore": 4
+          }
+        }
+      },
+      {
+        "id": "confluence-clear",
+        "kind": "clear",
+        "count": 2,
+        "text": "Finish 2 runs in the Confluence",
+        "reward": {
+          "gold": 2260,
+          "embers": 3
+        }
+      },
+      {
+        "id": "coral-colossus-hunt",
+        "kind": "defeat",
+        "count": 1,
+        "text": "Defeat the Coral Colossus",
+        "reward": {
+          "gold": 2100,
+          "materials": {
+            "scale": 1
+          }
+        },
+        "enemy": "coral-colossus"
+      }
     ]
   }
 }

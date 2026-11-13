@@ -459,7 +459,7 @@ export interface ZoneData {
   elements?: ElementId[];
   /** Bosses drop an egg: always the first time, then by chance. `elements` picks one at random. */
   /** `breed`: the boss's eggs hatch that breed (default the original Dragon). */
-  eggDrop: { element: ElementId; chance: number; elements?: ElementId[]; breed?: string } | null;
+  eggDrop: { element: ElementId; chance: number; elements?: ElementId[]; breed?: string; hybrids?: [ElementId, ElementId][] } | null;
 }
 
 export interface GameData {

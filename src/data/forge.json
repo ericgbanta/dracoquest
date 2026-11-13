@@ -250,6 +250,28 @@
         "crystal": 10,
         "scale": 6
       }
+    },
+    {
+      "gear": "crown-of-echoes",
+      "forgeLevel": 3,
+      "gold": 12000,
+      "embers": 32,
+      "materials": {
+        "ore": 24,
+        "crystal": 11,
+        "scale": 7
+      }
+    },
+    {
+      "gear": "twinflow-locket",
+      "forgeLevel": 3,
+      "gold": 12000,
+      "embers": 32,
+      "materials": {
+        "ore": 24,
+        "crystal": 11,
+        "scale": 7
+      }
     }
   ]
 }

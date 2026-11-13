@@ -49,7 +49,7 @@ def write(AREAS, zone_tail, regions_fn, cap, spells):
           "boss": {"enemy": ids[6], "level": hi, "unlockRiderLevel": hi - 1, "trophy": {"gear": f"{sid}-armor", "chance": 0.25}},
           "miniBoss": {"enemy": ids[5], "levelOffset": 0, "trophy": {"gear": f"{sid}-trinket", "chance": 0.25}},
           "dropChances": {"potion": 0.25, "dragon-treat": 0.15, "mana-tonic": 0.1},
-          "eggDrop": {"element": egg_els[0], "chance": 0.1, "elements": egg_els},
+          "eggDrop": {"element": egg_els[0], "chance": 0.1, "elements": egg_els, **({"hybrids": A_['eggHybrids']} if A_.get('eggHybrids') else {})},
           "gearDrops": {"chance": 0.06, "gear": [f"{sid}-melee", f"{sid}-ranged", f"{sid}-magic"]}})
         # gear: set weapons at tier-1, shop tier at `tier`, every number grows by tier band (k = 0 for 53, 1 for 63, ...)
         t = A_['tier']; G = A_['gear']; el = A_.get('shopEl', A_['elements'][0])

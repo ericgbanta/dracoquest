@@ -7206,5 +7206,782 @@
     "xpMultiplier": 5,
     "boss": true,
     "goldMultiplier": 6
+  },
+  {
+    "id": "crown-mole",
+    "name": "Crown Mole",
+    "element": "stone",
+    "flavor": "A mole wearing a bottle cap for a crown. It believes it is the rightful king. Nobody has argued.",
+    "base": {
+      "hp": 1463.07,
+      "attack": 64.354,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 52.097,
+      "dodge": 27.58
+    },
+    "perLevel": {
+      "hp": 9.11,
+      "attack": 0.377,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.2925,
+      "dodge": 0.14
+    },
+    "moves": [
+      {
+        "id": "dig-claw",
+        "name": "Dig Claw",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "pebble-toss",
+        "name": "Pebble Toss",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "crack",
+        "statusChance": 0.5
+      },
+      {
+        "id": "royal-huff",
+        "name": "Royal Huff",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "lantern-wraith",
+    "name": "Lantern Wraith",
+    "element": "shadow",
+    "flavor": "A little ghost carrying a lantern full of darkness. It lights the way to nowhere.",
+    "base": {
+      "hp": 1170.45,
+      "attack": 64.354,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 60.113,
+      "dodge": 33.49
+    },
+    "perLevel": {
+      "hp": 7.27,
+      "attack": 0.377,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.3375,
+      "dodge": 0.17
+    },
+    "moves": [
+      {
+        "id": "cold-touch",
+        "name": "Cold Touch",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "dark-flicker",
+        "name": "Dark Flicker",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.6,
+        "status": "blind",
+        "statusChance": 0.5
+      },
+      {
+        "id": "snuff-out",
+        "name": "Snuff Out",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fade",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "gemback-armadillo",
+    "name": "Gemback Armadillo",
+    "element": "stone",
+    "flavor": "Its shell is studded with gems. It rolls up into a ball whenever anyone looks at it greedily.",
+    "base": {
+      "hp": 1682.74,
+      "attack": 64.354,
+      "power": 41.75,
+      "defense": 19.24,
+      "swift": 40.075,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 10.46,
+      "attack": 0.377,
+      "power": 0.25,
+      "defense": 0.12,
+      "swift": 0.225,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "scratch",
+        "name": "Scratch",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "gem-roll",
+        "name": "Gem Roll",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "crack",
+        "statusChance": 0.4
+      },
+      {
+        "id": "curl-up",
+        "name": "Curl Up",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "shadow-jester",
+    "name": "Shadow Jester",
+    "element": "shadow",
+    "flavor": "The shadow of the old court jester. The jester left a thousand years ago. The shadow stayed for the jokes.",
+    "base": {
+      "hp": 1243.4,
+      "attack": 64.354,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 52.097,
+      "dodge": 25.61
+    },
+    "perLevel": {
+      "hp": 7.73,
+      "attack": 0.377,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.2925,
+      "dodge": 0.13
+    },
+    "moves": [
+      {
+        "id": "bonk",
+        "name": "Bladder Bonk",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "pratfall",
+        "name": "Pratfall",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.6,
+        "status": "blind",
+        "statusChance": 0.5
+      },
+      {
+        "id": "take-a-bow",
+        "name": "Take a Bow",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.15,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ]
+  },
+  {
+    "id": "pillar-knight",
+    "name": "Pillar Knight",
+    "element": "stone",
+    "flavor": "A suit of stone armor still guarding a door that fell down centuries ago.",
+    "base": {
+      "hp": 1316.76,
+      "attack": 64.354,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 48.09,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 8.19,
+      "attack": 0.377,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.27,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "halberd",
+        "name": "Halberd Swing",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "shield-slam",
+        "name": "Shield Slam",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "crack",
+        "statusChance": 0.4
+      },
+      {
+        "id": "stand-guard",
+        "name": "Stand Guard",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "shadow-chancellor",
+    "name": "Shadow Chancellor",
+    "element": "shadow",
+    "flavor": "The king's old advisor, now mostly cloak and whispers. Still taking notes on everyone.",
+    "base": {
+      "hp": 2560.58,
+      "attack": 73.89,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 40.075,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 15.91,
+      "attack": 0.434,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.225,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "quill-jab",
+        "name": "Quill Jab",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "dread-decree",
+        "name": "Dread Decree",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "blind",
+        "statusChance": 0.5
+      },
+      {
+        "id": "fold-away",
+        "name": "Fold Away",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fade",
+        "target": "self"
+      },
+      {
+        "id": "ink-mend",
+        "name": "Ink Mend",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.2,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "miniBoss": true,
+    "xpMultiplier": 2
+  },
+  {
+    "id": "hollow-king",
+    "name": "Hollow King",
+    "element": "stone",
+    "flavor": "A giant king of stone on a throne of stone, with a crown and nothing underneath it. He has waited a thousand years for someone to bow.",
+    "base": {
+      "hp": 4685.66,
+      "attack": 77.413,
+      "power": 41.75,
+      "defense": 18.038,
+      "swift": 44.083,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 29.13,
+      "attack": 0.455,
+      "power": 0.25,
+      "defense": 0.1125,
+      "swift": 0.2475,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "scepter",
+        "name": "Scepter Smash",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "royal-quake",
+        "name": "Royal Quake",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.8,
+        "status": "crack",
+        "statusChance": 0.6
+      },
+      {
+        "id": "throne-slam",
+        "name": "Throne Slam",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "crown-of-night",
+        "name": "Crown of Night",
+        "intent": "shift",
+        "weight": 1,
+        "shiftTo": "shadow",
+        "target": "self",
+        "condition": "notShifted"
+      },
+      {
+        "id": "stone-robes",
+        "name": "Stone Robes",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      },
+      {
+        "id": "royal-rest",
+        "name": "Royal Rest",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.12,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "xpMultiplier": 5,
+    "boss": true,
+    "goldMultiplier": 6
+  },
+  {
+    "id": "scald-puff",
+    "name": "Scald Puff",
+    "element": "fire",
+    "element2": "tide",
+    "flavor": "A little cloud of steam with a kettle's temper. It whistles when it's angry, which is always.",
+    "base": {
+      "hp": 1561.74,
+      "attack": 68.694,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 52.097,
+      "dodge": 27.58
+    },
+    "perLevel": {
+      "hp": 9.72,
+      "attack": 0.402,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.2925,
+      "dodge": 0.14
+    },
+    "moves": [
+      {
+        "id": "puff",
+        "name": "Puff",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "scald",
+        "name": "Scald",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "burn",
+        "statusChance": 0.5
+      },
+      {
+        "id": "steam-up",
+        "name": "Steam Up",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fade",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "magma-crab",
+    "name": "Magma Crab",
+    "element": "fire",
+    "element2": "stone",
+    "flavor": "A crab with a shell of cooling lava. Its pinches are hot. Its hugs are worse.",
+    "base": {
+      "hp": 1249.38,
+      "attack": 68.694,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 60.113,
+      "dodge": 33.49
+    },
+    "perLevel": {
+      "hp": 7.76,
+      "attack": 0.402,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.3375,
+      "dodge": 0.17
+    },
+    "moves": [
+      {
+        "id": "pinch",
+        "name": "Pinch",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "lava-claw",
+        "name": "Lava Claw",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "burn",
+        "statusChance": 0.4
+      },
+      {
+        "id": "crust-over",
+        "name": "Crust Over",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "glacier-seal",
+    "name": "Glacier Seal",
+    "element": "frost",
+    "element2": "tide",
+    "flavor": "A round seal with a little iceberg on its back. Sleepy until it is not.",
+    "base": {
+      "hp": 1796.23,
+      "attack": 68.694,
+      "power": 41.75,
+      "defense": 19.24,
+      "swift": 40.075,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 11.16,
+      "attack": 0.402,
+      "power": 0.25,
+      "defense": 0.12,
+      "swift": 0.225,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "belly-flop",
+        "name": "Belly Flop",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "ice-spray",
+        "name": "Ice Spray",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.6,
+        "status": "chill",
+        "statusChance": 0.5
+      },
+      {
+        "id": "nap",
+        "name": "Nap",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.15,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ]
+  },
+  {
+    "id": "monsoon-heron",
+    "name": "Monsoon Heron",
+    "element": "storm",
+    "element2": "tide",
+    "flavor": "Brings the rain wherever it goes. It has never once been dry and is quite smug about it.",
+    "base": {
+      "hp": 1327.24,
+      "attack": 68.694,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 52.097,
+      "dodge": 25.61
+    },
+    "perLevel": {
+      "hp": 8.25,
+      "attack": 0.402,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.2925,
+      "dodge": 0.13
+    },
+    "moves": [
+      {
+        "id": "beak-stab",
+        "name": "Beak Stab",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "downpour",
+        "name": "Downpour",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.6,
+        "status": "soak",
+        "statusChance": 0.5
+      },
+      {
+        "id": "thunderclap",
+        "name": "Thunderclap",
+        "intent": "attack",
+        "weight": 1,
+        "power": 0.5,
+        "status": "shock",
+        "statusChance": 0.4
+      }
+    ]
+  },
+  {
+    "id": "brimstone-newt",
+    "name": "Brimstone Newt",
+    "element": "fire",
+    "element2": "blight",
+    "flavor": "Smells of rotten eggs and burnt toast. Very proud of both.",
+    "base": {
+      "hp": 1405.56,
+      "attack": 68.694,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 48.09,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 8.73,
+      "attack": 0.402,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.27,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "nibble",
+        "name": "Nibble",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "sulfur-spit",
+        "name": "Sulfur Spit",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.6,
+        "status": "rot",
+        "statusChance": 0.5
+      },
+      {
+        "id": "stink-up",
+        "name": "Stink Up",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "coral-colossus",
+    "name": "Coral Colossus",
+    "element": "stone",
+    "element2": "tide",
+    "flavor": "A giant made of living reef. Small fish live in its armpits and pay no rent.",
+    "base": {
+      "hp": 2733.26,
+      "attack": 78.873,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 40.075,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 16.98,
+      "attack": 0.462,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.225,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "reef-fist",
+        "name": "Reef Fist",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "tidal-crush",
+        "name": "Tidal Crush",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "soak",
+        "statusChance": 0.5
+      },
+      {
+        "id": "barnacle-up",
+        "name": "Barnacle Up",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      },
+      {
+        "id": "tide-pool",
+        "name": "Tide Pool",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.2,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "miniBoss": true,
+    "xpMultiplier": 2
+  },
+  {
+    "id": "seethe",
+    "name": "Seethe",
+    "element": "fire",
+    "element2": "tide",
+    "flavor": "A great serpent with two heads, one of lava and one of sea water. They have been arguing for three hundred years, and the steam has never stopped.",
+    "base": {
+      "hp": 5001.64,
+      "attack": 82.634,
+      "power": 41.75,
+      "defense": 18.038,
+      "swift": 44.083,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 31.1,
+      "attack": 0.486,
+      "power": 0.25,
+      "defense": 0.1125,
+      "swift": 0.2475,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "double-bite",
+        "name": "Double Bite",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "boiling-breath",
+        "name": "Boiling Breath",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.8,
+        "status": "burn",
+        "statusChance": 0.6
+      },
+      {
+        "id": "geyser-slam",
+        "name": "Geyser Slam",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "soak",
+        "statusChance": 0.4
+      },
+      {
+        "id": "cool-to-stone",
+        "name": "Cool to Stone",
+        "intent": "shift",
+        "weight": 1,
+        "shiftTo": "fire",
+        "shiftTo2": "stone",
+        "target": "self",
+        "condition": "notShifted"
+      },
+      {
+        "id": "steam-shroud",
+        "name": "Steam Shroud",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fade",
+        "target": "self"
+      },
+      {
+        "id": "hot-spring",
+        "name": "Hot Spring",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.12,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "xpMultiplier": 5,
+    "boss": true,
+    "goldMultiplier": 6
   }
 ]

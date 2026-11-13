@@ -128,6 +128,7 @@ export function loadGameData(raw: RawData): GameData {
     if (!enemies[z.boss.enemy]) throw new DataError(`zones.${z.id}: unknown boss`);
     if (!enemies[z.miniBoss.enemy]) throw new DataError(`zones.${z.id}: unknown mini-boss`);
     for (const id of Object.keys(z.dropChances)) if (!itemIds.has(id)) throw new DataError(`zones.${z.id}: unknown drop "${id}"`);
+    for (const [a, b] of z.eggDrop?.hybrids ?? []) if (!canMix(elements, a, b)) throw new DataError(`zones.${z.id}: egg hybrid ${a} and ${b} can't mix`);
   }
   const foodIds = new Set((raw.foods as { id: string }[]).map((f) => f.id));
   for (const id of Object.keys(progression.startingInventory)) {

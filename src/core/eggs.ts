@@ -3,7 +3,7 @@
  * and what two parents make at the Nesting Grounds. Pure: randomness comes in as an Rng.
  */
 import type { Rng } from './rng';
-import type { DragonState, ElementId, ElementsData, EggSpec, GameData, VariantId } from './types';
+import type { DragonState, ElementId, ElementsData, EggSpec, GameData, VariantId, ZoneData } from './types';
 import { VARIANTS } from './types';
 
 /** A plain egg of one element, the original breed and no finish. */
@@ -70,6 +70,15 @@ export function releaseValue(data: GameData, egg: EggSpec): number {
 export function rollVariant(data: GameData, rng: Rng, parentHasOne = false): VariantId | null {
   const v = data.dragons.variants;
   return rng.chance(parentHasOne ? v.inheritedChance : v.chance) ? rng.pick(VARIANTS) : null;
+}
+
+/** A boss's egg: one of the zone's elements, or one of its hybrid mixes when the zone lists `hybrids` (The Confluence). */
+export function zoneEgg(data: GameData, rng: Rng, drop: NonNullable<ZoneData['eggDrop']>): EggSpec {
+  if (drop.hybrids?.length) {
+    const [element, element2] = rng.pick(drop.hybrids);
+    return { element, element2, breed: drop.breed ?? 'dragon', variant: rollVariant(data, rng) };
+  }
+  return newEgg(data, rng, drop.elements ? rng.pick(drop.elements) : drop.element, drop.breed);
 }
 
 /** A new egg of one element from a drop, the shop or an Elder, with the usual chance of a finish. */
