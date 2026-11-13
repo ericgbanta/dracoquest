@@ -1,6 +1,6 @@
 # More elements and dragons: plan
 
-Written 2026-11-13 at Eric's request. Status: planning only, nothing built. Eric's answers so far are in "What Eric asked for"; the open questions at the end need his answers before the phases that depend on them.
+Written 2026-11-13 at Eric's request. Status: approved 2026-11-13; E0 in progress. Eric's answers are in "What Eric asked for" and "Eric's answers" at the end.
 
 This plan runs alongside `docs/WORLD_PLAN.md`. W5 to W9 (the frontier areas that raise the cap to 100) stay as planned. The new areas here are extra places to go, on new maps, from level 30 to 100.
 
@@ -102,9 +102,10 @@ One at a time, each tested and committed. Deploy when Eric says.
 
 ### E0. Foundation (no art)
 
-- Elements become fully data-driven: `ElementId` comes from the data instead of a fixed union, and the engine reads the ring and any number of pairs. Each status rule in `battle.ts` moves behind a status-kind table so a new status is a data entry plus one small function.
+- Status rules in `battle.ts` read each status's effect fields (no dodge, a defense multiplier, an element it amplifies, and so on) instead of checking status ids, so a status that reuses existing effects is only data. `ElementId` stays a typed union; each phase that adds elements adds them to the union and to `elements.json` together, and the data test checks the two match.
 - Save v10: each dragon gets `breed` (default `drake`), `element2` (default none) and `variant` (default none); eggs become a list of objects (element, second element, breed, variant) instead of counts per element. Migration and a v9 fixture test.
 - Nest levels 4 and 5 (8 and 10 dragons) and the compact Dragons list.
+- Returning unwanted eggs to the wild for embers.
 - The sim and AI understand breeds, hybrids and the new egg shape.
 
 Done when: every existing test, the sim and the phone tests pass unchanged on v10; a v9 save loads; the Nest reaches 10.
@@ -171,9 +172,14 @@ That's on top of the 25 for W5 to W9. E0, E1, E3, E6 and E8 need no art, so they
 - **Download size.** Each breed adds about 480 KB of dragon art (8 images at about 60 KB). Breed art should be cached on first view like area art, not precached.
 - **Breed art and the recolor.** New body shapes must keep to the key colors, or the recolor misses. `tests/tint.test.ts` gets the new breeds' measured colors.
 
-## Open questions for Eric
+## Eric's answers (2026-11-13)
 
-1. **Where Venom and Metal join the ring.** The plan puts Venom between Frost and Verdant and Metal between Stone and Storm, which ends Frost beating Verdant and Stone beating Storm. Recommended because neither touches Fire or Tide, so two of the three starters keep the matchups they learned first.
-2. **The third partner at level 60.** Recommended, as the answer to dragons stopping at 50. The other choice is no third partner, plus Forge upgrades for dragon gear.
-3. **Breeding pace.** 8 hours and a 3 day cooldown per dragon are starting numbers. Faster means more eggs, which fills the Nest.
-4. **Names.** Every element, breed, area and map name here is a working name.
+1. **Where Venom and Metal join the ring:** "where it makes sense". So the plan's placement stands: Venom between Frost and Verdant, Metal between Stone and Storm.
+2. **A third dragon in battle at rider level 60:** yes.
+3. **Breeding pace:** 8 hours and a 3 day cooldown are fine. He also asked what happens to eggs a player doesn't want. Selling them for gold "doesn't feel right", so an unwanted egg can be **returned to the wild**, and the wild dragons leave embers in thanks. Built in E0 (see below).
+4. **Names:** a separate round of discovery questions, worked through with Eric. Until then every name here is a working name.
+
+### Returning eggs to the wild
+
+- Any egg in the bag can be returned from the Roost's egg list, after a confirm ("Return the Ember Egg to the wild? The wild dragons will leave 3 embers.").
+- Embers by egg (in `roost.json`, `releaseEmbers`): 3 for a plain egg, +2 if it's a hybrid, +2 for a breed other than the Drake, +7 for a rare variant. A plain egg pays about what one bounty pays, so it never beats hatching and raising a dragon. An incubating egg can't be returned; the egg being hatched can't either.
