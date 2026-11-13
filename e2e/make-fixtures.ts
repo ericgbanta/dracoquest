@@ -89,4 +89,29 @@ let elder = { ...roost, run: null, rider: { ...roost.rider, level: 45 }, embers:
 elder = { ...elder, dragons: elder.dragons.map((d) => (d.id === elder.activeDragonId ? { ...d, stage: 'elder', level: 45, bond: 95 } : d)) };
 elder = { ...elder, rider: { ...elder.rider, hp: riderMaxHp(data, elder.rider) }, dragons: elder.dragons.map((d) => ({ ...d, hp: dragonMaxHp(data, d) })) };
 writeFileSync('e2e/fixtures/elder.json', JSON.stringify(elder));
+// Dragons plan E0 to E3: a full Nest of 10 with hybrids and rare finishes, the Nesting Grounds built,
+// two rested Adults free to nest, and eggs in the bag (one plain, one rare hybrid).
+let nest: SaveData = { ...roost, run: null, embers: 500, rider: { ...roost.rider, gold: 100_000 } };
+while (nest.roost.levels.nest < data.roost.buildings.nest.levels.length) nest = upgradeBuilding(data, nest, 'nest', NOW);
+nest = upgradeBuilding(data, nest, 'nesting', NOW);
+nest = { ...nest, dragons: nest.dragons.map((d) => ({ ...d, assignment: { kind: 'idle' as const } })) };
+const kin: [string, DragonState['element'], DragonState['element2'], DragonState['variant'], string, string][] = [
+  ['Mist', 'tide', 'fire', null, '#7fc8f0', '#e9e4da'],
+  ['Glint', 'stone', null, 'shimmer', '#a58c6a', '#f2a541'],
+  ['Twinkle', 'shadow', null, 'starry', '#4a4458', '#7a5c9e'],
+  ['Wisp', 'light', null, 'ghost', '#e9e4da', '#f5e27a'],
+  ['Coal', 'fire', 'stone', 'ember-eyed', '#4a4458', '#e8603c'],
+  ['Bramble', 'verdant', 'frost', null, '#2f8f6f', '#7fc8f0'],
+  ['Zap', 'storm', null, null, '#c46fb0', '#f5e27a'],
+];
+nest = {
+  ...nest,
+  dragons: [...nest.dragons, ...kin.map(([name, element, element2, variant, primary, secondary], i) => ({
+    ...lead, id: `kin-${i}`, name, element, element2, variant, colors: { primary, secondary }, talents: {}, equipment: {}, bond: 40,
+    temper: { bold: 0, gentle: 0, clever: 0, proud: 0 }, assignment: { kind: 'idle' as const }, stage: i < 2 ? 'adult' : 'juvenile', level: i < 2 ? 30 : 18,
+  }))],
+  eggs: [plainEgg('storm'), { element: 'frost', element2: 'tide', breed: 'dragon', variant: 'starry' }],
+};
+nest = { ...nest, dragons: nest.dragons.map((d) => ({ ...d, hp: dragonMaxHp(data, d) })) };
+writeFileSync('e2e/fixtures/nest.json', JSON.stringify(nest));
 console.log('fixtures written');
