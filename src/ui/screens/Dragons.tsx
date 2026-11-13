@@ -2,7 +2,7 @@ import { useState } from 'preact/hooks';
 import { gameData as data } from '../../core/data';
 import { activeDragon, canHaveSecond, canLayEgg, GameError, layEgg, growthStatus, learnDragonTalent, respecTalents, secondDragon, setLead, setSecond, spendDragonPoint, startGrowthQuest } from '../../core/game';
 import { temperament, leaning } from '../../core/roost';
-import { canLearn, dragonBonus, pointsInTree, respecCost, talentPointsLeft } from '../../core/loadout';
+import { canLearn, dragonBonus, pointsInTree, respecCost, signatureSkill, talentPointsLeft } from '../../core/loadout';
 import type { TalentTree } from '../../core/types';
 import { formatBonus } from '../bits';
 import { dragonMaxHp } from '../../core/characters';
@@ -53,6 +53,7 @@ export function Dragons({ save, update }: Props) {
   const strong = data.elements.ids.filter((e) => elementsOf(d).some((own) => beats(data.elements, own, e)));
   const weak = data.elements.ids.filter((e) => defenseMultiplier(data.elements, e, d) > data.elements.multipliers.neutral);
   const growth = growthStatus(data, d);
+  const signature = signatureSkill(data, d);
   const nextStage = growth.next;
 
   return (
@@ -95,8 +96,9 @@ export function Dragons({ save, update }: Props) {
         <DragonSprite element={d.element} element2={d.element2} variant={d.variant} stage={d.stage} primary={d.colors.primary} secondary={d.colors.secondary} size={140} class="idle" />
         <div>
           <h2>{d.name}</h2>
-          <p class="muted">{stage?.name} · Level {d.level} <ElementBadge element={d.element} element2={d.element2} small /> {d.variant && <VariantBadge variant={d.variant} />}</p>
+          <p class="muted">{stage?.name}{d.breed !== 'dragon' ? ` ${data.dragons.breeds[d.breed]?.name ?? ''}` : ''} · Level {d.level} <ElementBadge element={d.element} element2={d.element2} small /> {d.variant && <VariantBadge variant={d.variant} />}</p>
           <p class="muted">Breath is strong against {names(strong)}. Weak to {names(weak)}.</p>
+          {signature && <p class="muted" data-testid="signature-skill">Signature skill, {signature.name}: {signature.description.replace(/^Signature skill: /, '')}</p>}
           <p class="muted">{temper ? `${data.roost.temperament.types[temper].name}: ${data.roost.temperament.types[temper].passive}.` : lean ? `Leaning ${data.roost.temperament.types[lean].name} (${data.roost.temperament.types[lean].from.toLowerCase()}).` : 'Temperament not settled yet.'}</p>
         </div>
       </div>

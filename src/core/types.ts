@@ -45,6 +45,8 @@ export interface GearData {
 }
 
 export type TalentTree = 'protection' | 'elemental' | 'fighting' | 'assistance' | 'mischief';
+/** A breed's signature skill looks like a talent in the 'breed' tree, which has no page of its own. */
+export type SkillTree = TalentTree | 'breed';
 
 export interface TalentSkill {
   kind: 'damage' | 'heal' | 'healAll' | 'buff' | 'debuff' | 'taunt' | 'cleanse';
@@ -60,7 +62,7 @@ export interface TalentSkill {
 
 export interface TalentData {
   id: string;
-  tree: TalentTree;
+  tree: SkillTree;
   name: string;
   /** Points already spent in this tree before this talent can be learned. */
   tier: number;
@@ -323,9 +325,17 @@ export interface DragonsData {
   palette: string[];
   eggLaying: { stage: string; cost: Cost };
   /** Body shapes. `dragon` is the original; later phases add more. */
-  breeds: Record<string, { name: string; blurb: string }>;
+  breeds: Record<string, BreedData>;
   /** Rare finishes drawn on top of the player's colors. `chance` per new egg; `inheritedChance` when a parent has one. */
   variants: { chance: number; inheritedChance: number; info: Record<VariantId, { name: string; blurb: string }> };
+}
+
+/** A body shape. Its stat lean is added to a new dragon's base stats; its signature skill is always known. */
+export interface BreedData {
+  name: string;
+  blurb: string;
+  statLean?: Partial<DragonStats>;
+  signature?: { id: string; name: string; description: string; skill: TalentSkill };
 }
 
 export type VariantId = 'shimmer' | 'starry' | 'ghost' | 'ember-eyed';
@@ -439,7 +449,8 @@ export interface ZoneData {
   /** Areas with more than one main element list them all; `element` is the first. */
   elements?: ElementId[];
   /** Bosses drop an egg: always the first time, then by chance. `elements` picks one at random. */
-  eggDrop: { element: ElementId; chance: number; elements?: ElementId[] } | null;
+  /** `breed`: the boss's eggs hatch that breed (default the original Dragon). */
+  eggDrop: { element: ElementId; chance: number; elements?: ElementId[]; breed?: string } | null;
 }
 
 export interface GameData {

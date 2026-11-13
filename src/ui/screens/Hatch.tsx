@@ -146,10 +146,11 @@ function NameDragon({ save, update }: Props) {
       <header class="screen-header screen-header--center">
         <h1 id="screen-title">It's hatching!</h1>
       </header>
-      <Hatching element={egg.element} element2={egg.element2} variant={egg.variant} primary={primary} secondary={secondary} />
-      {(egg.element2 || egg.variant) && (
+      <Hatching element={egg.element} element2={egg.element2} variant={egg.variant} breed={egg.breed} primary={primary} secondary={secondary} />
+      {(egg.element2 || egg.variant || egg.breed !== 'dragon') && (
         <p class="notice notice--ok center" data-testid="hatch-special">
           {egg.variant ? `A rare ${data.dragons.variants.info[egg.variant].name} dragon! ${data.dragons.variants.info[egg.variant].blurb} ` : ''}
+          {egg.breed !== 'dragon' ? `It's a ${data.dragons.breeds[egg.breed]?.name ?? egg.breed}! ${data.dragons.breeds[egg.breed]?.blurb ?? ''} ` : ''}
           {egg.element2 ? `It's a ${elementLabel(data.elements, egg)} hybrid: ${data.elements.info[egg.element].name} and ${data.elements.info[egg.element2].name}.` : ''}
         </p>
       )}
@@ -192,11 +193,11 @@ function ColorPicker({ label, value, onPick, testid }: { label: string; value: s
  * The moment of hatching: the egg's cap pops off, the hatchling springs out and
  * idles in the colors being picked. Only transform and opacity animate.
  */
-function Hatching({ element, element2 = null, variant = null, primary, secondary }: {
-  element: ElementId; element2?: ElementId | null; variant?: VariantId | null; primary: string; secondary: string;
+function Hatching({ element, element2 = null, variant = null, breed = 'dragon', primary, secondary }: {
+  element: ElementId; element2?: ElementId | null; variant?: VariantId | null; breed?: string; primary: string; secondary: string;
 }) {
   const art = useEggArt(element);
-  const rig = useDragonRig({ element, element2, variant, stage: 'hatchling', colors: { primary, secondary } });
+  const rig = useDragonRig({ element, element2, variant, breed, stage: 'hatchling', colors: { primary, secondary } });
   const top = useRef<HTMLImageElement>(null);
   const bottom = useRef<HTMLImageElement>(null);
   const baby = useRef<HTMLDivElement>(null);

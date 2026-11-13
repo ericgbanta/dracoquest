@@ -132,6 +132,20 @@ def pose(idle_name, out_name, idle_w, pad=(0, 0), apad=(0, 0), scale=1.0):
     pose_imgs(crop(key(f'v2/out/{idle_name}.png')), crop(key(f'v2/out/{idle_name}-attack.png')), out_name, idle_w, pad, apad, scale)
 for stage in ['hatchling', 'juvenile', 'adult', 'elder']:
     pose(f'dragon-{stage}', f'dragon-{stage}', 640, PAD.get(stage, (0, 0)), (80, 30), POSE_SCALE.get(f'dragon-{stage}', 1))
+# ---- breeds (dragons plan E4): all four life stages on one sheet (`<breed>-stages`, 2 x 2), attack poses on a second
+STAGES = ['hatchling', 'juvenile', 'adult', 'elder']
+BREED_PAD = (70, 30)   # room for the tail tip drawn at load, which sits up and to the left
+for breed in ['wyvern', 'wyrm', 'behemoth']:
+    if not have(f'{breed}-stages'): continue
+    idles = split(key(f'v2/out/{breed}-stages.png'), 4, 2)
+    for stage, im in zip(STAGES, idles):
+        im = im.resize((640, round(im.height * 640 / im.width)), Image.LANCZOS)
+        padded = Image.new('RGBA', (im.width + BREED_PAD[0], im.height + BREED_PAD[1]), (0, 0, 0, 0)); padded.paste(im, BREED_PAD)
+        packed[f'{breed}-{stage}'] = save(padded, f'{breed}-{stage}', q=90)
+    if have(f'{breed}-stages-attack'):
+        atts = split(key(f'v2/out/{breed}-stages-attack.png'), 4, 2)
+        for stage, idle, att in zip(STAGES, idles, atts):
+            pose_imgs(idle, att, f'{breed}-{stage}', 640, BREED_PAD, (80, 30), POSE_SCALE.get(f'{breed}-{stage}', 1))
 for w in ['sword', 'bow', 'staff']:
     if have(f'rider-{w}'):
         idle = crop(key(f'v2/out/rider-{w}.png')); k = min(1, 460 / max(idle.size))

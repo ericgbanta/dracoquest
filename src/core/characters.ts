@@ -49,8 +49,9 @@ export function newRider(data: GameData, name: string): RiderState {
 }
 
 /** Base stats plus the element's bonus. A hybrid gets half of each element's bonus. */
-export function dragonBaseStats(data: GameData, element: ElementId, element2: ElementId | null = null): DragonStats {
+export function dragonBaseStats(data: GameData, element: ElementId, element2: ElementId | null = null, breed = 'dragon'): DragonStats {
   const stats = { ...data.dragons.baseStats };
+  for (const [k, v] of Object.entries(data.dragons.breeds[breed]?.statLean ?? {})) stats[k as keyof DragonStats] += v;
   const share = element2 ? 0.5 : 1;
   for (const el of element2 ? [element, element2] : [element]) {
     const bonus = data.dragons.elementBonus[el] ?? {};
@@ -72,7 +73,7 @@ export interface HatchOptions {
 
 /** Create a newly hatched dragon. The favorite food is picked by the RNG and kept hidden. */
 export function hatchDragon(data: GameData, rng: Rng, opts: HatchOptions): DragonState {
-  const stats = dragonBaseStats(data, opts.element, opts.element2 ?? null);
+  const stats = dragonBaseStats(data, opts.element, opts.element2 ?? null, opts.breed ?? 'dragon');
   const stage = data.dragons.stages[0];
   if (!stage) throw new Error('No life stages in data');
   const name = opts.name.trim().slice(0, data.dragons.nameMaxLength) || 'Dragon';

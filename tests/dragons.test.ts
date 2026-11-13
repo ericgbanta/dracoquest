@@ -5,6 +5,7 @@ import {
   takeHatchedEgg, upgradeBuilding, warmEgg,
 } from '../src/core/game';
 import { attackElement, defenseMultiplier } from '../src/core/elements';
+import { canLearn, learnedSkills } from '../src/core/loadout';
 import { createBattle, resolveRound } from '../src/core/battle';
 import { dragonBaseStats, hatchDragon, newRider } from '../src/core/characters';
 import { breedEgg, canMix, eggName, elementLabel, hybridName, newEgg, plainEgg, releaseValue } from '../src/core/eggs';
@@ -261,5 +262,38 @@ describe('the Nesting Grounds', () => {
     s = hatchEgg(data, { ...s, roost: { ...s.roost, levels: { ...s.roost.levels, nest: 3 } } }, 'Puff', { primary: '#fff', secondary: '#000' }, NOW + 49 * HOUR);
     const puff = s.dragons.find((d) => d.name === 'Puff')!;
     expect(puff).toMatchObject({ element: 'fire', element2: 'tide', breed: 'dragon' });
+  });
+});
+
+describe('breeds', () => {
+  it('a Wyvern hatches with its stat lean and knows Rake from the start', () => {
+    const w = hatchDragon(data, createRng(1), { id: 'w', name: 'Zip', element: 'fire', breed: 'wyvern', colors: { primary: '#f00', secondary: '#000' }, now: 0 });
+    const d = hatchDragon(data, createRng(1), { id: 'd', name: 'Pip', element: 'fire', colors: { primary: '#f00', secondary: '#000' }, now: 0 });
+    expect(w.breed).toBe('wyvern');
+    expect(w.stats.swift).toBe(d.stats.swift + 2);
+    expect(w.stats.scale).toBe(d.stats.scale - 1);
+    expect(learnedSkills(data, w).map((t) => t.id)).toEqual(['wyvern-rake']);
+    expect(learnedSkills(data, d)).toEqual([]);
+    expect(canLearn(data, { ...w, stage: 'adult', level: 30 }, 'wyvern-rake')).toMatchObject({ ok: false });
+  });
+
+  it('Rake is a skill in battle: two hits, then a cooldown', () => {
+    const w = { ...hatchDragon(data, createRng(1), { id: 'w', name: 'Zip', element: 'fire', breed: 'wyvern', colors: { primary: '#f00', secondary: '#000' }, now: 0 }), level: 20, stage: 'juvenile' };
+    const s = createBattle(data, { rider: newRider(data, 'Ash'), dragon: w, enemies: [{ enemyId: 'bramble-troll', level: 10 }], seed: 5, canFlee: true });
+    expect(s.skills).toContain('wyvern-rake');
+    const r = resolveRound(data, s, { rider: { type: 'defend' }, dragon: { type: 'skill', skill: 'wyvern-rake', target: 'e0' } });
+    const swings = r.events.filter((e) => (e.t === 'hit' || e.t === 'miss') && e.actor === 'dragon');
+    expect(swings).toHaveLength(2);
+    expect(r.state.cooldowns['wyvern-rake']).toBeGreaterThan(0);
+  });
+
+  it("Starglass Hollow's boss drops Wyvern eggs, and breeding passes the breed on", () => {
+    expect(data.zones.find((z) => z.id === 'starglass-hollow')!.eggDrop!.breed).toBe('wyvern');
+    const rng = createRng(4);
+    const wyv = { element: 'fire' as const, element2: null, breed: 'wyvern', variant: null };
+    const drg = { ...wyv, breed: 'dragon' };
+    const breeds = new Set(Array.from({ length: 200 }, () => breedEgg(data, rng, wyv, drg).breed));
+    expect([...breeds].sort()).toEqual(['dragon', 'wyvern']);
+    expect(eggName(data, { ...plainEgg('aether'), breed: 'wyvern' })).toBe('Wyvern Starlit Egg');
   });
 });

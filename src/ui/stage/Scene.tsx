@@ -4,7 +4,7 @@ import manifest from '../../art/assets.json';
 import { gameData as data } from '../../core/data';
 import type { DragonState, ElementId } from '../../core/types';
 import { DragonSprite } from '../Sprites';
-import { artUrl, decodeAll, loadBackdrop, loadEnemyRig, loadRig, mix, rigUrls, type Backdrop, type Rig } from './rigs';
+import { artUrl, decodeAll, loadBackdrop, loadDragonRig, loadEnemyRig, loadRig, mix, rigUrls, type Backdrop, type Rig } from './rigs';
 import { RigView } from './Stage';
 import './stage.css';
 
@@ -37,20 +37,20 @@ export function useBackdrop(key: string | null): Backdrop | null {
   return useLoaded(key ? `bd:${key}` : null, () => loadBackdrop(key!), (b) => b?.layers.map((l) => l.url) ?? []);
 }
 
-type Look = Pick<DragonState, 'element' | 'stage' | 'colors'> & Partial<Pick<DragonState, 'element2' | 'variant'>>;
-const lookOf = (d: Look) => ({ element: d.element, element2: d.element2 ?? null, variant: d.variant ?? null, primary: d.colors.primary, secondary: d.colors.secondary });
-const lookKey = (d: Look) => `${d.stage}.${d.element}.${d.element2 ?? ''}.${d.variant ?? ''}.${d.colors.primary}.${d.colors.secondary}`;
+type Look = Pick<DragonState, 'element' | 'stage' | 'colors'> & Partial<Pick<DragonState, 'element2' | 'variant' | 'breed'>>;
+const lookOf = (d: Look) => ({ element: d.element, element2: d.element2 ?? null, variant: d.variant ?? null, breed: d.breed ?? 'dragon', primary: d.colors.primary, secondary: d.colors.secondary });
+const lookKey = (d: Look) => `${d.breed ?? 'dragon'}.${d.stage}.${d.element}.${d.element2 ?? ''}.${d.variant ?? ''}.${d.colors.primary}.${d.colors.secondary}`;
 
 export function useDragonRig(d: Look | null): Rig | null {
   const key = d ? `dragon:${lookKey(d)}` : null;
-  return useLoaded(key, () => loadRig(`dragon.${d!.stage}`, lookOf(d!)), rigUrls);
+  return useLoaded(key, () => loadDragonRig(d!.stage, lookOf(d!)), rigUrls);
 }
 
 /** Rigs for several dragons at once (the Roost), keyed together so hooks stay in order. */
 export function useDragonRigs(ds: (Look & Pick<DragonState, 'id'>)[]): Record<string, Rig | null> {
   const key = ds.length ? `dragons:${ds.map((d) => `${d.id}.${lookKey(d)}`).join('|')}` : null;
   const v = useLoaded(key, async () => {
-    const rigs = await Promise.all(ds.map((d) => loadRig(`dragon.${d.stage}`, lookOf(d))));
+    const rigs = await Promise.all(ds.map((d) => loadDragonRig(d.stage, lookOf(d))));
     return Object.fromEntries(ds.map((d, i) => [d.id, rigs[i] ?? null]));
   }, (m) => Object.values(m).flatMap(rigUrls));
   return v ?? {};

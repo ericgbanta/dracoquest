@@ -358,7 +358,7 @@ function finishFight(data: GameData, save: SaveData): { save: SaveData; report: 
       const zone = getZone(data, run.zoneId);
       if (plan.kind === 'boss' && zone.eggDrop) {
         const first = !save.bossesDefeated.includes(zone.id);
-        if (first || rng.chance(zone.eggDrop.chance)) rewards.egg = newEgg(data, rng, zone.eggDrop.elements ? rng.pick(zone.eggDrop.elements) : zone.eggDrop.element);
+        if (first || rng.chance(zone.eggDrop.chance)) rewards.egg = newEgg(data, rng, zone.eggDrop.elements ? rng.pick(zone.eggDrop.elements) : zone.eggDrop.element, zone.eggDrop.breed);
       }
       return rewards;
     });

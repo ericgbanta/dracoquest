@@ -869,7 +869,8 @@
       "elements": [
         "aether",
         "frost"
-      ]
+      ],
+      "breed": "wyvern"
     },
     "gearDrops": {
       "chance": 0.06,

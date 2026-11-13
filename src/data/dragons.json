@@ -180,6 +180,25 @@
     "dragon": {
       "name": "Dragon",
       "blurb": "Four legs, two wings, and a little of everything."
+    },
+    "wyvern": {
+      "name": "Wyvern",
+      "blurb": "Two legs and wings for arms. Quick, sharp and very aware of it.",
+      "statLean": {
+        "swift": 2,
+        "scale": -1
+      },
+      "signature": {
+        "id": "wyvern-rake",
+        "name": "Rake",
+        "description": "Signature skill: two quick slashes with the wing-claws.",
+        "skill": {
+          "kind": "damage",
+          "base": 13,
+          "hits": 2,
+          "cooldown": 2
+        }
+      }
     }
   },
   "variants": {

@@ -3,7 +3,7 @@
  * up into one Bonus, which the stat formulas and the battle engine read.
  */
 import type {
-  Bonus, BonusKey, DragonState, DragonStats, GameData, GearData, GearSetData, RiderState, RiderStats, TalentData, TalentTree,
+  Bonus, BonusKey, DragonState, DragonStats, GameData, GearData, GearSetData, RiderState, RiderStats, SkillTree, TalentData,
 } from './types';
 import { DRAGON_STATS, RIDER_STATS } from './types';
 import { temperament } from './roost';
@@ -101,7 +101,18 @@ export function riderWeapon(data: GameData, rider: RiderGear): GearData {
 // ---------- Talents ----------
 
 export function talentById(data: GameData, id: string): TalentData | undefined {
-  return data.talents.talents.find((t) => t.id === id);
+  return data.talents.talents.find((t) => t.id === id) ?? breedSkills(data).find((t) => t.id === id);
+}
+
+/** Every breed's signature skill, shaped as a talent so the battle can use it like one. */
+export function breedSkills(data: GameData): TalentData[] {
+  return Object.values(data.dragons.breeds).flatMap((b) => (b.signature ? [{ ...b.signature, tree: 'breed' as const, tier: 0, ranks: 1 }] : []));
+}
+
+/** The dragon's breed signature skill, if its breed has one. */
+export function signatureSkill(data: GameData, dragon: { breed?: string }): TalentData | undefined {
+  const sig = data.dragons.breeds[dragon.breed ?? 'dragon']?.signature;
+  return sig ? breedSkills(data).find((t) => t.id === sig.id) : undefined;
 }
 
 function stageIndex(data: GameData, stage: string): number {
@@ -123,7 +134,7 @@ export function talentPointsLeft(data: GameData, dragon: Pick<DragonState, 'leve
   return talentPointsEarned(data, dragon) - talentPointsSpent(dragon);
 }
 
-export function pointsInTree(data: GameData, dragon: Pick<DragonState, 'talents'>, tree: TalentTree): number {
+export function pointsInTree(data: GameData, dragon: Pick<DragonState, 'talents'>, tree: SkillTree): number {
   let n = 0;
   for (const [id, rank] of Object.entries(dragon.talents ?? {})) if (talentById(data, id)?.tree === tree) n += rank;
   return n;
@@ -134,6 +145,7 @@ export type LearnCheck = { ok: true } | { ok: false; reason: string };
 export function canLearn(data: GameData, dragon: Pick<DragonState, 'level' | 'stage' | 'talents'>, talentId: string): LearnCheck {
   const t = talentById(data, talentId);
   if (!t) return { ok: false, reason: 'Unknown talent' };
+  if (t.tree === 'breed') return { ok: false, reason: 'Known from hatching' };
   if (stageIndex(data, dragon.stage) < 1) return { ok: false, reason: 'Talents open when your dragon becomes a Juvenile' };
   if (t.requiresStage && stageIndex(data, dragon.stage) < stageIndex(data, t.requiresStage)) {
     return { ok: false, reason: `Capstones need an ${data.dragons.stages.find((s) => s.id === t.requiresStage)?.name ?? t.requiresStage} dragon` };
@@ -159,6 +171,7 @@ export function respecCost(data: GameData, dragon: Pick<DragonState, 'level' | '
 }
 
 /** Active talent skills the dragon has learned. */
-export function learnedSkills(data: GameData, dragon: Pick<DragonState, 'talents'>): TalentData[] {
-  return data.talents.talents.filter((t) => t.skill && (dragon.talents?.[t.id] ?? 0) > 0);
+export function learnedSkills(data: GameData, dragon: Pick<DragonState, 'talents'> & { breed?: string }): TalentData[] {
+  const sig = signatureSkill(data, dragon);
+  return [...(sig ? [sig] : []), ...data.talents.talents.filter((t) => t.skill && (dragon.talents?.[t.id] ?? 0) > 0)];
 }

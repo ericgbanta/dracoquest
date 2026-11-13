@@ -140,7 +140,7 @@ export function loadGameData(raw: RawData): GameData {
   }
 
   const talents = raw.talents as TalentsData;
-  const treeIds = new Set(talents.trees.map((t) => t.id));
+  const treeIds = new Set<string>(talents.trees.map((t) => t.id));
   const talentIds = new Set<string>();
   for (const t of talents.talents) {
     if (talentIds.has(t.id)) throw new DataError(`talents: duplicate id "${t.id}"`);

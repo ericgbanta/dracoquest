@@ -8,7 +8,7 @@ import type { SaveData } from '../../core/save';
 import type { DragonState, ElementId } from '../../core/types';
 import { INTENTS } from '../bits';
 import { DragonSprite, EnemySprite } from '../Sprites';
-import { decodeAll, loadBackdrop, loadEffects, loadEnemyRig, loadRig, rigUrls, weaponArt, type Backdrop, type Effects, type Rig } from './rigs';
+import { decodeAll, loadBackdrop, loadEffects, loadDragonRig, loadEnemyRig, loadRig, rigUrls, weaponArt, type Backdrop, type Effects, type Rig } from './rigs';
 import { Stage, type Place, type StageFighter } from './Stage';
 
 /** Everything one fight draws, loaded and decoded before the fighters show. */
@@ -23,8 +23,8 @@ interface BattleArt {
 }
 
 const none: Effects = { slash: null, spark: null, puff: null };
-const look = (d: DragonState) => ({ element: d.element, element2: d.element2, variant: d.variant, primary: d.colors.primary, secondary: d.colors.secondary });
-const lookKey = (d: DragonState | null) => (d ? `${d.element}.${d.element2 ?? ''}.${d.variant ?? ''}.${d.stage}.${d.colors.primary}.${d.colors.secondary}` : '-');
+const look = (d: DragonState) => ({ element: d.element, element2: d.element2, variant: d.variant, breed: d.breed, primary: d.colors.primary, secondary: d.colors.secondary });
+const lookKey = (d: DragonState | null) => (d ? `${d.breed}.${d.element}.${d.element2 ?? ''}.${d.variant ?? ''}.${d.stage}.${d.colors.primary}.${d.colors.secondary}` : '-');
 
 function useBattleArt(zoneId: string, weapon: string, ride: boolean, lead: DragonState | null, second: DragonState | null, enemyIds: string[]): BattleArt | null {
   const key = [zoneId, ride ? 'mounted' : weapon, lookKey(lead), lookKey(second), ...enemyIds].join('|');
@@ -37,8 +37,8 @@ function useBattleArt(zoneId: string, weapon: string, ride: boolean, lead: Drago
         loadBackdrop(zoneId),
         // Riding uses the seated rider.
         ride ? loadRig('rider.mounted') : loadRig(`rider.${weapon}`),
-        lead ? loadRig(`dragon.${lead.stage}`, look(lead)) : Promise.resolve(null),
-        second ? loadRig(`dragon.${second.stage}`, look(second)) : Promise.resolve(null),
+        lead ? loadDragonRig(lead.stage, look(lead)) : Promise.resolve(null),
+        second ? loadDragonRig(second.stage, look(second)) : Promise.resolve(null),
         loadEffects(lead?.element ?? 'fire', [lead?.element2, second?.element, second?.element2].filter((x): x is ElementId => !!x && x !== lead?.element)),
         ...ids.map((id) => loadEnemyRig(id)),
       ]);

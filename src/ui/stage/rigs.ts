@@ -76,7 +76,7 @@ export interface Ambient { kind: 'rise' | 'fall'; color: string }
 /** Layers stack in order behind the fighters; a `front` layer is drawn over them. */
 export interface Backdrop { layers: { url: string; anim?: string | undefined; front?: boolean | undefined }[]; ambient?: Ambient | undefined }
 
-export interface DragonLook { element: ElementId; element2?: ElementId | null; variant?: VariantId | null; primary: string; secondary: string }
+export interface DragonLook { element: ElementId; element2?: ElementId | null; variant?: VariantId | null; breed?: string; primary: string; secondary: string }
 
 /** Values filled into {name} placeholders in part file names. */
 export interface RigVars { element?: string; weapon?: string }
@@ -281,6 +281,12 @@ async function build(key: string, def: RigDef, colors: Record<string, string>, v
   const parts = await resolveParts(partDefs, colors, vars, tint);
   if (!hasBody(parts)) return null;
   return { key, size: def.size, boxScale: scale, points: def.points, parts };
+}
+
+/** A dragon's rig: its breed's art for the stage (`wyvern.adult`), or the original dragon's while a breed has none. */
+export function loadDragonRig(stage: string, look: DragonLook): Promise<Rig | null> {
+  const own = look.breed && look.breed !== 'dragon' ? `${look.breed}.${stage}` : null;
+  return loadRig(own && rigs[own] ? own : `dragon.${stage}`, look);
 }
 
 /** Load a rig with its colors baked in. Null if the manifest has no such rig or its main body is missing. */
