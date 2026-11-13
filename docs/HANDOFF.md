@@ -1,6 +1,6 @@
 # Handoff
 
-Last updated 2026-11-12, at the end of a long session that added save slots, rider spells, two gear waves, the Forge, phases W0 to W4 of the world expansion, and a less-scrolling UI pass. Everything below is merged to `main` and live at https://ericgbanta.github.io/dracoquest/ (last deploy `b9a9355`, W4 Gilded Wastes). The working branch for that session was `claude/eager-tesla-uvrdjs`; a new session should start from `main` and use its own branch.
+Last updated 2026-11-13 (dragons plan chunks 1 and 2; see History). Before that, 2026-11-12, at the end of a long session that added save slots, rider spells, two gear waves, the Forge, phases W0 to W4 of the world expansion, and a less-scrolling UI pass. Everything below is merged to `main` and live at https://ericgbanta.github.io/dracoquest/ (last deploy `b9a9355`, W4 Gilded Wastes). The working branch for that session was `claude/eager-tesla-uvrdjs`; a new session should start from `main` and use its own branch.
 
 A ready-to-paste prompt for a new session is in `docs/NEXT_PROMPT.md`.
 
@@ -45,18 +45,29 @@ Each row was built, tested, committed and deployed in this order. The Decisions 
 | Less scrolling (UI) | Folds (collapsible cards) and sub-tabs on every long screen; see `docs/UI_PLAN.md` | Eric: "a lot of scrolling at times... the bag tab where everything is expanded". He asked for a plan, the build, tests, docs and a deploy without a check-in |
 | Painted Map | The Map tab is a painted map per region (The Wilds, The High Lands, Beyond the Peak) with a pin per area; tap a pin for the area's details, arrows to cycle regions. 3 Codex generations | Eric: "redesign the Map tab into an actual map where we can click on locations... different maps that we can cycle through". He added: "we might at some point add new levels to maps", so new areas are one pin each. After trying it on his phone he asked for a Map / List switch (Map by default) and reported the open zone card's banner covering its level line; both fixed |
 
+### 2026-11-13: dragons plan, chunks 1 and 2
+
+| Work | What it added | How it came about |
+| --- | --- | --- |
+| Dragons plan | `docs/DRAGONS_PLAN.md`: four new elements, three new breeds, breeding, hybrids, a bigger roster, rare finishes and two new maps for levels 30 to 100, phases E0 to E12 in chunks | Eric asked for "a planning session on what it would take to add more elements and dragons" and answered every question, names included |
+| Chunks 1 and 2 (E0, E1, E3) | Save v10 (eggs as objects; dragons with a breed, a second element, a finish and a breeding cooldown), status effects read from data, the Nest to 10, eggs returned to the wild for embers, four rare finishes, the Nesting Grounds, hybrids with 27 names for today's elements | Eric: "let's do both chunk 1 and 2 together" |
+
 ## Where things stand now
 
 - **Level cap 50.** 11 zones: the 7 main ones and 4 side areas, grouped on the Map into "The Wilds" (1 to 20), "The High Lands" (20 to 50) and "Beyond the Peak" (50 to 100, empty except for a teaser for Sunken Spires).
 - **Three kinds of adventure per zone:** a hunt (the zone run), a story (28 quests across 6 zones), and daily bounties (6 zones).
 - **Rider:** 12 spells, a loadout of 4, gear in 3 slots with 11 sets, the Forge.
-- **Dragons:** up to 6 at the Roost, two in battle from rider level 25, four life stages, talents, gear for Adults, temperament.
-- **Saves:** version 9, up to 3 slots per device, export and import codes.
-- **Tests:** 197 unit tests and 70 phone tests pass. The sim shows every zone averaging 70 to 85 percent on level across the three starters.
+- **Dragons:** up to 10 at the Roost, two in battle from rider level 25, four life stages, talents, gear for Adults, temperament. Two grown dragons can breed at the Nesting Grounds; eggs can be hybrids (two elements) and about 1 in 50 has a rare finish.
+- **Saves:** version 10, up to 3 slots per device, export and import codes.
+- **Tests:** 225 unit tests and 77 phone tests pass. The sim shows every zone averaging 70 to 85 percent on level across the three starters.
 
 ## What to work on next
 
-### W5: Sunken Spires and the level cap to 60 (the next phase)
+### The dragons plan (`docs/DRAGONS_PLAN.md`)
+
+Chunks 1 and 2 are built. Next in that plan is chunk 3, the Hidden Reach (E2, E4, E5: Aether and Void, Starglass Hollow, Voidmarch, the Wyvern and the Wyrm; about 29 Codex generations, or 17 if a breed's four stages fit on one sheet). Chunk 4 is W5 below plus the third dragon (E8). Eric picks which comes first.
+
+### W5: Sunken Spires and the level cap to 60
 
 This is the first frontier area, and the first phase that goes past level 50, so it is bigger than W1 to W4. Eric's standing choices: **dragons stay capped at 50** while the rider keeps leveling; areas unlock at a level after a named boss; story choices are small (reward and temperament only); about 10 levels per area.
 
@@ -186,11 +197,27 @@ Spells unlock by rider level; the rider takes a **loadout of 4** into battle (`s
 | Art caching | Enemy art and zone backdrops are not precached (`globIgnores` in `vite.config.ts`, built from enemy and zone ids); they are cached on first view in `dracoquest-area-art`. The precache is about 1.8 MB instead of 4.7 MB. Offline in a zone never visited shows placeholder shapes. |
 | Wording | The Map's run button says "Start a hunt". |
 
+### Dragons plan, chunks 1 and 2 (2026-11-13)
+
+Calls made while building, shown to Eric in the report:
+
+| Topic | Decision |
+| --- | --- |
+| One save bump | E0, E1 and E3 shipped together, so one version (10) covers all of them instead of 10 and 11. |
+| Eggs | Every egg is `{ element, element2, breed, variant }` (`EggSpec`): in the bag, in the Hatchery, at the Nesting Grounds and while hatching. `src/core/eggs.ts` names them ("Shimmer Steam Egg"), prices them for the wild and rolls them. |
+| Rare finishes | Rolled when an egg is made (boss drop, shop, Elder, breeding): 2 percent, or 10 percent when a parent has one (`dragons.json` `variants`). The starter egg is never rare. The finish shows in the egg's name. Drawn in code in the recolor step (`applyFinish` in `tint.ts`, numbers in `palette.json` `finishes`). Ember-eyed can't find the eyes in painted art by color, so it makes the gold parts (belly, wings, spines) glow, plus an orange outline glow; the name stayed. |
+| Returning eggs | From the Roost's Hatchery card (shown even before the Hatchery is built), with a confirm. 3 embers, +2 hybrid, +2 non-Dragon breed, +7 finish (`roost.json` `releaseEmbers`). A plain egg pays what incubating costs. |
+| Nest | Levels 4 and 5 hold 8 and 10 dragons (7,000 gold and 60 embers, then 12,000 and 90). The pickers on the Roost and Dragons screens already scroll sideways, so 10 dragons don't add height. |
+| Nesting Grounds | A seventh building, 3 levels: 8, 6, 4 hours; cooldown 3, 2, 2 days per dragon; 2,500/20, 5,000/40, 9,000/70 gold and embers. Each pairing costs 500 gold and 5 embers. Adults and Elders breed; nesting doesn't take dragons out of fights or training (only an expedition blocks it). The egg is rolled when nesting starts, so reloading can't reroll it. One pair at a time. |
+| Breeding roll | 20 percent hybrid when the parents can mix (`breeding.hybridChance`), otherwise one parent's element (a hybrid parent passes one of its two, or its own mix). Breed from either parent, 50/50. `breedEgg` in `eggs.ts`. |
+| Hybrids | Can't mix an element with itself or an opposed pair. Defending: the average of both matchups. Breath, elemental talent skills and duo combos use the better element against the target at 90 percent (`combat.json` `hybridBreathMultiplier`), and the breath's status comes from the element used. Stats: half of each element's bonus. The tail tip glows in the second element's color; the stage swaps the breath burst to the element used (hit events carry `element`). An Elder hybrid lays the same hybrid. Names: 27 for today's 8 elements in `elements.json` `hybrids`; the other 37 are in the plan, added with their elements. |
+| Status effects | `battle.ts` reads effect fields (`noDodge`, `amplify`, `taunts`, multipliers and bonuses) instead of status ids. Soak's Storm bonus is `amplify: { element: 'storm', multiplier: 1.3 }`. Results with fixed seeds didn't change. |
+
 ### Saves and settings
 
 | Topic | Decision |
 | --- | --- |
-| Save version | 9. v6 added `settings.simpleBattle`, v7 `rider.spells`, v8 the Forge, v9 `storyChoices` and `bounties`. Each bump has a migration and a fixture test (`tests/fixtures/save-v1.json` to `save-v8.json`). |
+| Save version | 10. v6 added `settings.simpleBattle`, v7 `rider.spells`, v8 the Forge, v9 `storyChoices` and `bounties`, v10 egg objects, dragon `breed`, `element2`, `variant` and `lastBredAt`, and the Nesting Grounds (`roost.levels.nesting`, `roost.nesting`). Each bump has a migration and a fixture test (`tests/fixtures/save-v1.json` to `save-v9.json`). |
 | Save slots | Up to 3 per device (Eric's request). Slot 1 is the original `dracoquest.save` key so old saves stay put; slots 2 and 3 are `dracoquest.save.2` and `.3`; `dracoquest.slot` holds the slot in play. Not part of the save object, so no version bump. Settings has the list; export, import and Start over act on the slot in play. |
 | Simple battle | A setting that brings back the old card layout instead of the stage. |
 
@@ -221,6 +248,7 @@ src/core/      pure game logic, no DOM (CLAUDE.md)
   loadout.ts     gear, set and talent bonuses; riderWeapon applies Forge upgrades
   roost.ts       buildings, timers, expeditions (with materials), temperament
   ai.ts          the auto-battler and suggestedLoadout (used by the sim and tests)
+  eggs.ts        eggs, hybrids, rare finishes, breeding rolls, returning eggs to the wild
   care.ts progression.ts characters.ts elements.ts events.ts rng.ts data.ts types.ts
 src/data/      every balance number and all content, as JSON: zones, enemies, gear, sets, shop, combat (spells),
                progression, stories, bounties, regions, forge, roost, dragons, talents, quests, items, foods, events
@@ -234,8 +262,8 @@ src/ui/        Preact screens and pieces
   useSave.ts storage.ts  save slots and storage
   Sprites.tsx Icon.tsx Wallet.tsx art.ts bits.tsx (formatBonus, rewardText) styles.css skin.css pwa.ts sound.ts install.ts router.ts
 src/art/       painted/ (characters, attack poses, backdrops, effects, tail tips), eggs/, icons/, assets.json (the art manifest)
-tests/         Vitest unit tests (196), sim.ts (the balance simulator), save fixtures v1 to v8
-e2e/           Playwright phone tests (70), fixtures/ (built by make-fixtures.ts), specs per feature
+tests/         Vitest unit tests (225), sim.ts (the balance simulator), save fixtures v1 to v9
+e2e/           Playwright phone tests (77), fixtures/ (built by make-fixtures.ts), specs per feature
                (slots, spells, gear, forge, world, ui, stage, perf, smoke, phase2 to 4), helpers.ts (openFold, tab)
 tools/art/painted/  style.txt and anchor.png (the style), jobs.py to jobs8.py (one per batch; jobs8 is the region maps), run.sh, pack.py,
                     fix_green.py, zones.json (which sheet holds which enemies), prompts/ (every prompt that was run)
@@ -247,9 +275,9 @@ docs/          HANDOFF.md, NEXT_PROMPT.md, WORLD_PLAN.md, UI_PLAN.md, ART_GENERA
 | Command | What it does |
 | --- | --- |
 | `npm run dev` | Local dev server |
-| `npm run test` | Unit tests (196) |
+| `npm run test` | Unit tests (225) |
 | `npx tsc --noEmit` and `npm run lint` | Type check and lint. Lint blocks `Math.random`, browser globals in `src/core`, and `any`. |
-| `npm run e2e` | Phone tests at 375 by 667 (70), about 2 minutes. Builds the site first. |
+| `npm run e2e` | Phone tests at 375 by 667 (77), about 2 minutes. Builds the site first. |
 | `npm run sim` | Balance sim: 1,000 runs per zone and level, then 100 campaigns per starter from egg to the cap. Flags: `--zone <id>`, `--no-campaign`, `--campaign-only`, `--runs`, `--campaigns`. The full run takes about 4 minutes; one zone about 1 minute. |
 | `npx tsx e2e/make-fixtures.ts` | Rebuilds the saves the phone tests load (needed after every save version bump) |
 | `npm run deploy` | Tests, lint and build, then pushes the current branch to `main`, which publishes. Only when Eric asks. |

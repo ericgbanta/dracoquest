@@ -1,6 +1,6 @@
 # More elements and dragons: plan
 
-Written 2026-11-13 at Eric's request. Status: approved 2026-11-13; E0 in progress. Eric's answers are in "What Eric asked for" and "Eric's answers" at the end.
+Written 2026-11-13 at Eric's request. Status: approved 2026-11-13. Chunks 1 and 2 (E0, E1, E3) built the same day; chunk 3 or 4 is next. Eric's answers are in "What Eric asked for" and "Eric's answers" at the end.
 
 This plan runs alongside `docs/WORLD_PLAN.md`. W5 to W9 (the frontier areas that raise the cap to 100) stay as planned. The new areas here are extra places to go, on new maps, from level 30 to 100.
 
