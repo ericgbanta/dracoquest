@@ -1,6 +1,6 @@
 # Handoff
 
-Last updated 2026-11-13, at the end of a session that planned and built chunks 1 to 6 of the dragons plan (see History). Everything below is merged to `main` and live at https://ericgbanta.github.io/dracoquest/ (last deploy `9645349`, chunks 5 and 6). The working branch for that session was `claude/gracious-allen-2elk3v`; a new session should start from `main` and use its own branch. Codex was signed out at the end, so the next art batch needs a new device login.
+Last updated 2026-11-13, at the end of a session that built chunks 7 and 8 of the dragons plan (see History). Everything below is merged to `main` and live at https://ericgbanta.github.io/dracoquest/ (chunks 7 and 8, levels 70 to 90). The working branch for that session was `claude/chunk-7-8-skyreach-hollow-rz2afo`; a new session should start from `main` and use its own branch. Codex was signed out at the end, so the next art batch needs a new device login.
 
 A ready-to-paste prompt for a new session is in `docs/NEXT_PROMPT.md`.
 
@@ -45,10 +45,11 @@ Each row was built, tested, committed and deployed in this order. The Decisions 
 | Less scrolling (UI) | Folds (collapsible cards) and sub-tabs on every long screen; see `docs/UI_PLAN.md` | Eric: "a lot of scrolling at times... the bag tab where everything is expanded". He asked for a plan, the build, tests, docs and a deploy without a check-in |
 | Painted Map | The Map tab is a painted map per region (The Wilds, The High Lands, Beyond the Peak) with a pin per area; tap a pin for the area's details, arrows to cycle regions. 3 Codex generations | Eric: "redesign the Map tab into an actual map where we can click on locations... different maps that we can cycle through". He added: "we might at some point add new levels to maps", so new areas are one pin each. After trying it on his phone he asked for a Map / List switch (Map by default) and reported the open zone card's banner covering its level line; both fixed |
 
-### 2026-11-13: the dragons plan, chunks 1 to 6
+### 2026-11-13: the dragons plan, chunks 1 to 8
 
 | Work | What it added | How it came about |
 | --- | --- | --- |
+| Chunks 7 and 8 (W7, E10, W8, E11) | Skyreach Isles and Twilight Rift (70 to 80), Hollow Crown and The Confluence (80 to 90, cap 90), hybrid enemies (The Confluence's seven are all hybrids, and its boss drops hybrid eggs), the Astral Nova and Daybreak spells. 20 Codex generations, all usable first try | Eric: "Work on Chunk 7 & 8 and deploy it" |
 | Hatchery tidy-up | A Take out button moves an incubating egg back to the bag (the incubation embers stay spent, and the wait restarts if it goes back in). Identical bag eggs share one row with a count, inside an "Eggs in your bag" fold that starts open only when nothing is incubating. The Bag tab groups egg badges the same way | Eric: "add a feature to remove an egg from incubation" and the Hatchery "feels too cluttered" with many eggs |
 | Dragons plan | `docs/DRAGONS_PLAN.md`: four new elements, three new breeds, breeding, hybrids, a bigger roster, rare finishes and two new maps for levels 30 to 100, phases E0 to E12 in chunks | Eric asked for "a planning session on what it would take to add more elements and dragons" and answered every question, names included |
 | Chunks 5 and 6 (E6, E7, W6, E9) | Blight and Steel join the ring (Rot and Rend), Rot Spit and Steel Needles, Rotroot Thicket (50 to 60), Emberwild (60 to 70, cap 70), the Elder Wilds map and the Steelspine Range (60 to 70), the Inferno spell. 16 Codex generations | Eric: "let's do chunk 5 and 6 and deploy" |
@@ -58,35 +59,36 @@ Each row was built, tested, committed and deployed in this order. The Decisions 
 
 ## Where things stand now
 
-- **Level cap 70** (dragons stop at 50). 17 zones on five Map regions: The Wilds, The High Lands, The Hidden Reach (Starglass Hollow, Voidmarch, Rotroot Thicket), Beyond the Peak (Sunken Spires, Emberwild) and The Elder Wilds (the Steelspine Range). A third dragon joins battles at rider level 60.
-- **Three kinds of adventure per zone:** a hunt (the zone run), a story (28 quests across 6 zones), and daily bounties (6 zones).
-- **Rider:** 12 spells, a loadout of 4, gear in 3 slots with 11 sets, the Forge.
+- **Level cap 90** (dragons stop at 50). 21 zones on five Map regions: The Wilds, The High Lands, The Hidden Reach (Starglass Hollow, Voidmarch, Rotroot Thicket), Beyond the Peak (Sunken Spires, Emberwild, Skyreach Isles, Hollow Crown) and The Elder Wilds (the Steelspine Range, Twilight Rift, The Confluence). Teasers: Starfall Summit and Dragonsrest. A third dragon joins battles at rider level 60.
+- **Three kinds of adventure per zone:** a hunt (the zone run), a story in 14 zones (78 quests), and daily bounties in 16 zones.
+- **Rider:** 20 spells, a loadout of 4, gear in 3 slots with 21 sets, the Forge.
 - **Dragons:** up to 10 at the Roost, two in battle from rider level 25, four life stages, talents, gear for Adults, temperament. Two grown dragons can breed at the Nesting Grounds; eggs can be hybrids (two elements) and about 1 in 50 has a rare finish.
 - **Saves:** version 11, up to 3 slots per device, export and import codes.
-- **Tests:** 244 unit tests and 93 phone tests pass. The sim shows every zone averaging 70 to 85 percent on level across the three starters.
+- **Tests:** 255 unit tests and 102 phone tests pass. The sim shows every zone averaging 70 to 85 percent on level across the three starters.
 
 ## What to work on next
 
 ### The dragons plan (`docs/DRAGONS_PLAN.md`) and the frontier
 
-Chunks 1 to 6 are built and live. Next are **chunks 7 to 9**, one level band each: W7 Skyreach Isles with E10 Twilight Rift (cap 80), W8 Hollow Crown with E11 The Confluence and its hybrid enemies (cap 90), W9 Starfall Summit with E12 Dragonsrest and the Behemoth (cap 100, the final boss and a closing story). Each W phase raises the cap by 10. The Elder Wilds map already paints Twilight Rift, The Confluence and Dragonsrest; their pins are in the `regions.json` note.
+Chunks 1 to 8 are built and live. Last is **chunk 9**: W9 Starfall Summit (Light and Shadow, opens at 90 after the Hollow King) with E12 Dragonsrest (Aether, Void, Blight and Steel, opens at 90 after Seethe) and the Behemoth breed, cap 100, the final boss and a closing story. Both maps already paint both places; their pins are the teasers' pins in `regions.json` (Starfall [0.66, 0.15], Dragonsrest [0.62, 0.17]).
 
 Lessons from W5 for every band above 50:
 
 - **Dragons stop at 50, so enemies must grow slowly past 50.** With the usual growth, on-level win rates fell from about 76 to 25 to 46 percent across 50 to 58. Sunken Spires keeps each enemy's stats at level 50 as they were and grows them a quarter as fast after (`base` raised and `perLevel` cut to 0.25 for hp, attack, power, defense, swift and dodge; done with a small script in the session, easy to redo by hand). Expect the same for W6 to W9 and the E areas above 50.
 - **The sim doesn't play partner dragons.** `autoOrders` in `ai.ts` never orders the second (or third) dragon, so the sim's characters fight with one dragon from level 25 up. That was already true before; it means real players are somewhat stronger than the sim says from 25 on. Fixing it would change every zone's numbers from 25 up, so it was left alone and flagged to Eric.
-- XP past 50 needed no change: about 21 fights per level in the sim, and 21 to 22 in the 60s.
-- **How the 50s and 60s areas were built (chunks 5 and 6):** `tools/content/area_gen.py` wrote all three areas' data in one go (enemies copied from Sunken Spires' tuned stats, zone, gear, set, shop, Forge recipe, stories, bounties, regions, cap, spell). Then `tools/content/scale_enemies.py` scaled each area's enemies as a group until `npm run sim -- --zone <id> --no-campaign` read 70 to 85 for each starter (Rotroot Thicket +3.5 percent, Emberwild +11, Steelspine +8). The 60s needed more because the rider keeps growing. For the 70s, copy `area_gen.py`, use the 60s areas' tuned enemies as the analog, and expect another +8 to +12 percent. `tools/content/slow_growth.py` is the Sunken Spires growth fix; `tools/content/find_tail_tips.py` places a breed's tail tips.
+- XP past 50 needed no change: about 21 fights per level in the sim, 21 to 22 in the 60s, 22 to 23 in the 70s and 23 to 24 in the 80s.
+- **How the 50s and 60s areas were built (chunks 5 and 6):** `tools/content/area_gen.py` wrote all three areas' data in one go (enemies copied from Sunken Spires' tuned stats, zone, gear, set, shop, Forge recipe, stories, bounties, regions, cap, spell). Then `tools/content/scale_enemies.py` scaled each area's enemies as a group until `npm run sim -- --zone <id> --no-campaign` read 70 to 85 for each starter (Rotroot Thicket +3.5 percent, Emberwild +11, Steelspine +8). The 60s needed more because the rider keeps growing. **The 70s and 80s (chunks 7 and 8)** used `tools/content/arealib.py`, the same writer made reusable (per-area analog enemies, a shop element, hybrid enemies written as `'fire+tide'`, hybrid egg drops), with one file per band: `area_gen_70s.py`, `area_gen_80s.py`. Tuning over the analog: Skyreach +3 percent over Emberwild, Twilight Rift +13 over the Steelspine Range (Aether and Void are neutral to every starter, so they need more), Hollow Crown +11 over Skyreach, The Confluence +5 over Twilight Rift. `tools/content/slow_growth.py` is the Sunken Spires growth fix; `tools/content/find_tail_tips.py` places a breed's tail tips.
 
-### Chunk 7 step by step (the recipe the 60s used)
+### Chunk 9 step by step (the recipe the 70s and 80s used)
 
-1. **Ask Eric to sign in to Codex** (`codex login --device-auth` as a tracked background task, code at the end of a message) and start art early: copy `tools/art/painted/jobs13.py` to `jobs14.py`, replace its `AREAS` with Skyreach Isles (Storm and Light, floating islands of sun and wind) and Twilight Rift (Aether and Void, where starlight and emptiness tear at each other), and drop the map job (the Elder Wilds map already paints Twilight Rift). 10 generations: 3 idle per area first, then 2 attack per area.
-2. **Data** with a copy of `tools/content/area_gen.py`: Skyreach Isles in `beyond` (pin from the Skyreach teaser, [0.76, 0.51]), opening at 70 after the Volcanadon (`emberwild`); Twilight Rift in `elder-wilds` (pin [0.70, 0.55]), opening at 70 after Ferrovane (`steelspine-range`). Tiers at 73, cap 80, a new spell near 73 (Storm or Light, or Aether), next teasers Hollow Crown (beyond, [0.25, 0.31]) and The Confluence (elder-wilds, [0.29, 0.43]). Keep the cap zone last in `zones.json`.
-3. **Counts** in `tests/data.test.ts` (cap), `tests/gear.test.ts`, `tests/phase4.test.ts`, `tests/spells.test.ts`.
-4. **Balance** each area with the sim and `scale_enemies.py` to 70 to 85 per starter.
-5. **Pack** (add both areas to `tools/art/painted/zones.json`), add rigs and backdrops to `src/art/assets.json` (copy a 60s area's entries; bosses `boxScale` 1.0), look at every fight and boss at 375 wide.
-6. **Phone tests:** add both areas to the `AREAS` loop at the end of `e2e/world.spec.ts`, and update the map test's teasers.
-7. **Ship:** test, types, lint, e2e, the full sim (campaigns must reach 80), docs, deploy when Eric says.
+1. **Ask Eric to sign in to Codex** early. Copy `tools/art/painted/jobs15.py` to `jobs16.py` with Starfall Summit and Dragonsrest. Areas are 5 generations each (3 idle, then 2 attack). The Behemoth is 2 more (a stage sheet and its attack sheet, as `jobs10.py` did the Wyvern). No maps. The plan said about 12; it's 12.
+2. **Data:** copy `tools/content/area_gen_80s.py` to `area_gen_90s.py`. Analogs: Hollow Crown's tuned enemies for Starfall, The Confluence's for Dragonsrest. Tier 93, cap 100, `zone_tail` ending with the two new zones. Remove both teasers (`regions['upcoming']` ends empty, so check the Map and List still look right with no teaser). Starfall's boss is the final boss: give it a longer closing story outro. Dragonsrest's boss drops Behemoth eggs (`eggDrop.breed`).
+3. **Behemoth:** a breed in `dragons.json` `breeds` like the Wyrm (+Scale, -Swift, signature Brace, which guards the whole party for a round, needing a small engine rule). Rigs `behemoth.<stage>`; tail tips with `find_tail_tips.py`.
+4. **Counts** in `tests/data.test.ts`, `gear.test.ts`, `phase4.test.ts`, `spells.test.ts`.
+5. **Balance** with `npm run sim -- --zone <id> --no-campaign` and `scale_enemies.py`. Expect +10 percent or so over the analog.
+6. **Pack:** add both areas to `tools/art/painted/zones.json`, run `pack.py`, then `python3 v2/wire_area.py <repo> <zone> <rise|fall> <color> [boss boxScale]` for each. Look at every fight and boss screenshot at 375 wide.
+7. **Phone tests:** add both to the `AREAS` loop in `e2e/world.spec.ts` and update the map test (no teasers left).
+8. **Ship:** test, types, lint, e2e, the full sim (campaigns must reach 100), docs, deploy when Eric says.
 
 ### After that
 
@@ -219,6 +221,8 @@ Calls made while building, shown to Eric in the report:
 | Breed art | All four life stages on one sheet and the attack poses on a second (2 generations a breed instead of 8). `pack.py` splits them (`<breed>-stages`), pads for the tail tip, and `POSE_SCALE` fixes young stages drawn bigger in their pose. Tail tip spots were found from the images: the topmost point of the tail for the Wyvern, the leftmost for the Wyrm (its tip turned -75 degrees). |
 | Sunken Spires (W5) | Tide and Storm, opens at 50 after the Eclipse Dragon. Enemies from Eclipse Peak's stats, then grown a quarter as fast past 50 (see "Lessons from W5"). Pairs fight 3 levels lower. Tidecaller set, a level 53 shop tier (a weapon per type in Tide and Storm, armor, trinket), the Leviathan Crest Forge piece, the Tempest spell (Storm, 53, may Shock). 75, 71 and 85 percent on level. |
 | The ring of 8 (E6) | Fire > Frost > Blight > Verdant > Stone > Steel > Storm > Tide > Fire. Frost no longer beats Verdant and Stone no longer beats Storm. Rot (Blight): damage over time of 4 percent of max HP, growing by half each round it stays on (`dotGrowth`). Rend (Steel): plain hits with no element deal 25 percent more (`physicalTakenMultiplier`). To keep a strong spell within two levels of every zone opening, two early spells: Rot Spit (Blight, level 2, beats Verdant for Mossy Hollow) and Steel Needles (Steel, level 19, beats Storm for Thunderspire). Rot Spit now lands in a new rider's default loadout. Blight and Steel eggs, enemies and weapons still start at 50 and 60. Frostmere got 6 percent tougher (Verdant went from 68 to 88 there); the rest stayed in range. 64 hybrid names, all in `elements.json`. |
+| Chunks 7 and 8 areas | Skyreach Isles (Storm and Light, Beyond the Peak, opens at 70 after the Volcanadon, boss Aurelith the sky whale), Twilight Rift (Aether and Void, the Elder Wilds, 70 after Ferrovane, boss Nyxaris), Hollow Crown (Stone and Shadow, Beyond the Peak, 80 after Aurelith, boss the Hollow King), The Confluence (hybrid enemies, the Elder Wilds, 80 after Nyxaris, boss Seethe). Shop lines: Light, Aether, Shadow, Tide. Spells: Astral Nova (Aether, 73, may Silence) and Daybreak (Light, 83). Level cap 90. Teasers: Starfall Summit and Dragonsrest. On level (Fire, Tide, Verdant): Skyreach 80, 70, 80; Twilight Rift 81, 80, 80; Hollow Crown 79, 78, 84; The Confluence 76, 80, 81. "Hollow Coat" became Empty Coat so it doesn't clash with the Hollow status. All calls made without Eric, listed in the chunk 7 and 8 report. |
+| Hybrid enemies (E11) | `element2` on an enemy. It defends with the average of its two matchups, its special moves use its better element against the target at `hybridBreathMultiplier` (0.9), and a shift move can name `shiftTo2` to turn one hybrid into another (Seethe: Steam to Magma). Hit events report the matchup from the averaged multiplier (`matchupVs`), the battle sheet shows the hybrid badge and weaknesses (`weaknessesOfFighter`), and the auto-battler scores spells against both halves. The Confluence's boss drops hybrid eggs (`eggDrop.hybrids`, `zoneEgg` in `eggs.ts`); the Map says "guards a hybrid egg". Tests: `tests/hybrid-enemies.test.ts`. |
 | Chunks 5 and 6 areas | Rotroot Thicket (Blight and Verdant, Hidden Reach, opens at 50 after the Nullmaw), Emberwild (Fire and Verdant, Beyond the Peak, 60 after the Tidelord), the Steelspine Range (Steel and Storm, the Elder Wilds, 60 after the Rotroot Queen). Each: 7 enemies, 5 stories with 2 choices, a bounty pool, a 5-piece set, a shop line in its new element or (Emberwild) Fire, a Forge piece. Inferno (Fire, 63). Level cap 70. The Elder Wilds is the fifth Map region. Teasers: Skyreach Isles (Beyond the Peak) and Twilight Rift (Elder Wilds). |
 | Third partner (E8) | From rider level 60 (`thirdPartnerRiderLevel`). Save v11 adds `thirdDragonId`. Battle: `third` like `second` (id `dragon3`, own breath, skills, cooldowns, order row `act3-*`, skill sheet `skill3`); enemies can target it; it shares XP and bond. No duo combos with it. Setting a partner into another's seat swaps them. Stage layouts `trio` and `rideTrio` in `stage.json`: the two back plates sit side by side, and `.battle--trio` makes the stage 16:9.5 and the log shorter so three order rows fit at 375 x 667. Eric approved building it without the planned mockup ("work on chunk 4 and deploy it after it's tested"). |
 | Status effects | `battle.ts` reads effect fields (`noDodge`, `amplify`, `taunts`, multipliers and bonuses) instead of status ids. Soak's Storm bonus is `amplify: { element: 'storm', multiplier: 1.3 }`. Results with fixed seeds didn't change. |
@@ -272,11 +276,11 @@ src/ui/        Preact screens and pieces
   useSave.ts storage.ts  save slots and storage
   Sprites.tsx Icon.tsx Wallet.tsx art.ts bits.tsx (formatBonus, rewardText) styles.css skin.css pwa.ts sound.ts install.ts router.ts
 src/art/       painted/ (characters, attack poses, backdrops, effects, tail tips), eggs/, icons/, assets.json (the art manifest)
-tests/         Vitest unit tests (241), sim.ts (the balance simulator), save fixtures v1 to v10
-e2e/           Playwright phone tests (91), fixtures/ (built by make-fixtures.ts), specs per feature
+tests/         Vitest unit tests (255), sim.ts (the balance simulator), save fixtures v1 to v10
+e2e/           Playwright phone tests (102), fixtures/ (built by make-fixtures.ts), specs per feature
                (slots, spells, gear, forge, world, ui, stage, perf, smoke, phase2 to 4), helpers.ts (openFold, tab)
-tools/content/      area_gen.py (writes an area's data), scale_enemies.py and slow_growth.py (balance), find_tail_tips.py (breeds)
-tools/art/painted/  style.txt and anchor.png (the style), jobs.py to jobs13.py (one per batch; jobs8 is the region maps, jobs9 the new element tips and breath plus Starglass Hollow and the Hidden Reach map, jobs10 the Wyvern, jobs11 Voidmarch and the Wyrm, jobs12 Sunken Spires, jobs13 Rotroot Thicket, Emberwild, the Steelspine Range and the Elder Wilds map), run.sh, pack.py,
+tools/content/      arealib.py (the area writer) with area_gen_70s.py and area_gen_80s.py; area_gen.py (the 50s and 60s), scale_enemies.py and slow_growth.py (balance), find_tail_tips.py (breeds)
+tools/art/painted/  style.txt and anchor.png (the style), jobs.py to jobs13.py (one per batch; jobs8 is the region maps, jobs9 the new element tips and breath plus Starglass Hollow and the Hidden Reach map, jobs10 the Wyvern, jobs11 Voidmarch and the Wyrm, jobs12 Sunken Spires, jobs13 Rotroot Thicket, Emberwild, the Steelspine Range and the Elder Wilds map, jobs14 Skyreach Isles and Twilight Rift, jobs15 Hollow Crown and The Confluence), run.sh, pack.py, wire_area.py (adds a packed area to the manifest),
                     fix_green.py, zones.json (which sheet holds which enemies), prompts/ (every prompt that was run)
 docs/          HANDOFF.md, NEXT_PROMPT.md, WORLD_PLAN.md, UI_PLAN.md, ART_GENERATION.md, ART_STYLE.md, DESIGN.md, GRAPHICS_PLAN.md, GRAPHICS_PLAN_2.md
 ```
@@ -286,9 +290,9 @@ docs/          HANDOFF.md, NEXT_PROMPT.md, WORLD_PLAN.md, UI_PLAN.md, ART_GENERA
 | Command | What it does |
 | --- | --- |
 | `npm run dev` | Local dev server |
-| `npm run test` | Unit tests (241) |
+| `npm run test` | Unit tests (255) |
 | `npx tsc --noEmit` and `npm run lint` | Type check and lint. Lint blocks `Math.random`, browser globals in `src/core`, and `any`. |
-| `npm run e2e` | Phone tests at 375 by 667 (91), about 2 minutes. Builds the site first. |
+| `npm run e2e` | Phone tests at 375 by 667 (102), about 3 minutes. Builds the site first. |
 | `npm run sim` | Balance sim: 1,000 runs per zone and level, then 100 campaigns per starter from egg to the cap. Flags: `--zone <id>`, `--no-campaign`, `--campaign-only`, `--runs`, `--campaigns`. The full run takes about 4 minutes; one zone about 1 minute. |
 | `npx tsx e2e/make-fixtures.ts` | Rebuilds the saves the phone tests load (needed after every save version bump) |
 | `npm run deploy` | Tests, lint and build, then pushes the current branch to `main`, which publishes. Only when Eric asks. |
@@ -298,8 +302,8 @@ docs/          HANDOFF.md, NEXT_PROMPT.md, WORLD_PLAN.md, UI_PLAN.md, ART_GENERA
 
 - First load: about 110 kB of JavaScript gzipped. The service worker precaches about 1.8 MB; zone art (about 4 MB and growing by about 450 KB per area) is cached on first view.
 - Stage: about 51 DOM nodes one on one, 69 at two dragons against two enemies (budget 100). The perf test (5 percent dropped frames at 4x CPU throttle) is noisy in the sandbox; run it a few times before blaming a change.
-- Campaign in the sim: about 737 fights from egg to level 50, roughly 25 hours at 2 minutes a fight. It finishes all 28 story quests and claims about 30 bounties.
-- Content: 17 zones (7 main, 4 side areas, 3 Hidden Reach areas, 2 frontier areas, 1 Elder Wilds area), 119 enemies (85 regular, 17 mini-bosses, 17 bosses), 260 gear pieces (155 in the shop, 85 in 17 sets, 14 Forge recipes, plus starter and festival pieces), 18 rider spells, 58 story quests, 12 bounty pools, 12 elements, 3 breeds, 3 Forge materials, 40 talents, 3 growth quests, 6 expedition trips, 4 events.
+- Campaign in the sim: about 737 fights from egg to level 50, roughly 25 hours at 2 minutes a fight, and about 1,480 fights (49 hours) to level 90 and Seethe. Every campaign reaches the cap; runs won are about 93 to 94 percent.
+- Content: 21 zones (7 main, 4 side areas, 3 Hidden Reach areas, 4 frontier areas, 3 Elder Wilds areas), 147 enemies (105 regular, 21 mini-bosses, 21 bosses), 304 gear pieces (175 in the shop, 105 in 21 sets, 18 Forge recipes, plus starter and festival pieces), 20 rider spells, 78 story quests, 16 bounty pools, 12 elements, 3 breeds, 3 Forge materials, 40 talents, 3 growth quests, 6 expedition trips, 4 events.
 
 ## Gotchas
 

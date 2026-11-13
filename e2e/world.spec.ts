@@ -467,3 +467,19 @@ for (const [zone, region, regulars, boss, gate, level, more] of AREAS) {
     await page.screenshot({ path: `test-results/${zone}-boss.png` });
   });
 }
+
+test('The Confluence boss is a hybrid: its details show Steam and both halves of its weakness', async ({ page }) => {
+  await load(page, 'elder.json', (s) => {
+    s.rider.level = 89;
+    s.bestiary = { ...s.bestiary, seethe: { fought: 1, defeated: 0 } };
+    s.run = { zoneId: 'the-confluence', fights: [{ kind: 'boss', enemies: [{ enemyId: 'seethe', level: 90 }] }], index: 0, battle: null, totals: { xp: 0, gold: 0, drops: {} } };
+  });
+  await page.getByTestId('next-fight').tap();
+  await expect(page.locator('[data-testid=stage]:not(.stage--loading)')).toBeVisible();
+  await page.getByTestId('plate-e0').tap();
+  const details = page.getByTestId('fighter-details');
+  await expect(details).toContainText('Steam');
+  await expect(details).toContainText(/Weak to .*Storm/);
+  await page.waitForTimeout(400);
+  await page.screenshot({ path: 'test-results/confluence-hybrid-details.png' });
+});
