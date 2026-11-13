@@ -109,7 +109,7 @@ export function Roost({ save, update }: Props) {
           {save.dragons.map((d) => (
             <button key={d.id} type="button" role="tab" aria-selected={d.id === dragon.id} class={`pick${d.id === dragon.id ? ' pick--on' : ''}`}
               onClick={() => { setSelectedId(d.id); setToast(''); }} data-testid={`pick-${d.name}`}>
-              <DragonSprite element={d.element} stage={d.stage} primary={d.colors.primary} secondary={d.colors.secondary} size={40} />
+              <DragonSprite element={d.element} element2={d.element2} variant={d.variant} stage={d.stage} primary={d.colors.primary} secondary={d.colors.secondary} size={40} />
               <span>{d.name}</span>
               {d.id === lead.id ? <span class="pick-tag">Lead</span> : d.id === second?.id ? <span class="pick-tag">Second</span> : null}
             </button>
@@ -120,7 +120,7 @@ export function Roost({ save, update }: Props) {
       <div class="card roost-dragon">
         <div class="roost-dragon-info">
           <p class="welcome" data-testid="welcome">{dragon.name}</p>
-          <p class="muted">Lv {dragon.level} · {data.dragons.stages.find((s) => s.id === dragon.stage)?.name} <ElementBadge element={dragon.element} small /></p>
+          <p class="muted">Lv {dragon.level} · {data.dragons.stages.find((s) => s.id === dragon.stage)?.name} <ElementBadge element={dragon.element} element2={dragon.element2} small /></p>
           <p class="muted" data-testid="temperament">
             {temper ? `${data.roost.temperament.types[temper].name}: ${data.roost.temperament.types[temper].passive}` : lean ? `Leaning ${data.roost.temperament.types[lean].name}` : 'Temperament: still figuring itself out'}
           </p>

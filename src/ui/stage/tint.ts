@@ -1,4 +1,5 @@
 import palette from '../../art/palette.json';
+import type { VariantId } from '../../core/types';
 
 /**
  * Player colors for painted dragon art. The art is drawn with a red body and a gold belly and
@@ -58,4 +59,70 @@ export function recolorPixels(px: Uint8ClampedArray, primary: string, secondary:
       px[i + k] = Math.round(Math.max(0, Math.min(255, v)));
     }
   }
+}
+
+const F = palette.finishes;
+
+/** Each pixel's color family (see colorFamily), worked out before recoloring so finishes know the body from the belly. */
+export function familyMap(px: Uint8ClampedArray): Uint8Array {
+  const out = new Uint8Array(px.length / 4);
+  for (let i = 0; i < px.length; i += 4) if (px[i + 3]! > 0) out[i / 4] = colorFamily(px[i]!, px[i + 1]!, px[i + 2]!);
+  return out;
+}
+
+const mix = (px: Uint8ClampedArray, i: number, to: [number, number, number], t: number) => {
+  for (let k = 0; k < 3; k++) px[i + k] = Math.round(px[i + k]! + (to[k]! - px[i + k]!) * t);
+};
+
+/** A small repeatable hash in 0..1 for a grid cell, so speckles land in the same places every load. */
+const hash = (x: number, y: number) => {
+  let h = (x * 374761393 + y * 668265263) | 0;
+  h = Math.imul(h ^ (h >>> 13), 1274126177);
+  return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
+};
+
+/**
+ * Draw a rare finish on recolored dragon pixels, in place. `family` comes from familyMap before
+ * recoloring. Shimmer: diagonal bands of sheen. Starry: speckles on the body. Ghost: see-through
+ * and paler. Ember-eyed: the second color glows hot. (Glows around the outline are drawn by the caller.)
+ */
+export function applyFinish(px: Uint8ClampedArray, width: number, family: Uint8Array, finish: VariantId): void {
+  const white: [number, number, number] = [255, 255, 255];
+  const n = px.length / 4;
+  for (let p = 0; p < n; p++) {
+    const i = p * 4;
+    if (px[i + 3] === 0) continue;
+    const x = p % width;
+    const y = Math.floor(p / width);
+    const fam = family[p]!;
+    switch (finish) {
+      case 'shimmer': {
+        if (!fam) break;
+        const band = ((x + y) / (width * F.shimmer.bandWidth)) % 1;
+        const sheen = Math.max(0, 1 - Math.abs(band - 0.5) * 4);
+        if (sheen > 0) mix(px, i, white, sheen * F.shimmer.strength);
+        break;
+      }
+      case 'starry': {
+        if (fam !== 1) break;
+        const c = F.starry.cell;
+        if (hash(Math.floor(x / c), Math.floor(y / c)) < F.starry.density) mix(px, i, rgb(F.starry.color), 0.9);
+        break;
+      }
+      case 'ghost':
+        px[i + 3] = Math.round(px[i + 3]! * F.ghost.alpha);
+        mix(px, i, white, F.ghost.lighten);
+        break;
+      case 'ember-eyed':
+        if (fam === 2) mix(px, i, rgb(F['ember-eyed'].color), F['ember-eyed'].strength);
+        break;
+    }
+  }
+}
+
+/** The glow drawn around the whole dragon for a finish, if it has one. */
+export function finishGlow(finish: VariantId | null | undefined): { color: string; blur: number } | null {
+  if (finish === 'ghost') return { color: F.ghost.glow, blur: F.ghost.glowBlur };
+  if (finish === 'ember-eyed') return { color: F['ember-eyed'].glow, blur: F['ember-eyed'].glowBlur };
+  return null;
 }

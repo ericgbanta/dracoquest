@@ -1,8 +1,8 @@
 import manifest from '../../art/assets.json';
 import palette from '../../art/palette.json';
 import { gameData } from '../../core/data';
-import type { ElementId } from '../../core/types';
-import { recolorPixels } from './tint';
+import type { ElementId, VariantId } from '../../core/types';
+import { applyFinish, familyMap, finishGlow, recolorPixels } from './tint';
 
 /**
  * Battle-stage art: rigs (characters built from parts), backdrops and effects.
@@ -38,7 +38,12 @@ export interface RigDef {
 export interface TipDef { file: string; at: [number, number]; width: number; rotate?: number }
 
 /** Player colors (and a tail tip) baked into a bitmap part at load. */
-export interface BitmapTint { primary: string; secondary: string; tip?: { url: string; at: [number, number]; width: number; rotate: number } | undefined }
+export interface BitmapTint {
+  primary: string; secondary: string; tip?: { url: string; at: [number, number]; width: number; rotate: number } | undefined;
+  /** A hybrid's second element color, drawn as a ring around the tail tip. */
+  ring?: string | undefined;
+  finish?: VariantId | undefined;
+}
 
 /** An enemy drawn from a shared body plan: its colors, size and extra parts. */
 export interface EnemyLook {
@@ -71,7 +76,7 @@ export interface Ambient { kind: 'rise' | 'fall'; color: string }
 /** Layers stack in order behind the fighters; a `front` layer is drawn over them. */
 export interface Backdrop { layers: { url: string; anim?: string | undefined; front?: boolean | undefined }[]; ambient?: Ambient | undefined }
 
-export interface DragonLook { element: ElementId; primary: string; secondary: string }
+export interface DragonLook { element: ElementId; element2?: ElementId | null; variant?: VariantId | null; primary: string; secondary: string }
 
 /** Values filled into {name} placeholders in part file names. */
 export interface RigVars { element?: string; weapon?: string }
@@ -182,17 +187,40 @@ async function tintBitmap(url: string, tint: BitmapTint): Promise<string> {
   if (!ctx) return url;
   ctx.drawImage(img, 0, 0);
   const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  const family = tint.finish ? familyMap(data.data) : null;
   recolorPixels(data.data, tint.primary, tint.secondary);
+  if (tint.finish && family) applyFinish(data.data, canvas.width, family, tint.finish);
   ctx.putImageData(data, 0, 0);
   if (tint.tip) {
     const tip = await loadImage(tint.tip.url).catch(() => null);
     if (tip) {
       const w = tint.tip.width * canvas.width;
       const h = w * (tip.naturalHeight / tip.naturalWidth);
+      ctx.save();
       ctx.translate(tint.tip.at[0] * canvas.width, tint.tip.at[1] * canvas.height);
       ctx.rotate((tint.tip.rotate * Math.PI) / 180);
+      if (tint.ring) {
+        // A hybrid: the tip glows in the second element's color.
+        ctx.shadowColor = tint.ring;
+        ctx.shadowBlur = w * palette.finishes.tipRing.blur;
+        ctx.drawImage(tip, 0, -h, w, h);
+        ctx.shadowBlur = 0;
+      }
       ctx.drawImage(tip, 0, -h, w, h);
+      ctx.restore();
     }
+  }
+  const glow = finishGlow(tint.finish);
+  if (glow) {
+    const copy = document.createElement('canvas');
+    copy.width = canvas.width;
+    copy.height = canvas.height;
+    copy.getContext('2d')?.drawImage(canvas, 0, 0);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.shadowColor = glow.color;
+    ctx.shadowBlur = glow.blur * canvas.width;
+    ctx.drawImage(copy, 0, 0);
+    ctx.shadowBlur = 0;
   }
   const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, 'image/png'));
   return blob ? URL.createObjectURL(blob) : url;
@@ -266,7 +294,12 @@ export async function loadRig(key: string, look?: DragonLook, vars: RigVars = {}
   let tint: BitmapTint | undefined;
   if (dragon) {
     const tipUrl = def.tip ? await artUrl(fill(def.tip.file, allVars)) : null;
-    tint = { primary: dragon.primary, secondary: dragon.secondary, tip: def.tip && tipUrl ? { url: tipUrl, at: def.tip.at, width: def.tip.width, rotate: def.tip.rotate ?? 0 } : undefined };
+    tint = {
+      primary: dragon.primary, secondary: dragon.secondary,
+      tip: def.tip && tipUrl ? { url: tipUrl, at: def.tip.at, width: def.tip.width, rotate: def.tip.rotate ?? 0 } : undefined,
+      ring: dragon.element2 ? gameData.elements.info[dragon.element2].color : undefined,
+      finish: dragon.variant ?? undefined,
+    };
   }
   return build(key, def, colors, allVars, def.parts, def.boxScale ?? 1, tint);
 }
@@ -294,9 +327,20 @@ export async function loadBackdrop(zone: string): Promise<Backdrop | null> {
   return ok.length ? { layers: ok, ambient: def.ambient } : null;
 }
 
-export interface Effects { slash: string | null; spark: string | null; puff: string | null }
+export interface Effects {
+  slash: string | null; spark: string | null; puff: string | null;
+  /** Breath per element, for hybrids and a second dragon of another element. */
+  puffs?: Partial<Record<ElementId, string | null>>;
+}
 
-export async function loadEffects(element: ElementId): Promise<Effects> {
+export async function loadEffects(element: ElementId, others: ElementId[] = []): Promise<Effects> {
+  const [main, ...rest] = await Promise.all([element, ...others].map((el) => loadEffectsFor(el)));
+  const puffs: Partial<Record<ElementId, string | null>> = { [element]: main!.puff };
+  others.forEach((el, i) => { puffs[el] = rest[i]!.puff; });
+  return { ...main!, puffs };
+}
+
+async function loadEffectsFor(element: ElementId): Promise<Effects> {
   const breath = breathColors(element);
   // An element with its own painted breath uses it; otherwise the shared puff is recolored
   // (an SVG puff swaps its gray tokens, a painted one, red edge and gold middle, is recolored like a dragon).

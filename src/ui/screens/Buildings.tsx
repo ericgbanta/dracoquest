@@ -1,7 +1,8 @@
 import { useState } from 'preact/hooks';
 import { gameData as data } from '../../core/data';
 import {
-  collectExpedition, collectFood, collectTraining, GameError, incubateEgg, isPartner, releaseEgg, startExpedition, startTraining,
+  breedCooldownLeft, canBreed, canBreedStage, collectExpedition, collectFood, collectNestEgg, collectTraining, GameError, incubateEgg, isPartner,
+  releaseEgg, startBreeding, startExpedition, startTraining,
   stopTraining, takeHatchedEgg, upgradeBuilding,
 } from '../../core/game';
 import { availableTrips, buildingLevel, nestSlots, pantryNextIn, tickPantry, trainingXp, tripById, upgradeCost } from '../../core/roost';
@@ -28,6 +29,7 @@ export function Buildings({ save, update, onMessage }: Props) {
   const now = useNow();
   const [tripFor, setTripFor] = useState<DragonState | null>(null);
   const [forgeOpen, setForgeOpen] = useState(false);
+  const [pair, setPair] = useState<string[]>([]);
   const roost = tickPantry(data, save.roost, now);
 
   const act = (fn: () => SaveData, ok: string) => {
@@ -40,6 +42,7 @@ export function Buildings({ save, update, onMessage }: Props) {
     }
   };
 
+  const nestNames = (save.roost.nesting?.parents ?? []).map((id) => save.dragons.find((d) => d.id === id)?.name ?? 'A dragon').join(' and ');
   const benched = save.dragons.filter((d) => !isPartner(save, d.id));
   const idleBench = benched.filter((d) => d.assignment.kind === 'idle');
 
@@ -60,6 +63,7 @@ export function Buildings({ save, update, onMessage }: Props) {
     <><Icon name={`building-${b}`} fallback={ICONS[b]} size={24} /> {data.roost.buildings[b].name}</>
   );
 
+  const nesting = buildingLevel(data, roost, 'nesting');
   const pantry = buildingLevel(data, roost, 'pantry');
   const pantryNext = pantryNextIn(data, roost, now);
   const hatchery = buildingLevel(data, roost, 'hatchery');
@@ -77,10 +81,10 @@ export function Buildings({ save, update, onMessage }: Props) {
     training: !trainees.length ? lv('training') : `${trainees.map((d) => d.name).join(', ')} training`,
     expeditions: !board ? lv('expeditions') : tripsBack ? `${tripsBack} back home!` : trips.length ? `${trips.length} away` : `${lv('expeditions')} · ${idleBench.length} free`,
     forge: save.roost.levels.forge > 0 ? `Up to +${maxPlus(data, save.roost)}` : lv('forge'),
-    nesting: lv('nesting'),
+    nesting: !save.roost.nesting ? lv('nesting') : now >= save.roost.nesting.readyAt ? 'An egg is waiting!' : `${nestNames} nesting`,
   };
   const attention: Record<BuildingId, boolean> = {
-    nest: false, pantry: roost.pantry.stored > 0, hatchery: readyEggs > 0, nesting: false, training: false, expeditions: tripsBack > 0, forge: false,
+    nest: false, pantry: roost.pantry.stored > 0, hatchery: readyEggs > 0, nesting: !!save.roost.nesting && now >= save.roost.nesting.readyAt, training: false, expeditions: tripsBack > 0, forge: false,
   };
 
   return (
@@ -163,6 +167,60 @@ export function Buildings({ save, update, onMessage }: Props) {
           );
         })}
         {upgradeButton('hatchery')}
+      </Fold>
+
+      <Fold id="roost.nesting" class="building" testid="building-nesting" title={title('nesting')} summary={summaries.nesting} forceOpen={attention.nesting}>
+        {!nesting && <p class="muted">{data.roost.buildings.nesting.description} Adult and Elder dragons can nest.</p>}
+        {nesting && save.roost.nesting && (() => {
+          const n = save.roost.nesting;
+          const ready = now >= n.readyAt;
+          return (
+            <div class="slot-row">
+              <div>
+                <strong>{nestNames}</strong>
+                <span class="muted">{ready ? 'Their egg is ready!' : `Egg in ${formatDuration(n.readyAt - now)}`}</span>
+              </div>
+              <button type="button" class="button" disabled={!ready} data-testid="collect-nest-egg"
+                onClick={() => {
+                  try {
+                    const r = collectNestEgg(save, Date.now());
+                    update(() => r.save);
+                    onMessage(`${nestNames} made a ${eggName(data, r.egg)}! It's in your bag.`);
+                  } catch (e) { onMessage(e instanceof GameError ? e.message : 'That did not work.'); }
+                }}>Take egg</button>
+            </div>
+          );
+        })()}
+        {nesting && !save.roost.nesting && (() => {
+          const grown = save.dragons.filter((d) => canBreedStage(data, d));
+          const check = pair.length === 2 ? canBreed(data, save, pair[0]!, pair[1]!, now) : null;
+          const cost = data.roost.breeding.cost;
+          if (grown.length < 2) return <p class="muted">Two dragons need to reach the Adult stage to nest. You have {grown.length}.</p>;
+          return (
+            <>
+              <p class="muted">Pick two. Their egg takes {nesting.hours}h. It usually has one parent's element, and sometimes it's a mix of both.</p>
+              <div class="chip-row nest-pick">
+                {grown.map((d) => {
+                  const wait = breedCooldownLeft(data, save, d, now);
+                  const on = pair.includes(d.id);
+                  return (
+                    <button key={d.id} type="button" class="chip-button" aria-pressed={on} disabled={wait > 0 && !on}
+                      data-testid={`nest-pick-${d.name}`}
+                      onClick={() => setPair((p) => (on ? p.filter((x) => x !== d.id) : [...p.slice(-1), d.id]))}>
+                      {d.name}{wait > 0 ? ` · rests ${formatDuration(wait)}` : ''}
+                    </button>
+                  );
+                })}
+              </div>
+              {check && !check.ok && <p class="muted">{check.reason}.</p>}
+              <button type="button" class="button" disabled={!check?.ok || !!save.run} data-testid="start-nesting"
+                onClick={() => act(() => startBreeding(data, save, pair[0]!, pair[1]!, Date.now()), 'The pair settles into the nest.')}>
+                Start nesting · <Gold amount={cost.gold} /> · <Embers amount={cost.embers} />
+              </button>
+            </>
+          );
+        })()}
+        {upgradeButton('nesting')}
       </Fold>
 
       <Fold id="roost.training" class="building" testid="building-training" title={title('training')} summary={summaries.training} forceOpen={attention.training}>

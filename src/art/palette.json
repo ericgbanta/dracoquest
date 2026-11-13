@@ -79,5 +79,32 @@
     "creamMin": 110,
     "shadowTowardOutline": 0.25,
     "highlightGain": 1.2
+  },
+  "finishes": {
+    "note": "Rare finishes drawn on painted dragons after the player colors (dragons plan E1). Strengths are 0 to 1 mixes.",
+    "shimmer": {
+      "bandWidth": 0.14,
+      "strength": 0.42
+    },
+    "starry": {
+      "cell": 3,
+      "density": 0.02,
+      "color": "#fffbe8"
+    },
+    "ghost": {
+      "alpha": 0.7,
+      "lighten": 0.2,
+      "glow": "#e3f4ff",
+      "glowBlur": 0.03
+    },
+    "ember-eyed": {
+      "color": "#ffb347",
+      "strength": 0.5,
+      "glow": "#ff7a2e",
+      "glowBlur": 0.025
+    },
+    "tipRing": {
+      "blur": 0.35
+    }
   }
 }

@@ -1,11 +1,15 @@
 import { gameData } from '../core/data';
-import type { ElementId } from '../core/types';
+import type { ElementId, VariantId } from '../core/types';
 import { useSprite } from './art';
 import { useDragonRig, useEnemyRig } from './stage/Scene';
 import { RigView } from './stage/Stage';
 
 interface DragonSpriteProps {
   element: ElementId;
+  /** A hybrid's second element: a glow around the tail tip. */
+  element2?: ElementId | null;
+  /** A rare finish. */
+  variant?: VariantId | null;
   stage: string;
   primary: string;
   secondary: string;
@@ -19,8 +23,8 @@ interface DragonSpriteProps {
  * A dragon in the player's colors. Uses the gray base sprite from the
  * manifest, tinted at runtime, or a placeholder shape if the art is missing.
  */
-export function DragonSprite({ element, stage, primary, secondary, size = 160, class: cls = '', plain }: DragonSpriteProps) {
-  const rig = useDragonRig(plain ? null : { element, stage, colors: { primary, secondary } });
+export function DragonSprite({ element, element2, variant, stage, primary, secondary, size = 160, class: cls = '', plain }: DragonSpriteProps) {
+  const rig = useDragonRig(plain ? null : { element, element2, variant, stage, colors: { primary, secondary } });
   const url = useSprite(`dragon.${element}.${stage}`);
   if (rig) {
     return (

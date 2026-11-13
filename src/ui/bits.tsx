@@ -1,16 +1,25 @@
 import { useEffect, useState } from 'preact/hooks';
 import { gameData } from '../core/data';
-import type { ElementId, IntentKind, StatusId, StoryReward } from '../core/types';
+import type { ElementId, IntentKind, StatusId, StoryReward, VariantId } from '../core/types';
+import { hybridName } from '../core/eggs';
 import { MATERIALS } from '../core/types';
 import { Icon } from './Icon';
 
-export function ElementBadge({ element, small }: { element: ElementId; small?: boolean }) {
+/** An element's symbol and name. With `element2` it's a hybrid: both symbols and the hybrid's name (Steam). */
+export function ElementBadge({ element, element2, small }: { element: ElementId; element2?: ElementId | null; small?: boolean }) {
   const info = gameData.elements.info[element];
+  const two = element2 ? gameData.elements.info[element2] : null;
   return (
-    <span class={`badge${small ? ' badge--small' : ''}`} style={{ '--el': info.color }}>
-      <span aria-hidden="true">{info.symbol}</span> {info.name}
+    <span class={`badge${small ? ' badge--small' : ''}${two ? ' badge--hybrid' : ''}`} style={{ '--el': info.color, ...(two ? { '--el2': two.color } : {}) }}>
+      <span aria-hidden="true">{info.symbol}{two?.symbol}</span> {two ? hybridName(gameData.elements, element, element2!) : info.name}
     </span>
   );
+}
+
+/** A rare finish's badge (Shimmer, Starry...). */
+export function VariantBadge({ variant }: { variant: VariantId }) {
+  const v = gameData.dragons.variants.info[variant];
+  return <span class="badge badge--small badge--rare" title={v.blurb} data-testid="variant-badge">✦ {v.name}</span>;
 }
 
 export function Bar({ value, max, kind, label, showNumbers = true }: {

@@ -306,7 +306,7 @@ export function Battle({ save, update, onExit }: Props) {
         <div class="fighter" ref={reg('rider')}>
           {battle.mode === 'ride' && dragonState && (
             <div class="fighter-row">
-              <DragonSprite element={dragonState.element} stage={dragonState.stage} primary={dragonState.colors.primary}
+              <DragonSprite element={dragonState.element} element2={dragonState.element2} variant={dragonState.variant} stage={dragonState.stage} primary={dragonState.colors.primary}
                 secondary={dragonState.colors.secondary} size={48} />
               <span class="pill">Riding</span>
             </div>
@@ -320,7 +320,7 @@ export function Battle({ save, update, onExit }: Props) {
         {dragonState && battle.mode !== 'ride' && (
           <div class={`fighter${dragonUp ? '' : ' fighter--ko'}`} ref={reg('dragon')}>
             <div class="fighter-row">
-              <DragonSprite element={dragonState.element} stage={dragonState.stage} primary={dragonState.colors.primary}
+              <DragonSprite element={dragonState.element} element2={dragonState.element2} variant={dragonState.variant} stage={dragonState.stage} primary={dragonState.colors.primary}
                 secondary={dragonState.colors.secondary} size={48} />
               <div class="fighter-name">{dragonState.name}{!dragonUp && ' (KO)'} {battle.dragon && <StatusChips statuses={battle.dragon.statuses} />}</div>
             </div>
@@ -332,7 +332,7 @@ export function Battle({ save, update, onExit }: Props) {
         {battle.second && second2 && (
           <div class={`fighter${secondUp ? '' : ' fighter--ko'}`} ref={reg('dragon2')} data-testid="second-card">
             <div class="fighter-row">
-              <DragonSprite element={second2.element} stage={second2.stage} primary={second2.colors.primary} secondary={second2.colors.secondary} size={40} />
+              <DragonSprite element={second2.element} element2={second2.element2} variant={second2.variant} stage={second2.stage} primary={second2.colors.primary} secondary={second2.colors.secondary} size={40} />
               <div class="fighter-name">{second2.name}{!secondUp && ' (KO)'} <StatusChips statuses={battle.second.fighter.statuses} /></div>
             </div>
             <Bar kind="hp" value={battle.second.fighter.hp} max={battle.second.fighter.maxHp} label="HP" />
@@ -675,7 +675,7 @@ function Results({ save, report, update, onExit, onNext }: {
         <>
           <Dialogue lines={Object.values(data.quests).find((q) => q.stage === report.grewTo)?.outro ?? []} save={save} />
           <div class="hatch-preview">
-            <DragonSprite element={dragon.element} stage={dragon.stage} primary={dragon.colors.primary} secondary={dragon.colors.secondary} size={140} class="pop-in" />
+            <DragonSprite element={dragon.element} element2={dragon.element2} variant={dragon.variant} stage={dragon.stage} primary={dragon.colors.primary} secondary={dragon.colors.secondary} size={140} class="pop-in" />
           </div>
           <p class="notice notice--ok" data-testid="grew">{dragon.name} grew into a {data.dragons.stages.find((st) => st.id === report.grewTo)?.name}! {data.dragons.stages.find((st) => st.id === report.grewTo)?.unlocks.join(', ')} unlocked.</p>
         </>

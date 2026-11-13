@@ -68,9 +68,10 @@ export async function direct(stage: HTMLElement, data: GameData, state: BattleSt
       const enemy = state.enemies.find((x) => x.id === ev.actor);
       const big = enemy ? state.intents[enemy.id] !== undefined && data.enemies[enemy.enemyId ?? '']?.moves.find((m) => m.id === state.intents[enemy.id])?.intent === 'big' : false;
       const actorEl = ev.actor === 'rider' ? state.rider : ev.actor === 'dragon' ? state.dragon : ev.actor === 'dragon2' ? state.second?.fighter : enemy;
-      const color = actorEl?.element ? data.elements.info[actorEl.element].color : '#c9a8ff';
+      const used = ev.t === 'hit' && ev.element && actorEl?.element2 ? ev.element : actorEl?.element;
+      const color = used ? data.elements.info[used].color : '#c9a8ff';
       const hit: HitInfo = {
-        actor: ev.actor, target: ev.target, color, big,
+        actor: ev.actor, target: ev.target, color, big, element: ev.t === 'hit' ? ev.element ?? actorEl?.element ?? null : null,
         text: ev.t === 'hit' ? `${ev.crit ? '★' : ''}-${ev.amount}` : 'Miss',
         kind: ev.t === 'miss' ? 'miss' : ev.crit ? 'crit' : 'dmg',
       };

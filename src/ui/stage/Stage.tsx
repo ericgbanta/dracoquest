@@ -51,6 +51,10 @@ interface Props {
 const PUFFS = layout.beats.breath.puffs;
 const PARTICLES = layout.particles;
 
+/** Each loaded breath as a data attribute, so a hybrid's breath can show the element it used. */
+const puffData = (effects: Effects) =>
+  Object.fromEntries(Object.entries(effects.puffs ?? {}).filter(([, url]) => url).map(([el, url]) => [`data-puff-${el}`, url]));
+
 /** A side-view battle stage: backdrop, fighters built from parts, plates and a pooled effects layer. */
 export function Stage({ backdrop, plainColor, fighters, effects, header, paused, loading, stageRef }: Props) {
   const hidden = usePageHidden();
@@ -66,7 +70,7 @@ export function Stage({ backdrop, plainColor, fighters, effects, header, paused,
       </div>
       {header}
       {fighters.map((f) => <Plate key={f.id} f={f} />)}
-      <div class="stage-fx" aria-hidden="true">
+      <div class="stage-fx" aria-hidden="true" {...puffData(effects)}>
         {effects.puff && Array.from({ length: PUFFS }, (_, i) => <img key={`p${i}`} class="fx fx-puff" src={effects.puff!} alt="" />)}
         {effects.slash && <img class="fx fx-slash" src={effects.slash} alt="" />}
         {effects.spark && <img class="fx fx-spark" src={effects.spark} alt="" />}

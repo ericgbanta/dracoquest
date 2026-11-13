@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 import { gameData as data } from '../../core/data';
 import { chooseEgg, eggReady, hatchEgg, warmEgg } from '../../core/game';
 import type { SaveData } from '../../core/save';
-import type { ElementId } from '../../core/types';
+import type { ElementId, VariantId } from '../../core/types';
+import { elementLabel } from '../../core/eggs';
 import { DragonSprite } from '../Sprites';
 import { ElementBadge, prefersReducedMotion, vibrate } from '../bits';
 import { href } from '../router';
@@ -145,7 +146,13 @@ function NameDragon({ save, update }: Props) {
       <header class="screen-header screen-header--center">
         <h1 id="screen-title">It's hatching!</h1>
       </header>
-      <Hatching element={egg.element} primary={primary} secondary={secondary} />
+      <Hatching element={egg.element} element2={egg.element2} variant={egg.variant} primary={primary} secondary={secondary} />
+      {(egg.element2 || egg.variant) && (
+        <p class="notice notice--ok center" data-testid="hatch-special">
+          {egg.variant ? `A rare ${data.dragons.variants.info[egg.variant].name} dragon! ${data.dragons.variants.info[egg.variant].blurb} ` : ''}
+          {egg.element2 ? `It's a ${elementLabel(data.elements, egg)} hybrid: ${data.elements.info[egg.element].name} and ${data.elements.info[egg.element2].name}.` : ''}
+        </p>
+      )}
       <div class="card">
         <label for="dragon-name">Name your dragon</label>
         <div class="row">
@@ -185,9 +192,11 @@ function ColorPicker({ label, value, onPick, testid }: { label: string; value: s
  * The moment of hatching: the egg's cap pops off, the hatchling springs out and
  * idles in the colors being picked. Only transform and opacity animate.
  */
-function Hatching({ element, primary, secondary }: { element: ElementId; primary: string; secondary: string }) {
+function Hatching({ element, element2 = null, variant = null, primary, secondary }: {
+  element: ElementId; element2?: ElementId | null; variant?: VariantId | null; primary: string; secondary: string;
+}) {
   const art = useEggArt(element);
-  const rig = useDragonRig({ element, stage: 'hatchling', colors: { primary, secondary } });
+  const rig = useDragonRig({ element, element2, variant, stage: 'hatchling', colors: { primary, secondary } });
   const top = useRef<HTMLImageElement>(null);
   const bottom = useRef<HTMLImageElement>(null);
   const baby = useRef<HTMLDivElement>(null);
@@ -208,7 +217,7 @@ function Hatching({ element, primary, secondary }: { element: ElementId; primary
   }, [!!art]);
   const dragon = rig
     ? <RigView rig={rig} facing="right" />
-    : <DragonSprite element={element} stage="hatchling" primary={primary} secondary={secondary} size={150} />;
+    : <DragonSprite element={element} element2={element2} variant={variant} stage="hatchling" primary={primary} secondary={secondary} size={150} />;
   return (
     <div class="hatch-preview hatch-scene" data-testid="hatch-scene">
       <div class="hatch-baby" ref={baby}>{dragon}</div>

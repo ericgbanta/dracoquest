@@ -10,8 +10,9 @@ import { dragonLevelCap, xpToNext } from '../../core/progression';
 import type { SaveData } from '../../core/save';
 import { DRAGON_STATS, type DragonStat } from '../../core/types';
 import { DragonSprite } from '../Sprites';
-import { Bar, ElementBadge } from '../bits';
-import { beats, weaknessesOf } from '../../core/elements';
+import { Bar, ElementBadge, VariantBadge } from '../bits';
+import { beats, defenseMultiplier } from '../../core/elements';
+import { elementLabel, elementsOf } from '../../core/eggs';
 import type { ElementId } from '../../core/types';
 import { Embers, Gold } from '../Icon';
 import { SubTabs, usePref } from '../Fold';
@@ -49,8 +50,8 @@ export function Dragons({ save, update }: Props) {
   const atCap = d.level >= dragonLevelCap(data, d);
   const favoriteKnown = d.foodsTried.includes(d.favoriteFood);
   const favorite = data.foods.find((f) => f.id === d.favoriteFood);
-  const strong = data.elements.ids.filter((e) => beats(data.elements, d.element, e));
-  const weak = weaknessesOf(data.elements, d.element);
+  const strong = data.elements.ids.filter((e) => elementsOf(d).some((own) => beats(data.elements, own, e)));
+  const weak = data.elements.ids.filter((e) => defenseMultiplier(data.elements, e, d) > data.elements.multipliers.neutral);
   const growth = growthStatus(data, d);
   const nextStage = growth.next;
 
@@ -62,7 +63,7 @@ export function Dragons({ save, update }: Props) {
           {save.dragons.map((x) => (
             <button key={x.id} type="button" role="tab" aria-selected={x.id === d.id} class={`pick${x.id === d.id ? ' pick--on' : ''}`}
               onClick={() => { setSelectedId(x.id); setNotice(''); }} data-testid={`dpick-${x.name}`}>
-              <DragonSprite element={x.element} stage={x.stage} primary={x.colors.primary} secondary={x.colors.secondary} size={40} />
+              <DragonSprite element={x.element} element2={x.element2} variant={x.variant} stage={x.stage} primary={x.colors.primary} secondary={x.colors.secondary} size={40} />
               <span>{x.name}</span>
               {x.id === lead.id ? <span class="pick-tag">Lead</span> : x.id === second?.id ? <span class="pick-tag">Second</span> : x.assignment.kind !== 'idle' ? <span class="pick-tag">{x.assignment.kind === 'training' ? 'Training' : 'Away'}</span> : null}
             </button>
@@ -91,10 +92,10 @@ export function Dragons({ save, update }: Props) {
       )}
       {tab === 'overview' && <>
       <div class="card dragon-sheet">
-        <DragonSprite element={d.element} stage={d.stage} primary={d.colors.primary} secondary={d.colors.secondary} size={140} class="idle" />
+        <DragonSprite element={d.element} element2={d.element2} variant={d.variant} stage={d.stage} primary={d.colors.primary} secondary={d.colors.secondary} size={140} class="idle" />
         <div>
           <h2>{d.name}</h2>
-          <p class="muted">{stage?.name} · Level {d.level} <ElementBadge element={d.element} small /></p>
+          <p class="muted">{stage?.name} · Level {d.level} <ElementBadge element={d.element} element2={d.element2} small /> {d.variant && <VariantBadge variant={d.variant} />}</p>
           <p class="muted">Breath is strong against {names(strong)}. Weak to {names(weak)}.</p>
           <p class="muted">{temper ? `${data.roost.temperament.types[temper].name}: ${data.roost.temperament.types[temper].passive}.` : lean ? `Leaning ${data.roost.temperament.types[lean].name} (${data.roost.temperament.types[lean].from.toLowerCase()}).` : 'Temperament not settled yet.'}</p>
         </div>
@@ -144,7 +145,7 @@ export function Dragons({ save, update }: Props) {
             <p class="muted">{d.name} has laid its egg. Every Elder lays just one.</p>
           ) : (
             <>
-              <p class="muted">Elders can lay one {data.elements.info[d.element].name} egg in their life. Hatch it in the Hatchery.</p>
+              <p class="muted">Elders can lay one {elementLabel(data.elements, d)} egg in their life. Hatch it in the Hatchery.</p>
               <button type="button" class="button button--block" data-testid="lay-egg" disabled={!canLayEgg(data, save, d.id).ok}
                 onClick={() => partnerAct(() => layEgg(data, save, d.id), `${d.name} laid an egg! It's waiting in your Bag.`)}>
                 Lay an egg · <Embers amount={data.dragons.eggLaying.cost.embers} />

@@ -117,7 +117,7 @@ export interface Orders { rider: RiderOrder; dragon?: DragonOrder; second?: Drag
 
 export type BattleEvent =
   | { t: 'act'; actor: string; text: string }
-  | { t: 'hit'; actor: string; target: string; amount: number; crit: boolean; matchup: Matchup; text: string }
+  | { t: 'hit'; actor: string; target: string; amount: number; crit: boolean; matchup: Matchup; text: string; element?: ElementId | null }
   | { t: 'miss'; actor: string; target: string; text: string }
   | { t: 'heal'; actor: string; target: string; amount: number; text: string }
   | { t: 'mp'; target: string; amount: number; text: string }
@@ -489,7 +489,7 @@ function strike(ctx: RoundCtx, attacker: Fighter, target: Fighter, spec: AttackS
   const tags = [crit ? 'Critical!' : '', mult > 1 ? "It's strong!" : mult < 1 ? 'It resists.' : ''].filter(Boolean).join(' ');
   const shieldText = absorbed ? ` (${absorbed} blocked by Ward)` : '';
   events.push({
-    t: 'hit', actor: attacker.id, target: target.id, amount: taken, crit, matchup: kind,
+    t: 'hit', actor: attacker.id, target: target.id, amount: taken, crit, matchup: kind, element: spec.element,
     text: `${attacker.name}'s ${spec.label} hits ${target.name} for ${taken}${shieldText}.${tags ? ' ' + tags : ''}`,
   });
 

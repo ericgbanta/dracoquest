@@ -37,16 +37,20 @@ export function useBackdrop(key: string | null): Backdrop | null {
   return useLoaded(key ? `bd:${key}` : null, () => loadBackdrop(key!), (b) => b?.layers.map((l) => l.url) ?? []);
 }
 
-export function useDragonRig(d: Pick<DragonState, 'element' | 'stage' | 'colors'> | null): Rig | null {
-  const key = d ? `dragon:${d.stage}:${d.element}:${d.colors.primary}:${d.colors.secondary}` : null;
-  return useLoaded(key, () => loadRig(`dragon.${d!.stage}`, { element: d!.element, primary: d!.colors.primary, secondary: d!.colors.secondary }), rigUrls);
+type Look = Pick<DragonState, 'element' | 'stage' | 'colors'> & Partial<Pick<DragonState, 'element2' | 'variant'>>;
+const lookOf = (d: Look) => ({ element: d.element, element2: d.element2 ?? null, variant: d.variant ?? null, primary: d.colors.primary, secondary: d.colors.secondary });
+const lookKey = (d: Look) => `${d.stage}.${d.element}.${d.element2 ?? ''}.${d.variant ?? ''}.${d.colors.primary}.${d.colors.secondary}`;
+
+export function useDragonRig(d: Look | null): Rig | null {
+  const key = d ? `dragon:${lookKey(d)}` : null;
+  return useLoaded(key, () => loadRig(`dragon.${d!.stage}`, lookOf(d!)), rigUrls);
 }
 
 /** Rigs for several dragons at once (the Roost), keyed together so hooks stay in order. */
-export function useDragonRigs(ds: Pick<DragonState, 'id' | 'element' | 'stage' | 'colors'>[]): Record<string, Rig | null> {
-  const key = ds.length ? `dragons:${ds.map((d) => `${d.id}.${d.stage}.${d.element}.${d.colors.primary}.${d.colors.secondary}`).join('|')}` : null;
+export function useDragonRigs(ds: (Look & Pick<DragonState, 'id'>)[]): Record<string, Rig | null> {
+  const key = ds.length ? `dragons:${ds.map((d) => `${d.id}.${lookKey(d)}`).join('|')}` : null;
   const v = useLoaded(key, async () => {
-    const rigs = await Promise.all(ds.map((d) => loadRig(`dragon.${d.stage}`, { element: d.element, primary: d.colors.primary, secondary: d.colors.secondary })));
+    const rigs = await Promise.all(ds.map((d) => loadRig(`dragon.${d.stage}`, lookOf(d))));
     return Object.fromEntries(ds.map((d, i) => [d.id, rigs[i] ?? null]));
   }, (m) => Object.values(m).flatMap(rigUrls));
   return v ?? {};
@@ -132,6 +136,6 @@ export function Scene({ backdrop, plainColor, actors, aspect = '16 / 11', focus 
 }
 
 /** A dragon actor, drawn from its rig or the placeholder shape. */
-export function dragonFallback(d: Pick<DragonState, 'element' | 'stage' | 'colors'>) {
-  return <DragonSprite element={d.element} stage={d.stage} primary={d.colors.primary} secondary={d.colors.secondary} size={120} plain />;
+export function dragonFallback(d: Look) {
+  return <DragonSprite element={d.element} element2={d.element2} variant={d.variant} stage={d.stage} primary={d.colors.primary} secondary={d.colors.secondary} size={120} plain />;
 }

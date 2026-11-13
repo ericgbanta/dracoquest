@@ -58,12 +58,14 @@ export function EmbersButton({ amount }: { amount: number }) {
               <li>Beat a zone's boss: +{e.bossFirstKill} the first time, +{e.bossRepeat} after that.</li>
               <li>Expeditions sometimes bring some back.</li>
               <li>Seasonal festival gifts.</li>
+              <li>Returning an egg you don't want to the wild: +{data.roost.releaseEmbers.base}, more for a rare one.</li>
             </ul>
             <h3>What they buy</h3>
             <ul>
               <li>Roost buildings and upgrades (with gold).</li>
               <li>Incubating an egg in the Hatchery: {data.roost.buildings.hatchery.incubateEmbers} embers.</li>
               <li>An Elder laying its egg: {data.dragons.eggLaying.cost.embers} embers.</li>
+              <li>Two dragons nesting at the Nesting Grounds: {data.roost.breeding.cost.embers} embers (and gold).</li>
             </ul>
           </div>
         </Sheet>

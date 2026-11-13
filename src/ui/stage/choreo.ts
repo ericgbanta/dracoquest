@@ -22,6 +22,8 @@ export interface HitInfo {
   color?: string;
   /** A big, telegraphed attack: longer wind-up. */
   big?: boolean;
+  /** The element the attack used, when known (a hybrid's breath picks one of two). */
+  element?: string | null;
 }
 
 const B = layout.beats;
@@ -436,7 +438,9 @@ export async function breath(stage: HTMLElement, hit: HitInfo, opts: BeatOpts): 
     ],
     { duration: total },
   );
-  const puffs = stage.querySelectorAll<HTMLElement>('.fx-puff');
+  const puffs = stage.querySelectorAll<HTMLImageElement>('.fx-puff');
+  const own = hit.element ? stage.querySelector<HTMLElement>('.stage-fx')?.getAttribute(`data-puff-${hit.element}`) : null;
+  if (own) puffs.forEach((el) => { if (el.getAttribute('src') !== own) el.setAttribute('src', own); });
   const w = puffs[0]?.offsetWidth ?? 0;
   const lift = stage.clientWidth * 0.03;
   const miss = hit.kind === 'miss';
