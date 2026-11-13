@@ -1,6 +1,6 @@
 # Handoff
 
-Last updated 2026-11-13 (dragons plan chunks 1 to 6; see History). Before that, 2026-11-12, at the end of a long session that added save slots, rider spells, two gear waves, the Forge, phases W0 to W4 of the world expansion, and a less-scrolling UI pass. Everything below is merged to `main` and live at https://ericgbanta.github.io/dracoquest/ (last deploy `b9a9355`, W4 Gilded Wastes). The working branch for that session was `claude/eager-tesla-uvrdjs`; a new session should start from `main` and use its own branch.
+Last updated 2026-11-13, at the end of a session that planned and built chunks 1 to 6 of the dragons plan (see History). Everything below is merged to `main` and live at https://ericgbanta.github.io/dracoquest/ (last deploy `9645349`, chunks 5 and 6). The working branch for that session was `claude/gracious-allen-2elk3v`; a new session should start from `main` and use its own branch. Codex was signed out at the end, so the next art batch needs a new device login.
 
 A ready-to-paste prompt for a new session is in `docs/NEXT_PROMPT.md`.
 
@@ -45,7 +45,7 @@ Each row was built, tested, committed and deployed in this order. The Decisions 
 | Less scrolling (UI) | Folds (collapsible cards) and sub-tabs on every long screen; see `docs/UI_PLAN.md` | Eric: "a lot of scrolling at times... the bag tab where everything is expanded". He asked for a plan, the build, tests, docs and a deploy without a check-in |
 | Painted Map | The Map tab is a painted map per region (The Wilds, The High Lands, Beyond the Peak) with a pin per area; tap a pin for the area's details, arrows to cycle regions. 3 Codex generations | Eric: "redesign the Map tab into an actual map where we can click on locations... different maps that we can cycle through". He added: "we might at some point add new levels to maps", so new areas are one pin each. After trying it on his phone he asked for a Map / List switch (Map by default) and reported the open zone card's banner covering its level line; both fixed |
 
-### 2026-11-13: dragons plan, chunks 1 and 2
+### 2026-11-13: the dragons plan, chunks 1 to 6
 
 | Work | What it added | How it came about |
 | --- | --- | --- |
@@ -75,7 +75,17 @@ Lessons from W5 for every band above 50:
 - **Dragons stop at 50, so enemies must grow slowly past 50.** With the usual growth, on-level win rates fell from about 76 to 25 to 46 percent across 50 to 58. Sunken Spires keeps each enemy's stats at level 50 as they were and grows them a quarter as fast after (`base` raised and `perLevel` cut to 0.25 for hp, attack, power, defense, swift and dodge; done with a small script in the session, easy to redo by hand). Expect the same for W6 to W9 and the E areas above 50.
 - **The sim doesn't play partner dragons.** `autoOrders` in `ai.ts` never orders the second (or third) dragon, so the sim's characters fight with one dragon from level 25 up. That was already true before; it means real players are somewhat stronger than the sim says from 25 on. Fixing it would change every zone's numbers from 25 up, so it was left alone and flagged to Eric.
 - XP past 50 needed no change: about 21 fights per level in the sim, and 21 to 22 in the 60s.
-- **How the 50s and 60s areas were built (chunks 5 and 6):** `c56_data.py`-style generation: enemies copied from Sunken Spires' tuned stats, then scaled as a group until the sim read 70 to 85 for each starter (Rotroot Thicket +3.5 percent, Emberwild +11, Steelspine +8). The 60s areas needed more because the rider keeps growing from 60.
+- **How the 50s and 60s areas were built (chunks 5 and 6):** `tools/content/area_gen.py` wrote all three areas' data in one go (enemies copied from Sunken Spires' tuned stats, zone, gear, set, shop, Forge recipe, stories, bounties, regions, cap, spell). Then `tools/content/scale_enemies.py` scaled each area's enemies as a group until `npm run sim -- --zone <id> --no-campaign` read 70 to 85 for each starter (Rotroot Thicket +3.5 percent, Emberwild +11, Steelspine +8). The 60s needed more because the rider keeps growing. For the 70s, copy `area_gen.py`, use the 60s areas' tuned enemies as the analog, and expect another +8 to +12 percent. `tools/content/slow_growth.py` is the Sunken Spires growth fix; `tools/content/find_tail_tips.py` places a breed's tail tips.
+
+### Chunk 7 step by step (the recipe the 60s used)
+
+1. **Ask Eric to sign in to Codex** (`codex login --device-auth` as a tracked background task, code at the end of a message) and start art early: copy `tools/art/painted/jobs13.py` to `jobs14.py`, replace its `AREAS` with Skyreach Isles (Storm and Light, floating islands of sun and wind) and Twilight Rift (Aether and Void, where starlight and emptiness tear at each other), and drop the map job (the Elder Wilds map already paints Twilight Rift). 10 generations: 3 idle per area first, then 2 attack per area.
+2. **Data** with a copy of `tools/content/area_gen.py`: Skyreach Isles in `beyond` (pin from the Skyreach teaser, [0.76, 0.51]), opening at 70 after the Volcanadon (`emberwild`); Twilight Rift in `elder-wilds` (pin [0.70, 0.55]), opening at 70 after Ferrovane (`steelspine-range`). Tiers at 73, cap 80, a new spell near 73 (Storm or Light, or Aether), next teasers Hollow Crown (beyond, [0.25, 0.31]) and The Confluence (elder-wilds, [0.29, 0.43]). Keep the cap zone last in `zones.json`.
+3. **Counts** in `tests/data.test.ts` (cap), `tests/gear.test.ts`, `tests/phase4.test.ts`, `tests/spells.test.ts`.
+4. **Balance** each area with the sim and `scale_enemies.py` to 70 to 85 per starter.
+5. **Pack** (add both areas to `tools/art/painted/zones.json`), add rigs and backdrops to `src/art/assets.json` (copy a 60s area's entries; bosses `boxScale` 1.0), look at every fight and boss at 375 wide.
+6. **Phone tests:** add both areas to the `AREAS` loop at the end of `e2e/world.spec.ts`, and update the map test's teasers.
+7. **Ship:** test, types, lint, e2e, the full sim (campaigns must reach 80), docs, deploy when Eric says.
 
 ### After that
 
@@ -83,12 +93,14 @@ Lessons from W5 for every band above 50:
 
 ### Open questions for Eric
 
-None of these block W5; mention them when they come up.
+None of these block chunk 7; mention them when they come up.
+
+0. **The sim never orders partner dragons** (see the lessons above). Fix it and retune every zone from 25 up, or leave it.
 
 1. **Campaign win rates are above target.** On-level zone win rates are in range, but the sim's full campaigns (which collect sets, use the Forge, play stories and claim bounties) now win about 92 to 93 percent of runs. That's because the campaign plays like a thorough player. Ask whether the late game should be harder; the levers are set bonuses (`sets.json`) and Forge strength (`forge.json` `effect`).
-2. **Fire in Frostmere** wins about 96 percent on level (it was 90 before spells). He said to leave balance as is when asked earlier; raise it again only if it comes up.
+2. **Fire in Frostmere** wins about 90 percent on level (Frostmere was made 6 percent tougher in chunk 5). He said to leave it when asked earlier.
 3. **A "best spells for this zone" button** in the Bag. The sim assumes the best loadout per zone (`suggestedLoadout` in `ai.ts`), so a player who never swaps wins a little less. Offered, not answered.
-4. **Area names** for W5 to W9.
+4. Area names are settled (he kept W5 to W9's working names and chose the rest in the dragons plan).
 
 Dropped for good (Eric, 2026-11-13): whether enemies visibly snap to their attack pose on his phone, and the two-real-phones check. Don't raise them again.
 
@@ -262,7 +274,8 @@ src/art/       painted/ (characters, attack poses, backdrops, effects, tail tips
 tests/         Vitest unit tests (241), sim.ts (the balance simulator), save fixtures v1 to v10
 e2e/           Playwright phone tests (91), fixtures/ (built by make-fixtures.ts), specs per feature
                (slots, spells, gear, forge, world, ui, stage, perf, smoke, phase2 to 4), helpers.ts (openFold, tab)
-tools/art/painted/  style.txt and anchor.png (the style), jobs.py to jobs12.py (one per batch; jobs8 is the region maps, jobs9 the new element tips and breath plus Starglass Hollow and the Hidden Reach map, jobs10 the Wyvern, jobs11 Voidmarch and the Wyrm, jobs12 Sunken Spires, jobs13 Rotroot Thicket, Emberwild, the Steelspine Range and the Elder Wilds map), run.sh, pack.py,
+tools/content/      area_gen.py (writes an area's data), scale_enemies.py and slow_growth.py (balance), find_tail_tips.py (breeds)
+tools/art/painted/  style.txt and anchor.png (the style), jobs.py to jobs13.py (one per batch; jobs8 is the region maps, jobs9 the new element tips and breath plus Starglass Hollow and the Hidden Reach map, jobs10 the Wyvern, jobs11 Voidmarch and the Wyrm, jobs12 Sunken Spires, jobs13 Rotroot Thicket, Emberwild, the Steelspine Range and the Elder Wilds map), run.sh, pack.py,
                     fix_green.py, zones.json (which sheet holds which enemies), prompts/ (every prompt that was run)
 docs/          HANDOFF.md, NEXT_PROMPT.md, WORLD_PLAN.md, UI_PLAN.md, ART_GENERATION.md, ART_STYLE.md, DESIGN.md, GRAPHICS_PLAN.md, GRAPHICS_PLAN_2.md
 ```
