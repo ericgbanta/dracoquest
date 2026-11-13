@@ -9,6 +9,7 @@ A ready-to-paste prompt for a new session is in `docs/NEXT_PROMPT.md`.
 1. `CLAUDE.md`: the house rules (pure `src/core`, seeded RNG, every number in JSON, mobile first, save migrations, local testing, deploy only when asked).
 2. This file: what exists, why, how to extend it, and what is next.
 3. `docs/WORLD_PLAN.md`: the world expansion plan Eric approved. W5 is next.
+   `docs/DRAGONS_PLAN.md` (2026-11-13): more elements, dragon breeds, breeding, a bigger roster, rare variants and two new maps for levels 30 to 100, phases E0 to E12 interleaved with W5 to W9. Planning only; its open questions need Eric's answers.
 4. `docs/ART_GENERATION.md` before making any art (Codex CLI on Eric's subscription), and `docs/ART_STYLE.md` for the rules a finished image must meet.
 5. `docs/DESIGN.md` for the original game design and its Decisions table (still settled). `docs/GRAPHICS_PLAN.md` and `docs/GRAPHICS_PLAN_2.md` are history for the battle stage and the painted art.
 
@@ -22,7 +23,7 @@ DracoQuest is a mobile-first, turn-based browser RPG in the AdventureQuest style
 
 | Work | What it added | Eric's check |
 | --- | --- | --- |
-| Phases 0 to 4 (`docs/DESIGN.md`) | Scaffold and saves; hatching, care, the battle engine, Mossy Hollow, leveling and the balance sim; Juvenile and Adult stages, talents, gear, the town, zones 2 to 4, Ride mode; the Roost buildings, several dragons, embers, temperament, a second partner; zones 5 to 7, the Elder stage, capstones, egg laying, offline play, sound, seasonal events | "This is very good." Two-real-phones check still open |
+| Phases 0 to 4 (`docs/DESIGN.md`) | Scaffold and saves; hatching, care, the battle engine, Mossy Hollow, leveling and the balance sim; Juvenile and Adult stages, talents, gear, the town, zones 2 to 4, Ride mode; the Roost buildings, several dragons, embers, temperament, a second partner; zones 5 to 7, the Elder stage, capstones, egg laying, offline play, sound, seasonal events | "This is very good." |
 | Graphics B0 to B5 (`docs/GRAPHICS_PLAN.md`) | The side-view battle stage, choreography for every engine event, scenes, a UI skin | "These look great", "This actually feels good" |
 | Taps and targets | Tappable currency counters, enemy plates that open details, split targets per attacker, a battle log fix | Approved |
 | Art redesign (`docs/GRAPHICS_PLAN_2.md`) | Painted cel-shaded art for everything (61 Codex generations), attack poses, player-color recoloring of dragons, a flat UI skin | "I see the new art. It's great." |
@@ -88,7 +89,8 @@ None of these block W5; mention them when they come up.
 2. **Fire in Frostmere** wins about 96 percent on level (it was 90 before spells). He said to leave balance as is when asked earlier; raise it again only if it comes up.
 3. **A "best spells for this zone" button** in the Bag. The sim assumes the best loadout per zone (`suggestedLoadout` in `ai.ts`), so a player who never swaps wins a little less. Offered, not answered.
 4. **Area names** for W5 to W9.
-5. From before this session: whether enemies visibly snap to their attack pose on his phone, and the two-real-phones check.
+
+Dropped for good (Eric, 2026-11-13): whether enemies visibly snap to their attack pose on his phone, and the two-real-phones check. Don't raise them again.
 
 ### Older open threads (no art unless noted)
 
