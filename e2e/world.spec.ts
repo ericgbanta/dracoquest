@@ -78,6 +78,8 @@ test('the Map shows one painted region at a time, with pins, and teases the next
   await expect(page.getByTestId('map-region-name')).toHaveText('Beyond the Peak');
   await expect(page.getByTestId('pin-sunken-spires')).toHaveAttribute('aria-label', /Opens at rider level 50/);
   await expect(page.getByTestId('pin-emberwild')).toBeVisible();
+  await expect(page.getByTestId('pin-skyreach-isles')).toHaveAttribute('aria-label', /Opens at rider level 70/);
+  await expect(page.getByTestId('pin-hollow-crown')).toHaveAttribute('aria-label', /Opens at rider level 80/);
   await page.getByTestId('pin-teaser').tap();
   await expect(page.locator('.sheet [data-testid=zone-teaser]')).toContainText('Arrives in a future update');
   await page.waitForTimeout(400);
@@ -85,14 +87,16 @@ test('the Map shows one painted region at a time, with pins, and teases the next
   await page.keyboard.press('Escape');
   await mapView(page, 'list');
   const teaser = page.getByTestId('region-beyond').getByTestId('zone-teaser');
-  await expect(teaser).toContainText('Skyreach Isles');
-  await expect(teaser).toContainText('Opens at level 70, after you beat the Volcanadon');
+  await expect(teaser).toContainText('Starfall Summit');
+  await expect(teaser).toContainText('Opens at level 90, after you beat the Hollow King');
 
-  // The Elder Wilds: the Steelspine Range and the Twilight Rift teaser. It's the last region.
+  // The Elder Wilds: the Steelspine Range, Twilight Rift, The Confluence and the Dragonsrest teaser. It's the last region.
   await mapView(page, 'map');
   await page.getByTestId('map-next').tap();
   await expect(page.getByTestId('map-region-name')).toHaveText('The Elder Wilds');
   await expect(page.getByTestId('pin-steelspine-range')).toBeVisible();
+  await expect(page.getByTestId('pin-twilight-rift')).toBeVisible();
+  await expect(page.getByTestId('pin-the-confluence')).toBeVisible();
   await expect(page.getByTestId('pin-teaser')).toBeVisible();
   await expect(page.getByTestId('map-next')).toBeDisabled();
   await page.waitForTimeout(400);
@@ -432,6 +436,10 @@ const AREAS: [string, string, string[], string, string, number, string[]][] = [
   ['rotroot-thicket', 'The Hidden Reach', ['rot-grub', 'thornvine-creeper', 'spore-toad', 'mire-lurker', 'gloomcap-walker'], 'rotroot-queen', 'voidmarch', 50, ['starglass-hollow']],
   ['emberwild', 'Beyond the Peak', ['cinder-monkey', 'flame-lily', 'magma-tortoise', 'jungle-raptor', 'ember-parrot'], 'volcanadon', 'sunken-spires', 60, ['frostmere', 'eclipse-peak']],
   ['steelspine-range', 'The Elder Wilds', ['rivet-beetle', 'thunder-hound', 'iron-hawk', 'static-ferret', 'scrap-wolf'], 'ferrovane', 'rotroot-thicket', 60, ['starglass-hollow', 'voidmarch']],
+  ['skyreach-isles', 'Beyond the Peak', ['gust-sprite', 'sunwing-moth', 'cloud-ram', 'prism-hawk', 'sky-eel'], 'aurelith', 'emberwild', 70, ['frostmere', 'eclipse-peak', 'sunken-spires']],
+  ['twilight-rift', 'The Elder Wilds', ['star-mote', 'null-hound', 'comet-lizard', 'empty-coat', 'orbit-jelly'], 'nyxaris', 'steelspine-range', 70, ['starglass-hollow', 'voidmarch', 'rotroot-thicket']],
+  ['hollow-crown', 'Beyond the Peak', ['crown-mole', 'lantern-wraith', 'gemback-armadillo', 'shadow-jester', 'pillar-knight'], 'hollow-king', 'skyreach-isles', 80, ['frostmere', 'eclipse-peak', 'sunken-spires', 'emberwild']],
+  ['the-confluence', 'The Elder Wilds', ['scald-puff', 'magma-crab', 'glacier-seal', 'monsoon-heron', 'brimstone-newt'], 'seethe', 'twilight-rift', 80, ['starglass-hollow', 'voidmarch', 'rotroot-thicket', 'steelspine-range']],
 ];
 for (const [zone, region, regulars, boss, gate, level, more] of AREAS) {
   const beaten = ['mossy-hollow', 'saltmarsh-shore', 'cinder-pass', 'thunderspire', ...more, gate];

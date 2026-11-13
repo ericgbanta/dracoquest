@@ -1,1 +1,233 @@
-{"mossy-hollow": {"regular": ["thornling", "bog-hopper", "barkback-boar", "spore-puffer", "moss-wisp", "elder-thornling"], "boss": "bramble-troll"}, "saltmarsh-shore": {"regular": ["pincher-crab", "gull-bandit", "brine-slime", "kelp-lurker", "shell-knight", "big-pincher"], "boss": "crab-king"}, "cinder-pass": {"regular": ["ember-imp", "ash-lizard", "cinder-beetle", "smog-bat", "lava-toad", "imp-chieftain"], "boss": "magma-wyrm"}, "thunderspire": {"regular": ["spark-sprite", "thunder-goat", "cliff-harpy", "gale-hawk", "granite-ram", "thunderhead"], "boss": "storm-roc"}, "frostmere": {"regular": ["frostbite-hare", "ice-wraith", "glacier-turtle", "yeti-cub", "rime-wolf", "rime-alpha"], "boss": "glacier-hydra"}, "deepstone-mines": {"regular": ["tunnel-mole", "crystal-crawler", "lantern-gnome", "gemback-lizard", "rust-sprite", "foreman-golem"], "boss": "iron-golem"}, "eclipse-peak": {"regular": ["dawn-sprite", "dusk-bat", "sun-knight", "shade-stalker", "twilight-moth", "eclipse-herald"], "boss": "eclipse-dragon"}, "whispering-fen": {"regular": ["murk-toad", "will-o-whisper", "reed-stalker", "bogling", "lily-snapper", "old-croaker"], "boss": "whisperwillow"}, "rustcliff-ruins": {"regular": ["cog-crawler", "brass-sentry", "boiler-bot", "spark-hound", "gargoyle-pup", "captain-clank"], "boss": "cinderforge-colossus"}, "moonwell-woods": {"regular": ["hoot-shade", "frostcap-shroom", "snickerbark", "shadow-fox", "rimeback-badger", "duskhorn"], "boss": "moonwell-wyrm"}, "gilded-wastes": {"regular": ["sand-scarab", "mirage-jackal", "glimmer-lizard", "dune-sentinel", "treasure-mimic", "riddle-sphinx"], "boss": "aurum-basilisk"}, "starglass-hollow": {"regular": ["shardling", "frostwing-moth", "comet-pup", "glass-golem", "astral-owlet", "prism-stag"], "boss": "starwarden"}, "voidmarch": {"regular": ["rift-mite", "shardhorn-goat", "gloom-gulper", "rubble-crab", "echo-bat", "voidstrider"], "boss": "nullmaw"}, "sunken-spires": {"regular": ["reef-stalker", "storm-gull", "barnacle-brute", "squall-sprite", "drowned-sentry", "thunder-ray"], "boss": "tidelord"}, "rotroot-thicket": {"regular": ["rot-grub", "thornvine-creeper", "spore-toad", "mire-lurker", "gloomcap-walker", "rotwood-ent"], "boss": "rotroot-queen"}, "emberwild": {"regular": ["cinder-monkey", "flame-lily", "magma-tortoise", "jungle-raptor", "ember-parrot", "vine-tyrant"], "boss": "volcanadon"}, "steelspine-range": {"regular": ["rivet-beetle", "thunder-hound", "iron-hawk", "static-ferret", "scrap-wolf", "lightning-lynx"], "boss": "ferrovane"}}
+{
+  "mossy-hollow": {
+    "regular": [
+      "thornling",
+      "bog-hopper",
+      "barkback-boar",
+      "spore-puffer",
+      "moss-wisp",
+      "elder-thornling"
+    ],
+    "boss": "bramble-troll"
+  },
+  "saltmarsh-shore": {
+    "regular": [
+      "pincher-crab",
+      "gull-bandit",
+      "brine-slime",
+      "kelp-lurker",
+      "shell-knight",
+      "big-pincher"
+    ],
+    "boss": "crab-king"
+  },
+  "cinder-pass": {
+    "regular": [
+      "ember-imp",
+      "ash-lizard",
+      "cinder-beetle",
+      "smog-bat",
+      "lava-toad",
+      "imp-chieftain"
+    ],
+    "boss": "magma-wyrm"
+  },
+  "thunderspire": {
+    "regular": [
+      "spark-sprite",
+      "thunder-goat",
+      "cliff-harpy",
+      "gale-hawk",
+      "granite-ram",
+      "thunderhead"
+    ],
+    "boss": "storm-roc"
+  },
+  "frostmere": {
+    "regular": [
+      "frostbite-hare",
+      "ice-wraith",
+      "glacier-turtle",
+      "yeti-cub",
+      "rime-wolf",
+      "rime-alpha"
+    ],
+    "boss": "glacier-hydra"
+  },
+  "deepstone-mines": {
+    "regular": [
+      "tunnel-mole",
+      "crystal-crawler",
+      "lantern-gnome",
+      "gemback-lizard",
+      "rust-sprite",
+      "foreman-golem"
+    ],
+    "boss": "iron-golem"
+  },
+  "eclipse-peak": {
+    "regular": [
+      "dawn-sprite",
+      "dusk-bat",
+      "sun-knight",
+      "shade-stalker",
+      "twilight-moth",
+      "eclipse-herald"
+    ],
+    "boss": "eclipse-dragon"
+  },
+  "whispering-fen": {
+    "regular": [
+      "murk-toad",
+      "will-o-whisper",
+      "reed-stalker",
+      "bogling",
+      "lily-snapper",
+      "old-croaker"
+    ],
+    "boss": "whisperwillow"
+  },
+  "rustcliff-ruins": {
+    "regular": [
+      "cog-crawler",
+      "brass-sentry",
+      "boiler-bot",
+      "spark-hound",
+      "gargoyle-pup",
+      "captain-clank"
+    ],
+    "boss": "cinderforge-colossus"
+  },
+  "moonwell-woods": {
+    "regular": [
+      "hoot-shade",
+      "frostcap-shroom",
+      "snickerbark",
+      "shadow-fox",
+      "rimeback-badger",
+      "duskhorn"
+    ],
+    "boss": "moonwell-wyrm"
+  },
+  "gilded-wastes": {
+    "regular": [
+      "sand-scarab",
+      "mirage-jackal",
+      "glimmer-lizard",
+      "dune-sentinel",
+      "treasure-mimic",
+      "riddle-sphinx"
+    ],
+    "boss": "aurum-basilisk"
+  },
+  "starglass-hollow": {
+    "regular": [
+      "shardling",
+      "frostwing-moth",
+      "comet-pup",
+      "glass-golem",
+      "astral-owlet",
+      "prism-stag"
+    ],
+    "boss": "starwarden"
+  },
+  "voidmarch": {
+    "regular": [
+      "rift-mite",
+      "shardhorn-goat",
+      "gloom-gulper",
+      "rubble-crab",
+      "echo-bat",
+      "voidstrider"
+    ],
+    "boss": "nullmaw"
+  },
+  "sunken-spires": {
+    "regular": [
+      "reef-stalker",
+      "storm-gull",
+      "barnacle-brute",
+      "squall-sprite",
+      "drowned-sentry",
+      "thunder-ray"
+    ],
+    "boss": "tidelord"
+  },
+  "rotroot-thicket": {
+    "regular": [
+      "rot-grub",
+      "thornvine-creeper",
+      "spore-toad",
+      "mire-lurker",
+      "gloomcap-walker",
+      "rotwood-ent"
+    ],
+    "boss": "rotroot-queen"
+  },
+  "emberwild": {
+    "regular": [
+      "cinder-monkey",
+      "flame-lily",
+      "magma-tortoise",
+      "jungle-raptor",
+      "ember-parrot",
+      "vine-tyrant"
+    ],
+    "boss": "volcanadon"
+  },
+  "steelspine-range": {
+    "regular": [
+      "rivet-beetle",
+      "thunder-hound",
+      "iron-hawk",
+      "static-ferret",
+      "scrap-wolf",
+      "lightning-lynx"
+    ],
+    "boss": "ferrovane"
+  },
+  "skyreach-isles": {
+    "regular": [
+      "gust-sprite",
+      "sunwing-moth",
+      "cloud-ram",
+      "prism-hawk",
+      "sky-eel",
+      "sunscale-griffin"
+    ],
+    "boss": "aurelith"
+  },
+  "twilight-rift": {
+    "regular": [
+      "star-mote",
+      "null-hound",
+      "comet-lizard",
+      "empty-coat",
+      "orbit-jelly",
+      "gloam-stalker"
+    ],
+    "boss": "nyxaris"
+  },
+  "hollow-crown": {
+    "regular": [
+      "crown-mole",
+      "lantern-wraith",
+      "gemback-armadillo",
+      "shadow-jester",
+      "pillar-knight",
+      "shadow-chancellor"
+    ],
+    "boss": "hollow-king"
+  },
+  "the-confluence": {
+    "regular": [
+      "scald-puff",
+      "magma-crab",
+      "glacier-seal",
+      "monsoon-heron",
+      "brimstone-newt",
+      "coral-colossus"
+    ],
+    "boss": "seethe"
+  }
+}
