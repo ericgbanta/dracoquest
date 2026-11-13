@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { openFold, mapRegion, mapView } from './helpers';
+import { openFold, mapRegion, mapView, enter } from './helpers';
 import { readFileSync } from 'node:fs';
 import type { SaveData } from '../src/core/save';
 
@@ -12,6 +12,7 @@ async function load(page: Page, fixture: string, change?: (save: SaveData) => vo
   await page.evaluate((s) => { localStorage.clear(); localStorage.setItem('dracoquest.save', s); }, JSON.stringify(save));
   await page.goto('./#/roost');
   await page.reload();
+  await enter(page);
 }
 
 const stored = (page: Page) => page.evaluate(() => JSON.parse(localStorage.getItem('dracoquest.save')!) as SaveData);
@@ -59,6 +60,7 @@ test('the Map shows one painted region at a time, with pins, and teases the next
   await expect(page.getByTestId('zone-moonwell-woods')).toContainText('Opens at rider level 30, after you beat the Storm Roc');
   await expect(page.getByTestId('zone-rustcliff-ruins')).toContainText('Opens at rider level 20, after you beat the Magma Wyrm');
   await page.reload();
+  await enter(page);
   await expect(page.getByTestId('zone-rustcliff-ruins')).toBeVisible();
   await mapView(page, 'map');
   await expect(page.getByTestId('pin-eclipse-peak')).toBeVisible();
@@ -131,6 +133,7 @@ test('tapping a map pin opens that area, and the map remembers its region', asyn
   await page.getByTestId('tab-map').tap();
   await page.getByTestId('map-next').tap();
   await page.reload();
+  await enter(page);
   await expect(page.getByTestId('map-region-name')).toHaveText('The High Lands');
   // A pin starts a hunt from its sheet.
   await page.getByTestId('map-prev').tap();
@@ -210,6 +213,7 @@ test('area art is cached the first time a zone shows it, not up front', async ({
   await load(page, 'juvenile.json');
   await page.evaluate(async () => { await navigator.serviceWorker.ready; });
   await page.reload();
+  await enter(page);
   await expect.poll(() => page.evaluate(() => !!navigator.serviceWorker.controller)).toBe(true);
   const precached = await page.evaluate(async () => {
     const names = await caches.keys();

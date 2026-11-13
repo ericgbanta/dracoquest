@@ -10,12 +10,13 @@ import { Dragons } from './screens/Dragons';
 import { Bag } from './screens/Bag';
 import { Battle } from './screens/Battle';
 import { Town } from './screens/Town';
+import { Title } from './screens/Title';
 import { applyUpdate, dismissOfflineReady, usePwa } from './pwa';
 
 export function App() {
   const route = useRoute();
   const saveApi = useSave();
-  const { save, loadError, update, slot } = saveApi;
+  const { save, loadError, update, slot, switchSlot, startNewGame } = saveApi;
   const pwa = usePwa();
   const devPage = useDevPage();
   // The battle screen stays open after the run ends so the results can show.
@@ -26,8 +27,41 @@ export function App() {
   // A different saved game starts on its own screen: its battle if it has a run, else the Roost.
   useEffect(() => setBattleOpen(!!save?.run), [slot]);
 
+  // The main menu opens each time the game starts, and from Settings (#/title).
+  const [menu, setMenu] = useState<'main' | 'settings' | null>('main');
+  useEffect(() => {
+    if (route === 'title') setMenu('main');
+  }, [route]);
+  // Continuing the same game keeps the screen in the URL (a reload lands back where it was);
+  // anything else starts at the Roost.
+  const leaveMenu = (keepScreen = false) => {
+    setMenu(null);
+    if (!keepScreen || route === 'title') window.location.hash = '#/roost';
+  };
+
   // Hidden dev pages (mock battle, bench) work with or without a save.
   if (devPage) return <DevLoader page={devPage} />;
+
+  if (menu === 'settings') {
+    return (
+      <div class="app">
+        <main class="content content--menu" key={`menu-settings-${slot}`}>
+          <Settings {...saveApi} onBack={() => setMenu('main')} onPlay={() => leaveMenu()} />
+        </main>
+      </div>
+    );
+  }
+
+  if (menu === 'main') {
+    return (
+      <div class="app app--title">
+        <Title save={save} slot={slot} slots={saveApi.slots}
+          onPlay={(n) => { if (n !== slot) switchSlot(n); leaveMenu(n === slot); }}
+          onNewGame={(n) => { startNewGame(n); leaveMenu(); }}
+          onSettings={() => setMenu('settings')} />
+      </div>
+    );
+  }
 
   if (!save) {
     // The stored save is damaged. Never overwrite it silently: offer import or a fresh start.

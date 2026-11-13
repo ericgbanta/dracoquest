@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { openFold, mapView } from './helpers';
+import { openFold, mapView, enter } from './helpers';
 import layout from '../src/data/stage.json' with { type: 'json' };
 
 async function smallTargets(page: Page): Promise<string[]> {
@@ -72,6 +72,7 @@ async function loadFixture(page: Page, fixture: string) {
   await page.evaluate((s) => localStorage.setItem('dracoquest.save', s), readFileSync(`e2e/fixtures/${fixture}`, 'utf8'));
   await page.goto('./#/roost');
   await page.reload();
+  await enter(page);
 }
 
 test('a real fight uses the stage: tap to target, tap again for details, tap a party member for theirs', async ({ page }) => {
@@ -155,6 +156,7 @@ async function twoOnTwo(page: Page) {
   await page.evaluate((s) => localStorage.setItem('dracoquest.save', s), JSON.stringify(save));
   await page.goto('./#/roost');
   await page.reload();
+  await enter(page);
   await page.getByTestId('next-fight').tap();
   await expect(page.locator('[data-testid=stage]:not(.stage--loading)')).toBeVisible();
 }

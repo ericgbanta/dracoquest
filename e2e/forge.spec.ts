@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { openFold, tab } from './helpers';
+import { openFold, tab, enter } from './helpers';
 import { readFileSync } from 'node:fs';
 
 async function load(page: Page, fixture: string) {
@@ -7,6 +7,7 @@ async function load(page: Page, fixture: string) {
   await page.evaluate((s) => { localStorage.clear(); localStorage.setItem('dracoquest.save', s); }, readFileSync(`e2e/fixtures/${fixture}`, 'utf8'));
   await page.goto('./#/roost');
   await page.reload();
+  await enter(page);
 }
 
 const rider = (page: Page) => page.evaluate(() => JSON.parse(localStorage.getItem('dracoquest.save')!).rider as { upgrades: Record<string, number>; gear: string[]; materials: Record<string, number> });

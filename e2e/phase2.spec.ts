@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { tab, mapView } from './helpers';
+import { tab, mapView, enter } from './helpers';
 import { readFileSync } from 'node:fs';
 
 async function load(page: Page, fixture: string, hash = '#/roost') {
@@ -8,6 +8,7 @@ async function load(page: Page, fixture: string, hash = '#/roost') {
   await page.evaluate((s) => localStorage.setItem('dracoquest.save', s), save);
   await page.goto(`./${hash}`);
   await page.reload();
+  await enter(page);
 }
 
 /** Press Go until the fight ends. Returns the results heading text. */
@@ -46,6 +47,7 @@ test('buy a Mossy Egg in town; it lands in the Bag', async ({ page }) => {
     localStorage.setItem('dracoquest.save', JSON.stringify(s));
   });
   await page.reload();
+  await enter(page);
   await page.getByTestId('tab-map').tap();
   await mapView(page, 'list');
   await page.getByRole('link', { name: /Town/ }).tap();

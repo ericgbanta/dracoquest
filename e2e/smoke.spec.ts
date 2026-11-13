@@ -1,8 +1,9 @@
 import { expect, test, type Page } from '@playwright/test';
-import { openFold, tab, mapView } from './helpers';
+import { openFold, tab, mapView, enter } from './helpers';
 
 async function hatch(page: Page, name = 'Cinder', egg = 'fire') {
   await page.goto('./');
+  await enter(page);
   await page.getByTestId(`egg-${egg}`).tap();
   for (let i = 0; i < 12; i++) await page.getByTestId('warm-egg').tap();
   await page.getByTestId('dragon-name').fill(name);
@@ -108,6 +109,7 @@ test('Roost care: feed, groom and play, rest, and the Well kept buff', async ({ 
 test('a save survives a reload, including mid-battle', async ({ page }) => {
   await hatch(page, 'Reloady');
   await page.reload();
+  await enter(page);
   await expect(page.getByTestId('welcome')).toHaveText('Reloady');
   await page.goto('./#/map');
   await mapView(page, 'list');
@@ -116,6 +118,7 @@ test('a save survives a reload, including mid-battle', async ({ page }) => {
   await expect(page.getByTestId('go')).toBeEnabled();
   const round = await page.locator('.battle-header span').first().textContent();
   await page.reload();
+  await enter(page);
   await expect(page.locator('.battle-header span').first()).toHaveText(round!);
 });
 
@@ -130,6 +133,7 @@ test('an exported save code imports into a fresh browser', async ({ browser, pag
   const fresh = await browser.newContext({ viewport: { width: 375, height: 667 }, isMobile: true, hasTouch: true });
   const page2 = await fresh.newPage();
   await page2.goto('./');
+  await enter(page2);
   await expect(page2.getByTestId('egg-fire')).toBeVisible();
   await page2.goto('./#/settings');
   await openFold(page2, 'settings.backup');
@@ -137,6 +141,7 @@ test('an exported save code imports into a fresh browser', async ({ browser, pag
   await page2.getByTestId('import').tap();
   await expect(page2.getByTestId('notice')).toContainText('Save loaded');
   await page2.reload();
+  await enter(page2);
   await page2.getByTestId('tab-roost').tap();
   await expect(page2.getByTestId('welcome')).toHaveText('Traveler 🐉');
   await fresh.close();
@@ -171,6 +176,8 @@ test('a code copied without its DQ1: start still imports', async ({ browser, pag
   const fresh = await browser.newContext({ viewport: { width: 375, height: 667 }, isMobile: true, hasTouch: true });
   const page2 = await fresh.newPage();
   await page2.goto('./#/settings');
+  await enter(page2);
+  await page2.goto('./#/settings');
   await openFold(page2, 'settings.backup');
   await page2.getByTestId('import-code').fill(code);
   await page2.getByTestId('import').tap();
@@ -195,6 +202,11 @@ test('a damaged save is not overwritten', async ({ page }) => {
   await page.goto('./');
   await page.evaluate(() => localStorage.setItem('dracoquest.save', '{"version":2,"broken":true}'));
   await page.reload();
+  // No Continue for a save that can't be read; Load game opens it.
+  await expect(page.getByTestId('title-continue')).toHaveCount(0);
+  await page.getByTestId('title-load').tap();
+  await expect(page.getByTestId('title-slot-1')).toContainText('cannot be read');
+  await page.getByTestId('title-pick-1').tap();
   await expect(page.getByRole('alert')).toContainText('could not be read');
   const stored = await page.evaluate(() => localStorage.getItem('dracoquest.save'));
   expect(stored).toBe('{"version":2,"broken":true}');
@@ -206,6 +218,7 @@ test('a Phase 0 (version 1) save migrates and keeps the rider name', async ({ pa
     version: 1, createdAt: 1, updatedAt: 1, seed: 7, rider: { name: 'Old Friend' }, settings: { sound: false, fastBattles: false },
   })));
   await page.reload();
+  await enter(page);
   await expect(page.getByTestId('egg-fire')).toBeVisible();
   await page.goto('./#/settings');
   await openFold(page, 'settings.rider');
@@ -227,6 +240,6 @@ test('can be added to the Home Screen: manifest, icons, and standalone tags', as
   const apple = await page.locator('link[rel=apple-touch-icon]').getAttribute('href');
   expect((await request.get(apple!)).status()).toBe(200);
   await expect(page.locator('meta[name=apple-mobile-web-app-capable]')).toHaveAttribute('content', 'yes');
-  await page.goto('./#/settings');
+  await page.getByTestId('title-settings').tap();
   await expect(page.getByTestId('install-tip')).toContainText('Add to Home');
 });

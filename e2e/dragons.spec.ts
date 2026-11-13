@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { openFold } from './helpers';
+import { openFold, enter } from './helpers';
 import { readFileSync } from 'node:fs';
 
 const NOW = 1794355200000; // the fixtures' save time
@@ -12,6 +12,7 @@ async function load(page: Page, fixture: string, hash = '#/roost', change?: (sav
   await page.evaluate((s) => localStorage.setItem('dracoquest.save', s), save);
   await page.goto(`./${hash}`);
   await page.reload();
+  await enter(page);
 }
 
 const saved = (page: Page) => page.evaluate(() => JSON.parse(localStorage.getItem('dracoquest.save')!));
@@ -65,6 +66,7 @@ test('identical eggs share one row in the Hatchery', async ({ page }) => {
     localStorage.setItem('dracoquest.save', JSON.stringify(s));
   });
   await page.reload();
+  await enter(page);
   await openFold(page, 'roost.hatchery');
   await openFold(page, 'roost.hatchery.bag');
   await expect(page.locator('[data-testid^="bag-egg-"]')).toHaveCount(2);
@@ -91,6 +93,7 @@ test('two grown dragons nest and their egg arrives after the wait', async ({ pag
   await page.goto('about:blank');
   await page.clock.setFixedTime(new Date(NOW + 9 * 3600_000));
   await page.goto('./#/roost');
+  await enter(page);
   await openFold(page, 'roost.nesting');
   await expect(page.getByTestId('fold-roost.nesting')).toContainText('An egg is waiting');
   await page.getByTestId('collect-nest-egg').tap();

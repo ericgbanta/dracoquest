@@ -1,7 +1,7 @@
 import { expect, test, type Page } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 import type { SaveData } from '../src/core/save';
-import { openFold, tab, mapView } from './helpers';
+import { openFold, tab, mapView, enter } from './helpers';
 
 /** A date outside every seasonal event, so no event card adds height. */
 const QUIET_DAY = new Date('2026-06-01T10:00:00');
@@ -13,6 +13,7 @@ async function load(page: Page, fixture: string, change?: (save: SaveData) => vo
   await page.evaluate((s) => { localStorage.clear(); localStorage.setItem('dracoquest.save', s); }, JSON.stringify(save));
   await page.goto('./#/roost');
   await page.reload();
+  await enter(page);
 }
 
 const pageHeight = (page: Page) => page.evaluate(() => document.scrollingElement!.scrollHeight);
@@ -30,6 +31,7 @@ test('every main screen stays short at 375 x 667 (docs/UI_PLAN.md)', async ({ pa
   for (const [route, screens] of budgets) {
     await page.goto(`./#/${route}`);
     await page.reload();
+    await enter(page);
     await page.waitForTimeout(500);
     const h = await pageHeight(page);
     expect(h / 667, `${route} is ${h}px`).toBeLessThanOrEqual(screens);
@@ -45,6 +47,7 @@ test('folds remember being opened, and sub-tabs show waiting points', async ({ p
   await expect(page.getByTestId('rider-points')).toHaveText('3 to spend');
   // The chosen tab survives a reload.
   await page.reload();
+  await enter(page);
   await expect(page.getByTestId('rider-points')).toBeVisible();
   await page.waitForTimeout(500);
   await page.screenshot({ path: 'test-results/ui-bag.png' });
@@ -54,6 +57,7 @@ test('folds remember being opened, and sub-tabs show waiting points', async ({ p
   await expect(page.getByTestId('fold-settings.backup')).toHaveAttribute('aria-expanded', 'false');
   await openFold(page, 'settings.backup');
   await page.reload();
+  await enter(page);
   await expect(page.getByTestId('fold-settings.backup')).toHaveAttribute('aria-expanded', 'true');
   await expect(page.getByTestId('export')).toBeVisible();
   await page.waitForTimeout(500);

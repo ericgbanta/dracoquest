@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { openFold, tab, mapRegion, mapView } from './helpers';
+import { openFold, tab, mapRegion, mapView, enter } from './helpers';
 import { readFileSync } from 'node:fs';
 
 async function load(page: Page, fixture: string, hash = '#/roost') {
@@ -8,6 +8,7 @@ async function load(page: Page, fixture: string, hash = '#/roost') {
   await page.evaluate((s) => localStorage.setItem('dracoquest.save', s), save);
   await page.goto(`./${hash}`);
   await page.reload();
+  await enter(page);
 }
 
 test('plays fully offline after the first visit', async ({ page, context }) => {
@@ -17,10 +18,12 @@ test('plays fully offline after the first visit', async ({ page, context }) => {
     await navigator.serviceWorker.ready;
   });
   await page.reload();
+  await enter(page);
   await expect.poll(() => page.evaluate(() => !!navigator.serviceWorker.controller)).toBe(true);
 
   await context.setOffline(true);
   await page.reload();
+  await enter(page);
   await expect(page.getByTestId('welcome')).toHaveText('Scorch');
   await page.getByTestId('tab-map').tap();
   await mapView(page, 'list');

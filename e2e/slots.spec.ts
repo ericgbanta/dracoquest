@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { openFold } from './helpers';
+import { openFold, enter } from './helpers';
 import { readFileSync } from 'node:fs';
 
 /** Puts a fixture where a save made before slots existed lives, then opens the game. */
@@ -8,6 +8,7 @@ async function loadOldSave(page: Page, fixture: string) {
   const save = readFileSync(`e2e/fixtures/${fixture}`, 'utf8');
   await page.evaluate((s) => { localStorage.clear(); localStorage.setItem('dracoquest.save', s); }, save);
   await page.reload();
+  await enter(page);
 }
 
 const stored = (page: Page, key: string) => page.evaluate((k) => localStorage.getItem(k), key);
@@ -44,6 +45,7 @@ test('a second saved game starts fresh and leaves the existing save alone', asyn
 
   // The choice of slot survives a reload.
   await page.reload();
+  await enter(page);
   await expect(page.getByTestId('welcome')).toHaveText('Puddle');
 
   // Back to slot 1: the old game is exactly where it was.
@@ -79,6 +81,8 @@ test('a damaged slot can be left for another slot', async ({ page }) => {
   await page.goto('./');
   await page.evaluate(() => { localStorage.clear(); localStorage.setItem('dracoquest.save', '{"version":2,"broken":true}'); });
   await page.reload();
+  await page.getByTestId('title-load').tap();
+  await page.getByTestId('title-pick-1').tap();
   await expect(page.getByRole('alert')).toContainText('could not be read');
   await expect(page.getByTestId('slot-1')).toContainText('cannot be read');
   await page.getByTestId('slot-play-2').tap();
@@ -95,6 +99,7 @@ test('the saved games list fits a phone and its buttons are big enough', async (
     localStorage.setItem('dracoquest.save.3', '{"version":2,"broken":true}');
   }, second);
   await page.reload();
+  await enter(page);
   await openSettings(page);
   await expect(page.getByTestId('slot-delete-2')).toBeVisible();
   await expect(page.getByTestId('slot-delete-3')).toBeVisible();

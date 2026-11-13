@@ -1,7 +1,7 @@
 import { useState } from 'preact/hooks';
 import { exportSaveCode, importSaveCode, newSave, SaveError, type SaveData, type SlotSummary } from '../../core/save';
 import { href, navigate } from '../router';
-import { BackIcon } from '../icons';
+import { BackIcon, MenuIcon } from '../icons';
 import { isIos, isStandalone } from '../install';
 import { play } from '../sound';
 import { Fold } from '../Fold';
@@ -15,11 +15,15 @@ interface Props {
   slots: SlotSummary[];
   switchSlot(slot: number): void;
   deleteSlot(slot: number): void;
+  /** Set when Settings is opened from the main menu: the back arrow returns there. */
+  onBack?(): void;
+  /** Set from the main menu: called after Play on a saved game, to leave the menu. */
+  onPlay?(): void;
 }
 
 type Notice = { kind: 'ok' | 'error'; text: string } | null;
 
-export function Settings({ save, persistent, update, replace, slot, slots, switchSlot, deleteSlot }: Props) {
+export function Settings({ save, persistent, update, replace, slot, slots, switchSlot, deleteSlot, onBack, onPlay }: Props) {
   const [name, setName] = useState(save?.rider.name ?? '');
   const [exportCode, setExportCode] = useState('');
   const [importText, setImportText] = useState('');
@@ -97,7 +101,8 @@ export function Settings({ save, persistent, update, replace, slot, slots, switc
 
   const playSlot = (n: number) => {
     switchSlot(n);
-    navigate('roost');
+    if (onPlay) onPlay();
+    else navigate('roost');
   };
 
   const doDelete = (n: number) => {
@@ -124,9 +129,15 @@ export function Settings({ save, persistent, update, replace, slot, slots, switc
   return (
     <section class="screen" aria-labelledby="screen-title">
       <header class="screen-header">
-        <a class="icon-button" href={href('roost')} aria-label="Back to Roost"><BackIcon /></a>
+        {onBack ? (
+          <button type="button" class="icon-button" onClick={onBack} aria-label="Back to the main menu" data-testid="settings-back"><BackIcon /></button>
+        ) : (
+          <a class="icon-button" href={href('roost')} aria-label="Back to Roost"><BackIcon /></a>
+        )}
         <h1 id="screen-title">Settings</h1>
-        <span class="icon-spacer" />
+        {onBack ? <span class="icon-spacer" /> : (
+          <a class="icon-button" href="#/title" aria-label="Main menu" data-testid="main-menu"><MenuIcon /></a>
+        )}
       </header>
 
       {notice && (

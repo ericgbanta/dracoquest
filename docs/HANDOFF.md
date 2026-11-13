@@ -49,6 +49,7 @@ Each row was built, tested, committed and deployed in this order. The Decisions 
 
 | Work | What it added | How it came about |
 | --- | --- | --- |
+| Main menu | A start screen on every launch: Continue, New game, Load game and Settings over the painted Wilds map. No new art | Eric: "a start menu that is simple... new game, load game and continue game. Maybe settings button as well", designed, built and deployed in one go |
 | Chunk 9 (W9, E12) | Starfall Summit (Light and Shadow, the final boss Vesperax and the closing story) and Dragonsrest (Aether, Void, Blight and Steel, the Old Guardian Ossarion), both 90 to 100, cap 100, the Behemoth breed with Brace, the Eventide spell. No teasers left on the Map. 12 Codex generations, all usable first try | Eric: "let's finish and do chunk 9 and deploy it" |
 | Chunks 7 and 8 (W7, E10, W8, E11) | Skyreach Isles and Twilight Rift (70 to 80), Hollow Crown and The Confluence (80 to 90, cap 90), hybrid enemies (The Confluence's seven are all hybrids, and its boss drops hybrid eggs), the Astral Nova and Daybreak spells. 20 Codex generations, all usable first try | Eric: "Work on Chunk 7 & 8 and deploy it" |
 | Hatchery tidy-up | A Take out button moves an incubating egg back to the bag (the incubation embers stay spent, and the wait restarts if it goes back in). Identical bag eggs share one row with a count, inside an "Eggs in your bag" fold that starts open only when nothing is incubating. The Bag tab groups egg badges the same way | Eric: "add a feature to remove an egg from incubation" and the Hatchery "feels too cluttered" with many eggs |
@@ -65,7 +66,7 @@ Each row was built, tested, committed and deployed in this order. The Decisions 
 - **Rider:** 21 spells, a loadout of 4, gear in 3 slots with 23 sets, the Forge.
 - **Dragons:** up to 10 at the Roost, two in battle from rider level 25, four life stages, four breeds (Dragon, Wyvern, Wyrm, Behemoth), talents, gear for Adults, temperament. Two grown dragons can breed at the Nesting Grounds; eggs can be hybrids (two elements) and about 1 in 50 has a rare finish.
 - **Saves:** version 11, up to 3 slots per device, export and import codes.
-- **Tests:** 256 unit tests and 107 phone tests pass. The sim shows every zone averaging 70 to 85 percent on level across the three starters.
+- **Tests:** 256 unit tests and 113 phone tests pass. The sim shows every zone averaging 70 to 85 percent on level across the three starters.
 
 ## What to work on next
 
@@ -239,6 +240,8 @@ Calls made while building, shown to Eric in the report:
 | Save version | 11. v6 added `settings.simpleBattle`, v7 `rider.spells`, v8 the Forge, v9 `storyChoices` and `bounties`, v10 egg objects, dragon `breed`, `element2`, `variant` and `lastBredAt`, and the Nesting Grounds (`roost.levels.nesting`, `roost.nesting`), v11 `thirdDragonId`. Each bump has a migration and a fixture test (`tests/fixtures/save-v1.json` to `save-v10.json`). |
 | Save slots | Up to 3 per device (Eric's request). Slot 1 is the original `dracoquest.save` key so old saves stay put; slots 2 and 3 are `dracoquest.save.2` and `.3`; `dracoquest.slot` holds the slot in play. Not part of the save object, so no version bump. Settings has the list; export, import and Start over act on the slot in play. |
 | Simple battle | A setting that brings back the old card layout instead of the stage. |
+| Main menu (2026-11-13) | `src/ui/screens/Title.tsx`. Opens on every page load (Home Screen launch, reload, PWA update), before the battle or the Roost, never on dev pages. **Continue** plays the slot in play (loading stamps it as played last), or the newest other game if that slot is empty; its button shows the lead dragon and the rider. It is hidden when no slot holds a readable game. Continuing the same slot keeps the screen in the URL, so a reload on the Bag comes back to the Bag; every other way out goes to `#/roost`. **New game** uses the slot in play if it is empty, else the first empty slot; with all three used it opens a sheet to pick one to replace, with a confirm. **Load game** is a sheet of the three slots (Play, or Open for a damaged one, which leads to the old "could not be read" screen); disabled when every slot is empty. **Settings** opens Settings with a back arrow to the menu. In the game, Settings has a menu button (`main-menu`, `#/title`) that returns to it. Background: the Wilds map backdrop under a dark wash. |
+| Empty slots stay empty | Opening an empty slot no longer writes a blank save; the first change (picking an egg) does. So a first visit, or a New game left before picking an egg, leaves no save behind and no false Continue. `startNewGame(slot)` in `useSave.ts` deletes the slot's save and makes it the one in play. No save shape change. |
 
 ### Presentation
 
@@ -282,7 +285,7 @@ src/ui/        Preact screens and pieces
   Sprites.tsx Icon.tsx Wallet.tsx art.ts bits.tsx (formatBonus, rewardText) styles.css skin.css pwa.ts sound.ts install.ts router.ts
 src/art/       painted/ (characters, attack poses, backdrops, effects, tail tips), eggs/, icons/, assets.json (the art manifest)
 tests/         Vitest unit tests (256), sim.ts (the balance simulator), save fixtures v1 to v10
-e2e/           Playwright phone tests (107), fixtures/ (built by make-fixtures.ts), specs per feature
+e2e/           Playwright phone tests (113), fixtures/ (built by make-fixtures.ts), specs per feature
                (slots, spells, gear, forge, world, ui, stage, perf, smoke, phase2 to 4), helpers.ts (openFold, tab)
 tools/content/      arealib.py (the area writer) with area_gen_70s.py, area_gen_80s.py and area_gen_90s.py; area_gen.py (the 50s and 60s), scale_enemies.py and slow_growth.py (balance), find_tail_tips.py (breeds)
 tools/art/painted/  style.txt and anchor.png (the style), jobs.py to jobs16.py (one per batch; jobs8 is the region maps, jobs9 the new element tips and breath plus Starglass Hollow and the Hidden Reach map, jobs10 the Wyvern, jobs11 Voidmarch and the Wyrm, jobs12 Sunken Spires, jobs13 Rotroot Thicket, Emberwild, the Steelspine Range and the Elder Wilds map, jobs14 Skyreach Isles and Twilight Rift, jobs15 Hollow Crown and The Confluence, jobs16 Starfall Summit, Dragonsrest and the Behemoth), run.sh, pack.py, wire_area.py (adds a packed area to the manifest),
@@ -297,7 +300,7 @@ docs/          HANDOFF.md, NEXT_PROMPT.md, WORLD_PLAN.md, UI_PLAN.md, ART_GENERA
 | `npm run dev` | Local dev server |
 | `npm run test` | Unit tests (256) |
 | `npx tsc --noEmit` and `npm run lint` | Type check and lint. Lint blocks `Math.random`, browser globals in `src/core`, and `any`. |
-| `npm run e2e` | Phone tests at 375 by 667 (107), about 3 minutes. Builds the site first. |
+| `npm run e2e` | Phone tests at 375 by 667 (113), about 4 minutes. Builds the site first. |
 | `npm run sim` | Balance sim: 1,000 runs per zone and level, then 100 campaigns per starter from egg to the cap. Flags: `--zone <id>`, `--no-campaign`, `--campaign-only`, `--runs`, `--campaigns`. The full run takes about 4 minutes; one zone about 1 minute. |
 | `npx tsx e2e/make-fixtures.ts` | Rebuilds the saves the phone tests load (needed after every save version bump) |
 | `npm run deploy` | Tests, lint and build, then pushes the current branch to `main`, which publishes. Only when Eric asks. |
@@ -311,6 +314,8 @@ docs/          HANDOFF.md, NEXT_PROMPT.md, WORLD_PLAN.md, UI_PLAN.md, ART_GENERA
 - Content: 23 zones (7 main, 4 side areas, 3 Hidden Reach areas, 5 frontier areas, 4 Elder Wilds areas), 161 enemies (115 regular, 23 mini-bosses, 23 bosses), 326 gear pieces (185 in the shop, 115 in 23 sets, 20 Forge recipes, plus starter and festival pieces), 21 rider spells, 88 story quests, 18 bounty pools, 12 elements, 4 breeds, 3 Forge materials, 40 talents, 3 growth quests, 6 expedition trips, 4 events.
 
 ## Gotchas
+
+- **The main menu on every load.** Every `page.goto` that loads the page fresh, and every `reload`, lands on the menu. Phone tests call `enter(page)` from `e2e/helpers.ts` right after (Continue if there is a game, else New game). Hash-only `goto` calls mid-test don't reload, so they don't need it. Menu tests are in `e2e/title.spec.ts`.
 
 - **CSS load order.** `stage.css` is imported by a component, so it loads before `styles.css` and `skin.css`. Equal-specificity rules in the later files win. That's why stage fighters use `.actor` and some stage rules are doubled up.
 - **The old grayscale rule.** `.sprite img { filter: grayscale(1) }` exists for gray WebP sprites; anything drawn from rigs opts out (`.sprite--rig img`). A phone test checks this.

@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { enter } from './helpers';
 import { readFileSync } from 'node:fs';
 
 // The budget from docs/GRAPHICS_PLAN.md: under 5% dropped frames over scripted rounds,
@@ -12,6 +13,7 @@ test('a real stage fight stays under 5% dropped frames at 4x CPU throttle', asyn
   await page.evaluate((s) => localStorage.setItem('dracoquest.save', s), JSON.stringify(save));
   await page.goto('./#/roost');
   await page.reload();
+  await enter(page);
   await page.getByTestId('next-fight').tap();
   await expect(page.locator('[data-testid=stage]:not(.stage--loading)')).toBeVisible();
 

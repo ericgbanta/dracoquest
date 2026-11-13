@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { openFold, mapView } from './helpers';
+import { openFold, mapView, enter } from './helpers';
 import { readFileSync } from 'node:fs';
 import type { SaveData } from '../src/core/save';
 
@@ -11,6 +11,7 @@ async function load(page: Page, fixture: string, change?: (save: SaveData) => vo
   await page.evaluate((s) => { localStorage.clear(); localStorage.setItem('dracoquest.save', s); }, JSON.stringify(save));
   await page.goto('./#/roost');
   await page.reload();
+  await enter(page);
 }
 
 async function smallTargets(page: Page, scope: string): Promise<string[]> {

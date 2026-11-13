@@ -117,3 +117,37 @@ h1 { color: #fff3cf; text-shadow: 0 3px 0 var(--ink); }
 .act--target .act-sub { color: #f7e9c8; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 .action-row:has(.act--target) { gap: 4px; }
 .action-row:has(.act--target) .act:not(.act--target) { font-size: 0.8rem; padding-left: 1px; padding-right: 1px; }
+
+/* The main menu: the painted Wilds map behind a dark wash, the name on top, the buttons at the bottom. */
+.app--title { min-height: 100dvh; padding: 0; }
+.title {
+  flex: 1; display: flex; min-height: 100dvh;
+  background: var(--page) center / cover no-repeat;
+}
+.title-inner {
+  flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: space-between; gap: 24px;
+  padding: calc(env(safe-area-inset-top) + 48px) calc(env(safe-area-inset-right) + 16px)
+    calc(env(safe-area-inset-bottom) + 28px) calc(env(safe-area-inset-left) + 16px);
+  background: linear-gradient(to bottom, rgba(13, 11, 36, 0.55), rgba(13, 11, 36, 0.15) 35%, rgba(13, 11, 36, 0.8) 70%, rgba(13, 11, 36, 0.95));
+  animation: fade-in 300ms ease-out;
+}
+.title-logo { text-align: center; }
+.title-logo h1 {
+  font-size: clamp(2.6rem, 13vw, 3.6rem); line-height: 1.05; color: var(--gold);
+  text-shadow: 0 4px 0 var(--ink), 0 0 18px rgba(13, 11, 36, 0.8);
+  -webkit-text-stroke: 2px var(--ink); paint-order: stroke fill;
+}
+.title-logo p { margin-top: 8px; font-family: var(--heading); color: #fff3cf; text-shadow: 0 2px 0 var(--ink); }
+.title-menu { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 360px; min-width: 0; margin: 0 auto; }
+.title-menu .button { width: 100%; min-width: 0; margin: 0; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.title-menu .button--ghost { background: rgba(53, 46, 92, 0.92); }
+.title-continue { min-height: 68px; justify-content: flex-start; text-align: left; }
+.title-continue .sprite { flex: none; }
+.title-continue-text { display: flex; flex-direction: column; min-width: 0; flex: 1; align-items: center; text-align: center; }
+.title-continue-text small { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; font-weight: 600; font-size: 0.85rem; opacity: 0.85; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
+@media (orientation: landscape) and (max-height: 500px) {
+  .title-inner { flex-direction: row; align-items: center; padding-top: calc(env(safe-area-inset-top) + 16px); padding-bottom: calc(env(safe-area-inset-bottom) + 16px); }
+  .title-logo { flex: 1; min-width: 0; }
+  .title-menu { flex: 1; }
+}
+.content--menu { padding-bottom: calc(env(safe-area-inset-bottom) + 24px); }

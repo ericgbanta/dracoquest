@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'preact/hooks';
 import {
-  deleteSlot as removeSlot, listSlots, loadSave, newSave, readActiveSlot, SaveError, writeActiveSlot, writeSave,
+  deleteSlot as removeSlot, listSlots, loadSave, newSave, readActiveSlot, SaveError, slotKey, writeActiveSlot, writeSave,
   type SaveData, type SaveStorage, type SlotSummary,
 } from '../core/save';
 import { browserStorage } from './storage';
@@ -22,6 +22,8 @@ export interface SaveApi {
   switchSlot(slot: number): void;
   /** Delete a slot that is not in play. */
   deleteSlot(slot: number): void;
+  /** Start a new game in a slot, in play from now on. Anything stored there is deleted. */
+  startNewGame(slot: number): void;
 }
 
 interface State {
@@ -31,6 +33,9 @@ interface State {
 }
 
 function open(storage: SaveStorage, slot: number): State {
+  // An empty slot stays empty until the first change, so opening the game
+  // (or the main menu) never leaves a blank save behind.
+  if (storage.getItem(slotKey(slot)) === null) return { slot, save: newSave(Date.now()), loadError: null };
   try {
     const loaded = loadSave(storage, Date.now(), slot);
     return { slot, save: writeSave(storage, loaded, Date.now(), slot), loadError: null };
@@ -78,5 +83,15 @@ export function useSave(): SaveApi {
     [storage],
   );
 
-  return { ...state, persistent, slots, update, replace, switchSlot, deleteSlot };
+  const startNewGame = useCallback(
+    (slot: number) => {
+      storage.removeItem(slotKey(slot));
+      writeActiveSlot(storage, slot);
+      setState({ slot, save: newSave(Date.now()), loadError: null });
+      setListVersion((v) => v + 1);
+    },
+    [storage],
+  );
+
+  return { ...state, persistent, slots, update, replace, switchSlot, deleteSlot, startNewGame };
 }

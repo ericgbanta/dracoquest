@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { openFold } from './helpers';
+import { openFold, enter } from './helpers';
 import { readFileSync } from 'node:fs';
 
 async function load(page: Page, fixture: string, hash = '#/roost') {
@@ -8,6 +8,7 @@ async function load(page: Page, fixture: string, hash = '#/roost') {
   await page.evaluate((s) => localStorage.setItem('dracoquest.save', s), save);
   await page.goto(`./${hash}`);
   await page.reload();
+  await enter(page);
 }
 
 test('timers keep running while the app is closed for a day', async ({ page }) => {
@@ -20,6 +21,7 @@ test('timers keep running while the app is closed for a day', async ({ page }) =
   await page.goto('about:blank');
   await page.clock.setFixedTime(new Date(start.getTime() + 24 * 3600_000));
   await page.goto('./#/roost');
+  await enter(page);
   await expect(page.getByTestId('pantry-status')).toContainText('4 of 4 food ready');
   await expect(page.getByTestId('pantry-status')).toContainText('full');
   await page.getByTestId('collect-food').tap();

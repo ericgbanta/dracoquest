@@ -26,3 +26,12 @@ export async function mapRegion(page: Page, name: string): Promise<void> {
   }
   while ((await label.textContent()) !== name) await page.getByTestId('map-next').tap();
 }
+
+/** Get past the main menu, which opens on every page load: Continue if there is a game, else New game. */
+export async function enter(page: Page): Promise<void> {
+  await page.getByTestId('title').waitFor();
+  const cont = page.getByTestId('title-continue');
+  if (await cont.count()) await cont.tap();
+  else await page.getByTestId('title-new').tap();
+  await page.getByTestId('title').waitFor({ state: 'detached' });
+}
