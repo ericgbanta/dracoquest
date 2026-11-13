@@ -5,6 +5,7 @@ import { canAfford, forgeable, forgedGear, formatMaterials, maxPlus, plusOf, upg
 import type { SaveData } from '../../core/save';
 import type { GearData } from '../../core/types';
 import { MATERIALS } from '../../core/types';
+import { GearElement } from '../bits';
 import { Sheet } from '../Sheet';
 import { Embers, Gold } from '../Icon';
 import { gearSummary } from './Town';
@@ -15,7 +16,7 @@ interface Props {
   onClose(): void;
 }
 
-function Cost({ cost }: { cost: ForgeCost }) {
+export function Cost({ cost }: { cost: ForgeCost }) {
   return (
     <span class="muted forge-cost">
       <span><Gold amount={cost.gold} /></span>
@@ -55,6 +56,7 @@ export function ForgeSheet({ save, update, onClose }: Props) {
       <div key={g.id} class="forge-row" data-testid={`forge-row-${g.id}`}>
         <div class="forge-info">
           <strong>{now.name}{equipped.has(g.id) ? ' (equipped)' : ''}</strong>
+          <GearElement g={g} />
           <span class="muted">{gearSummary(now)}</span>
           {cost && <span class="muted">Next: {gearSummary(forgedGear(data, g, plus + 1), false)}</span>}
           {cost && <Cost cost={cost} />}

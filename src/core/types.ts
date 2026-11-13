@@ -156,6 +156,13 @@ export interface ForgeData {
   effect: { weaponDamagePct: number; bonusPct: number };
   /** Cost of reaching each plus. A material costs `base` plus one per `perLevels` of the gear's level. */
   upgrades: { plus: number; goldPct: number; minGold: number; embers: number; materials: Partial<Record<MaterialId, { base: number; perLevels: number }>> }[];
+  /** Spell power-ups (the Bag's Spells tab). */
+  spells: {
+    powerPct: number;
+    statusChance: number;
+    buffMpCut: number;
+    upgrades: { plus: number; minGold: number; goldPerLevel: number; embers: number; materials: Partial<Record<MaterialId, { base: number; perLevels: number }>> }[];
+  };
   bossMaterials: Materials;
   miniBossMaterials: Materials;
   recipes: { gear: string; forgeLevel: number; gold: number; embers: number; materials: Materials }[];
@@ -188,6 +195,8 @@ export interface RoostData {
   breeding: { stage: string; hybridChance: number; cost: Cost };
   /** Embers for returning an egg to the wild: a base amount plus extras for rarer eggs. */
   releaseEmbers: { base: number; hybrid: number; breed: number; variant: number };
+  /** Embers for freeing a dragon: by life stage, plus the egg extras for rarer dragons. */
+  freeEmbers: { stages: { hatchling: number; juvenile: number; adult: number; elder: number }; hybrid: number; breed: number; variant: number };
 }
 
 export interface ShopData {
@@ -507,6 +516,8 @@ export interface RiderState {
   materials: Materials;
   /** Gear id → Forge upgrade level (+1 to +3). */
   upgrades: Record<string, number>;
+  /** Spell id → power-up level (+1 to +3). */
+  spellPlus: Record<string, number>;
 }
 
 export interface DragonState {

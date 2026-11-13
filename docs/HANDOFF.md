@@ -49,6 +49,7 @@ Each row was built, tested, committed and deployed in this order. The Decisions 
 
 | Work | What it added | How it came about |
 | --- | --- | --- |
+| Free a dragon, weapon elements, spell power-ups | Freeing a dragon for embers (never selling), weapon element badges with "Strong vs" wherever weapons are picked, and spell power-ups to +3 (save v12) | Eric: "free a dragon (to free up roster space)... give us back some embers", "see what element [a weapon] belongs to", "power up spells... like we do with weapons and armor". Built, tested and deployed in one go |
 | Main menu | A start screen on every launch: Continue, New game, Load game and Settings over the painted Wilds map. No new art | Eric: "a start menu that is simple... new game, load game and continue game. Maybe settings button as well", designed, built and deployed in one go |
 | Chunk 9 (W9, E12) | Starfall Summit (Light and Shadow, the final boss Vesperax and the closing story) and Dragonsrest (Aether, Void, Blight and Steel, the Old Guardian Ossarion), both 90 to 100, cap 100, the Behemoth breed with Brace, the Eventide spell. No teasers left on the Map. 12 Codex generations, all usable first try | Eric: "let's finish and do chunk 9 and deploy it" |
 | Chunks 7 and 8 (W7, E10, W8, E11) | Skyreach Isles and Twilight Rift (70 to 80), Hollow Crown and The Confluence (80 to 90, cap 90), hybrid enemies (The Confluence's seven are all hybrids, and its boss drops hybrid eggs), the Astral Nova and Daybreak spells. 20 Codex generations, all usable first try | Eric: "Work on Chunk 7 & 8 and deploy it" |
@@ -65,8 +66,8 @@ Each row was built, tested, committed and deployed in this order. The Decisions 
 - **Three kinds of adventure per zone:** a hunt (the zone run), a story in 18 zones (88 quests), and daily bounties in 18 zones.
 - **Rider:** 21 spells, a loadout of 4, gear in 3 slots with 23 sets, the Forge.
 - **Dragons:** up to 10 at the Roost, two in battle from rider level 25, four life stages, four breeds (Dragon, Wyvern, Wyrm, Behemoth), talents, gear for Adults, temperament. Two grown dragons can breed at the Nesting Grounds; eggs can be hybrids (two elements) and about 1 in 50 has a rare finish.
-- **Saves:** version 11, up to 3 slots per device, export and import codes.
-- **Tests:** 256 unit tests and 113 phone tests pass. The sim shows every zone averaging 70 to 85 percent on level across the three starters.
+- **Saves:** version 12, up to 3 slots per device, export and import codes.
+- **Tests:** 269 unit tests and 116 phone tests pass. The sim shows every zone averaging 70 to 85 percent on level across the three starters.
 
 ## What to work on next
 
@@ -237,9 +238,12 @@ Calls made while building, shown to Eric in the report:
 
 | Topic | Decision |
 | --- | --- |
-| Save version | 11. v6 added `settings.simpleBattle`, v7 `rider.spells`, v8 the Forge, v9 `storyChoices` and `bounties`, v10 egg objects, dragon `breed`, `element2`, `variant` and `lastBredAt`, and the Nesting Grounds (`roost.levels.nesting`, `roost.nesting`), v11 `thirdDragonId`. Each bump has a migration and a fixture test (`tests/fixtures/save-v1.json` to `save-v10.json`). |
+| Save version | 12. v6 added `settings.simpleBattle`, v7 `rider.spells`, v8 the Forge, v9 `storyChoices` and `bounties`, v10 egg objects, dragon `breed`, `element2`, `variant` and `lastBredAt`, and the Nesting Grounds (`roost.levels.nesting`, `roost.nesting`), v11 `thirdDragonId`, v12 `rider.spellPlus`. Each bump has a migration and a fixture test (`tests/fixtures/save-v1.json` to `save-v11.json`). |
 | Save slots | Up to 3 per device (Eric's request). Slot 1 is the original `dracoquest.save` key so old saves stay put; slots 2 and 3 are `dracoquest.save.2` and `.3`; `dracoquest.slot` holds the slot in play. Not part of the save object, so no version bump. Settings has the list; export, import and Start over act on the slot in play. |
 | Simple battle | A setting that brings back the old card layout instead of the stage. |
+| Freeing dragons (2026-11-13) | Dragons tab, Overview, the "Free to the wild" fold (closed by default), with a confirm. Embers by stage from `roost.json` `freeEmbers` (3, 5, 8, 12 for Hatchling to Elder) plus the egg extras (+2 hybrid, +2 non-Dragon breed, +7 rare finish). Sized against bosses giving 10 embers on a first kill and 2 after, so freeing is a small refund, not a farm. Blocked for the lead, the last dragon, a dragon on an expedition or nesting, and mid-run. A partner seat it held empties; gear it wore stays in the bag. `freeDragon`, `freeValue`, `freeBlocker` in `game.ts`. Dragons can't be sold. |
+| Weapon elements | `GearElement` in `bits.tsx`: the element badge and "Strong vs X" (from `strongAgainst` in `elements.ts`), or "No element", on weapons in the Bag's gear rows and picker, the Forge and the Town. |
+| Spell power-ups (save v12) | Bag, Spells tab, the "Power up spells" fold (battle spells listed first). +1 to +3 per spell, no building needed. Each plus: 10 percent more power for damage and healing spells and +5 points of status chance; Bright Ward (a buff) costs 1 less MP per plus instead (`forge.json` `spells`). Cost: gold (minGold plus goldPerLevel times the spell's level), Sky Crystals (1, 2, 3, one more per 30 spell levels), 2 embers at +2, 5 embers and a Dragonscale at +3. Logic in `spells.ts` (`poweredSpell`, `battleSpell`, `upgradeSpell`); `powerUpSpell` in `game.ts` refuses mid-run. A fight carries `spellPlus` for its loadout, so a fight saved before v12 casts at base power. Spell names never change in battle (the stage matches spells by name); the "+N" shows only in the UI. The sim doesn't buy power-ups, so real players are a little stronger than the sim with spells; on-level sim numbers are unchanged. |
 | Main menu (2026-11-13) | `src/ui/screens/Title.tsx`. Opens on every page load (Home Screen launch, reload, PWA update), before the battle or the Roost, never on dev pages. **Continue** plays the slot in play (loading stamps it as played last), or the newest other game if that slot is empty; its button shows the lead dragon and the rider. It is hidden when no slot holds a readable game. Continuing the same slot keeps the screen in the URL, so a reload on the Bag comes back to the Bag; every other way out goes to `#/roost`. **New game** uses the slot in play if it is empty, else the first empty slot; with all three used it opens a sheet to pick one to replace, with a confirm. **Load game** is a sheet of the three slots (Play, or Open for a damaged one, which leads to the old "could not be read" screen); disabled when every slot is empty. **Settings** opens Settings with a back arrow to the menu. In the game, Settings has a menu button (`main-menu`, `#/title`) that returns to it. Background: the Wilds map backdrop under a dark wash. |
 | Empty slots stay empty | Opening an empty slot no longer writes a blank save; the first change (picking an egg) does. So a first visit, or a New game left before picking an egg, leaves no save behind and no false Continue. `startNewGame(slot)` in `useSave.ts` deletes the slot's save and makes it the one in play. No save shape change. |
 
@@ -262,7 +266,7 @@ Calls made while building, shown to Eric in the report:
 src/core/      pure game logic, no DOM (CLAUDE.md)
   battle.ts      battle engine: fighters, orders, events, Ride mode, second partner, spells
   game.ts        save-level actions (care, runs, stories, bounties, shop, Forge, talents, Roost, events), zoneLock
-  save.ts        save shape, migrations v1 to v9, export and import codes, save slots
+  save.ts        save shape, migrations v1 to v12, export and import codes, save slots
   spells.ts      rider spells: what a level knows, the loadout, learning on level-up
   forge.ts       the Forge: gear upgrades, recipes, materials
   adventures.ts  story quests, choices and the daily bounty board
@@ -284,8 +288,8 @@ src/ui/        Preact screens and pieces
   useSave.ts storage.ts  save slots and storage
   Sprites.tsx Icon.tsx Wallet.tsx art.ts bits.tsx (formatBonus, rewardText) styles.css skin.css pwa.ts sound.ts install.ts router.ts
 src/art/       painted/ (characters, attack poses, backdrops, effects, tail tips), eggs/, icons/, assets.json (the art manifest)
-tests/         Vitest unit tests (256), sim.ts (the balance simulator), save fixtures v1 to v10
-e2e/           Playwright phone tests (113), fixtures/ (built by make-fixtures.ts), specs per feature
+tests/         Vitest unit tests (269), sim.ts (the balance simulator), save fixtures v1 to v11
+e2e/           Playwright phone tests (116), fixtures/ (built by make-fixtures.ts), specs per feature
                (slots, spells, gear, forge, world, ui, stage, perf, smoke, phase2 to 4), helpers.ts (openFold, tab)
 tools/content/      arealib.py (the area writer) with area_gen_70s.py, area_gen_80s.py and area_gen_90s.py; area_gen.py (the 50s and 60s), scale_enemies.py and slow_growth.py (balance), find_tail_tips.py (breeds)
 tools/art/painted/  style.txt and anchor.png (the style), jobs.py to jobs16.py (one per batch; jobs8 is the region maps, jobs9 the new element tips and breath plus Starglass Hollow and the Hidden Reach map, jobs10 the Wyvern, jobs11 Voidmarch and the Wyrm, jobs12 Sunken Spires, jobs13 Rotroot Thicket, Emberwild, the Steelspine Range and the Elder Wilds map, jobs14 Skyreach Isles and Twilight Rift, jobs15 Hollow Crown and The Confluence, jobs16 Starfall Summit, Dragonsrest and the Behemoth), run.sh, pack.py, wire_area.py (adds a packed area to the manifest),
@@ -298,9 +302,9 @@ docs/          HANDOFF.md, NEXT_PROMPT.md, WORLD_PLAN.md, UI_PLAN.md, ART_GENERA
 | Command | What it does |
 | --- | --- |
 | `npm run dev` | Local dev server |
-| `npm run test` | Unit tests (256) |
+| `npm run test` | Unit tests (269) |
 | `npx tsc --noEmit` and `npm run lint` | Type check and lint. Lint blocks `Math.random`, browser globals in `src/core`, and `any`. |
-| `npm run e2e` | Phone tests at 375 by 667 (113), about 4 minutes. Builds the site first. |
+| `npm run e2e` | Phone tests at 375 by 667 (116), about 4 minutes. Builds the site first. |
 | `npm run sim` | Balance sim: 1,000 runs per zone and level, then 100 campaigns per starter from egg to the cap. Flags: `--zone <id>`, `--no-campaign`, `--campaign-only`, `--runs`, `--campaigns`. The full run takes about 4 minutes; one zone about 1 minute. |
 | `npx tsx e2e/make-fixtures.ts` | Rebuilds the saves the phone tests load (needed after every save version bump) |
 | `npm run deploy` | Tests, lint and build, then pushes the current branch to `main`, which publishes. Only when Eric asks. |

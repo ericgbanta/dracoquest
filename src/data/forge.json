@@ -295,5 +295,53 @@
         "scale": 8
       }
     }
-  ]
+  ],
+  "spells": {
+    "note": "Spell power-ups, bought in the Bag's Spells tab. Each plus: power (damage or healing) grows by powerPct and the chance to inflict the spell's status by statusChance. Buff spells (Bright Ward) have no power, so each plus cuts their MP cost by buffMpCut instead (never below 1). Gold is minGold plus goldPerLevel times the spell's level; materials are base plus one more per perLevels spell levels.",
+    "powerPct": 0.1,
+    "statusChance": 0.05,
+    "buffMpCut": 1,
+    "upgrades": [
+      {
+        "plus": 1,
+        "minGold": 40,
+        "goldPerLevel": 12,
+        "embers": 0,
+        "materials": {
+          "crystal": {
+            "base": 1,
+            "perLevels": 30
+          }
+        }
+      },
+      {
+        "plus": 2,
+        "minGold": 80,
+        "goldPerLevel": 25,
+        "embers": 2,
+        "materials": {
+          "crystal": {
+            "base": 2,
+            "perLevels": 30
+          }
+        }
+      },
+      {
+        "plus": 3,
+        "minGold": 150,
+        "goldPerLevel": 45,
+        "embers": 5,
+        "materials": {
+          "crystal": {
+            "base": 3,
+            "perLevels": 30
+          },
+          "scale": {
+            "base": 1,
+            "perLevels": 50
+          }
+        }
+      }
+    ]
+  }
 }

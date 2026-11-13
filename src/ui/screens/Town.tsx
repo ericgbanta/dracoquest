@@ -7,7 +7,7 @@ import { setOf } from '../../core/loadout';
 import type { GearData } from '../../core/types';
 import { href } from '../router';
 import { BackIcon } from '../icons';
-import { ElementBadge, formatBonus, todayKey } from '../bits';
+import { ElementBadge, formatBonus, GearElement, todayKey } from '../bits';
 import { Gold, Icon } from '../Icon';
 import { GoldButton } from '../Wallet';
 import { usePref } from '../Fold';
@@ -125,8 +125,9 @@ export function Town({ save, update }: Props) {
             return (
               <div key={g.id} class="shop-row">
                 <div class="shop-info">
-                  <strong>{g.name}</strong> {g.element && <ElementBadge element={g.element} small />}
+                  <strong>{g.name}</strong>
                   {g.event && <span class="pill">Festival</span>}
+                  <GearElement g={g} />
                   <span class="muted">{level} · {gearSummary(g)}</span>
                   <span class="muted flavor">{g.description}</span>
                 </div>

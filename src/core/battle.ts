@@ -10,7 +10,7 @@ import { createRng, type Rng } from './rng';
 import { attackElement, defenseMultiplier, matchupVs, type Matchup } from './elements';
 import { elementLabel } from './eggs';
 import { dragonMaxHp, riderMaxHp, riderMaxMp } from './characters';
-import { riderLoadout } from './spells';
+import { battleSpell, riderLoadout } from './spells';
 import { addBonus, bonusOf, dragonBonus, effectiveDragonStats, effectiveRiderStats, learnedSkills, riderBonus, riderWeapon, talentById } from './loadout';
 import type {
   Bonus, DragonState, ElementId, EnemyData, EnemyMove, GameData, IntentKind, RiderState, StatusId, WeaponType,
@@ -86,6 +86,8 @@ export interface BattleState {
   skillUses: number;
   /** The rider's spell loadout for this fight. */
   spells: string[];
+  /** Power-ups on the loadout's spells (spell id → plus). Missing in fights saved before v12. */
+  spellPlus?: Record<string, number>;
 }
 
 export interface SecondDragon {
@@ -247,6 +249,7 @@ export function createBattle(data: GameData, setup: BattleSetup): BattleState {
     third: null,
     skillUses: 0,
     spells: riderLoadout(data, setup.rider),
+    spellPlus: Object.fromEntries(riderLoadout(data, setup.rider).filter((id) => setup.rider.spellPlus?.[id]).map((id) => [id, setup.rider.spellPlus[id]!])),
   };
   const partner = (d: DragonState, id: string): SecondDragon => {
     const mods = dragonBonus(data, d);
@@ -587,7 +590,7 @@ function riderAct(ctx: RoundCtx, order: RiderOrder): void {
         basicAttack(order.target);
         return;
       }
-      const spell = state.spells.includes(order.spell) ? c.riderMoves.spells.find((s) => s.id === order.spell) : undefined;
+      const spell = state.spells.includes(order.spell) ? battleSpell(data, state, order.spell) : undefined;
       if (!spell) {
         events.push({ t: 'act', actor: 'rider', text: `${rider.name} doesn't know that spell and attacks instead.` });
         basicAttack(order.target);

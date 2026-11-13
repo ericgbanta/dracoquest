@@ -182,6 +182,9 @@ a.button { text-decoration: none; display: inline-flex; align-items: center; jus
   background: color-mix(in srgb, var(--el) 30%, var(--surface-2)); border: 1px solid var(--el);
 }
 .badge--small { font-size: 0.75rem; padding: 1px 6px; }
+.badge--plain { --el: #8a84a0; }
+.gear-element { display: block; font-size: 0.85rem; margin: 2px 0; }
+.gear-element .muted { font-size: 0.85rem; }
 .badge--hybrid { background: linear-gradient(90deg, color-mix(in srgb, var(--el) 30%, transparent), color-mix(in srgb, var(--el2) 30%, transparent)); }
 .badge--rare { --el: #f5c84b; }
 
@@ -572,3 +575,5 @@ p, p.muted, .notice, .lead, li { font-size: max(1rem, 16px); }
 .region-blurb--map { margin: 8px 4px 0; text-align: center; }
 /* A zone card's banner bleeds to the card's edges; under the zone's header it needs room above, or it covers the level line. */
 .zone-row + .zone-banner { margin-top: 8px; }
+
+.spell-plus { color: var(--accent); }

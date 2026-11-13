@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'preact/hooks';
 import { gameData } from '../core/data';
-import type { ElementId, IntentKind, StatusId, StoryReward, VariantId } from '../core/types';
+import type { ElementId, GearData, IntentKind, StatusId, StoryReward, VariantId } from '../core/types';
 import { hybridName } from '../core/eggs';
+import { strongAgainst } from '../core/elements';
 import { MATERIALS } from '../core/types';
 import { Icon } from './Icon';
 
@@ -12,6 +13,25 @@ export function ElementBadge({ element, element2, small }: { element: ElementId;
   return (
     <span class={`badge${small ? ' badge--small' : ''}${two ? ' badge--hybrid' : ''}`} style={{ '--el': info.color, ...(two ? { '--el2': two.color } : {}) }}>
       <span aria-hidden="true">{info.symbol}{two?.symbol}</span> {two ? hybridName(gameData.elements, element, element2!) : info.name}
+    </span>
+  );
+}
+
+/**
+ * A gear piece's element, for choosing a weapon: the element badge and what it is strong against,
+ * or "No element" for a weapon without one. Nothing for other gear without an element.
+ */
+export function GearElement({ g }: { g: Pick<GearData, 'id' | 'slot' | 'element'> }) {
+  if (!g.element) {
+    return g.slot === 'weapon'
+      ? <span class="gear-element" data-testid={`gear-element-${g.id}`}><span class="badge badge--small badge--plain">No element</span></span>
+      : null;
+  }
+  const strong = strongAgainst(gameData.elements, g.element);
+  return (
+    <span class="gear-element" data-testid={`gear-element-${g.id}`}>
+      <ElementBadge element={g.element} small />
+      {strong.length > 0 && <span class="muted"> Strong vs {strong.join(', ')}</span>}
     </span>
   );
 }

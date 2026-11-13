@@ -1,7 +1,9 @@
 import { useState } from 'preact/hooks';
 import { gameData as data } from '../../core/data';
-import { activeDragon, canEquip, equip, GameError, sellGear, setSpells, spendRiderPoint, unequip } from '../../core/game';
-import { riderLoadout, spellById } from '../../core/spells';
+import { activeDragon, canEquip, equip, GameError, powerUpSpell, sellGear, setSpells, spendRiderPoint, unequip } from '../../core/game';
+import { poweredSpell, riderLoadout, spellById, spellPlusOf, spellUpgradeBlocker, spellUpgradeCost } from '../../core/spells';
+import { formatMaterials } from '../../core/forge';
+import { Cost } from './Forge';
 import type { SpellData } from '../../core/types';
 import { riderMaxHp, riderMaxMp } from '../../core/characters';
 import { equippedSets, gearItem, setSize } from '../../core/loadout';
@@ -11,7 +13,7 @@ import { eggName, groupEggs } from '../../core/eggs';
 import { xpToNext } from '../../core/progression';
 import type { SaveData } from '../../core/save';
 import { DRAGON_SLOTS, RIDER_SLOTS, RIDER_STATS, type GearSlot, type RiderStat } from '../../core/types';
-import { Bar, ElementBadge, formatBonus } from '../bits';
+import { Bar, ElementBadge, formatBonus, GearElement } from '../bits';
 import { Sheet } from '../Sheet';
 import { Fold, SubTabs, usePref } from '../Fold';
 
@@ -62,6 +64,7 @@ export function Bag({ save, update }: Props) {
         <div>
           <strong>{SLOT_NAMES[s]}</strong>
           <span class="muted">{g ? `${g.name} · ${gearSummary(g)}` : 'Empty'}</span>
+          {g && <GearElement g={g} />}
         </div>
         <button type="button" class="button button--ghost" onClick={() => { setSlot(s); setNotice(''); }} data-testid={`slot-${s}`}>Change</button>
       </div>
@@ -167,6 +170,7 @@ export function Bag({ save, update }: Props) {
                 <div key={g.id} class="shop-row">
                   <div class="shop-info">
                     <strong>{shown.name}{on ? ' (equipped)' : ''}</strong>
+                    <GearElement g={g} />
                     <span class="muted">{gearSummary(shown)}</span>
                     {!check.ok && <span class="muted">{check.reason}</span>}
                   </div>
@@ -192,6 +196,36 @@ export function Bag({ save, update }: Props) {
   );
 }
 
+/** "+20% power, 50% status" or "6 MP" for a spell at some plus. */
+function powerText(sp: SpellData, plus: number): string {
+  const p = poweredSpell(data, sp, plus);
+  if (sp.kind === 'buff') return `${p.mp} MP`;
+  const parts = [plus ? `+${Math.round(plus * data.forge.spells.powerPct * 100)}% power` : 'base power'];
+  if (p.status && p.statusChance !== undefined) parts.push(`${Math.round(p.statusChance * 100)}% ${data.statuses[p.status]?.name ?? p.status}`);
+  return parts.join(', ');
+}
+
+function PowerRow({ save, spell: sp, act }: { save: SaveData; spell: SpellData; act(fn: (s: SaveData) => SaveData, ok: string): void }) {
+  const r = save.rider;
+  const plus = spellPlusOf(r, sp.id);
+  const cost = spellUpgradeCost(data, sp, plus + 1);
+  const blocker = spellUpgradeBlocker(data, r, save.embers, sp.id);
+  return (
+    <div class="forge-row" data-testid={`power-row-${sp.id}`}>
+      <div class="forge-info">
+        <strong>{sp.name}{plus > 0 ? ` +${plus}` : ''}</strong>
+        <span class="muted">Now: {powerText(sp, plus)}</span>
+        {cost && <span class="muted">Next: {powerText(sp, plus + 1)}</span>}
+        {cost && <Cost cost={cost} />}
+      </div>
+      {cost ? (
+        <button type="button" class="button" disabled={!!blocker} data-testid={`power-up-${sp.id}`}
+          onClick={() => act((s) => powerUpSpell(data, s, sp.id), `${sp.name} is now +${plus + 1}.`)}>+{plus + 1}</button>
+      ) : <span class="muted">Max</span>}
+    </div>
+  );
+}
+
 /** The rider's spells: the loadout taken into battle, other learned spells, and spells still to learn. */
 function SpellsCard({ save, act }: { save: SaveData; act(fn: (s: SaveData) => SaveData, ok: string): void }) {
   const r = save.rider;
@@ -202,12 +236,18 @@ function SpellsCard({ save, act }: { save: SaveData; act(fn: (s: SaveData) => Sa
   const locked = all.filter((sp) => sp.level > r.level);
   const full = loadout.length >= size;
 
-  const info = (sp: SpellData) => (
-    <div>
-      <strong class="spell-name">{sp.name} {sp.element && <ElementBadge element={sp.element} small />}</strong>
-      <span class="muted">{sp.mp} MP · {sp.description}</span>
-    </div>
-  );
+  const info = (sp: SpellData) => {
+    const plus = spellPlusOf(r, sp.id);
+    const now = poweredSpell(data, sp, plus);
+    return (
+      <div>
+        <strong class="spell-name">{sp.name}{plus > 0 && <span class="spell-plus" data-testid={`spell-plus-${sp.id}`}> +{plus}</span>} {sp.element && <ElementBadge element={sp.element} small />}</strong>
+        <span class="muted">{now.mp} MP · {sp.description}</span>
+      </div>
+    );
+  };
+  const learned = all.filter((sp) => sp.level <= r.level);
+  const maxed = learned.filter((sp) => !spellUpgradeCost(data, sp, spellPlusOf(r, sp.id) + 1)).length;
 
   return (
     <div class="card" data-testid="spells">
@@ -229,6 +269,12 @@ function SpellsCard({ save, act }: { save: SaveData; act(fn: (s: SaveData) => Sa
         </div>
       ))}
       {spare.length > 0 && full && <p class="muted">Remove a spell to make room.</p>}
+      <Fold id="bag.spells.power" plain title="Power up spells" testid="spell-power"
+        summary={`${r.materials.crystal ?? 0} Sky Crystal${(r.materials.crystal ?? 0) === 1 ? '' : 's'}`}>
+        <p class="muted">Each plus makes a spell {Math.round(data.forge.spells.powerPct * 100)}% stronger and {Math.round(data.forge.spells.statusChance * 100)}% likelier to inflict its status. Bright Ward costs {data.forge.spells.buffMpCut} less MP instead. Up to +{data.forge.spells.upgrades.length}. Materials: {formatMaterials(data, r.materials) || 'none yet'}.</p>
+        {maxed === learned.length && <p class="muted">Every spell you know is at full power.</p>}
+        {[...learned].sort((a, b) => Number(loadout.includes(b.id)) - Number(loadout.includes(a.id))).map((sp) => <PowerRow key={sp.id} save={save} spell={sp} act={act} />)}
+      </Fold>
       {locked.length > 0 && (
         <Fold id="bag.spells.locked" plain title="Still to learn" summary={`${locked.length} more, next at level ${locked[0]!.level}`}>
           {locked.map((sp) => (

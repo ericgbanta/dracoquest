@@ -10,7 +10,7 @@ import { formatMaterials } from '../../core/forge';
 import type { DialogueLine } from '../../core/types';
 import { getZone } from '../../core/run';
 import { matchupVs, weaknessesOfFighter } from '../../core/elements';
-import { spellById } from '../../core/spells';
+import { battleSpell, spellById } from '../../core/spells';
 import { storyById } from '../../core/adventures';
 import { eggName } from '../../core/eggs';
 import { rewardText } from '../bits';
@@ -474,9 +474,10 @@ export function Battle({ save, update, onExit }: Props) {
       {sheet === 'spell' && (
         <Sheet title="Spells" onClose={() => setSheet(null)}>
           <div class="list">
-            {battle.spells.map((id) => spellById(data, id)).filter((s) => !!s).map((s) => {
+            {battle.spells.map((id) => battleSpell(data, battle, id)).filter((s) => !!s).map((s) => {
               const afford = battle.rider.mp >= s.mp;
-              const cost = <span class="muted">· {s.mp} MP</span>;
+              const plus = battle.spellPlus?.[s.id] ?? 0;
+              const cost = <>{plus > 0 && <span class="spell-plus">+{plus}</span>} <span class="muted">· {s.mp} MP</span></>;
               if (s.kind === 'damage') {
                 const foe = battle.enemies.find((e) => e.id === targets.rider && e.hp > 0) ?? battle.enemies.find((e) => e.hp > 0);
                 const m = foe && s.element ? matchupVs(data.elements, s.element, foe) : 'neutral';

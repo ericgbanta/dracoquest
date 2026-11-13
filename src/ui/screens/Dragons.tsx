@@ -1,6 +1,6 @@
 import { useState } from 'preact/hooks';
 import { gameData as data } from '../../core/data';
-import { activeDragon, canHaveSecond, canHaveThird, canLayEgg, GameError, layEgg, growthStatus, learnDragonTalent, respecTalents, secondDragon, setLead, setSecond, setThird, spendDragonPoint, startGrowthQuest, thirdDragon } from '../../core/game';
+import { activeDragon, canHaveSecond, freeBlocker, freeDragon, freeValue, canHaveThird, canLayEgg, GameError, layEgg, growthStatus, learnDragonTalent, respecTalents, secondDragon, setLead, setSecond, setThird, spendDragonPoint, startGrowthQuest, thirdDragon } from '../../core/game';
 import { temperament, leaning } from '../../core/roost';
 import { canLearn, dragonBonus, pointsInTree, respecCost, signatureSkill, talentPointsLeft } from '../../core/loadout';
 import type { TalentTree } from '../../core/types';
@@ -15,7 +15,7 @@ import { beats, defenseMultiplier } from '../../core/elements';
 import { elementLabel, elementsOf } from '../../core/eggs';
 import type { ElementId } from '../../core/types';
 import { Embers, Gold } from '../Icon';
-import { SubTabs, usePref } from '../Fold';
+import { Fold, SubTabs, usePref } from '../Fold';
 
 const DRAGON_TABS = ['overview', 'stats', 'talents'] as const;
 type DragonTab = (typeof DRAGON_TABS)[number];
@@ -165,6 +165,27 @@ export function Dragons({ save, update }: Props) {
         <h2>Favorite food</h2>
         <p>{favoriteKnown && favorite ? `${favorite.icon} ${favorite.name}. ${d.name} gets double bond from it.` : `Still a mystery. Tried ${d.foodsTried.length} of ${data.foods.length} foods.`}</p>
       </div>}
+      {tab === 'overview' && save.dragons.length > 1 && (() => {
+        const blocker = freeBlocker(save, d.id);
+        const embers = freeValue(data, d);
+        const free = () => {
+          if (!window.confirm(`Free ${d.name} to the wild? ${d.name} leaves for good, and the wild gives you ${embers} embers. This cannot be undone.`)) return;
+          partnerAct(() => {
+            const r = freeDragon(data, save, d.id);
+            setSelectedId(null);
+            return r.save;
+          }, `${d.name} flew off into the wild. You got ${embers} embers.`);
+        };
+        return (
+          <Fold id="dragons.free" title="Free to the wild" summary="For embers" testid="free-dragon">
+            <p class="muted">Dragons can't be sold. Freeing {d.name} makes room in the Nest, and the wild leaves embers in thanks: more for older and rarer dragons. Gear {d.name} wears goes back to your Bag.</p>
+            {blocker && <p class="muted" data-testid="free-blocker">{blocker}.</p>}
+            <button type="button" class="button button--danger button--block" disabled={!!blocker} onClick={free} data-testid="free-dragon-button">
+              Free {d.name} · <Embers amount={embers} />
+            </button>
+          </Fold>
+        );
+      })()}
     </section>
   );
 }

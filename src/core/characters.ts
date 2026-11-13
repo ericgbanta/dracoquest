@@ -45,6 +45,7 @@ export function newRider(data: GameData, name: string): RiderState {
     spells: defaultLoadout(data, 1),
     materials: {},
     upgrades: {},
+    spellPlus: {},
   };
 }
 

@@ -12,6 +12,11 @@ export function beats(data: ElementsData, a: ElementId, b: ElementId): boolean {
   return data.pairs.some(([x, y]) => (x === a && y === b) || (y === a && x === b));
 }
 
+/** Names of the elements `a` beats ("Frost" for Fire). */
+export function strongAgainst(data: ElementsData, a: ElementId): string[] {
+  return data.ids.filter((b) => beats(data, a, b)).map((b) => data.info[b].name);
+}
+
 export function matchup(data: ElementsData, attacker: ElementId | null, defender: ElementId | null): Matchup {
   if (!attacker || !defender) return 'neutral';
   if (attacker === defender) return 'same';

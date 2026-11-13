@@ -5,7 +5,7 @@
 import { breathReady, comboAvailable, enemyMove, livingEnemies, skillReady, type BattleState, type Orders } from './battle';
 import { talentById } from './loadout';
 import { defenseMultiplier } from './elements';
-import { knownSpells, spellById } from './spells';
+import { battleSpell, knownSpells, spellById } from './spells';
 import type { ElementId, GameData, SpellData } from './types';
 
 /** How well a damage spell does against a defender (hybrids included): base power times the element multiplier. */
@@ -43,7 +43,7 @@ export function autoOrders(data: GameData, state: BattleState): Orders {
   }
 
   const dragon = state.dragon && state.dragon.hp > 0 ? state.dragon : null;
-  const loadout = state.spells.map((id) => spellById(data, id)).filter((x): x is SpellData => !!x);
+  const loadout = state.spells.map((id) => battleSpell(data, state, id)).filter((x): x is SpellData => !!x);
   const heals = loadout.filter((x) => x.kind === 'heal').sort((a, b) => b.base - a.base);
   const healSpell = heals.find((x) => rider.mp >= x.mp);
   // Keep enough MP for the cheapest heal before spending on anything else.

@@ -315,6 +315,8 @@ function validateRoost(raw: unknown, foodIds: Set<string>): RoostData {
   if (!r?.buildings?.nest || !Array.isArray(r.trips)) throw new DataError('roost: missing buildings or trips');
   if (!foodIds.has(r.premiumFood)) throw new DataError('roost.premiumFood: unknown food');
   for (const t of r.trips) requireNumbers(`roost.trips.${t.id}`, t, ['hours', 'minLevel', 'food', 'emberChance']);
+  requireNumbers('roost.freeEmbers', r.freeEmbers, ['hybrid', 'breed', 'variant']);
+  requireNumbers('roost.freeEmbers.stages', r.freeEmbers.stages, ['hatchling', 'juvenile', 'adult', 'elder']);
   return r;
 }
 

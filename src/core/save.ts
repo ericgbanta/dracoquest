@@ -14,7 +14,7 @@ import { newRoost, type RoostState } from './roost';
 import { defaultLoadout } from './spells';
 import type { DragonState, EggSpec, ElementId, RiderState } from './types';
 
-export const CURRENT_VERSION = 11;
+export const CURRENT_VERSION = 12;
 export const SAVE_KEY = 'dracoquest.save';
 const CODE_PREFIX = 'DQ1:'; // Code format, not save version. The save inside carries its own version.
 
@@ -199,6 +199,8 @@ export const MIGRATIONS: Record<number, Migration> = {
   },
   // v10 → v11 (chunk 4): a third battle partner from rider level 60.
   10: (save) => ({ ...save, thirdDragonId: null }),
+  // v11 → v12: spell power-ups on the rider.
+  11: (save) => ({ ...save, rider: { ...((save.rider ?? {}) as Record<string, unknown>), spellPlus: {} } }),
 };
 
 export function newSave(now: number): SaveData {
@@ -274,7 +276,7 @@ export function validateSave(raw: Record<string, unknown>): SaveData {
   if (!isObject(rider) || typeof rider.name !== 'string' || typeof rider.level !== 'number' || !isObject(rider.stats)
     || !isObject(rider.inventory) || !Array.isArray(rider.gear) || !isObject(rider.equipment)
     || !Array.isArray(rider.spells) || !(rider.spells as unknown[]).every((x) => typeof x === 'string')
-    || !isObject(rider.materials) || !isObject(rider.upgrades)) fail('rider damaged');
+    || !isObject(rider.materials) || !isObject(rider.upgrades) || !isObject(rider.spellPlus)) fail('rider damaged');
   if (!Array.isArray(raw.dragons)) fail('dragons missing');
   for (const d of raw.dragons as unknown[]) {
     if (!isObject(d) || typeof d.id !== 'string' || typeof d.level !== 'number' || !isObject(d.stats)

@@ -457,5 +457,17 @@
     "hybrid": 2,
     "breed": 2,
     "variant": 7
+  },
+  "freeEmbers": {
+    "note": "Embers for freeing a dragon (to make room at the Roost). Dragons can't be sold. Older dragons give more; rare ones give the same extras as their eggs.",
+    "stages": {
+      "hatchling": 3,
+      "juvenile": 5,
+      "adult": 8,
+      "elder": 12
+    },
+    "hybrid": 2,
+    "breed": 2,
+    "variant": 7
   }
 }

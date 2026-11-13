@@ -19,7 +19,7 @@ import type { BuildingId, DragonSlot, DragonState, DragonStat, EggSpec, ElementI
 import { DRAGON_SLOTS } from './types';
 import { activeEvent, eventKey, eventOnlyIds } from './events';
 import { breedEgg, newEgg, plainEgg, releaseValue, rollVariant, zoneEgg } from './eggs';
-import { learnSpells, setLoadout, SpellError } from './spells';
+import { learnSpells, setLoadout, SpellError, upgradeSpell } from './spells';
 import { addMaterials, craftGear, ForgeError, upgradeGear } from './forge';
 import {
   bountiesForDay, bountyBoard, bountyDone, bountyKey, countBounties, grantReward, planStory, rewardRider, storyById, storyStatus,
@@ -166,6 +166,18 @@ export function forgeCraft(data: GameData, save: SaveData, gearId: string): Save
   if (save.run) throw new GameError('Use the Forge at the Roost, not mid-run');
   const r = forgeAction(() => craftGear(data, save.rider, save.embers, save.roost, gearId));
   return { ...save, rider: r.rider, embers: save.embers - r.embersSpent };
+}
+
+/** Power up a spell by one plus. Works between runs, like the Forge. */
+export function powerUpSpell(data: GameData, save: SaveData, spellId: string): SaveData {
+  if (save.run) throw new GameError('Power up spells between runs, not mid-run');
+  try {
+    const r = upgradeSpell(data, save.rider, save.embers, spellId);
+    return { ...save, rider: r.rider, embers: save.embers - r.embersSpent };
+  } catch (e) {
+    if (e instanceof SpellError) throw new GameError(e.message);
+    throw e;
+  }
 }
 
 /** Set the rider's spell loadout. */
@@ -627,6 +639,44 @@ export function releaseEgg(data: GameData, save: SaveData, index: number): { sav
   if (!egg) throw new GameError('No such egg');
   const embers = releaseValue(data, egg);
   return { save: { ...save, embers: save.embers + embers, eggs: save.eggs.filter((_, i) => i !== index) }, embers };
+}
+
+/** Embers the wild gives back for a freed dragon: more for older and rarer dragons. */
+export function freeValue(data: GameData, d: DragonState): number {
+  const f = data.roost.freeEmbers;
+  return ((f.stages as Record<string, number>)[d.stage] ?? 0) + (d.element2 ? f.hybrid : 0) + (d.breed !== 'dragon' ? f.breed : 0) + (d.variant ? f.variant : 0);
+}
+
+/** Why a dragon can't be freed right now, or null if it can. */
+export function freeBlocker(save: SaveData, id: string): string | null {
+  const d = save.dragons.find((x) => x.id === id);
+  if (!d) return 'No such dragon';
+  if (save.run) return 'Finish your run first';
+  if (save.dragons.length <= 1) return 'You need at least one dragon';
+  if (save.activeDragonId === id) return 'Make another dragon your lead first';
+  if (d.assignment.kind === 'expedition') return `${d.name} is away on an expedition`;
+  if (save.roost.nesting?.parents.includes(id)) return `${d.name} is nesting`;
+  return null;
+}
+
+/**
+ * Free a dragon to the wild to make room at the Roost. Dragons are never sold; the wild leaves
+ * embers in thanks. Gear it wore goes back to the bag, and its partner seat empties.
+ */
+export function freeDragon(data: GameData, save: SaveData, id: string): { save: SaveData; embers: number } {
+  const blocker = freeBlocker(save, id);
+  if (blocker) throw new GameError(blocker);
+  const embers = freeValue(data, save.dragons.find((x) => x.id === id)!);
+  return {
+    save: {
+      ...save,
+      embers: save.embers + embers,
+      dragons: save.dragons.filter((x) => x.id !== id),
+      secondDragonId: save.secondDragonId === id ? null : save.secondDragonId,
+      thirdDragonId: save.thirdDragonId === id ? null : save.thirdDragonId,
+    },
+    embers,
+  };
 }
 
 export type EquipCheck = { ok: true } | { ok: false; reason: string };
