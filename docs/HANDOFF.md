@@ -50,6 +50,7 @@ Each row was built, tested, committed and deployed in this order. The Decisions 
 | Work | What it added | How it came about |
 | --- | --- | --- |
 | Dragons plan | `docs/DRAGONS_PLAN.md`: four new elements, three new breeds, breeding, hybrids, a bigger roster, rare finishes and two new maps for levels 30 to 100, phases E0 to E12 in chunks | Eric asked for "a planning session on what it would take to add more elements and dragons" and answered every question, names included |
+| Chunk 3 (E2, E4, E5) | Aether and Void (Silence and Hollow), the Hidden Reach map, Starglass Hollow (30 to 40) and Voidmarch (40 to 50) with stories, bounties, sets and shop lines, the Comet Shard and Void Spike spells, breeds with the Wyvern and the Wyrm. 17 Codex generations, all usable first try | Eric: "let's try chunk 3, but be wary that usage in Codex might run out" |
 | Chunks 1 and 2 (E0, E1, E3) | Save v10 (eggs as objects; dragons with a breed, a second element, a finish and a breeding cooldown), status effects read from data, the Nest to 10, eggs returned to the wild for embers, four rare finishes, the Nesting Grounds, hybrids with 27 names for today's elements | Eric: "let's do both chunk 1 and 2 together" |
 
 ## Where things stand now
@@ -59,13 +60,13 @@ Each row was built, tested, committed and deployed in this order. The Decisions 
 - **Rider:** 12 spells, a loadout of 4, gear in 3 slots with 11 sets, the Forge.
 - **Dragons:** up to 10 at the Roost, two in battle from rider level 25, four life stages, talents, gear for Adults, temperament. Two grown dragons can breed at the Nesting Grounds; eggs can be hybrids (two elements) and about 1 in 50 has a rare finish.
 - **Saves:** version 10, up to 3 slots per device, export and import codes.
-- **Tests:** 225 unit tests and 77 phone tests pass. The sim shows every zone averaging 70 to 85 percent on level across the three starters.
+- **Tests:** 236 unit tests and 82 phone tests pass. The sim shows every zone averaging 70 to 85 percent on level across the three starters.
 
 ## What to work on next
 
 ### The dragons plan (`docs/DRAGONS_PLAN.md`)
 
-Chunks 1 and 2 are built. Next in that plan is chunk 3, the Hidden Reach (E2, E4, E5: Aether and Void, Starglass Hollow, Voidmarch, the Wyvern and the Wyrm; about 29 Codex generations, or 17 if a breed's four stages fit on one sheet). Chunk 4 is W5 below plus the third dragon (E8). Eric picks which comes first.
+Chunks 1 to 3 are built. Next is chunk 4: W5 below plus the third dragon in battle from rider level 60 (E8, with a layout mockup for Eric first). Then chunk 5, the ring growing to 8 with Blight and Steel (E6) and Rotroot Thicket (E7). A breed's four stages fit on one sheet, so a breed costs 2 Codex generations (Behemoth, E12).
 
 ### W5: Sunken Spires and the level cap to 60
 
@@ -211,6 +212,10 @@ Calls made while building, shown to Eric in the report:
 | Nesting Grounds | A seventh building, 3 levels: 8, 6, 4 hours; cooldown 3, 2, 2 days per dragon; 2,500/20, 5,000/40, 9,000/70 gold and embers. Each pairing costs 500 gold and 5 embers. Adults and Elders breed; nesting doesn't take dragons out of fights or training (only an expedition blocks it). The egg is rolled when nesting starts, so reloading can't reroll it. One pair at a time. |
 | Breeding roll | 20 percent hybrid when the parents can mix (`breeding.hybridChance`), otherwise one parent's element (a hybrid parent passes one of its two, or its own mix). Breed from either parent, 50/50. `breedEgg` in `eggs.ts`. |
 | Hybrids | Can't mix an element with itself or an opposed pair. Defending: the average of both matchups. Breath, elemental talent skills and duo combos use the better element against the target at 90 percent (`combat.json` `hybridBreathMultiplier`), and the breath's status comes from the element used. Stats: half of each element's bonus. The tail tip glows in the second element's color; the stage swaps the breath burst to the element used (hit events carry `element`). An Elder hybrid lays the same hybrid. Names: 27 for today's 8 elements in `elements.json` `hybrids`; the other 37 are in the plan, added with their elements. |
+| Aether and Void (chunk 3) | An opposed pair (`pairs` in `elements.json`). Silence (Aether) turns spells into weapon attacks, breath and skills into claws (the meter stays full), and an enemy's special moves into its plain attack. Hollow (Void) halves healing received and breath gained for 3 rounds. Spells: Comet Shard (Aether, 31, may Silence), Void Spike (Void, 41, may Hollow). |
+| The Hidden Reach | A fourth Map region between the High Lands and Beyond the Peak (levels 30 to 60). Starglass Hollow opens at 30 after the Storm Roc, Voidmarch at 40 after the Starwarden; Rotroot Thicket is the teaser. The Map now opens on the last region with an open area at the rider's level (so a level 45 rider still lands on the High Lands), and each region shows its own first teaser. |
+| Breeds | `dragons.json` `breeds`: a stat lean added at hatching, an optional always-on `bonus`, and a signature skill shaped like a talent in a hidden 'breed' tree (always known, survives respecs, can't be learned). Wyvern: +2 Swift, -1 Scale, Rake (two slashes). Wyrm: +2 Spirit, -1 Might, +3 breath a round, Coil (damage that roots). Starglass Hollow's boss drops Wyvern eggs, Voidmarch's Wyrm eggs (`eggDrop.breed`); breeding passes a parent's breed on. Art: rigs `wyvern.<stage>` and `wyrm.<stage>`, falling back to `dragon.<stage>` (`loadDragonRig`). |
+| Breed art | All four life stages on one sheet and the attack poses on a second (2 generations a breed instead of 8). `pack.py` splits them (`<breed>-stages`), pads for the tail tip, and `POSE_SCALE` fixes young stages drawn bigger in their pose. Tail tip spots were found from the images: the topmost point of the tail for the Wyvern, the leftmost for the Wyrm (its tip turned -75 degrees). |
 | Status effects | `battle.ts` reads effect fields (`noDodge`, `amplify`, `taunts`, multipliers and bonuses) instead of status ids. Soak's Storm bonus is `amplify: { element: 'storm', multiplier: 1.3 }`. Results with fixed seeds didn't change. |
 
 ### Saves and settings
@@ -262,10 +267,10 @@ src/ui/        Preact screens and pieces
   useSave.ts storage.ts  save slots and storage
   Sprites.tsx Icon.tsx Wallet.tsx art.ts bits.tsx (formatBonus, rewardText) styles.css skin.css pwa.ts sound.ts install.ts router.ts
 src/art/       painted/ (characters, attack poses, backdrops, effects, tail tips), eggs/, icons/, assets.json (the art manifest)
-tests/         Vitest unit tests (225), sim.ts (the balance simulator), save fixtures v1 to v9
-e2e/           Playwright phone tests (77), fixtures/ (built by make-fixtures.ts), specs per feature
+tests/         Vitest unit tests (236), sim.ts (the balance simulator), save fixtures v1 to v9
+e2e/           Playwright phone tests (82), fixtures/ (built by make-fixtures.ts), specs per feature
                (slots, spells, gear, forge, world, ui, stage, perf, smoke, phase2 to 4), helpers.ts (openFold, tab)
-tools/art/painted/  style.txt and anchor.png (the style), jobs.py to jobs8.py (one per batch; jobs8 is the region maps), run.sh, pack.py,
+tools/art/painted/  style.txt and anchor.png (the style), jobs.py to jobs11.py (one per batch; jobs8 is the region maps, jobs9 the new element tips and breath plus Starglass Hollow and the Hidden Reach map, jobs10 the Wyvern, jobs11 Voidmarch and the Wyrm), run.sh, pack.py,
                     fix_green.py, zones.json (which sheet holds which enemies), prompts/ (every prompt that was run)
 docs/          HANDOFF.md, NEXT_PROMPT.md, WORLD_PLAN.md, UI_PLAN.md, ART_GENERATION.md, ART_STYLE.md, DESIGN.md, GRAPHICS_PLAN.md, GRAPHICS_PLAN_2.md
 ```
@@ -275,9 +280,9 @@ docs/          HANDOFF.md, NEXT_PROMPT.md, WORLD_PLAN.md, UI_PLAN.md, ART_GENERA
 | Command | What it does |
 | --- | --- |
 | `npm run dev` | Local dev server |
-| `npm run test` | Unit tests (225) |
+| `npm run test` | Unit tests (236) |
 | `npx tsc --noEmit` and `npm run lint` | Type check and lint. Lint blocks `Math.random`, browser globals in `src/core`, and `any`. |
-| `npm run e2e` | Phone tests at 375 by 667 (77), about 2 minutes. Builds the site first. |
+| `npm run e2e` | Phone tests at 375 by 667 (82), about 2 minutes. Builds the site first. |
 | `npm run sim` | Balance sim: 1,000 runs per zone and level, then 100 campaigns per starter from egg to the cap. Flags: `--zone <id>`, `--no-campaign`, `--campaign-only`, `--runs`, `--campaigns`. The full run takes about 4 minutes; one zone about 1 minute. |
 | `npx tsx e2e/make-fixtures.ts` | Rebuilds the saves the phone tests load (needed after every save version bump) |
 | `npm run deploy` | Tests, lint and build, then pushes the current branch to `main`, which publishes. Only when Eric asks. |
@@ -288,7 +293,7 @@ docs/          HANDOFF.md, NEXT_PROMPT.md, WORLD_PLAN.md, UI_PLAN.md, ART_GENERA
 - First load: about 110 kB of JavaScript gzipped. The service worker precaches about 1.8 MB; zone art (about 4 MB and growing by about 450 KB per area) is cached on first view.
 - Stage: about 51 DOM nodes one on one, 69 at two dragons against two enemies (budget 100). The perf test (5 percent dropped frames at 4x CPU throttle) is noisy in the sandbox; run it a few times before blaming a change.
 - Campaign in the sim: about 737 fights from egg to level 50, roughly 25 hours at 2 minutes a fight. It finishes all 28 story quests and claims about 30 bounties.
-- Content: 11 zones (7 main, 4 side areas), 77 enemies (55 regular, 11 mini-bosses, 11 bosses), 191 gear pieces (122 in the shop, 55 in 11 sets, 8 Forge recipes, plus starter and festival pieces), 12 rider spells, 28 story quests, 6 bounty pools, 3 Forge materials, 40 talents, 3 growth quests, 6 expedition trips, 4 events.
+- Content: 13 zones (7 main, 4 side areas, 2 Hidden Reach areas), 91 enemies (65 regular, 13 mini-bosses, 13 bosses), 213 gear pieces (132 in the shop, 65 in 13 sets, 10 Forge recipes, plus starter and festival pieces), 14 rider spells, 38 story quests, 8 bounty pools, 10 elements, 3 breeds, 3 Forge materials, 40 talents, 3 growth quests, 6 expedition trips, 4 events.
 
 ## Gotchas
 

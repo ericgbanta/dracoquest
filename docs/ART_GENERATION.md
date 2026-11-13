@@ -85,4 +85,8 @@ The current set, all in this style: four dragon stages, the rider (sword, bow, s
 
 The app icon (a baby dragon hatching from its egg) came from one generation, `prompts/app-icon-hatch.txt`, square on green. `python3 v2/icon_cut.py <repo>` cuts it out to `scripts/icons/emblem.webp`, and `npm run icons` builds the Home Screen icons and favicon in `public/` from that. It is painted in its final colors, not the dragon key colors, because it is never recolored.
 
-Not made yet: hurt or defeat poses, painted crack lines for the egg, cosmetics.
+Since then (dragons plan, 2026-11-13): `jobs9.py` made tail tips and breath bursts for Aether, Void, Blight and Steel (one row of four each, packed as `tail-tips-2` and `fx-breath-2`), Starglass Hollow and the Hidden Reach map; `jobs10.py` the Wyvern; `jobs11.py` Voidmarch and the Wyrm. 17 generations, all usable first try.
+
+**A whole breed from two generations.** Ask for one sheet of the new breed at all four life stages (2 x 2, each clearly bigger than the one before) in the dragon key colors, with the original adult dragon attached as a SECOND reference for colors only (`v2/refs/dragon-colors.png`, made from `src/art/painted/dragon-adult.webp` on green). Then the attack sheet with the idle sheet as the second reference. `pack.py` packs `<breed>-stages` and `<breed>-stages-attack`. Check the young stages' attack boxes; they tend to be drawn bigger and need `POSE_SCALE`.
+
+Not made yet: hurt or defeat poses, painted crack lines for the egg, cosmetics, the Behemoth.
