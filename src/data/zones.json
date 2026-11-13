@@ -1082,6 +1082,116 @@
     }
   },
   {
+    "id": "voidmarch",
+    "name": "Voidmarch",
+    "element": "void",
+    "elements": [
+      "void",
+      "stone"
+    ],
+    "minLevel": 40,
+    "maxLevel": 50,
+    "gate": null,
+    "unlock": {
+      "level": 40,
+      "afterBoss": "starglass-hollow"
+    },
+    "blurb": "A broken borderland where the ground falls away into nothing. Something down there is listening.",
+    "fights": {
+      "min": 3,
+      "max": 5
+    },
+    "encounters": [
+      {
+        "enemies": [
+          "rift-mite"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "shardhorn-goat"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "gloom-gulper"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "rubble-crab"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "echo-bat"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "shardhorn-goat",
+          "shardhorn-goat"
+        ],
+        "weight": 1,
+        "minLevel": 42
+      },
+      {
+        "enemies": [
+          "rift-mite",
+          "gloom-gulper"
+        ],
+        "weight": 1,
+        "minLevel": 44
+      }
+    ],
+    "levelSpread": 1,
+    "multiEnemyLevelOffset": -1,
+    "boss": {
+      "enemy": "nullmaw",
+      "level": 50,
+      "unlockRiderLevel": 49,
+      "trophy": {
+        "gear": "riftstone-armor",
+        "chance": 0.25
+      }
+    },
+    "miniBoss": {
+      "enemy": "voidstrider",
+      "levelOffset": 0,
+      "trophy": {
+        "gear": "riftstone-trinket",
+        "chance": 0.25
+      }
+    },
+    "dropChances": {
+      "potion": 0.25,
+      "dragon-treat": 0.15,
+      "mana-tonic": 0.1
+    },
+    "eggDrop": {
+      "element": "void",
+      "chance": 0.1,
+      "elements": [
+        "void",
+        "stone"
+      ],
+      "breed": "wyrm"
+    },
+    "gearDrops": {
+      "chance": 0.06,
+      "gear": [
+        "riftstone-melee",
+        "riftstone-ranged",
+        "riftstone-magic"
+      ]
+    }
+  },
+  {
     "id": "eclipse-peak",
     "name": "Eclipse Peak",
     "element": "shadow",

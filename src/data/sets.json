@@ -339,5 +339,34 @@
         }
       }
     ]
+  },
+  {
+    "id": "riftstone",
+    "name": "Riftstone",
+    "zone": "voidmarch",
+    "description": "Heavy gear from the edge of the void. A full set stands firm and hits harder.",
+    "pieces": [
+      "riftstone-melee",
+      "riftstone-ranged",
+      "riftstone-magic",
+      "riftstone-armor",
+      "riftstone-trinket"
+    ],
+    "bonuses": [
+      {
+        "pieces": 2,
+        "bonus": {
+          "strength": 4,
+          "vigor": 4
+        }
+      },
+      {
+        "pieces": 3,
+        "bonus": {
+          "riderDamagePct": 0.06,
+          "riderDefense": 4
+        }
+      }
+    ]
   }
 ]

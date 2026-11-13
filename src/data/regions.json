@@ -92,7 +92,8 @@
       "levels": "Levels 30 to 60",
       "blurb": "A valley behind the mountains where strange new elements leak into the world.",
       "zones": [
-        "starglass-hollow"
+        "starglass-hollow",
+        "voidmarch"
       ],
       "map": {
         "art": "map-hidden-reach",
@@ -100,6 +101,10 @@
           "starglass-hollow": [
             0.29,
             0.79
+          ],
+          "voidmarch": [
+            0.67,
+            0.58
           ]
         }
       }
@@ -134,19 +139,18 @@
       ]
     },
     {
-      "name": "Voidmarch",
+      "name": "Rotroot Thicket",
       "region": "hidden-reach",
-      "minLevel": 40,
-      "maxLevel": 50,
-      "gate": "starglass-hollow",
+      "minLevel": 50,
+      "maxLevel": 60,
+      "gate": "voidmarch",
       "elements": [
-        "void",
-        "stone"
+        "verdant"
       ],
-      "blurb": "A broken land where the ground falls away into nothing. Something down there is listening.",
+      "blurb": "A rotting swamp forest where sickness creeps through the roots. A new element waits there.",
       "pin": [
-        0.67,
-        0.58
+        0.33,
+        0.33
       ]
     }
   ]

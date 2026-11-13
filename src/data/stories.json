@@ -2710,5 +2710,406 @@
       "gold": 1000,
       "embers": 8
     }
+  },
+  {
+    "id": "the-edge-of-the-map",
+    "zone": "voidmarch",
+    "name": "The Edge of the Map",
+    "minLevel": 40,
+    "description": "Cartographer Wren is drawing a map of the Voidmarch. The trouble is, bits of it keep disappearing.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "I drew that rock this morning. Now look. It's gone! Where does a rock go?",
+            "name": "Cartographer Wren"
+          },
+          {
+            "speaker": "rider",
+            "text": "Into the void, I'd guess."
+          },
+          {
+            "speaker": "narrator",
+            "text": "A small Rift Mite scuttles past with a pebble disappearing into its back."
+          }
+        ],
+        "enemies": [
+          "rift-mite"
+        ],
+        "level": 40
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "A Shardhorn Goat stands on the next ledge, rocks spinning lazily around its horns."
+          },
+          {
+            "speaker": "npc",
+            "text": "That goat has been eating my landmarks.",
+            "name": "Cartographer Wren"
+          },
+          {
+            "speaker": "dragon",
+            "text": "*snorts at the goat; the goat snorts back*"
+          }
+        ],
+        "enemies": [
+          "shardhorn-goat"
+        ],
+        "level": 41
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "Hold still, everything. Thank you. There. A map! Mostly.",
+        "name": "Cartographer Wren"
+      },
+      {
+        "speaker": "narrator",
+        "text": "Wren inks a big empty circle in the middle of the page and labels it 'Here Be Nothing'."
+      }
+    ],
+    "reward": {
+      "xp": 520,
+      "gold": 700,
+      "items": {
+        "mana-tonic": 1
+      }
+    }
+  },
+  {
+    "id": "the-hungry-dark",
+    "zone": "voidmarch",
+    "name": "The Hungry Dark",
+    "minLevel": 42,
+    "requires": "the-edge-of-the-map",
+    "description": "Gloom Gulpers have been swallowing Wren's lantern light. All of it.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "My lantern was full of light. Then a blob floated by and now it's full of dark.",
+            "name": "Cartographer Wren"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A Gloom Gulper bobs in the air, glowing very slightly from the inside."
+          }
+        ],
+        "enemies": [
+          "gloom-gulper"
+        ],
+        "level": 42
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "Two more come drifting out of the chasm, one riding on a Rift Mite."
+          }
+        ],
+        "enemies": [
+          "gloom-gulper",
+          "rift-mite"
+        ],
+        "level": 43
+      }
+    ],
+    "choice": {
+      "prompt": "The last Gloom Gulper hiccups out a little ball of stolen light. What do you do with it?",
+      "options": [
+        {
+          "id": "lantern",
+          "label": "Put it back in Wren's lantern",
+          "lines": [
+            {
+              "speaker": "npc",
+              "text": "Oh, it's warm! It's the warmest light I've ever had.",
+              "name": "Cartographer Wren"
+            },
+            {
+              "speaker": "narrator",
+              "text": "Wren pays you well, and hums all the way back to camp."
+            }
+          ],
+          "reward": {
+            "gold": 500,
+            "items": {
+              "potion": 2
+            }
+          },
+          "temper": "gentle"
+        },
+        {
+          "id": "dragon",
+          "label": "Let your dragon swallow it",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "Your dragon gulps it down and glows from the inside for an hour. It looks very pleased with itself."
+            },
+            {
+              "speaker": "dragon",
+              "text": "*hic*"
+            }
+          ],
+          "reward": {
+            "embers": 3,
+            "materials": {
+              "crystal": 1
+            }
+          },
+          "temper": "bold"
+        }
+      ]
+    },
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "The dark is just dark again. Normal dark. I can work with normal dark.",
+        "name": "Cartographer Wren"
+      }
+    ],
+    "reward": {
+      "xp": 560,
+      "gold": 600
+    }
+  },
+  {
+    "id": "the-boulder-crabs",
+    "zone": "voidmarch",
+    "name": "The Boulder Crabs",
+    "minLevel": 44,
+    "requires": "the-hungry-dark",
+    "description": "The Rubble Crabs are carrying the cliffs away one boulder at a time. Wren's map is getting shorter.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "Those crabs are stealing the cliffs! I just drew those cliffs!",
+            "name": "Cartographer Wren"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A Rubble Crab scuttles sideways, a whole boulder floating above its back."
+          }
+        ],
+        "enemies": [
+          "rubble-crab"
+        ],
+        "level": 44
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "An Echo Bat swoops down to help the crab with its boulder, ears flapping."
+          }
+        ],
+        "enemies": [
+          "rubble-crab",
+          "echo-bat"
+        ],
+        "level": 45
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "dragon",
+        "text": "*pushes the boulder back into place with its nose*"
+      },
+      {
+        "speaker": "npc",
+        "text": "Perfect. Cliffs restored. You'd make a fine cartographer's assistant. The pay is terrible.",
+        "name": "Cartographer Wren"
+      }
+    ],
+    "reward": {
+      "xp": 620,
+      "gold": 800,
+      "materials": {
+        "ore": 4,
+        "crystal": 1
+      }
+    }
+  },
+  {
+    "id": "the-voidstrider",
+    "zone": "voidmarch",
+    "name": "The Voidstrider",
+    "minLevel": 46,
+    "requires": "the-boulder-crabs",
+    "description": "Something tall walks the edge of the chasm every night, very slowly. Wren wants it on the map.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "Echo Bats and Shardhorn Goats scatter as you climb the ridge."
+          }
+        ],
+        "enemies": [
+          "echo-bat",
+          "shardhorn-goat"
+        ],
+        "level": 46
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "A tall stone heron steps out of the mist, one slow leg at a time. Where its heart should be, there's a window of nothing."
+          },
+          {
+            "speaker": "npc",
+            "text": "You are... in... my... way.",
+            "name": "Voidstrider"
+          },
+          {
+            "speaker": "npc",
+            "text": "It talks! It talks very slowly!",
+            "name": "Cartographer Wren"
+          }
+        ],
+        "enemies": [
+          "voidstrider"
+        ],
+        "level": 47,
+        "mini": true
+      }
+    ],
+    "choice": {
+      "prompt": "The Voidstrider offers to show Wren the safest path across the chasm, if she leaves it off her map.",
+      "options": [
+        {
+          "id": "secret",
+          "label": "Keep its secret",
+          "lines": [
+            {
+              "speaker": "npc",
+              "text": "Thank... you.",
+              "name": "Voidstrider"
+            },
+            {
+              "speaker": "narrator",
+              "text": "It drops a stone feather and walks off into the mist, very slowly."
+            }
+          ],
+          "reward": {
+            "materials": {
+              "scale": 1
+            },
+            "embers": 2
+          },
+          "temper": "gentle"
+        },
+        {
+          "id": "map",
+          "label": "Put it on the map anyway",
+          "lines": [
+            {
+              "speaker": "npc",
+              "text": "Science waits for no heron!",
+              "name": "Cartographer Wren"
+            },
+            {
+              "speaker": "narrator",
+              "text": "Wren draws it in great detail. Tall, grumpy, slow. The map sells for a fortune."
+            }
+          ],
+          "reward": {
+            "gold": 700
+          },
+          "temper": "proud"
+        }
+      ]
+    },
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "One thing left on my list. The big empty circle in the middle. Something lives in it.",
+        "name": "Cartographer Wren"
+      }
+    ],
+    "reward": {
+      "xp": 700,
+      "gold": 900,
+      "embers": 4
+    }
+  },
+  {
+    "id": "the-nullmaw",
+    "zone": "voidmarch",
+    "name": "The Nullmaw",
+    "minLevel": 49,
+    "requires": "the-voidstrider",
+    "description": "At the bottom of the Voidmarch sits a stone toad with a hole in the world for a belly. It wants Wren's map. It wants everything.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "I'll wait up here. Someone has to finish the map if, you know. If.",
+            "name": "Cartographer Wren"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A Gloom Gulper and a Rubble Crab guard the last ledge."
+          }
+        ],
+        "enemies": [
+          "gloom-gulper",
+          "rubble-crab"
+        ],
+        "level": 49
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "The ground rumbles. A huge stone toad rises from the chasm, and its belly is a swirling hole of nothing."
+          },
+          {
+            "speaker": "npc",
+            "text": "Hungry. HUNGRY. Give me the map. Give me the sky. Give me your little dragon.",
+            "name": "Nullmaw"
+          },
+          {
+            "speaker": "dragon",
+            "text": "*growls and plants its feet*"
+          }
+        ],
+        "enemies": [
+          "nullmaw"
+        ],
+        "level": 50,
+        "boss": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "The Nullmaw slumps back into the chasm and lets out an enormous burp. Three rocks, a lantern's worth of light and a very confused goat come floating back out."
+      },
+      {
+        "speaker": "npc",
+        "text": "My landmarks! You found my landmarks!",
+        "name": "Cartographer Wren"
+      },
+      {
+        "speaker": "dragon",
+        "text": "*sniffs the goat; the goat sniffs back*"
+      }
+    ],
+    "reward": {
+      "xp": 1000,
+      "gold": 1500,
+      "embers": 8
+    }
   }
 ]

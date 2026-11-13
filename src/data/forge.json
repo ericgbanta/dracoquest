@@ -173,6 +173,17 @@
         "crystal": 6,
         "scale": 2
       }
+    },
+    {
+      "gear": "abyssal-anchor",
+      "forgeLevel": 3,
+      "gold": 4500,
+      "embers": 16,
+      "materials": {
+        "ore": 16,
+        "crystal": 6,
+        "scale": 3
+      }
     }
   ]
 }

@@ -109,6 +109,7 @@ nest = {
   dragons: [...nest.dragons, ...kin.map(([name, element, element2, variant, primary, secondary], i) => ({
     ...lead, id: `kin-${i}`, name, element, element2, variant, colors: { primary, secondary }, talents: {}, equipment: {}, bond: 40,
     temper: { bold: 0, gentle: 0, clever: 0, proud: 0 }, assignment: { kind: 'idle' as const }, stage: i < 2 ? 'adult' : 'juvenile', level: i < 2 ? 30 : 18,
+    breed: name === 'Zap' ? 'wyvern' : name === 'Bramble' ? 'wyrm' : 'dragon',
   }))],
   eggs: [plainEgg('storm'), { element: 'frost', element2: 'tide', breed: 'dragon', variant: 'starry' }],
 };

@@ -66,8 +66,9 @@ export function riderBonus(data: GameData, rider: RiderGear): Bonus {
   return b;
 }
 
-export function dragonBonus(data: GameData, dragon: Pick<DragonState, 'equipment' | 'talents'> & Partial<Pick<DragonState, 'temper'>>): Bonus {
+export function dragonBonus(data: GameData, dragon: Pick<DragonState, 'equipment' | 'talents'> & Partial<Pick<DragonState, 'temper' | 'breed'>>): Bonus {
   const b: Bonus = {};
+  addBonus(b, data.dragons.breeds[dragon.breed ?? 'dragon']?.bonus);
   const temper = temperament(data, dragon);
   if (temper) addBonus(b, data.roost.temperament.types[temper].bonus);
   for (const id of Object.values(dragon.equipment ?? {})) addBonus(b, gearItem(data, id)?.bonus);

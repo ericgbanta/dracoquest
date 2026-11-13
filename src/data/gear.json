@@ -2699,5 +2699,154 @@
       "riderCrit": 0.02
     },
     "description": "Forged around a star that landed in your Roost. It hums when you think hard."
+  },
+  {
+    "id": "riftstone-melee",
+    "name": "Riftstone Greatsword",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": null,
+    "level": 42,
+    "damage": 42,
+    "price": 6200,
+    "bonus": {
+      "strength": 8
+    },
+    "description": "Carved from rock that fell into the void and came back. It hums."
+  },
+  {
+    "id": "riftstone-ranged",
+    "name": "Riftstone Recurve",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": null,
+    "level": 42,
+    "damage": 41,
+    "price": 6200,
+    "bonus": {
+      "agility": 9
+    },
+    "description": "The arrows go a little further than they should."
+  },
+  {
+    "id": "riftstone-magic",
+    "name": "Riftstone Wand",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": null,
+    "level": 42,
+    "damage": 41,
+    "price": 6200,
+    "bonus": {
+      "arcana": 9
+    },
+    "description": "A shard of floating rock on a stick. It refuses to fall."
+  },
+  {
+    "id": "riftstone-armor",
+    "name": "Riftstone Nullmaw Hide",
+    "slot": "armor",
+    "level": 49,
+    "price": 8500,
+    "bonus": {
+      "riderDefense": 15,
+      "riderHp": 175
+    },
+    "description": "Tough stone skin from the Nullmaw. It still rumbles when it's hungry."
+  },
+  {
+    "id": "riftstone-trinket",
+    "name": "Riftstone Strider Feather",
+    "slot": "trinket",
+    "level": 44,
+    "price": 6800,
+    "bonus": {
+      "strength": 5,
+      "vigor": 5,
+      "arcana": 4
+    },
+    "description": "A stone feather from the Voidstrider. Heavier than it looks, and it looks heavy."
+  },
+  {
+    "id": "hollowfang",
+    "name": "Hollowfang",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": "void",
+    "level": 45,
+    "damage": 43,
+    "price": 7000,
+    "bonus": {
+      "strength": 8,
+      "vigor": 1
+    },
+    "description": "A blade with a hole down the middle. It cuts the air out of the air."
+  },
+  {
+    "id": "echo-longbow",
+    "name": "Echo Longbow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": "void",
+    "level": 45,
+    "damage": 42,
+    "price": 7000,
+    "bonus": {
+      "agility": 9
+    },
+    "description": "You hear the arrow land before you let go. Unsettling."
+  },
+  {
+    "id": "null-scepter",
+    "name": "Null Scepter",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": "void",
+    "level": 45,
+    "damage": 42,
+    "price": 7000,
+    "bonus": {
+      "arcana": 9
+    },
+    "description": "Topped with a sphere of nothing. Do not look into it for long."
+  },
+  {
+    "id": "chasm-plate",
+    "name": "Chasm Plate",
+    "slot": "armor",
+    "level": 45,
+    "price": 6600,
+    "bonus": {
+      "riderDefense": 14,
+      "riderHp": 145
+    },
+    "description": "Heavy stone armor for walking near the edge."
+  },
+  {
+    "id": "empty-locket",
+    "name": "Empty Locket",
+    "slot": "trinket",
+    "level": 45,
+    "price": 6400,
+    "bonus": {
+      "strength": 4,
+      "vigor": 4,
+      "riderHp": 40
+    },
+    "description": "There's nothing inside. That's the point."
+  },
+  {
+    "id": "abyssal-anchor",
+    "name": "Abyssal Anchor",
+    "slot": "trinket",
+    "level": 47,
+    "price": 8000,
+    "bonus": {
+      "strength": 6,
+      "vigor": 6,
+      "riderDefense": 4,
+      "riderHp": 60
+    },
+    "description": "Forged to keep you from falling in. So far it works."
   }
 ]

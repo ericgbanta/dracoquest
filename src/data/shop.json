@@ -126,7 +126,12 @@
     "starshot-bow",
     "nebula-wand",
     "starweave-robe",
-    "wishing-star-pendant"
+    "wishing-star-pendant",
+    "hollowfang",
+    "echo-longbow",
+    "null-scepter",
+    "chasm-plate",
+    "empty-locket"
   ],
   "items": {
     "potion": 25,

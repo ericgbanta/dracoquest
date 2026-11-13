@@ -107,7 +107,7 @@ for z in list(ZONES) + ['roost']:
 # ---- attack poses: the same character at the same drawing scale, placed relative to the idle image's box
 # Sheets whose attack version came out unusable (wrong count or order) are listed here and keep idle art only.
 SKIP_SHEET_POSES = set()
-POSE_SCALE = {'rider-sword': 1.32, 'rider-staff': 1.22, 'rider-bow': 1.1, 'dragon-hatchling': 0.86,
+POSE_SCALE = {'rider-sword': 1.32, 'rider-staff': 1.22, 'rider-bow': 1.1, 'dragon-hatchling': 0.86, 'wyvern-hatchling': 0.7, 'wyvern-juvenile': 0.84,
               'thunder-goat': 1.2, 'granite-ram': 1.2, 'rust-sprite': 1.15, 'gull-bandit': 1.15, 'big-pincher': 1.15, 'thunderhead': 1.15, 'gale-hawk': 1.1}
 def feet_center(img):
     a = np.asarray(img.getchannel('A')) > 40

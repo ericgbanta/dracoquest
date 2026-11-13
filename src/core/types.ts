@@ -335,6 +335,8 @@ export interface BreedData {
   name: string;
   blurb: string;
   statLean?: Partial<DragonStats>;
+  /** Always-on bonuses (the Wyrm's faster breath). */
+  bonus?: Bonus;
   signature?: { id: string; name: string; description: string; skill: TalentSkill };
 }
 

@@ -199,6 +199,29 @@
           "cooldown": 2
         }
       }
+    },
+    "wyrm": {
+      "name": "Wyrm",
+      "blurb": "A long serpent body and small wings. Patient, wise, and full of breath.",
+      "statLean": {
+        "spirit": 2,
+        "might": -1
+      },
+      "bonus": {
+        "breathPerRound": 3
+      },
+      "signature": {
+        "id": "wyrm-coil",
+        "name": "Coil",
+        "description": "Signature skill: wrap around one enemy so it can't dodge, and squeeze.",
+        "skill": {
+          "kind": "damage",
+          "base": 10,
+          "status": "root",
+          "statusChance": 1,
+          "cooldown": 3
+        }
+      }
     }
   },
   "variants": {

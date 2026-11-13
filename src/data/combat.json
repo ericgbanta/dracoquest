@@ -197,6 +197,18 @@
         "description": "A bolt of living shadow that may Blind."
       },
       {
+        "id": "void-spike",
+        "name": "Void Spike",
+        "kind": "damage",
+        "level": 41,
+        "element": "void",
+        "status": "hollow",
+        "statusChance": 0.4,
+        "base": 20,
+        "mp": 7,
+        "description": "A spike of empty nothing that may Hollow. Strong against Aether."
+      },
+      {
         "id": "radiant-lance",
         "name": "Radiant Lance",
         "kind": "damage",

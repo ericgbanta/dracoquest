@@ -685,6 +685,104 @@
         },
         "enemy": "prism-stag"
       }
+    ],
+    "voidmarch": [
+      {
+        "id": "mite-sweep",
+        "kind": "defeat",
+        "count": 5,
+        "text": "Sweep away 5 Rift Mites",
+        "reward": {
+          "gold": 520,
+          "materials": {
+            "ore": 2
+          }
+        },
+        "enemy": "rift-mite"
+      },
+      {
+        "id": "goat-herd",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Herd 4 Shardhorn Goats",
+        "reward": {
+          "gold": 500,
+          "embers": 1
+        },
+        "enemy": "shardhorn-goat"
+      },
+      {
+        "id": "gulper-pop",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Pop 4 Gloom Gulpers",
+        "reward": {
+          "gold": 520,
+          "materials": {
+            "crystal": 1
+          }
+        },
+        "enemy": "gloom-gulper"
+      },
+      {
+        "id": "crab-return",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Make 3 Rubble Crabs drop their boulders",
+        "reward": {
+          "gold": 520,
+          "materials": {
+            "ore": 2
+          }
+        },
+        "enemy": "rubble-crab"
+      },
+      {
+        "id": "bat-hush",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Hush 3 Echo Bats",
+        "reward": {
+          "gold": 500,
+          "embers": 1
+        },
+        "enemy": "echo-bat"
+      },
+      {
+        "id": "march-wins",
+        "kind": "wins",
+        "count": 6,
+        "text": "Win 6 fights in the Voidmarch",
+        "reward": {
+          "gold": 620,
+          "materials": {
+            "ore": 3
+          }
+        }
+      },
+      {
+        "id": "march-clear",
+        "kind": "clear",
+        "count": 2,
+        "text": "Finish 2 runs in the Voidmarch",
+        "reward": {
+          "gold": 720,
+          "embers": 2
+        }
+      },
+      {
+        "id": "strider-chase",
+        "kind": "defeat",
+        "count": 1,
+        "text": "Defeat the Voidstrider",
+        "reward": {
+          "gold": 620,
+          "materials": {
+            "crystal": 1
+          }
+        },
+        "enemy": "voidstrider"
+      }
     ]
   }
 }

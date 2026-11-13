@@ -4531,5 +4531,386 @@
     "xpMultiplier": 4,
     "boss": true,
     "goldMultiplier": 5
+  },
+  {
+    "id": "rift-mite",
+    "name": "Rift Mite",
+    "element": "void",
+    "flavor": "A tiny bug with a hole in its back. Things fall in. Nobody knows where they go.",
+    "base": {
+      "hp": 119.02,
+      "attack": 8.1,
+      "power": 5,
+      "defense": 1.6,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 34.38,
+      "attack": 1.39,
+      "power": 1,
+      "defense": 0.48,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "mite-bite",
+        "name": "Mite Bite",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "empty-nibble",
+        "name": "Empty Nibble",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.6,
+        "status": "hollow",
+        "statusChance": 0.5
+      },
+      {
+        "id": "burrow",
+        "name": "Burrow",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "shardhorn-goat",
+    "name": "Shardhorn Goat",
+    "element": "stone",
+    "flavor": "Rock shards orbit its horns. It headbutts with all of them at once.",
+    "base": {
+      "hp": 90.0,
+      "attack": 7.87,
+      "power": 5,
+      "defense": 1,
+      "swift": 10.5,
+      "dodge": 8.5
+    },
+    "perLevel": {
+      "hp": 26.0,
+      "attack": 1.35,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1.35,
+      "dodge": 0.68
+    },
+    "moves": [
+      {
+        "id": "headbutt",
+        "name": "Headbutt",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "shard-storm",
+        "name": "Shard Storm",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "crack",
+        "statusChance": 0.4
+      },
+      {
+        "id": "stubborn",
+        "name": "Stubborn Stance",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "gloom-gulper",
+    "name": "Gloom Gulper",
+    "element": "void",
+    "flavor": "A floating blob that is mostly mouth. The rest of it is also mouth.",
+    "base": {
+      "hp": 95.62,
+      "attack": 7.87,
+      "power": 5,
+      "defense": 1,
+      "swift": 9.1,
+      "dodge": 6.5
+    },
+    "perLevel": {
+      "hp": 27.62,
+      "attack": 1.35,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1.17,
+      "dodge": 0.52
+    },
+    "moves": [
+      {
+        "id": "gulp",
+        "name": "Gulp",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "swallow-light",
+        "name": "Swallow Light",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "blind",
+        "statusChance": 0.4
+      },
+      {
+        "id": "empty-belly",
+        "name": "Empty Belly",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.6,
+        "status": "hollow",
+        "statusChance": 0.5
+      }
+    ]
+  },
+  {
+    "id": "rubble-crab",
+    "name": "Rubble Crab",
+    "element": "stone",
+    "flavor": "Wears a floating boulder as a shell. Very proud of it. Will not stop talking about it.",
+    "base": {
+      "hp": 129.38,
+      "attack": 7.87,
+      "power": 5,
+      "defense": 1.6,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 37.38,
+      "attack": 1.35,
+      "power": 1,
+      "defense": 0.48,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "pinch",
+        "name": "Rock Pinch",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "boulder-drop",
+        "name": "Boulder Drop",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "shell-up",
+        "name": "Shell Up",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "echo-bat",
+    "name": "Echo Bat",
+    "element": "void",
+    "flavor": "Its ears are bigger than the rest of it. It hears your thoughts, and finds them boring.",
+    "base": {
+      "hp": 112.5,
+      "attack": 7.87,
+      "power": 5,
+      "defense": 1,
+      "swift": 9.1,
+      "dodge": 7.0
+    },
+    "perLevel": {
+      "hp": 32.5,
+      "attack": 1.35,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1.17,
+      "dodge": 0.56
+    },
+    "moves": [
+      {
+        "id": "bat-bite",
+        "name": "Bat Bite",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "silent-shriek",
+        "name": "Silent Shriek",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.6,
+        "status": "silence",
+        "statusChance": 0.4
+      },
+      {
+        "id": "flutter-off",
+        "name": "Flutter Off",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fade",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "voidstrider",
+    "name": "Voidstrider",
+    "element": "void",
+    "flavor": "A tall stone heron with a window of nothing where its heart should be. It walks very slowly, on purpose.",
+    "base": {
+      "hp": 196.88,
+      "attack": 9.04,
+      "power": 5,
+      "defense": 1,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 56.88,
+      "attack": 1.55,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "beak-jab",
+        "name": "Beak Jab",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "null-stare",
+        "name": "Null Stare",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "hollow",
+        "statusChance": 0.6
+      },
+      {
+        "id": "loom",
+        "name": "Loom",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self"
+      },
+      {
+        "id": "patience",
+        "name": "Great Patience",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.2,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "miniBoss": true,
+    "xpMultiplier": 2
+  },
+  {
+    "id": "nullmaw",
+    "name": "Nullmaw",
+    "element": "void",
+    "flavor": "A huge stone toad whose belly is a hole in the world. It is always hungry, and it is never full.",
+    "base": {
+      "hp": 315.0,
+      "attack": 8.27,
+      "power": 5,
+      "defense": 1.5,
+      "swift": 7.7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 91.0,
+      "attack": 1.42,
+      "power": 1,
+      "defense": 0.45,
+      "swift": 0.99,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "tongue-lash",
+        "name": "Tongue Lash",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "devour",
+        "name": "Devour Light",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.8,
+        "status": "hollow",
+        "statusChance": 0.6
+      },
+      {
+        "id": "maw-of-nothing",
+        "name": "Maw of Nothing",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "stone-skin",
+        "name": "Stone Skin",
+        "intent": "shift",
+        "weight": 1,
+        "shiftTo": "stone",
+        "target": "self",
+        "condition": "notShifted"
+      },
+      {
+        "id": "settle",
+        "name": "Settle In",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      },
+      {
+        "id": "digest",
+        "name": "Digest",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.12,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "xpMultiplier": 5,
+    "boss": true,
+    "goldMultiplier": 6
   }
 ]

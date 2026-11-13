@@ -92,3 +92,15 @@ test('the Roost lists ten dragons and every finish draws', async ({ page }) => {
   await page.waitForTimeout(400);
   await page.screenshot({ path: 'test-results/roost-ten.png', fullPage: true });
 });
+
+test('a Wyvern shows its own painted body, its breed and its signature skill', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 667 });
+  await load(page, 'nest.json', '#/dragons');
+  await page.getByTestId('dpick-Zap').scrollIntoViewIfNeeded();
+  await page.getByTestId('dpick-Zap').tap();
+  await expect(page.locator('.dragon-sheet')).toContainText('Juvenile Wyvern');
+  await expect(page.getByTestId('signature-skill')).toContainText('Rake');
+  await expect.poll(async () => (await page.locator('.dragon-sheet img').evaluateAll((els) => els.map((e) => (e as HTMLImageElement).src))).length).toBeGreaterThan(0);
+  await page.waitForTimeout(500);
+  await page.screenshot({ path: 'test-results/dragons-wyvern.png' });
+});

@@ -4723,6 +4723,294 @@
           ]
         }
       ]
+    },
+    "wyvern.hatchling": {
+      "size": [
+        710,
+        522
+      ],
+      "tint": "dragon",
+      "boxScale": 0.6,
+      "points": {
+        "mouth": [
+          0.99,
+          0.42
+        ],
+        "hit": [
+          0.6,
+          0.6
+        ],
+        "front": [
+          0.92,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/wyvern-hatchling.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/wyvern-hatchling-attack.webp",
+              "box": [
+                0.0148,
+                0.1545,
+                1.1338,
+                0.8453
+              ],
+              "tip": {
+                "at": [
+                  0.174,
+                  0.457
+                ],
+                "width": 0.11,
+                "rotate": -10
+              }
+            }
+          ]
+        }
+      ],
+      "tip": {
+        "file": "painted/tips/{element}.webp",
+        "at": [
+          0.29,
+          0.296
+        ],
+        "width": 0.13,
+        "rotate": -10
+      }
+    },
+    "wyvern.juvenile": {
+      "size": [
+        710,
+        474
+      ],
+      "tint": "dragon",
+      "boxScale": 0.92,
+      "points": {
+        "mouth": [
+          0.99,
+          0.39
+        ],
+        "hit": [
+          0.6,
+          0.6
+        ],
+        "front": [
+          0.92,
+          0.6
+        ],
+        "saddle": [
+          0.55,
+          0.42
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/wyvern-juvenile.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/wyvern-juvenile-attack.webp",
+              "box": [
+                0.0245,
+                0.1939,
+                1.1254,
+                0.8065
+              ],
+              "tip": {
+                "at": [
+                  0.208,
+                  0.332
+                ],
+                "width": 0.11,
+                "rotate": -10
+              }
+            }
+          ]
+        }
+      ],
+      "tip": {
+        "file": "painted/tips/{element}.webp",
+        "at": [
+          0.269,
+          0.336
+        ],
+        "width": 0.13,
+        "rotate": -10
+      }
+    },
+    "wyvern.adult": {
+      "size": [
+        710,
+        513
+      ],
+      "tint": "dragon",
+      "boxScale": 0.95,
+      "points": {
+        "mouth": [
+          0.99,
+          0.34
+        ],
+        "hit": [
+          0.6,
+          0.6
+        ],
+        "front": [
+          0.92,
+          0.6
+        ],
+        "saddle": [
+          0.55,
+          0.42
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/wyvern-adult.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/wyvern-adult-attack.webp",
+              "box": [
+                0.0468,
+                0.0488,
+                1.1,
+                0.952
+              ],
+              "tip": {
+                "at": [
+                  0.257,
+                  0.316
+                ],
+                "width": 0.11,
+                "rotate": -10
+              }
+            }
+          ]
+        }
+      ],
+      "tip": {
+        "file": "painted/tips/{element}.webp",
+        "at": [
+          0.322,
+          0.237
+        ],
+        "width": 0.13,
+        "rotate": -10
+      }
+    },
+    "wyvern.elder": {
+      "size": [
+        710,
+        468
+      ],
+      "tint": "dragon",
+      "boxScale": 1.08,
+      "points": {
+        "mouth": [
+          0.99,
+          0.36
+        ],
+        "hit": [
+          0.6,
+          0.6
+        ],
+        "front": [
+          0.92,
+          0.6
+        ],
+        "saddle": [
+          0.55,
+          0.42
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/wyvern-elder.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/wyvern-elder-attack.webp",
+              "box": [
+                0.0533,
+                0.088,
+                1.0887,
+                0.9111
+              ],
+              "tip": {
+                "at": [
+                  0.178,
+                  0.321
+                ],
+                "width": 0.11,
+                "rotate": -10
+              }
+            }
+          ]
+        }
+      ],
+      "tip": {
+        "file": "painted/tips/{element}.webp",
+        "at": [
+          0.317,
+          0.235
+        ],
+        "width": 0.13,
+        "rotate": -10
+      }
     }
   },
   "backdrops": {
