@@ -1,6 +1,6 @@
 # World expansion: plan
 
-Written 2026-11-12 at Eric's request. Status: W0 to W4 built (2026-11-12): all four side areas. W5 (Sunken Spires, cap 60), W6 (Emberwild, cap 70), W7 (Skyreach Isles, cap 80) and W8 (Hollow Crown, cap 90) built 2026-11-13 with the dragons plan's chunks 4 to 8; W9 next, paired with the dragons plan's chunks (see `docs/DRAGONS_PLAN.md`). Eric answered the open questions the same day (see "Eric's answers"); the plan below follows them.
+Written 2026-11-12 at Eric's request. Status: W0 to W4 built (2026-11-12): all four side areas. W5 (Sunken Spires, cap 60), W6 (Emberwild, cap 70), W7 (Skyreach Isles, cap 80) and W8 (Hollow Crown, cap 90) built 2026-11-13 with the dragons plan's chunks 4 to 8, and W9 (Starfall Summit, the final boss, cap 100) with chunk 9 the same day. The plan is finished. Eric answered the open questions the same day (see "Eric's answers"); the plan below follows them.
 
 The request, in Eric's words: "I now want to expand the game with unlockable areas and more levels to go on adventures. Just like adventure quest you could choose and the game grows. Maybe we can do 1 area at a time and they unlock every 10-15 levels for the rider."
 
