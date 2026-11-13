@@ -14,16 +14,18 @@ const mossy = getZone(data, 'mossy-hollow');
 
 describe('gear data', () => {
   it('has the new shop choices, sets and trophies', () => {
-    expect(Object.keys(data.gear)).toHaveLength(227);
+    expect(Object.keys(data.gear)).toHaveLength(260);
     expect(data.sets).toHaveLength(data.zones.length);
-    expect(data.shop.stock).toHaveLength(140);
+    expect(data.shop.stock).toHaveLength(155);
   });
 
-  it('sells every ring element among the weapons of each tier from level 5 to 36', () => {
+  it('sells every element of the first ring among the weapons of each tier from level 5 to 36', () => {
+    // Blight and Steel joined the ring later (dragons plan E6); their weapons come with their own areas from level 50.
+    const firstRing = ['fire', 'frost', 'verdant', 'stone', 'storm', 'tide'] as const;
     for (const level of [5, 10, 16, 22, 29, 36]) {
       const els = new Set(data.shop.stock.map((id) => data.gear[id]!).filter((g) => g.slot === 'weapon' && g.level === level).map((g) => g.element));
       if (level === 22 || level === 29) expect(els.size, `level ${level}`).toBeGreaterThanOrEqual(4);
-      else for (const el of data.elements.ring) expect(els.has(el), `level ${level} ${el}`).toBe(true);
+      else for (const el of firstRing) expect(els.has(el), `level ${level} ${el}`).toBe(true);
     }
   });
 

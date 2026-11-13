@@ -82,6 +82,18 @@
         "description": "Heals the rider or the lead dragon."
       },
       {
+        "id": "rot-spit",
+        "name": "Rot Spit",
+        "kind": "damage",
+        "level": 2,
+        "element": "blight",
+        "status": "rot",
+        "statusChance": 0.4,
+        "base": 13,
+        "mp": 4,
+        "description": "A gob of something rotten that may Rot. Strong against Verdant."
+      },
+      {
         "id": "frost-dart",
         "name": "Frost Dart",
         "kind": "damage",
@@ -150,6 +162,18 @@
         "base": 17,
         "mp": 6,
         "description": "A stone spike that may Crack."
+      },
+      {
+        "id": "steel-needles",
+        "name": "Steel Needles",
+        "kind": "damage",
+        "level": 19,
+        "element": "steel",
+        "status": "rend",
+        "statusChance": 0.4,
+        "base": 17,
+        "mp": 6,
+        "description": "A spray of steel needles that may Rend. Strong against Storm."
       },
       {
         "id": "greater-mend",
@@ -229,6 +253,18 @@
         "base": 25,
         "mp": 9,
         "description": "A raging little storm over one enemy. Hits hard and may Shock."
+      },
+      {
+        "id": "inferno",
+        "name": "Inferno",
+        "kind": "damage",
+        "level": 63,
+        "element": "fire",
+        "status": "burn",
+        "statusChance": 0.45,
+        "base": 28,
+        "mp": 10,
+        "description": "A roaring column of fire on one enemy. Hits very hard and may Burn."
       }
     ]
   },

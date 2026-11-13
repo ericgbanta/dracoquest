@@ -6,11 +6,15 @@ const E = gameData.elements;
 const M = E.multipliers;
 
 describe('elements', () => {
-  it('follows the ring Fire > Frost > Verdant > Stone > Storm > Tide > Fire', () => {
+  it('follows the ring Fire > Frost > Blight > Verdant > Stone > Steel > Storm > Tide > Fire', () => {
     expect(beats(E, 'fire', 'frost')).toBe(true);
-    expect(beats(E, 'frost', 'verdant')).toBe(true);
+    expect(beats(E, 'frost', 'blight')).toBe(true);
+    expect(beats(E, 'blight', 'verdant')).toBe(true);
     expect(beats(E, 'verdant', 'stone')).toBe(true);
-    expect(beats(E, 'stone', 'storm')).toBe(true);
+    expect(beats(E, 'stone', 'steel')).toBe(true);
+    expect(beats(E, 'steel', 'storm')).toBe(true);
+    expect(beats(E, 'frost', 'verdant')).toBe(false);
+    expect(beats(E, 'stone', 'storm')).toBe(false);
     expect(beats(E, 'storm', 'tide')).toBe(true);
     expect(beats(E, 'tide', 'fire')).toBe(true);
     expect(beats(E, 'fire', 'verdant')).toBe(false);
@@ -40,7 +44,7 @@ describe('elements', () => {
   });
 
   it('lists weaknesses', () => {
-    expect(weaknessesOf(E, 'verdant')).toEqual(['frost']);
+    expect(weaknessesOf(E, 'verdant')).toEqual(['blight']);
     expect(weaknessesOf(E, 'shadow')).toEqual(['light']);
   });
 });

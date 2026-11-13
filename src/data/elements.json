@@ -9,13 +9,17 @@
     "light",
     "shadow",
     "aether",
-    "void"
+    "void",
+    "blight",
+    "steel"
   ],
   "ring": [
     "fire",
     "frost",
+    "blight",
     "verdant",
     "stone",
+    "steel",
     "storm",
     "tide"
   ],
@@ -100,6 +104,18 @@
       "color": "#5b54a6",
       "status": "hollow",
       "symbol": "◌"
+    },
+    "blight": {
+      "name": "Blight",
+      "color": "#a7a63c",
+      "status": "rot",
+      "symbol": "✺"
+    },
+    "steel": {
+      "name": "Steel",
+      "color": "#8fa3b8",
+      "status": "rend",
+      "symbol": "◆"
     }
   },
   "hybrids": {
@@ -145,7 +161,28 @@
     "light+aether": "Astral",
     "light+void": "Halo",
     "shadow+aether": "Nebula",
-    "shadow+void": "Oblivion"
+    "shadow+void": "Oblivion",
+    "fire+blight": "Brimstone",
+    "fire+steel": "Forge",
+    "frost+blight": "Frostbite",
+    "frost+steel": "Coldiron",
+    "verdant+blight": "Spore",
+    "stone+blight": "Sulfur",
+    "blight+steel": "Rust",
+    "storm+blight": "Acid",
+    "tide+blight": "Bog",
+    "light+blight": "Pallor",
+    "shadow+blight": "Plague",
+    "aether+blight": "Miasma",
+    "void+blight": "Decay",
+    "verdant+steel": "Ironwood",
+    "stone+steel": "Ore",
+    "storm+steel": "Volt",
+    "tide+steel": "Anchor",
+    "light+steel": "Silver",
+    "shadow+steel": "Razor",
+    "aether+steel": "Starsteel",
+    "void+steel": "Gravity"
   },
   "hybridNote": "Names for dragons of two elements. Keys are two element ids in the order of `ids`. The full list for all 12 planned elements is in docs/DRAGONS_PLAN.md; each phase that adds an element adds its mixes."
 }

@@ -97,6 +97,12 @@
     "void": {
       "might": 1,
       "scale": 1
+    },
+    "blight": {
+      "might": 2
+    },
+    "steel": {
+      "scale": 2
     }
   },
   "eggs": {
@@ -139,6 +145,14 @@
     "void": {
       "name": "Hollow Egg",
       "blurb": "Weighs nothing at all. Rattles anyway."
+    },
+    "blight": {
+      "name": "Rotten Egg",
+      "blurb": "Smells exactly like you'd think. Hatches just fine."
+    },
+    "steel": {
+      "name": "Iron Egg",
+      "blurb": "Clangs when you knock on it. Please don't knock on it."
     }
   },
   "hatchTaps": 12,

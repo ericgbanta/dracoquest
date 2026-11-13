@@ -1394,5 +1394,332 @@
         "tidecaller-magic"
       ]
     }
+  },
+  {
+    "id": "rotroot-thicket",
+    "name": "Rotroot Thicket",
+    "element": "blight",
+    "elements": [
+      "blight",
+      "verdant"
+    ],
+    "minLevel": 50,
+    "maxLevel": 60,
+    "gate": null,
+    "unlock": {
+      "level": 50,
+      "afterBoss": "voidmarch"
+    },
+    "blurb": "A rotting swamp forest where sickness creeps through the roots. Mind where you step. Mind what you breathe.",
+    "fights": {
+      "min": 3,
+      "max": 5
+    },
+    "encounters": [
+      {
+        "enemies": [
+          "rot-grub"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "thornvine-creeper"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "spore-toad"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "mire-lurker"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "gloomcap-walker"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "thornvine-creeper",
+          "thornvine-creeper"
+        ],
+        "weight": 1,
+        "minLevel": 52
+      },
+      {
+        "enemies": [
+          "rot-grub",
+          "mire-lurker"
+        ],
+        "weight": 1,
+        "minLevel": 54
+      }
+    ],
+    "levelSpread": 1,
+    "multiEnemyLevelOffset": -3,
+    "boss": {
+      "enemy": "rotroot-queen",
+      "level": 60,
+      "unlockRiderLevel": 59,
+      "trophy": {
+        "gear": "mirebloom-armor",
+        "chance": 0.25
+      }
+    },
+    "miniBoss": {
+      "enemy": "rotwood-ent",
+      "levelOffset": 0,
+      "trophy": {
+        "gear": "mirebloom-trinket",
+        "chance": 0.25
+      }
+    },
+    "dropChances": {
+      "potion": 0.25,
+      "dragon-treat": 0.15,
+      "mana-tonic": 0.1
+    },
+    "eggDrop": {
+      "element": "blight",
+      "chance": 0.1,
+      "elements": [
+        "blight",
+        "verdant"
+      ]
+    },
+    "gearDrops": {
+      "chance": 0.06,
+      "gear": [
+        "mirebloom-melee",
+        "mirebloom-ranged",
+        "mirebloom-magic"
+      ]
+    }
+  },
+  {
+    "id": "emberwild",
+    "name": "Emberwild",
+    "element": "fire",
+    "elements": [
+      "fire",
+      "verdant"
+    ],
+    "minLevel": 60,
+    "maxLevel": 70,
+    "gate": null,
+    "unlock": {
+      "level": 60,
+      "afterBoss": "sunken-spires"
+    },
+    "blurb": "A volcanic jungle where the leaves are red and the rivers glow. Everything here is either on fire or about to be.",
+    "fights": {
+      "min": 3,
+      "max": 5
+    },
+    "encounters": [
+      {
+        "enemies": [
+          "cinder-monkey"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "flame-lily"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "magma-tortoise"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "jungle-raptor"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "ember-parrot"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "flame-lily",
+          "flame-lily"
+        ],
+        "weight": 1,
+        "minLevel": 62
+      },
+      {
+        "enemies": [
+          "cinder-monkey",
+          "jungle-raptor"
+        ],
+        "weight": 1,
+        "minLevel": 64
+      }
+    ],
+    "levelSpread": 1,
+    "multiEnemyLevelOffset": -3,
+    "boss": {
+      "enemy": "volcanadon",
+      "level": 70,
+      "unlockRiderLevel": 69,
+      "trophy": {
+        "gear": "pyreleaf-armor",
+        "chance": 0.25
+      }
+    },
+    "miniBoss": {
+      "enemy": "vine-tyrant",
+      "levelOffset": 0,
+      "trophy": {
+        "gear": "pyreleaf-trinket",
+        "chance": 0.25
+      }
+    },
+    "dropChances": {
+      "potion": 0.25,
+      "dragon-treat": 0.15,
+      "mana-tonic": 0.1
+    },
+    "eggDrop": {
+      "element": "fire",
+      "chance": 0.1,
+      "elements": [
+        "fire",
+        "verdant"
+      ]
+    },
+    "gearDrops": {
+      "chance": 0.06,
+      "gear": [
+        "pyreleaf-melee",
+        "pyreleaf-ranged",
+        "pyreleaf-magic"
+      ]
+    }
+  },
+  {
+    "id": "steelspine-range",
+    "name": "The Steelspine Range",
+    "element": "steel",
+    "elements": [
+      "steel",
+      "storm"
+    ],
+    "minLevel": 60,
+    "maxLevel": 70,
+    "gate": null,
+    "unlock": {
+      "level": 60,
+      "afterBoss": "rotroot-thicket"
+    },
+    "blurb": "Iron mountains where lightning strikes every few seconds, and the oldest metal-scaled dragons roost.",
+    "fights": {
+      "min": 3,
+      "max": 5
+    },
+    "encounters": [
+      {
+        "enemies": [
+          "rivet-beetle"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "thunder-hound"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "iron-hawk"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "static-ferret"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "scrap-wolf"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "thunder-hound",
+          "thunder-hound"
+        ],
+        "weight": 1,
+        "minLevel": 62
+      },
+      {
+        "enemies": [
+          "rivet-beetle",
+          "static-ferret"
+        ],
+        "weight": 1,
+        "minLevel": 64
+      }
+    ],
+    "levelSpread": 1,
+    "multiEnemyLevelOffset": -3,
+    "boss": {
+      "enemy": "ferrovane",
+      "level": 70,
+      "unlockRiderLevel": 69,
+      "trophy": {
+        "gear": "ironclad-armor",
+        "chance": 0.25
+      }
+    },
+    "miniBoss": {
+      "enemy": "lightning-lynx",
+      "levelOffset": 0,
+      "trophy": {
+        "gear": "ironclad-trinket",
+        "chance": 0.25
+      }
+    },
+    "dropChances": {
+      "potion": 0.25,
+      "dragon-treat": 0.15,
+      "mana-tonic": 0.1
+    },
+    "eggDrop": {
+      "element": "steel",
+      "chance": 0.1,
+      "elements": [
+        "steel",
+        "storm"
+      ]
+    },
+    "gearDrops": {
+      "chance": 0.06,
+      "gear": [
+        "ironclad-melee",
+        "ironclad-ranged",
+        "ironclad-magic"
+      ]
+    }
   }
 ]

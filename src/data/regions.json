@@ -1,5 +1,5 @@
 {
-  "note": "The Map groups zones into regions. upcoming lists areas from the world plan that aren't built yet; the Map shows the first one as a teaser card in its region. Each region has a painted map (map.art, a backdrop in assets.json) with pins at [x, y] fractions; an upcoming area's pin is on its entry. Adding an area to a map is one more pin. Planned spots on the Beyond the Peak map: Emberwild [0.24, 0.52], Skyreach Isles [0.76, 0.51], Hollow Crown [0.25, 0.31], Starfall Summit [0.66, 0.15]. Planned spots on the Hidden Reach map: Voidmarch [0.67, 0.58], Rotroot Thicket [0.33, 0.33].",
+  "note": "The Map groups zones into regions. upcoming lists areas from the world plan that aren't built yet; the Map shows the first one as a teaser card in its region. Each region has a painted map (map.art, a backdrop in assets.json) with pins at [x, y] fractions; an upcoming area's pin is on its entry. Adding an area to a map is one more pin. Planned spots on the Beyond the Peak map: Emberwild [0.24, 0.52], Skyreach Isles [0.76, 0.51], Hollow Crown [0.25, 0.31], Starfall Summit [0.66, 0.15]. Planned spots on the Hidden Reach map: Voidmarch [0.67, 0.58], Rotroot Thicket [0.33, 0.33]. Planned spots on the Elder Wilds map: Twilight Rift [0.70, 0.55], The Confluence [0.29, 0.43], Dragonsrest [0.62, 0.17].",
   "regions": [
     {
       "id": "wilds",
@@ -93,7 +93,8 @@
       "blurb": "A valley behind the mountains where strange new elements leak into the world.",
       "zones": [
         "starglass-hollow",
-        "voidmarch"
+        "voidmarch",
+        "rotroot-thicket"
       ],
       "map": {
         "art": "map-hidden-reach",
@@ -105,6 +106,10 @@
           "voidmarch": [
             0.67,
             0.58
+          ],
+          "rotroot-thicket": [
+            0.33,
+            0.33
           ]
         }
       }
@@ -115,7 +120,8 @@
       "levels": "Levels 50 to 100",
       "blurb": "Nobody has come back from here yet. Well, nobody has gone.",
       "zones": [
-        "sunken-spires"
+        "sunken-spires",
+        "emberwild"
       ],
       "map": {
         "art": "map-beyond",
@@ -123,6 +129,28 @@
           "sunken-spires": [
             0.5,
             0.88
+          ],
+          "emberwild": [
+            0.24,
+            0.52
+          ]
+        }
+      }
+    },
+    {
+      "id": "elder-wilds",
+      "name": "The Elder Wilds",
+      "levels": "Levels 60 to 100",
+      "blurb": "Ancient wild lands at the edge of the world, where the oldest dragons live.",
+      "zones": [
+        "steelspine-range"
+      ],
+      "map": {
+        "art": "map-elder-wilds",
+        "pins": {
+          "steelspine-range": [
+            0.32,
+            0.77
           ]
         }
       }
@@ -130,34 +158,35 @@
   ],
   "upcoming": [
     {
-      "name": "Emberwild",
+      "name": "Skyreach Isles",
       "region": "beyond",
-      "minLevel": 60,
-      "maxLevel": 70,
-      "gate": "sunken-spires",
+      "minLevel": 70,
+      "maxLevel": 80,
+      "gate": "emberwild",
       "elements": [
-        "fire",
-        "verdant"
+        "storm",
+        "light"
       ],
-      "blurb": "A volcanic jungle where the leaves are red and the rivers glow.",
+      "blurb": "Floating islands of sun and wind, high above the clouds.",
       "pin": [
-        0.24,
-        0.52
+        0.76,
+        0.51
       ]
     },
     {
-      "name": "Rotroot Thicket",
-      "region": "hidden-reach",
-      "minLevel": 50,
-      "maxLevel": 60,
-      "gate": "voidmarch",
+      "name": "Twilight Rift",
+      "region": "elder-wilds",
+      "minLevel": 70,
+      "maxLevel": 80,
+      "gate": "steelspine-range",
       "elements": [
-        "verdant"
+        "aether",
+        "void"
       ],
-      "blurb": "A rotting swamp forest where sickness creeps through the roots. A new element waits there.",
+      "blurb": "Where starlight and emptiness meet and tear at each other.",
       "pin": [
-        0.33,
-        0.33
+        0.7,
+        0.55
       ]
     }
   ]

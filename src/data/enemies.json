@@ -5293,5 +5293,1150 @@
     "xpMultiplier": 5,
     "boss": true,
     "goldMultiplier": 6
+  },
+  {
+    "id": "rot-grub",
+    "name": "Rot Grub",
+    "element": "blight",
+    "flavor": "A fat little grub that eats rotten things. It thinks you look a bit rotten.",
+    "base": {
+      "hp": 1279.69,
+      "attack": 56.288,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 52.097,
+      "dodge": 27.58
+    },
+    "perLevel": {
+      "hp": 7.96,
+      "attack": 0.33,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.2925,
+      "dodge": 0.14
+    },
+    "moves": [
+      {
+        "id": "chomp",
+        "name": "Chomp",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "rot-drool",
+        "name": "Rot Drool",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.6,
+        "status": "rot",
+        "statusChance": 0.5
+      },
+      {
+        "id": "curl",
+        "name": "Curl Up",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "thornvine-creeper",
+    "name": "Thornvine Creeper",
+    "element": "verdant",
+    "flavor": "A walking tangle of thorny vine. It has no face, which is somehow worse.",
+    "base": {
+      "hp": 1023.75,
+      "attack": 56.288,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 60.113,
+      "dodge": 33.49
+    },
+    "perLevel": {
+      "hp": 6.36,
+      "attack": 0.33,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.3375,
+      "dodge": 0.17
+    },
+    "moves": [
+      {
+        "id": "lash",
+        "name": "Vine Lash",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "thorn-snag",
+        "name": "Thorn Snag",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "root",
+        "statusChance": 0.5
+      },
+      {
+        "id": "bristle",
+        "name": "Bristle",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "spore-toad",
+    "name": "Spore Toad",
+    "element": "blight",
+    "flavor": "Puffs out its cheeks and a cloud of spores comes out the back. Every time.",
+    "base": {
+      "hp": 1471.83,
+      "attack": 56.288,
+      "power": 41.75,
+      "defense": 19.24,
+      "swift": 40.075,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 9.15,
+      "attack": 0.33,
+      "power": 0.25,
+      "defense": 0.12,
+      "swift": 0.225,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "tongue",
+        "name": "Tongue Slap",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "spore-puff",
+        "name": "Spore Puff",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "rot",
+        "statusChance": 0.5
+      },
+      {
+        "id": "gloop",
+        "name": "Gloop",
+        "intent": "attack",
+        "weight": 1,
+        "power": 0.5,
+        "status": "blind",
+        "statusChance": 0.4
+      }
+    ]
+  },
+  {
+    "id": "mire-lurker",
+    "name": "Mire Lurker",
+    "element": "verdant",
+    "flavor": "A mossy crocodile that has been lying in the same puddle for nine years. Patient.",
+    "base": {
+      "hp": 1087.55,
+      "attack": 56.288,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 52.097,
+      "dodge": 25.61
+    },
+    "perLevel": {
+      "hp": 6.76,
+      "attack": 0.33,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.2925,
+      "dodge": 0.13
+    },
+    "moves": [
+      {
+        "id": "snap",
+        "name": "Snap",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "death-roll",
+        "name": "Death Roll",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "lurk",
+        "name": "Lurk",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fade",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "gloomcap-walker",
+    "name": "Gloomcap Walker",
+    "element": "blight",
+    "flavor": "A mushroom that got tired of sitting still. Now it walks, grumpily.",
+    "base": {
+      "hp": 1151.72,
+      "attack": 56.288,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 48.09,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 7.16,
+      "attack": 0.33,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.27,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "cap-bonk",
+        "name": "Cap Bonk",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "gloom-dust",
+        "name": "Gloom Dust",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.6,
+        "status": "rot",
+        "statusChance": 0.5
+      },
+      {
+        "id": "root-in",
+        "name": "Root In",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.15,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ]
+  },
+  {
+    "id": "rotwood-ent",
+    "name": "Rotwood Ent",
+    "element": "verdant",
+    "flavor": "An old tree that caught the rot and got very cross about it.",
+    "base": {
+      "hp": 2239.64,
+      "attack": 64.629,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 40.075,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 13.92,
+      "attack": 0.379,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.225,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "branch-slam",
+        "name": "Branch Slam",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "bramble-crush",
+        "name": "Bramble Crush",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "root",
+        "statusChance": 0.5
+      },
+      {
+        "id": "bark-up",
+        "name": "Bark Up",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self"
+      },
+      {
+        "id": "drink-mire",
+        "name": "Drink the Mire",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.2,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "miniBoss": true,
+    "xpMultiplier": 2
+  },
+  {
+    "id": "rotroot-queen",
+    "name": "Rotroot Queen",
+    "element": "blight",
+    "flavor": "The oldest tree in the thicket, hollow and sick and very, very grumpy about both.",
+    "base": {
+      "hp": 4098.36,
+      "attack": 67.71,
+      "power": 41.75,
+      "defense": 18.038,
+      "swift": 44.083,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 25.48,
+      "attack": 0.398,
+      "power": 0.25,
+      "defense": 0.1125,
+      "swift": 0.2475,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "root-whip",
+        "name": "Root Whip",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "sap-spray",
+        "name": "Sap Spray",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.8,
+        "status": "rot",
+        "statusChance": 0.6
+      },
+      {
+        "id": "rotfall",
+        "name": "Rotfall",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "green-again",
+        "name": "Green Again",
+        "intent": "shift",
+        "weight": 1,
+        "shiftTo": "verdant",
+        "target": "self",
+        "condition": "notShifted"
+      },
+      {
+        "id": "thick-bark",
+        "name": "Thick Bark",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      },
+      {
+        "id": "deep-roots",
+        "name": "Deep Roots",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.12,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "xpMultiplier": 5,
+    "boss": true,
+    "goldMultiplier": 6
+  },
+  {
+    "id": "cinder-monkey",
+    "name": "Cinder Monkey",
+    "element": "fire",
+    "flavor": "Steals your lunch and sets it on fire. Then eats it anyway.",
+    "base": {
+      "hp": 1279.69,
+      "attack": 56.288,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 52.097,
+      "dodge": 27.58
+    },
+    "perLevel": {
+      "hp": 7.96,
+      "attack": 0.33,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.2925,
+      "dodge": 0.14
+    },
+    "moves": [
+      {
+        "id": "slap",
+        "name": "Monkey Slap",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "ember-toss",
+        "name": "Ember Toss",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "burn",
+        "statusChance": 0.5
+      },
+      {
+        "id": "hoot",
+        "name": "Hoot",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "flame-lily",
+    "name": "Flame Lily",
+    "element": "verdant",
+    "flavor": "Beautiful, fragrant, and very hungry.",
+    "base": {
+      "hp": 1023.75,
+      "attack": 56.288,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 60.113,
+      "dodge": 33.49
+    },
+    "perLevel": {
+      "hp": 6.36,
+      "attack": 0.33,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.3375,
+      "dodge": 0.17
+    },
+    "moves": [
+      {
+        "id": "chomp",
+        "name": "Petal Chomp",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "pollen-blast",
+        "name": "Pollen Blast",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.6,
+        "status": "root",
+        "statusChance": 0.5
+      },
+      {
+        "id": "sunbathe",
+        "name": "Sunbathe",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.15,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ]
+  },
+  {
+    "id": "magma-tortoise",
+    "name": "Magma Tortoise",
+    "element": "fire",
+    "flavor": "Takes a hundred years to cross the jungle. Not in a hurry.",
+    "base": {
+      "hp": 1471.83,
+      "attack": 56.288,
+      "power": 41.75,
+      "defense": 19.24,
+      "swift": 40.075,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 9.15,
+      "attack": 0.33,
+      "power": 0.25,
+      "defense": 0.12,
+      "swift": 0.225,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "shell-bash",
+        "name": "Shell Bash",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "lava-bath",
+        "name": "Lava Bath",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "burn",
+        "statusChance": 0.4
+      },
+      {
+        "id": "shell-in",
+        "name": "Shell In",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "jungle-raptor",
+    "name": "Jungle Raptor",
+    "element": "verdant",
+    "flavor": "Fast, clever, and definitely smiling at you.",
+    "base": {
+      "hp": 1087.55,
+      "attack": 56.288,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 52.097,
+      "dodge": 25.61
+    },
+    "perLevel": {
+      "hp": 6.76,
+      "attack": 0.33,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.2925,
+      "dodge": 0.13
+    },
+    "moves": [
+      {
+        "id": "raptor-claw",
+        "name": "Raptor Claw",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "pounce",
+        "name": "Pounce",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "hide",
+        "name": "Hide in the Ferns",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fade",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "ember-parrot",
+    "name": "Ember Parrot",
+    "element": "fire",
+    "flavor": "Learned three words. All of them rude.",
+    "base": {
+      "hp": 1151.72,
+      "attack": 56.288,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 48.09,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 7.16,
+      "attack": 0.33,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.27,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "peck",
+        "name": "Peck",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "hot-squawk",
+        "name": "Hot Squawk",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.6,
+        "status": "burn",
+        "statusChance": 0.5
+      },
+      {
+        "id": "mimic",
+        "name": "Mimic",
+        "intent": "attack",
+        "weight": 1,
+        "power": 0.5,
+        "status": "blind",
+        "statusChance": 0.4
+      }
+    ]
+  },
+  {
+    "id": "vine-tyrant",
+    "name": "Vine Tyrant",
+    "element": "verdant",
+    "flavor": "King of the jungle canopy, by his own announcement.",
+    "base": {
+      "hp": 2239.64,
+      "attack": 64.629,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 40.075,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 13.92,
+      "attack": 0.379,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.225,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "fist",
+        "name": "Big Fist",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "vine-slam",
+        "name": "Vine Slam",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "root",
+        "statusChance": 0.5
+      },
+      {
+        "id": "chest-beat",
+        "name": "Chest Beat",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self"
+      },
+      {
+        "id": "banana",
+        "name": "Banana Break",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.2,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "miniBoss": true,
+    "xpMultiplier": 2
+  },
+  {
+    "id": "volcanadon",
+    "name": "Volcanadon",
+    "element": "fire",
+    "flavor": "A dinosaur with a volcano on its back. It has never once been in a good mood.",
+    "base": {
+      "hp": 4098.36,
+      "attack": 67.71,
+      "power": 41.75,
+      "defense": 18.038,
+      "swift": 44.083,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 25.48,
+      "attack": 0.398,
+      "power": 0.25,
+      "defense": 0.1125,
+      "swift": 0.2475,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "tail-club",
+        "name": "Tail Club",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "ash-cloud",
+        "name": "Ash Cloud",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.8,
+        "status": "burn",
+        "statusChance": 0.6
+      },
+      {
+        "id": "eruption",
+        "name": "Eruption",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "jungle-hide",
+        "name": "Jungle Hide",
+        "intent": "shift",
+        "weight": 1,
+        "shiftTo": "verdant",
+        "target": "self",
+        "condition": "notShifted"
+      },
+      {
+        "id": "rock-plates",
+        "name": "Rock Plates",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      },
+      {
+        "id": "cool-off",
+        "name": "Cool Off",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.12,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "xpMultiplier": 5,
+    "boss": true,
+    "goldMultiplier": 6
+  },
+  {
+    "id": "rivet-beetle",
+    "name": "Rivet Beetle",
+    "element": "steel",
+    "flavor": "Its shell is held together with rivets. Nobody knows who put them there.",
+    "base": {
+      "hp": 1279.69,
+      "attack": 56.288,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 52.097,
+      "dodge": 27.58
+    },
+    "perLevel": {
+      "hp": 7.96,
+      "attack": 0.33,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.2925,
+      "dodge": 0.14
+    },
+    "moves": [
+      {
+        "id": "horn-poke",
+        "name": "Horn Poke",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "rivet-shot",
+        "name": "Rivet Shot",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.6,
+        "status": "rend",
+        "statusChance": 0.5
+      },
+      {
+        "id": "bolt-down",
+        "name": "Bolt Down",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "thunder-hound",
+    "name": "Thunder Hound",
+    "element": "storm",
+    "flavor": "Howls when lightning strikes. Lightning strikes a lot.",
+    "base": {
+      "hp": 1023.75,
+      "attack": 56.288,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 60.113,
+      "dodge": 33.49
+    },
+    "perLevel": {
+      "hp": 6.36,
+      "attack": 0.33,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.3375,
+      "dodge": 0.17
+    },
+    "moves": [
+      {
+        "id": "bite",
+        "name": "Bite",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "spark-howl",
+        "name": "Spark Howl",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "shock",
+        "statusChance": 0.5
+      },
+      {
+        "id": "bristle",
+        "name": "Bristle",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "iron-hawk",
+    "name": "Iron Hawk",
+    "element": "steel",
+    "flavor": "Feathers like knives. Very proud of them. Polishes them daily.",
+    "base": {
+      "hp": 1471.83,
+      "attack": 56.288,
+      "power": 41.75,
+      "defense": 19.24,
+      "swift": 40.075,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 9.15,
+      "attack": 0.33,
+      "power": 0.25,
+      "defense": 0.12,
+      "swift": 0.225,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "talons",
+        "name": "Talons",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "blade-dive",
+        "name": "Blade Dive",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "rend",
+        "statusChance": 0.4
+      },
+      {
+        "id": "soar",
+        "name": "Soar",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fade",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "static-ferret",
+    "name": "Static Ferret",
+    "element": "storm",
+    "flavor": "Rubbed itself on a carpet once and never recovered.",
+    "base": {
+      "hp": 1087.55,
+      "attack": 56.288,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 52.097,
+      "dodge": 25.61
+    },
+    "perLevel": {
+      "hp": 6.76,
+      "attack": 0.33,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.2925,
+      "dodge": 0.13
+    },
+    "moves": [
+      {
+        "id": "nibble",
+        "name": "Nibble",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "zap",
+        "name": "Static Zap",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.6,
+        "status": "shock",
+        "statusChance": 0.5
+      },
+      {
+        "id": "fluff-up",
+        "name": "Fluff Up",
+        "intent": "attack",
+        "weight": 1,
+        "power": 0.5,
+        "status": "blind",
+        "statusChance": 0.4
+      }
+    ]
+  },
+  {
+    "id": "scrap-wolf",
+    "name": "Scrap Wolf",
+    "element": "steel",
+    "flavor": "Wears armor it found lying around. Some of it is a bucket.",
+    "base": {
+      "hp": 1151.72,
+      "attack": 56.288,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 48.09,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 7.16,
+      "attack": 0.33,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.27,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "scrap-bite",
+        "name": "Scrap Bite",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "iron-lunge",
+        "name": "Iron Lunge",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "pack-howl",
+        "name": "Pack Howl",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "lightning-lynx",
+    "name": "Lightning Lynx",
+    "element": "storm",
+    "flavor": "The fastest thing in the mountains. Including the lightning.",
+    "base": {
+      "hp": 2239.64,
+      "attack": 64.629,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 40.075,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 13.92,
+      "attack": 0.379,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.225,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "swipe",
+        "name": "Swipe",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "bolt-pounce",
+        "name": "Bolt Pounce",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "shock",
+        "statusChance": 0.5
+      },
+      {
+        "id": "crackle",
+        "name": "Crackle",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self"
+      },
+      {
+        "id": "groom",
+        "name": "Groom",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.2,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "miniBoss": true,
+    "xpMultiplier": 2
+  },
+  {
+    "id": "ferrovane",
+    "name": "Ferrovane",
+    "element": "steel",
+    "flavor": "The oldest dragon in the mountains, scaled in steel. She remembers when the mountains were young.",
+    "base": {
+      "hp": 4098.36,
+      "attack": 67.71,
+      "power": 41.75,
+      "defense": 18.038,
+      "swift": 44.083,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 25.48,
+      "attack": 0.398,
+      "power": 0.25,
+      "defense": 0.1125,
+      "swift": 0.2475,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "steel-claw",
+        "name": "Steel Claw",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "shrapnel-wing",
+        "name": "Shrapnel Wing",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.8,
+        "status": "rend",
+        "statusChance": 0.6
+      },
+      {
+        "id": "iron-breath",
+        "name": "Iron Breath",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "lightning-rod",
+        "name": "Lightning Rod",
+        "intent": "shift",
+        "weight": 1,
+        "shiftTo": "storm",
+        "target": "self",
+        "condition": "notShifted"
+      },
+      {
+        "id": "plate-up",
+        "name": "Plate Up",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      },
+      {
+        "id": "old-strength",
+        "name": "Old Strength",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.12,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "xpMultiplier": 5,
+    "boss": true,
+    "goldMultiplier": 6
   }
 ]

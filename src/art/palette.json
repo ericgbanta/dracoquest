@@ -55,6 +55,14 @@
     "void": {
       "mid": "#7d72c9",
       "core": "#1d1a33"
+    },
+    "blight": {
+      "mid": "#c9c25a",
+      "core": "#f3efc0"
+    },
+    "steel": {
+      "mid": "#c6d2de",
+      "core": "#ffffff"
     }
   },
   "enemyTokens": {

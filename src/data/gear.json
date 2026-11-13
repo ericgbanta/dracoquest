@@ -3041,5 +3041,455 @@
       "vigor": 6
     },
     "description": "Forged from the Tidelord's old armor. It hums sea shanties."
+  },
+  {
+    "id": "mirebloom-melee",
+    "name": "Mirebloom Sickle",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": null,
+    "level": 52,
+    "damage": 51,
+    "price": 9000,
+    "bonus": {
+      "strength": 10
+    },
+    "description": "Found in Rotroot Thicket. Part of the Mirebloom set."
+  },
+  {
+    "id": "mirebloom-ranged",
+    "name": "Mirebloom Reed Bow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": null,
+    "level": 52,
+    "damage": 50,
+    "price": 9000,
+    "bonus": {
+      "agility": 11
+    },
+    "description": "Found in Rotroot Thicket. Part of the Mirebloom set."
+  },
+  {
+    "id": "mirebloom-magic",
+    "name": "Mirebloom Mushroom Staff",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": null,
+    "level": 52,
+    "damage": 50,
+    "price": 9000,
+    "bonus": {
+      "arcana": 11
+    },
+    "description": "Found in Rotroot Thicket. Part of the Mirebloom set."
+  },
+  {
+    "id": "mirebloom-armor",
+    "name": "Mirebloom Bark Shroud",
+    "slot": "armor",
+    "level": 59,
+    "price": 12500,
+    "bonus": {
+      "riderDefense": 18,
+      "riderHp": 215
+    },
+    "description": "The Rotroot Thicket boss's trophy. Part of the Mirebloom set."
+  },
+  {
+    "id": "mirebloom-trinket",
+    "name": "Mirebloom Ent Acorn",
+    "slot": "trinket",
+    "level": 54,
+    "price": 10000,
+    "bonus": {
+      "strength": 6,
+      "agility": 6,
+      "vigor": 5
+    },
+    "description": "The Rotroot Thicket mini-boss's trophy. Part of the Mirebloom set."
+  },
+  {
+    "id": "rotfang-cleaver",
+    "name": "Rotfang Cleaver",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": "blight",
+    "level": 53,
+    "damage": 52,
+    "price": 10200,
+    "bonus": {
+      "strength": 10,
+      "vigor": 1
+    },
+    "description": "Its edge is a little bit rusty. On purpose."
+  },
+  {
+    "id": "sporeshot-bow",
+    "name": "Sporeshot Bow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": "blight",
+    "level": 53,
+    "damage": 51,
+    "price": 10200,
+    "bonus": {
+      "agility": 11
+    },
+    "description": "The arrows burst into spores. Aim away from yourself."
+  },
+  {
+    "id": "mildew-wand",
+    "name": "Mildew Wand",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": "blight",
+    "level": 53,
+    "damage": 51,
+    "price": 10200,
+    "bonus": {
+      "arcana": 11
+    },
+    "description": "Leaves a faint smell of old cheese."
+  },
+  {
+    "id": "bogwalker-coat",
+    "name": "Bogwalker Coat",
+    "slot": "armor",
+    "level": 53,
+    "price": 9600,
+    "bonus": {
+      "riderDefense": 16,
+      "riderHp": 185
+    },
+    "description": "Waterproof, mud-proof and very nearly smell-proof."
+  },
+  {
+    "id": "clean-air-charm",
+    "name": "Clean Air Charm",
+    "slot": "trinket",
+    "level": 53,
+    "price": 9300,
+    "bonus": {
+      "vigor": 5,
+      "arcana": 5,
+      "riderMp": 15,
+      "healPct": 0.05
+    },
+    "description": "A little sprig that keeps the spores away. Mostly."
+  },
+  {
+    "id": "heartwood-talisman",
+    "name": "Heartwood Talisman",
+    "slot": "trinket",
+    "level": 56,
+    "price": 11500,
+    "bonus": {
+      "strength": 6,
+      "agility": 6,
+      "arcana": 6,
+      "vigor": 6
+    },
+    "description": "Carved from a healthy piece of the Queen. It still grows a leaf now and then."
+  },
+  {
+    "id": "pyreleaf-melee",
+    "name": "Pyreleaf Machete",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": null,
+    "level": 62,
+    "damage": 61,
+    "price": 13000,
+    "bonus": {
+      "strength": 12
+    },
+    "description": "Found in Emberwild. Part of the Pyreleaf set."
+  },
+  {
+    "id": "pyreleaf-ranged",
+    "name": "Pyreleaf Blowgun",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": null,
+    "level": 62,
+    "damage": 60,
+    "price": 13000,
+    "bonus": {
+      "agility": 13
+    },
+    "description": "Found in Emberwild. Part of the Pyreleaf set."
+  },
+  {
+    "id": "pyreleaf-magic",
+    "name": "Pyreleaf Torch Staff",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": null,
+    "level": 62,
+    "damage": 60,
+    "price": 13000,
+    "bonus": {
+      "arcana": 13
+    },
+    "description": "Found in Emberwild. Part of the Pyreleaf set."
+  },
+  {
+    "id": "pyreleaf-armor",
+    "name": "Pyreleaf Volcano Plate",
+    "slot": "armor",
+    "level": 69,
+    "price": 17500,
+    "bonus": {
+      "riderDefense": 21,
+      "riderHp": 255
+    },
+    "description": "The Emberwild boss's trophy. Part of the Pyreleaf set."
+  },
+  {
+    "id": "pyreleaf-trinket",
+    "name": "Pyreleaf Tyrant Crown",
+    "slot": "trinket",
+    "level": 64,
+    "price": 14000,
+    "bonus": {
+      "strength": 7,
+      "agility": 7,
+      "vigor": 6
+    },
+    "description": "The Emberwild mini-boss's trophy. Part of the Pyreleaf set."
+  },
+  {
+    "id": "ashfall-blade",
+    "name": "Ashfall Blade",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": "fire",
+    "level": 63,
+    "damage": 62,
+    "price": 14200,
+    "bonus": {
+      "strength": 12,
+      "vigor": 1
+    },
+    "description": "Still warm from the forge. Or from the volcano."
+  },
+  {
+    "id": "canopy-longbow",
+    "name": "Canopy Longbow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": "fire",
+    "level": 63,
+    "damage": 61,
+    "price": 14200,
+    "bonus": {
+      "agility": 13
+    },
+    "description": "Strung with jungle vine. Smells of flowers."
+  },
+  {
+    "id": "magma-orb",
+    "name": "Magma Orb",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": "fire",
+    "level": 63,
+    "damage": 61,
+    "price": 14200,
+    "bonus": {
+      "arcana": 13
+    },
+    "description": "Hold it by the cool end."
+  },
+  {
+    "id": "heatproof-leathers",
+    "name": "Heatproof Leathers",
+    "slot": "armor",
+    "level": 63,
+    "price": 13600,
+    "bonus": {
+      "riderDefense": 19,
+      "riderHp": 225
+    },
+    "description": "Doesn't burn. Doesn't breathe either."
+  },
+  {
+    "id": "fire-orchid",
+    "name": "Fire Orchid",
+    "slot": "trinket",
+    "level": 63,
+    "price": 13300,
+    "bonus": {
+      "vigor": 6,
+      "arcana": 6,
+      "riderMp": 15,
+      "healPct": 0.05
+    },
+    "description": "A flower that blooms in lava. Keep it watered with lava."
+  },
+  {
+    "id": "caldera-heart",
+    "name": "Caldera Heart",
+    "slot": "trinket",
+    "level": 66,
+    "price": 15500,
+    "bonus": {
+      "strength": 7,
+      "agility": 7,
+      "arcana": 7,
+      "vigor": 7
+    },
+    "description": "A stone from the bottom of the volcano, forged into a pendant. It beats like a drum."
+  },
+  {
+    "id": "ironclad-melee",
+    "name": "Ironclad Warblade",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": null,
+    "level": 62,
+    "damage": 61,
+    "price": 13000,
+    "bonus": {
+      "strength": 12
+    },
+    "description": "Found in The Steelspine Range. Part of the Ironclad set."
+  },
+  {
+    "id": "ironclad-ranged",
+    "name": "Ironclad Crossbow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": null,
+    "level": 62,
+    "damage": 60,
+    "price": 13000,
+    "bonus": {
+      "agility": 13
+    },
+    "description": "Found in The Steelspine Range. Part of the Ironclad set."
+  },
+  {
+    "id": "ironclad-magic",
+    "name": "Ironclad Lightning Rod",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": null,
+    "level": 62,
+    "damage": 60,
+    "price": 13000,
+    "bonus": {
+      "arcana": 13
+    },
+    "description": "Found in The Steelspine Range. Part of the Ironclad set."
+  },
+  {
+    "id": "ironclad-armor",
+    "name": "Ironclad Dragonplate",
+    "slot": "armor",
+    "level": 69,
+    "price": 17500,
+    "bonus": {
+      "riderDefense": 21,
+      "riderHp": 255
+    },
+    "description": "The The Steelspine Range boss's trophy. Part of the Ironclad set."
+  },
+  {
+    "id": "ironclad-trinket",
+    "name": "Ironclad Lynx Claw",
+    "slot": "trinket",
+    "level": 64,
+    "price": 14000,
+    "bonus": {
+      "strength": 7,
+      "agility": 7,
+      "vigor": 6
+    },
+    "description": "The The Steelspine Range mini-boss's trophy. Part of the Ironclad set."
+  },
+  {
+    "id": "girder-maul",
+    "name": "Girder Maul",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": "steel",
+    "level": 63,
+    "damage": 62,
+    "price": 14200,
+    "bonus": {
+      "strength": 12,
+      "vigor": 1
+    },
+    "description": "A steel beam with a handle. Subtle it is not."
+  },
+  {
+    "id": "bolt-thrower",
+    "name": "Bolt Thrower",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": "steel",
+    "level": 63,
+    "damage": 61,
+    "price": 14200,
+    "bonus": {
+      "agility": 13
+    },
+    "description": "Throws bolts. The metal kind, not the lightning kind."
+  },
+  {
+    "id": "alloy-scepter",
+    "name": "Alloy Scepter",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": "steel",
+    "level": 63,
+    "damage": 61,
+    "price": 14200,
+    "bonus": {
+      "arcana": 13
+    },
+    "description": "Three metals and a bit of luck."
+  },
+  {
+    "id": "chainmail-of-ages",
+    "name": "Chainmail of Ages",
+    "slot": "armor",
+    "level": 63,
+    "price": 13600,
+    "bonus": {
+      "riderDefense": 19,
+      "riderHp": 225
+    },
+    "description": "Heavy, clanky and handed down through nine smiths."
+  },
+  {
+    "id": "grounding-charm",
+    "name": "Grounding Charm",
+    "slot": "trinket",
+    "level": 63,
+    "price": 13300,
+    "bonus": {
+      "vigor": 6,
+      "arcana": 6,
+      "riderMp": 15,
+      "healPct": 0.05
+    },
+    "description": "Lightning goes around you. Mostly."
+  },
+  {
+    "id": "dragonsteel-band",
+    "name": "Dragonsteel Band",
+    "slot": "trinket",
+    "level": 66,
+    "price": 15500,
+    "bonus": {
+      "strength": 7,
+      "agility": 7,
+      "arcana": 7,
+      "vigor": 7
+    },
+    "description": "Forged from a scale Ferrovane let you keep. It's warm, and it hums."
   }
 ]

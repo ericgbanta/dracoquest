@@ -398,5 +398,92 @@
         }
       }
     ]
+  },
+  {
+    "id": "mirebloom",
+    "name": "Mirebloom",
+    "zone": "rotroot-thicket",
+    "description": "Swamp-herb gear from the thicket. A full set shrugs off poison and keeps you going.",
+    "pieces": [
+      "mirebloom-melee",
+      "mirebloom-ranged",
+      "mirebloom-magic",
+      "mirebloom-armor",
+      "mirebloom-trinket"
+    ],
+    "bonuses": [
+      {
+        "pieces": 2,
+        "bonus": {
+          "vigor": 4,
+          "arcana": 4
+        }
+      },
+      {
+        "pieces": 3,
+        "bonus": {
+          "riderHp": 90,
+          "healPct": 0.06
+        }
+      }
+    ]
+  },
+  {
+    "id": "pyreleaf",
+    "name": "Pyreleaf",
+    "zone": "emberwild",
+    "description": "Jungle gear that stands the heat. A full set hits harder and catches more.",
+    "pieces": [
+      "pyreleaf-melee",
+      "pyreleaf-ranged",
+      "pyreleaf-magic",
+      "pyreleaf-armor",
+      "pyreleaf-trinket"
+    ],
+    "bonuses": [
+      {
+        "pieces": 2,
+        "bonus": {
+          "strength": 5,
+          "agility": 5
+        }
+      },
+      {
+        "pieces": 3,
+        "bonus": {
+          "riderDamagePct": 0.07,
+          "riderCrit": 0.03
+        }
+      }
+    ]
+  },
+  {
+    "id": "ironclad",
+    "name": "Ironclad",
+    "zone": "steelspine-range",
+    "description": "Heavy mountain gear forged in lightning. A full set stands like a wall.",
+    "pieces": [
+      "ironclad-melee",
+      "ironclad-ranged",
+      "ironclad-magic",
+      "ironclad-armor",
+      "ironclad-trinket"
+    ],
+    "bonuses": [
+      {
+        "pieces": 2,
+        "bonus": {
+          "vigor": 5,
+          "strength": 5
+        }
+      },
+      {
+        "pieces": 3,
+        "bonus": {
+          "riderDefense": 6,
+          "riderHp": 110
+        }
+      }
+    ]
   }
 ]

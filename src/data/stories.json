@@ -3499,5 +3499,1042 @@
       "gold": 2200,
       "embers": 10
     }
+  },
+  {
+    "id": "the-sick-wood",
+    "zone": "rotroot-thicket",
+    "name": "The Sick Wood",
+    "minLevel": 50,
+    "description": "Something is rotting the trees in the thicket. Herbalist Moss wants to know what.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "Every tree in here is sick. Every single one. I've been making tea for them, but trees don't drink tea.",
+            "name": "Herbalist Moss"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A fat grub wriggles out of a tree, munching happily on the rot."
+          }
+        ],
+        "enemies": [
+          "rot-grub"
+        ],
+        "level": 50
+      },
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "Watch the vines. They move when you're not looking.",
+            "name": "Herbalist Moss"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A tangle of thorny vine stands up and shuffles toward you."
+          }
+        ],
+        "enemies": [
+          "thornvine-creeper"
+        ],
+        "level": 51
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "Two less pests. The trees look a little less sad already. Here, for your trouble.",
+        "name": "Herbalist Moss"
+      }
+    ],
+    "reward": {
+      "xp": 1600,
+      "gold": 1500,
+      "items": {
+        "mana-tonic": 2
+      }
+    }
+  },
+  {
+    "id": "spore-season",
+    "zone": "rotroot-thicket",
+    "name": "Spore Season",
+    "minLevel": 52,
+    "requires": "the-sick-wood",
+    "description": "The Spore Toads are puffing their spores all over Moss's herb garden.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "My garden! My lovely garden! It's all fuzzy now!",
+            "name": "Herbalist Moss"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A toad puffs its cheeks, and a cloud of spores drifts out behind it."
+          }
+        ],
+        "enemies": [
+          "spore-toad"
+        ],
+        "level": 52
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "A Gloomcap Walker stomps in to join the fun."
+          }
+        ],
+        "enemies": [
+          "spore-toad",
+          "gloomcap-walker"
+        ],
+        "level": 53
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "The garden will grow back. It always does. You two, though, could use a bath.",
+        "name": "Herbalist Moss"
+      }
+    ],
+    "reward": {
+      "xp": 1700,
+      "gold": 1300
+    },
+    "choice": {
+      "prompt": "The last Spore Toad looks at you with big sorry eyes. It just wants somewhere damp to live.",
+      "options": [
+        {
+          "id": "pond",
+          "label": "Find it a pond far from the garden",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "It hops into a quiet pond and blows one happy little bubble. Moss gives you a jar of her best salve."
+            }
+          ],
+          "reward": {
+            "items": {
+              "potion": 3
+            },
+            "gold": 400
+          },
+          "temper": "gentle"
+        },
+        {
+          "id": "shoo",
+          "label": "Shoo it off into the swamp",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "It hops off in a huff, leaving a trail of spores and something shiny."
+            }
+          ],
+          "reward": {
+            "materials": {
+              "crystal": 2
+            },
+            "embers": 2
+          },
+          "temper": "bold"
+        }
+      ]
+    }
+  },
+  {
+    "id": "the-patient-croc",
+    "zone": "rotroot-thicket",
+    "name": "The Patient Croc",
+    "minLevel": 54,
+    "requires": "spore-season",
+    "description": "A Mire Lurker has been lying across the only path through the thicket for nine years.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "It doesn't do anything. It just lies there. Waiting. Nine years!",
+            "name": "Herbalist Moss"
+          },
+          {
+            "speaker": "narrator",
+            "text": "The crocodile opens one eye. Then the other. Then its mouth."
+          }
+        ],
+        "enemies": [
+          "mire-lurker"
+        ],
+        "level": 54
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "Vines rise out of the water around it."
+          }
+        ],
+        "enemies": [
+          "mire-lurker",
+          "thornvine-creeper"
+        ],
+        "level": 55
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "The path is clear for the first time since I was a girl. Well. Since I was a younger lady.",
+        "name": "Herbalist Moss"
+      }
+    ],
+    "reward": {
+      "xp": 1800,
+      "gold": 1700,
+      "materials": {
+        "ore": 5,
+        "crystal": 2
+      }
+    }
+  },
+  {
+    "id": "the-rotwood-ent",
+    "zone": "rotroot-thicket",
+    "name": "The Rotwood Ent",
+    "minLevel": 56,
+    "requires": "the-patient-croc",
+    "description": "The biggest tree outside the Queen herself has started walking. It is not in a good mood.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "Mushrooms and grubs scatter as the ground shakes."
+          }
+        ],
+        "enemies": [
+          "gloomcap-walker",
+          "rot-grub"
+        ],
+        "level": 56
+      },
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "Who... has been... pruning... MY branches?",
+            "name": "Rotwood Ent"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A tree three times your height pulls its roots out of the mud and turns around."
+          }
+        ],
+        "enemies": [
+          "rotwood-ent"
+        ],
+        "level": 57,
+        "mini": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "It sat back down. That's good. Trees should sit down. Now only the Queen is left.",
+        "name": "Herbalist Moss"
+      }
+    ],
+    "reward": {
+      "xp": 1900,
+      "gold": 1900,
+      "embers": 4
+    },
+    "choice": {
+      "prompt": "The Rotwood Ent asks you to cut away its sickest branch.",
+      "options": [
+        {
+          "id": "cut",
+          "label": "Cut it away gently",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "The Ent sighs with relief and drops a heavy, healthy acorn into your hands."
+            }
+          ],
+          "reward": {
+            "materials": {
+              "scale": 1
+            },
+            "embers": 2
+          },
+          "temper": "gentle"
+        },
+        {
+          "id": "sell",
+          "label": "Cut it and sell the wood",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "Rotwood fetches a strange price at market. Moss doesn't ask who buys it."
+            }
+          ],
+          "reward": {
+            "gold": 1200
+          },
+          "temper": "clever"
+        }
+      ]
+    }
+  },
+  {
+    "id": "the-rotroot-queen",
+    "zone": "rotroot-thicket",
+    "name": "The Rotroot Queen",
+    "minLevel": 59,
+    "requires": "the-rotwood-ent",
+    "description": "At the heart of the thicket stands the tree where the rot began. She is awake.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "I'll stay here and brew something strong. You go and be brave. Bravely. Away from me.",
+            "name": "Herbalist Moss"
+          },
+          {
+            "speaker": "narrator",
+            "text": "The last guards of the heart of the wood rise from the mud."
+          }
+        ],
+        "enemies": [
+          "spore-toad",
+          "mire-lurker"
+        ],
+        "level": 59
+      },
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "Who dares... walk... in MY wood?",
+            "name": "Rotroot Queen"
+          },
+          {
+            "speaker": "narrator",
+            "text": "The ground cracks. A huge hollow tree drags herself up on her roots, eyes glowing sickly yellow."
+          }
+        ],
+        "enemies": [
+          "rotroot-queen"
+        ],
+        "level": 60,
+        "boss": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "The Queen settles back into the earth. Her leaves turn green, one by one. Moss cries a little, and pretends it's the spores.",
+        "name": "Herbalist Moss"
+      }
+    ],
+    "reward": {
+      "xp": 2600,
+      "gold": 3000,
+      "embers": 10
+    }
+  },
+  {
+    "id": "the-burning-path",
+    "zone": "emberwild",
+    "name": "The Burning Path",
+    "minLevel": 60,
+    "description": "Ranger Ashby keeps a trail through the volcanic jungle. Something keeps setting it on fire.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "My trail's on fire. Again. Third time this week.",
+            "name": "Ranger Ashby"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A monkey with a burning tail swings past, giggling."
+          }
+        ],
+        "enemies": [
+          "cinder-monkey"
+        ],
+        "level": 60
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "A parrot lands on a branch and shouts something very rude."
+          }
+        ],
+        "enemies": [
+          "ember-parrot"
+        ],
+        "level": 61
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "Trail's safe. For today. Come back tomorrow, it'll be on fire again.",
+        "name": "Ranger Ashby"
+      }
+    ],
+    "reward": {
+      "xp": 2600,
+      "gold": 2100,
+      "items": {
+        "mana-tonic": 2
+      }
+    }
+  },
+  {
+    "id": "the-hungry-garden",
+    "zone": "emberwild",
+    "name": "The Hungry Garden",
+    "minLevel": 62,
+    "requires": "the-burning-path",
+    "description": "Ashby's camp is surrounded by Flame Lilies. They are growing closer every night.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "They were six feet away yesterday. Today they're four. I'm not sleeping well.",
+            "name": "Ranger Ashby"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A Flame Lily turns its petals toward you and opens its mouth."
+          }
+        ],
+        "enemies": [
+          "flame-lily"
+        ],
+        "level": 62
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "A raptor bursts out of the ferns behind it."
+          }
+        ],
+        "enemies": [
+          "flame-lily",
+          "jungle-raptor"
+        ],
+        "level": 63
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "The camp's safe. I'm moving it anyway.",
+        "name": "Ranger Ashby"
+      }
+    ],
+    "reward": {
+      "xp": 2700,
+      "gold": 1900
+    },
+    "choice": {
+      "prompt": "One small Flame Lily is left, curled up and scared.",
+      "options": [
+        {
+          "id": "pot",
+          "label": "Pot it and give it to Ashby",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "Ashby names it Petal and feeds it bugs. She seems pleased. So does Petal."
+            }
+          ],
+          "reward": {
+            "gold": 1000,
+            "items": {
+              "dragon-treat": 3
+            }
+          },
+          "temper": "gentle"
+        },
+        {
+          "id": "seeds",
+          "label": "Take its seeds for the Forge",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "The seeds glow like coals. They'll make good fuel."
+            }
+          ],
+          "reward": {
+            "materials": {
+              "crystal": 2
+            },
+            "embers": 3
+          },
+          "temper": "clever"
+        }
+      ]
+    }
+  },
+  {
+    "id": "the-slow-road",
+    "zone": "emberwild",
+    "name": "The Slow Road",
+    "minLevel": 64,
+    "requires": "the-hungry-garden",
+    "description": "A Magma Tortoise has stopped in the middle of the only bridge. It might move in a hundred years.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "I've asked it nicely. I've asked it rudely. It just blinks.",
+            "name": "Ranger Ashby"
+          },
+          {
+            "speaker": "narrator",
+            "text": "The tortoise blinks. Slowly."
+          }
+        ],
+        "enemies": [
+          "magma-tortoise"
+        ],
+        "level": 64
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "A monkey hops on its shell and starts throwing embers."
+          }
+        ],
+        "enemies": [
+          "magma-tortoise",
+          "cinder-monkey"
+        ],
+        "level": 65
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "Bridge is clear. The tortoise found somewhere warmer to sit.",
+        "name": "Ranger Ashby"
+      }
+    ],
+    "reward": {
+      "xp": 2800,
+      "gold": 2400,
+      "materials": {
+        "ore": 5,
+        "crystal": 2
+      }
+    }
+  },
+  {
+    "id": "king-of-the-canopy",
+    "zone": "emberwild",
+    "name": "King of the Canopy",
+    "minLevel": 66,
+    "requires": "the-slow-road",
+    "description": "The Vine Tyrant has declared the whole jungle his. Including Ashby.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "The canopy rustles as his loyal subjects come to meet you."
+          }
+        ],
+        "enemies": [
+          "jungle-raptor",
+          "ember-parrot"
+        ],
+        "level": 66
+      },
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "Bow before the KING of the CANOPY!",
+            "name": "Vine Tyrant"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A great gorilla wrapped in vines drops down from the trees and beats his chest."
+          }
+        ],
+        "enemies": [
+          "vine-tyrant"
+        ],
+        "level": 67,
+        "mini": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "He'll be fine. He's just a bit full of himself. Now, about that volcano.",
+        "name": "Ranger Ashby"
+      }
+    ],
+    "reward": {
+      "xp": 2900,
+      "gold": 2600,
+      "embers": 4
+    },
+    "choice": {
+      "prompt": "The Vine Tyrant offers you a place in his court.",
+      "options": [
+        {
+          "id": "accept",
+          "label": "Accept, politely",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "He gives you a crown of leaves. It's itchy, but it's the thought that counts."
+            }
+          ],
+          "reward": {
+            "materials": {
+              "scale": 1
+            },
+            "embers": 2
+          },
+          "temper": "gentle"
+        },
+        {
+          "id": "decline",
+          "label": "Tell him there's only one king here, and it's your dragon",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "Your dragon roars. The Tyrant bows. Ashby laughs for a full minute."
+            }
+          ],
+          "reward": {
+            "gold": 1600
+          },
+          "temper": "proud"
+        }
+      ]
+    }
+  },
+  {
+    "id": "the-volcanadon",
+    "zone": "emberwild",
+    "name": "The Volcanadon",
+    "minLevel": 69,
+    "requires": "king-of-the-canopy",
+    "description": "At the heart of Emberwild walks a dinosaur with a volcano on its back. It erupts when it gets cross, and it is always cross.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "I'll be at camp. With the buckets. Lots of buckets.",
+            "name": "Ranger Ashby"
+          },
+          {
+            "speaker": "narrator",
+            "text": "The ground shakes. Lava trickles past your feet."
+          }
+        ],
+        "enemies": [
+          "magma-tortoise",
+          "flame-lily"
+        ],
+        "level": 69
+      },
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "RRRAAAWR!",
+            "name": "Volcanadon"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A huge armored dinosaur stomps out of the smoke, the volcano on its back rumbling."
+          }
+        ],
+        "enemies": [
+          "volcanadon"
+        ],
+        "level": 70,
+        "boss": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "The Volcanadon lies down in a river and cools off with a long hiss of steam. For the first time in years, Emberwild is quiet.",
+        "name": "Ranger Ashby"
+      }
+    ],
+    "reward": {
+      "xp": 3800,
+      "gold": 4200,
+      "embers": 12
+    }
+  },
+  {
+    "id": "the-smiths-request",
+    "zone": "steelspine-range",
+    "name": "The Smith's Request",
+    "minLevel": 60,
+    "description": "Smith Torva forges with the lightning that hits the Steelspine. Something keeps stealing her iron.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "My iron's gone. Again. And there are little shell marks all over the floor.",
+            "name": "Smith Torva"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A beetle trundles away with a horseshoe on its back."
+          }
+        ],
+        "enemies": [
+          "rivet-beetle"
+        ],
+        "level": 60
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "A ferret, fur on end, is hiding in the charcoal."
+          }
+        ],
+        "enemies": [
+          "static-ferret"
+        ],
+        "level": 61
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "My iron's back. Mostly. One horseshoe has a bite out of it.",
+        "name": "Smith Torva"
+      }
+    ],
+    "reward": {
+      "xp": 2600,
+      "gold": 2100,
+      "items": {
+        "mana-tonic": 2
+      }
+    }
+  },
+  {
+    "id": "the-howling-pass",
+    "zone": "steelspine-range",
+    "name": "The Howling Pass",
+    "minLevel": 62,
+    "requires": "the-smiths-request",
+    "description": "The Thunder Hounds howl every time lightning strikes, and it strikes every few seconds.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "I haven't slept in a week. The howling. THE HOWLING.",
+            "name": "Smith Torva"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A hound throws back its head and howls as lightning cracks overhead."
+          }
+        ],
+        "enemies": [
+          "thunder-hound"
+        ],
+        "level": 62
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "A wolf in bucket armor joins the chorus."
+          }
+        ],
+        "enemies": [
+          "thunder-hound",
+          "scrap-wolf"
+        ],
+        "level": 63
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "Quiet. Beautiful quiet. I could cry.",
+        "name": "Smith Torva"
+      }
+    ],
+    "reward": {
+      "xp": 2700,
+      "gold": 1900
+    },
+    "choice": {
+      "prompt": "The smallest Thunder Hound sits down and looks up at you, sparks fizzing in its fur.",
+      "options": [
+        {
+          "id": "pat",
+          "label": "Give it a pat",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "Zap. Your hair stands on end for the rest of the day. The hound follows you home, then wanders off, happy."
+            }
+          ],
+          "reward": {
+            "items": {
+              "dragon-treat": 3
+            },
+            "gold": 900
+          },
+          "temper": "gentle"
+        },
+        {
+          "id": "rod",
+          "label": "Teach it to howl into Torva's lightning rod",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "Its howl rings through the rod and charges the forge. Torva is delighted."
+            }
+          ],
+          "reward": {
+            "materials": {
+              "crystal": 2
+            },
+            "embers": 3
+          },
+          "temper": "clever"
+        }
+      ]
+    }
+  },
+  {
+    "id": "blades-of-the-sky",
+    "zone": "steelspine-range",
+    "name": "Blades of the Sky",
+    "minLevel": 64,
+    "requires": "the-howling-pass",
+    "description": "Iron Hawks have been diving at anything shiny. Torva is very shiny.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "They took my best hammer. Who takes a hammer? A bird took a hammer.",
+            "name": "Smith Torva"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A hawk with knife-feathers screeches overhead."
+          }
+        ],
+        "enemies": [
+          "iron-hawk"
+        ],
+        "level": 64
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "Another hawk drops a beetle on you, on purpose."
+          }
+        ],
+        "enemies": [
+          "iron-hawk",
+          "rivet-beetle"
+        ],
+        "level": 65
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "My hammer! Look, it's barely dented.",
+        "name": "Smith Torva"
+      }
+    ],
+    "reward": {
+      "xp": 2800,
+      "gold": 2400,
+      "materials": {
+        "ore": 6,
+        "crystal": 2
+      }
+    }
+  },
+  {
+    "id": "the-lightning-lynx",
+    "zone": "steelspine-range",
+    "name": "The Lightning Lynx",
+    "minLevel": 66,
+    "requires": "blades-of-the-sky",
+    "description": "Something faster than lightning prowls the high ridges. Torva wants one of its whiskers for her forge.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "The ridge crackles. Fur and scrap metal everywhere."
+          }
+        ],
+        "enemies": [
+          "scrap-wolf",
+          "static-ferret"
+        ],
+        "level": 66
+      },
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "You're slow. Everyone's slow.",
+            "name": "Lightning Lynx"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A silver lynx appears out of nowhere, ears crackling with lightning."
+          }
+        ],
+        "enemies": [
+          "lightning-lynx"
+        ],
+        "level": 67,
+        "mini": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "One whisker. That's all I needed. Now, about the dragon at the top.",
+        "name": "Smith Torva"
+      }
+    ],
+    "reward": {
+      "xp": 2900,
+      "gold": 2600,
+      "embers": 4
+    },
+    "choice": {
+      "prompt": "The Lightning Lynx offers you a race up the mountain instead of a fight.",
+      "options": [
+        {
+          "id": "race",
+          "label": "Race it",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "You lose, of course. But your dragon gives it a good run, and the lynx drops a crackling claw as a prize."
+            }
+          ],
+          "reward": {
+            "materials": {
+              "scale": 1
+            },
+            "embers": 2
+          },
+          "temper": "bold"
+        },
+        {
+          "id": "trade",
+          "label": "Trade it a polished bolt for a whisker",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "It loves the shiny bolt. You get a whisker and the lynx's respect."
+            }
+          ],
+          "reward": {
+            "gold": 1600
+          },
+          "temper": "clever"
+        }
+      ]
+    }
+  },
+  {
+    "id": "ferrovane",
+    "zone": "steelspine-range",
+    "name": "Ferrovane",
+    "minLevel": 69,
+    "requires": "the-lightning-lynx",
+    "description": "At the top of the Steelspine sleeps Ferrovane, the oldest steel-scaled dragon. The lightning is her heartbeat.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "Be polite. She's older than the mountain. Bring her something shiny. No, not my hammer.",
+            "name": "Smith Torva"
+          },
+          {
+            "speaker": "narrator",
+            "text": "The last guards of the peak bar the way."
+          }
+        ],
+        "enemies": [
+          "thunder-hound",
+          "iron-hawk"
+        ],
+        "level": 69
+      },
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "Another young dragon. How lovely. Let us see if you are worth the climb.",
+            "name": "Ferrovane"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A huge dragon of polished steel unfolds on the summit, sparks crackling along her horns."
+          }
+        ],
+        "enemies": [
+          "ferrovane"
+        ],
+        "level": 70,
+        "boss": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "Ferrovane folds her wings and lowers her head to your dragon. Two dragons, one very young and one very old, sit together in the storm for a long time.",
+        "name": "Smith Torva"
+      }
+    ],
+    "reward": {
+      "xp": 3800,
+      "gold": 4200,
+      "embers": 12
+    }
   }
 ]

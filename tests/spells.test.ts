@@ -29,8 +29,8 @@ function setup(r: RiderState, over: Partial<BattleSetup> = {}): BattleSetup {
 const cast = (spell: string, target = 'e0'): Orders => ({ rider: { type: 'spell', spell, target }, dragon: { type: 'guard' } });
 
 describe('spell data', () => {
-  it('has fifteen spells, two from level 1, one per element of the ring plus Shadow, Light, Aether and Void, and Tempest at 53', () => {
-    expect(spells).toHaveLength(15);
+  it('has eighteen spells, two from level 1, one per element of the ring plus Shadow, Light, Aether and Void, Tempest at 53 and Inferno at 63', () => {
+    expect(spells).toHaveLength(18);
     expect(knownSpells(data, 1).map((s) => s.id)).toEqual(['arc-bolt', 'mend']);
     const elements = [...new Set(spells.filter((s) => s.element).map((s) => s.element))].sort();
     expect(elements).toEqual([...data.elements.ring, 'shadow', 'light', 'aether', 'void'].sort());
@@ -56,7 +56,7 @@ describe('spell data', () => {
 describe('spell loadout', () => {
   it('fills from the first spells learned', () => {
     expect(defaultLoadout(data, 1)).toEqual(['arc-bolt', 'mend']);
-    expect(defaultLoadout(data, 50)).toEqual(['arc-bolt', 'mend', 'frost-dart', 'static-lash']);
+    expect(defaultLoadout(data, 50)).toEqual(['arc-bolt', 'mend', 'rot-spit', 'frost-dart']);
     expect(newRider(data, 'New').spells).toEqual(['arc-bolt', 'mend']);
   });
 
@@ -95,12 +95,12 @@ describe('spells in battle', () => {
     expect(createBattle(data, setup(rider(12, ['tide-surge', 'mend']))).spells).toEqual(['tide-surge', 'mend']);
   });
 
-  it('an element spell uses its element: Frost Dart is strong against a Verdant enemy', () => {
-    const b = createBattle(data, setup(rider(5, ['frost-dart'])));
-    const { events, state } = resolveRound(data, b, cast('frost-dart'));
+  it('an element spell uses its element: Rot Spit is strong against a Verdant enemy', () => {
+    const b = createBattle(data, setup(rider(5, ['rot-spit'])));
+    const { events, state } = resolveRound(data, b, cast('rot-spit'));
     const hit = events.find((e) => e.t === 'hit' && e.actor === 'rider');
     expect(hit && hit.t === 'hit' && hit.matchup).toBe('strong');
-    expect(state.rider.mp).toBe(b.rider.mp - spells.find((s) => s.id === 'frost-dart')!.mp);
+    expect(state.rider.mp).toBe(b.rider.mp - spells.find((s) => s.id === 'rot-spit')!.mp);
   });
 
   it('an element spell can inflict its status (fixed seeds)', () => {
@@ -143,18 +143,18 @@ describe('spells in battle', () => {
 
 describe('auto-battler spells', () => {
   it('suggests the strong spell for a zone', () => {
-    expect(suggestedLoadout(data, 50, 'storm')).toContain('shale-spike');
+    expect(suggestedLoadout(data, 50, 'storm')).toContain('steel-needles');
     expect(suggestedLoadout(data, 50, 'stone')[1]).toBe('thorn-snare');
     expect(suggestedLoadout(data, 50, 'verdant')).toHaveLength(size);
     expect(suggestedLoadout(data, 1, 'verdant')).toEqual(['mend', 'arc-bolt']);
   });
 
   it('casts the strongest damage spell in the loadout against the target', () => {
-    const r = { ...rider(18, ['arc-bolt', 'frost-dart', 'shale-spike', 'mend']), equipment: { weapon: 'ash-blade' } };
+    const r = { ...rider(18, ['arc-bolt', 'rot-spit', 'shale-spike', 'mend']), equipment: { weapon: 'ash-blade' } };
     const full = { ...r, hp: riderMaxHp(data, r) };
     const b = createBattle(data, setup(full, { enemies: [{ enemyId: 'thornling', level: 18 }] }));
-    // Thornling is Verdant: Frost beats it. Stone is beaten by Verdant, so Shale Spike is the worst pick.
-    expect(autoOrders(data, b).rider).toEqual({ type: 'spell', spell: 'frost-dart', target: 'e0' });
+    // Thornling is Verdant: Blight beats it. Stone is beaten by Verdant, so Shale Spike is the worst pick.
+    expect(autoOrders(data, b).rider).toEqual({ type: 'spell', spell: 'rot-spit', target: 'e0' });
     const noFrost = createBattle(data, setup({ ...full, spells: ['arc-bolt', 'shale-spike', 'mend'] }, { enemies: [{ enemyId: 'thornling', level: 18 }] }));
     expect(autoOrders(data, noFrost).rider).toEqual({ type: 'spell', spell: 'arc-bolt', target: 'e0' });
   });
@@ -188,7 +188,7 @@ describe('save v6 to v7', () => {
     expect(s.version).toBe(CURRENT_VERSION);
     expect(s.rider.name).toBe('Fixture Six');
     expect(s.rider.level).toBe(26);
-    expect(s.rider.spells).toEqual(['arc-bolt', 'mend', 'frost-dart', 'static-lash']);
+    expect(s.rider.spells).toEqual(['arc-bolt', 'mend', 'rot-spit', 'frost-dart']);
     expect(s.run?.battle?.spells).toEqual(['arc-bolt', 'mend']);
     // The migrated fight still plays.
     const next = playRound(data, s, autoOrders(data, s.run!.battle!));

@@ -180,8 +180,8 @@ describe('hybrids in battle', () => {
 
   it('a hybrid attacks with its better element, at reduced power', () => {
     const glacier = { element: 'tide' as const, element2: 'frost' as const };
-    // Frost beats Verdant; Tide against Verdant is neutral.
-    expect(attackElement(data.elements, 0.9, glacier, { element: 'verdant' })).toEqual({ element: 'frost', factor: 0.9 });
+    // Frost beats Blight; Tide against Blight is neutral.
+    expect(attackElement(data.elements, 0.9, glacier, { element: 'blight' })).toEqual({ element: 'frost', factor: 0.9 });
     expect(attackElement(data.elements, 0.9, { element: 'tide', element2: null }, { element: 'verdant' })).toEqual({ element: 'tide', factor: 1 });
   });
 
@@ -190,12 +190,13 @@ describe('hybrids in battle', () => {
     let soak = 0;
     for (let seed = 1; seed <= 60; seed++) {
       const d = hatchDragon(data, createRng(9), {
-        id: 'd', name: 'Floe', element: 'tide', element2: 'frost', colors: { primary: '#f00', secondary: '#000' }, now: 0,
+        id: 'd', name: 'Floe', element: 'tide', element2: 'fire', colors: { primary: '#f00', secondary: '#000' }, now: 0,
       });
-      let s = createBattle(data, { rider: newRider(data, 'Ash'), dragon: d, enemies: [{ enemyId: 'bramble-troll', level: 8 }], seed, canFlee: true });
+      // Steam against a Frost enemy: Fire beats Frost, Tide doesn't, so the breath is Fire and can Burn, never Soak.
+      let s = createBattle(data, { rider: newRider(data, 'Ash'), dragon: d, enemies: [{ enemyId: 'yeti-cub', level: 30 }], seed, canFlee: true });
       s = { ...s, breath: data.combat.breath.max };
       const r = resolveRound(data, s, { rider: { type: 'defend' }, dragon: { type: 'breath', target: 'e0' } });
-      for (const e of r.events) if (e.t === 'status' && e.target === 'e0') { if (e.status === 'chill') chill++; if (e.status === 'soak') soak++; }
+      for (const e of r.events) if (e.t === 'status' && e.target === 'e0') { if (e.status === 'burn') chill++; if (e.status === 'soak') soak++; }
     }
     expect(chill).toBeGreaterThan(0);
     expect(soak).toBe(0);

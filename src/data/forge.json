@@ -195,6 +195,39 @@
         "crystal": 8,
         "scale": 4
       }
+    },
+    {
+      "gear": "heartwood-talisman",
+      "forgeLevel": 3,
+      "gold": 6000,
+      "embers": 20,
+      "materials": {
+        "ore": 18,
+        "crystal": 8,
+        "scale": 4
+      }
+    },
+    {
+      "gear": "caldera-heart",
+      "forgeLevel": 3,
+      "gold": 8000,
+      "embers": 24,
+      "materials": {
+        "ore": 20,
+        "crystal": 9,
+        "scale": 5
+      }
+    },
+    {
+      "gear": "dragonsteel-band",
+      "forgeLevel": 3,
+      "gold": 8000,
+      "embers": 24,
+      "materials": {
+        "ore": 20,
+        "crystal": 9,
+        "scale": 5
+      }
     }
   ]
 }

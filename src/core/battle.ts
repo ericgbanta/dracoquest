@@ -271,7 +271,7 @@ const alive = (f: Fighter | null | undefined): f is Fighter => !!f && f.hp > 0;
 const has = (f: Fighter, id: StatusId) => f.statuses.some((s) => s.id === id);
 
 type StatusNumber = 'initiativeMultiplier' | 'defenseMultiplier' | 'damageTakenMultiplier' | 'skipChance'
-  | 'accuracyPenalty' | 'damageMultiplier' | 'defenseBonus' | 'dodgeBonus' | 'healMultiplier' | 'breathGainMultiplier';
+  | 'accuracyPenalty' | 'damageMultiplier' | 'defenseBonus' | 'dodgeBonus' | 'healMultiplier' | 'breathGainMultiplier' | 'physicalTakenMultiplier';
 /** Statuses act through their effect fields in statuses.json, not their ids, so a new status can be data only. */
 const statusData = (data: GameData, f: Fighter) => f.statuses.map((s) => data.statuses[s.id]);
 /** The product of a multiplier field over a fighter's statuses (1 when none has it). */
@@ -485,6 +485,8 @@ function strike(ctx: RoundCtx, attacker: Fighter, target: Fighter, spec: AttackS
   defense *= statusProduct(data, target, 'defenseMultiplier');
   defense += statusSum(data, target, 'defenseBonus');
   let takenMult = statusProduct(data, target, 'damageTakenMultiplier');
+  // Rend: plain attacks with no element hit harder.
+  if (!spec.element) takenMult *= statusProduct(data, target, 'physicalTakenMultiplier');
   if (target.kind === 'rider' && ctx.riderDefending) takenMult *= c.defend.damageTakenMultiplier;
   let dmg = damageFormula(c, {
     base, stat: spec.stat, element: mult, crit, roll: rng.float(c.damageRandMin, c.damageRandMax), defense,
@@ -1025,7 +1027,9 @@ function endOfRound(ctx: RoundCtx, comboUsed: boolean): void {
     for (const s of f.statuses) {
       const sd = data.statuses[s.id];
       if (sd.dotFraction) {
-        const amount = Math.max(1, Math.round(f.maxHp * sd.dotFraction));
+        // A growing damage-over-time (Rot) hurts more each round it has been on.
+        const grow = 1 + (sd.dotGrowth ?? 0) * (sd.duration - s.turns);
+        const amount = Math.max(1, Math.round(f.maxHp * sd.dotFraction * grow));
         f.hp = Math.max(0, f.hp - amount);
         events.push({ t: 'dot', target: f.id, status: s.id, amount, text: `${f.name} takes ${amount} from ${sd.name}.` });
         if (f.hp === 0) events.push({ t: 'ko', target: f.id, text: koText(f) });

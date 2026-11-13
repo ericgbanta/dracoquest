@@ -1,6 +1,6 @@
 /** Shared data and state types for the game core. */
 
-export type ElementId = 'fire' | 'frost' | 'verdant' | 'stone' | 'storm' | 'tide' | 'light' | 'shadow' | 'aether' | 'void';
+export type ElementId = 'fire' | 'frost' | 'verdant' | 'stone' | 'storm' | 'tide' | 'light' | 'shadow' | 'aether' | 'void' | 'blight' | 'steel';
 
 export type RiderStat = 'strength' | 'agility' | 'arcana' | 'vigor';
 export type DragonStat = 'might' | 'scale' | 'swift' | 'spirit';
@@ -11,7 +11,7 @@ export const RIDER_STATS: readonly RiderStat[] = ['strength', 'agility', 'arcana
 export const DRAGON_STATS: readonly DragonStat[] = ['might', 'scale', 'swift', 'spirit'];
 
 export type StatusId =
-  | 'burn' | 'chill' | 'root' | 'crack' | 'shock' | 'soak' | 'blind' | 'ward' | 'fury' | 'harden' | 'fade' | 'taunt' | 'silence' | 'hollow';
+  | 'burn' | 'chill' | 'root' | 'crack' | 'shock' | 'soak' | 'blind' | 'ward' | 'fury' | 'harden' | 'fade' | 'taunt' | 'silence' | 'hollow' | 'rot' | 'rend';
 
 /** Stat and effect bonuses from gear and talents. Every key is optional and adds up. */
 export type BonusKey =
@@ -275,6 +275,8 @@ export interface StatusData {
   silenced?: boolean;
   /** Hollow: healing received and breath gained are multiplied by these. */
   healMultiplier?: number; breathGainMultiplier?: number;
+  /** Rot: damage over time grows by this share each round it stays on. Rend: plain (no element) hits are multiplied by this. */
+  dotGrowth?: number; physicalTakenMultiplier?: number;
   shieldFraction?: number; damageMultiplier?: number; defenseBonus?: number; dodgeBonus?: number;
 }
 

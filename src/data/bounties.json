@@ -881,6 +881,300 @@
         },
         "enemy": "thunder-ray"
       }
+    ],
+    "rotroot-thicket": [
+      {
+        "id": "grub-pick",
+        "kind": "defeat",
+        "count": 5,
+        "text": "Pick 5 Rot Grubs off the trees",
+        "reward": {
+          "gold": 760,
+          "materials": {
+            "ore": 3
+          }
+        },
+        "enemy": "rot-grub"
+      },
+      {
+        "id": "vine-trim",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Trim 4 Thornvine Creepers",
+        "reward": {
+          "gold": 740,
+          "embers": 1
+        },
+        "enemy": "thornvine-creeper"
+      },
+      {
+        "id": "toad-hush",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Calm 4 Spore Toads",
+        "reward": {
+          "gold": 760,
+          "materials": {
+            "ore": 3
+          }
+        },
+        "enemy": "spore-toad"
+      },
+      {
+        "id": "croc-move",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Move along 3 Mire Lurkers",
+        "reward": {
+          "gold": 740,
+          "embers": 1
+        },
+        "enemy": "mire-lurker"
+      },
+      {
+        "id": "cap-pick",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Pick 3 Gloomcap Walkers",
+        "reward": {
+          "gold": 760,
+          "materials": {
+            "ore": 3
+          }
+        },
+        "enemy": "gloomcap-walker"
+      },
+      {
+        "id": "thicket-wins",
+        "kind": "wins",
+        "count": 6,
+        "text": "Win 6 fights in Rotroot Thicket",
+        "reward": {
+          "gold": 900,
+          "materials": {
+            "ore": 4
+          }
+        }
+      },
+      {
+        "id": "thicket-clear",
+        "kind": "clear",
+        "count": 2,
+        "text": "Finish 2 runs in Rotroot Thicket",
+        "reward": {
+          "gold": 1060,
+          "embers": 3
+        }
+      },
+      {
+        "id": "rotwood-ent-hunt",
+        "kind": "defeat",
+        "count": 1,
+        "text": "Defeat the Rotwood Ent",
+        "reward": {
+          "gold": 900,
+          "materials": {
+            "scale": 1
+          }
+        },
+        "enemy": "rotwood-ent"
+      }
+    ],
+    "emberwild": [
+      {
+        "id": "monkey-chase",
+        "kind": "defeat",
+        "count": 5,
+        "text": "Chase off 5 Cinder Monkeys",
+        "reward": {
+          "gold": 1160,
+          "materials": {
+            "ore": 3
+          }
+        },
+        "enemy": "cinder-monkey"
+      },
+      {
+        "id": "lily-trim",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Trim 4 Flame Lilies",
+        "reward": {
+          "gold": 1140,
+          "embers": 1
+        },
+        "enemy": "flame-lily"
+      },
+      {
+        "id": "tortoise-nudge",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Nudge 3 Magma Tortoises along",
+        "reward": {
+          "gold": 1160,
+          "materials": {
+            "ore": 3
+          }
+        },
+        "enemy": "magma-tortoise"
+      },
+      {
+        "id": "raptor-track",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Track down 4 Jungle Raptors",
+        "reward": {
+          "gold": 1140,
+          "embers": 1
+        },
+        "enemy": "jungle-raptor"
+      },
+      {
+        "id": "parrot-hush",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Hush 3 Ember Parrots",
+        "reward": {
+          "gold": 1160,
+          "materials": {
+            "ore": 3
+          }
+        },
+        "enemy": "ember-parrot"
+      },
+      {
+        "id": "jungle-wins",
+        "kind": "wins",
+        "count": 6,
+        "text": "Win 6 fights in Emberwild",
+        "reward": {
+          "gold": 1300,
+          "materials": {
+            "ore": 4
+          }
+        }
+      },
+      {
+        "id": "jungle-clear",
+        "kind": "clear",
+        "count": 2,
+        "text": "Finish 2 runs in Emberwild",
+        "reward": {
+          "gold": 1460,
+          "embers": 3
+        }
+      },
+      {
+        "id": "vine-tyrant-hunt",
+        "kind": "defeat",
+        "count": 1,
+        "text": "Defeat the Vine Tyrant",
+        "reward": {
+          "gold": 1300,
+          "materials": {
+            "scale": 1
+          }
+        },
+        "enemy": "vine-tyrant"
+      }
+    ],
+    "steelspine-range": [
+      {
+        "id": "beetle-sort",
+        "kind": "defeat",
+        "count": 5,
+        "text": "Sort 5 Rivet Beetles",
+        "reward": {
+          "gold": 1160,
+          "materials": {
+            "ore": 3
+          }
+        },
+        "enemy": "rivet-beetle"
+      },
+      {
+        "id": "hound-hush",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Hush 4 Thunder Hounds",
+        "reward": {
+          "gold": 1140,
+          "embers": 1
+        },
+        "enemy": "thunder-hound"
+      },
+      {
+        "id": "hawk-ground",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Ground 3 Iron Hawks",
+        "reward": {
+          "gold": 1160,
+          "materials": {
+            "ore": 3
+          }
+        },
+        "enemy": "iron-hawk"
+      },
+      {
+        "id": "ferret-calm",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Calm 4 Static Ferrets",
+        "reward": {
+          "gold": 1140,
+          "embers": 1
+        },
+        "enemy": "static-ferret"
+      },
+      {
+        "id": "wolf-scrap",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Scrap 3 Scrap Wolves",
+        "reward": {
+          "gold": 1160,
+          "materials": {
+            "ore": 3
+          }
+        },
+        "enemy": "scrap-wolf"
+      },
+      {
+        "id": "range-wins",
+        "kind": "wins",
+        "count": 6,
+        "text": "Win 6 fights in the Steelspine Range",
+        "reward": {
+          "gold": 1300,
+          "materials": {
+            "ore": 4
+          }
+        }
+      },
+      {
+        "id": "range-clear",
+        "kind": "clear",
+        "count": 2,
+        "text": "Finish 2 runs in the Steelspine Range",
+        "reward": {
+          "gold": 1460,
+          "embers": 3
+        }
+      },
+      {
+        "id": "lightning-lynx-hunt",
+        "kind": "defeat",
+        "count": 1,
+        "text": "Defeat the Lightning Lynx",
+        "reward": {
+          "gold": 1300,
+          "materials": {
+            "scale": 1
+          }
+        },
+        "enemy": "lightning-lynx"
+      }
     ]
   }
 }

@@ -129,5 +129,24 @@
     "healMultiplier": 0.5,
     "breathGainMultiplier": 0.5,
     "description": "Heals half as much. Breath fills half as fast."
+  },
+  "rot": {
+    "name": "Rot",
+    "icon": "\ud83c\udf44",
+    "short": "ROT",
+    "duration": 3,
+    "kind": "debuff",
+    "dotFraction": 0.04,
+    "dotGrowth": 0.5,
+    "description": "Takes damage each round, more every round."
+  },
+  "rend": {
+    "name": "Rend",
+    "icon": "\ud83d\udde1",
+    "short": "RND",
+    "duration": 3,
+    "kind": "debuff",
+    "physicalTakenMultiplier": 1.25,
+    "description": "Plain attacks hit it harder."
   }
 }
