@@ -159,5 +159,33 @@
       "gold": 0,
       "embers": 10
     }
+  },
+  "breeds": {
+    "dragon": {
+      "name": "Dragon",
+      "blurb": "Four legs, two wings, and a little of everything."
+    }
+  },
+  "variants": {
+    "chance": 0.02,
+    "inheritedChance": 0.1,
+    "info": {
+      "shimmer": {
+        "name": "Shimmer",
+        "blurb": "Its scales catch the light like polished metal."
+      },
+      "starry": {
+        "name": "Starry",
+        "blurb": "Speckled with tiny bright spots, like a night sky."
+      },
+      "ghost": {
+        "name": "Ghost",
+        "blurb": "A little see-through, with a soft glow at the edges."
+      },
+      "ember-eyed": {
+        "name": "Ember-eyed",
+        "blurb": "Its spines and belly glow like coals."
+      }
+    }
   }
 }

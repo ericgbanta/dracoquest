@@ -410,6 +410,7 @@ a.button { text-decoration: none; display: inline-flex; align-items: center; jus
 .building .upgrade { width: 100%; margin-top: 8px; font-size: 0.9rem; }
 .building .list-button { margin-top: 6px; width: 100%; }
 .slot-row .button { flex: none; }
+.slot-row > .slot-actions { flex: none; display: flex; flex-direction: column; gap: 6px; align-items: stretch; }
 .idle--bold { animation: bob 1.6s ease-in-out infinite; }
 .idle--gentle { animation: bob 3.2s ease-in-out infinite; }
 .idle--clever { animation: tilt 3s ease-in-out infinite; }

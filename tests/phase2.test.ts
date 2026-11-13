@@ -35,7 +35,7 @@ describe('eggs in the shop', () => {
     let s = rich(hatched(), price * 2 + 10);
     s = buyEgg(data, s, 'verdant');
     s = buyEgg(data, s, 'verdant');
-    expect(s.eggs.filter((e) => e === 'verdant')).toHaveLength(2);
+    expect(s.eggs.filter((e) => e.element === 'verdant')).toHaveLength(2);
     expect(s.rider.gold).toBe(10);
     expect(() => buyEgg(data, s, 'verdant')).toThrow('Not enough gold');
   });
@@ -264,8 +264,8 @@ describe('ride mode', () => {
         if (r.report) {
           if (r.report.outcome === 'won') {
             won++;
-            if (r.report.egg === 'storm') egg++;
-            expect(s.eggs).toEqual(['storm']);
+            if (r.report.egg?.element === 'storm') egg++;
+            expect(s.eggs.map((e) => e.element)).toEqual(['storm']);
             expect(s.bossesDefeated).toContain('thunderspire');
           }
           const d = activeDragon(s)!;

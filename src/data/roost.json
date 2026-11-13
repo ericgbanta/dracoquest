@@ -21,6 +21,20 @@
             "gold": 3500,
             "embers": 40
           }
+        },
+        {
+          "slots": 8,
+          "cost": {
+            "gold": 7000,
+            "embers": 60
+          }
+        },
+        {
+          "slots": 10,
+          "cost": {
+            "gold": 12000,
+            "embers": 90
+          }
         }
       ]
     },
@@ -84,6 +98,36 @@
         }
       ],
       "incubateEmbers": 3
+    },
+    "nesting": {
+      "name": "Nesting Grounds",
+      "description": "Two grown dragons can make an egg together.",
+      "levels": [
+        {
+          "hours": 8,
+          "cooldownDays": 3,
+          "cost": {
+            "gold": 2500,
+            "embers": 20
+          }
+        },
+        {
+          "hours": 6,
+          "cooldownDays": 2,
+          "cost": {
+            "gold": 5000,
+            "embers": 40
+          }
+        },
+        {
+          "hours": 4,
+          "cooldownDays": 2,
+          "cost": {
+            "gold": 9000,
+            "embers": 70
+          }
+        }
+      ]
     },
     "training": {
       "name": "Training Yard",
@@ -399,5 +443,19 @@
       "base": 48,
       "description": "Both dragons strike as one. Uses both dragon actions."
     }
-  ]
+  ],
+  "breeding": {
+    "stage": "adult",
+    "hybridChance": 0.2,
+    "cost": {
+      "gold": 500,
+      "embers": 5
+    }
+  },
+  "releaseEmbers": {
+    "base": 3,
+    "hybrid": 2,
+    "breed": 2,
+    "variant": 7
+  }
 }

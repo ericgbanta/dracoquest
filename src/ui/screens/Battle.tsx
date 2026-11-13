@@ -12,6 +12,7 @@ import { getZone } from '../../core/run';
 import { matchup, weaknessesOf } from '../../core/elements';
 import { spellById } from '../../core/spells';
 import { storyById } from '../../core/adventures';
+import { eggName } from '../../core/eggs';
 import { rewardText } from '../bits';
 import type { SaveData } from '../../core/save';
 import { DragonSprite, EnemySprite } from '../Sprites';
@@ -668,7 +669,7 @@ function Results({ save, report, update, onExit, onNext }: {
           </p>
         );
       })}
-      {report.egg && <p class="notice notice--ok" data-testid="egg-drop"><Icon name="egg" fallback="🥚" /> The boss dropped a {data.dragons.eggs[report.egg]?.name ?? `${data.elements.info[report.egg].name} egg`}! Incubate it in the Hatchery at the Roost.</p>}
+      {report.egg && <p class="notice notice--ok" data-testid="egg-drop"><Icon name="egg" fallback="🥚" /> The boss dropped a {eggName(data, report.egg)}! Incubate it in the Hatchery at the Roost.</p>}
       {report.embers ? <p class="notice notice--ok" data-testid="embers-reward"><Icon name="ember" fallback="🔥" /> +{report.embers} embers</p> : null}
       {report.grewTo && dragon && (
         <>

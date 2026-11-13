@@ -1,4 +1,4 @@
-import type { DragonState, DragonStats, ElementId, GameData, RiderState } from './types';
+import type { DragonState, DragonStats, ElementId, GameData, RiderState, VariantId } from './types';
 import { defaultLoadout } from './spells';
 import type { Rng } from './rng';
 import { bonusOf, dragonBonus, effectiveDragonStats, effectiveRiderStats, riderBonus } from './loadout';
@@ -48,10 +48,14 @@ export function newRider(data: GameData, name: string): RiderState {
   };
 }
 
-export function dragonBaseStats(data: GameData, element: ElementId): DragonStats {
+/** Base stats plus the element's bonus. A hybrid gets half of each element's bonus. */
+export function dragonBaseStats(data: GameData, element: ElementId, element2: ElementId | null = null): DragonStats {
   const stats = { ...data.dragons.baseStats };
-  const bonus = data.dragons.elementBonus[element] ?? {};
-  for (const [k, v] of Object.entries(bonus)) stats[k as keyof DragonStats] += v;
+  const share = element2 ? 0.5 : 1;
+  for (const el of element2 ? [element, element2] : [element]) {
+    const bonus = data.dragons.elementBonus[el] ?? {};
+    for (const [k, v] of Object.entries(bonus)) stats[k as keyof DragonStats] += Math.round(v * share);
+  }
   return stats;
 }
 
@@ -59,13 +63,16 @@ export interface HatchOptions {
   id: string;
   name: string;
   element: ElementId;
+  element2?: ElementId | null;
+  breed?: string;
+  variant?: VariantId | null;
   colors: { primary: string; secondary: string };
   now: number;
 }
 
 /** Create a newly hatched dragon. The favorite food is picked by the RNG and kept hidden. */
 export function hatchDragon(data: GameData, rng: Rng, opts: HatchOptions): DragonState {
-  const stats = dragonBaseStats(data, opts.element);
+  const stats = dragonBaseStats(data, opts.element, opts.element2 ?? null);
   const stage = data.dragons.stages[0];
   if (!stage) throw new Error('No life stages in data');
   const name = opts.name.trim().slice(0, data.dragons.nameMaxLength) || 'Dragon';
@@ -91,6 +98,10 @@ export function hatchDragon(data: GameData, rng: Rng, opts: HatchOptions): Drago
     assignment: { kind: 'idle' },
     temper: { bold: 0, gentle: 0, clever: 0, proud: 0 },
     laidEgg: false,
+    breed: opts.breed ?? 'dragon',
+    element2: opts.element2 ?? null,
+    variant: opts.variant ?? null,
+    lastBredAt: 0,
   };
   return { ...dragon, hp: dragonMaxHp(data, dragon) };
 }

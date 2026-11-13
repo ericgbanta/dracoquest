@@ -66,7 +66,7 @@ describe('the Elder stage', () => {
     expect(canLayEgg(data, s, id)).toMatchObject({ ok: false });
     s = withDragon(s, { stage: 'elder', level: 40 });
     s = layEgg(data, s, id);
-    expect(s.eggs).toEqual(['fire']);
+    expect(s.eggs.map((e) => e.element)).toEqual(['fire']);
     expect(s.embers).toBe(100 - data.dragons.eggLaying.cost.embers);
     expect(() => layEgg(data, s, id)).toThrow('already laid');
   });
@@ -80,7 +80,7 @@ describe('the Elder stage', () => {
     s = startFight(data, s, { ride: true });
     for (let i = 0; i < 200 && s.run?.battle; i++) s = playRound(data, s, autoOrders(data, s.run.battle)).save;
     expect(s.bossesDefeated).toContain('eclipse-peak');
-    expect(['light', 'shadow']).toContain(s.eggs[0]);
+    expect(['light', 'shadow']).toContain(s.eggs[0]?.element);
   });
 });
 

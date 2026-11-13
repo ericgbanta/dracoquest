@@ -142,7 +142,7 @@ export function Town({ save, update }: Props) {
         <div class="list">
           {shopEggs(data).map(({ element, price }) => {
             const name = data.dragons.eggs[element]?.name ?? `${data.elements.info[element].name} egg`;
-            const have = save.eggs.filter((e) => e === element).length;
+            const have = save.eggs.filter((e) => e.element === element && !e.element2).length;
             return (
               <div key={`egg-${element}`} class="shop-row">
                 <div class="shop-info">

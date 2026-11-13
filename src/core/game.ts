@@ -15,9 +15,10 @@ import { bonusOf, dragonBonus, gearItem, learnTalent as learn, respecCost, rider
 import { getZone, planQuest, planRun, rollGear, rollRewards, type FightKind, type Rewards } from './run';
 import type { SaveData } from './save';
 import type { StoryReward } from './types';
-import type { BuildingId, DragonSlot, DragonState, DragonStat, ElementId, GameData, GearSlot, RiderSlot, RiderStat, StageData, ZoneData } from './types';
+import type { BuildingId, DragonSlot, DragonState, DragonStat, EggSpec, ElementId, GameData, GearSlot, RiderSlot, RiderStat, StageData, ZoneData } from './types';
 import { DRAGON_SLOTS } from './types';
 import { activeEvent, eventKey, eventOnlyIds } from './events';
+import { newEgg, plainEgg, releaseValue, rollVariant } from './eggs';
 import { learnSpells, setLoadout, SpellError } from './spells';
 import { addMaterials, craftGear, ForgeError, upgradeGear } from './forge';
 import {
@@ -62,7 +63,7 @@ function requireDragon(save: SaveData, id?: string): DragonState {
 export function chooseEgg(data: GameData, save: SaveData, element: ElementId): SaveData {
   if (!data.elements.starters.includes(element)) throw new GameError('Not a starter egg');
   if (save.dragons.length > 0) throw new GameError('You already have a dragon');
-  return { ...save, egg: { element, warmth: 0 } };
+  return { ...save, egg: { ...plainEgg(element), warmth: 0 } };
 }
 
 export function warmEgg(data: GameData, save: SaveData): SaveData {
@@ -80,7 +81,9 @@ export function hatchEgg(
   if (!save.egg || !eggReady(data, save)) throw new GameError('The egg is not ready');
   const egg = save.egg;
   const r = withRng(save, (rng) =>
-    hatchDragon(data, rng, { id: `dragon-${now.toString(36)}`, name, element: egg.element, colors, now }),
+    hatchDragon(data, rng, {
+      id: `dragon-${now.toString(36)}`, name, element: egg.element, element2: egg.element2, breed: egg.breed, variant: egg.variant, colors, now,
+    }),
   );
   const dragon = r.value;
   if (save.dragons.length >= nestSlots(data, save.roost)) throw new GameError('The Nest is full. Upgrade it for more room.');
@@ -288,7 +291,7 @@ export interface FightReport {
   wellKept: boolean;
   /** Set when a growth quest finished and the dragon grew. */
   grewTo?: string;
-  egg?: ElementId;
+  egg?: EggSpec;
   embers?: number;
   /** Set when this fight finished a story quest. */
   story?: { id: string; name: string; reward: StoryReward };
@@ -355,7 +358,7 @@ function finishFight(data: GameData, save: SaveData): { save: SaveData; report: 
       const zone = getZone(data, run.zoneId);
       if (plan.kind === 'boss' && zone.eggDrop) {
         const first = !save.bossesDefeated.includes(zone.id);
-        if (first || rng.chance(zone.eggDrop.chance)) rewards.egg = zone.eggDrop.elements ? rng.pick(zone.eggDrop.elements) : zone.eggDrop.element;
+        if (first || rng.chance(zone.eggDrop.chance)) rewards.egg = newEgg(data, rng, zone.eggDrop.elements ? rng.pick(zone.eggDrop.elements) : zone.eggDrop.element);
       }
       return rewards;
     });
@@ -597,7 +600,16 @@ export function buyEgg(data: GameData, save: SaveData, element: ElementId): Save
   const price = data.shop.eggs?.[element];
   if (price === undefined) throw new GameError('The shop does not sell that egg');
   if (save.rider.gold < price) throw new GameError('Not enough gold');
-  return { ...save, rider: { ...save.rider, gold: save.rider.gold - price }, eggs: [...save.eggs, element] };
+  const r = withRng(save, (rng) => newEgg(data, rng, element));
+  return { ...r.save, rider: { ...save.rider, gold: save.rider.gold - price }, eggs: [...save.eggs, r.value] };
+}
+
+/** Return an unwanted egg to the wild. The wild dragons leave embers in thanks; rarer eggs bring more. */
+export function releaseEgg(data: GameData, save: SaveData, index: number): { save: SaveData; embers: number } {
+  const egg = save.eggs[index];
+  if (!egg) throw new GameError('No such egg');
+  const embers = releaseValue(data, egg);
+  return { save: { ...save, embers: save.embers + embers, eggs: save.eggs.filter((_, i) => i !== index) }, embers };
 }
 
 export type EquipCheck = { ok: true } | { ok: false; reason: string };
@@ -720,12 +732,12 @@ export function collectFood(data: GameData, save: SaveData, now: number): { save
 // ---------- Hatchery ----------
 
 export function incubateEgg(data: GameData, save: SaveData, index: number, now: number): SaveData {
-  const element = save.eggs[index];
-  if (!element) throw new GameError('No such egg');
+  const egg = save.eggs[index];
+  if (!egg) throw new GameError('No such egg');
   const cost = data.roost.buildings.hatchery.incubateEmbers;
   if (save.embers < cost) throw new GameError(`Incubating costs ${cost} embers`);
   if (hatcherySlotsFree(data, save.roost) <= 0) throw new GameError(buildingLevel(data, save.roost, 'hatchery') ? 'The Hatchery is full' : 'Build the Hatchery first');
-  const roost = incubate(data, save.roost, element, now);
+  const roost = incubate(data, save.roost, egg, now);
   return { ...save, roost, embers: save.embers - cost, eggs: save.eggs.filter((_, i) => i !== index) };
 }
 
@@ -737,7 +749,8 @@ export function takeHatchedEgg(data: GameData, save: SaveData, index: number, no
   if (save.egg) throw new GameError('Name your last hatchling first');
   if (save.dragons.length >= nestSlots(data, save.roost)) throw new GameError('The Nest is full. Upgrade it for more room.');
   const eggs = save.roost.hatchery.eggs.filter((_, i) => i !== index);
-  return { ...save, egg: { element: egg.element, warmth: data.dragons.hatchTaps }, roost: { ...save.roost, hatchery: { eggs } } };
+  const spec = { element: egg.element, element2: egg.element2, breed: egg.breed, variant: egg.variant };
+  return { ...save, egg: { ...spec, warmth: data.dragons.hatchTaps }, roost: { ...save.roost, hatchery: { eggs } } };
 }
 
 // ---------- Training Yard ----------
@@ -814,13 +827,14 @@ export function canLayEgg(data: GameData, save: SaveData, id: string): { ok: tru
   return { ok: true };
 }
 
-/** An Elder lays one egg of its own element, once in its life. */
+/** An Elder lays one egg of its own element (or hybrid) and breed, once in its life. */
 export function layEgg(data: GameData, save: SaveData, id: string): SaveData {
   const check = canLayEgg(data, save, id);
   if (!check.ok) throw new GameError(check.reason);
   const d = requireDragon(save, id);
   const cost = data.dragons.eggLaying.cost;
-  const next = { ...save, embers: save.embers - cost.embers, rider: { ...save.rider, gold: save.rider.gold - cost.gold }, eggs: [...save.eggs, d.element] };
+  const r = withRng(save, (rng) => ({ element: d.element, element2: d.element2, breed: d.breed, variant: rollVariant(data, rng, !!d.variant) }));
+  const next = { ...r.save, embers: save.embers - cost.embers, rider: { ...save.rider, gold: save.rider.gold - cost.gold }, eggs: [...save.eggs, r.value] };
   return replaceDragon(next, { ...d, laidEgg: true });
 }
 

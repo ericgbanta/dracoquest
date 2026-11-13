@@ -12,9 +12,9 @@ import { freshCareDay, type CareDay } from './care';
 import type { RunState } from './run';
 import { newRoost, type RoostState } from './roost';
 import { defaultLoadout } from './spells';
-import type { DragonState, ElementId, RiderState } from './types';
+import type { DragonState, EggSpec, ElementId, RiderState } from './types';
 
-export const CURRENT_VERSION = 9;
+export const CURRENT_VERSION = 10;
 export const SAVE_KEY = 'dracoquest.save';
 const CODE_PREFIX = 'DQ1:'; // Code format, not save version. The save inside carries its own version.
 
@@ -35,7 +35,7 @@ export interface SaveData {
   dragons: DragonState[];
   activeDragonId: string | null;
   /** The egg picked in the tutorial, before it hatches. */
-  egg: { element: ElementId; warmth: number } | null;
+  egg: (EggSpec & { warmth: number }) | null;
   care: CareDay;
   /** Fights left on the Well kept XP buff. */
   wellKeptFights: number;
@@ -43,8 +43,8 @@ export interface SaveData {
   bestiary: Record<string, { fought: number; defeated: number }>;
   run: RunState | null;
   bossesDefeated: string[];
-  /** Eggs from bosses, waiting for the Hatchery. */
-  eggs: ElementId[];
+  /** Eggs from bosses, the shop, Elders and breeding, waiting for the Hatchery. */
+  eggs: EggSpec[];
   questsDone: string[];
   /** Rare currency from bosses and daily care streaks. */
   embers: number;
@@ -173,6 +173,28 @@ export const MIGRATIONS: Record<number, Migration> = {
   },
   // v8 → v9 adds story quest choices and the daily bounty board.
   8: (save) => ({ ...save, storyChoices: {}, bounties: { day: '', progress: {}, claimed: [] } }),
+  // v9 → v10 (dragons plan E0 to E3): eggs become objects with a second element, a breed and a rare finish;
+  // dragons get the same three fields and a breeding cooldown; the Roost gets the Nesting Grounds.
+  9: (save) => {
+    const egg = (x: unknown) => ({ element: x, element2: null, breed: 'dragon', variant: null });
+    const old = save.egg as Record<string, unknown> | null | undefined;
+    const roost = (save.roost ?? {}) as Record<string, unknown>;
+    const hatchery = (roost.hatchery ?? { eggs: [] }) as { eggs?: Record<string, unknown>[] };
+    return {
+      ...save,
+      egg: old ? { ...egg(old.element), warmth: old.warmth } : null,
+      eggs: Array.isArray(save.eggs) ? save.eggs.map(egg) : [],
+      dragons: Array.isArray(save.dragons)
+        ? (save.dragons as Record<string, unknown>[]).map((d) => ({ ...d, breed: 'dragon', element2: null, variant: null, lastBredAt: 0 }))
+        : save.dragons,
+      roost: {
+        ...roost,
+        levels: { ...(roost.levels as Record<string, unknown>), nesting: 0 },
+        hatchery: { eggs: (hatchery.eggs ?? []).map((e) => ({ ...egg(e.element), readyAt: e.readyAt })) },
+        nesting: null,
+      },
+    };
+  },
 };
 
 export function newSave(now: number): SaveData {
@@ -263,7 +285,14 @@ export function validateSave(raw: Record<string, unknown>): SaveData {
   if (!isObject((raw.roost as Record<string, unknown>).levels) || typeof ((raw.roost as Record<string, unknown>).levels as Record<string, unknown>).forge !== 'number') fail('roost damaged');
   if (raw.secondDragonId !== null && typeof raw.secondDragonId !== 'string') fail('second partner damaged');
   if (!Array.isArray(raw.eventsClaimed)) fail('events missing');
-  for (const d of raw.dragons as Record<string, unknown>[]) if (typeof d.laidEgg !== 'boolean') fail('dragon damaged');
+  for (const d of raw.dragons as Record<string, unknown>[]) {
+    if (typeof d.laidEgg !== 'boolean' || typeof d.breed !== 'string' || typeof d.lastBredAt !== 'number') fail('dragon damaged');
+  }
+  const isEgg = (e: unknown) => isObject(e) && typeof e.element === 'string' && typeof e.breed === 'string';
+  if (!(raw.eggs as unknown[]).every(isEgg) || (raw.egg !== null && !isEgg(raw.egg))) fail('eggs damaged');
+  const roostRaw = raw.roost as Record<string, unknown>;
+  if (!isObject(roostRaw.hatchery) || !Array.isArray(roostRaw.hatchery.eggs) || !(roostRaw.hatchery.eggs as unknown[]).every(isEgg)
+    || (roostRaw.nesting !== null && !isObject(roostRaw.nesting))) fail('roost damaged');
   if (!isObject(raw.stats)) fail('stats missing');
   if (!isObject(raw.settings)) fail('settings missing');
   const b = raw.bounties as Record<string, unknown> | undefined;

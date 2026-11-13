@@ -1,8 +1,33 @@
 {
-  "ids": ["fire", "frost", "verdant", "stone", "storm", "tide", "light", "shadow"],
-  "ring": ["fire", "frost", "verdant", "stone", "storm", "tide"],
-  "pairs": [["light", "shadow"]],
-  "starters": ["fire", "tide", "verdant"],
+  "ids": [
+    "fire",
+    "frost",
+    "verdant",
+    "stone",
+    "storm",
+    "tide",
+    "light",
+    "shadow"
+  ],
+  "ring": [
+    "fire",
+    "frost",
+    "verdant",
+    "stone",
+    "storm",
+    "tide"
+  ],
+  "pairs": [
+    [
+      "light",
+      "shadow"
+    ]
+  ],
+  "starters": [
+    "fire",
+    "tide",
+    "verdant"
+  ],
   "multipliers": {
     "strong": 1.5,
     "neutral": 1.0,
@@ -10,13 +35,83 @@
     "same": 0.75
   },
   "info": {
-    "fire": { "name": "Fire", "color": "#e8603c", "status": "burn", "symbol": "▲" },
-    "frost": { "name": "Frost", "color": "#7fc8f0", "status": "chill", "symbol": "✱" },
-    "verdant": { "name": "Verdant", "color": "#5fbf5a", "status": "root", "symbol": "♣" },
-    "stone": { "name": "Stone", "color": "#a58c6a", "status": "crack", "symbol": "■" },
-    "storm": { "name": "Storm", "color": "#c9a8ff", "status": "shock", "symbol": "ϟ" },
-    "tide": { "name": "Tide", "color": "#3f8fd8", "status": "soak", "symbol": "≈" },
-    "light": { "name": "Light", "color": "#f5e27a", "status": "ward", "symbol": "☀" },
-    "shadow": { "name": "Shadow", "color": "#7a5c9e", "status": "blind", "symbol": "☾" }
-  }
+    "fire": {
+      "name": "Fire",
+      "color": "#e8603c",
+      "status": "burn",
+      "symbol": "▲"
+    },
+    "frost": {
+      "name": "Frost",
+      "color": "#7fc8f0",
+      "status": "chill",
+      "symbol": "✱"
+    },
+    "verdant": {
+      "name": "Verdant",
+      "color": "#5fbf5a",
+      "status": "root",
+      "symbol": "♣"
+    },
+    "stone": {
+      "name": "Stone",
+      "color": "#a58c6a",
+      "status": "crack",
+      "symbol": "■"
+    },
+    "storm": {
+      "name": "Storm",
+      "color": "#c9a8ff",
+      "status": "shock",
+      "symbol": "ϟ"
+    },
+    "tide": {
+      "name": "Tide",
+      "color": "#3f8fd8",
+      "status": "soak",
+      "symbol": "≈"
+    },
+    "light": {
+      "name": "Light",
+      "color": "#f5e27a",
+      "status": "ward",
+      "symbol": "☀"
+    },
+    "shadow": {
+      "name": "Shadow",
+      "color": "#7a5c9e",
+      "status": "blind",
+      "symbol": "☾"
+    }
+  },
+  "hybrids": {
+    "fire+frost": "Thaw",
+    "fire+verdant": "Wildfire",
+    "fire+stone": "Magma",
+    "fire+storm": "Plasma",
+    "fire+tide": "Steam",
+    "fire+light": "Solar",
+    "fire+shadow": "Smoke",
+    "frost+verdant": "Winterbloom",
+    "frost+stone": "Permafrost",
+    "frost+storm": "Blizzard",
+    "frost+tide": "Glacier",
+    "frost+light": "Prism",
+    "frost+shadow": "Nightfrost",
+    "verdant+stone": "Overgrowth",
+    "verdant+storm": "Pollen",
+    "verdant+tide": "Mangrove",
+    "verdant+light": "Bloom",
+    "verdant+shadow": "Nightshade",
+    "stone+storm": "Sandstorm",
+    "stone+tide": "Coral",
+    "stone+light": "Crystal",
+    "stone+shadow": "Obsidian",
+    "storm+tide": "Monsoon",
+    "storm+light": "Flash",
+    "storm+shadow": "Thunderhead",
+    "tide+light": "Rainbow",
+    "tide+shadow": "Abyss"
+  },
+  "hybridNote": "Names for dragons of two elements. Keys are two element ids in the order of `ids`. The full list for all 12 planned elements is in docs/DRAGONS_PLAN.md; each phase that adds an element adds its mixes."
 }

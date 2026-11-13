@@ -8,6 +8,7 @@ import { activeDragon, buyGear, chooseEgg, equip, hatchEgg, incubateEgg, learnDr
 import { newSave, type SaveData } from '../src/core/save';
 import { dragonMaxHp, riderMaxHp, riderMaxMp } from '../src/core/characters';
 import type { DragonState } from '../src/core/types';
+import { plainEgg } from '../src/core/eggs';
 
 const NOW = 1794355200000;
 
@@ -54,15 +55,15 @@ for (const id of ['thunder-glaive', 'skyforged-plate', 'stormglass-pendant', 'ri
 for (const id of ['sharp-claws', 'sharp-claws', 'sharp-claws', 'keen-eye', 'keen-eye', 'twin-claws', 'ferocity', 'ferocity', 'ferocity', 'pounce', 'keen-eye', 'rending-strike', 'thick-hide', 'thick-hide', 'taunting-roar', 'kindled-breath', 'kindled-breath', 'soothing-hum']) {
   adult = learnDragonTalent(data, adult, id);
 }
-adult = heal({ ...adult, rider: { ...adult.rider, gold: 3000 }, bossesDefeated: ['mossy-hollow', 'saltmarsh-shore', 'cinder-pass'], eggs: ['tide', 'fire'] });
+adult = heal({ ...adult, rider: { ...adult.rider, gold: 3000 }, bossesDefeated: ['mossy-hollow', 'saltmarsh-shore', 'cinder-pass'], eggs: [plainEgg('tide'), plainEgg('fire')] });
 adult = { ...adult, run: { zoneId: 'thunderspire', fights: [{ kind: 'boss', enemies: [{ enemyId: 'storm-roc', level: 28 }] }], index: 0, battle: null, totals: { xp: 0, gold: 0, drops: {} } } };
 adult = { ...adult, settings: { ...adult.settings, fastBattles: true } };
 writeFileSync('e2e/fixtures/adult-at-roc.json', JSON.stringify(adult));
 // Phase 3: a level 26 rider with two Adult partners, a built Roost, a ready egg, and a dragon on a trip.
 let roost = adult;
-roost = { ...roost, run: null, rider: { ...roost.rider, level: 26, gold: 20000 }, embers: 120, eggs: ['storm'] };
+roost = { ...roost, run: null, rider: { ...roost.rider, level: 26, gold: 20000 }, embers: 120, eggs: [plainEgg('storm')] };
 for (const b of ['hatchery', 'training', 'expeditions'] as const) roost = upgradeBuilding(data, roost, b, NOW);
-roost = { ...roost, eggs: ['storm', 'tide'] };
+roost = { ...roost, eggs: [plainEgg('storm'), plainEgg('tide')] };
 roost = incubateEgg(data, roost, 1, NOW - 48 * 3600_000);
 const lead = activeDragon(roost)!;
 const make = (id: string, name: string, element: 'tide' | 'verdant', primary: string): DragonState => ({

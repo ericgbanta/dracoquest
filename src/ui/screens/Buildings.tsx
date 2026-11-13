@@ -1,7 +1,7 @@
 import { useState } from 'preact/hooks';
 import { gameData as data } from '../../core/data';
 import {
-  collectExpedition, collectFood, collectTraining, GameError, incubateEgg, isPartner, startExpedition, startTraining,
+  collectExpedition, collectFood, collectTraining, GameError, incubateEgg, isPartner, releaseEgg, startExpedition, startTraining,
   stopTraining, takeHatchedEgg, upgradeBuilding,
 } from '../../core/game';
 import { availableTrips, buildingLevel, nestSlots, pantryNextIn, tickPantry, trainingXp, tripById, upgradeCost } from '../../core/roost';
@@ -13,6 +13,7 @@ import { Embers, Gold, Icon } from '../Icon';
 import { ForgeSheet } from './Forge';
 import { Fold } from '../Fold';
 import { formatMaterials, maxPlus } from '../../core/forge';
+import { eggName, releaseValue } from '../../core/eggs';
 
 interface Props {
   save: SaveData;
@@ -20,7 +21,7 @@ interface Props {
   onMessage(text: string): void;
 }
 
-const ICONS: Record<BuildingId, string> = { nest: '🪺', pantry: '🧺', hatchery: '🥚', training: '🏋', expeditions: '🗺', forge: '⚒' };
+const ICONS: Record<BuildingId, string> = { nest: '🪺', pantry: '🧺', hatchery: '🥚', nesting: '🪹', training: '🏋', expeditions: '🗺', forge: '⚒' };
 const foodName = (id: string) => data.foods.find((f) => f.id === id)?.name ?? id;
 
 export function Buildings({ save, update, onMessage }: Props) {
@@ -76,9 +77,10 @@ export function Buildings({ save, update, onMessage }: Props) {
     training: !trainees.length ? lv('training') : `${trainees.map((d) => d.name).join(', ')} training`,
     expeditions: !board ? lv('expeditions') : tripsBack ? `${tripsBack} back home!` : trips.length ? `${trips.length} away` : `${lv('expeditions')} · ${idleBench.length} free`,
     forge: save.roost.levels.forge > 0 ? `Up to +${maxPlus(data, save.roost)}` : lv('forge'),
+    nesting: lv('nesting'),
   };
   const attention: Record<BuildingId, boolean> = {
-    nest: false, pantry: roost.pantry.stored > 0, hatchery: readyEggs > 0, training: false, expeditions: tripsBack > 0, forge: false,
+    nest: false, pantry: roost.pantry.stored > 0, hatchery: readyEggs > 0, nesting: false, training: false, expeditions: tripsBack > 0, forge: false,
   };
 
   return (
@@ -122,7 +124,7 @@ export function Buildings({ save, update, onMessage }: Props) {
               return (
                 <div key={i} class="slot-row">
                   <div>
-                    <strong>{data.dragons.eggs[egg.element]?.name ?? `${data.elements.info[egg.element].name} egg`}</strong>
+                    <strong>{eggName(data, egg)}</strong>
                     <span class="muted">{ready ? 'Ready to hatch!' : `Hatches in ${formatDuration(egg.readyAt - now)}`}</span>
                   </div>
                   <button type="button" class="button" disabled={!ready} data-testid={`hatch-${i}`}
@@ -130,21 +132,36 @@ export function Buildings({ save, update, onMessage }: Props) {
                 </div>
               );
             })}
-            {save.eggs.map((el, i) => (
-              <div key={`bag-${i}`} class="slot-row">
-                <div>
-                  <strong>{data.dragons.eggs[el]?.name ?? `${data.elements.info[el].name} egg`}</strong>
-                  <span class="muted">In your bag</span>
-                </div>
-                <button type="button" class="button" data-testid={`incubate-${i}`}
-                  disabled={save.embers < data.roost.buildings.hatchery.incubateEmbers || roost.hatchery.eggs.length >= hatchery.slots}
-                  onClick={() => act(() => incubateEgg(data, save, i, Date.now()), 'The egg is tucked in, warm and safe.')}>
-                  Incubate · <Embers amount={data.roost.buildings.hatchery.incubateEmbers} />
-                </button>
-              </div>
-            ))}
           </>
         )}
+        {save.eggs.map((egg, i) => {
+          const name = eggName(data, egg);
+          const embers = releaseValue(data, egg);
+          return (
+            <div key={`bag-${i}`} class="slot-row">
+              <div>
+                <strong>{name}</strong>
+                <span class="muted">In your bag</span>
+              </div>
+              <div class="slot-actions">
+                {hatchery && (
+                  <button type="button" class="button" data-testid={`incubate-${i}`}
+                    disabled={save.embers < data.roost.buildings.hatchery.incubateEmbers || roost.hatchery.eggs.length >= hatchery.slots}
+                    onClick={() => act(() => incubateEgg(data, save, i, Date.now()), 'The egg is tucked in, warm and safe.')}>
+                    Incubate · <Embers amount={data.roost.buildings.hatchery.incubateEmbers} />
+                  </button>
+                )}
+                <button type="button" class="button button--ghost" data-testid={`release-${i}`}
+                  onClick={() => {
+                    if (!window.confirm(`Return the ${name} to the wild? The wild dragons will leave ${embers} embers.`)) return;
+                    act(() => releaseEgg(data, save, i).save, `The ${name} is back in the wild. You found ${embers} embers where it was.`);
+                  }}>
+                  Return · <Embers amount={embers} />
+                </button>
+              </div>
+            </div>
+          );
+        })}
         {upgradeButton('hatchery')}
       </Fold>
 

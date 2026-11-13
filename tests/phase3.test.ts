@@ -8,10 +8,11 @@ import {
 import { createBattle, duoAvailable, resolveRound } from '../src/core/battle';
 import { autoOrders } from '../src/core/ai';
 import { CURRENT_VERSION, newSave, parseSave, type SaveData } from '../src/core/save';
-import { pantryNextIn, temperament, tickPantry, trainingXp } from '../src/core/roost';
+import { nestSlots, pantryNextIn, temperament, tickPantry, trainingXp } from '../src/core/roost';
 import { dragonBonus } from '../src/core/loadout';
 import { enemyXp } from '../src/core/progression';
 import v3 from './fixtures/save-v3.json';
+import { plainEgg } from '../src/core/eggs';
 
 const NOW = 1794355200000; // 2026-11-11
 const HOUR = 3600_000;
@@ -33,7 +34,7 @@ function built(s: SaveData): SaveData {
 
 /** Hatch a second dragon through the Hatchery. */
 function withSecondDragon(): SaveData {
-  let s = built({ ...hatched(), eggs: ['tide'] });
+  let s = built({ ...hatched(), eggs: [plainEgg('tide')] });
   s = incubateEgg(data, s, 0, NOW);
   const ready = s.roost.hatchery.eggs[0]!.readyAt;
   s = takeHatchedEgg(data, s, 0, ready);
@@ -45,7 +46,7 @@ const byName = (s: SaveData, name: string) => s.dragons.find((d) => d.name === n
 describe('Roost buildings', () => {
   it('starts with a Nest and Pantry; others are built with gold and embers', () => {
     const s = hatched();
-    expect(s.roost.levels).toEqual({ nest: 1, pantry: 1, hatchery: 0, training: 0, expeditions: 0, forge: 0 });
+    expect(s.roost.levels).toEqual({ nest: 1, pantry: 1, hatchery: 0, nesting: 0, training: 0, expeditions: 0, forge: 0 });
     const cost = data.roost.buildings.hatchery.levels[0]!.cost!;
     const b = upgradeBuilding(data, s, 'hatchery', NOW);
     expect(b.roost.levels.hatchery).toBe(1);
@@ -56,8 +57,10 @@ describe('Roost buildings', () => {
 
   it('stops at the top level', () => {
     let s = hatched();
-    s = upgradeBuilding(data, upgradeBuilding(data, s, 'nest', NOW), 'nest', NOW);
-    expect(s.roost.levels.nest).toBe(3);
+    s = { ...s, rider: { ...s.rider, gold: 1e6 }, embers: 1e4 };
+    for (let i = 1; i < data.roost.buildings.nest.levels.length; i++) s = upgradeBuilding(data, s, 'nest', NOW);
+    expect(s.roost.levels.nest).toBe(5);
+    expect(nestSlots(data, s.roost)).toBe(10);
     expect(() => upgradeBuilding(data, s, 'nest', NOW)).toThrow('top level');
   });
 });
@@ -107,13 +110,13 @@ describe('timers after the app is closed for a day', () => {
   });
 
   it('a Hatchery egg is ready after its hours, not before', () => {
-    let s = built({ ...hatched(), eggs: ['storm'] });
+    let s = built({ ...hatched(), eggs: [plainEgg('storm')] });
     s = incubateEgg(data, s, 0, NOW);
     expect(s.eggs).toEqual([]);
     expect(s.embers).toBe(500 - 5 - 5 - 5 - data.roost.buildings.hatchery.incubateEmbers);
     expect(() => takeHatchedEgg(data, s, 0, NOW + HOUR)).toThrow('Not ready');
     s = takeHatchedEgg(data, s, 0, NOW + DAY);
-    expect(s.egg).toEqual({ element: 'storm', warmth: data.dragons.hatchTaps });
+    expect(s.egg).toEqual({ ...plainEgg('storm'), warmth: data.dragons.hatchTaps });
   });
 });
 
@@ -157,7 +160,7 @@ describe('a second dragon', () => {
   it('respects Nest slots', () => {
     let s = withSecondDragon();
     s = { ...s, dragons: [...s.dragons, { ...s.dragons[0]!, id: 'x3', name: 'Third' }] };
-    s = { ...s, eggs: ['fire'] };
+    s = { ...s, eggs: [plainEgg('fire')] };
     s = incubateEgg(data, s, 0, NOW);
     expect(() => takeHatchedEgg(data, s, 0, NOW + DAY)).toThrow('Nest is full');
   });

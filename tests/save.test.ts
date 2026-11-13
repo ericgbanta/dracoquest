@@ -229,7 +229,7 @@ describe('save slots', () => {
     s.dragons = [
       { id: 'a', name: 'Bench', element: 'tide', stage: 'hatchling', level: 3 },
       { id: 'b', name: 'Cinder', element: 'fire', stage: 'juvenile', level: 12 },
-    ].map((d) => ({ ...d, talents: {}, equipment: {}, care: {}, assignment: {}, temper: {}, stats: {}, laidEgg: false })) as unknown as typeof s.dragons;
+    ].map((d) => ({ ...d, talents: {}, equipment: {}, care: {}, assignment: {}, temper: {}, stats: {}, laidEgg: false, breed: 'dragon', element2: null, variant: null, lastBredAt: 0 })) as unknown as typeof s.dragons;
     s.activeDragonId = 'b';
     writeSave(storage, s, NOW, 2);
     expect(slotSummary(storage, 2)).toMatchObject({

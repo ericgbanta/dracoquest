@@ -8,7 +8,7 @@
  */
 import type { Rng } from './rng';
 import { enemyXp } from './progression';
-import type { BuildingId, Cost, DragonState, GameData, Materials, TemperamentId } from './types';
+import type { BuildingId, Cost, DragonState, EggSpec, GameData, Materials, TemperamentId } from './types';
 import { MATERIALS } from './types';
 export type { Assignment } from './types';
 
@@ -16,22 +16,26 @@ const HOUR = 60 * 60 * 1000;
 const MINUTE = 60 * 1000;
 
 export interface PantryState { lastAt: number; stored: number }
-export interface IncubatingEgg { element: DragonState['element']; readyAt: number }
+export interface IncubatingEgg extends EggSpec { readyAt: number }
+/** Two dragons making an egg at the Nesting Grounds. The egg is rolled when they start, and shown when it's ready. */
+export interface NestingState { parents: [string, string]; readyAt: number; egg: EggSpec }
 
 export interface RoostState {
   /** Building levels. 0 means not built yet. */
   levels: Record<BuildingId, number>;
   pantry: PantryState;
   hatchery: { eggs: IncubatingEgg[] };
+  nesting: NestingState | null;
 }
 
-export const BUILDINGS: readonly BuildingId[] = ['nest', 'pantry', 'hatchery', 'training', 'expeditions', 'forge'];
+export const BUILDINGS: readonly BuildingId[] = ['nest', 'pantry', 'hatchery', 'nesting', 'training', 'expeditions', 'forge'];
 
 export function newRoost(now: number): RoostState {
   return {
-    levels: { nest: 1, pantry: 1, hatchery: 0, training: 0, expeditions: 0, forge: 0 },
+    levels: { nest: 1, pantry: 1, hatchery: 0, nesting: 0, training: 0, expeditions: 0, forge: 0 },
     pantry: { lastAt: now, stored: 0 },
     hatchery: { eggs: [] },
+    nesting: null,
   };
 }
 
@@ -101,11 +105,11 @@ export function hatcherySlotsFree(data: GameData, roost: RoostState): number {
   return lvl ? Math.max(0, lvl.slots - roost.hatchery.eggs.length) : 0;
 }
 
-export function incubate(data: GameData, roost: RoostState, element: IncubatingEgg['element'], now: number): RoostState {
+export function incubate(data: GameData, roost: RoostState, egg: EggSpec, now: number): RoostState {
   const lvl = buildingLevel(data, roost, 'hatchery');
   if (!lvl) throw new RangeError('Build the Hatchery first');
   if (hatcherySlotsFree(data, roost) <= 0) throw new RangeError('The Hatchery is full');
-  return { ...roost, hatchery: { eggs: [...roost.hatchery.eggs, { element, readyAt: now + lvl.hours * HOUR }] } };
+  return { ...roost, hatchery: { eggs: [...roost.hatchery.eggs, { ...egg, readyAt: now + lvl.hours * HOUR }] } };
 }
 
 export function eggReady(egg: IncubatingEgg, now: number): boolean {

@@ -7,6 +7,7 @@ import { riderMaxHp, riderMaxMp } from '../../core/characters';
 import { equippedSets, gearItem, setSize } from '../../core/loadout';
 import { forgedGear, plusOf } from '../../core/forge';
 import { MATERIALS } from '../../core/types';
+import { eggName } from '../../core/eggs';
 import { xpToNext } from '../../core/progression';
 import type { SaveData } from '../../core/save';
 import { DRAGON_SLOTS, RIDER_SLOTS, RIDER_STATS, type GearSlot, type RiderStat } from '../../core/types';
@@ -148,9 +149,9 @@ export function Bag({ save, update }: Props) {
         ) : (
           <>
             <div class="egg-row" data-testid="eggs">
-              {save.eggs.map((el, i) => <span key={i} class="badge" style={{ '--el': data.elements.info[el].color }}><Icon name="egg" fallback="🥚" size={16} /> {data.dragons.eggs[el]?.name ?? `${data.elements.info[el].name} egg`}</span>)}
+              {save.eggs.map((egg, i) => <span key={i} class="badge" style={{ '--el': data.elements.info[egg.element].color }}><Icon name="egg" fallback="🥚" size={16} /> {eggName(data, egg)}</span>)}
             </div>
-            <p class="muted">Incubate them in the Hatchery at the Roost.</p>
+            <p class="muted">Incubate them in the Hatchery at the Roost, or return the ones you don't want to the wild for embers.</p>
           </>
         )}
       </div>}

@@ -141,7 +141,7 @@ export interface RegionData { id: string; name: string; levels: string; blurb: s
 export interface UpcomingArea { name: string; region: string; minLevel: number; maxLevel: number; gate: string; elements: ElementId[]; blurb: string; pin?: [number, number] }
 export interface RegionsData { regions: RegionData[]; upcoming: UpcomingArea[] }
 
-export type BuildingId = 'nest' | 'pantry' | 'hatchery' | 'training' | 'expeditions' | 'forge';
+export type BuildingId = 'nest' | 'pantry' | 'hatchery' | 'nesting' | 'training' | 'expeditions' | 'forge';
 export type TemperamentId = 'bold' | 'gentle' | 'clever' | 'proud';
 export interface Cost { gold: number; embers: number }
 
@@ -164,6 +164,7 @@ export interface RoostData {
     nest: { name: string; description: string; levels: { slots: number; cost: Cost | null }[] };
     pantry: { name: string; description: string; levels: { minutesPerFood: number; store: number; premiumChance: number; cost: Cost | null }[] };
     hatchery: { name: string; description: string; levels: { slots: number; hours: number; cost: Cost | null }[]; incubateEmbers: number };
+    nesting: { name: string; description: string; levels: { hours: number; cooldownDays: number; cost: Cost | null }[] };
     training: { name: string; description: string; levels: { fightsPerHour: number; maxHours: number; cost: Cost | null }[] };
     expeditions: { name: string; description: string; levels: { maxHours: number; lootMultiplier: number; cost: Cost | null }[] };
     forge: { name: string; description: string; levels: { maxPlus: number; cost: Cost | null }[] };
@@ -181,6 +182,10 @@ export interface RoostData {
     types: Record<TemperamentId, { name: string; from: string; bonus: Bonus; passive: string; lines: string[] }>;
   };
   duoCombos: { id: string; name: string; bond: number; base: number; description: string }[];
+  /** Breeding at the Nesting Grounds: the youngest stage that can breed, the hybrid chance, and the cost per egg. */
+  breeding: { stage: string; hybridChance: number; cost: Cost };
+  /** Embers for returning an egg to the wild: a base amount plus extras for rarer eggs. */
+  releaseEmbers: { base: number; hybrid: number; breed: number; variant: number };
 }
 
 export interface ShopData {
@@ -200,6 +205,8 @@ export interface ElementsData {
   starters: ElementId[];
   multipliers: { strong: number; neutral: number; weak: number; same: number };
   info: Record<ElementId, ElementInfo>;
+  /** Hybrid names, keyed "a+b" with a before b in `ids`. */
+  hybrids: Record<string, string>;
 }
 
 export interface SpellData {
@@ -309,6 +316,22 @@ export interface DragonsData {
   nameSuggestions: string[];
   palette: string[];
   eggLaying: { stage: string; cost: Cost };
+  /** Body shapes. `dragon` is the original; later phases add more. */
+  breeds: Record<string, { name: string; blurb: string }>;
+  /** Rare finishes drawn on top of the player's colors. `chance` per new egg; `inheritedChance` when a parent has one. */
+  variants: { chance: number; inheritedChance: number; info: Record<VariantId, { name: string; blurb: string }> };
+}
+
+export type VariantId = 'shimmer' | 'starry' | 'ghost' | 'ember-eyed';
+export const VARIANTS: readonly VariantId[] = ['shimmer', 'starry', 'ghost', 'ember-eyed'];
+
+/** An egg, wherever it is: in the bag, in the Hatchery, at the Nesting Grounds, or being hatched. */
+export interface EggSpec {
+  element: ElementId;
+  /** The second element of a hybrid, or null. */
+  element2: ElementId | null;
+  breed: string;
+  variant: VariantId | null;
 }
 
 export interface EventData {
@@ -488,6 +511,14 @@ export interface DragonState {
   temper: Record<TemperamentId, number>;
   /** Elder dragons can lay one egg each. */
   laidEgg: boolean;
+  /** Body shape (`dragons.json` breeds). */
+  breed: string;
+  /** The second element of a hybrid, or null. */
+  element2: ElementId | null;
+  /** A rare finish, or null. */
+  variant: VariantId | null;
+  /** When it last bred at the Nesting Grounds (ms), or 0 if never. */
+  lastBredAt: number;
 }
 
 export interface DragonCare { day: string; meals: number; groomed: boolean }
