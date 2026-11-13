@@ -1,8 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import { gameData } from '../src/core/data';
-import { chooseEgg, hatchEgg, incubateEgg, layEgg, releaseEgg, takeHatchedEgg, upgradeBuilding, warmEgg, buyEgg } from '../src/core/game';
+import {
+  breedCooldownLeft, buyEgg, canBreed, chooseEgg, collectNestEgg, hatchEgg, incubateEgg, layEgg, releaseEgg, startBreeding,
+  takeHatchedEgg, upgradeBuilding, warmEgg,
+} from '../src/core/game';
+import { attackElement, defenseMultiplier } from '../src/core/elements';
+import { createBattle, resolveRound } from '../src/core/battle';
+import { dragonBaseStats, hatchDragon, newRider } from '../src/core/characters';
 import { breedEgg, canMix, eggName, elementLabel, hybridName, newEgg, plainEgg, releaseValue } from '../src/core/eggs';
-import { dragonBaseStats } from '../src/core/characters';
 import { createRng } from '../src/core/rng';
 import { CURRENT_VERSION, newSave, parseSave, type SaveData } from '../src/core/save';
 import type { EggSpec } from '../src/core/types';
@@ -159,5 +164,102 @@ describe('the Nest', () => {
     let s = { ...hatched(), rider: { ...hatched().rider, gold: 1e6 }, embers: 1e4 };
     for (let i = 1; i < data.roost.buildings.nest.levels.length; i++) s = upgradeBuilding(data, s, 'nest', NOW);
     expect(data.roost.buildings.nest.levels.map((l) => l.slots)).toEqual([3, 4, 6, 8, 10]);
+  });
+});
+
+describe('hybrids in battle', () => {
+  const m = data.elements.multipliers;
+
+  it('a hybrid takes the average of the matchups against its two elements', () => {
+    // Tide beats Fire; Tide against Stone is neutral.
+    expect(defenseMultiplier(data.elements, 'tide', { element: 'fire', element2: 'stone' })).toBeCloseTo((m.strong + m.neutral) / 2);
+    expect(defenseMultiplier(data.elements, 'tide', { element: 'fire', element2: null })).toBe(m.strong);
+  });
+
+  it('a hybrid attacks with its better element, at reduced power', () => {
+    const glacier = { element: 'tide' as const, element2: 'frost' as const };
+    // Frost beats Verdant; Tide against Verdant is neutral.
+    expect(attackElement(data.elements, 0.9, glacier, { element: 'verdant' })).toEqual({ element: 'frost', factor: 0.9 });
+    expect(attackElement(data.elements, 0.9, { element: 'tide', element2: null }, { element: 'verdant' })).toEqual({ element: 'tide', factor: 1 });
+  });
+
+  it("a hybrid's breath puts on the status of the element it used", () => {
+    let chill = 0;
+    let soak = 0;
+    for (let seed = 1; seed <= 60; seed++) {
+      const d = hatchDragon(data, createRng(9), {
+        id: 'd', name: 'Floe', element: 'tide', element2: 'frost', colors: { primary: '#f00', secondary: '#000' }, now: 0,
+      });
+      let s = createBattle(data, { rider: newRider(data, 'Ash'), dragon: d, enemies: [{ enemyId: 'bramble-troll', level: 8 }], seed, canFlee: true });
+      s = { ...s, breath: data.combat.breath.max };
+      const r = resolveRound(data, s, { rider: { type: 'defend' }, dragon: { type: 'breath', target: 'e0' } });
+      for (const e of r.events) if (e.t === 'status' && e.target === 'e0') { if (e.status === 'chill') chill++; if (e.status === 'soak') soak++; }
+    }
+    expect(chill).toBeGreaterThan(0);
+    expect(soak).toBe(0);
+  });
+});
+
+describe('the Nesting Grounds', () => {
+  const HOUR = 3600_000;
+  function twoAdults(): SaveData {
+    let s = hatched();
+    s = upgradeBuilding(data, s, 'nesting', NOW);
+    const adult = { ...s.dragons[0]!, stage: 'adult', level: 30 };
+    return { ...s, dragons: [adult, { ...adult, id: 'second', name: 'Brook', element: 'tide' as const }] };
+  }
+
+  it('two adults make an egg after the building\'s hours', () => {
+    let s = twoAdults();
+    const lvl = data.roost.buildings.nesting.levels[0]!;
+    const gold = s.rider.gold;
+    const embers = s.embers;
+    s = startBreeding(data, s, s.dragons[0]!.id, 'second', NOW);
+    expect(s.rider.gold).toBe(gold - data.roost.breeding.cost.gold);
+    expect(s.embers).toBe(embers - data.roost.breeding.cost.embers);
+    expect(s.roost.nesting?.readyAt).toBe(NOW + lvl.hours * HOUR);
+    expect(() => collectNestEgg(s, NOW + HOUR)).toThrow('Not ready');
+    const out = collectNestEgg(s, NOW + lvl.hours * HOUR);
+    expect(out.save.eggs).toEqual([out.egg]);
+    expect(out.save.roost.nesting).toBeNull();
+    expect(['fire', 'tide']).toContain(out.egg.element);
+  });
+
+  it('is the same egg however often the game is reloaded: it is rolled when nesting starts', () => {
+    const s = twoAdults();
+    const a = startBreeding(data, s, s.dragons[0]!.id, 'second', NOW);
+    const b = startBreeding(data, s, s.dragons[0]!.id, 'second', NOW);
+    expect(a.roost.nesting!.egg).toEqual(b.roost.nesting!.egg);
+  });
+
+  it('needs two different adults, rested, with the building built', () => {
+    const s = twoAdults();
+    const id = s.dragons[0]!.id;
+    expect(canBreed(data, s, id, id, NOW)).toMatchObject({ ok: false, reason: 'Pick two different dragons' });
+    const young = { ...s, dragons: [{ ...s.dragons[0]!, stage: 'juvenile' }, s.dragons[1]!] };
+    expect(canBreed(data, young, id, 'second', NOW).ok).toBe(false);
+    const unbuilt = { ...s, roost: { ...s.roost, levels: { ...s.roost.levels, nesting: 0 } } };
+    expect(canBreed(data, unbuilt, id, 'second', NOW)).toMatchObject({ ok: false, reason: 'Build the Nesting Grounds first' });
+
+    let bred = startBreeding(data, s, id, 'second', NOW);
+    bred = collectNestEgg(bred, NOW + 24 * HOUR).save;
+    const days = data.roost.buildings.nesting.levels[0]!.cooldownDays;
+    expect(canBreed(data, bred, id, 'second', NOW + 24 * HOUR).ok).toBe(false);
+    expect(breedCooldownLeft(data, bred, bred.dragons[0]!, NOW + 24 * HOUR)).toBe((days - 1) * 24 * HOUR);
+    expect(canBreed(data, bred, id, 'second', NOW + days * 24 * HOUR).ok).toBe(true);
+    // A clock set backwards never makes the wait longer than the cooldown.
+    expect(breedCooldownLeft(data, bred, bred.dragons[0]!, NOW - 100 * 24 * HOUR)).toBe(days * 24 * HOUR);
+  });
+
+  it('a bred hybrid hatches as a hybrid', () => {
+    let s = twoAdults();
+    s = { ...s, egg: null, eggs: [{ ...plainEgg('fire'), element2: 'tide' }] };
+    s = upgradeBuilding(data, s, 'hatchery', NOW);
+    s = incubateEgg(data, s, 0, NOW);
+    s = takeHatchedEgg(data, s, 0, NOW + 48 * HOUR);
+    for (let i = 0; i < data.dragons.hatchTaps; i++) s = warmEgg(data, s);
+    s = hatchEgg(data, { ...s, roost: { ...s.roost, levels: { ...s.roost.levels, nest: 3 } } }, 'Puff', { primary: '#fff', secondary: '#000' }, NOW + 49 * HOUR);
+    const puff = s.dragons.find((d) => d.name === 'Puff')!;
+    expect(puff).toMatchObject({ element: 'fire', element2: 'tide', breed: 'dragon' });
   });
 });

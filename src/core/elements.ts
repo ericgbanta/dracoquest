@@ -34,6 +34,35 @@ export function elementMultiplier(
   return data.multipliers[matchup(data, attacker, defender)];
 }
 
+/**
+ * Damage multiplier against a fighter that may be a hybrid: a hybrid takes the average of
+ * the matchups against its two elements.
+ */
+export function defenseMultiplier(
+  data: ElementsData,
+  attacker: ElementId | null,
+  defender: { element: ElementId | null; element2?: ElementId | null; resist?: Partial<Record<ElementId, number>> },
+): number {
+  const one = elementMultiplier(data, attacker, defender.element, defender.resist);
+  if (!defender.element2) return one;
+  return (one + elementMultiplier(data, attacker, defender.element2, defender.resist)) / 2;
+}
+
+/**
+ * The element a fighter attacks with. A hybrid uses whichever of its two elements does more
+ * against the target, at `factor` power; anything else uses its one element at full power.
+ */
+export function attackElement(
+  data: ElementsData,
+  hybridFactor: number,
+  source: { element: ElementId | null; element2?: ElementId | null },
+  target: Parameters<typeof defenseMultiplier>[2],
+): { element: ElementId | null; factor: number } {
+  if (!source.element2) return { element: source.element, factor: 1 };
+  const second = defenseMultiplier(data, source.element2, target) > defenseMultiplier(data, source.element, target);
+  return { element: second ? source.element2 : source.element, factor: hybridFactor };
+}
+
 /** Elements that deal strong damage to `defender`. Used to show weaknesses. */
 export function weaknessesOf(data: ElementsData, defender: ElementId, resist?: Partial<Record<ElementId, number>>): ElementId[] {
   return data.ids.filter((a) => elementMultiplier(data, a, defender, resist) > data.multipliers.neutral);

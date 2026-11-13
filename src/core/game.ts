@@ -18,7 +18,7 @@ import type { StoryReward } from './types';
 import type { BuildingId, DragonSlot, DragonState, DragonStat, EggSpec, ElementId, GameData, GearSlot, RiderSlot, RiderStat, StageData, ZoneData } from './types';
 import { DRAGON_SLOTS } from './types';
 import { activeEvent, eventKey, eventOnlyIds } from './events';
-import { newEgg, plainEgg, releaseValue, rollVariant } from './eggs';
+import { breedEgg, newEgg, plainEgg, releaseValue, rollVariant } from './eggs';
 import { learnSpells, setLoadout, SpellError } from './spells';
 import { addMaterials, craftGear, ForgeError, upgradeGear } from './forge';
 import {
@@ -751,6 +751,70 @@ export function takeHatchedEgg(data: GameData, save: SaveData, index: number, no
   const eggs = save.roost.hatchery.eggs.filter((_, i) => i !== index);
   const spec = { element: egg.element, element2: egg.element2, breed: egg.breed, variant: egg.variant };
   return { ...save, egg: { ...spec, warmth: data.dragons.hatchTaps }, roost: { ...save.roost, hatchery: { eggs } } };
+}
+
+// ---------- Nesting Grounds: breeding ----------
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+/** Milliseconds before a dragon can breed again (0 when it can). A clock that went backwards never adds to the wait. */
+export function breedCooldownLeft(data: GameData, save: SaveData, d: DragonState, now: number): number {
+  const lvl = buildingLevel(data, save.roost, 'nesting');
+  if (!lvl || d.lastBredAt <= 0) return 0;
+  const wait = lvl.cooldownDays * DAY_MS;
+  return Math.max(0, Math.min(wait, d.lastBredAt + wait - now));
+}
+
+/** Whether a dragon is old enough to breed. */
+export function canBreedStage(data: GameData, d: DragonState): boolean {
+  return stageIndex(data, d.stage) >= stageIndex(data, data.roost.breeding.stage);
+}
+
+export function canBreed(data: GameData, save: SaveData, aId: string, bId: string, now: number): { ok: true } | { ok: false; reason: string } {
+  if (!buildingLevel(data, save.roost, 'nesting')) return { ok: false, reason: 'Build the Nesting Grounds first' };
+  if (save.roost.nesting) return { ok: false, reason: 'A pair is already nesting' };
+  if (aId === bId) return { ok: false, reason: 'Pick two different dragons' };
+  const a = save.dragons.find((d) => d.id === aId);
+  const b = save.dragons.find((d) => d.id === bId);
+  if (!a || !b) return { ok: false, reason: 'No such dragon' };
+  for (const d of [a, b]) {
+    if (!canBreedStage(data, d)) return { ok: false, reason: `${d.name} is too young. Dragons breed from the Adult stage.` };
+    if (d.assignment.kind === 'expedition') return { ok: false, reason: `${d.name} is away on an expedition` };
+    if (breedCooldownLeft(data, save, d, now) > 0) return { ok: false, reason: `${d.name} needs more rest before nesting again` };
+  }
+  const cost = data.roost.breeding.cost;
+  if (save.rider.gold < cost.gold || save.embers < cost.embers) return { ok: false, reason: `Nesting costs ${cost.gold} gold and ${cost.embers} embers` };
+  return { ok: true };
+}
+
+/**
+ * Two dragons start nesting. The egg is rolled now (so reloading can't change it) and appears
+ * after the building's hours. Both dragons keep fighting and training while they wait.
+ */
+export function startBreeding(data: GameData, save: SaveData, aId: string, bId: string, now: number): SaveData {
+  const check = canBreed(data, save, aId, bId, now);
+  if (!check.ok) throw new GameError(check.reason);
+  const lvl = buildingLevel(data, save.roost, 'nesting')!;
+  const a = requireDragon(save, aId);
+  const b = requireDragon(save, bId);
+  const r = withRng(save, (rng) => breedEgg(data, rng, a, b));
+  const cost = data.roost.breeding.cost;
+  const nesting = { parents: [aId, bId] as [string, string], readyAt: now + lvl.hours * 60 * 60 * 1000, egg: r.value };
+  const next: SaveData = {
+    ...r.save,
+    rider: { ...save.rider, gold: save.rider.gold - cost.gold },
+    embers: save.embers - cost.embers,
+    roost: { ...save.roost, nesting },
+  };
+  return replaceDragon(replaceDragon(next, { ...a, lastBredAt: now }), { ...b, lastBredAt: now });
+}
+
+/** Take the egg from the Nesting Grounds into the bag. */
+export function collectNestEgg(save: SaveData, now: number): { save: SaveData; egg: EggSpec } {
+  const n = save.roost.nesting;
+  if (!n) throw new GameError('Nobody is nesting');
+  if (now < n.readyAt) throw new GameError('Not ready yet');
+  return { save: { ...save, eggs: [...save.eggs, n.egg], roost: { ...save.roost, nesting: null } }, egg: n.egg };
 }
 
 // ---------- Training Yard ----------

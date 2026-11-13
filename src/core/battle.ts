@@ -7,7 +7,7 @@
  * statuses tick, breath meters fill, and enemies choose their next intents.
  */
 import { createRng, type Rng } from './rng';
-import { elementMultiplier, matchup, type Matchup } from './elements';
+import { attackElement, defenseMultiplier, matchup, type Matchup } from './elements';
 import { dragonMaxHp, riderMaxHp, riderMaxMp } from './characters';
 import { riderLoadout } from './spells';
 import { addBonus, bonusOf, dragonBonus, effectiveDragonStats, effectiveRiderStats, learnedSkills, riderBonus, riderWeapon, talentById } from './loadout';
@@ -24,6 +24,8 @@ export interface Fighter {
   kind: FighterKind;
   name: string;
   element: ElementId | null;
+  /** The second element of a hybrid dragon. */
+  element2?: ElementId | null;
   level: number;
   maxHp: number;
   hp: number;
@@ -164,7 +166,7 @@ function dragonFighter(data: GameData, d: DragonState, mods: Bonus, id = 'dragon
   const c = data.combat;
   const st = effectiveDragonStats(data, d);
   return {
-    id, kind: 'dragon', name: d.name, element: d.element, level: d.level,
+    id, kind: 'dragon', name: d.name, element: d.element, element2: d.element2 ?? null, level: d.level,
     maxHp: dragonMaxHp(data, d), hp: Math.min(d.hp, dragonMaxHp(data, d)), maxMp: 0, mp: 0,
     power: st.might, magic: st.spirit,
     accuracy: st.swift * c.dragon.accuracyPerSwift, dodge: st.swift * c.dragon.dodgePerSwift + bonusOf(mods, 'dragonDodge'), swift: st.swift,
@@ -178,7 +180,7 @@ function dragonFighter(data: GameData, d: DragonState, mods: Bonus, id = 'dragon
 function mountFighter(data: GameData, rider: Fighter, dragon: Fighter): Fighter {
   const c = data.combat;
   return {
-    id: 'rider', kind: 'rider', name: `${rider.name} & ${dragon.name}`, element: dragon.element,
+    id: 'rider', kind: 'rider', name: `${rider.name} & ${dragon.name}`, element: dragon.element, element2: dragon.element2 ?? null,
     level: Math.max(rider.level, dragon.level),
     maxHp: rider.maxHp + dragon.maxHp, hp: rider.hp + dragon.hp, maxMp: rider.maxMp, mp: rider.mp,
     power: (rider.power + dragon.power) / 2, magic: rider.magic,
@@ -457,7 +459,7 @@ function strike(ctx: RoundCtx, attacker: Fighter, target: Fighter, spec: AttackS
     return 0;
   }
 
-  let mult = elementMultiplier(data.elements, spec.element, target.element, target.resist);
+  let mult = defenseMultiplier(data.elements, spec.element, target);
   for (const sd of statusData(data, target)) if (sd.amplify && sd.amplify.element === spec.element) mult *= sd.amplify.multiplier;
   if (spec.strongBonus && mult > data.elements.multipliers.neutral) mult *= 1 + spec.strongBonus;
   const crit = rng.chance(attacker.critChance);
@@ -653,8 +655,9 @@ function dragonAct(ctx: RoundCtx, order: DragonOrder, slot: Slot): void {
       slot.setBreath(0);
       const t = enemyTarget(state, order.target);
       if (!t) return;
-      const dealt = strike(ctx, dragon, t, breathSpec(slot, dragon, c.dragonMoves.breath.base, c.dragonMoves.breath.name));
-      if (dealt > 0) breathStatus(ctx, slot, dragon, t);
+      const spec = breathSpec(data, slot, dragon, t, c.dragonMoves.breath.base, c.dragonMoves.breath.name);
+      const dealt = strike(ctx, dragon, t, spec);
+      if (dealt > 0) breathStatus(ctx, slot, spec.element, t);
       return;
     }
     case 'skill':
@@ -669,18 +672,22 @@ function dragonAct(ctx: RoundCtx, order: DragonOrder, slot: Slot): void {
   }
 }
 
-function breathSpec(slot: Pick<Slot, 'mods' | 'breathMultiplier'>, source: Fighter, base: number, label: string): AttackSpec {
+function breathSpec(
+  data: GameData, slot: Pick<Slot, 'mods' | 'breathMultiplier'>, source: Fighter, target: Fighter, base: number, label: string,
+): AttackSpec {
+  const { element, factor } = attackElement(data.elements, data.combat.hybridBreathMultiplier, source, target);
   return {
-    base: base * slot.breathMultiplier, stat: source.power, element: source.element, label,
+    base: base * slot.breathMultiplier * factor, stat: source.power, element, label,
     damageMultiplier: 1 + bonusOf(slot.mods, 'breathPct'), strongBonus: bonusOf(slot.mods, 'strongBonus'),
   };
 }
 
-function breathStatus(ctx: RoundCtx, slot: Pick<Slot, 'mods' | 'spirit'>, source: Fighter, target: Fighter): void {
+/** The breath's status, from the element the breath used (a hybrid's better one). */
+function breathStatus(ctx: RoundCtx, slot: Pick<Slot, 'mods' | 'spirit'>, element: ElementId | null, target: Fighter): void {
   const { data, state, rng, events } = ctx;
-  if (!source.element) return;
+  if (!element) return;
   const c = data.combat;
-  const statusId = data.elements.info[source.element].status;
+  const statusId = data.elements.info[element].status;
   const chance = c.breath.statusChanceBase + slot.spirit * c.breath.statusChancePerSpirit + bonusOf(slot.mods, 'breathStatusChance');
   if (!rng.chance(chance)) return;
   // Buff statuses (Ward) protect the rider instead of hurting the enemy.
@@ -707,10 +714,12 @@ function skillAct(ctx: RoundCtx, order: Extract<DragonOrder, { type: 'skill' }>,
       const t = enemyTarget(state, order.target);
       if (!t) return;
       events.push({ t: 'act', actor: dragon.id, text: `${dragon.name} uses ${talent.name}!` });
+      const own = attackElement(data.elements, data.combat.hybridBreathMultiplier, dragon, t);
       let dealt = 0;
       for (let i = 0; i < (skill.hits ?? 1) && t.hp > 0; i++) {
         dealt += strike(ctx, dragon, t, {
-          base: skill.base ?? 10, stat: dragon.power, element: skill.element === 'dragon' ? dragon.element : null, label: talent.name,
+          base: (skill.base ?? 10) * (skill.element === 'dragon' ? own.factor : 1), stat: dragon.power,
+          element: skill.element === 'dragon' ? own.element : null, label: talent.name,
           damageMultiplier: 1 + bonusOf(slot.mods, 'clawPct'), strongBonus: bonusOf(slot.mods, 'strongBonus'),
         });
       }
@@ -766,8 +775,9 @@ function rideAct(ctx: RoundCtx, order: Extract<RiderOrder, { type: 'ride' }>): v
       }
       state.breath = 0;
       if (!t) return;
-      const dealt = strike(ctx, unit, t, breathSpec({ mods: state.dragonMods, breathMultiplier: state.breathMultiplier }, unit, move.base ?? 40, move.name));
-      if (dealt > 0) breathStatus(ctx, { mods: state.dragonMods, spirit: state.spirit }, unit, t);
+      const spec = breathSpec(data, { mods: state.dragonMods, breathMultiplier: state.breathMultiplier }, unit, t, move.base ?? 40, move.name);
+      const dealt = strike(ctx, unit, t, spec);
+      if (dealt > 0) breathStatus(ctx, { mods: state.dragonMods, spirit: state.spirit }, spec.element, t);
       return;
     }
     case 'defend':
@@ -802,8 +812,9 @@ function duoAct(ctx: RoundCtx, order: Extract<DragonOrder, { type: 'duo' }>): vo
   const two = state.second?.fighter;
   if (!combo || !t || !lead || !two) return;
   events.push({ t: 'act', actor: 'dragon', text: `${lead.name} and ${two.name}: ${combo.name}!` });
+  const own = attackElement(data.elements, data.combat.hybridBreathMultiplier, lead, t);
   strike(ctx, lead, t, {
-    base: combo.base, stat: (lead.power + two.power) / 2, element: lead.element, label: combo.name,
+    base: combo.base * own.factor, stat: (lead.power + two.power) / 2, element: own.element, label: combo.name,
     damageMultiplier: 1 + bonusOf(state.dragonMods, 'comboPct'),
   });
 }

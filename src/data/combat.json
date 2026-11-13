@@ -231,6 +231,7 @@
   ],
   "bigAttackMultiplier": 1.8,
   "levelDamageScale": 0.12,
+  "hybridBreathMultiplier": 0.9,
   "ride": {
     "defenseShare": 0.5,
     "breathPerRoundBonus": 5,

@@ -233,6 +233,8 @@ export interface ComboData { id: string; name: string; bond: number; base: numbe
 
 export interface CombatData {
   statDivisor: number;
+  /** A hybrid's breath uses its better element against the target, at this power. */
+  hybridBreathMultiplier: number;
   critMultiplier: number;
   damageRandMin: number;
   damageRandMax: number;
