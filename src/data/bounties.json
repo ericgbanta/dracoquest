@@ -783,6 +783,104 @@
         },
         "enemy": "voidstrider"
       }
+    ],
+    "sunken-spires": [
+      {
+        "id": "eel-light",
+        "kind": "defeat",
+        "count": 5,
+        "text": "Put out 5 Reef Stalker lanterns",
+        "reward": {
+          "gold": 760,
+          "materials": {
+            "ore": 3
+          }
+        },
+        "enemy": "reef-stalker"
+      },
+      {
+        "id": "gull-sandwich",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Rescue sandwiches from 4 Storm Gulls",
+        "reward": {
+          "gold": 740,
+          "embers": 1
+        },
+        "enemy": "storm-gull"
+      },
+      {
+        "id": "brute-scrub",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Scrub 3 Barnacle Brutes",
+        "reward": {
+          "gold": 760,
+          "materials": {
+            "crystal": 1
+          }
+        },
+        "enemy": "barnacle-brute"
+      },
+      {
+        "id": "cloud-chase",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Chase off 4 Squall Sprites",
+        "reward": {
+          "gold": 740,
+          "materials": {
+            "ore": 3
+          }
+        },
+        "enemy": "squall-sprite"
+      },
+      {
+        "id": "sentry-relief",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Relieve 3 Drowned Sentries",
+        "reward": {
+          "gold": 740,
+          "embers": 1
+        },
+        "enemy": "drowned-sentry"
+      },
+      {
+        "id": "spires-wins",
+        "kind": "wins",
+        "count": 6,
+        "text": "Win 6 fights in the Spires",
+        "reward": {
+          "gold": 900,
+          "materials": {
+            "ore": 4
+          }
+        }
+      },
+      {
+        "id": "spires-clear",
+        "kind": "clear",
+        "count": 2,
+        "text": "Finish 2 runs in the Spires",
+        "reward": {
+          "gold": 1050,
+          "embers": 3
+        }
+      },
+      {
+        "id": "ray-sighting",
+        "kind": "defeat",
+        "count": 1,
+        "text": "Defeat the Thunder Ray",
+        "reward": {
+          "gold": 900,
+          "materials": {
+            "scale": 1
+          }
+        },
+        "enemy": "thunder-ray"
+      }
     ]
   }
 }

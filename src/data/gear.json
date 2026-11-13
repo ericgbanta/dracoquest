@@ -2848,5 +2848,198 @@
       "riderHp": 60
     },
     "description": "Forged to keep you from falling in. So far it works."
+  },
+  {
+    "id": "tidecaller-melee",
+    "name": "Tidecaller Cutlass",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": null,
+    "level": 52,
+    "damage": 51,
+    "price": 9000,
+    "bonus": {
+      "strength": 10
+    },
+    "description": "A pirate's blade from the drowned city. It drips, always."
+  },
+  {
+    "id": "tidecaller-ranged",
+    "name": "Tidecaller Harpoon Bow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": null,
+    "level": 52,
+    "damage": 50,
+    "price": 9000,
+    "bonus": {
+      "agility": 11
+    },
+    "description": "Fires little harpoons. Very good for fish. Also everything else."
+  },
+  {
+    "id": "tidecaller-magic",
+    "name": "Tidecaller Conch Staff",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": null,
+    "level": 52,
+    "damage": 50,
+    "price": 9000,
+    "bonus": {
+      "arcana": 11
+    },
+    "description": "Hold it to your ear and you can hear the storm."
+  },
+  {
+    "id": "tidecaller-armor",
+    "name": "Tidecaller Coral Mantle",
+    "slot": "armor",
+    "level": 59,
+    "price": 12500,
+    "bonus": {
+      "riderDefense": 18,
+      "riderHp": 215
+    },
+    "description": "Cut from the Tidelord's coral crown. It still expects to be bowed to."
+  },
+  {
+    "id": "tidecaller-trinket",
+    "name": "Tidecaller Ray Fin",
+    "slot": "trinket",
+    "level": 54,
+    "price": 10000,
+    "bonus": {
+      "agility": 6,
+      "arcana": 6,
+      "vigor": 5
+    },
+    "description": "A fin from the Thunder Ray. It crackles when it rains."
+  },
+  {
+    "id": "breakwater-axe",
+    "name": "Breakwater Axe",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": "tide",
+    "level": 53,
+    "damage": 52,
+    "price": 10200,
+    "bonus": {
+      "strength": 10,
+      "vigor": 1
+    },
+    "description": "Splits waves in two. Waves are not impressed."
+  },
+  {
+    "id": "squallbreaker",
+    "name": "Squallbreaker",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": "storm",
+    "level": 53,
+    "damage": 52,
+    "price": 10200,
+    "bonus": {
+      "strength": 10,
+      "vigor": 1
+    },
+    "description": "A hammer that rings like thunder."
+  },
+  {
+    "id": "spray-longbow",
+    "name": "Spray Longbow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": "tide",
+    "level": 53,
+    "damage": 51,
+    "price": 10200,
+    "bonus": {
+      "agility": 11
+    },
+    "description": "Every shot leaves a little rainbow."
+  },
+  {
+    "id": "gale-repeater",
+    "name": "Gale Repeater",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": "storm",
+    "level": 53,
+    "damage": 51,
+    "price": 10200,
+    "bonus": {
+      "agility": 11
+    },
+    "description": "Fires as fast as the wind can load it."
+  },
+  {
+    "id": "drowned-tome",
+    "name": "Drowned Tome",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": "tide",
+    "level": 53,
+    "damage": 51,
+    "price": 10200,
+    "bonus": {
+      "arcana": 11
+    },
+    "description": "Waterlogged, but the spells still work. Mostly."
+  },
+  {
+    "id": "stormglass-rod",
+    "name": "Stormglass Rod",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": "storm",
+    "level": 53,
+    "damage": 51,
+    "price": 10200,
+    "bonus": {
+      "arcana": 11
+    },
+    "description": "A rod with a tiny thunderstorm trapped inside."
+  },
+  {
+    "id": "sailcloth-coat",
+    "name": "Sailcloth Coat",
+    "slot": "armor",
+    "level": 53,
+    "price": 9600,
+    "bonus": {
+      "riderDefense": 16,
+      "riderHp": 185
+    },
+    "description": "Waxed against the rain. Smells faintly of fish."
+  },
+  {
+    "id": "pearl-of-calm",
+    "name": "Pearl of Calm",
+    "slot": "trinket",
+    "level": 53,
+    "price": 9300,
+    "bonus": {
+      "vigor": 5,
+      "arcana": 5,
+      "riderMp": 15,
+      "healPct": 0.05
+    },
+    "description": "Hold it and the storm feels far away."
+  },
+  {
+    "id": "leviathan-crest",
+    "name": "Leviathan Crest",
+    "slot": "trinket",
+    "level": 56,
+    "price": 11500,
+    "bonus": {
+      "strength": 6,
+      "agility": 6,
+      "arcana": 6,
+      "vigor": 6
+    },
+    "description": "Forged from the Tidelord's old armor. It hums sea shanties."
   }
 ]

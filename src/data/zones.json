@@ -1285,5 +1285,114 @@
         "twilight-regalia-magic"
       ]
     }
+  },
+  {
+    "id": "sunken-spires",
+    "name": "Sunken Spires",
+    "element": "tide",
+    "elements": [
+      "tide",
+      "storm"
+    ],
+    "minLevel": 50,
+    "maxLevel": 60,
+    "gate": null,
+    "unlock": {
+      "level": 50,
+      "afterBoss": "eclipse-peak"
+    },
+    "blurb": "A drowned city where storms walk on the water. The first land beyond the peak.",
+    "fights": {
+      "min": 3,
+      "max": 5
+    },
+    "encounters": [
+      {
+        "enemies": [
+          "reef-stalker"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "storm-gull"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "barnacle-brute"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "squall-sprite"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "drowned-sentry"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "storm-gull",
+          "storm-gull"
+        ],
+        "weight": 1,
+        "minLevel": 52
+      },
+      {
+        "enemies": [
+          "reef-stalker",
+          "squall-sprite"
+        ],
+        "weight": 1,
+        "minLevel": 54
+      }
+    ],
+    "levelSpread": 1,
+    "multiEnemyLevelOffset": -3,
+    "boss": {
+      "enemy": "tidelord",
+      "level": 60,
+      "unlockRiderLevel": 59,
+      "trophy": {
+        "gear": "tidecaller-armor",
+        "chance": 0.25
+      }
+    },
+    "miniBoss": {
+      "enemy": "thunder-ray",
+      "levelOffset": 0,
+      "trophy": {
+        "gear": "tidecaller-trinket",
+        "chance": 0.25
+      }
+    },
+    "dropChances": {
+      "potion": 0.25,
+      "dragon-treat": 0.15,
+      "mana-tonic": 0.1
+    },
+    "eggDrop": {
+      "element": "tide",
+      "chance": 0.1,
+      "elements": [
+        "tide",
+        "storm"
+      ]
+    },
+    "gearDrops": {
+      "chance": 0.06,
+      "gear": [
+        "tidecaller-melee",
+        "tidecaller-ranged",
+        "tidecaller-magic"
+      ]
+    }
   }
 ]

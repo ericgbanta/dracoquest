@@ -284,6 +284,7 @@ export interface ProgressionData {
   xpExponent: number;
   statPointsPerLevel: number;
   secondPartnerRiderLevel: number;
+  thirdPartnerRiderLevel: number;
   /** How many spells the rider takes into battle. */
   spellLoadoutSize: number;
   /** Temperament points a story choice gives the lead dragon. */

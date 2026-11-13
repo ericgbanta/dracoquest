@@ -5656,6 +5656,363 @@
           ]
         }
       ]
+    },
+    "enemy.reef-stalker": {
+      "size": [
+        400,
+        267
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.95,
+          0.5
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/reef-stalker.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/reef-stalker-attack.webp",
+              "box": [
+                -0.004,
+                -0.0604,
+                0.9525,
+                1.0602
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.storm-gull": {
+      "size": [
+        400,
+        362
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.95,
+          0.4
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/storm-gull.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/storm-gull-attack.webp",
+              "box": [
+                0.0378,
+                0.1081,
+                1.1175,
+                0.8928
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.barnacle-brute": {
+      "size": [
+        400,
+        283
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.95,
+          0.55
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/barnacle-brute.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/barnacle-brute-attack.webp",
+              "box": [
+                0.11,
+                0.0288,
+                1.06,
+                0.9728
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.squall-sprite": {
+      "size": [
+        400,
+        302
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.92,
+          0.45
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/squall-sprite.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/squall-sprite-attack.webp",
+              "box": [
+                0.0628,
+                0.0803,
+                0.9425,
+                0.9202
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.drowned-sentry": {
+      "size": [
+        348,
+        400
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.9,
+          0.3
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/drowned-sentry.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/drowned-sentry-attack.webp",
+              "box": [
+                -0.0225,
+                0.1386,
+                1.5477,
+                0.8625
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.thunder-ray": {
+      "size": [
+        400,
+        287
+      ],
+      "boxScale": 0.65,
+      "points": {
+        "mouth": [
+          0.95,
+          0.45
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/thunder-ray.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/thunder-ray-attack.webp",
+              "box": [
+                0.1383,
+                0.0995,
+                0.895,
+                0.9019
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.tidelord": {
+      "size": [
+        720,
+        494
+      ],
+      "boxScale": 1.0,
+      "points": {
+        "mouth": [
+          0.93,
+          0.25
+        ],
+        "hit": [
+          0.6,
+          0.55
+        ],
+        "front": [
+          0.92,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/tidelord.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/tidelord-attack.webp",
+              "box": [
+                0.0765,
+                0.0,
+                1.0375,
+                0.9997
+              ]
+            }
+          ]
+        }
+      ]
     }
   },
   "backdrops": {
@@ -5803,6 +6160,17 @@
       "ambient": {
         "kind": "rise",
         "color": "#d9ccff"
+      }
+    },
+    "sunken-spires": {
+      "layers": [
+        {
+          "file": "painted/backdrops/sunken-spires.webp"
+        }
+      ],
+      "ambient": {
+        "kind": "fall",
+        "color": "#cfe6ff"
       }
     },
     "map-wilds": {

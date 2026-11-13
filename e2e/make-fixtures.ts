@@ -115,4 +115,11 @@ nest = {
 };
 nest = { ...nest, dragons: nest.dragons.map((d) => ({ ...d, hp: dragonMaxHp(data, d) })) };
 writeFileSync('e2e/fixtures/nest.json', JSON.stringify(nest));
+// Chunk 4: a level 60 rider with three partners, about to fight in the Sunken Spires.
+let trio: SaveData = { ...nest, rider: { ...nest.rider, level: 60 }, bossesDefeated: [...new Set([...nest.bossesDefeated, 'eclipse-peak'])] };
+trio = { ...trio, dragons: trio.dragons.map((d) => (['Blaze', 'Ripple', 'Mist'].includes(d.name) ? { ...d, stage: 'elder', level: 50 } : d)) };
+trio = { ...trio, dragons: trio.dragons.map((d) => ({ ...d, hp: dragonMaxHp(data, d) })), rider: { ...trio.rider, hp: riderMaxHp(data, trio.rider), mp: riderMaxMp(data, trio.rider) } };
+trio = { ...trio, thirdDragonId: trio.dragons.find((d) => d.name === 'Mist')!.id };
+trio = { ...trio, run: { zoneId: 'sunken-spires', fights: [{ kind: 'normal', enemies: [{ enemyId: 'storm-gull', level: 58 }, { enemyId: 'reef-stalker', level: 57 }] }], index: 0, battle: null, totals: { xp: 0, gold: 0, drops: {} } } };
+writeFileSync('e2e/fixtures/trio-fight.json', JSON.stringify(trio));
 console.log('fixtures written');

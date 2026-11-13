@@ -38,7 +38,7 @@ export function classify(data: GameData, state: BattleState, ev: { actor: string
     if (c.riderMoves.spells.some((s) => mentions(ev.text, s.name))) return 'spell';
     return state.weapon.type === 'ranged' ? 'arrow' : state.weapon.type === 'magic' ? 'spell' : 'slash';
   }
-  if (ev.actor === 'dragon' || ev.actor === 'dragon2') {
+  if (ev.actor === 'dragon' || ev.actor === 'dragon2' || ev.actor === 'dragon3') {
     if (mentions(ev.text, c.dragonMoves.breath.name)) return 'breath';
     if (mentions(ev.text, c.dragonMoves.claw.name)) return 'claw';
     // A talent skill: elemental ones are breathed, the rest are claws.
@@ -67,7 +67,7 @@ export async function direct(stage: HTMLElement, data: GameData, state: BattleSt
       const move = classify(data, state, ev);
       const enemy = state.enemies.find((x) => x.id === ev.actor);
       const big = enemy ? state.intents[enemy.id] !== undefined && data.enemies[enemy.enemyId ?? '']?.moves.find((m) => m.id === state.intents[enemy.id])?.intent === 'big' : false;
-      const actorEl = ev.actor === 'rider' ? state.rider : ev.actor === 'dragon' ? state.dragon : ev.actor === 'dragon2' ? state.second?.fighter : enemy;
+      const actorEl = ev.actor === 'rider' ? state.rider : ev.actor === 'dragon' ? state.dragon : ev.actor === 'dragon2' ? state.second?.fighter : ev.actor === 'dragon3' ? state.third?.fighter : enemy;
       const used = ev.t === 'hit' && ev.element && actorEl?.element2 ? ev.element : actorEl?.element;
       const color = used ? data.elements.info[used].color : '#c9a8ff';
       const hit: HitInfo = {
@@ -141,5 +141,5 @@ export async function direct(stage: HTMLElement, data: GameData, state: BattleSt
 }
 
 function partyIds(state: BattleState): string[] {
-  return ['rider', ...(state.dragon ? ['dragon'] : []), ...(state.second ? ['dragon2'] : [])];
+  return ['rider', ...(state.dragon ? ['dragon'] : []), ...(state.second ? ['dragon2'] : []), ...(state.third ? ['dragon3'] : [])];
 }

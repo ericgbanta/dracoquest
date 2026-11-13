@@ -13,6 +13,7 @@ import { createRng } from '../src/core/rng';
 import { CURRENT_VERSION, newSave, parseSave, type SaveData } from '../src/core/save';
 import type { EggSpec } from '../src/core/types';
 import fixtureV9 from './fixtures/save-v9.json';
+import fixtureV10 from './fixtures/save-v10.json';
 
 const data = gameData;
 const NOW = 1794355200000; // 2026-11-11
@@ -313,5 +314,16 @@ describe('the Wyrm', () => {
     }
     expect(rooted).toBe(true);
     expect(data.zones.find((z) => z.id === 'voidmarch')!.eggDrop!.breed).toBe('wyrm');
+  });
+});
+
+describe('save v10 to v11', () => {
+  it('adds an empty third partner seat and keeps everything else', () => {
+    expect(fixtureV10.version).toBe(10);
+    const s = parseSave(JSON.stringify(fixtureV10));
+    expect(s.version).toBe(CURRENT_VERSION);
+    expect(s.rider.name).toBe('Fixture Ten');
+    expect(s.thirdDragonId).toBeNull();
+    expect(s.eggs).toEqual([{ element: 'aether', element2: null, breed: 'wyvern', variant: 'starry' }]);
   });
 });

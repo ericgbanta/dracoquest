@@ -184,6 +184,17 @@
         "crystal": 6,
         "scale": 3
       }
+    },
+    {
+      "gear": "leviathan-crest",
+      "forgeLevel": 3,
+      "gold": 6000,
+      "embers": 20,
+      "materials": {
+        "ore": 18,
+        "crystal": 8,
+        "scale": 4
+      }
     }
   ]
 }

@@ -1,6 +1,6 @@
 import { useState } from 'preact/hooks';
 import { gameData as data } from '../../core/data';
-import { activeDragon, canHaveSecond, canLayEgg, GameError, layEgg, growthStatus, learnDragonTalent, respecTalents, secondDragon, setLead, setSecond, spendDragonPoint, startGrowthQuest } from '../../core/game';
+import { activeDragon, canHaveSecond, canHaveThird, canLayEgg, GameError, layEgg, growthStatus, learnDragonTalent, respecTalents, secondDragon, setLead, setSecond, setThird, spendDragonPoint, startGrowthQuest, thirdDragon } from '../../core/game';
 import { temperament, leaning } from '../../core/roost';
 import { canLearn, dragonBonus, pointsInTree, respecCost, signatureSkill, talentPointsLeft } from '../../core/loadout';
 import type { TalentTree } from '../../core/types';
@@ -39,8 +39,10 @@ export function Dragons({ save, update }: Props) {
   if (!lead) return null;
   const d = save.dragons.find((x) => x.id === selectedId) ?? lead;
   const second = secondDragon(save);
+  const third = thirdDragon(save);
   const isLead = d.id === lead.id;
   const isSecond = d.id === second?.id;
+  const isThird = d.id === third?.id;
   const temper = temperament(data, d);
   const lean = leaning(d);
   const partnerAct = (fn: () => SaveData, ok: string) => {
@@ -66,7 +68,7 @@ export function Dragons({ save, update }: Props) {
               onClick={() => { setSelectedId(x.id); setNotice(''); }} data-testid={`dpick-${x.name}`}>
               <DragonSprite element={x.element} element2={x.element2} variant={x.variant} breed={x.breed} stage={x.stage} primary={x.colors.primary} secondary={x.colors.secondary} size={40} />
               <span>{x.name}</span>
-              {x.id === lead.id ? <span class="pick-tag">Lead</span> : x.id === second?.id ? <span class="pick-tag">Second</span> : x.assignment.kind !== 'idle' ? <span class="pick-tag">{x.assignment.kind === 'training' ? 'Training' : 'Away'}</span> : null}
+              {x.id === lead.id ? <span class="pick-tag">Lead</span> : x.id === second?.id ? <span class="pick-tag">Second</span> : x.id === third?.id ? <span class="pick-tag">Third</span> : x.assignment.kind !== 'idle' ? <span class="pick-tag">{x.assignment.kind === 'training' ? 'Training' : 'Away'}</span> : null}
             </button>
           ))}
         </div>
@@ -81,13 +83,15 @@ export function Dragons({ save, update }: Props) {
         <div class="card partners">
           <h2>Battle partner</h2>
           <p class="muted">
-            {isLead ? `${d.name} is your lead partner.` : isSecond ? `${d.name} fights beside your lead as second partner.` : `${d.name} is on the bench.`}
-            {!canHaveSecond(data, save) && ` A second partner joins at rider level ${data.progression.secondPartnerRiderLevel}.`}
+            {isLead ? `${d.name} is your lead partner.` : isSecond ? `${d.name} fights beside your lead as second partner.` : isThird ? `${d.name} fights beside your lead as third partner.` : `${d.name} is on the bench.`}
+            {!canHaveSecond(data, save) ? ` A second partner joins at rider level ${data.progression.secondPartnerRiderLevel}.` : !canHaveThird(data, save) ? ` A third partner joins at rider level ${data.progression.thirdPartnerRiderLevel}.` : ''}
           </p>
           <div class="row wrap">
             {!isLead && <button type="button" class="button" data-testid="make-lead" onClick={() => partnerAct(() => setLead(data, save, d.id, Date.now()), `${d.name} is now your lead.`)}>Make lead</button>}
             {!isLead && !isSecond && canHaveSecond(data, save) && <button type="button" class="button button--ghost" data-testid="make-second" onClick={() => partnerAct(() => setSecond(data, save, d.id, Date.now()), `${d.name} joins as second partner.`)}>Make second</button>}
+            {!isLead && !isThird && canHaveThird(data, save) && <button type="button" class="button button--ghost" data-testid="make-third" onClick={() => partnerAct(() => setThird(data, save, d.id, Date.now()), `${d.name} joins as third partner.`)}>Make third</button>}
             {isSecond && <button type="button" class="button button--ghost" data-testid="bench" onClick={() => partnerAct(() => setSecond(data, save, null, Date.now()), `${d.name} heads to the bench.`)}>Bench</button>}
+            {isThird && <button type="button" class="button button--ghost" data-testid="bench-third" onClick={() => partnerAct(() => setThird(data, save, null, Date.now()), `${d.name} heads to the bench.`)}>Bench</button>}
           </div>
         </div>
       )}

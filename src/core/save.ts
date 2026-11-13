@@ -14,7 +14,7 @@ import { newRoost, type RoostState } from './roost';
 import { defaultLoadout } from './spells';
 import type { DragonState, EggSpec, ElementId, RiderState } from './types';
 
-export const CURRENT_VERSION = 10;
+export const CURRENT_VERSION = 11;
 export const SAVE_KEY = 'dracoquest.save';
 const CODE_PREFIX = 'DQ1:'; // Code format, not save version. The save inside carries its own version.
 
@@ -50,6 +50,8 @@ export interface SaveData {
   embers: number;
   /** The second battle partner (rider level 25+). */
   secondDragonId: string | null;
+  /** The third battle partner (rider level 60+). */
+  thirdDragonId: string | null;
   roost: RoostState;
   /** Days in a row with all care done. */
   careStreak: { count: number; lastDay: string };
@@ -195,6 +197,8 @@ export const MIGRATIONS: Record<number, Migration> = {
       },
     };
   },
+  // v10 → v11 (chunk 4): a third battle partner from rider level 60.
+  10: (save) => ({ ...save, thirdDragonId: null }),
 };
 
 export function newSave(now: number): SaveData {
@@ -216,6 +220,7 @@ export function newSave(now: number): SaveData {
     questsDone: [],
     embers: 0,
     secondDragonId: null,
+    thirdDragonId: null,
     roost: newRoost(now),
     careStreak: { count: 0, lastDay: '' },
     eventsClaimed: [],
@@ -284,6 +289,7 @@ export function validateSave(raw: Record<string, unknown>): SaveData {
   if (typeof raw.embers !== 'number' || !isObject(raw.roost) || !isObject(raw.careStreak)) fail('roost missing');
   if (!isObject((raw.roost as Record<string, unknown>).levels) || typeof ((raw.roost as Record<string, unknown>).levels as Record<string, unknown>).forge !== 'number') fail('roost damaged');
   if (raw.secondDragonId !== null && typeof raw.secondDragonId !== 'string') fail('second partner damaged');
+  if (raw.thirdDragonId !== null && typeof raw.thirdDragonId !== 'string') fail('third partner damaged');
   if (!Array.isArray(raw.eventsClaimed)) fail('events missing');
   for (const d of raw.dragons as Record<string, unknown>[]) {
     if (typeof d.laidEgg !== 'boolean' || typeof d.breed !== 'string' || typeof d.lastBredAt !== 'number') fail('dragon damaged');

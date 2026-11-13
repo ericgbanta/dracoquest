@@ -4912,5 +4912,386 @@
     "xpMultiplier": 5,
     "boss": true,
     "goldMultiplier": 6
+  },
+  {
+    "id": "reef-stalker",
+    "name": "Reef Stalker",
+    "element": "tide",
+    "flavor": "An eel with a lantern on its head. The light is friendly. The eel is not.",
+    "base": {
+      "hp": 1279.69,
+      "attack": 56.288,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 52.097,
+      "dodge": 27.58
+    },
+    "perLevel": {
+      "hp": 7.96,
+      "attack": 0.33,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.2925,
+      "dodge": 0.14
+    },
+    "moves": [
+      {
+        "id": "eel-bite",
+        "name": "Eel Bite",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "lure",
+        "name": "Lantern Lure",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "soak",
+        "statusChance": 0.5
+      },
+      {
+        "id": "slip-away",
+        "name": "Slip Away",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fade",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "storm-gull",
+    "name": "Storm Gull",
+    "element": "storm",
+    "flavor": "Steals fish, chips and lightning. Mostly fish.",
+    "base": {
+      "hp": 1023.75,
+      "attack": 56.288,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 60.113,
+      "dodge": 33.49
+    },
+    "perLevel": {
+      "hp": 6.36,
+      "attack": 0.33,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.3375,
+      "dodge": 0.17
+    },
+    "moves": [
+      {
+        "id": "peck-grab",
+        "name": "Peck and Grab",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "spark-dive",
+        "name": "Spark Dive",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "shock",
+        "statusChance": 0.4
+      },
+      {
+        "id": "squawk",
+        "name": "Rude Squawk",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "barnacle-brute",
+    "name": "Barnacle Brute",
+    "element": "tide",
+    "flavor": "More barnacle than brute these days. Still very much a brute.",
+    "base": {
+      "hp": 1471.83,
+      "attack": 56.288,
+      "power": 41.75,
+      "defense": 19.24,
+      "swift": 40.075,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 9.15,
+      "attack": 0.33,
+      "power": 0.25,
+      "defense": 0.12,
+      "swift": 0.225,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "claw-crush",
+        "name": "Claw Crush",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "tide-slam",
+        "name": "Tide Slam",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "soak",
+        "statusChance": 0.4
+      },
+      {
+        "id": "barnacle-up",
+        "name": "Barnacle Up",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "squall-sprite",
+    "name": "Squall Sprite",
+    "element": "storm",
+    "flavor": "A grumpy little cloud. Rains on everyone, itself included.",
+    "base": {
+      "hp": 1087.55,
+      "attack": 56.288,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 52.097,
+      "dodge": 25.61
+    },
+    "perLevel": {
+      "hp": 6.76,
+      "attack": 0.33,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.2925,
+      "dodge": 0.13
+    },
+    "moves": [
+      {
+        "id": "bonk",
+        "name": "Cloud Bonk",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "zap",
+        "name": "Little Zap",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "shock",
+        "statusChance": 0.5
+      },
+      {
+        "id": "drizzle",
+        "name": "Drizzle",
+        "intent": "attack",
+        "weight": 1,
+        "power": 0.5,
+        "status": "soak",
+        "statusChance": 0.6
+      }
+    ]
+  },
+  {
+    "id": "drowned-sentry",
+    "name": "Drowned Sentry",
+    "element": "tide",
+    "flavor": "Still guarding a gate that sank a hundred years ago. Nobody told it.",
+    "base": {
+      "hp": 1151.72,
+      "attack": 56.288,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 48.09,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 7.16,
+      "attack": 0.33,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.27,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "spear-thrust",
+        "name": "Spear Thrust",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "undertow",
+        "name": "Undertow",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "stand-guard",
+        "name": "Stand Guard",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "thunder-ray",
+    "name": "Thunder Ray",
+    "element": "storm",
+    "flavor": "A manta ray that swims through the sky when it storms. It storms a lot here.",
+    "base": {
+      "hp": 2239.64,
+      "attack": 64.629,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 40.075,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 13.92,
+      "attack": 0.379,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.225,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "wing-slap",
+        "name": "Wing Slap",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "thunder-glide",
+        "name": "Thunder Glide",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "shock",
+        "statusChance": 0.5
+      },
+      {
+        "id": "charge-up",
+        "name": "Charge Up",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self"
+      },
+      {
+        "id": "rain-bath",
+        "name": "Rain Bath",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.2,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "miniBoss": true,
+    "xpMultiplier": 2
+  },
+  {
+    "id": "tidelord",
+    "name": "Tidelord",
+    "element": "tide",
+    "flavor": "King of the drowned city. Wears a coral crown and demands to be bowed to. Underwater.",
+    "base": {
+      "hp": 4098.36,
+      "attack": 67.71,
+      "power": 41.75,
+      "defense": 18.038,
+      "swift": 44.083,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 25.48,
+      "attack": 0.398,
+      "power": 0.25,
+      "defense": 0.1125,
+      "swift": 0.2475,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "trident-tail",
+        "name": "Trident Tail",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "crushing-wave",
+        "name": "Crushing Wave",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.8,
+        "status": "soak",
+        "statusChance": 0.6
+      },
+      {
+        "id": "royal-flood",
+        "name": "Royal Flood",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "call-the-storm",
+        "name": "Call the Storm",
+        "intent": "shift",
+        "weight": 1,
+        "shiftTo": "storm",
+        "target": "self",
+        "condition": "notShifted"
+      },
+      {
+        "id": "coral-guard",
+        "name": "Coral Guard",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      },
+      {
+        "id": "high-tide",
+        "name": "High Tide",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.12,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "xpMultiplier": 5,
+    "boss": true,
+    "goldMultiplier": 6
   }
 ]

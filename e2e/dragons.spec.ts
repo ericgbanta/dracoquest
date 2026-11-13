@@ -104,3 +104,24 @@ test('a Wyvern shows its own painted body, its breed and its signature skill', a
   await page.waitForTimeout(500);
   await page.screenshot({ path: 'test-results/dragons-wyvern.png' });
 });
+
+test('three dragons fight together from rider level 60: three order rows, all three on the stage', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 667 });
+  await load(page, 'trio-fight.json');
+  await page.getByTestId('next-fight').tap();
+  await expect(page.locator('[data-testid=stage]:not(.stage--loading)')).toBeVisible();
+  await expect(page.getByTestId('stage-dragon3')).toBeVisible();
+  await expect(page.getByTestId('third-card')).toContainText('Mist');
+  await expect(page.getByTestId('act3-claw')).toBeVisible();
+  await page.waitForTimeout(600);
+  await page.screenshot({ path: 'test-results/trio-stage.png', fullPage: true });
+  // Tap targets stay at 44 px in every order row.
+  const small = await page.locator('.action-row button').evaluateAll((els) => els.filter((el) => (el as HTMLElement).offsetHeight < 44 || (el as HTMLElement).offsetWidth < 44).length);
+  expect(small).toBe(0);
+  await page.getByTestId('act3-guard').tap();
+  await page.getByTestId('go').tap();
+  await expect(page.getByTestId('go')).toBeEnabled({ timeout: 20_000 });
+  const s = await saved(page);
+  expect(s.run.battle.third.fighter.name).toBe('Mist');
+  expect(s.run.battle.round).toBeGreaterThan(1);
+});

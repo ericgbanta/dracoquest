@@ -29,11 +29,12 @@ function setup(r: RiderState, over: Partial<BattleSetup> = {}): BattleSetup {
 const cast = (spell: string, target = 'e0'): Orders => ({ rider: { type: 'spell', spell, target }, dragon: { type: 'guard' } });
 
 describe('spell data', () => {
-  it('has fourteen spells, two from level 1, one per element of the ring plus Shadow, Light, Aether and Void', () => {
-    expect(spells).toHaveLength(14);
+  it('has fifteen spells, two from level 1, one per element of the ring plus Shadow, Light, Aether and Void, and Tempest at 53', () => {
+    expect(spells).toHaveLength(15);
     expect(knownSpells(data, 1).map((s) => s.id)).toEqual(['arc-bolt', 'mend']);
-    const elements = spells.filter((s) => s.element).map((s) => s.element).sort();
+    const elements = [...new Set(spells.filter((s) => s.element).map((s) => s.element))].sort();
     expect(elements).toEqual([...data.elements.ring, 'shadow', 'light', 'aether', 'void'].sort());
+    expect(spells.find((s) => s.id === 'tempest')).toMatchObject({ element: 'storm', level: 53 });
     expect(spells.find((s) => s.id === 'radiant-lance')).toMatchObject({ element: 'light', level: 42 });
     expect(spells.find((s) => s.id === 'umbral-bolt')).toMatchObject({ element: 'shadow', level: 32 });
     for (const s of spells) if (s.status) expect(data.statuses[s.status]).toBeDefined();

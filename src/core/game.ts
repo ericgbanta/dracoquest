@@ -42,13 +42,18 @@ function replaceDragon(save: SaveData, dragon: DragonState): SaveData {
   return { ...save, dragons: save.dragons.map((d) => (d.id === dragon.id ? dragon : d)) };
 }
 
+/** The third battle partner (rider level 60+), if one is set. */
+export function thirdDragon(save: SaveData): DragonState | null {
+  return save.thirdDragonId ? save.dragons.find((d) => d.id === save.thirdDragonId) ?? null : null;
+}
+
 /** The second battle partner, if one is set. */
 export function secondDragon(save: SaveData): DragonState | null {
   return save.secondDragonId ? save.dragons.find((d) => d.id === save.secondDragonId) ?? null : null;
 }
 
 export function isPartner(save: SaveData, id: string): boolean {
-  return id === save.activeDragonId || id === save.secondDragonId;
+  return id === save.activeDragonId || id === save.secondDragonId || id === save.thirdDragonId;
 }
 
 /** A dragon by id, or the lead partner when no id is given. */
@@ -272,6 +277,7 @@ export function startFight(data: GameData, save: SaveData, opts: { ride?: boolea
     rider: save.rider,
     dragon: activeDragon(save),
     second: secondDragon(save),
+    third: canHaveThird(data, save) ? thirdDragon(save) : null,
     enemies: plan.enemies,
     seed: r.value,
     canFlee: plan.kind !== 'boss',
@@ -328,6 +334,8 @@ function finishFight(data: GameData, save: SaveData): { save: SaveData; report: 
   } else if (dragon) dragon = { ...dragon, hp: battle.dragon ? battle.dragon.hp : 0 };
   let second = secondDragon(save);
   if (second && battle.second) second = { ...second, hp: battle.second.fighter.hp };
+  let third = thirdDragon(save);
+  if (third && battle.third) third = { ...third, hp: battle.third.fighter.hp };
   if (dragon && battle.skillUses > 0) dragon = addTemper(data, dragon, 'skill', battle.skillUses);
 
   const bestiary = { ...save.bestiary };
@@ -418,6 +426,14 @@ function finishFight(data: GameData, save: SaveData): { save: SaveData; report: 
       }
       second = addTemper(data, second, plan.kind === 'boss' ? 'bossWon' : 'fightWon');
     }
+    // So does the third.
+    if (third && battle.third) {
+      third = giveDragonXp(data, third, rewards.xp).state;
+      if (battle.third.fighter.hp > 0) {
+        third = addBond(data, third, plan.kind === 'boss' ? data.progression.bond.perBossWin : data.progression.bond.perWin);
+      }
+      third = addTemper(data, third, plan.kind === 'boss' ? 'bossWon' : 'fightWon');
+    }
     if (plan.kind === 'boss') {
       const first = !save.bossesDefeated.includes(run.zoneId);
       const embers = first ? data.roost.embers.bossFirstKill : data.roost.embers.bossRepeat;
@@ -470,6 +486,7 @@ function finishFight(data: GameData, save: SaveData): { save: SaveData; report: 
   next = { ...next, rider };
   if (dragon) next = replaceDragon(next, dragon);
   if (second) next = replaceDragon(next, second);
+  if (third) next = replaceDragon(next, third);
   return { save: next, report };
 }
 
@@ -675,6 +692,10 @@ export function canHaveSecond(data: GameData, save: SaveData): boolean {
   return save.rider.level >= data.progression.secondPartnerRiderLevel;
 }
 
+export function canHaveThird(data: GameData, save: SaveData): boolean {
+  return save.rider.level >= data.progression.thirdPartnerRiderLevel;
+}
+
 function freeForBattle(save: SaveData, id: string): DragonState {
   const d = requireDragon(save, id);
   if (d.assignment.kind === 'expedition') throw new GameError(`${d.name} is away on an expedition`);
@@ -686,8 +707,11 @@ export function setLead(data: GameData, save: SaveData, id: string, now: number)
   if (save.run) throw new GameError('Change partners at the Roost, not mid-run');
   freeForBattle(save, id);
   let s = stopTraining(data, save, id, now);
-  const second = s.secondDragonId === id ? s.activeDragonId : s.secondDragonId;
-  s = { ...s, activeDragonId: id, secondDragonId: second === id ? null : second };
+  // The old lead takes the new lead's old seat, if it had one.
+  const old = s.activeDragonId;
+  const second = s.secondDragonId === id ? old : s.secondDragonId;
+  const third = s.thirdDragonId === id ? old : s.thirdDragonId;
+  s = { ...s, activeDragonId: id, secondDragonId: second === id ? null : second, thirdDragonId: third === id ? null : third };
   return s;
 }
 
@@ -698,7 +722,20 @@ export function setSecond(data: GameData, save: SaveData, id: string | null, now
   if (!canHaveSecond(data, save)) throw new GameError(`A second partner joins at rider level ${data.progression.secondPartnerRiderLevel}`);
   if (id === save.activeDragonId) throw new GameError('That dragon is already your lead');
   freeForBattle(save, id);
-  return { ...stopTraining(data, save, id, now), secondDragonId: id };
+  // A third partner moving up swaps seats with the old second.
+  const third = save.thirdDragonId === id ? save.secondDragonId : save.thirdDragonId;
+  return { ...stopTraining(data, save, id, now), secondDragonId: id, thirdDragonId: third };
+}
+
+/** Set or clear the third partner (rider level 60+). */
+export function setThird(data: GameData, save: SaveData, id: string | null, now: number): SaveData {
+  if (save.run) throw new GameError('Change partners at the Roost, not mid-run');
+  if (id === null) return { ...save, thirdDragonId: null };
+  if (!canHaveThird(data, save)) throw new GameError(`A third partner joins at rider level ${data.progression.thirdPartnerRiderLevel}`);
+  if (id === save.activeDragonId) throw new GameError('That dragon is already your lead');
+  freeForBattle(save, id);
+  const second = save.secondDragonId === id ? save.thirdDragonId : save.secondDragonId;
+  return { ...stopTraining(data, save, id, now), thirdDragonId: id, secondDragonId: second };
 }
 
 // ---------- Roost buildings ----------

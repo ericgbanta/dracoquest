@@ -2,8 +2,8 @@ import type { ComponentChildren, Ref } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 import layout from '../../data/stage.json';
 import { gameData as data } from '../../core/data';
-import { breathReady, intentOf, secondBreathReady, type BattleState, type Fighter } from '../../core/battle';
-import { activeDragon, secondDragon } from '../../core/game';
+import { breathReady, intentOf, secondBreathReady, thirdBreathReady, type BattleState, type Fighter, type SecondDragon } from '../../core/battle';
+import { activeDragon, secondDragon, thirdDragon } from '../../core/game';
 import type { SaveData } from '../../core/save';
 import type { DragonState, ElementId } from '../../core/types';
 import { INTENTS } from '../bits';
@@ -18,6 +18,7 @@ interface BattleArt {
   rider: Rig | null;
   lead: Rig | null;
   second: Rig | null;
+  third: Rig | null;
   enemies: Record<string, Rig | null>;
   effects: Effects;
 }
@@ -26,28 +27,29 @@ const none: Effects = { slash: null, spark: null, puff: null };
 const look = (d: DragonState) => ({ element: d.element, element2: d.element2, variant: d.variant, breed: d.breed, primary: d.colors.primary, secondary: d.colors.secondary });
 const lookKey = (d: DragonState | null) => (d ? `${d.breed}.${d.element}.${d.element2 ?? ''}.${d.variant ?? ''}.${d.stage}.${d.colors.primary}.${d.colors.secondary}` : '-');
 
-function useBattleArt(zoneId: string, weapon: string, ride: boolean, lead: DragonState | null, second: DragonState | null, enemyIds: string[]): BattleArt | null {
-  const key = [zoneId, ride ? 'mounted' : weapon, lookKey(lead), lookKey(second), ...enemyIds].join('|');
+function useBattleArt(zoneId: string, weapon: string, ride: boolean, lead: DragonState | null, second: DragonState | null, third: DragonState | null, enemyIds: string[]): BattleArt | null {
+  const key = [zoneId, ride ? 'mounted' : weapon, lookKey(lead), lookKey(second), lookKey(third), ...enemyIds].join('|');
   const [art, setArt] = useState<BattleArt | null>(null);
   useEffect(() => {
     let live = true;
     (async () => {
       const ids = [...new Set(enemyIds)];
-      const [backdrop, rider, leadRig, secondRig, effects, ...enemyRigs] = await Promise.all([
+      const [backdrop, rider, leadRig, secondRig, thirdRig, effects, ...enemyRigs] = await Promise.all([
         loadBackdrop(zoneId),
         // Riding uses the seated rider.
         ride ? loadRig('rider.mounted') : loadRig(`rider.${weapon}`),
         lead ? loadDragonRig(lead.stage, look(lead)) : Promise.resolve(null),
         second ? loadDragonRig(second.stage, look(second)) : Promise.resolve(null),
-        loadEffects(lead?.element ?? 'fire', [lead?.element2, second?.element, second?.element2].filter((x): x is ElementId => !!x && x !== lead?.element)),
+        third ? loadDragonRig(third.stage, look(third)) : Promise.resolve(null),
+        loadEffects(lead?.element ?? 'fire', [lead?.element2, second?.element, second?.element2, third?.element, third?.element2].filter((x): x is ElementId => !!x && x !== lead?.element)),
         ...ids.map((id) => loadEnemyRig(id)),
       ]);
       const enemies = Object.fromEntries(ids.map((id, i) => [id, enemyRigs[i] ?? null]));
       await decodeAll([
-        ...(backdrop?.layers.map((l) => l.url) ?? []), ...rigUrls(rider), ...rigUrls(leadRig), ...rigUrls(secondRig),
+        ...(backdrop?.layers.map((l) => l.url) ?? []), ...rigUrls(rider), ...rigUrls(leadRig), ...rigUrls(secondRig), ...rigUrls(thirdRig),
         ...Object.values(enemies).flatMap(rigUrls), effects.puff, effects.slash, effects.spark,
       ]);
-      if (live) setArt({ key, backdrop, rider, lead: leadRig, second: secondRig, enemies, effects });
+      if (live) setArt({ key, backdrop, rider, lead: leadRig, second: secondRig, third: thirdRig, enemies, effects });
     })();
     return () => { live = false; };
   }, [key]);
@@ -84,14 +86,22 @@ const marks = (f: Fighter) => f.statuses.map((s) => ({ id: s.id, icon: data.stat
 export function BattleStage({ save, battle, zoneId, zoneElement, targets, onTarget, onDetails, header, paused, stageRef }: Props) {
   const lead = activeDragon(save);
   const two = battle.second ? secondDragon(save) : null;
+  const three = battle.third ? thirdDragon(save) : null;
   const ride = battle.mode === 'ride';
-  const art = useBattleArt(zoneId, weaponArt(battle.weapon.type), ride, lead, two, battle.enemies.map((e) => e.enemyId ?? ''));
+  const art = useBattleArt(zoneId, weaponArt(battle.weapon.type), ride, lead, two, three, battle.enemies.map((e) => e.enemyId ?? ''));
   const ready = !!art;
-  const party = parties[ride ? (two ? 'rideDuo' : 'ride') : (two ? 'duo' : 'solo')]!;
+  const party = parties[ride ? (three ? 'rideTrio' : two ? 'rideDuo' : 'ride') : (three ? 'trio' : two ? 'duo' : 'solo')]!;
   const riderFallback = <RiderPlaceholder />;
   const dragonFallback = (d: DragonState) => <DragonSprite element={d.element} element2={d.element2} variant={d.variant} breed={d.breed} stage={d.stage} primary={d.colors.primary} secondary={d.colors.secondary} size={120} plain />;
 
   const fighters: StageFighter[] = [];
+  if (three && battle.third && party.dragon3) {
+    const f = battle.third.fighter;
+    fighters.push({
+      id: 'dragon3', place: sized(party.dragon3, art?.third ?? null), rig: art?.third ?? null, fallback: dragonFallback(three), name: three.name,
+      hp: f.hp, maxHp: f.maxHp, facing: 'right', marks: marks(f), onTap: () => onDetails('dragon3'), tapLabel: `${three.name} details`, testid: 'stage-dragon3',
+    });
+  }
   if (two && battle.second && party.dragon2) {
     const f = battle.second.fighter;
     fighters.push({
@@ -150,9 +160,12 @@ export function BattleStage({ save, battle, zoneId, zoneElement, targets, onTarg
 function StatusStrip({ save, battle }: { save: SaveData; battle: BattleState }) {
   const lead = activeDragon(save);
   const two = battle.second ? secondDragon(save) : null;
+  const three = battle.third ? thirdDragon(save) : null;
   const max = data.combat.breath.max;
   const ready = breathReady(data, battle);
   const ready2 = secondBreathReady(data, battle);
+  const ready3 = thirdBreathReady(data, battle);
+  const third = three && battle.third ? <PartnerRow name={three.name} partner={battle.third} ready={ready3} testid="third-card" /> : null;
   const r = battle.rider;
   if (battle.mode === 'ride') {
     return (
@@ -162,7 +175,8 @@ function StatusStrip({ save, battle }: { save: SaveData; battle: BattleState }) 
         <StageBar kind="mp" value={r.mp} max={r.maxMp} label="MP" />
         <span class="who">{battle.ride?.dragonName ?? lead?.name}</span>
         <div class="span2"><StageBar kind="breath" value={battle.breath} max={max} label={ready ? 'Breath READY' : 'Breath'} numbers={false} /></div>
-        {two && battle.second && <SecondRow name={two.name} battle={battle} ready={ready2} />}
+        {two && battle.second && <PartnerRow name={two.name} partner={battle.second} ready={ready2} testid="second-card" />}
+        {third}
       </div>
     );
   }
@@ -180,19 +194,20 @@ function StatusStrip({ save, battle }: { save: SaveData; battle: BattleState }) 
           <StageBar kind="breath" value={battle.breath} max={max} label={ready ? 'Breath READY' : 'Breath'} numbers={false} />
         </>
       )}
-      {two && battle.second && <SecondRow name={two.name} battle={battle} ready={ready2} />}
+      {two && battle.second && <PartnerRow name={two.name} partner={battle.second} ready={ready2} testid="second-card" />}
+      {third}
     </div>
   );
 }
 
-function SecondRow({ name, battle, ready }: { name: string; battle: BattleState; ready: boolean }) {
-  const f = battle.second!.fighter;
+function PartnerRow({ name, partner, ready, testid }: { name: string; partner: SecondDragon; ready: boolean; testid: string }) {
+  const f = partner.fighter;
   const up = f.hp > 0;
   return (
     <>
-      <span class={`who${up ? '' : ' who--ko'}`} data-testid="second-card">{name}{up ? '' : ' (KO)'}</span>
+      <span class={`who${up ? '' : ' who--ko'}`} data-testid={testid}>{name}{up ? '' : ' (KO)'}</span>
       <StageBar kind="hp" value={f.hp} max={f.maxHp} label="HP" />
-      <StageBar kind="breath" value={battle.second!.breath} max={data.combat.breath.max} label={ready ? 'READY' : 'Breath'} numbers={false} />
+      <StageBar kind="breath" value={partner.breath} max={data.combat.breath.max} label={ready ? 'READY' : 'Breath'} numbers={false} />
     </>
   );
 }

@@ -3111,5 +3111,393 @@
       "gold": 1500,
       "embers": 8
     }
+  },
+  {
+    "id": "the-last-harbor",
+    "zone": "sunken-spires",
+    "name": "The Last Harbor",
+    "minLevel": 50,
+    "description": "Past the peak, one old harbormaster still keeps watch over a city that sank long ago.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "Visitors! Nobody's come over the peak in forty years. Mind the eels.",
+            "name": "Harbormaster Quill"
+          },
+          {
+            "speaker": "rider",
+            "text": "Eels?"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A lantern bobs toward you in the water. There's an eel under it."
+          }
+        ],
+        "enemies": [
+          "reef-stalker"
+        ],
+        "level": 50
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "A Storm Gull lands on the pier and steals Quill's sandwich."
+          },
+          {
+            "speaker": "npc",
+            "text": "Not again! That's the third one today!",
+            "name": "Harbormaster Quill"
+          },
+          {
+            "speaker": "dragon",
+            "text": "*eyes the gull, then the sandwich*"
+          }
+        ],
+        "enemies": [
+          "storm-gull"
+        ],
+        "level": 51
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "Forty years, and you're the first to get my sandwich back. Here, you've earned this.",
+        "name": "Harbormaster Quill"
+      },
+      {
+        "speaker": "narrator",
+        "text": "Quill hands over a purse of old coins, still a little damp."
+      }
+    ],
+    "reward": {
+      "xp": 900,
+      "gold": 1100,
+      "items": {
+        "mana-tonic": 2
+      }
+    }
+  },
+  {
+    "id": "the-sunken-gate",
+    "zone": "sunken-spires",
+    "name": "The Sunken Gate",
+    "minLevel": 52,
+    "requires": "the-last-harbor",
+    "description": "The old city gate is still guarded. The guards just haven't noticed it's underwater.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "The Drowned Sentries still guard the gate. Loyal to the end. Well, past the end.",
+            "name": "Harbormaster Quill"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A Drowned Sentry turns its mossy helmet toward you with a grinding creak."
+          }
+        ],
+        "enemies": [
+          "drowned-sentry"
+        ],
+        "level": 52
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "A Barnacle Brute lumbers out of the water to help, dripping on everything."
+          }
+        ],
+        "enemies": [
+          "drowned-sentry",
+          "barnacle-brute"
+        ],
+        "level": 53
+      }
+    ],
+    "choice": {
+      "prompt": "The last Sentry kneels and offers you the key to the drowned gate.",
+      "options": [
+        {
+          "id": "keep",
+          "label": "Keep the key",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "It's heavy, rusty, and covered in barnacles. Quill buys it from you for a lot of gold, then hangs it over the door."
+            },
+            {
+              "speaker": "npc",
+              "text": "A piece of history!",
+              "name": "Harbormaster Quill"
+            }
+          ],
+          "reward": {
+            "gold": 800
+          },
+          "temper": "proud"
+        },
+        {
+          "id": "rest",
+          "label": "Tell the Sentry it can rest now",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "The Sentry nods slowly, lays down its spear, and sinks gently into the sand. A pearl rolls out of its helmet."
+            }
+          ],
+          "reward": {
+            "materials": {
+              "crystal": 2
+            },
+            "embers": 2
+          },
+          "temper": "gentle"
+        }
+      ]
+    },
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "The gate's open. First time in a century. Mind your step, it's slippery.",
+        "name": "Harbormaster Quill"
+      }
+    ],
+    "reward": {
+      "xp": 950,
+      "gold": 900
+    }
+  },
+  {
+    "id": "squall-season",
+    "zone": "sunken-spires",
+    "name": "Squall Season",
+    "minLevel": 54,
+    "requires": "the-sunken-gate",
+    "description": "The Squall Sprites have rained on Quill's washing for the last time.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "Every time I hang out my washing, it rains. On the washing. Only on the washing.",
+            "name": "Harbormaster Quill"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A small grumpy cloud floats over the line and starts drizzling."
+          }
+        ],
+        "enemies": [
+          "squall-sprite"
+        ],
+        "level": 54
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "Two more clouds and a Reef Stalker join in, which seems unnecessary."
+          }
+        ],
+        "enemies": [
+          "squall-sprite",
+          "reef-stalker"
+        ],
+        "level": 55
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "dragon",
+        "text": "*breathes a warm puff over the washing until it's dry*"
+      },
+      {
+        "speaker": "npc",
+        "text": "Dry socks. You have no idea what that means to a harbormaster.",
+        "name": "Harbormaster Quill"
+      }
+    ],
+    "reward": {
+      "xp": 1000,
+      "gold": 1200,
+      "materials": {
+        "ore": 4,
+        "crystal": 2
+      }
+    }
+  },
+  {
+    "id": "the-thunder-ray",
+    "zone": "sunken-spires",
+    "name": "The Thunder Ray",
+    "minLevel": 56,
+    "requires": "squall-season",
+    "description": "When it storms, a great ray swims through the sky over the spires. It's been knocking the roofs off.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "Lightning flashes. Storm Gulls and Barnacle Brutes scatter across the plaza."
+          }
+        ],
+        "enemies": [
+          "storm-gull",
+          "barnacle-brute"
+        ],
+        "level": 56
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "Something huge glides out of the clouds, wings crackling with lightning."
+          },
+          {
+            "speaker": "npc",
+            "text": "That's it! That's the roof-knocker!",
+            "name": "Harbormaster Quill"
+          },
+          {
+            "speaker": "dragon",
+            "text": "*flattens its ears, then spreads its wings*"
+          }
+        ],
+        "enemies": [
+          "thunder-ray"
+        ],
+        "level": 57,
+        "mini": true
+      }
+    ],
+    "choice": {
+      "prompt": "The Thunder Ray circles low, tired. It only wants a dry place to rest when the storm is worst.",
+      "options": [
+        {
+          "id": "tower",
+          "label": "Offer it the old lighthouse",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "The ray settles on the lighthouse roof and folds its wings. The light flickers on for the first time in years."
+            }
+          ],
+          "reward": {
+            "materials": {
+              "scale": 1
+            },
+            "embers": 2
+          },
+          "temper": "gentle"
+        },
+        {
+          "id": "chase",
+          "label": "Chase it out to sea",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "You chase it far out over the waves. It drops something shiny as it goes."
+            }
+          ],
+          "reward": {
+            "gold": 900
+          },
+          "temper": "bold"
+        }
+      ]
+    },
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "Roofs stay on now. Mostly. Now there's only one more thing out there. The big one.",
+        "name": "Harbormaster Quill"
+      }
+    ],
+    "reward": {
+      "xp": 1050,
+      "gold": 1300,
+      "embers": 4
+    }
+  },
+  {
+    "id": "the-tidelord",
+    "zone": "sunken-spires",
+    "name": "The Tidelord",
+    "minLevel": 59,
+    "requires": "the-thunder-ray",
+    "description": "The king of the drowned city wakes once a century to collect his taxes. He's early.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "He wants tax. From a city that sank. I told him we're all out of everything.",
+            "name": "Harbormaster Quill"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A Reef Stalker and a Drowned Sentry rise from the water to escort you."
+          }
+        ],
+        "enemies": [
+          "reef-stalker",
+          "drowned-sentry"
+        ],
+        "level": 59
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "The sea rises in a great swell, and a sea serpent wearing a coral crown rises with it."
+          },
+          {
+            "speaker": "npc",
+            "text": "Who dares walk MY plaza without bowing?",
+            "name": "Tidelord"
+          },
+          {
+            "speaker": "dragon",
+            "text": "*bows, a very small amount, then growls*"
+          }
+        ],
+        "enemies": [
+          "tidelord"
+        ],
+        "level": 60,
+        "boss": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "The Tidelord sinks back beneath the waves, crown askew."
+      },
+      {
+        "speaker": "npc",
+        "text": "Fine. No tax this century. But I'll be back.",
+        "name": "Tidelord"
+      },
+      {
+        "speaker": "npc",
+        "text": "A hundred years! That's plenty of time to save up.",
+        "name": "Harbormaster Quill"
+      },
+      {
+        "speaker": "dragon",
+        "text": "*shakes off a whole bucket of seawater onto Quill*"
+      }
+    ],
+    "reward": {
+      "xp": 1500,
+      "gold": 2200,
+      "embers": 10
+    }
   }
 ]

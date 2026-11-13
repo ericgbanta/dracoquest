@@ -44,6 +44,17 @@
       "ride": {
         "rider": { "left": 4, "bottom": 9, "width": 44, "z": 2, "plate": { "left": 2, "top": 17, "width": 34, "minPx": 130 } }
       },
+      "trio": {
+        "dragon3": { "left": 21, "bottom": 37, "width": 19, "z": 0, "plate": { "left": 19.5, "top": 31, "width": 17, "minPx": 62 } },
+        "dragon2": { "left": 6, "bottom": 30, "width": 24, "z": 0, "plate": { "left": 2, "top": 31, "width": 17, "minPx": 62 } },
+        "dragon": { "left": -3, "bottom": 6, "width": 36, "z": 1, "plate": { "left": 2, "top": 17, "width": 30, "minPx": 104 } },
+        "rider": { "left": 36, "bottom": 5, "width": 14, "z": 3, "plate": { "left": 38, "top": 49, "width": 20, "minPx": 84 } }
+      },
+      "rideTrio": {
+        "dragon3": { "left": 27, "bottom": 37, "width": 19, "z": 0, "plate": { "left": 19.5, "top": 31, "width": 17, "minPx": 62 } },
+        "dragon2": { "left": 12, "bottom": 30, "width": 24, "z": 0, "plate": { "left": 2, "top": 31, "width": 17, "minPx": 62 } },
+        "rider": { "left": 0, "bottom": 6, "width": 42, "z": 2, "plate": { "left": 2, "top": 17, "width": 30, "minPx": 120 } }
+      },
       "rideDuo": {
         "dragon2": { "left": 18, "bottom": 33, "width": 25, "z": 0, "plate": { "left": 2, "top": 31, "width": 26, "minPx": 96 } },
         "rider": { "left": 0, "bottom": 6, "width": 42, "z": 2, "plate": { "left": 2, "top": 17, "width": 30, "minPx": 120 } }

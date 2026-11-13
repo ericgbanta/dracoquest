@@ -114,28 +114,35 @@
       "name": "Beyond the Peak",
       "levels": "Levels 50 to 100",
       "blurb": "Nobody has come back from here yet. Well, nobody has gone.",
-      "zones": [],
+      "zones": [
+        "sunken-spires"
+      ],
       "map": {
         "art": "map-beyond",
-        "pins": {}
+        "pins": {
+          "sunken-spires": [
+            0.5,
+            0.88
+          ]
+        }
       }
     }
   ],
   "upcoming": [
     {
-      "name": "Sunken Spires",
+      "name": "Emberwild",
       "region": "beyond",
-      "minLevel": 50,
-      "maxLevel": 60,
-      "gate": "eclipse-peak",
+      "minLevel": 60,
+      "maxLevel": 70,
+      "gate": "sunken-spires",
       "elements": [
-        "tide",
-        "storm"
+        "fire",
+        "verdant"
       ],
-      "blurb": "A drowned city where storms walk on the water. The first land beyond the peak.",
+      "blurb": "A volcanic jungle where the leaves are red and the rivers glow.",
       "pin": [
-        0.5,
-        0.88
+        0.24,
+        0.52
       ]
     },
     {

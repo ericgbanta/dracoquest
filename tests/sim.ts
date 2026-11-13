@@ -109,14 +109,17 @@ function onLevelCharacter(element: ElementId, level: number, seed: number, withS
   const allGear = bestGear(level, stage === 'adult' || stage === 'elder');
   s = { ...s, rider: { ...s.rider, level, statPoints: pts, gear: [...new Set([...s.rider.gear, ...allGear.map((g) => g.id)])] } };
   const d = activeDragon(s)!;
-  s = { ...s, dragons: [{ ...d, level, stage, statPoints: pts + growth, bond: Math.max(d.bond, 30 * data.dragons.stages.findIndex((x) => x.id === stage)) }] };
+  // Dragons stop at their last stage's top level (50) while the rider keeps going.
+  const dLevel = Math.min(level, data.dragons.stages.at(-1)!.maxLevel);
+  const dPts = data.progression.statPointsPerLevel * (dLevel - 1);
+  s = { ...s, dragons: [{ ...d, level: dLevel, stage, statPoints: dPts + growth, bond: Math.max(d.bond, 30 * data.dragons.stages.findIndex((x) => x.id === stage)) }] };
   for (const g of allGear) if (canEquip(data, s, g.id).ok) s = equip(data, s, g.id);
   s = spendAll(s);
   if (withSecond) {
     // The second partner: a boss-egg dragon of another element, raised alongside.
     const lead = activeDragon(s)!;
     const other: ElementId = element === 'tide' ? 'storm' : 'tide';
-    const second = { ...lead, id: 'second', name: 'Second', element: other, talents: {}, statPoints: pts + growth, stats: dragonBaseStats(data, other), equipment: {} };
+    const second = { ...lead, id: 'second', name: 'Second', element: other, talents: {}, statPoints: dPts + growth, stats: dragonBaseStats(data, other), equipment: {} };
     s = { ...s, dragons: [...s.dragons, second], secondDragonId: 'second', roost: { ...s.roost, levels: { ...s.roost.levels, nest: 3 } } };
     s = spendAll(s);
   }

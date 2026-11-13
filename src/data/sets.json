@@ -368,5 +368,35 @@
         }
       }
     ]
+  },
+  {
+    "id": "tidecaller",
+    "name": "Tidecaller",
+    "zone": "sunken-spires",
+    "description": "Salvage from the drowned city. A full set rides out any storm.",
+    "pieces": [
+      "tidecaller-melee",
+      "tidecaller-ranged",
+      "tidecaller-magic",
+      "tidecaller-armor",
+      "tidecaller-trinket"
+    ],
+    "bonuses": [
+      {
+        "pieces": 2,
+        "bonus": {
+          "agility": 4,
+          "vigor": 4
+        }
+      },
+      {
+        "pieces": 3,
+        "bonus": {
+          "riderDefense": 5,
+          "riderHp": 80,
+          "riderMp": 15
+        }
+      }
+    ]
   }
 ]

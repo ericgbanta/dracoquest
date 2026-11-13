@@ -79,6 +79,8 @@ export interface BattleState {
   ride: { riderMaxHp: number; dragonMaxHp: number; dragonName: string } | null;
   /** The second dragon partner (rider level 25+), with its own meter and skills. */
   second: SecondDragon | null;
+  /** The third dragon partner (rider level 60+), shaped like the second. */
+  third: SecondDragon | null;
   /** Talent skills used this fight, for temperament. */
   skillUses: number;
   /** The rider's spell loadout for this fight. */
@@ -113,7 +115,7 @@ export type DragonOrder =
   /** Lead dragon only: a dragon-and-dragon combo that also uses the second dragon's action. */
   | { type: 'duo'; combo: string; target: string };
 
-export interface Orders { rider: RiderOrder; dragon?: DragonOrder; second?: DragonOrder }
+export interface Orders { rider: RiderOrder; dragon?: DragonOrder; second?: DragonOrder; third?: DragonOrder }
 
 export type BattleEvent =
   | { t: 'act'; actor: string; text: string }
@@ -141,6 +143,8 @@ export interface BattleSetup {
   ride?: boolean;
   /** Second dragon partner, if any. */
   second?: DragonState | null;
+  /** Third dragon partner (rider level 60+), if any. */
+  third?: DragonState | null;
 }
 
 // ---------- Setup ----------
@@ -239,19 +243,23 @@ export function createBattle(data: GameData, setup: BattleSetup): BattleState {
     cooldowns: {},
     ride,
     second: null,
+    third: null,
     skillUses: 0,
     spells: riderLoadout(data, setup.rider),
   };
-  const two = setup.second && setup.second.hp > 0 ? setup.second : null;
-  if (two) {
-    const mods = dragonBonus(data, two);
-    state.second = {
-      fighter: dragonFighter(data, two, mods, 'dragon2'), breath: 0, bond: two.bond, mods,
-      spirit: effectiveDragonStats(data, two).spirit,
-      breathMultiplier: data.dragons.stages.find((st) => st.id === two.stage)?.breathMultiplier ?? 1,
-      skills: learnedSkills(data, two).map((t) => t.id), cooldowns: {},
+  const partner = (d: DragonState, id: string): SecondDragon => {
+    const mods = dragonBonus(data, d);
+    return {
+      fighter: dragonFighter(data, d, mods, id), breath: 0, bond: d.bond, mods,
+      spirit: effectiveDragonStats(data, d).spirit,
+      breathMultiplier: data.dragons.stages.find((st) => st.id === d.stage)?.breathMultiplier ?? 1,
+      skills: learnedSkills(data, d).map((t) => t.id), cooldowns: {},
     };
-  }
+  };
+  const two = setup.second && setup.second.hp > 0 ? setup.second : null;
+  if (two) state.second = partner(two, 'dragon2');
+  const three = setup.third && setup.third.hp > 0 ? setup.third : null;
+  if (three) state.third = partner(three, 'dragon3');
   chooseIntents(data, state, rng);
   state.rngState = rng.getState();
   return state;
@@ -297,6 +305,7 @@ export function findFighter(state: BattleState, id: string): Fighter | null {
   if (id === 'rider') return state.rider;
   if (id === 'dragon') return state.dragon;
   if (id === 'dragon2') return state.second?.fighter ?? null;
+  if (id === 'dragon3') return state.third?.fighter ?? null;
   return state.enemies.find((e) => e.id === id) ?? null;
 }
 
@@ -319,9 +328,9 @@ export function breathReady(data: GameData, state: BattleState): boolean {
   return state.breath >= data.combat.breath.max;
 }
 
-export function skillReady(state: BattleState, skillId: string, which: 'lead' | 'second' = 'lead'): boolean {
-  if (which === 'second') {
-    const s = state.second;
+export function skillReady(state: BattleState, skillId: string, which: 'lead' | 'second' | 'third' = 'lead'): boolean {
+  if (which !== 'lead') {
+    const s = which === 'second' ? state.second : state.third;
     return !!s && s.skills.includes(skillId) && (s.cooldowns[skillId] ?? 0) <= 0 && alive(s.fighter);
   }
   return state.skills.includes(skillId) && (state.cooldowns[skillId] ?? 0) <= 0 && alive(state.dragon);
@@ -329,6 +338,10 @@ export function skillReady(state: BattleState, skillId: string, which: 'lead' | 
 
 export function secondBreathReady(data: GameData, state: BattleState): boolean {
   return !!state.second && state.second.breath >= data.combat.breath.max;
+}
+
+export function thirdBreathReady(data: GameData, state: BattleState): boolean {
+  return !!state.third && state.third.breath >= data.combat.breath.max;
 }
 
 /** Dragon-and-dragon combos need both dragons awake with enough bond. */
@@ -346,7 +359,7 @@ interface Slot {
   breathMultiplier: number;
   skills: string[];
   cooldowns: Record<string, number>;
-  which: 'lead' | 'second';
+  which: 'lead' | 'second' | 'third';
   getBreath(): number;
   setBreath(n: number): void;
 }
@@ -360,14 +373,15 @@ function leadSlot(state: BattleState): Slot | null {
   };
 }
 
-function secondSlot(state: BattleState): Slot | null {
-  const s = state.second;
+function partnerSlot(s: SecondDragon | null, which: 'second' | 'third'): Slot | null {
   if (!s) return null;
   return {
     f: s.fighter, mods: s.mods, spirit: s.spirit, breathMultiplier: s.breathMultiplier, skills: s.skills,
-    cooldowns: s.cooldowns, which: 'second', getBreath: () => s.breath, setBreath: (n) => { s.breath = n; },
+    cooldowns: s.cooldowns, which, getBreath: () => s.breath, setBreath: (n) => { s.breath = n; },
   };
 }
+const secondSlot = (state: BattleState) => partnerSlot(state.second, 'second');
+const thirdSlot = (state: BattleState) => partnerSlot(state.third, 'third');
 
 function moveAllowed(state: BattleState, self: Fighter, m: EnemyMove): boolean {
   const allies = livingEnemies(state);
@@ -420,6 +434,7 @@ interface RoundCtx {
   guardian: Slot | null;
   breathGain: number;
   breathGain2: number;
+  breathGain3: number;
 }
 
 interface AttackSpec {
@@ -495,10 +510,12 @@ function strike(ctx: RoundCtx, attacker: Fighter, target: Fighter, spec: AttackS
 
   if (attacker.kind === 'dragon') {
     if (attacker.id === 'dragon2') ctx.breathGain2 += c.breath.onDealDamage;
+    else if (attacker.id === 'dragon3') ctx.breathGain3 += c.breath.onDealDamage;
     else ctx.breathGain += c.breath.onDealDamage;
   }
   if (target.kind === 'dragon') {
     if (target.id === 'dragon2') ctx.breathGain2 += c.breath.onTakeDamage;
+    else if (target.id === 'dragon3') ctx.breathGain3 += c.breath.onTakeDamage;
     else ctx.breathGain += c.breath.onTakeDamage;
   }
   if (target.hp === 0) events.push({ t: 'ko', target: target.id, text: koText(target) });
@@ -538,7 +555,7 @@ function enemyTarget(state: BattleState, id: string): Fighter | null {
 function riderDamageMultiplier(data: GameData, state: BattleState): number {
   const pct = 1 + bonusOf(state.riderMods, 'riderDamagePct');
   if (state.mode === 'ride') return pct;
-  const anyDragon = alive(state.dragon) || alive(state.second?.fighter);
+  const anyDragon = alive(state.dragon) || alive(state.second?.fighter) || alive(state.third?.fighter);
   return (anyDragon ? 1 : data.combat.rider.aloneDamageMultiplier) * pct;
 }
 
@@ -872,7 +889,7 @@ function enemyAct(ctx: RoundCtx, enemy: Fighter): void {
     case 'attack':
     case 'big': {
       // Targets: the rider and every awake dragon, equally. A taunting dragon draws every attack.
-      const dragons = [state.dragon, state.second?.fighter].filter(alive);
+      const dragons = [state.dragon, state.second?.fighter, state.third?.fighter].filter(alive);
       const taunting = dragons.find((d) => statusFlag(data, d, 'taunts'));
       let target: Fighter = taunting ?? rng.pick([state.rider, ...dragons]);
       let guardMult = 1;
@@ -910,6 +927,7 @@ function cloneState(s: BattleState): BattleState {
     ...s, rider: cf(s.rider), dragon: s.dragon ? cf(s.dragon) : null, enemies: s.enemies.map(cf),
     intents: { ...s.intents }, inventory: { ...s.inventory }, cooldowns: { ...s.cooldowns },
     second: s.second ? { ...s.second, fighter: cf(s.second.fighter), cooldowns: { ...s.second.cooldowns } } : null,
+    third: s.third ? { ...s.third, fighter: cf(s.third.fighter), cooldowns: { ...s.third.cooldowns } } : null,
   };
 }
 
@@ -924,6 +942,9 @@ export function resolveRound(data: GameData, prev: BattleState, orders: Orders):
   const secondUp = !!state.second && alive(state.second.fighter);
   let dragonOrder = dragonUp ? orders.dragon : undefined;
   let secondOrder = secondUp ? orders.second : undefined;
+  const thirdUp = !!state.third && alive(state.third.fighter);
+  let thirdOrder = thirdUp ? orders.third : undefined;
+  if (thirdOrder?.type === 'combo' || thirdOrder?.type === 'duo') thirdOrder = { type: 'claw', target: thirdOrder.target };
   const combo = dragonOrder?.type === 'combo' && comboAvailable(data, state, dragonOrder.combo) ? dragonOrder : null;
   const duo = dragonOrder?.type === 'duo' && duoAvailable(data, state, dragonOrder.combo) ? dragonOrder : null;
   if ((dragonOrder?.type === 'combo' && !combo) || (dragonOrder?.type === 'duo' && !duo)) dragonOrder = { type: 'claw', target: dragonOrder.target };
@@ -931,7 +952,8 @@ export function resolveRound(data: GameData, prev: BattleState, orders: Orders):
   if (duo) secondOrder = undefined;
   const lead = leadSlot(state);
   const two = secondSlot(state);
-  const guardian = !combo && !duo && dragonOrder?.type === 'guard' ? lead : secondOrder?.type === 'guard' ? two : null;
+  const three = thirdSlot(state);
+  const guardian = !combo && !duo && dragonOrder?.type === 'guard' ? lead : secondOrder?.type === 'guard' ? two : thirdOrder?.type === 'guard' ? three : null;
 
   const ctx: RoundCtx = {
     data, state, rng, events: [],
@@ -939,6 +961,7 @@ export function resolveRound(data: GameData, prev: BattleState, orders: Orders):
     guardian,
     breathGain: 0,
     breathGain2: 0,
+    breathGain3: 0,
   };
 
   const initiative = (f: Fighter) =>
@@ -960,6 +983,10 @@ export function resolveRound(data: GameData, prev: BattleState, orders: Orders):
   if (secondUp && secondOrder && two) {
     const o = secondOrder;
     turns.push({ who: two.f, init: initiative(two.f), run: () => dragonAct(ctx, o, two) });
+  }
+  if (thirdUp && thirdOrder && three) {
+    const o = thirdOrder;
+    turns.push({ who: three.f, init: initiative(three.f), run: () => dragonAct(ctx, o, three) });
   }
   for (const e of livingEnemies(state)) turns.push({ who: e, init: initiative(e), run: () => enemyAct(ctx, e) });
   turns.sort((a, b) => b.init - a.init);
@@ -993,7 +1020,7 @@ export function resolveRound(data: GameData, prev: BattleState, orders: Orders):
 function endOfRound(ctx: RoundCtx, comboUsed: boolean): void {
   const { data, state, events } = ctx;
   const c = data.combat;
-  const everyone = [state.rider, ...(state.dragon ? [state.dragon] : []), ...(state.second ? [state.second.fighter] : []), ...state.enemies].filter(alive);
+  const everyone = [state.rider, ...(state.dragon ? [state.dragon] : []), ...(state.second ? [state.second.fighter] : []), ...(state.third ? [state.third.fighter] : []), ...state.enemies].filter(alive);
   for (const f of everyone) {
     for (const s of f.statuses) {
       const sd = data.statuses[s.id];
@@ -1023,4 +1050,11 @@ function endOfRound(ctx: RoundCtx, comboUsed: boolean): void {
     two.breath = Math.min(c.breath.max, two.breath + Math.round(gain));
   }
   if (two) for (const id of Object.keys(two.cooldowns)) two.cooldowns[id] = Math.max(0, (two.cooldowns[id] ?? 0) - 1);
+  const three = state.third;
+  if (three && alive(three.fighter)) {
+    const gain = (c.breath.perRound + three.spirit * c.breath.perSpirit + ctx.breathGain3 + bonusOf(three.mods, 'breathPerRound'))
+      * statusProduct(data, three.fighter, 'breathGainMultiplier');
+    three.breath = Math.min(c.breath.max, three.breath + Math.round(gain));
+  }
+  if (three) for (const id of Object.keys(three.cooldowns)) three.cooldowns[id] = Math.max(0, (three.cooldowns[id] ?? 0) - 1);
 }

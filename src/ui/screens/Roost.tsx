@@ -1,6 +1,6 @@
 import { useState } from 'preact/hooks';
 import { gameData as data } from '../../core/data';
-import { activeDragon, claimEventGift, eventGiftClaimed, feedDragon, GameError, groomDragon, isPartner, rest, secondDragon } from '../../core/game';
+import { activeDragon, claimEventGift, eventGiftClaimed, feedDragon, GameError, groomDragon, isPartner, rest, secondDragon, thirdDragon } from '../../core/game';
 import { activeEvent } from '../../core/events';
 import { careFor, dragonCareFor } from '../../core/care';
 import { dragonMaxHp, riderMaxHp } from '../../core/characters';
@@ -76,6 +76,7 @@ export function Roost({ save, update }: Props) {
   });
 
   const second = secondDragon(save);
+  const third = thirdDragon(save);
   const event = activeEvent(data, today);
   const home = save.dragons.filter((d) => d.assignment.kind !== 'expedition' || d.id === dragon.id);
 
@@ -111,7 +112,7 @@ export function Roost({ save, update }: Props) {
               onClick={() => { setSelectedId(d.id); setToast(''); }} data-testid={`pick-${d.name}`}>
               <DragonSprite element={d.element} element2={d.element2} variant={d.variant} breed={d.breed} stage={d.stage} primary={d.colors.primary} secondary={d.colors.secondary} size={40} />
               <span>{d.name}</span>
-              {d.id === lead.id ? <span class="pick-tag">Lead</span> : d.id === second?.id ? <span class="pick-tag">Second</span> : null}
+              {d.id === lead.id ? <span class="pick-tag">Lead</span> : d.id === second?.id ? <span class="pick-tag">Second</span> : d.id === third?.id ? <span class="pick-tag">Third</span> : null}
             </button>
           ))}
         </div>

@@ -1,9 +1,10 @@
 {
-  "levelCap": 50,
+  "levelCap": 60,
   "xpBase": 50,
   "xpExponent": 1.6,
   "statPointsPerLevel": 3,
   "secondPartnerRiderLevel": 25,
+  "thirdPartnerRiderLevel": 60,
   "spellLoadoutSize": 4,
   "storyChoiceTemper": 5,
   "levelUpRestoresHp": true,

@@ -176,6 +176,9 @@ button.scene-actor { cursor: pointer; }
 /* Portrait: the stage runs edge to edge. */
 .battle--stage .stage-box { margin: -8px -12px 0; }
 .battle--stage .log { min-height: 44px; }
+/* Three dragons: one more order row, so the stage gives up a little height and the log a line. */
+.battle--stage.battle--trio .stage { aspect-ratio: 16 / 9.5; }
+.battle--stage.battle--trio .log { min-height: 0; padding-top: 4px; padding-bottom: 4px; }
 
 @media (orientation: landscape) and (max-height: 500px) {
   .battle--stage .battle-field { height: 100%; overflow: hidden; gap: 6px; }

@@ -73,9 +73,10 @@ test('the Map shows one painted region at a time, with pins, and teases the next
   await page.waitForTimeout(400);
   await page.screenshot({ path: 'test-results/world-map-hidden-reach.png' });
 
-  // And Beyond the Peak: only the teaser so far.
+  // And Beyond the Peak: Sunken Spires (locked at level 15) and the next teaser.
   await page.getByTestId('map-next').tap();
   await expect(page.getByTestId('map-region-name')).toHaveText('Beyond the Peak');
+  await expect(page.getByTestId('pin-sunken-spires')).toHaveAttribute('aria-label', /Opens at rider level 50/);
   await expect(page.getByTestId('map-next')).toBeDisabled();
   await page.getByTestId('pin-teaser').tap();
   await expect(page.locator('.sheet [data-testid=zone-teaser]')).toContainText('Arrives in a future update');
@@ -84,8 +85,8 @@ test('the Map shows one painted region at a time, with pins, and teases the next
   await page.keyboard.press('Escape');
   await mapView(page, 'list');
   const teaser = page.getByTestId('region-beyond').getByTestId('zone-teaser');
-  await expect(teaser).toContainText('Sunken Spires');
-  await expect(teaser).toContainText('Opens at level 50, after you beat the Eclipse Dragon');
+  await expect(teaser).toContainText('Emberwild');
+  await expect(teaser).toContainText('Opens at level 60, after you beat the Tidelord');
 });
 
 test('tapping a map pin opens that area, and the map remembers its region', async ({ page }) => {
@@ -386,4 +387,33 @@ test('the Nullmaw boss fight shows the boss art', async ({ page }) => {
   await expect.poll(async () => (await page.locator('[data-testid=stage] img').evaluateAll((els) => els.map((e) => (e as HTMLImageElement).src))).some((src) => /nullmaw-[^/]*\.webp/.test(src))).toBe(true);
   await page.waitForTimeout(600);
   await page.screenshot({ path: 'test-results/voidmarch-boss.png' });
+});
+
+test('the Sunken Spires open at level 50 after the Eclipse Dragon, and the Tidelord shows its art', async ({ page }) => {
+  await load(page, 'elder.json', (s) => {
+    s.bossesDefeated = ['mossy-hollow', 'saltmarsh-shore', 'cinder-pass', 'thunderspire', 'frostmere', 'eclipse-peak'];
+    s.rider.level = 51;
+  });
+  await page.getByTestId('tab-map').tap();
+  await mapView(page, 'list');
+  await mapRegion(page, 'Beyond the Peak');
+  await page.getByTestId('start-sunken-spires').tap();
+  await expect(page.locator('[data-testid=stage]:not(.stage--loading)')).toBeVisible();
+  const spires = /(reef-stalker|storm-gull|barnacle-brute|squall-sprite|drowned-sentry)-[^/]*\.webp/;
+  await expect.poll(async () => (await page.locator('[data-testid=stage] img').evaluateAll((els) => els.map((e) => (e as HTMLImageElement).src))).some((src) => spires.test(src))).toBe(true);
+  await page.waitForTimeout(600);
+  await page.screenshot({ path: 'test-results/spires-fight.png' });
+});
+
+test('the Tidelord boss fight shows the boss art', async ({ page }) => {
+  await load(page, 'elder.json', (s) => {
+    s.bossesDefeated = ['mossy-hollow', 'saltmarsh-shore', 'cinder-pass', 'thunderspire', 'frostmere', 'eclipse-peak'];
+    s.rider.level = 59;
+    s.run = { zoneId: 'sunken-spires', fights: [{ kind: 'boss', enemies: [{ enemyId: 'tidelord', level: 60 }] }], index: 0, battle: null, totals: { xp: 0, gold: 0, drops: {} } };
+  });
+  await page.getByTestId('next-fight').tap();
+  await expect(page.locator('[data-testid=stage]:not(.stage--loading)')).toBeVisible();
+  await expect.poll(async () => (await page.locator('[data-testid=stage] img').evaluateAll((els) => els.map((e) => (e as HTMLImageElement).src))).some((src) => /tidelord-[^/]*\.webp/.test(src))).toBe(true);
+  await page.waitForTimeout(600);
+  await page.screenshot({ path: 'test-results/spires-boss.png' });
 });

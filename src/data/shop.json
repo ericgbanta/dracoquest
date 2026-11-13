@@ -131,7 +131,15 @@
     "echo-longbow",
     "null-scepter",
     "chasm-plate",
-    "empty-locket"
+    "empty-locket",
+    "breakwater-axe",
+    "squallbreaker",
+    "spray-longbow",
+    "gale-repeater",
+    "drowned-tome",
+    "stormglass-rod",
+    "sailcloth-coat",
+    "pearl-of-calm"
   ],
   "items": {
     "potion": 25,

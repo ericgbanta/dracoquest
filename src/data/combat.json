@@ -217,6 +217,18 @@
         "base": 20,
         "mp": 7,
         "description": "A lance of pure sunlight. Strong against Shadow."
+      },
+      {
+        "id": "tempest",
+        "name": "Tempest",
+        "kind": "damage",
+        "level": 53,
+        "element": "storm",
+        "status": "shock",
+        "statusChance": 0.4,
+        "base": 25,
+        "mp": 9,
+        "description": "A raging little storm over one enemy. Hits hard and may Shock."
       }
     ]
   },

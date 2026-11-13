@@ -424,6 +424,10 @@ a.button { text-decoration: none; display: inline-flex; align-items: center; jus
 .party--three .fighter-name { font-size: 0.8rem; }
 .party--three .bar-text { font-size: 0.72rem; padding: 0 4px; }
 .party--three .bar-label { display: none; }
+.party--four { grid-template-columns: 1fr 1fr; }
+.party--four .fighter-name { font-size: 0.8rem; }
+.party--four .bar-text { font-size: 0.72rem; padding: 0 4px; }
+.party--four .bar-label { display: none; }
 .go-row { display: flex; gap: 6px; }
 .go-row .button--go { flex: 1; }
 .go-row .repeat { flex: none; min-width: 88px; }
