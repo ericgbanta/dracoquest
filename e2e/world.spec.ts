@@ -77,7 +77,7 @@ test('the Map shows one painted region at a time, with pins, and teases the next
   await page.getByTestId('map-next').tap();
   await expect(page.getByTestId('map-region-name')).toHaveText('Beyond the Peak');
   await expect(page.getByTestId('pin-sunken-spires')).toHaveAttribute('aria-label', /Opens at rider level 50/);
-  await expect(page.getByTestId('map-next')).toBeDisabled();
+  await expect(page.getByTestId('pin-emberwild')).toBeVisible();
   await page.getByTestId('pin-teaser').tap();
   await expect(page.locator('.sheet [data-testid=zone-teaser]')).toContainText('Arrives in a future update');
   await page.waitForTimeout(400);
@@ -85,8 +85,18 @@ test('the Map shows one painted region at a time, with pins, and teases the next
   await page.keyboard.press('Escape');
   await mapView(page, 'list');
   const teaser = page.getByTestId('region-beyond').getByTestId('zone-teaser');
-  await expect(teaser).toContainText('Emberwild');
-  await expect(teaser).toContainText('Opens at level 60, after you beat the Tidelord');
+  await expect(teaser).toContainText('Skyreach Isles');
+  await expect(teaser).toContainText('Opens at level 70, after you beat the Volcanadon');
+
+  // The Elder Wilds: the Steelspine Range and the Twilight Rift teaser. It's the last region.
+  await mapView(page, 'map');
+  await page.getByTestId('map-next').tap();
+  await expect(page.getByTestId('map-region-name')).toHaveText('The Elder Wilds');
+  await expect(page.getByTestId('pin-steelspine-range')).toBeVisible();
+  await expect(page.getByTestId('pin-teaser')).toBeVisible();
+  await expect(page.getByTestId('map-next')).toBeDisabled();
+  await page.waitForTimeout(400);
+  await page.screenshot({ path: 'test-results/world-map-elder.png' });
 });
 
 test('tapping a map pin opens that area, and the map remembers its region', async ({ page }) => {
@@ -417,3 +427,35 @@ test('the Tidelord boss fight shows the boss art', async ({ page }) => {
   await page.waitForTimeout(600);
   await page.screenshot({ path: 'test-results/spires-boss.png' });
 });
+
+const AREAS: [string, string, string[], string, string, number, string[]][] = [
+  ['rotroot-thicket', 'The Hidden Reach', ['rot-grub', 'thornvine-creeper', 'spore-toad', 'mire-lurker', 'gloomcap-walker'], 'rotroot-queen', 'voidmarch', 50, ['starglass-hollow']],
+  ['emberwild', 'Beyond the Peak', ['cinder-monkey', 'flame-lily', 'magma-tortoise', 'jungle-raptor', 'ember-parrot'], 'volcanadon', 'sunken-spires', 60, ['frostmere', 'eclipse-peak']],
+  ['steelspine-range', 'The Elder Wilds', ['rivet-beetle', 'thunder-hound', 'iron-hawk', 'static-ferret', 'scrap-wolf'], 'ferrovane', 'rotroot-thicket', 60, ['starglass-hollow', 'voidmarch']],
+];
+for (const [zone, region, regulars, boss, gate, level, more] of AREAS) {
+  const beaten = ['mossy-hollow', 'saltmarsh-shore', 'cinder-pass', 'thunderspire', ...more, gate];
+  test(`${zone} opens after its gate boss, and its fights and boss use the painted art`, async ({ page }) => {
+    await load(page, 'elder.json', (s) => { s.bossesDefeated = beaten; s.rider.level = level + 1; });
+    await page.getByTestId('tab-map').tap();
+    await mapView(page, 'list');
+    await mapRegion(page, region);
+    await page.getByTestId(`start-${zone}`).tap();
+    await expect(page.locator('[data-testid=stage]:not(.stage--loading)')).toBeVisible();
+    const art = new RegExp(`(${regulars.join('|')})-[^/]*\\.webp`);
+    await expect.poll(async () => (await page.locator('[data-testid=stage] img').evaluateAll((els) => els.map((e) => (e as HTMLImageElement).src))).some((src) => art.test(src))).toBe(true);
+    await page.waitForTimeout(600);
+    await page.screenshot({ path: `test-results/${zone}-fight.png` });
+  });
+  test(`${zone} boss fight shows the boss art`, async ({ page }) => {
+    await load(page, 'elder.json', (s) => {
+      s.bossesDefeated = beaten; s.rider.level = level + 9;
+      s.run = { zoneId: zone, fights: [{ kind: 'boss', enemies: [{ enemyId: boss, level: level + 10 }] }], index: 0, battle: null, totals: { xp: 0, gold: 0, drops: {} } };
+    });
+    await page.getByTestId('next-fight').tap();
+    await expect(page.locator('[data-testid=stage]:not(.stage--loading)')).toBeVisible();
+    await expect.poll(async () => (await page.locator('[data-testid=stage] img').evaluateAll((els) => els.map((e) => (e as HTMLImageElement).src))).some((src) => new RegExp(`${boss}-[^/]*\\.webp`).test(src))).toBe(true);
+    await page.waitForTimeout(600);
+    await page.screenshot({ path: `test-results/${zone}-boss.png` });
+  });
+}

@@ -49,7 +49,7 @@ test('a picked spell is cast in battle and shows its element', async ({ page }) 
   await load(page, 'juvenile.json');
   await page.getByTestId('tab-bag').tap();
   await tab(page, 'bag', 'spells');
-  await page.getByTestId('spell-add-frost-dart').tap();
+  await page.getByTestId('spell-add-rot-spit').tap();
   await page.getByTestId('spell-add-bright-ward').tap();
 
   await page.getByTestId('tab-map').tap();
@@ -58,18 +58,18 @@ test('a picked spell is cast in battle and shows its element', async ({ page }) 
   await page.getByTestId('start-mossy-hollow').tap();
   await expect(page.locator('[data-testid=stage]:not(.stage--loading)')).toBeVisible();
   await page.getByTestId('act-spell').tap();
-  // Only the loadout is offered. Mossy Hollow's enemies are Verdant, so Frost Dart is marked strong.
-  await expect(page.getByTestId('spell-frost-dart')).toContainText('Strong against');
-  await expect(page.getByTestId('spell-frost-dart')).toContainText('Frost');
+  // Only the loadout is offered. Mossy Hollow's enemies are Verdant, so Rot Spit (Blight) is marked strong.
+  await expect(page.getByTestId('spell-rot-spit')).toContainText('Strong against');
+  await expect(page.getByTestId('spell-rot-spit')).toContainText('Blight');
   await expect(page.getByTestId('spell-bright-ward-rider')).toBeVisible();
   await expect(page.getByTestId('spell-tide-surge')).toHaveCount(0);
   await page.waitForTimeout(400);
   await page.screenshot({ path: 'test-results/spells-battle.png' });
 
-  await page.getByTestId('spell-frost-dart').tap();
-  await expect(page.getByTestId('act-spell')).toContainText('Frost Dart');
+  await page.getByTestId('spell-rot-spit').tap();
+  await expect(page.getByTestId('act-spell')).toContainText('Rot Spit');
   await page.getByTestId('go').tap();
   await expect(page.locator('.results-title, [data-testid=go]:not([disabled])').first()).toBeVisible({ timeout: 15_000 });
   await page.getByTestId('log').tap();
-  await expect(page.getByTestId('log')).toContainText('Frost Dart');
+  await expect(page.getByTestId('log')).toContainText('Rot Spit');
 });
