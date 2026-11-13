@@ -46,6 +46,20 @@ export function eggName(data: GameData, egg: EggSpec): string {
   return `${variant}${breed}${base}`;
 }
 
+/** Identical eggs (same elements, breed and finish) gathered in one group, in order of first appearance. */
+export interface EggGroup { egg: EggSpec; indices: number[] }
+
+export function groupEggs(eggs: readonly EggSpec[]): EggGroup[] {
+  const groups = new Map<string, EggGroup>();
+  eggs.forEach((egg, i) => {
+    const key = `${egg.element}|${egg.element2 ?? ''}|${egg.breed}|${egg.variant ?? ''}`;
+    const g = groups.get(key);
+    if (g) g.indices.push(i);
+    else groups.set(key, { egg, indices: [i] });
+  });
+  return [...groups.values()];
+}
+
 /** Embers the wild dragons leave for a returned egg. Rarer eggs are worth more. */
 export function releaseValue(data: GameData, egg: EggSpec): number {
   const r = data.roost.releaseEmbers;

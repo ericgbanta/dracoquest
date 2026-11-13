@@ -2,7 +2,7 @@ import { useState } from 'preact/hooks';
 import { gameData as data } from '../../core/data';
 import {
   breedCooldownLeft, canBreed, canBreedStage, collectExpedition, collectFood, collectNestEgg, collectTraining, GameError, incubateEgg, isPartner,
-  releaseEgg, startBreeding, startExpedition, startTraining,
+  releaseEgg, removeIncubatingEgg, startBreeding, startExpedition, startTraining,
   stopTraining, takeHatchedEgg, upgradeBuilding,
 } from '../../core/game';
 import { availableTrips, buildingLevel, nestSlots, pantryNextIn, tickPantry, trainingXp, tripById, upgradeCost } from '../../core/roost';
@@ -14,7 +14,7 @@ import { Embers, Gold, Icon } from '../Icon';
 import { ForgeSheet } from './Forge';
 import { Fold } from '../Fold';
 import { formatMaterials, maxPlus } from '../../core/forge';
-import { eggName, releaseValue } from '../../core/eggs';
+import { eggName, groupEggs, releaseValue } from '../../core/eggs';
 
 interface Props {
   save: SaveData;
@@ -70,6 +70,7 @@ export function Buildings({ save, update, onMessage }: Props) {
   const training = buildingLevel(data, roost, 'training');
   const board = buildingLevel(data, roost, 'expeditions');
   const lv = (b: BuildingId) => (save.roost.levels[b] > 0 ? `Lv ${save.roost.levels[b]}` : 'Not built');
+  const bagGroups = groupEggs(save.eggs);
   const readyEggs = roost.hatchery.eggs.filter((e) => now >= e.readyAt).length;
   const trainees = benched.filter((d) => d.assignment.kind === 'training');
   const trips = benched.filter((d) => d.assignment.kind === 'expedition');
@@ -125,47 +126,62 @@ export function Buildings({ save, update, onMessage }: Props) {
             {roost.hatchery.eggs.length === 0 && <p class="muted">Empty. {hatchery.slots === 1 ? 'Room for one egg.' : `Room for ${hatchery.slots} eggs.`} Incubating takes {hatchery.hours}h.</p>}
             {roost.hatchery.eggs.map((egg, i) => {
               const ready = now >= egg.readyAt;
+              const name = eggName(data, egg);
               return (
                 <div key={i} class="slot-row">
                   <div>
-                    <strong>{eggName(data, egg)}</strong>
+                    <strong>{name}</strong>
                     <span class="muted">{ready ? 'Ready to hatch!' : `Hatches in ${formatDuration(egg.readyAt - now)}`}</span>
                   </div>
-                  <button type="button" class="button" disabled={!ready} data-testid={`hatch-${i}`}
-                    onClick={() => act(() => takeHatchedEgg(data, save, i, Date.now()), 'Something is cracking...')}>Hatch</button>
+                  <div class="slot-actions">
+                    <button type="button" class="button" disabled={!ready} data-testid={`hatch-${i}`}
+                      onClick={() => act(() => takeHatchedEgg(data, save, i, Date.now()), 'Something is cracking...')}>Hatch</button>
+                    <button type="button" class="button button--ghost" data-testid={`remove-${i}`}
+                      onClick={() => {
+                        if (!window.confirm(`Take the ${name} out of the Hatchery? It goes back to your bag. The embers you paid are spent, and its wait starts over if you put it back.`)) return;
+                        act(() => removeIncubatingEgg(save, i), `The ${name} is back in your bag.`);
+                      }}>Take out</button>
+                  </div>
                 </div>
               );
             })}
           </>
         )}
-        {save.eggs.map((egg, i) => {
-          const name = eggName(data, egg);
-          const embers = releaseValue(data, egg);
-          return (
-            <div key={`bag-${i}`} class="slot-row">
-              <div>
-                <strong>{name}</strong>
-                <span class="muted">In your bag</span>
-              </div>
-              <div class="slot-actions">
-                {hatchery && (
-                  <button type="button" class="button" data-testid={`incubate-${i}`}
-                    disabled={save.embers < data.roost.buildings.hatchery.incubateEmbers || roost.hatchery.eggs.length >= hatchery.slots}
-                    onClick={() => act(() => incubateEgg(data, save, i, Date.now()), 'The egg is tucked in, warm and safe.')}>
-                    Incubate · <Embers amount={data.roost.buildings.hatchery.incubateEmbers} />
-                  </button>
-                )}
-                <button type="button" class="button button--ghost" data-testid={`release-${i}`}
-                  onClick={() => {
-                    if (!window.confirm(`Return the ${name} to the wild? The wild dragons will leave ${embers} embers.`)) return;
-                    act(() => releaseEgg(data, save, i).save, `The ${name} is back in the wild. You found ${embers} embers where it was.`);
-                  }}>
-                  Return · <Embers amount={embers} />
-                </button>
-              </div>
-            </div>
-          );
-        })}
+        {save.eggs.length > 0 && (
+          <Fold id="roost.hatchery.bag" plain testid="hatchery-bag" title="Eggs in your bag"
+            summary={`${save.eggs.length} egg${save.eggs.length === 1 ? '' : 's'}${bagGroups.length < save.eggs.length ? `, ${bagGroups.length} kinds` : ''}`}
+            defaultOpen={roost.hatchery.eggs.length === 0}>
+            {bagGroups.map(({ egg, indices }) => {
+              const i = indices[0]!;
+              const name = eggName(data, egg);
+              const embers = releaseValue(data, egg);
+              return (
+                <div key={`bag-${i}`} class="slot-row" data-testid={`bag-egg-${i}`}>
+                  <div>
+                    <strong>{name}{indices.length > 1 && <span class="egg-count" data-testid={`egg-count-${i}`}> ×{indices.length}</span>}</strong>
+                    <span class="muted">In your bag</span>
+                  </div>
+                  <div class="slot-actions">
+                    {hatchery && (
+                      <button type="button" class="button" data-testid={`incubate-${i}`}
+                        disabled={save.embers < data.roost.buildings.hatchery.incubateEmbers || roost.hatchery.eggs.length >= hatchery.slots}
+                        onClick={() => act(() => incubateEgg(data, save, i, Date.now()), 'The egg is tucked in, warm and safe.')}>
+                        Incubate · <Embers amount={data.roost.buildings.hatchery.incubateEmbers} />
+                      </button>
+                    )}
+                    <button type="button" class="button button--ghost" data-testid={`release-${i}`}
+                      onClick={() => {
+                        if (!window.confirm(`Return one ${name} to the wild? The wild dragons will leave ${embers} embers.`)) return;
+                        act(() => releaseEgg(data, save, i).save, `The ${name} is back in the wild. You found ${embers} embers where it was.`);
+                      }}>
+                      Return · <Embers amount={embers} />
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </Fold>
+        )}
         {upgradeButton('hatchery')}
       </Fold>
 

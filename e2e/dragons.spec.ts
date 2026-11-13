@@ -19,6 +19,7 @@ test('return an unwanted egg to the wild for embers', async ({ page }) => {
   await load(page, 'nest.json');
   const before = (await saved(page)).embers as number;
   await openFold(page, 'roost.hatchery');
+  await openFold(page, 'roost.hatchery.bag');
   page.once('dialog', (d) => d.accept());
   await page.getByTestId('release-1').tap();
   await expect(page.getByTestId('toast')).toContainText('back in the wild');
@@ -32,9 +33,46 @@ test('return an unwanted egg to the wild for embers', async ({ page }) => {
 test('keeping an egg when asked leaves it in the bag', async ({ page }) => {
   await load(page, 'nest.json');
   await openFold(page, 'roost.hatchery');
+  await openFold(page, 'roost.hatchery.bag');
   page.once('dialog', (d) => d.dismiss());
   await page.getByTestId('release-0').tap();
   expect((await saved(page)).eggs).toHaveLength(2);
+});
+
+test('take an egg out of the Hatchery and it goes back to the bag', async ({ page }) => {
+  await load(page, 'nest.json');
+  await openFold(page, 'roost.hatchery');
+  page.once('dialog', (d) => d.accept());
+  await page.getByTestId('remove-0').tap();
+  await expect(page.getByTestId('toast')).toContainText('back in your bag');
+  const s = await saved(page);
+  expect(s.roost.hatchery.eggs).toHaveLength(0);
+  expect(s.eggs).toHaveLength(3);
+  expect(s.eggs[2].element).toBe('tide');
+  // The slot is free again.
+  await openFold(page, 'roost.hatchery.bag');
+  await expect(page.getByTestId('incubate-0')).toBeEnabled();
+});
+
+test('identical eggs share one row in the Hatchery', async ({ page }) => {
+  await load(page, 'nest.json');
+  await page.evaluate(() => {
+    const s = JSON.parse(localStorage.getItem('dracoquest.save')!);
+    const storm = { element: 'storm', element2: null, breed: 'dragon', variant: null };
+    s.eggs = [storm, storm, s.eggs[1], storm, storm];
+    s.roost.hatchery.eggs = [];
+    localStorage.setItem('dracoquest.save', JSON.stringify(s));
+  });
+  await page.reload();
+  await openFold(page, 'roost.hatchery');
+  await openFold(page, 'roost.hatchery.bag');
+  await expect(page.locator('[data-testid^="bag-egg-"]')).toHaveCount(2);
+  await expect(page.getByTestId('egg-count-0')).toHaveText(' ×4');
+  await expect(page.getByTestId('fold-roost.hatchery.bag')).toContainText('5 eggs, 2 kinds');
+  await page.screenshot({ path: 'test-results/hatchery-grouped.png' });
+  page.once('dialog', (d) => d.accept());
+  await page.getByTestId('release-0').tap();
+  await expect(page.getByTestId('egg-count-0')).toHaveText(' ×3');
 });
 
 test('two grown dragons nest and their egg arrives after the wait', async ({ page }) => {

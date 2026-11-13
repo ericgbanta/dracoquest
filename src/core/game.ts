@@ -790,6 +790,18 @@ export function takeHatchedEgg(data: GameData, save: SaveData, index: number, no
   return { ...save, egg: { ...spec, warmth: data.dragons.hatchTaps }, roost: { ...save.roost, hatchery: { eggs } } };
 }
 
+/**
+ * Take an egg out of the Hatchery before or after it is ready. It goes back to the bag as a plain egg:
+ * the incubation embers are spent and the wait starts over if it goes back in.
+ */
+export function removeIncubatingEgg(save: SaveData, index: number): SaveData {
+  const egg = save.roost.hatchery.eggs[index];
+  if (!egg) throw new GameError('No such egg');
+  const spec = { element: egg.element, element2: egg.element2, breed: egg.breed, variant: egg.variant };
+  const eggs = save.roost.hatchery.eggs.filter((_, i) => i !== index);
+  return { ...save, eggs: [...save.eggs, spec], roost: { ...save.roost, hatchery: { eggs } } };
+}
+
 // ---------- Nesting Grounds: breeding ----------
 
 const DAY_MS = 24 * 60 * 60 * 1000;

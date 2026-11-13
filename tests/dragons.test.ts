@@ -1,14 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import { gameData } from '../src/core/data';
 import {
-  breedCooldownLeft, buyEgg, canBreed, chooseEgg, collectNestEgg, hatchEgg, incubateEgg, layEgg, releaseEgg, startBreeding,
+  breedCooldownLeft, buyEgg, canBreed, chooseEgg, collectNestEgg, hatchEgg, incubateEgg, layEgg, releaseEgg, removeIncubatingEgg, startBreeding,
   takeHatchedEgg, upgradeBuilding, warmEgg,
 } from '../src/core/game';
 import { attackElement, defenseMultiplier } from '../src/core/elements';
 import { canLearn, learnedSkills } from '../src/core/loadout';
 import { createBattle, resolveRound } from '../src/core/battle';
 import { dragonBaseStats, hatchDragon, newRider } from '../src/core/characters';
-import { breedEgg, canMix, eggName, elementLabel, hybridName, newEgg, plainEgg, releaseValue } from '../src/core/eggs';
+import { breedEgg, canMix, eggName, elementLabel, groupEggs, hybridName, newEgg, plainEgg, releaseValue } from '../src/core/eggs';
 import { createRng } from '../src/core/rng';
 import { CURRENT_VERSION, newSave, parseSave, type SaveData } from '../src/core/save';
 import type { EggSpec } from '../src/core/types';
@@ -326,5 +326,46 @@ describe('save v10 to v11', () => {
     expect(s.rider.name).toBe('Fixture Ten');
     expect(s.thirdDragonId).toBeNull();
     expect(s.eggs).toEqual([{ element: 'aether', element2: null, breed: 'wyvern', variant: 'starry' }]);
+  });
+});
+
+describe('taking eggs out of the Hatchery', () => {
+  function incubating(): SaveData {
+    let s = upgradeBuilding(data, hatched(), 'hatchery', NOW);
+    s = { ...s, eggs: [{ element: 'frost', element2: 'tide', breed: 'dragon', variant: 'starry' }] };
+    return incubateEgg(data, s, 0, NOW);
+  }
+
+  it('moves the egg back to the bag, keeps what it is, and frees the slot', () => {
+    const s = incubating();
+    expect(s.roost.hatchery.eggs).toHaveLength(1);
+    const embers = s.embers;
+    const out = removeIncubatingEgg(s, 0);
+    expect(out.roost.hatchery.eggs).toEqual([]);
+    expect(out.eggs).toEqual([{ element: 'frost', element2: 'tide', breed: 'dragon', variant: 'starry' }]);
+    expect(out.embers).toBe(embers);
+    // It can go back in, and the wait starts over.
+    const again = incubateEgg(data, { ...out, embers: 500 }, 0, NOW + 1000);
+    expect(again.roost.hatchery.eggs[0]!.readyAt).toBe(s.roost.hatchery.eggs[0]!.readyAt + 1000);
+  });
+
+  it('works on a ready egg too, and refuses a missing one', () => {
+    const s = incubating();
+    const out = removeIncubatingEgg(s, 0);
+    expect(out.eggs).toHaveLength(1);
+    expect(() => removeIncubatingEgg(s, 3)).toThrow('No such egg');
+  });
+});
+
+describe('grouping identical eggs', () => {
+  it('groups by element, second element, breed and finish, in first-seen order', () => {
+    const storm = plainEgg('storm');
+    const rare: EggSpec = { ...storm, variant: 'starry' };
+    const wyvern: EggSpec = { ...storm, breed: 'wyvern' };
+    const hybrid: EggSpec = { ...storm, element2: 'fire' };
+    const groups = groupEggs([storm, rare, storm, wyvern, hybrid, storm, rare]);
+    expect(groups.map((g) => g.indices)).toEqual([[0, 2, 5], [1, 6], [3], [4]]);
+    expect(groups[1]!.egg).toEqual(rare);
+    expect(groupEggs([])).toEqual([]);
   });
 });

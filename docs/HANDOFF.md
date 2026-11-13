@@ -49,6 +49,7 @@ Each row was built, tested, committed and deployed in this order. The Decisions 
 
 | Work | What it added | How it came about |
 | --- | --- | --- |
+| Hatchery tidy-up | A Take out button moves an incubating egg back to the bag (the incubation embers stay spent, and the wait restarts if it goes back in). Identical bag eggs share one row with a count, inside an "Eggs in your bag" fold that starts open only when nothing is incubating. The Bag tab groups egg badges the same way | Eric: "add a feature to remove an egg from incubation" and the Hatchery "feels too cluttered" with many eggs |
 | Dragons plan | `docs/DRAGONS_PLAN.md`: four new elements, three new breeds, breeding, hybrids, a bigger roster, rare finishes and two new maps for levels 30 to 100, phases E0 to E12 in chunks | Eric asked for "a planning session on what it would take to add more elements and dragons" and answered every question, names included |
 | Chunks 5 and 6 (E6, E7, W6, E9) | Blight and Steel join the ring (Rot and Rend), Rot Spit and Steel Needles, Rotroot Thicket (50 to 60), Emberwild (60 to 70, cap 70), the Elder Wilds map and the Steelspine Range (60 to 70), the Inferno spell. 16 Codex generations | Eric: "let's do chunk 5 and 6 and deploy" |
 | Chunk 4 (W5, E8) | Sunken Spires (50 to 60, Tide and Storm), the level cap to 60, a level 53 gear tier, the Tempest spell, and a third battle partner from rider level 60 (save v11). 5 Codex generations | Eric: "work on chunk 4 and deploy it after it's tested" |
@@ -62,7 +63,7 @@ Each row was built, tested, committed and deployed in this order. The Decisions 
 - **Rider:** 12 spells, a loadout of 4, gear in 3 slots with 11 sets, the Forge.
 - **Dragons:** up to 10 at the Roost, two in battle from rider level 25, four life stages, talents, gear for Adults, temperament. Two grown dragons can breed at the Nesting Grounds; eggs can be hybrids (two elements) and about 1 in 50 has a rare finish.
 - **Saves:** version 11, up to 3 slots per device, export and import codes.
-- **Tests:** 241 unit tests and 91 phone tests pass. The sim shows every zone averaging 70 to 85 percent on level across the three starters.
+- **Tests:** 244 unit tests and 93 phone tests pass. The sim shows every zone averaging 70 to 85 percent on level across the three starters.
 
 ## What to work on next
 
