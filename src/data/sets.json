@@ -485,5 +485,63 @@
         }
       }
     ]
+  },
+  {
+    "id": "galeborn",
+    "name": "Galeborn",
+    "zone": "skyreach-isles",
+    "description": "Sky-sailor gear from the isles. A full set makes you quick and very hard to pin down.",
+    "pieces": [
+      "galeborn-melee",
+      "galeborn-ranged",
+      "galeborn-magic",
+      "galeborn-armor",
+      "galeborn-trinket"
+    ],
+    "bonuses": [
+      {
+        "pieces": 2,
+        "bonus": {
+          "agility": 6,
+          "arcana": 6
+        }
+      },
+      {
+        "pieces": 3,
+        "bonus": {
+          "riderDamagePct": 0.08,
+          "riderCrit": 0.04
+        }
+      }
+    ]
+  },
+  {
+    "id": "riftwalker",
+    "name": "Riftwalker",
+    "zone": "twilight-rift",
+    "description": "Gear stitched from starlight and shadow. A full set keeps your spells flowing.",
+    "pieces": [
+      "riftwalker-melee",
+      "riftwalker-ranged",
+      "riftwalker-magic",
+      "riftwalker-armor",
+      "riftwalker-trinket"
+    ],
+    "bonuses": [
+      {
+        "pieces": 2,
+        "bonus": {
+          "arcana": 6,
+          "vigor": 6
+        }
+      },
+      {
+        "pieces": 3,
+        "bonus": {
+          "riderMp": 30,
+          "riderHp": 130
+        }
+      }
+    ]
   }
 ]

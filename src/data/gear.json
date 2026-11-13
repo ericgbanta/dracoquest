@@ -3491,5 +3491,305 @@
       "vigor": 7
     },
     "description": "Forged from a scale Ferrovane let you keep. It's warm, and it hums."
+  },
+  {
+    "id": "galeborn-melee",
+    "name": "Galeborn Cutlass",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": null,
+    "level": 72,
+    "damage": 71,
+    "price": 17000,
+    "bonus": {
+      "strength": 14
+    },
+    "description": "Found in Skyreach Isles. Part of the Galeborn set."
+  },
+  {
+    "id": "galeborn-ranged",
+    "name": "Galeborn Harpoon Bow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": null,
+    "level": 72,
+    "damage": 70,
+    "price": 17000,
+    "bonus": {
+      "agility": 15
+    },
+    "description": "Found in Skyreach Isles. Part of the Galeborn set."
+  },
+  {
+    "id": "galeborn-magic",
+    "name": "Galeborn Compass Staff",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": null,
+    "level": 72,
+    "damage": 70,
+    "price": 17000,
+    "bonus": {
+      "arcana": 15
+    },
+    "description": "Found in Skyreach Isles. Part of the Galeborn set."
+  },
+  {
+    "id": "galeborn-armor",
+    "name": "Galeborn Whalehide Coat",
+    "slot": "armor",
+    "level": 79,
+    "price": 22500,
+    "bonus": {
+      "riderDefense": 24,
+      "riderHp": 295
+    },
+    "description": "The Skyreach Isles boss's trophy. Part of the Galeborn set."
+  },
+  {
+    "id": "galeborn-trinket",
+    "name": "Galeborn Griffin Feather",
+    "slot": "trinket",
+    "level": 74,
+    "price": 18000,
+    "bonus": {
+      "strength": 8,
+      "agility": 8,
+      "vigor": 7
+    },
+    "description": "The Skyreach Isles mini-boss's trophy. Part of the Galeborn set."
+  },
+  {
+    "id": "dawnsteel-saber",
+    "name": "Dawnsteel Saber",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": "light",
+    "level": 73,
+    "damage": 72,
+    "price": 18200,
+    "bonus": {
+      "strength": 14,
+      "vigor": 1
+    },
+    "description": "Polished so bright you can comb your hair in it. Many do."
+  },
+  {
+    "id": "sunray-bow",
+    "name": "Sunray Bow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": "light",
+    "level": 73,
+    "damage": 71,
+    "price": 18200,
+    "bonus": {
+      "agility": 15
+    },
+    "description": "The arrows leave a trail of warm light."
+  },
+  {
+    "id": "halo-rod",
+    "name": "Halo Rod",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": "light",
+    "level": 73,
+    "damage": 71,
+    "price": 18200,
+    "bonus": {
+      "arcana": 15
+    },
+    "description": "A ring of light floats above the tip. It hums when happy."
+  },
+  {
+    "id": "skysail-jacket",
+    "name": "Skysail Jacket",
+    "slot": "armor",
+    "level": 73,
+    "price": 17600,
+    "bonus": {
+      "riderDefense": 22,
+      "riderHp": 265
+    },
+    "description": "Cut from an old sail. Catches the wind in all the right places."
+  },
+  {
+    "id": "weathervane-charm",
+    "name": "Weathervane Charm",
+    "slot": "trinket",
+    "level": 73,
+    "price": 17300,
+    "bonus": {
+      "vigor": 7,
+      "arcana": 7,
+      "riderMp": 15,
+      "healPct": 0.05
+    },
+    "description": "Always points toward trouble. Useful, and a little alarming."
+  },
+  {
+    "id": "whalesong-pearl",
+    "name": "Whalesong Pearl",
+    "slot": "trinket",
+    "level": 76,
+    "price": 19500,
+    "bonus": {
+      "strength": 8,
+      "agility": 8,
+      "arcana": 8,
+      "vigor": 8
+    },
+    "description": "A pearl Aurelith gave you, forged into a pendant. Hold it to your ear and you can hear the sky."
+  },
+  {
+    "id": "riftwalker-melee",
+    "name": "Riftwalker Glaive",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": null,
+    "level": 72,
+    "damage": 71,
+    "price": 17000,
+    "bonus": {
+      "strength": 14
+    },
+    "description": "Found in Twilight Rift. Part of the Riftwalker set."
+  },
+  {
+    "id": "riftwalker-ranged",
+    "name": "Riftwalker Starbow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": null,
+    "level": 72,
+    "damage": 70,
+    "price": 17000,
+    "bonus": {
+      "agility": 15
+    },
+    "description": "Found in Twilight Rift. Part of the Riftwalker set."
+  },
+  {
+    "id": "riftwalker-magic",
+    "name": "Riftwalker Orrery Staff",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": null,
+    "level": 72,
+    "damage": 70,
+    "price": 17000,
+    "bonus": {
+      "arcana": 15
+    },
+    "description": "Found in Twilight Rift. Part of the Riftwalker set."
+  },
+  {
+    "id": "riftwalker-armor",
+    "name": "Riftwalker Night Mantle",
+    "slot": "armor",
+    "level": 79,
+    "price": 22500,
+    "bonus": {
+      "riderDefense": 24,
+      "riderHp": 295
+    },
+    "description": "The Twilight Rift boss's trophy. Part of the Riftwalker set."
+  },
+  {
+    "id": "riftwalker-trinket",
+    "name": "Riftwalker Stalker Eye",
+    "slot": "trinket",
+    "level": 74,
+    "price": 18000,
+    "bonus": {
+      "strength": 8,
+      "agility": 8,
+      "vigor": 7
+    },
+    "description": "The Twilight Rift mini-boss's trophy. Part of the Riftwalker set."
+  },
+  {
+    "id": "meteor-blade",
+    "name": "Meteor Blade",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": "aether",
+    "level": 73,
+    "damage": 72,
+    "price": 18200,
+    "bonus": {
+      "strength": 14,
+      "vigor": 1
+    },
+    "description": "Forged from a fallen star. It still remembers the fall."
+  },
+  {
+    "id": "constellation-bow",
+    "name": "Constellation Bow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": "aether",
+    "level": 73,
+    "damage": 71,
+    "price": 18200,
+    "bonus": {
+      "agility": 15
+    },
+    "description": "Strung with a line of tiny stars. Very hard to lose at night."
+  },
+  {
+    "id": "galaxy-wand",
+    "name": "Galaxy Wand",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": "aether",
+    "level": 73,
+    "damage": 71,
+    "price": 18200,
+    "bonus": {
+      "arcana": 15
+    },
+    "description": "A little swirl of galaxy lives in the glass tip."
+  },
+  {
+    "id": "duskweave-robe",
+    "name": "Duskweave Robe",
+    "slot": "armor",
+    "level": 73,
+    "price": 17600,
+    "bonus": {
+      "riderDefense": 22,
+      "riderHp": 265
+    },
+    "description": "Woven from the last light of evening. It glows faintly in the dark, which is lovely until you try to sleep."
+  },
+  {
+    "id": "quiet-stone",
+    "name": "Quiet Stone",
+    "slot": "trinket",
+    "level": 73,
+    "price": 17300,
+    "bonus": {
+      "vigor": 7,
+      "arcana": 7,
+      "riderMp": 15,
+      "healPct": 0.05
+    },
+    "description": "A pebble from the edge of nothing. It makes the world feel a little calmer."
+  },
+  {
+    "id": "nightwing-sigil",
+    "name": "Nightwing Sigil",
+    "slot": "trinket",
+    "level": 76,
+    "price": 19500,
+    "bonus": {
+      "strength": 8,
+      "agility": 8,
+      "arcana": 8,
+      "vigor": 8
+    },
+    "description": "Forged around a scale Nyxaris shed for you. Half of it shines and half of it is not quite there."
   }
 ]

@@ -265,6 +265,18 @@
         "base": 28,
         "mp": 10,
         "description": "A roaring column of fire on one enemy. Hits very hard and may Burn."
+      },
+      {
+        "id": "astral-nova",
+        "name": "Astral Nova",
+        "kind": "damage",
+        "level": 73,
+        "element": "aether",
+        "status": "silence",
+        "statusChance": 0.45,
+        "base": 31,
+        "mp": 11,
+        "description": "A burst of starlight on one enemy. Hits very hard and may Silence. Strong against Void."
       }
     ]
   },

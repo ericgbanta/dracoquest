@@ -121,7 +121,8 @@
       "blurb": "Nobody has come back from here yet. Well, nobody has gone.",
       "zones": [
         "sunken-spires",
-        "emberwild"
+        "emberwild",
+        "skyreach-isles"
       ],
       "map": {
         "art": "map-beyond",
@@ -133,6 +134,10 @@
           "emberwild": [
             0.24,
             0.52
+          ],
+          "skyreach-isles": [
+            0.76,
+            0.51
           ]
         }
       }
@@ -143,7 +148,8 @@
       "levels": "Levels 60 to 100",
       "blurb": "Ancient wild lands at the edge of the world, where the oldest dragons live.",
       "zones": [
-        "steelspine-range"
+        "steelspine-range",
+        "twilight-rift"
       ],
       "map": {
         "art": "map-elder-wilds",
@@ -151,6 +157,10 @@
           "steelspine-range": [
             0.32,
             0.77
+          ],
+          "twilight-rift": [
+            0.7,
+            0.55
           ]
         }
       }
@@ -158,35 +168,35 @@
   ],
   "upcoming": [
     {
-      "name": "Skyreach Isles",
+      "name": "Hollow Crown",
       "region": "beyond",
-      "minLevel": 70,
-      "maxLevel": 80,
-      "gate": "emberwild",
+      "minLevel": 80,
+      "maxLevel": 90,
+      "gate": "skyreach-isles",
       "elements": [
-        "storm",
-        "light"
+        "stone",
+        "shadow"
       ],
-      "blurb": "Floating islands of sun and wind, high above the clouds.",
+      "blurb": "An underground kingdom, lost in the dark for a thousand years.",
       "pin": [
-        0.76,
-        0.51
+        0.25,
+        0.31
       ]
     },
     {
-      "name": "Twilight Rift",
+      "name": "The Confluence",
       "region": "elder-wilds",
-      "minLevel": 70,
-      "maxLevel": 80,
-      "gate": "steelspine-range",
+      "minLevel": 80,
+      "maxLevel": 90,
+      "gate": "twilight-rift",
       "elements": [
-        "aether",
-        "void"
+        "fire",
+        "tide"
       ],
-      "blurb": "Where starlight and emptiness meet and tear at each other.",
+      "blurb": "Where the wild elements run together and mix.",
       "pin": [
-        0.7,
-        0.55
+        0.29,
+        0.43
       ]
     }
   ]

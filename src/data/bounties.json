@@ -1175,6 +1175,202 @@
         },
         "enemy": "lightning-lynx"
       }
+    ],
+    "skyreach-isles": [
+      {
+        "id": "hat-back",
+        "kind": "defeat",
+        "count": 5,
+        "text": "Get hats back from 5 Gust Sprites",
+        "reward": {
+          "gold": 1560,
+          "materials": {
+            "ore": 3
+          }
+        },
+        "enemy": "gust-sprite"
+      },
+      {
+        "id": "sail-moth-shoo",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Shoo 4 Sunwing Moths off the sails",
+        "reward": {
+          "gold": 1540,
+          "embers": 1
+        },
+        "enemy": "sunwing-moth"
+      },
+      {
+        "id": "ram-calm",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Calm 4 Cloud Rams",
+        "reward": {
+          "gold": 1560,
+          "materials": {
+            "ore": 3
+          }
+        },
+        "enemy": "cloud-ram"
+      },
+      {
+        "id": "hawk-count",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Catch 3 Prism Hawks (all of them)",
+        "reward": {
+          "gold": 1540,
+          "embers": 1
+        },
+        "enemy": "prism-hawk"
+      },
+      {
+        "id": "eel-untangle",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Untangle 3 Sky Eels",
+        "reward": {
+          "gold": 1560,
+          "materials": {
+            "ore": 3
+          }
+        },
+        "enemy": "sky-eel"
+      },
+      {
+        "id": "isles-wins",
+        "kind": "wins",
+        "count": 6,
+        "text": "Win 6 fights in Skyreach Isles",
+        "reward": {
+          "gold": 1700,
+          "materials": {
+            "ore": 4
+          }
+        }
+      },
+      {
+        "id": "isles-clear",
+        "kind": "clear",
+        "count": 2,
+        "text": "Finish 2 runs in Skyreach Isles",
+        "reward": {
+          "gold": 1860,
+          "embers": 3
+        }
+      },
+      {
+        "id": "sunscale-griffin-hunt",
+        "kind": "defeat",
+        "count": 1,
+        "text": "Defeat the Sunscale Griffin",
+        "reward": {
+          "gold": 1700,
+          "materials": {
+            "scale": 1
+          }
+        },
+        "enemy": "sunscale-griffin"
+      }
+    ],
+    "twilight-rift": [
+      {
+        "id": "mote-home",
+        "kind": "defeat",
+        "count": 5,
+        "text": "Send 5 Star Motes home",
+        "reward": {
+          "gold": 1560,
+          "materials": {
+            "ore": 3
+          }
+        },
+        "enemy": "star-mote"
+      },
+      {
+        "id": "null-hound-walk",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Walk 4 Null Hounds back to the rift",
+        "reward": {
+          "gold": 1540,
+          "embers": 1
+        },
+        "enemy": "null-hound"
+      },
+      {
+        "id": "lizard-stop",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Stop 4 Comet Lizards",
+        "reward": {
+          "gold": 1560,
+          "materials": {
+            "ore": 3
+          }
+        },
+        "enemy": "comet-lizard"
+      },
+      {
+        "id": "coat-hang",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Hang up 3 Hollow Coats",
+        "reward": {
+          "gold": 1540,
+          "embers": 1
+        },
+        "enemy": "hollow-coat"
+      },
+      {
+        "id": "jelly-count",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Count the moons of 3 Orbit Jellies",
+        "reward": {
+          "gold": 1560,
+          "materials": {
+            "ore": 3
+          }
+        },
+        "enemy": "orbit-jelly"
+      },
+      {
+        "id": "rift-wins",
+        "kind": "wins",
+        "count": 6,
+        "text": "Win 6 fights in Twilight Rift",
+        "reward": {
+          "gold": 1700,
+          "materials": {
+            "ore": 4
+          }
+        }
+      },
+      {
+        "id": "rift-clear",
+        "kind": "clear",
+        "count": 2,
+        "text": "Finish 2 runs in Twilight Rift",
+        "reward": {
+          "gold": 1860,
+          "embers": 3
+        }
+      },
+      {
+        "id": "gloam-stalker-hunt",
+        "kind": "defeat",
+        "count": 1,
+        "text": "Defeat the Gloam Stalker",
+        "reward": {
+          "gold": 1700,
+          "materials": {
+            "scale": 1
+          }
+        },
+        "enemy": "gloam-stalker"
+      }
     ]
   }
 }

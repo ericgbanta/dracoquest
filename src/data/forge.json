@@ -228,6 +228,28 @@
         "crystal": 9,
         "scale": 5
       }
+    },
+    {
+      "gear": "whalesong-pearl",
+      "forgeLevel": 3,
+      "gold": 10000,
+      "embers": 28,
+      "materials": {
+        "ore": 22,
+        "crystal": 10,
+        "scale": 6
+      }
+    },
+    {
+      "gear": "nightwing-sigil",
+      "forgeLevel": 3,
+      "gold": 10000,
+      "embers": 28,
+      "materials": {
+        "ore": 22,
+        "crystal": 10,
+        "scale": 6
+      }
     }
   ]
 }

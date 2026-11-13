@@ -4536,5 +4536,693 @@
       "gold": 4200,
       "embers": 12
     }
+  },
+  {
+    "id": "the-lost-hats",
+    "zone": "skyreach-isles",
+    "name": "The Lost Hats",
+    "minLevel": 70,
+    "description": "Captain Wynn sails a skyship between the isles. Something keeps stealing her crew's hats.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "Every hat on my ship is gone. Every one! A sailor without a hat is just a person on a boat.",
+            "name": "Captain Wynn"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A little whirlwind spins past, wearing four hats at once."
+          }
+        ],
+        "enemies": [
+          "gust-sprite"
+        ],
+        "level": 70
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "Something long and sparkling slides out of a cloud, a feathered hat on its head."
+          }
+        ],
+        "enemies": [
+          "sky-eel"
+        ],
+        "level": 71
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "Hats! Hats everywhere! The crew is so happy. Have this, with my thanks.",
+        "name": "Captain Wynn"
+      }
+    ],
+    "reward": {
+      "xp": 3600,
+      "gold": 2800,
+      "items": {
+        "mana-tonic": 2
+      }
+    }
+  },
+  {
+    "id": "moths-in-the-sails",
+    "zone": "skyreach-isles",
+    "name": "Moths in the Sails",
+    "minLevel": 72,
+    "requires": "the-lost-hats",
+    "description": "Sunwing Moths have found the ship. They think the sails are the most delicious thing in the sky.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "My sails! They're eating my sails! In broad daylight!",
+            "name": "Captain Wynn"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A moth as big as a sail flutters down and takes a bite out of the mainsail."
+          }
+        ],
+        "enemies": [
+          "sunwing-moth"
+        ],
+        "level": 72
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "A Prism Hawk dives in, hoping for a moth snack. It doesn't mind which side it's on."
+          }
+        ],
+        "enemies": [
+          "sunwing-moth",
+          "prism-hawk"
+        ],
+        "level": 73
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "The sails are full of holes, but they still fly. Mostly they whistle now.",
+        "name": "Captain Wynn"
+      }
+    ],
+    "reward": {
+      "xp": 3700,
+      "gold": 2600
+    },
+    "choice": {
+      "prompt": "The smallest Sunwing Moth lands on your dragon's nose and won't let go.",
+      "options": [
+        {
+          "id": "lamp",
+          "label": "Give it the ship's old lamp",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "It curls around the lamp and glows with joy. Wynn gives you a crate from the hold for being kind."
+            }
+          ],
+          "reward": {
+            "items": {
+              "potion": 3
+            },
+            "gold": 1100
+          },
+          "temper": "gentle"
+        },
+        {
+          "id": "chase",
+          "label": "Shoo it off into the sun",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "It flies straight up into the sunlight and drops a glittering scale as it goes."
+            }
+          ],
+          "reward": {
+            "materials": {
+              "crystal": 2
+            },
+            "embers": 3
+          },
+          "temper": "bold"
+        }
+      ]
+    }
+  },
+  {
+    "id": "the-ram-stampede",
+    "zone": "skyreach-isles",
+    "name": "The Ram Stampede",
+    "minLevel": 74,
+    "requires": "moths-in-the-sails",
+    "description": "A herd of Cloud Rams is stampeding across the isles, and every step comes with thunder.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "They're running toward the market island. The market is made of glass.",
+            "name": "Captain Wynn"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A ram of dark cloud lowers its head. Lightning crackles between its horns."
+          }
+        ],
+        "enemies": [
+          "cloud-ram"
+        ],
+        "level": 74
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "The wind picks up behind the herd, pushing them faster."
+          }
+        ],
+        "enemies": [
+          "cloud-ram",
+          "gust-sprite"
+        ],
+        "level": 75
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "The market is safe. Well, one window broke. It was already a bit cracked.",
+        "name": "Captain Wynn"
+      }
+    ],
+    "reward": {
+      "xp": 3800,
+      "gold": 3000,
+      "materials": {
+        "ore": 6,
+        "crystal": 3
+      }
+    }
+  },
+  {
+    "id": "the-sunscale-griffin",
+    "zone": "skyreach-isles",
+    "name": "The Sunscale Griffin",
+    "minLevel": 76,
+    "requires": "the-ram-stampede",
+    "description": "A griffin has built its nest on the highest island, right on top of the lighthouse.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "The lighthouse island is crowded with feathers and sparks."
+          }
+        ],
+        "enemies": [
+          "prism-hawk",
+          "sky-eel"
+        ],
+        "level": 76
+      },
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "This is MY tower. It is the shiniest tower. I am the shiniest bird. Go away.",
+            "name": "Sunscale Griffin"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A griffin with feathers like polished gold spreads its wings across the lighthouse lamp."
+          }
+        ],
+        "enemies": [
+          "sunscale-griffin"
+        ],
+        "level": 77,
+        "mini": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "The lighthouse shines again. Ships can find the isles at night. Now, about that whale.",
+        "name": "Captain Wynn"
+      }
+    ],
+    "reward": {
+      "xp": 3900,
+      "gold": 3200,
+      "embers": 5
+    },
+    "choice": {
+      "prompt": "The griffin asks to keep one corner of the lighthouse for its nest.",
+      "options": [
+        {
+          "id": "share",
+          "label": "Let it share the tower",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "It folds its wings and keeps watch beside the lamp. It drops a golden feather for you."
+            }
+          ],
+          "reward": {
+            "materials": {
+              "scale": 1
+            },
+            "embers": 2
+          },
+          "temper": "gentle"
+        },
+        {
+          "id": "deal",
+          "label": "Let it stay if it keeps the lamp polished",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "It agrees, very seriously. The keepers pay you for the free cleaning."
+            }
+          ],
+          "reward": {
+            "gold": 2000
+          },
+          "temper": "clever"
+        }
+      ]
+    }
+  },
+  {
+    "id": "aurelith",
+    "zone": "skyreach-isles",
+    "name": "Aurelith",
+    "minLevel": 79,
+    "requires": "the-sunscale-griffin",
+    "description": "The isles are drifting apart. Aurelith, the great sky whale who carries them, is shaking them off its back.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "She's never done this before. Something has her upset. Go and find out. Gently, if you can.",
+            "name": "Captain Wynn"
+          },
+          {
+            "speaker": "narrator",
+            "text": "The last guards of the high wind circle around you."
+          }
+        ],
+        "enemies": [
+          "cloud-ram",
+          "sunscale-griffin"
+        ],
+        "level": 79
+      },
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "Too heavy... too many... I want to SWIM.",
+            "name": "Aurelith"
+          },
+          {
+            "speaker": "narrator",
+            "text": "The clouds part. A whale the size of an island rolls toward you, thunder rumbling in her belly."
+          }
+        ],
+        "enemies": [
+          "aurelith"
+        ],
+        "level": 80,
+        "boss": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "Aurelith settles. She hums a long, deep note that you feel in your bones, and the islands drift gently back together. Wynn's crew cheers so loudly they lose their hats again.",
+        "name": "Captain Wynn"
+      }
+    ],
+    "reward": {
+      "xp": 5000,
+      "gold": 5400,
+      "embers": 14
+    }
+  },
+  {
+    "id": "the-falling-stars",
+    "zone": "twilight-rift",
+    "name": "The Falling Stars",
+    "minLevel": 70,
+    "description": "Stargazer Ilo counts the stars over the rift. Lately the stars have been falling, and they are not happy about it.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "Twelve stars fell last night. Twelve! I had names for all of them.",
+            "name": "Stargazer Ilo"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A tiny star bounces across the ground, sizzling with temper."
+          }
+        ],
+        "enemies": [
+          "star-mote"
+        ],
+        "level": 70
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "A jellyfish drifts out of the rift, its little moons spinning faster as it sees you."
+          }
+        ],
+        "enemies": [
+          "orbit-jelly"
+        ],
+        "level": 71
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "You calmed them. I'll help them back up, one at a time. It's a long ladder.",
+        "name": "Stargazer Ilo"
+      }
+    ],
+    "reward": {
+      "xp": 3600,
+      "gold": 2800,
+      "items": {
+        "mana-tonic": 2
+      }
+    }
+  },
+  {
+    "id": "the-empty-dogs",
+    "zone": "twilight-rift",
+    "name": "The Empty Dogs",
+    "minLevel": 72,
+    "requires": "the-falling-stars",
+    "description": "Null Hounds have been sniffing around the observatory. Where they walk, things go missing.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "My telescope is gone. My chair is gone. Half my sandwich is gone. Only half!",
+            "name": "Stargazer Ilo"
+          },
+          {
+            "speaker": "narrator",
+            "text": "Something dog-shaped and empty pads out from behind the observatory, wagging nothing."
+          }
+        ],
+        "enemies": [
+          "null-hound"
+        ],
+        "level": 72
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "A coat with nobody in it floats along behind, sleeves full of telescope."
+          }
+        ],
+        "enemies": [
+          "null-hound",
+          "hollow-coat"
+        ],
+        "level": 73
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "Everything is back. Except the sandwich. I don't want to know.",
+        "name": "Stargazer Ilo"
+      }
+    ],
+    "reward": {
+      "xp": 3700,
+      "gold": 2600
+    },
+    "choice": {
+      "prompt": "The last Null Hound sits and looks at you. Something in the emptiness looks sad.",
+      "options": [
+        {
+          "id": "name",
+          "label": "Give it a name",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "You call it Nothing. It wags so hard it almost becomes something. Ilo shares a bundle of supplies with you."
+            }
+          ],
+          "reward": {
+            "items": {
+              "dragon-treat": 3
+            },
+            "gold": 1100
+          },
+          "temper": "gentle"
+        },
+        {
+          "id": "fetch",
+          "label": "Throw a stick into the rift",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "It bounds after the stick into the dark and comes back with a glittering crystal instead."
+            }
+          ],
+          "reward": {
+            "materials": {
+              "crystal": 2
+            },
+            "embers": 3
+          },
+          "temper": "bold"
+        }
+      ]
+    }
+  },
+  {
+    "id": "the-comet-race",
+    "zone": "twilight-rift",
+    "name": "The Comet Race",
+    "minLevel": 74,
+    "requires": "the-empty-dogs",
+    "description": "Comet Lizards are racing in circles around the rift, and every lap cracks it a little wider.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "If they keep this up, the rift will be big enough to fall into. I don't want to fall into it.",
+            "name": "Stargazer Ilo"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A lizard streaks past in a blur of sparkles, then turns around for another lap."
+          }
+        ],
+        "enemies": [
+          "comet-lizard"
+        ],
+        "level": 74
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "A star mote hitches a ride on the next lizard's tail."
+          }
+        ],
+        "enemies": [
+          "comet-lizard",
+          "star-mote"
+        ],
+        "level": 75
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "They've stopped. The rift is closing up a bit. You can almost hear it sigh.",
+        "name": "Stargazer Ilo"
+      }
+    ],
+    "reward": {
+      "xp": 3800,
+      "gold": 3000,
+      "materials": {
+        "ore": 6,
+        "crystal": 3
+      }
+    }
+  },
+  {
+    "id": "the-gloam-stalker",
+    "zone": "twilight-rift",
+    "name": "The Gloam Stalker",
+    "minLevel": 76,
+    "requires": "the-comet-race",
+    "description": "Something hunts in the dark between the stars. Ilo has only ever seen its eyes.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "The stars go out one by one as you walk."
+          }
+        ],
+        "enemies": [
+          "hollow-coat",
+          "orbit-jelly"
+        ],
+        "level": 76
+      },
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "You can see me. Nobody sees me. That's rude.",
+            "name": "Gloam Stalker"
+          },
+          {
+            "speaker": "narrator",
+            "text": "Two eyes open in the dark ahead. Then the dark stands up, and it's shaped like a very large cat."
+          }
+        ],
+        "enemies": [
+          "gloam-stalker"
+        ],
+        "level": 77,
+        "mini": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "It's gone back into the dark. I think it was only lonely. Now there's only her.",
+        "name": "Stargazer Ilo"
+      }
+    ],
+    "reward": {
+      "xp": 3900,
+      "gold": 3200,
+      "embers": 5
+    },
+    "choice": {
+      "prompt": "The Gloam Stalker comes back and rubs against your dragon, purring like distant thunder.",
+      "options": [
+        {
+          "id": "stay",
+          "label": "Let it walk with you a while",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "It pads beside you to the edge of the rift and leaves one of its whiskers behind, cold as night."
+            }
+          ],
+          "reward": {
+            "materials": {
+              "scale": 1
+            },
+            "embers": 2
+          },
+          "temper": "gentle"
+        },
+        {
+          "id": "map",
+          "label": "Ask it to show you the hidden paths",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "It leads you to an old stash of starlight trinkets. Ilo buys them for her collection."
+            }
+          ],
+          "reward": {
+            "gold": 2000
+          },
+          "temper": "clever"
+        }
+      ]
+    }
+  },
+  {
+    "id": "nyxaris",
+    "zone": "twilight-rift",
+    "name": "Nyxaris",
+    "minLevel": 79,
+    "requires": "the-gloam-stalker",
+    "description": "At the heart of the rift waits Nyxaris, the dragon of starlight and nothing. The rift is tearing because she is.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "She's very old and very tired. Be kind. But be ready.",
+            "name": "Stargazer Ilo"
+          },
+          {
+            "speaker": "narrator",
+            "text": "The last shadows of the rift gather to bar your way."
+          }
+        ],
+        "enemies": [
+          "null-hound",
+          "gloam-stalker"
+        ],
+        "level": 79
+      },
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "Light, then dark. Dark, then light. I have held them apart so long. Show me you can hold on too.",
+            "name": "Nyxaris"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A great dragon unfolds from the rift. One wing is full of stars. The other is not there at all, and yet it moves."
+          }
+        ],
+        "enemies": [
+          "nyxaris"
+        ],
+        "level": 80,
+        "boss": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "Nyxaris folds both wings, the bright one and the empty one, and lowers her head. The rift stitches itself closed. Ilo counts every star in the sky, and for the first time in weeks, none of them fall.",
+        "name": "Stargazer Ilo"
+      }
+    ],
+    "reward": {
+      "xp": 5000,
+      "gold": 5400,
+      "embers": 14
+    }
   }
 ]

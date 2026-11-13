@@ -6438,5 +6438,773 @@
     "xpMultiplier": 5,
     "boss": true,
     "goldMultiplier": 6
+  },
+  {
+    "id": "gust-sprite",
+    "name": "Gust Sprite",
+    "element": "storm",
+    "flavor": "A little whirl of wind with eyes. It steals hats, and it has a lot of hats.",
+    "base": {
+      "hp": 1420.46,
+      "attack": 62.48,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 52.097,
+      "dodge": 27.58
+    },
+    "perLevel": {
+      "hp": 8.84,
+      "attack": 0.366,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.2925,
+      "dodge": 0.14
+    },
+    "moves": [
+      {
+        "id": "buffet",
+        "name": "Buffet",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "static-puff",
+        "name": "Static Puff",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "shock",
+        "statusChance": 0.5
+      },
+      {
+        "id": "whirl",
+        "name": "Whirl Away",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fade",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "sunwing-moth",
+    "name": "Sunwing Moth",
+    "element": "light",
+    "flavor": "A moth the size of a sail. It has finally found the brightest lamp of all: the sun.",
+    "base": {
+      "hp": 1136.36,
+      "attack": 62.48,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 60.113,
+      "dodge": 33.49
+    },
+    "perLevel": {
+      "hp": 7.06,
+      "attack": 0.366,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.3375,
+      "dodge": 0.17
+    },
+    "moves": [
+      {
+        "id": "wing-slap",
+        "name": "Wing Slap",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "dazzle-dust",
+        "name": "Dazzle Dust",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.6,
+        "status": "blind",
+        "statusChance": 0.5
+      },
+      {
+        "id": "bask",
+        "name": "Bask",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.15,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ]
+  },
+  {
+    "id": "cloud-ram",
+    "name": "Cloud Ram",
+    "element": "storm",
+    "flavor": "A fluffy ram made of thundercloud. Its headbutts come with a free haircut.",
+    "base": {
+      "hp": 1633.73,
+      "attack": 62.48,
+      "power": 41.75,
+      "defense": 19.24,
+      "swift": 40.075,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 10.16,
+      "attack": 0.366,
+      "power": 0.25,
+      "defense": 0.12,
+      "swift": 0.225,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "headbutt",
+        "name": "Headbutt",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "thunder-charge",
+        "name": "Thunder Charge",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "shock",
+        "statusChance": 0.4
+      },
+      {
+        "id": "fluff-up",
+        "name": "Fluff Up",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "prism-hawk",
+    "name": "Prism Hawk",
+    "element": "light",
+    "flavor": "Its feathers bend the light, so there always seem to be three of it.",
+    "base": {
+      "hp": 1207.18,
+      "attack": 62.48,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 52.097,
+      "dodge": 25.61
+    },
+    "perLevel": {
+      "hp": 7.5,
+      "attack": 0.366,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.2925,
+      "dodge": 0.13
+    },
+    "moves": [
+      {
+        "id": "talon",
+        "name": "Talon Swipe",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "sun-dive",
+        "name": "Sun Dive",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "blind",
+        "statusChance": 0.4
+      },
+      {
+        "id": "glint",
+        "name": "Glint",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "sky-eel",
+    "name": "Sky Eel",
+    "element": "storm",
+    "flavor": "Swims through the clouds as if they were water. It is very confused by actual water.",
+    "base": {
+      "hp": 1278.41,
+      "attack": 62.48,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 48.09,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 7.95,
+      "attack": 0.366,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.27,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "nip",
+        "name": "Nip",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "spark-coil",
+        "name": "Spark Coil",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.6,
+        "status": "shock",
+        "statusChance": 0.5
+      },
+      {
+        "id": "slither",
+        "name": "Slither",
+        "intent": "attack",
+        "weight": 1,
+        "power": 0.5,
+        "status": "blind",
+        "statusChance": 0.4
+      }
+    ]
+  },
+  {
+    "id": "sunscale-griffin",
+    "name": "Sunscale Griffin",
+    "element": "light",
+    "flavor": "Half eagle, half lion, all show-off. It polishes its own feathers between fights.",
+    "base": {
+      "hp": 2486.0,
+      "attack": 71.738,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 40.075,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 15.45,
+      "attack": 0.421,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.225,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "beak",
+        "name": "Beak Strike",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "dawn-pounce",
+        "name": "Dawn Pounce",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "blind",
+        "statusChance": 0.5
+      },
+      {
+        "id": "preen",
+        "name": "Preen",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self"
+      },
+      {
+        "id": "sunbathe",
+        "name": "Sunbathe",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.2,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "miniBoss": true,
+    "xpMultiplier": 2
+  },
+  {
+    "id": "aurelith",
+    "name": "Aurelith",
+    "element": "storm",
+    "flavor": "A whale as big as an island that swims through the sky. It carries three islands on its back and is tired of all of them.",
+    "base": {
+      "hp": 4549.18,
+      "attack": 75.158,
+      "power": 41.75,
+      "defense": 18.038,
+      "swift": 44.083,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 28.28,
+      "attack": 0.442,
+      "power": 0.25,
+      "defense": 0.1125,
+      "swift": 0.2475,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "fluke",
+        "name": "Fluke Slap",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "thunder-spout",
+        "name": "Thunder Spout",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.8,
+        "status": "shock",
+        "statusChance": 0.6
+      },
+      {
+        "id": "sky-breach",
+        "name": "Sky Breach",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "sun-song",
+        "name": "Sun Song",
+        "intent": "shift",
+        "weight": 1,
+        "shiftTo": "light",
+        "target": "self",
+        "condition": "notShifted"
+      },
+      {
+        "id": "cloud-coat",
+        "name": "Cloud Coat",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      },
+      {
+        "id": "deep-breath",
+        "name": "Deep Breath",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.12,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "xpMultiplier": 5,
+    "boss": true,
+    "goldMultiplier": 6
+  },
+  {
+    "id": "star-mote",
+    "name": "Star Mote",
+    "element": "aether",
+    "flavor": "A tiny fallen star that wants to go home. It is very cross about the whole thing.",
+    "base": {
+      "hp": 1382.07,
+      "attack": 60.791,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 52.097,
+      "dodge": 27.58
+    },
+    "perLevel": {
+      "hp": 8.6,
+      "attack": 0.356,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.2925,
+      "dodge": 0.14
+    },
+    "moves": [
+      {
+        "id": "zap",
+        "name": "Star Zap",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "twinkle",
+        "name": "Twinkle",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.6,
+        "status": "silence",
+        "statusChance": 0.5
+      },
+      {
+        "id": "shine-on",
+        "name": "Shine On",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "null-hound",
+    "name": "Null Hound",
+    "element": "void",
+    "flavor": "A dog-shaped hole in the world. It still wags. Nobody knows what with.",
+    "base": {
+      "hp": 1105.65,
+      "attack": 60.791,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 60.113,
+      "dodge": 33.49
+    },
+    "perLevel": {
+      "hp": 6.87,
+      "attack": 0.356,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.3375,
+      "dodge": 0.17
+    },
+    "moves": [
+      {
+        "id": "bite",
+        "name": "Empty Bite",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "hollow-howl",
+        "name": "Hollow Howl",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.6,
+        "status": "hollow",
+        "statusChance": 0.5
+      },
+      {
+        "id": "vanish",
+        "name": "Vanish",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fade",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "comet-lizard",
+    "name": "Comet Lizard",
+    "element": "aether",
+    "flavor": "Runs so fast it leaves a trail of sparkles. It has never once stopped to see them.",
+    "base": {
+      "hp": 1589.58,
+      "attack": 60.791,
+      "power": 41.75,
+      "defense": 19.24,
+      "swift": 40.075,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 9.88,
+      "attack": 0.356,
+      "power": 0.25,
+      "defense": 0.12,
+      "swift": 0.225,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "tail-whip",
+        "name": "Tail Whip",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "comet-dash",
+        "name": "Comet Dash",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "silence",
+        "statusChance": 0.4
+      },
+      {
+        "id": "sparkle",
+        "name": "Sparkle",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "hollow-coat",
+    "name": "Hollow Coat",
+    "element": "void",
+    "flavor": "A long coat with nobody inside. It would very much like yours.",
+    "base": {
+      "hp": 1174.55,
+      "attack": 60.791,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 52.097,
+      "dodge": 25.61
+    },
+    "perLevel": {
+      "hp": 7.3,
+      "attack": 0.356,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.2925,
+      "dodge": 0.13
+    },
+    "moves": [
+      {
+        "id": "sleeve-slap",
+        "name": "Sleeve Slap",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "pocket-grab",
+        "name": "Pocket Grab",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.6,
+        "status": "hollow",
+        "statusChance": 0.5
+      },
+      {
+        "id": "patch-up",
+        "name": "Patch Up",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.15,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ]
+  },
+  {
+    "id": "orbit-jelly",
+    "name": "Orbit Jelly",
+    "element": "aether",
+    "flavor": "A jellyfish floating in starlight, with three tiny moons circling it like pets.",
+    "base": {
+      "hp": 1243.86,
+      "attack": 60.791,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 48.09,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 7.73,
+      "attack": 0.356,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.27,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "sting",
+        "name": "Sting",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "moon-toss",
+        "name": "Moon Toss",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "silence",
+        "statusChance": 0.4
+      },
+      {
+        "id": "glow-mend",
+        "name": "Glow Mend",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.15,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ]
+  },
+  {
+    "id": "gloam-stalker",
+    "name": "Gloam Stalker",
+    "element": "void",
+    "flavor": "A great cat made of the dark between stars. You only see it when it blinks.",
+    "base": {
+      "hp": 2418.81,
+      "attack": 69.799,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 40.075,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 15.03,
+      "attack": 0.409,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.225,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "claw",
+        "name": "Night Claw",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "pounce",
+        "name": "Gloam Pounce",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "hollow",
+        "statusChance": 0.5
+      },
+      {
+        "id": "fade-out",
+        "name": "Fade Out",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fade",
+        "target": "self"
+      },
+      {
+        "id": "lick",
+        "name": "Lick Wounds",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.2,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "miniBoss": true,
+    "xpMultiplier": 2
+  },
+  {
+    "id": "nyxaris",
+    "name": "Nyxaris",
+    "element": "aether",
+    "flavor": "A dragon whose wings are half a night sky and half nothing at all. She has been guarding the rift since before there were stars to count.",
+    "base": {
+      "hp": 4426.23,
+      "attack": 73.127,
+      "power": 41.75,
+      "defense": 18.038,
+      "swift": 44.083,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 27.52,
+      "attack": 0.43,
+      "power": 0.25,
+      "defense": 0.1125,
+      "swift": 0.2475,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "rake",
+        "name": "Starclaw",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "starfall",
+        "name": "Starfall Breath",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.8,
+        "status": "silence",
+        "statusChance": 0.6
+      },
+      {
+        "id": "rift-roar",
+        "name": "Rift Roar",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "night-turn",
+        "name": "Turn to Night",
+        "intent": "shift",
+        "weight": 1,
+        "shiftTo": "void",
+        "target": "self",
+        "condition": "notShifted"
+      },
+      {
+        "id": "star-scales",
+        "name": "Star Scales",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      },
+      {
+        "id": "drink-light",
+        "name": "Drink the Light",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.12,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "xpMultiplier": 5,
+    "boss": true,
+    "goldMultiplier": 6
   }
 ]

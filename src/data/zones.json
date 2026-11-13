@@ -1721,5 +1721,223 @@
         "ironclad-magic"
       ]
     }
+  },
+  {
+    "id": "skyreach-isles",
+    "name": "Skyreach Isles",
+    "element": "storm",
+    "elements": [
+      "storm",
+      "light"
+    ],
+    "minLevel": 70,
+    "maxLevel": 80,
+    "gate": null,
+    "unlock": {
+      "level": 70,
+      "afterBoss": "emberwild"
+    },
+    "blurb": "Floating islands of sun and wind, high above the clouds. The view is wonderful. Try not to look down.",
+    "fights": {
+      "min": 3,
+      "max": 5
+    },
+    "encounters": [
+      {
+        "enemies": [
+          "gust-sprite"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "sunwing-moth"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "cloud-ram"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "prism-hawk"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "sky-eel"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "sunwing-moth",
+          "sunwing-moth"
+        ],
+        "weight": 1,
+        "minLevel": 72
+      },
+      {
+        "enemies": [
+          "gust-sprite",
+          "prism-hawk"
+        ],
+        "weight": 1,
+        "minLevel": 74
+      }
+    ],
+    "levelSpread": 1,
+    "multiEnemyLevelOffset": -3,
+    "boss": {
+      "enemy": "aurelith",
+      "level": 80,
+      "unlockRiderLevel": 79,
+      "trophy": {
+        "gear": "galeborn-armor",
+        "chance": 0.25
+      }
+    },
+    "miniBoss": {
+      "enemy": "sunscale-griffin",
+      "levelOffset": 0,
+      "trophy": {
+        "gear": "galeborn-trinket",
+        "chance": 0.25
+      }
+    },
+    "dropChances": {
+      "potion": 0.25,
+      "dragon-treat": 0.15,
+      "mana-tonic": 0.1
+    },
+    "eggDrop": {
+      "element": "storm",
+      "chance": 0.1,
+      "elements": [
+        "storm",
+        "light"
+      ]
+    },
+    "gearDrops": {
+      "chance": 0.06,
+      "gear": [
+        "galeborn-melee",
+        "galeborn-ranged",
+        "galeborn-magic"
+      ]
+    }
+  },
+  {
+    "id": "twilight-rift",
+    "name": "Twilight Rift",
+    "element": "aether",
+    "elements": [
+      "aether",
+      "void"
+    ],
+    "minLevel": 70,
+    "maxLevel": 80,
+    "gate": null,
+    "unlock": {
+      "level": 70,
+      "afterBoss": "steelspine-range"
+    },
+    "blurb": "A crack in the sky where starlight and emptiness meet and tear at each other. It is quiet here. Too quiet.",
+    "fights": {
+      "min": 3,
+      "max": 5
+    },
+    "encounters": [
+      {
+        "enemies": [
+          "star-mote"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "null-hound"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "comet-lizard"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "hollow-coat"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "orbit-jelly"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "null-hound",
+          "null-hound"
+        ],
+        "weight": 1,
+        "minLevel": 72
+      },
+      {
+        "enemies": [
+          "star-mote",
+          "hollow-coat"
+        ],
+        "weight": 1,
+        "minLevel": 74
+      }
+    ],
+    "levelSpread": 1,
+    "multiEnemyLevelOffset": -3,
+    "boss": {
+      "enemy": "nyxaris",
+      "level": 80,
+      "unlockRiderLevel": 79,
+      "trophy": {
+        "gear": "riftwalker-armor",
+        "chance": 0.25
+      }
+    },
+    "miniBoss": {
+      "enemy": "gloam-stalker",
+      "levelOffset": 0,
+      "trophy": {
+        "gear": "riftwalker-trinket",
+        "chance": 0.25
+      }
+    },
+    "dropChances": {
+      "potion": 0.25,
+      "dragon-treat": 0.15,
+      "mana-tonic": 0.1
+    },
+    "eggDrop": {
+      "element": "aether",
+      "chance": 0.1,
+      "elements": [
+        "aether",
+        "void"
+      ]
+    },
+    "gearDrops": {
+      "chance": 0.06,
+      "gear": [
+        "riftwalker-melee",
+        "riftwalker-ranged",
+        "riftwalker-magic"
+      ]
+    }
   }
 ]
