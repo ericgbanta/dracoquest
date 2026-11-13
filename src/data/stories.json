@@ -5917,5 +5917,737 @@
       "gold": 6800,
       "embers": 16
     }
+  },
+  {
+    "id": "the-stargazer",
+    "zone": "starfall-summit",
+    "name": "The Stargazer",
+    "minLevel": 90,
+    "description": "Orrin has climbed to the top of the world to count the falling stars. Lately they stop falling halfway down.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "I've counted every falling star for forty years. Last night: none. Not one made it to the ground.",
+            "name": "Stargazer Orrin"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A little star with a big attitude bounces down the path and glares at your dragon."
+          }
+        ],
+        "enemies": [
+          "star-sprite"
+        ],
+        "level": 90
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "A ferret with a glowing tail streaks past and grabs Orrin's telescope."
+          }
+        ],
+        "enemies": [
+          "comet-ferret"
+        ],
+        "level": 91
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "My telescope! Thank you. Something up there is catching the stars, and I mean to find out what.",
+        "name": "Stargazer Orrin"
+      }
+    ],
+    "reward": {
+      "xp": 5400,
+      "gold": 4400,
+      "items": {
+        "mana-tonic": 2
+      }
+    }
+  },
+  {
+    "id": "counting-the-night",
+    "zone": "starfall-summit",
+    "name": "Counting the Night",
+    "minLevel": 92,
+    "requires": "the-stargazer",
+    "description": "The Nightcap Owls are counting stars too, and they say Orrin keeps making them lose count.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "They've been counting longer than me, to be fair. They're very rude about it, though.",
+            "name": "Stargazer Orrin"
+          },
+          {
+            "speaker": "narrator",
+            "text": "An owl in a nightcap swoops down, furious. It has lost count. Again."
+          }
+        ],
+        "enemies": [
+          "nightcap-owl"
+        ],
+        "level": 92
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "A fat moth drifts in and eats the moonlight off the rocks, which really does not help."
+          }
+        ],
+        "enemies": [
+          "nightcap-owl",
+          "dusk-moth"
+        ],
+        "level": 93
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "We compared notes. The owls agree: the stars stop falling over the summit. Every one.",
+        "name": "Stargazer Orrin"
+      }
+    ],
+    "reward": {
+      "xp": 5500,
+      "gold": 4200
+    },
+    "choice": {
+      "prompt": "The oldest Nightcap Owl offers you its count of every star it has ever seen. It is a very, very long list.",
+      "options": [
+        {
+          "id": "listen",
+          "label": "Listen to the whole count",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "It takes all night. The owl is so happy that someone listened that it gives you a little bag of star dust."
+            }
+          ],
+          "reward": {
+            "items": {
+              "potion": 3
+            },
+            "gold": 1800
+          },
+          "temper": "gentle"
+        },
+        {
+          "id": "chart",
+          "label": "Turn it into a star chart",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "Your dragon helps Orrin turn the count into a chart. It shows exactly where the stars go missing. The owls hand over a shining crystal."
+            }
+          ],
+          "reward": {
+            "materials": {
+              "crystal": 3
+            },
+            "embers": 4
+          },
+          "temper": "clever"
+        }
+      ]
+    }
+  },
+  {
+    "id": "the-meteor-field",
+    "zone": "starfall-summit",
+    "name": "The Meteor Field",
+    "minLevel": 94,
+    "requires": "counting-the-night",
+    "description": "A field of fallen stones on the slope. The tortoises carrying them do not want to share.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "Real meteorites! Old ones, from before whatever is up there started catching them.",
+            "name": "Stargazer Orrin"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A tortoise with a meteor for a shell turns around very, very slowly, and charges."
+          }
+        ],
+        "enemies": [
+          "meteor-tortoise"
+        ],
+        "level": 94
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "A star sprite rolls down the slope to help its slow friend."
+          }
+        ],
+        "enemies": [
+          "meteor-tortoise",
+          "star-sprite"
+        ],
+        "level": 95
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "Look at these. Every one is a star that landed before the catching began. Let's get to the top.",
+        "name": "Stargazer Orrin"
+      }
+    ],
+    "reward": {
+      "xp": 5600,
+      "gold": 4600,
+      "materials": {
+        "ore": 8,
+        "crystal": 3
+      }
+    }
+  },
+  {
+    "id": "the-eclipse-sentinel",
+    "zone": "starfall-summit",
+    "name": "The Eclipse Sentinel",
+    "minLevel": 96,
+    "requires": "the-meteor-field",
+    "description": "A gate of standing stones blocks the last climb. A guardian with a face of sun and shadow stands in it.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "The air gets thin and cold as you climb, and the creatures get bolder."
+          }
+        ],
+        "enemies": [
+          "dusk-moth",
+          "comet-ferret"
+        ],
+        "level": 96
+      },
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "None pass to the summit. None have passed since the first star fell. Turn back, little dragon.",
+            "name": "Eclipse Sentinel"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A tall stone figure steps out of the arch. Half its face glows like the sun. The other half is night."
+          }
+        ],
+        "enemies": [
+          "eclipse-sentinel"
+        ],
+        "level": 97,
+        "mini": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "The guardian has stepped aside. Up there, at the very top, something huge is waiting with a mouthful of stars.",
+        "name": "Stargazer Orrin"
+      }
+    ],
+    "reward": {
+      "xp": 5700,
+      "gold": 4800,
+      "embers": 7
+    },
+    "choice": {
+      "prompt": "The Eclipse Sentinel lowers its spear. It asks what you will do at the top.",
+      "options": [
+        {
+          "id": "free",
+          "label": "Free the stars",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "The sentinel nods slowly and gives you a pale stone from its halo. 'Then go, and let them fall.'"
+            }
+          ],
+          "reward": {
+            "materials": {
+              "scale": 1
+            },
+            "embers": 3
+          },
+          "temper": "gentle"
+        },
+        {
+          "id": "wish",
+          "label": "Make a wish on one",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "The sentinel laughs, a sound like grinding rock, and hands you a pouch of star gold. 'Make it a good one.'"
+            }
+          ],
+          "reward": {
+            "gold": 3000
+          },
+          "temper": "clever"
+        }
+      ]
+    }
+  },
+  {
+    "id": "the-star-that-fell",
+    "zone": "starfall-summit",
+    "name": "The Star That Fell",
+    "minLevel": 99,
+    "requires": "the-eclipse-sentinel",
+    "description": "At the top of the world sits Vesperax, the star that fell, guarding every star it has ever caught.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "It's here. All the stars it caught are in its mane. I can see them shining. Be careful. Please.",
+            "name": "Stargazer Orrin"
+          },
+          {
+            "speaker": "narrator",
+            "text": "The last guardians of the summit gather on the path to the peak."
+          }
+        ],
+        "enemies": [
+          "eclipse-sentinel",
+          "nightcap-owl"
+        ],
+        "level": 99
+      },
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "I fell. Nobody wished on me. Nobody caught me. So I catch them all now, and nobody gets a wish.",
+            "name": "Vesperax"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A beast made of the night sky rises from the peak. Its mane is the dawn, and every caught star in the world glitters in it."
+          }
+        ],
+        "enemies": [
+          "vesperax"
+        ],
+        "level": 100,
+        "boss": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "Vesperax sinks down onto the peak. Its golden mane loosens, and the caught stars slip free one by one, until the whole sky is falling."
+      },
+      {
+        "speaker": "npc",
+        "text": "...You caught me. Nobody has ever caught me.",
+        "name": "Vesperax"
+      },
+      {
+        "speaker": "narrator",
+        "text": "Your dragon nudges the great beast with its nose. Vesperax looks at it for a long time. Then, very quietly, it makes a wish."
+      },
+      {
+        "speaker": "npc",
+        "text": "Thousands of them, all at once. I'll never finish counting. I don't think I want to.",
+        "name": "Stargazer Orrin"
+      },
+      {
+        "speaker": "npc",
+        "text": "You started with one small egg, you know. Look at you now, at the top of the world. Every keeper in the land will tell this story.",
+        "name": "Stargazer Orrin"
+      },
+      {
+        "speaker": "narrator",
+        "text": "The stars fall all night. In the morning Vesperax is curled up on the peak, asleep, with your dragon curled up beside it. The world below is quiet and bright. The end... for now."
+      }
+    ],
+    "reward": {
+      "xp": 7400,
+      "gold": 8000,
+      "embers": 20
+    }
+  },
+  {
+    "id": "the-last-keeper",
+    "zone": "dragonsrest",
+    "name": "The Last Keeper",
+    "minLevel": 90,
+    "description": "Keeper Ysolde has found the way into Dragonsrest, the valley where dragons began. Something small keeps blocking the path.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "The old books say the first dragons hatched here. Nobody has seen it in a thousand years. Mind the little ghosts.",
+            "name": "Keeper Ysolde"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A see-through baby dragon tumbles out of the mist and squeaks at you."
+          }
+        ],
+        "enemies": [
+          "wisp-drake"
+        ],
+        "level": 90
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "An iron beetle trundles across the path and refuses, very firmly, to move."
+          }
+        ],
+        "enemies": [
+          "rustback-beetle"
+        ],
+        "level": 91
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "We're in. Look at the nests on the cliffs. Hundreds of them. Empty for a thousand years.",
+        "name": "Keeper Ysolde"
+      }
+    ],
+    "reward": {
+      "xp": 5400,
+      "gold": 4400,
+      "items": {
+        "mana-tonic": 2
+      }
+    }
+  },
+  {
+    "id": "the-mushroom-roost",
+    "zone": "dragonsrest",
+    "name": "The Mushroom Roost",
+    "minLevel": 92,
+    "requires": "the-last-keeper",
+    "description": "Moldwing Bats have moved into the oldest nests, and mushrooms are growing over everything.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "Those nests are history! And there are mushrooms on them. Lots of mushrooms.",
+            "name": "Keeper Ysolde"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A bat with two mushrooms on its head hangs upside down and sneers."
+          }
+        ],
+        "enemies": [
+          "moldwing-bat"
+        ],
+        "level": 92
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "A dark fox slips out of the shadows and shushes everyone."
+          }
+        ],
+        "enemies": [
+          "moldwing-bat",
+          "hush-fox"
+        ],
+        "level": 93
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "The nests are clear. Under the moss there are drawings of dragons on the walls. The first keepers drew them.",
+        "name": "Keeper Ysolde"
+      }
+    ],
+    "reward": {
+      "xp": 5500,
+      "gold": 4200
+    },
+    "choice": {
+      "prompt": "A small Moldwing Bat is still clinging to one of the old nests. It says it was born there.",
+      "options": [
+        {
+          "id": "stay",
+          "label": "Let it stay in its nest",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "It squeaks happily. Ysolde laughs and says the nests were always meant for someone small. She gives you her spare potions."
+            }
+          ],
+          "reward": {
+            "items": {
+              "potion": 3
+            },
+            "gold": 1800
+          },
+          "temper": "gentle"
+        },
+        {
+          "id": "copy",
+          "label": "Copy the drawings under it",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "Your dragon holds the bat while you copy the drawings. They show where the first dragons went. Ysolde gives you a crystal from the nest."
+            }
+          ],
+          "reward": {
+            "materials": {
+              "crystal": 3
+            },
+            "embers": 4
+          },
+          "temper": "clever"
+        }
+      ]
+    }
+  },
+  {
+    "id": "the-sweeping-golems",
+    "zone": "dragonsrest",
+    "name": "The Sweeping Golems",
+    "minLevel": 94,
+    "requires": "the-mushroom-roost",
+    "description": "Little golems are still sweeping the nests, a thousand years after anyone told them to stop.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "The first keepers built them. Look, they're still sweeping! They do not like being interrupted.",
+            "name": "Keeper Ysolde"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A boxy little golem sweeps right up to your boots, stops, and glows."
+          }
+        ],
+        "enemies": [
+          "relic-golem"
+        ],
+        "level": 94
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "A rusty beetle rolls in to help. The golem tries to sweep it up."
+          }
+        ],
+        "enemies": [
+          "relic-golem",
+          "rustback-beetle"
+        ],
+        "level": 95
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "We switched them off, gently. One of them had a keeper's journal in its chest. Listen to this.",
+        "name": "Keeper Ysolde"
+      }
+    ],
+    "reward": {
+      "xp": 5600,
+      "gold": 4600,
+      "materials": {
+        "ore": 8,
+        "crystal": 3
+      }
+    }
+  },
+  {
+    "id": "the-mossback-keeper",
+    "zone": "dragonsrest",
+    "name": "The Mossback Keeper",
+    "minLevel": 96,
+    "requires": "the-sweeping-golems",
+    "description": "The path to the heart of the valley goes past an ancient tortoise. It was keeping the nests long before the keepers came.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "The mist gets thicker. The little ghosts follow you, giggling."
+          }
+        ],
+        "enemies": [
+          "hush-fox",
+          "wisp-drake"
+        ],
+        "level": 96
+      },
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "Visitors. Hmph. The last visitors were a thousand years ago. They didn't wipe their feet either.",
+            "name": "Mossback Keeper"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A huge mossy tortoise lifts its lantern and squints at you."
+          }
+        ],
+        "enemies": [
+          "mossback-keeper"
+        ],
+        "level": 97,
+        "mini": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "The tortoise has let us by. It says the Old Guardian is waiting at the heart of the valley, and that he will not be pleased.",
+        "name": "Keeper Ysolde"
+      }
+    ],
+    "reward": {
+      "xp": 5700,
+      "gold": 4800,
+      "embers": 7
+    },
+    "choice": {
+      "prompt": "The Mossback Keeper asks if you will tell the world that Dragonsrest is still here.",
+      "options": [
+        {
+          "id": "secret",
+          "label": "Keep it a secret",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "The old tortoise nods slowly and gives you a scale it has kept under its moss for a thousand years."
+            }
+          ],
+          "reward": {
+            "materials": {
+              "scale": 1
+            },
+            "embers": 3
+          },
+          "temper": "gentle"
+        },
+        {
+          "id": "tell",
+          "label": "Tell the keepers in town",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "The tortoise grumbles, but gives you a sack of old keeper coins for the trip. 'Tell them to wipe their feet.'"
+            }
+          ],
+          "reward": {
+            "gold": 3000
+          },
+          "temper": "clever"
+        }
+      ]
+    }
+  },
+  {
+    "id": "the-old-guardian",
+    "zone": "dragonsrest",
+    "name": "The Old Guardian",
+    "minLevel": 99,
+    "requires": "the-mossback-keeper",
+    "description": "At the heart of Dragonsrest, among the oldest nests, waits Ossarion, the last of the first dragons.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "That's him. Ossarion. The books say he was the first dragon ever to hatch. He's been alone here a very long time.",
+            "name": "Keeper Ysolde"
+          },
+          {
+            "speaker": "narrator",
+            "text": "The last guardians of the valley stand together in front of the oldest nest."
+          }
+        ],
+        "enemies": [
+          "mossback-keeper",
+          "relic-golem"
+        ],
+        "level": 99
+      },
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "Go home, little keeper. The nests are empty. The first dragons are gone. Let an old dragon rest.",
+            "name": "Ossarion"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A huge armored dragon heaves himself up from the oldest nest. Moss slides off his back, and his long white beard sweeps the ground."
+          }
+        ],
+        "enemies": [
+          "ossarion"
+        ],
+        "level": 100,
+        "boss": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "Ossarion sits down heavily in the oldest nest. He looks at your dragon for a long time, and his eyes go soft."
+      },
+      {
+        "speaker": "npc",
+        "text": "You fight like the first ones did. Together. I thought nobody remembered how.",
+        "name": "Ossarion"
+      },
+      {
+        "speaker": "npc",
+        "text": "He wasn't guarding the nests from us. He was waiting for someone to come back.",
+        "name": "Keeper Ysolde"
+      },
+      {
+        "speaker": "narrator",
+        "text": "Ossarion lifts one huge foot. Under it, warm and safe, is a heavy, round egg. He nudges it toward you."
+      },
+      {
+        "speaker": "npc",
+        "text": "The last egg of Dragonsrest. Raise it well, keeper. Bring it home sometimes.",
+        "name": "Ossarion"
+      },
+      {
+        "speaker": "narrator",
+        "text": "When you leave, the old guardian is already asleep in his nest, snoring softly, and the little ghosts are curled up in his beard."
+      }
+    ],
+    "reward": {
+      "xp": 7400,
+      "gold": 8000,
+      "embers": 20
+    }
   }
 ]

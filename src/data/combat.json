@@ -287,6 +287,18 @@
         "base": 34,
         "mp": 12,
         "description": "The first light of morning, all at once, on one enemy. Hits very hard. Strong against Shadow."
+      },
+      {
+        "id": "eventide",
+        "name": "Eventide",
+        "kind": "damage",
+        "level": 93,
+        "element": "shadow",
+        "status": "blind",
+        "statusChance": 0.4,
+        "base": 37,
+        "mp": 13,
+        "description": "The whole evening falls on one enemy at once, and may Blind it. Hits very hard. Strong against Light."
       }
     ]
   },

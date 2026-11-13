@@ -10,7 +10,7 @@ describe('data loader', () => {
     expect(gameData.elements.multipliers.strong).toBe(1.5);
     expect(gameData.elements.multipliers.neutral).toBe(1);
     expect(gameData.combat.critMultiplier).toBe(1.5);
-    expect(gameData.progression.levelCap).toBe(90);
+    expect(gameData.progression.levelCap).toBe(100);
     expect(gameData.progression.secondPartnerRiderLevel).toBe(25);
   });
 

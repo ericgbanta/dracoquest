@@ -1,5 +1,5 @@
 {
-  "levelCap": 90,
+  "levelCap": 100,
   "xpBase": 50,
   "xpExponent": 1.6,
   "statPointsPerLevel": 3,

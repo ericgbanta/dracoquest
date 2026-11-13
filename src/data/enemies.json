@@ -7983,5 +7983,769 @@
     "xpMultiplier": 5,
     "boss": true,
     "goldMultiplier": 6
+  },
+  {
+    "id": "star-sprite",
+    "name": "Star Sprite",
+    "element": "light",
+    "flavor": "A star that fell, bounced, and decided it liked it down here. It is very bright and very rude about it.",
+    "base": {
+      "hp": 1625.47,
+      "attack": 71.497,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 52.097,
+      "dodge": 27.58
+    },
+    "perLevel": {
+      "hp": 10.12,
+      "attack": 0.419,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.2925,
+      "dodge": 0.14
+    },
+    "moves": [
+      {
+        "id": "star-bonk",
+        "name": "Star Bonk",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "twinkle",
+        "name": "Twinkle",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7
+      },
+      {
+        "id": "shine-on",
+        "name": "Shine On",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "ward",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "dusk-moth",
+    "name": "Dusk Moth",
+    "element": "shadow",
+    "flavor": "A fat moth that only comes out at dusk. It eats moonlight and leaves crumbs.",
+    "base": {
+      "hp": 1300.38,
+      "attack": 71.497,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 60.113,
+      "dodge": 33.49
+    },
+    "perLevel": {
+      "hp": 8.08,
+      "attack": 0.419,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.3375,
+      "dodge": 0.17
+    },
+    "moves": [
+      {
+        "id": "wing-buffet",
+        "name": "Wing Buffet",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "dusk-dust",
+        "name": "Dusk Dust",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.6,
+        "status": "blind",
+        "statusChance": 0.5
+      },
+      {
+        "id": "flutter-off",
+        "name": "Flutter Off",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fade",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "meteor-tortoise",
+    "name": "Meteor Tortoise",
+    "element": "light",
+    "flavor": "Its shell is a meteorite that landed on it a thousand years ago. It has been carrying it ever since, out of pride.",
+    "base": {
+      "hp": 1869.52,
+      "attack": 71.497,
+      "power": 41.75,
+      "defense": 19.24,
+      "swift": 40.075,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 11.63,
+      "attack": 0.419,
+      "power": 0.25,
+      "defense": 0.12,
+      "swift": 0.225,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "shell-bash",
+        "name": "Shell Bash",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "meteor-roll",
+        "name": "Meteor Roll",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "tuck-in",
+        "name": "Tuck In",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "nightcap-owl",
+    "name": "Nightcap Owl",
+    "element": "shadow",
+    "flavor": "Stays up all night counting stars. Gets very cross if you make it lose count.",
+    "base": {
+      "hp": 1381.42,
+      "attack": 71.497,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 52.097,
+      "dodge": 25.61
+    },
+    "perLevel": {
+      "hp": 8.59,
+      "attack": 0.419,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.2925,
+      "dodge": 0.13
+    },
+    "moves": [
+      {
+        "id": "talon",
+        "name": "Talon",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "hoot-of-night",
+        "name": "Hoot of Night",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.6,
+        "status": "blind",
+        "statusChance": 0.5
+      },
+      {
+        "id": "power-nap",
+        "name": "Power Nap",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.15,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ]
+  },
+  {
+    "id": "comet-ferret",
+    "name": "Comet Ferret",
+    "element": "light",
+    "flavor": "Fast as a comet and twice as nosy. It has stolen something from everyone on the mountain.",
+    "base": {
+      "hp": 1462.92,
+      "attack": 71.497,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 48.09,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 9.1,
+      "attack": 0.419,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.27,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "nip",
+        "name": "Nip",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "comet-dash",
+        "name": "Comet Dash",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7
+      },
+      {
+        "id": "zoom",
+        "name": "Zoom",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "eclipse-sentinel",
+    "name": "Eclipse Sentinel",
+    "element": "shadow",
+    "flavor": "A stone guardian with a face of sun and shadow. It has guarded the summit since before the mountain was finished.",
+    "base": {
+      "hp": 2844.81,
+      "attack": 82.092,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 40.075,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 17.68,
+      "attack": 0.482,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.225,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "spear-thrust",
+        "name": "Spear Thrust",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "eclipse-gaze",
+        "name": "Eclipse Gaze",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "blind",
+        "statusChance": 0.5
+      },
+      {
+        "id": "halo-guard",
+        "name": "Halo Guard",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "ward",
+        "target": "self"
+      },
+      {
+        "id": "starlight-mend",
+        "name": "Starlight Mend",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.2,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "miniBoss": true,
+    "xpMultiplier": 2
+  },
+  {
+    "id": "vesperax",
+    "name": "Vesperax",
+    "element": "light",
+    "flavor": "The star that fell. It landed on the summit an age ago, grew a body out of the night sky, and has been catching every falling star since so nobody else can wish on them.",
+    "base": {
+      "hp": 5205.77,
+      "attack": 86.006,
+      "power": 41.75,
+      "defense": 18.038,
+      "swift": 44.083,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 32.36,
+      "attack": 0.506,
+      "power": 0.25,
+      "defense": 0.1125,
+      "swift": 0.2475,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "star-claw",
+        "name": "Star Claw",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "sunflare-roar",
+        "name": "Sunflare Roar",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.8
+      },
+      {
+        "id": "meteor-pounce",
+        "name": "Meteor Pounce",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "nightfall",
+        "name": "Nightfall",
+        "intent": "shift",
+        "weight": 1,
+        "shiftTo": "shadow",
+        "target": "self",
+        "condition": "notShifted"
+      },
+      {
+        "id": "mane-of-dawn",
+        "name": "Mane of Dawn",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "ward",
+        "target": "self"
+      },
+      {
+        "id": "starlight",
+        "name": "Starlight",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.12,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "xpMultiplier": 5,
+    "boss": true,
+    "goldMultiplier": 6
+  },
+  {
+    "id": "wisp-drake",
+    "name": "Wisp Drake",
+    "element": "aether",
+    "flavor": "The ghost of a baby dragon from long ago, still playing in the valley. It does not know it is a ghost and nobody has told it.",
+    "base": {
+      "hp": 1639.83,
+      "attack": 72.129,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 52.097,
+      "dodge": 27.58
+    },
+    "perLevel": {
+      "hp": 10.21,
+      "attack": 0.422,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.2925,
+      "dodge": 0.14
+    },
+    "moves": [
+      {
+        "id": "wisp-nip",
+        "name": "Wisp Nip",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "starlit-puff",
+        "name": "Starlit Puff",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "silence",
+        "statusChance": 0.5
+      },
+      {
+        "id": "fade-away",
+        "name": "Fade Away",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fade",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "rustback-beetle",
+    "name": "Rustback Beetle",
+    "element": "steel",
+    "flavor": "Its shell is iron, and the iron is rusty, and the beetle is very sensitive about it.",
+    "base": {
+      "hp": 1311.85,
+      "attack": 72.129,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 60.113,
+      "dodge": 33.49
+    },
+    "perLevel": {
+      "hp": 8.15,
+      "attack": 0.422,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.3375,
+      "dodge": 0.17
+    },
+    "moves": [
+      {
+        "id": "pincer",
+        "name": "Pincer",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "iron-charge",
+        "name": "Iron Charge",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "rend",
+        "statusChance": 0.4
+      },
+      {
+        "id": "shell-up",
+        "name": "Shell Up",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "moldwing-bat",
+    "name": "Moldwing Bat",
+    "element": "blight",
+    "flavor": "A bat with mushrooms growing on its head. It thinks they make it look distinguished.",
+    "base": {
+      "hp": 1886.04,
+      "attack": 72.129,
+      "power": 41.75,
+      "defense": 19.24,
+      "swift": 40.075,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 11.72,
+      "attack": 0.422,
+      "power": 0.25,
+      "defense": 0.12,
+      "swift": 0.225,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "bite",
+        "name": "Bite",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "spore-cloud",
+        "name": "Spore Cloud",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.6,
+        "status": "rot",
+        "statusChance": 0.5
+      },
+      {
+        "id": "mushroom-snack",
+        "name": "Mushroom Snack",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.15,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ]
+  },
+  {
+    "id": "hush-fox",
+    "name": "Hush Fox",
+    "element": "void",
+    "flavor": "A fox that shushes everything. Its tail ends in a little hole in the world, and things that fall in are never heard from again.",
+    "base": {
+      "hp": 1393.6,
+      "attack": 72.129,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 52.097,
+      "dodge": 25.61
+    },
+    "perLevel": {
+      "hp": 8.66,
+      "attack": 0.422,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.2925,
+      "dodge": 0.13
+    },
+    "moves": [
+      {
+        "id": "snap",
+        "name": "Snap",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "hush",
+        "name": "Hush",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.6,
+        "status": "hollow",
+        "statusChance": 0.5
+      },
+      {
+        "id": "slip-away",
+        "name": "Slip Away",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fade",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "relic-golem",
+    "name": "Relic Golem",
+    "element": "steel",
+    "element2": "aether",
+    "flavor": "A little golem the first keepers built to sweep the nests. It has kept sweeping for a thousand years. The nests are very clean.",
+    "base": {
+      "hp": 1475.84,
+      "attack": 72.129,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 48.09,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 9.17,
+      "attack": 0.422,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.27,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "clank",
+        "name": "Clank",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "rune-flash",
+        "name": "Rune Flash",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "silence",
+        "statusChance": 0.4
+      },
+      {
+        "id": "tighten-bolts",
+        "name": "Tighten Bolts",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "mossback-keeper",
+    "name": "Mossback Keeper",
+    "element": "blight",
+    "element2": "steel",
+    "flavor": "An ancient tortoise who kept the nests before the keepers came. Moss on its shell, a lantern on a stick, and no patience for visitors.",
+    "base": {
+      "hp": 2869.92,
+      "attack": 82.817,
+      "power": 41.75,
+      "defense": 12.025,
+      "swift": 40.075,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 17.83,
+      "attack": 0.485,
+      "power": 0.25,
+      "defense": 0.075,
+      "swift": 0.225,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "shell-slam",
+        "name": "Shell Slam",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "rust-bloom",
+        "name": "Rust Bloom",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "rot",
+        "statusChance": 0.5
+      },
+      {
+        "id": "dig-in",
+        "name": "Dig In",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      },
+      {
+        "id": "old-moss",
+        "name": "Old Moss",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.2,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "miniBoss": true,
+    "xpMultiplier": 2
+  },
+  {
+    "id": "ossarion",
+    "name": "Ossarion",
+    "element": "steel",
+    "element2": "blight",
+    "flavor": "The Old Guardian of Dragonsrest, the last of the first dragons. He has guarded the empty nests for a thousand years, and his beard has grown very long.",
+    "base": {
+      "hp": 5251.72,
+      "attack": 86.766,
+      "power": 41.75,
+      "defense": 18.038,
+      "swift": 44.083,
+      "dodge": 19.7
+    },
+    "perLevel": {
+      "hp": 32.66,
+      "attack": 0.51,
+      "power": 0.25,
+      "defense": 0.1125,
+      "swift": 0.2475,
+      "dodge": 0.1
+    },
+    "moves": [
+      {
+        "id": "horn-butt",
+        "name": "Horn Butt",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "ancient-roar",
+        "name": "Ancient Roar",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.8,
+        "status": "rend",
+        "statusChance": 0.6
+      },
+      {
+        "id": "stomp-of-ages",
+        "name": "Stomp of Ages",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "rot",
+        "statusChance": 0.4
+      },
+      {
+        "id": "heavy-as-the-earth",
+        "name": "Heavy as the Earth",
+        "intent": "shift",
+        "weight": 1,
+        "shiftTo": "void",
+        "shiftTo2": "steel",
+        "target": "self",
+        "condition": "notShifted"
+      },
+      {
+        "id": "plated-hide",
+        "name": "Plated Hide",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      },
+      {
+        "id": "long-rest",
+        "name": "Long Rest",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.12,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "xpMultiplier": 5,
+    "boss": true,
+    "goldMultiplier": 6
   }
 ]

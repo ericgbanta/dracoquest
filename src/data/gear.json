@@ -4091,5 +4091,305 @@
       "vigor": 9
     },
     "description": "Forged from a scale off each of Seethe's heads. One side is warm and one side is cool."
+  },
+  {
+    "id": "starforged-melee",
+    "name": "Starforged Blade",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": null,
+    "level": 92,
+    "damage": 91,
+    "price": 25000,
+    "bonus": {
+      "strength": 18
+    },
+    "description": "Found in Starfall Summit. Part of the Starforged set."
+  },
+  {
+    "id": "starforged-ranged",
+    "name": "Starforged Longbow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": null,
+    "level": 92,
+    "damage": 90,
+    "price": 25000,
+    "bonus": {
+      "agility": 19
+    },
+    "description": "Found in Starfall Summit. Part of the Starforged set."
+  },
+  {
+    "id": "starforged-magic",
+    "name": "Starforged Comet Staff",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": null,
+    "level": 92,
+    "damage": 90,
+    "price": 25000,
+    "bonus": {
+      "arcana": 19
+    },
+    "description": "Found in Starfall Summit. Part of the Starforged set."
+  },
+  {
+    "id": "starforged-armor",
+    "name": "Starforged Night Mantle",
+    "slot": "armor",
+    "level": 99,
+    "price": 32500,
+    "bonus": {
+      "riderDefense": 30,
+      "riderHp": 375
+    },
+    "description": "The Starfall Summit boss's trophy. Part of the Starforged set."
+  },
+  {
+    "id": "starforged-trinket",
+    "name": "Starforged Eclipse Ring",
+    "slot": "trinket",
+    "level": 94,
+    "price": 26000,
+    "bonus": {
+      "strength": 10,
+      "agility": 10,
+      "vigor": 9
+    },
+    "description": "The Starfall Summit mini-boss's trophy. Part of the Starforged set."
+  },
+  {
+    "id": "dawnsteel-sword",
+    "name": "Dawnsteel Sword",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": "light",
+    "level": 93,
+    "damage": 92,
+    "price": 26200,
+    "bonus": {
+      "strength": 18,
+      "vigor": 1
+    },
+    "description": "Forged at sunrise on the summit. It is always a little warm."
+  },
+  {
+    "id": "shooting-star-bow",
+    "name": "Shooting Star Bow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": "light",
+    "level": 93,
+    "damage": 91,
+    "price": 26200,
+    "bonus": {
+      "agility": 19
+    },
+    "description": "Every arrow leaves a short glittering trail. Make a wish."
+  },
+  {
+    "id": "zenith-staff",
+    "name": "Zenith Staff",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": "light",
+    "level": 93,
+    "damage": 91,
+    "price": 26200,
+    "bonus": {
+      "arcana": 19
+    },
+    "description": "Topped with a sliver of fallen star. It hums when the sky is clear."
+  },
+  {
+    "id": "stargazers-cloak",
+    "name": "Stargazer's Cloak",
+    "slot": "armor",
+    "level": 93,
+    "price": 25600,
+    "bonus": {
+      "riderDefense": 28,
+      "riderHp": 345
+    },
+    "description": "Orrin's spare cloak, embroidered with every constellation, some of them made up."
+  },
+  {
+    "id": "wishing-shard",
+    "name": "Wishing Shard",
+    "slot": "trinket",
+    "level": 93,
+    "price": 25300,
+    "bonus": {
+      "vigor": 9,
+      "arcana": 9,
+      "riderMp": 15,
+      "healPct": 0.05
+    },
+    "description": "A shard of a fallen star. Nobody has wished on it yet. It is waiting for a good one."
+  },
+  {
+    "id": "heart-of-the-sky",
+    "name": "Heart of the Sky",
+    "slot": "trinket",
+    "level": 96,
+    "price": 27500,
+    "bonus": {
+      "strength": 10,
+      "agility": 10,
+      "arcana": 10,
+      "vigor": 10
+    },
+    "description": "Forged from the core of Vesperax's last caught star. Hold it up at night and the sky holds still."
+  },
+  {
+    "id": "eldest-melee",
+    "name": "Eldest Greatsword",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": null,
+    "level": 92,
+    "damage": 91,
+    "price": 25000,
+    "bonus": {
+      "strength": 18
+    },
+    "description": "Found in Dragonsrest. Part of the Eldest set."
+  },
+  {
+    "id": "eldest-ranged",
+    "name": "Eldest Hornbow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": null,
+    "level": 92,
+    "damage": 90,
+    "price": 25000,
+    "bonus": {
+      "agility": 19
+    },
+    "description": "Found in Dragonsrest. Part of the Eldest set."
+  },
+  {
+    "id": "eldest-magic",
+    "name": "Eldest Nest Staff",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": null,
+    "level": 92,
+    "damage": 90,
+    "price": 25000,
+    "bonus": {
+      "arcana": 19
+    },
+    "description": "Found in Dragonsrest. Part of the Eldest set."
+  },
+  {
+    "id": "eldest-armor",
+    "name": "Eldest Guardian's Plate",
+    "slot": "armor",
+    "level": 99,
+    "price": 32500,
+    "bonus": {
+      "riderDefense": 30,
+      "riderHp": 375
+    },
+    "description": "The Dragonsrest boss's trophy. Part of the Eldest set."
+  },
+  {
+    "id": "eldest-trinket",
+    "name": "Eldest Keeper's Lantern",
+    "slot": "trinket",
+    "level": 94,
+    "price": 26000,
+    "bonus": {
+      "strength": 10,
+      "agility": 10,
+      "vigor": 9
+    },
+    "description": "The Dragonsrest mini-boss's trophy. Part of the Eldest set."
+  },
+  {
+    "id": "hollowpoint-blade",
+    "name": "Hollowpoint Blade",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": "void",
+    "level": 93,
+    "damage": 92,
+    "price": 26200,
+    "bonus": {
+      "strength": 18,
+      "vigor": 1
+    },
+    "description": "Its point is a tiny hole in the world. Do not look at it too closely."
+  },
+  {
+    "id": "silent-bow",
+    "name": "Silent Bow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": "void",
+    "level": 93,
+    "damage": 91,
+    "price": 26200,
+    "bonus": {
+      "agility": 19
+    },
+    "description": "No twang, no whistle. The arrow just arrives."
+  },
+  {
+    "id": "nothing-staff",
+    "name": "Staff of Nothing",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": "void",
+    "level": 93,
+    "damage": 91,
+    "price": 26200,
+    "bonus": {
+      "arcana": 19
+    },
+    "description": "Topped with a perfect little nothing. It is heavier than it looks."
+  },
+  {
+    "id": "nestkeepers-coat",
+    "name": "Nestkeeper's Coat",
+    "slot": "armor",
+    "level": 93,
+    "price": 25600,
+    "bonus": {
+      "riderDefense": 28,
+      "riderHp": 345
+    },
+    "description": "Soft, warm and lined with old dragon down. Smells faintly of eggshell."
+  },
+  {
+    "id": "first-scale",
+    "name": "First Scale",
+    "slot": "trinket",
+    "level": 93,
+    "price": 25300,
+    "bonus": {
+      "vigor": 9,
+      "arcana": 9,
+      "riderMp": 15,
+      "healPct": 0.05
+    },
+    "description": "A single scale from one of the first dragons. It is still warm, after all this time."
+  },
+  {
+    "id": "guardians-beard-clasp",
+    "name": "Guardian's Beard Clasp",
+    "slot": "trinket",
+    "level": 96,
+    "price": 27500,
+    "bonus": {
+      "strength": 10,
+      "agility": 10,
+      "arcana": 10,
+      "vigor": 10
+    },
+    "description": "Forged from the iron clasp in Ossarion's beard. He said you could have it. He has a spare."
   }
 ]

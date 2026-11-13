@@ -2179,5 +2179,228 @@
         "wellspring-magic"
       ]
     }
+  },
+  {
+    "id": "starfall-summit",
+    "name": "Starfall Summit",
+    "element": "light",
+    "elements": [
+      "light",
+      "shadow"
+    ],
+    "minLevel": 90,
+    "maxLevel": 100,
+    "gate": null,
+    "unlock": {
+      "level": 90,
+      "afterBoss": "hollow-crown"
+    },
+    "blurb": "The top of the world, above the clouds, where the falling stars land. Something up here has been catching them.",
+    "fights": {
+      "min": 3,
+      "max": 5
+    },
+    "encounters": [
+      {
+        "enemies": [
+          "star-sprite"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "dusk-moth"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "meteor-tortoise"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "nightcap-owl"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "comet-ferret"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "dusk-moth",
+          "dusk-moth"
+        ],
+        "weight": 1,
+        "minLevel": 92
+      },
+      {
+        "enemies": [
+          "star-sprite",
+          "nightcap-owl"
+        ],
+        "weight": 1,
+        "minLevel": 94
+      }
+    ],
+    "levelSpread": 1,
+    "multiEnemyLevelOffset": -3,
+    "boss": {
+      "enemy": "vesperax",
+      "level": 100,
+      "unlockRiderLevel": 99,
+      "trophy": {
+        "gear": "starforged-armor",
+        "chance": 0.25
+      }
+    },
+    "miniBoss": {
+      "enemy": "eclipse-sentinel",
+      "levelOffset": 0,
+      "trophy": {
+        "gear": "starforged-trinket",
+        "chance": 0.25
+      }
+    },
+    "dropChances": {
+      "potion": 0.25,
+      "dragon-treat": 0.15,
+      "mana-tonic": 0.1
+    },
+    "eggDrop": {
+      "element": "light",
+      "chance": 0.1,
+      "elements": [
+        "light",
+        "shadow"
+      ]
+    },
+    "gearDrops": {
+      "chance": 0.06,
+      "gear": [
+        "starforged-melee",
+        "starforged-ranged",
+        "starforged-magic"
+      ]
+    }
+  },
+  {
+    "id": "dragonsrest",
+    "name": "Dragonsrest",
+    "element": "aether",
+    "elements": [
+      "aether",
+      "void",
+      "blight",
+      "steel"
+    ],
+    "minLevel": 90,
+    "maxLevel": 100,
+    "gate": null,
+    "unlock": {
+      "level": 90,
+      "afterBoss": "the-confluence"
+    },
+    "blurb": "A hidden valley where the very first dragons lived. It has been quiet for a thousand years. Its old guardian would like it to stay that way.",
+    "fights": {
+      "min": 3,
+      "max": 5
+    },
+    "encounters": [
+      {
+        "enemies": [
+          "wisp-drake"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "rustback-beetle"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "moldwing-bat"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "hush-fox"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "relic-golem"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "rustback-beetle",
+          "rustback-beetle"
+        ],
+        "weight": 1,
+        "minLevel": 92
+      },
+      {
+        "enemies": [
+          "wisp-drake",
+          "hush-fox"
+        ],
+        "weight": 1,
+        "minLevel": 94
+      }
+    ],
+    "levelSpread": 1,
+    "multiEnemyLevelOffset": -3,
+    "boss": {
+      "enemy": "ossarion",
+      "level": 100,
+      "unlockRiderLevel": 99,
+      "trophy": {
+        "gear": "eldest-armor",
+        "chance": 0.25
+      }
+    },
+    "miniBoss": {
+      "enemy": "mossback-keeper",
+      "levelOffset": 0,
+      "trophy": {
+        "gear": "eldest-trinket",
+        "chance": 0.25
+      }
+    },
+    "dropChances": {
+      "potion": 0.25,
+      "dragon-treat": 0.15,
+      "mana-tonic": 0.1
+    },
+    "eggDrop": {
+      "element": "aether",
+      "chance": 0.1,
+      "elements": [
+        "aether",
+        "void",
+        "blight",
+        "steel"
+      ],
+      "breed": "behemoth"
+    },
+    "gearDrops": {
+      "chance": 0.06,
+      "gear": [
+        "eldest-melee",
+        "eldest-ranged",
+        "eldest-magic"
+      ]
+    }
   }
 ]

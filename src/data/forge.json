@@ -272,6 +272,28 @@
         "crystal": 11,
         "scale": 7
       }
+    },
+    {
+      "gear": "heart-of-the-sky",
+      "forgeLevel": 3,
+      "gold": 14000,
+      "embers": 36,
+      "materials": {
+        "ore": 26,
+        "crystal": 12,
+        "scale": 8
+      }
+    },
+    {
+      "gear": "guardians-beard-clasp",
+      "forgeLevel": 3,
+      "gold": 14000,
+      "embers": 36,
+      "materials": {
+        "ore": 26,
+        "crystal": 12,
+        "scale": 8
+      }
     }
   ]
 }

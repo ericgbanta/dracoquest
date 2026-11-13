@@ -601,5 +601,63 @@
         }
       }
     ]
+  },
+  {
+    "id": "starforged",
+    "name": "Starforged",
+    "zone": "starfall-summit",
+    "description": "Gear forged from fallen stars. A full set makes every blow land like a meteor.",
+    "pieces": [
+      "starforged-melee",
+      "starforged-ranged",
+      "starforged-magic",
+      "starforged-armor",
+      "starforged-trinket"
+    ],
+    "bonuses": [
+      {
+        "pieces": 2,
+        "bonus": {
+          "agility": 8,
+          "arcana": 8
+        }
+      },
+      {
+        "pieces": 3,
+        "bonus": {
+          "riderDamagePct": 0.09,
+          "riderHp": 120
+        }
+      }
+    ]
+  },
+  {
+    "id": "eldest",
+    "name": "Eldest",
+    "zone": "dragonsrest",
+    "description": "Gear left behind by the first dragon keepers. A full set lets you stand your ground against anything.",
+    "pieces": [
+      "eldest-melee",
+      "eldest-ranged",
+      "eldest-magic",
+      "eldest-armor",
+      "eldest-trinket"
+    ],
+    "bonuses": [
+      {
+        "pieces": 2,
+        "bonus": {
+          "strength": 8,
+          "vigor": 8
+        }
+      },
+      {
+        "pieces": 3,
+        "bonus": {
+          "riderDefense": 9,
+          "healPct": 0.07
+        }
+      }
+    ]
   }
 ]

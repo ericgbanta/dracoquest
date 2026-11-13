@@ -3,7 +3,7 @@ writer made reusable. An area file (area_gen_70s.py, area_gen_80s.py) lists AREA
 
 Each area dict needs: id, name, region, elements, lo, hi, after, blurb, npc, set, enemies, gear, tier, story, bounty,
 place, analog (7 enemy ids whose base and perLevel stats are copied), and optionally shopEl (the shop line's element,
-default the first element). An enemy element written 'fire+tide' makes a hybrid enemy (element and element2).
+default the first element), eggElements, eggHybrids and eggBreed (the boss's egg drop). An enemy element written 'fire+tide' makes a hybrid enemy (element and element2).
 Run from the repo root. Rerunning replaces the same ids, which resets tuned stats to the analog's."""
 import json, copy
 D = 'src/data/'
@@ -49,7 +49,7 @@ def write(AREAS, zone_tail, regions_fn, cap, spells):
           "boss": {"enemy": ids[6], "level": hi, "unlockRiderLevel": hi - 1, "trophy": {"gear": f"{sid}-armor", "chance": 0.25}},
           "miniBoss": {"enemy": ids[5], "levelOffset": 0, "trophy": {"gear": f"{sid}-trinket", "chance": 0.25}},
           "dropChances": {"potion": 0.25, "dragon-treat": 0.15, "mana-tonic": 0.1},
-          "eggDrop": {"element": egg_els[0], "chance": 0.1, "elements": egg_els, **({"hybrids": A_['eggHybrids']} if A_.get('eggHybrids') else {})},
+          "eggDrop": {"element": egg_els[0], "chance": 0.1, "elements": egg_els, **({"hybrids": A_['eggHybrids']} if A_.get('eggHybrids') else {}), **({"breed": A_['eggBreed']} if A_.get('eggBreed') else {})},
           "gearDrops": {"chance": 0.06, "gear": [f"{sid}-melee", f"{sid}-ranged", f"{sid}-magic"]}})
         # gear: set weapons at tier-1, shop tier at `tier`, every number grows by tier band (k = 0 for 53, 1 for 63, ...)
         t = A_['tier']; G = A_['gear']; el = A_.get('shopEl', A_['elements'][0])
@@ -93,7 +93,11 @@ def write(AREAS, zone_tail, regions_fn, cap, spells):
                 out_steps.append(stp)
             entry = {"id": qid, "zone": z, "name": qname, "minLevel": step_levels[qi][0]}
             if prev: entry['requires'] = prev
-            entry.update(description=desc, steps=out_steps, outro=[{"speaker": "npc", "text": outro, "name": npc}], reward=reward)
+            # An outro is one line from the area's NPC, or a list of lines: a string is the NPC, (speaker name, text) another
+            # speaker, and (None, text) the narrator.
+            lines_out = [outro] if isinstance(outro, str) else outro
+            outro_lines = [{"speaker": "npc", "text": l, "name": npc} if isinstance(l, str) else {"speaker": "narrator", "text": l[1]} if l[0] is None else {"speaker": "npc", "text": l[1], "name": l[0]} for l in lines_out]
+            entry.update(description=desc, steps=out_steps, outro=outro_lines, reward=reward)
             if choice:
                 prompt, (a1, l1, t1, r1, m1), (a2, l2, t2, r2, m2) = choice
                 entry['choice'] = {"prompt": prompt, "options": [

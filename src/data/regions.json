@@ -123,7 +123,8 @@
         "sunken-spires",
         "emberwild",
         "skyreach-isles",
-        "hollow-crown"
+        "hollow-crown",
+        "starfall-summit"
       ],
       "map": {
         "art": "map-beyond",
@@ -143,6 +144,10 @@
           "hollow-crown": [
             0.25,
             0.31
+          ],
+          "starfall-summit": [
+            0.66,
+            0.15
           ]
         }
       }
@@ -155,7 +160,8 @@
       "zones": [
         "steelspine-range",
         "twilight-rift",
-        "the-confluence"
+        "the-confluence",
+        "dragonsrest"
       ],
       "map": {
         "art": "map-elder-wilds",
@@ -171,45 +177,14 @@
           "the-confluence": [
             0.29,
             0.43
+          ],
+          "dragonsrest": [
+            0.62,
+            0.17
           ]
         }
       }
     }
   ],
-  "upcoming": [
-    {
-      "name": "Starfall Summit",
-      "region": "beyond",
-      "minLevel": 90,
-      "maxLevel": 100,
-      "gate": "hollow-crown",
-      "elements": [
-        "light",
-        "shadow"
-      ],
-      "blurb": "Where the stars land. The final climb.",
-      "pin": [
-        0.66,
-        0.15
-      ]
-    },
-    {
-      "name": "Dragonsrest",
-      "region": "elder-wilds",
-      "minLevel": 90,
-      "maxLevel": 100,
-      "gate": "the-confluence",
-      "elements": [
-        "aether",
-        "void",
-        "blight",
-        "steel"
-      ],
-      "blurb": "The home of the first dragons.",
-      "pin": [
-        0.62,
-        0.17
-      ]
-    }
-  ]
+  "upcoming": []
 }

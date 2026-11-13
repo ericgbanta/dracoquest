@@ -340,6 +340,8 @@ describe('the Behemoth', () => {
     expect(riderHits).toBe(0);
     expect(braced).toBeGreaterThan(5);
     expect(unbracedRiderHits).toBeGreaterThan(0);
+    expect(data.zones.find((z) => z.id === 'dragonsrest')!.eggDrop!.breed).toBe('behemoth');
+    expect(eggName(data, { ...plainEgg('steel'), breed: 'behemoth' })).toBe('Behemoth Iron Egg');
   });
 });
 

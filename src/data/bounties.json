@@ -1567,6 +1567,202 @@
         },
         "enemy": "coral-colossus"
       }
+    ],
+    "starfall-summit": [
+      {
+        "id": "sprite-catch",
+        "kind": "defeat",
+        "count": 5,
+        "text": "Catch 5 Star Sprites",
+        "reward": {
+          "gold": 2360,
+          "materials": {
+            "ore": 3
+          }
+        },
+        "enemy": "star-sprite"
+      },
+      {
+        "id": "moth-dust",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Dust off 4 Dusk Moths",
+        "reward": {
+          "gold": 2340,
+          "embers": 1
+        },
+        "enemy": "dusk-moth"
+      },
+      {
+        "id": "tortoise-meteors",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Weigh the meteors on 4 Meteor Tortoises",
+        "reward": {
+          "gold": 2360,
+          "materials": {
+            "ore": 3
+          }
+        },
+        "enemy": "meteor-tortoise"
+      },
+      {
+        "id": "owl-count",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Help 3 Nightcap Owls finish counting",
+        "reward": {
+          "gold": 2340,
+          "embers": 1
+        },
+        "enemy": "nightcap-owl"
+      },
+      {
+        "id": "ferret-loot",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Get back what 3 Comet Ferrets stole",
+        "reward": {
+          "gold": 2360,
+          "materials": {
+            "ore": 3
+          }
+        },
+        "enemy": "comet-ferret"
+      },
+      {
+        "id": "starfall-wins",
+        "kind": "wins",
+        "count": 6,
+        "text": "Win 6 fights in Starfall Summit",
+        "reward": {
+          "gold": 2500,
+          "materials": {
+            "ore": 4
+          }
+        }
+      },
+      {
+        "id": "starfall-clear",
+        "kind": "clear",
+        "count": 2,
+        "text": "Finish 2 runs in Starfall Summit",
+        "reward": {
+          "gold": 2660,
+          "embers": 3
+        }
+      },
+      {
+        "id": "eclipse-sentinel-hunt",
+        "kind": "defeat",
+        "count": 1,
+        "text": "Defeat the Eclipse Sentinel",
+        "reward": {
+          "gold": 2500,
+          "materials": {
+            "scale": 1
+          }
+        },
+        "enemy": "eclipse-sentinel"
+      }
+    ],
+    "dragonsrest": [
+      {
+        "id": "wisp-play",
+        "kind": "defeat",
+        "count": 5,
+        "text": "Play tag with 5 Wisp Drakes",
+        "reward": {
+          "gold": 2360,
+          "materials": {
+            "ore": 3
+          }
+        },
+        "enemy": "wisp-drake"
+      },
+      {
+        "id": "beetle-polish",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Polish 4 Rustback Beetles",
+        "reward": {
+          "gold": 2340,
+          "embers": 1
+        },
+        "enemy": "rustback-beetle"
+      },
+      {
+        "id": "bat-trim",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Trim the mushrooms off 4 Moldwing Bats",
+        "reward": {
+          "gold": 2360,
+          "materials": {
+            "ore": 3
+          }
+        },
+        "enemy": "moldwing-bat"
+      },
+      {
+        "id": "fox-noise",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Make 3 Hush Foxes jump",
+        "reward": {
+          "gold": 2340,
+          "embers": 1
+        },
+        "enemy": "hush-fox"
+      },
+      {
+        "id": "golem-rest",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Give 3 Relic Golems a rest",
+        "reward": {
+          "gold": 2360,
+          "materials": {
+            "ore": 3
+          }
+        },
+        "enemy": "relic-golem"
+      },
+      {
+        "id": "dragonsrest-wins",
+        "kind": "wins",
+        "count": 6,
+        "text": "Win 6 fights in Dragonsrest",
+        "reward": {
+          "gold": 2500,
+          "materials": {
+            "ore": 4
+          }
+        }
+      },
+      {
+        "id": "dragonsrest-clear",
+        "kind": "clear",
+        "count": 2,
+        "text": "Finish 2 runs in Dragonsrest",
+        "reward": {
+          "gold": 2660,
+          "embers": 3
+        }
+      },
+      {
+        "id": "mossback-keeper-hunt",
+        "kind": "defeat",
+        "count": 1,
+        "text": "Defeat the Mossback Keeper",
+        "reward": {
+          "gold": 2500,
+          "materials": {
+            "scale": 1
+          }
+        },
+        "enemy": "mossback-keeper"
+      }
     ]
   }
 }
