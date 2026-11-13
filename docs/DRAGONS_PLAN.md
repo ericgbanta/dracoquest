@@ -1,6 +1,6 @@
 # More elements and dragons: plan
 
-Written 2026-11-13 at Eric's request. Status: approved 2026-11-13. Chunks 1, 2 and 3 (E0 to E5) built the same day; chunk 4 is next. A breed's four stages fit on one sheet, so each breed costs 2 generations, not 8. Eric's answers are in "What Eric asked for" and "Eric's answers" at the end.
+Written 2026-11-13 at Eric's request. Status: approved 2026-11-13. Chunks 1 to 4 (E0 to E5, W5 and E8) built and deployed the same day; chunk 5 is next. A breed's four stages fit on one sheet, so each breed costs 2 generations, not 8. Eric's answers are in "What Eric asked for" and "Eric's answers" at the end.
 
 This plan runs alongside `docs/WORLD_PLAN.md`. W5 to W9 (the frontier areas that raise the cap to 100) stay as planned. The new areas here are extra places to go, on new maps, from level 30 to 100.
 

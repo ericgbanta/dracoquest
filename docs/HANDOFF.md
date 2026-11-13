@@ -1,6 +1,6 @@
 # Handoff
 
-Last updated 2026-11-13 (dragons plan chunks 1 and 2; see History). Before that, 2026-11-12, at the end of a long session that added save slots, rider spells, two gear waves, the Forge, phases W0 to W4 of the world expansion, and a less-scrolling UI pass. Everything below is merged to `main` and live at https://ericgbanta.github.io/dracoquest/ (last deploy `b9a9355`, W4 Gilded Wastes). The working branch for that session was `claude/eager-tesla-uvrdjs`; a new session should start from `main` and use its own branch.
+Last updated 2026-11-13 (dragons plan chunks 1 to 4; see History). Before that, 2026-11-12, at the end of a long session that added save slots, rider spells, two gear waves, the Forge, phases W0 to W4 of the world expansion, and a less-scrolling UI pass. Everything below is merged to `main` and live at https://ericgbanta.github.io/dracoquest/ (last deploy `b9a9355`, W4 Gilded Wastes). The working branch for that session was `claude/eager-tesla-uvrdjs`; a new session should start from `main` and use its own branch.
 
 A ready-to-paste prompt for a new session is in `docs/NEXT_PROMPT.md`.
 
@@ -50,47 +50,33 @@ Each row was built, tested, committed and deployed in this order. The Decisions 
 | Work | What it added | How it came about |
 | --- | --- | --- |
 | Dragons plan | `docs/DRAGONS_PLAN.md`: four new elements, three new breeds, breeding, hybrids, a bigger roster, rare finishes and two new maps for levels 30 to 100, phases E0 to E12 in chunks | Eric asked for "a planning session on what it would take to add more elements and dragons" and answered every question, names included |
+| Chunk 4 (W5, E8) | Sunken Spires (50 to 60, Tide and Storm), the level cap to 60, a level 53 gear tier, the Tempest spell, and a third battle partner from rider level 60 (save v11). 5 Codex generations | Eric: "work on chunk 4 and deploy it after it's tested" |
 | Chunk 3 (E2, E4, E5) | Aether and Void (Silence and Hollow), the Hidden Reach map, Starglass Hollow (30 to 40) and Voidmarch (40 to 50) with stories, bounties, sets and shop lines, the Comet Shard and Void Spike spells, breeds with the Wyvern and the Wyrm. 17 Codex generations, all usable first try | Eric: "let's try chunk 3, but be wary that usage in Codex might run out" |
 | Chunks 1 and 2 (E0, E1, E3) | Save v10 (eggs as objects; dragons with a breed, a second element, a finish and a breeding cooldown), status effects read from data, the Nest to 10, eggs returned to the wild for embers, four rare finishes, the Nesting Grounds, hybrids with 27 names for today's elements | Eric: "let's do both chunk 1 and 2 together" |
 
 ## Where things stand now
 
-- **Level cap 50.** 11 zones: the 7 main ones and 4 side areas, grouped on the Map into "The Wilds" (1 to 20), "The High Lands" (20 to 50) and "Beyond the Peak" (50 to 100, empty except for a teaser for Sunken Spires).
+- **Level cap 60** (dragons stop at 50). 14 zones: the 7 main ones, 4 side areas, Starglass Hollow and Voidmarch on the Hidden Reach (30 to 60), and Sunken Spires on Beyond the Peak (50 to 60), grouped on the Map into "The Wilds", "The High Lands", "The Hidden Reach" and "Beyond the Peak". A third dragon joins battles at rider level 60.
 - **Three kinds of adventure per zone:** a hunt (the zone run), a story (28 quests across 6 zones), and daily bounties (6 zones).
 - **Rider:** 12 spells, a loadout of 4, gear in 3 slots with 11 sets, the Forge.
 - **Dragons:** up to 10 at the Roost, two in battle from rider level 25, four life stages, talents, gear for Adults, temperament. Two grown dragons can breed at the Nesting Grounds; eggs can be hybrids (two elements) and about 1 in 50 has a rare finish.
-- **Saves:** version 10, up to 3 slots per device, export and import codes.
-- **Tests:** 236 unit tests and 82 phone tests pass. The sim shows every zone averaging 70 to 85 percent on level across the three starters.
+- **Saves:** version 11, up to 3 slots per device, export and import codes.
+- **Tests:** 241 unit tests and 85 phone tests pass. The sim shows every zone averaging 70 to 85 percent on level across the three starters.
 
 ## What to work on next
 
-### The dragons plan (`docs/DRAGONS_PLAN.md`)
+### The dragons plan (`docs/DRAGONS_PLAN.md`) and the frontier
 
-Chunks 1 to 3 are built. Next is chunk 4: W5 below plus the third dragon in battle from rider level 60 (E8, with a layout mockup for Eric first). Then chunk 5, the ring growing to 8 with Blight and Steel (E6) and Rotroot Thicket (E7). A breed's four stages fit on one sheet, so a breed costs 2 Codex generations (Behemoth, E12).
+Chunks 1 to 4 are built and live (chunk 4 was W5 plus the third dragon). Next is **chunk 5**: the ring grows to 8 with Blight and Steel (E6, no art, rebalances every zone those elements touch) and Rotroot Thicket (E7, levels 50 to 60 on the Hidden Reach, 5 generations). Then **chunks 6 to 9**, one level band each: W6 Emberwild with E9 The Steelspine Range and the Elder Wilds map, W7 Skyreach Isles with E10 Twilight Rift, W8 Hollow Crown with E11 The Confluence, W9 Starfall Summit with E12 Dragonsrest and the Behemoth. Each W phase raises the cap by 10.
 
-### W5: Sunken Spires and the level cap to 60
+Lessons from W5 for every band above 50:
 
-This is the first frontier area, and the first phase that goes past level 50, so it is bigger than W1 to W4. Eric's standing choices: **dragons stay capped at 50** while the rider keeps leveling; areas unlock at a level after a named boss; story choices are small (reward and temperament only); about 10 levels per area.
+- **Dragons stop at 50, so enemies must grow slowly past 50.** With the usual growth, on-level win rates fell from about 76 to 25 to 46 percent across 50 to 58. Sunken Spires keeps each enemy's stats at level 50 as they were and grows them a quarter as fast after (`base` raised and `perLevel` cut to 0.25 for hp, attack, power, defense, swift and dodge; done with a small script in the session, easy to redo by hand). Expect the same for W6 to W9 and the E areas above 50.
+- **The sim doesn't play partner dragons.** `autoOrders` in `ai.ts` never orders the second (or third) dragon, so the sim's characters fight with one dragon from level 25 up. That was already true before; it means real players are somewhat stronger than the sim says from 25 on. Fixing it would change every zone's numbers from 25 up, so it was left alone and flagged to Eric.
+- XP past 50 needed no change: about 21 fights per level in the sim.
 
-The area itself follows the same recipe as W1 to W4 (see "How to add an area" below): levels 50 to 60, Tide and Storm, opening at rider level 50 after the Eclipse Dragon (`unlock: { level: 50, afterBoss: 'eclipse-peak' }`), in the `beyond` region. Remove it from `regions.json` `upcoming` and add the next teaser (Emberwild, 60 to 70, Fire and Verdant, after the Sunken Spires boss).
+### After that
 
-Raising the cap touches more than data:
-
-- `progression.json` `levelCap` 50 to 60. `src/core/progression.ts` already caps dragons at their stage's `maxLevel` (Elder is 50), so dragons stop at 50 with no code change. Check that the XP bar and the results screen behave for a dragon at its cap while the rider levels.
-- XP and gold past 50: `xpToNext` is `50 x level^1.6`, and enemy XP is `enemyXpBase x level^1.326`, so fights per level keep climbing slowly (about 22 at level 49). Aim for about 20 to 22 at levels 50 to 60 and check `Fights/level` in the sim.
-- Gear past the top shop tier (weapons stop at 43 and 45, armor at 42). Add a tier around 52 to 55 for each slot and weapon type, plus the area's set.
-- Spells: the newest is Radiant Lance at 42. Consider one stronger spell around 52 to 55, so the rider grows while the dragon doesn't.
-- Talents: dragons get their last talent point at 50. Nothing to do unless Eric wants more.
-- **Dragons at 50 against level 60 enemies** is the main balance risk. The sim's on-level table builds dragons at the character's level; for levels over 50 it must cap the dragon at 50 (check `onLevelCharacter` in `tests/sim.ts`). If dragons fall too far behind, the planned fix is letting the Forge upgrade dragon gear (`dragonBonus` would need the rider's upgrade map).
-- Tests that assume 50: `tests/data.test.ts` (`levelCap` is 50), `tests/phase4.test.ts` (the last zone's `maxLevel` equals the cap), `tests/progression.test.ts`. The sim's campaign ends at the cap and the last zone's boss, so it will now run to 60 and the Sunken Spires boss.
-- Art: 5 Codex generations (copy `tools/art/painted/jobs7.py` to `jobs9.py`, since `jobs8.py` made the region maps, and add the area to `tools/art/painted/zones.json`).
-- Map: Sunken Spires is already painted on the Beyond the Peak map. Move its pin from `upcoming[0].pin` into the `beyond` region's `map.pins`, and give the next teaser (Emberwild) its planned pin (listed in the `regions.json` note). No new map art.
-
-Done when: a level 50 character who has beaten the Eclipse Dragon can unlock Sunken Spires, play its story to the boss and reach level 60; the sim shows 70 to 85 percent on level for all three starters; the campaign reaches 60; tests, lint, types and phone tests pass.
-
-### After W5
-
-- **W6 to W9**, one frontier area each, raising the cap to 70, 80, 90 and 100: Emberwild (Fire, Verdant), Skyreach Isles (Storm, Light), Hollow Crown (Stone, Shadow), Starfall Summit (Light, Shadow; a final boss and a closing story). Names and themes are working names; Eric never answered whether he wants to rename them, so ask.
 - **No-art extras, any time:** story chains for Cinder Pass, Thunderspire, Frostmere, Deepstone Mines and Eclipse Peak (they have no story yet), and bounty pools for those five zones.
 
 ### Open questions for Eric
@@ -216,13 +202,15 @@ Calls made while building, shown to Eric in the report:
 | The Hidden Reach | A fourth Map region between the High Lands and Beyond the Peak (levels 30 to 60). Starglass Hollow opens at 30 after the Storm Roc, Voidmarch at 40 after the Starwarden; Rotroot Thicket is the teaser. The Map now opens on the last region with an open area at the rider's level (so a level 45 rider still lands on the High Lands), and each region shows its own first teaser. |
 | Breeds | `dragons.json` `breeds`: a stat lean added at hatching, an optional always-on `bonus`, and a signature skill shaped like a talent in a hidden 'breed' tree (always known, survives respecs, can't be learned). Wyvern: +2 Swift, -1 Scale, Rake (two slashes). Wyrm: +2 Spirit, -1 Might, +3 breath a round, Coil (damage that roots). Starglass Hollow's boss drops Wyvern eggs, Voidmarch's Wyrm eggs (`eggDrop.breed`); breeding passes a parent's breed on. Art: rigs `wyvern.<stage>` and `wyrm.<stage>`, falling back to `dragon.<stage>` (`loadDragonRig`). |
 | Breed art | All four life stages on one sheet and the attack poses on a second (2 generations a breed instead of 8). `pack.py` splits them (`<breed>-stages`), pads for the tail tip, and `POSE_SCALE` fixes young stages drawn bigger in their pose. Tail tip spots were found from the images: the topmost point of the tail for the Wyvern, the leftmost for the Wyrm (its tip turned -75 degrees). |
+| Sunken Spires (W5) | Tide and Storm, opens at 50 after the Eclipse Dragon. Enemies from Eclipse Peak's stats, then grown a quarter as fast past 50 (see "Lessons from W5"). Pairs fight 3 levels lower. Tidecaller set, a level 53 shop tier (a weapon per type in Tide and Storm, armor, trinket), the Leviathan Crest Forge piece, the Tempest spell (Storm, 53, may Shock). 75, 71 and 85 percent on level. |
+| Third partner (E8) | From rider level 60 (`thirdPartnerRiderLevel`). Save v11 adds `thirdDragonId`. Battle: `third` like `second` (id `dragon3`, own breath, skills, cooldowns, order row `act3-*`, skill sheet `skill3`); enemies can target it; it shares XP and bond. No duo combos with it. Setting a partner into another's seat swaps them. Stage layouts `trio` and `rideTrio` in `stage.json`: the two back plates sit side by side, and `.battle--trio` makes the stage 16:9.5 and the log shorter so three order rows fit at 375 x 667. Eric approved building it without the planned mockup ("work on chunk 4 and deploy it after it's tested"). |
 | Status effects | `battle.ts` reads effect fields (`noDodge`, `amplify`, `taunts`, multipliers and bonuses) instead of status ids. Soak's Storm bonus is `amplify: { element: 'storm', multiplier: 1.3 }`. Results with fixed seeds didn't change. |
 
 ### Saves and settings
 
 | Topic | Decision |
 | --- | --- |
-| Save version | 10. v6 added `settings.simpleBattle`, v7 `rider.spells`, v8 the Forge, v9 `storyChoices` and `bounties`, v10 egg objects, dragon `breed`, `element2`, `variant` and `lastBredAt`, and the Nesting Grounds (`roost.levels.nesting`, `roost.nesting`). Each bump has a migration and a fixture test (`tests/fixtures/save-v1.json` to `save-v9.json`). |
+| Save version | 11. v6 added `settings.simpleBattle`, v7 `rider.spells`, v8 the Forge, v9 `storyChoices` and `bounties`, v10 egg objects, dragon `breed`, `element2`, `variant` and `lastBredAt`, and the Nesting Grounds (`roost.levels.nesting`, `roost.nesting`), v11 `thirdDragonId`. Each bump has a migration and a fixture test (`tests/fixtures/save-v1.json` to `save-v10.json`). |
 | Save slots | Up to 3 per device (Eric's request). Slot 1 is the original `dracoquest.save` key so old saves stay put; slots 2 and 3 are `dracoquest.save.2` and `.3`; `dracoquest.slot` holds the slot in play. Not part of the save object, so no version bump. Settings has the list; export, import and Start over act on the slot in play. |
 | Simple battle | A setting that brings back the old card layout instead of the stage. |
 
@@ -267,10 +255,10 @@ src/ui/        Preact screens and pieces
   useSave.ts storage.ts  save slots and storage
   Sprites.tsx Icon.tsx Wallet.tsx art.ts bits.tsx (formatBonus, rewardText) styles.css skin.css pwa.ts sound.ts install.ts router.ts
 src/art/       painted/ (characters, attack poses, backdrops, effects, tail tips), eggs/, icons/, assets.json (the art manifest)
-tests/         Vitest unit tests (236), sim.ts (the balance simulator), save fixtures v1 to v9
-e2e/           Playwright phone tests (82), fixtures/ (built by make-fixtures.ts), specs per feature
+tests/         Vitest unit tests (241), sim.ts (the balance simulator), save fixtures v1 to v10
+e2e/           Playwright phone tests (85), fixtures/ (built by make-fixtures.ts), specs per feature
                (slots, spells, gear, forge, world, ui, stage, perf, smoke, phase2 to 4), helpers.ts (openFold, tab)
-tools/art/painted/  style.txt and anchor.png (the style), jobs.py to jobs11.py (one per batch; jobs8 is the region maps, jobs9 the new element tips and breath plus Starglass Hollow and the Hidden Reach map, jobs10 the Wyvern, jobs11 Voidmarch and the Wyrm), run.sh, pack.py,
+tools/art/painted/  style.txt and anchor.png (the style), jobs.py to jobs12.py (one per batch; jobs8 is the region maps, jobs9 the new element tips and breath plus Starglass Hollow and the Hidden Reach map, jobs10 the Wyvern, jobs11 Voidmarch and the Wyrm, jobs12 Sunken Spires), run.sh, pack.py,
                     fix_green.py, zones.json (which sheet holds which enemies), prompts/ (every prompt that was run)
 docs/          HANDOFF.md, NEXT_PROMPT.md, WORLD_PLAN.md, UI_PLAN.md, ART_GENERATION.md, ART_STYLE.md, DESIGN.md, GRAPHICS_PLAN.md, GRAPHICS_PLAN_2.md
 ```
@@ -280,9 +268,9 @@ docs/          HANDOFF.md, NEXT_PROMPT.md, WORLD_PLAN.md, UI_PLAN.md, ART_GENERA
 | Command | What it does |
 | --- | --- |
 | `npm run dev` | Local dev server |
-| `npm run test` | Unit tests (236) |
+| `npm run test` | Unit tests (241) |
 | `npx tsc --noEmit` and `npm run lint` | Type check and lint. Lint blocks `Math.random`, browser globals in `src/core`, and `any`. |
-| `npm run e2e` | Phone tests at 375 by 667 (82), about 2 minutes. Builds the site first. |
+| `npm run e2e` | Phone tests at 375 by 667 (85), about 2 minutes. Builds the site first. |
 | `npm run sim` | Balance sim: 1,000 runs per zone and level, then 100 campaigns per starter from egg to the cap. Flags: `--zone <id>`, `--no-campaign`, `--campaign-only`, `--runs`, `--campaigns`. The full run takes about 4 minutes; one zone about 1 minute. |
 | `npx tsx e2e/make-fixtures.ts` | Rebuilds the saves the phone tests load (needed after every save version bump) |
 | `npm run deploy` | Tests, lint and build, then pushes the current branch to `main`, which publishes. Only when Eric asks. |
@@ -293,7 +281,7 @@ docs/          HANDOFF.md, NEXT_PROMPT.md, WORLD_PLAN.md, UI_PLAN.md, ART_GENERA
 - First load: about 110 kB of JavaScript gzipped. The service worker precaches about 1.8 MB; zone art (about 4 MB and growing by about 450 KB per area) is cached on first view.
 - Stage: about 51 DOM nodes one on one, 69 at two dragons against two enemies (budget 100). The perf test (5 percent dropped frames at 4x CPU throttle) is noisy in the sandbox; run it a few times before blaming a change.
 - Campaign in the sim: about 737 fights from egg to level 50, roughly 25 hours at 2 minutes a fight. It finishes all 28 story quests and claims about 30 bounties.
-- Content: 13 zones (7 main, 4 side areas, 2 Hidden Reach areas), 91 enemies (65 regular, 13 mini-bosses, 13 bosses), 213 gear pieces (132 in the shop, 65 in 13 sets, 10 Forge recipes, plus starter and festival pieces), 14 rider spells, 38 story quests, 8 bounty pools, 10 elements, 3 breeds, 3 Forge materials, 40 talents, 3 growth quests, 6 expedition trips, 4 events.
+- Content: 14 zones (7 main, 4 side areas, 2 Hidden Reach areas, 1 frontier area), 98 enemies (70 regular, 14 mini-bosses, 14 bosses), 227 gear pieces (140 in the shop, 70 in 14 sets, 11 Forge recipes, plus starter and festival pieces), 15 rider spells, 43 story quests, 9 bounty pools, 10 elements, 3 breeds, 3 Forge materials, 40 talents, 3 growth quests, 6 expedition trips, 4 events.
 
 ## Gotchas
 
