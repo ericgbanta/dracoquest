@@ -257,7 +257,9 @@ export interface CombatData {
 export interface StatusData {
   name: string; icon: string; short: string; duration: number; kind: 'buff' | 'debuff'; description: string;
   dotFraction?: number; initiativeMultiplier?: number; noDodge?: boolean; defenseMultiplier?: number;
-  damageTakenMultiplier?: number; skipChance?: number; stormDamageMultiplier?: number; accuracyPenalty?: number;
+  damageTakenMultiplier?: number; skipChance?: number; accuracyPenalty?: number;
+  /** Hits of this element deal more to the bearer (Soak: Storm). */
+  amplify?: { element: ElementId; multiplier: number }; taunts?: boolean;
   shieldFraction?: number; damageMultiplier?: number; defenseBonus?: number; dodgeBonus?: number;
 }
 

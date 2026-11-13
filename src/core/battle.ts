@@ -259,6 +259,32 @@ export function createBattle(data: GameData, setup: BattleSetup): BattleState {
 
 const alive = (f: Fighter | null | undefined): f is Fighter => !!f && f.hp > 0;
 const has = (f: Fighter, id: StatusId) => f.statuses.some((s) => s.id === id);
+
+type StatusNumber = 'initiativeMultiplier' | 'defenseMultiplier' | 'damageTakenMultiplier' | 'skipChance'
+  | 'accuracyPenalty' | 'damageMultiplier' | 'defenseBonus' | 'dodgeBonus';
+/** Statuses act through their effect fields in statuses.json, not their ids, so a new status can be data only. */
+const statusData = (data: GameData, f: Fighter) => f.statuses.map((s) => data.statuses[s.id]);
+/** The product of a multiplier field over a fighter's statuses (1 when none has it). */
+function statusProduct(data: GameData, f: Fighter, key: StatusNumber): number {
+  let m = 1;
+  for (const sd of statusData(data, f)) if (sd[key] !== undefined) m *= sd[key];
+  return m;
+}
+/** The sum of a bonus field over a fighter's statuses. */
+function statusSum(data: GameData, f: Fighter, key: StatusNumber): number {
+  let n = 0;
+  for (const sd of statusData(data, f)) n += sd[key] ?? 0;
+  return n;
+}
+function statusFlag(data: GameData, f: Fighter, key: 'noDodge' | 'taunts'): boolean {
+  return statusData(data, f).some((sd) => sd[key] === true);
+}
+/** The chance a status makes the fighter lose its turn, combining every status that can. */
+function skipChanceOf(data: GameData, f: Fighter): number {
+  const chances = statusData(data, f).flatMap((sd) => (sd.skipChance ? [sd.skipChance] : []));
+  if (chances.length <= 1) return chances[0] ?? 0;
+  return 1 - chances.reduce((keep, p) => keep * (1 - p), 1);
+}
 const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
 
 export function livingEnemies(state: BattleState): Fighter[] {
@@ -420,37 +446,35 @@ export function damageFormula(c: GameData['combat'], d: DamageInputs): number {
 function strike(ctx: RoundCtx, attacker: Fighter, target: Fighter, spec: AttackSpec): number {
   const { data, rng, events } = ctx;
   const c = data.combat;
-  const st = data.statuses;
 
   let dodge = target.dodge;
-  if (has(target, 'root')) dodge = 0;
-  if (has(target, 'fade')) dodge += st.fade.dodgeBonus ?? 0;
+  if (statusFlag(data, target, 'noDodge')) dodge = 0;
+  dodge += statusSum(data, target, 'dodgeBonus');
   let hitChance = clamp(c.hit.base + (attacker.accuracy - dodge) * c.hit.perPoint, c.hit.min, c.hit.max);
-  if (has(attacker, 'blind')) hitChance -= st.blind.accuracyPenalty ?? 0;
+  hitChance -= statusSum(data, attacker, 'accuracyPenalty');
   if (!rng.chance(hitChance)) {
     events.push({ t: 'miss', actor: attacker.id, target: target.id, text: `${attacker.name}'s ${spec.label} misses ${target.name}.` });
     return 0;
   }
 
   let mult = elementMultiplier(data.elements, spec.element, target.element, target.resist);
-  if (spec.element === 'storm' && has(target, 'soak')) mult *= st.soak.stormDamageMultiplier ?? 1;
+  for (const sd of statusData(data, target)) if (sd.amplify && sd.amplify.element === spec.element) mult *= sd.amplify.multiplier;
   if (spec.strongBonus && mult > data.elements.multipliers.neutral) mult *= 1 + spec.strongBonus;
   const crit = rng.chance(attacker.critChance);
   const levelScale = attacker.kind === 'enemy' ? 1 : 1 + c.levelDamageScale * (attacker.level - 1);
   let base = spec.base * levelScale * (spec.damageMultiplier ?? 1);
-  if (has(attacker, 'fury')) base *= st.fury.damageMultiplier ?? 1;
+  base *= statusProduct(data, attacker, 'damageMultiplier');
   let defense = target.defense;
-  if (has(target, 'crack')) defense *= st.crack.defenseMultiplier ?? 1;
-  if (has(target, 'harden')) defense += st.harden.defenseBonus ?? 0;
-  let takenMult = 1;
-  if (has(target, 'crack')) takenMult *= st.crack.damageTakenMultiplier ?? 1;
+  defense *= statusProduct(data, target, 'defenseMultiplier');
+  defense += statusSum(data, target, 'defenseBonus');
+  let takenMult = statusProduct(data, target, 'damageTakenMultiplier');
   if (target.kind === 'rider' && ctx.riderDefending) takenMult *= c.defend.damageTakenMultiplier;
   let dmg = damageFormula(c, {
     base, stat: spec.stat, element: mult, crit, roll: rng.float(c.damageRandMin, c.damageRandMax), defense,
   }) * takenMult;
   dmg = Math.max(c.minDamage, Math.round(dmg));
 
-  const ward = target.statuses.find((s) => s.id === 'ward' && (s.shield ?? 0) > 0);
+  const ward = target.statuses.find((s) => data.statuses[s.id].shieldFraction && (s.shield ?? 0) > 0);
   let absorbed = 0;
   if (ward) {
     absorbed = Math.min(ward.shield!, dmg);
@@ -814,7 +838,7 @@ function enemyAct(ctx: RoundCtx, enemy: Fighter): void {
     case 'big': {
       // Targets: the rider and every awake dragon, equally. A taunting dragon draws every attack.
       const dragons = [state.dragon, state.second?.fighter].filter(alive);
-      const taunting = dragons.find((d) => has(d, 'taunt'));
+      const taunting = dragons.find((d) => statusFlag(data, d, 'taunts'));
       let target: Fighter = taunting ?? rng.pick([state.rider, ...dragons]);
       let guardMult = 1;
       const guard = ctx.guardian;
@@ -883,7 +907,7 @@ export function resolveRound(data: GameData, prev: BattleState, orders: Orders):
   };
 
   const initiative = (f: Fighter) =>
-    f.swift * (has(f, 'chill') ? data.statuses.chill.initiativeMultiplier ?? 1 : 1) + rng.float(0, c.initiativeRandom);
+    f.swift * statusProduct(data, f, 'initiativeMultiplier') + rng.float(0, c.initiativeRandom);
 
   type Turn = { who: Fighter; init: number; run: () => void };
   const turns: Turn[] = [];
@@ -908,7 +932,8 @@ export function resolveRound(data: GameData, prev: BattleState, orders: Orders):
   for (const turn of turns) {
     if (turn.who.hp <= 0) continue;
     if (turn.who.kind === 'dragon' && turn.who.hp <= 0) continue;
-    if (has(turn.who, 'shock') && rng.chance(data.statuses.shock.skipChance ?? 0)) {
+    const skip = skipChanceOf(data, turn.who);
+    if (skip > 0 && rng.chance(skip)) {
       ctx.events.push({ t: 'skip', actor: turn.who.id, text: `${turn.who.name} is shocked and can't move!` });
       continue;
     }
@@ -945,7 +970,7 @@ function endOfRound(ctx: RoundCtx, comboUsed: boolean): void {
       }
       s.turns -= 1;
     }
-    f.statuses = f.statuses.filter((s) => s.turns > 0 && !(s.id === 'ward' && (s.shield ?? 0) <= 0));
+    f.statuses = f.statuses.filter((s) => s.turns > 0 && !(data.statuses[s.id].shieldFraction && (s.shield ?? 0) <= 0));
   }
   if (alive(state.dragon) || (state.mode === 'ride' && alive(state.rider))) {
     let gain = c.breath.perRound + state.spirit * c.breath.perSpirit + ctx.breathGain + bonusOf(state.dragonMods, 'breathPerRound');
