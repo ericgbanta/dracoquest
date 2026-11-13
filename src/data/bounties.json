@@ -587,6 +587,104 @@
         },
         "enemy": "riddle-sphinx"
       }
+    ],
+    "starglass-hollow": [
+      {
+        "id": "quill-count",
+        "kind": "defeat",
+        "count": 5,
+        "text": "Calm 5 Shardlings",
+        "reward": {
+          "gold": 380,
+          "materials": {
+            "ore": 2
+          }
+        },
+        "enemy": "shardling"
+      },
+      {
+        "id": "moth-shoo",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Shoo away 4 Frostwing Moths",
+        "reward": {
+          "gold": 360,
+          "embers": 1
+        },
+        "enemy": "frostwing-moth"
+      },
+      {
+        "id": "pup-round",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Round up 4 Comet Pups",
+        "reward": {
+          "gold": 380,
+          "materials": {
+            "crystal": 1
+          }
+        },
+        "enemy": "comet-pup"
+      },
+      {
+        "id": "golem-thaw",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Crack 3 Glass Golems",
+        "reward": {
+          "gold": 380,
+          "materials": {
+            "ore": 2
+          }
+        },
+        "enemy": "glass-golem"
+      },
+      {
+        "id": "owlet-nap",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Put 3 Astral Owlets to bed",
+        "reward": {
+          "gold": 360,
+          "embers": 1
+        },
+        "enemy": "astral-owlet"
+      },
+      {
+        "id": "hollow-wins",
+        "kind": "wins",
+        "count": 6,
+        "text": "Win 6 fights in the hollow",
+        "reward": {
+          "gold": 460,
+          "materials": {
+            "ore": 3
+          }
+        }
+      },
+      {
+        "id": "hollow-clear",
+        "kind": "clear",
+        "count": 2,
+        "text": "Finish 2 runs in the hollow",
+        "reward": {
+          "gold": 540,
+          "embers": 2
+        }
+      },
+      {
+        "id": "stag-pose",
+        "kind": "defeat",
+        "count": 1,
+        "text": "Defeat the Prism Stag",
+        "reward": {
+          "gold": 460,
+          "materials": {
+            "crystal": 1
+          }
+        },
+        "enemy": "prism-stag"
+      }
     ]
   }
 }

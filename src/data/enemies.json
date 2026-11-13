@@ -4149,5 +4149,387 @@
     "boss": true,
     "xpMultiplier": 5,
     "goldMultiplier": 6
+  },
+  {
+    "id": "shardling",
+    "name": "Shardling",
+    "element": "aether",
+    "flavor": "A hedgehog whose quills fell from the sky. It is very proud of them.",
+    "base": {
+      "hp": 76.3,
+      "attack": 8.788,
+      "power": 5,
+      "defense": 1,
+      "swift": 8.4,
+      "dodge": 6.5
+    },
+    "perLevel": {
+      "hp": 22.05,
+      "attack": 1.511,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1.08,
+      "dodge": 0.52
+    },
+    "moves": [
+      {
+        "id": "quill-poke",
+        "name": "Quill Poke",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "star-quills",
+        "name": "Star Quills",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.6,
+        "status": "silence",
+        "statusChance": 0.5
+      },
+      {
+        "id": "curl-up",
+        "name": "Curl Up",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "frostwing-moth",
+    "name": "Frostwing Moth",
+    "element": "frost",
+    "flavor": "Drawn to light. Unfortunately for you, your dragon glows.",
+    "base": {
+      "hp": 98.75,
+      "attack": 8.788,
+      "power": 5,
+      "defense": 1,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 28.52,
+      "attack": 1.511,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "wing-flutter",
+        "name": "Wing Flutter",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "frost-dust",
+        "name": "Frost Dust",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "chill",
+        "statusChance": 0.5
+      },
+      {
+        "id": "flit",
+        "name": "Flit",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fade",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "comet-pup",
+    "name": "Comet Pup",
+    "element": "aether",
+    "flavor": "Fell out of a comet and kept running. Has not stopped since.",
+    "base": {
+      "hp": 71.82,
+      "attack": 8.788,
+      "power": 5,
+      "defense": 1,
+      "swift": 10.5,
+      "dodge": 8.0
+    },
+    "perLevel": {
+      "hp": 20.75,
+      "attack": 1.511,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1.35,
+      "dodge": 0.64
+    },
+    "moves": [
+      {
+        "id": "nip",
+        "name": "Nip",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "comet-dash",
+        "name": "Comet Dash",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "starlit-yip",
+        "name": "Starlit Yip",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.6,
+        "status": "silence",
+        "statusChance": 0.4
+      }
+    ]
+  },
+  {
+    "id": "glass-golem",
+    "name": "Glass Golem",
+    "element": "frost",
+    "flavor": "Made of ice so clear you can see its tiny frozen heart. It would rather you did not.",
+    "base": {
+      "hp": 112.22,
+      "attack": 8.788,
+      "power": 5,
+      "defense": 1.8,
+      "swift": 4.2,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 32.42,
+      "attack": 1.511,
+      "power": 1,
+      "defense": 0.54,
+      "swift": 0.54,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "glass-fist",
+        "name": "Glass Fist",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "ice-slam",
+        "name": "Ice Slam",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "chill",
+        "statusChance": 0.4
+      },
+      {
+        "id": "refreeze",
+        "name": "Refreeze",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "astral-owlet",
+    "name": "Astral Owlet",
+    "element": "aether",
+    "flavor": "Too young to fly, old enough to judge you.",
+    "base": {
+      "hp": 89.77,
+      "attack": 8.788,
+      "power": 5,
+      "defense": 1,
+      "swift": 8.4,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 25.94,
+      "attack": 1.511,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1.08,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "peck",
+        "name": "Peck",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "twinkle",
+        "name": "Twinkle",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.6,
+        "status": "silence",
+        "statusChance": 0.5
+      },
+      {
+        "id": "cheep",
+        "name": "Cheep for Mum",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.15,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ]
+  },
+  {
+    "id": "prism-stag",
+    "name": "Prism Stag",
+    "element": "aether",
+    "flavor": "Its antlers split starlight into every color. It never stops posing.",
+    "base": {
+      "hp": 152.62,
+      "attack": 10.11,
+      "power": 5,
+      "defense": 1,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 44.09,
+      "attack": 1.731,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "crystal-charge",
+        "name": "Crystal Charge",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "prism-beam",
+        "name": "Prism Beam",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "silence",
+        "statusChance": 0.5
+      },
+      {
+        "id": "proud-bellow",
+        "name": "Proud Bellow",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self"
+      },
+      {
+        "id": "starlick",
+        "name": "Lick Starlight",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.2,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "miniBoss": true,
+    "xpMultiplier": 2
+  },
+  {
+    "id": "starwarden",
+    "name": "Starwarden",
+    "element": "aether",
+    "flavor": "The owl-griffin who keeps the fallen stars. Counts them every night and is never pleased.",
+    "base": {
+      "hp": 233.41,
+      "attack": 9.239,
+      "power": 5,
+      "defense": 1.4,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 67.43,
+      "attack": 1.588,
+      "power": 1,
+      "defense": 0.42,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "talon-rake",
+        "name": "Talon Rake",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "star-screech",
+        "name": "Starlight Screech",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.8,
+        "status": "silence",
+        "statusChance": 0.6
+      },
+      {
+        "id": "falling-star",
+        "name": "Falling Star",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "frost-plumage",
+        "name": "Frost Plumage",
+        "intent": "shift",
+        "weight": 1,
+        "shiftTo": "frost",
+        "target": "self",
+        "condition": "notShifted"
+      },
+      {
+        "id": "crystal-feathers",
+        "name": "Crystal Feathers",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      },
+      {
+        "id": "star-glow",
+        "name": "Star Glow",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.12,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "xpMultiplier": 4,
+    "boss": true,
+    "goldMultiplier": 5
   }
 ]

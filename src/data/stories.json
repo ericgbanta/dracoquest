@@ -2313,5 +2313,402 @@
       "gold": 1600,
       "embers": 10
     }
+  },
+  {
+    "id": "falling-stars",
+    "zone": "starglass-hollow",
+    "name": "Falling Stars",
+    "minLevel": 30,
+    "description": "Stars keep falling into the hollow, and Stargazer Pell wants to count every one. Something keeps eating them.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "Forty-one, forty-two... hey! That one was mine! Something just ran off with it!",
+            "name": "Stargazer Pell"
+          },
+          {
+            "speaker": "rider",
+            "text": "We'll get it back."
+          },
+          {
+            "speaker": "narrator",
+            "text": "A small hedgehog trundles past, its quills glittering with stolen stardust."
+          }
+        ],
+        "enemies": [
+          "shardling"
+        ],
+        "level": 30
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "A cloud of pale moths drifts toward the glowing crystals, wings dusted with frost."
+          },
+          {
+            "speaker": "npc",
+            "text": "Moths. Of course it's moths. They love a bright light.",
+            "name": "Stargazer Pell"
+          },
+          {
+            "speaker": "dragon",
+            "text": "*glows a little brighter, just to be helpful*"
+          }
+        ],
+        "enemies": [
+          "frostwing-moth"
+        ],
+        "level": 31
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "Forty-three! The count is right again. You have no idea how much that matters to me.",
+        "name": "Stargazer Pell"
+      },
+      {
+        "speaker": "narrator",
+        "text": "Pell writes the number in a tiny book full of tiny numbers."
+      }
+    ],
+    "reward": {
+      "xp": 320,
+      "gold": 450,
+      "items": {
+        "mana-tonic": 1
+      }
+    }
+  },
+  {
+    "id": "the-lost-comet",
+    "zone": "starglass-hollow",
+    "name": "The Lost Comet",
+    "minLevel": 32,
+    "requires": "falling-stars",
+    "description": "A comet came down last night and a whole litter of Comet Pups came with it. One of them is very lost.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "Comet Pups! They're harmless. Mostly. Don't let them yip at you, it takes your words away.",
+            "name": "Stargazer Pell"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A Comet Pup skids around a crystal, tail blazing."
+          }
+        ],
+        "enemies": [
+          "comet-pup"
+        ],
+        "level": 32
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "The smallest pup hides behind an Astral Owlet, which glares at you as if it's all your fault."
+          }
+        ],
+        "enemies": [
+          "comet-pup",
+          "astral-owlet"
+        ],
+        "level": 33
+      }
+    ],
+    "choice": {
+      "prompt": "The smallest Comet Pup won't stop following you. What do you do?",
+      "options": [
+        {
+          "id": "home",
+          "label": "Walk it back to its litter",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "You find the litter curled around a warm crater. The pup's mother licks it all over, then licks you too."
+            },
+            {
+              "speaker": "npc",
+              "text": "You're sticky. That means she likes you.",
+              "name": "Stargazer Pell"
+            }
+          ],
+          "reward": {
+            "gold": 350,
+            "items": {
+              "dragon-treat": 2
+            }
+          },
+          "temper": "gentle"
+        },
+        {
+          "id": "race",
+          "label": "Race it to the top of the hill",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "The pup wins, easily, and leaves a trail of stardust you can scoop up. Your dragon sulks the whole way down."
+            }
+          ],
+          "reward": {
+            "materials": {
+              "crystal": 1
+            },
+            "embers": 2
+          },
+          "temper": "bold"
+        }
+      ]
+    },
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "That's every pup accounted for. I counted them. Twice.",
+        "name": "Stargazer Pell"
+      }
+    ],
+    "reward": {
+      "xp": 360,
+      "gold": 380
+    }
+  },
+  {
+    "id": "glass-and-frost",
+    "zone": "starglass-hollow",
+    "name": "Glass and Frost",
+    "minLevel": 34,
+    "requires": "the-lost-comet",
+    "description": "The Glass Golems have started freezing Pell's telescope shut. Science is under attack.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "My telescope is a block of ice. A block! How am I meant to count stars through ice?",
+            "name": "Stargazer Pell"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A Glass Golem stands guard over the frozen telescope, looking pleased with itself."
+          }
+        ],
+        "enemies": [
+          "glass-golem"
+        ],
+        "level": 34
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "Another golem lumbers in, with a frost moth riding on its head like a hat."
+          }
+        ],
+        "enemies": [
+          "glass-golem",
+          "frostwing-moth"
+        ],
+        "level": 35
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "dragon",
+        "text": "*breathes very gently on the telescope until it thaws*"
+      },
+      {
+        "speaker": "npc",
+        "text": "Perfect. Not a scratch. You may call me Pell. Everyone does, but now you may.",
+        "name": "Stargazer Pell"
+      }
+    ],
+    "reward": {
+      "xp": 400,
+      "gold": 500,
+      "materials": {
+        "ore": 3,
+        "crystal": 1
+      }
+    }
+  },
+  {
+    "id": "the-prism-stag",
+    "zone": "starglass-hollow",
+    "name": "The Prism Stag",
+    "minLevel": 36,
+    "requires": "glass-and-frost",
+    "description": "The Prism Stag has been splitting starlight into rainbows all over the valley. It's very pretty, and very hard to count.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "Rainbows dance across the snow. A Shardling and an Astral Owlet chase them in circles."
+          }
+        ],
+        "enemies": [
+          "shardling",
+          "astral-owlet"
+        ],
+        "level": 36
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "On the ridge stands the Prism Stag, antlers blazing with color."
+          },
+          {
+            "speaker": "npc",
+            "text": "Behold! Am I not the most beautiful thing in the sky?",
+            "name": "Prism Stag"
+          },
+          {
+            "speaker": "npc",
+            "text": "It's on the ground. It's standing on the ground.",
+            "name": "Stargazer Pell"
+          }
+        ],
+        "enemies": [
+          "prism-stag"
+        ],
+        "level": 37,
+        "mini": true
+      }
+    ],
+    "choice": {
+      "prompt": "The Prism Stag offers you a chip of its antler, if you say it's beautiful.",
+      "options": [
+        {
+          "id": "praise",
+          "label": "Tell it it's beautiful",
+          "lines": [
+            {
+              "speaker": "npc",
+              "text": "I know. But it's nice to hear.",
+              "name": "Prism Stag"
+            },
+            {
+              "speaker": "narrator",
+              "text": "It drops a glittering chip of antler at your feet."
+            }
+          ],
+          "reward": {
+            "materials": {
+              "crystal": 2
+            }
+          },
+          "temper": "gentle"
+        },
+        {
+          "id": "honest",
+          "label": "Tell it the rainbows are a nuisance",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "The stag gasps. Then it thinks about it, and dims its antlers a little. Pell cries with joy and pays you in coins."
+            }
+          ],
+          "reward": {
+            "gold": 400,
+            "embers": 1
+          },
+          "temper": "proud"
+        }
+      ]
+    },
+    "outro": [
+      {
+        "speaker": "npc",
+        "text": "The rainbows are gone. I can count again. Only one thing left in this valley that I can't count past.",
+        "name": "Stargazer Pell"
+      }
+    ],
+    "reward": {
+      "xp": 450,
+      "gold": 550,
+      "embers": 3
+    }
+  },
+  {
+    "id": "the-starwarden",
+    "zone": "starglass-hollow",
+    "name": "The Starwarden",
+    "minLevel": 39,
+    "requires": "the-prism-stag",
+    "description": "Every fallen star in the hollow belongs to the Starwarden, it says. Including the ones Pell is counting.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "text": "It lives at the top of the valley. It hoards the stars. It says counting them is stealing. I say it's science.",
+            "name": "Stargazer Pell"
+          },
+          {
+            "speaker": "narrator",
+            "text": "A Comet Pup and a Glass Golem block the path up the hill."
+          }
+        ],
+        "enemies": [
+          "comet-pup",
+          "glass-golem"
+        ],
+        "level": 39
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "A huge owl-griffin unfolds from the crystals, eyes like two pale moons."
+          },
+          {
+            "speaker": "npc",
+            "text": "Who counts MY stars? Nobody counts my stars but me!",
+            "name": "Starwarden"
+          },
+          {
+            "speaker": "dragon",
+            "text": "*puffs up to look as big as possible*"
+          }
+        ],
+        "enemies": [
+          "starwarden"
+        ],
+        "level": 40,
+        "boss": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "The Starwarden folds its wings and grumbles."
+      },
+      {
+        "speaker": "npc",
+        "text": "Fine. You may count them. But I get to check your sums.",
+        "name": "Starwarden"
+      },
+      {
+        "speaker": "npc",
+        "text": "A partner! I've always wanted a counting partner.",
+        "name": "Stargazer Pell"
+      },
+      {
+        "speaker": "dragon",
+        "text": "*yawns and lies down in the snow*"
+      }
+    ],
+    "reward": {
+      "xp": 700,
+      "gold": 1000,
+      "embers": 8
+    }
   }
 ]

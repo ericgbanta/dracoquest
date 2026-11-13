@@ -173,6 +173,18 @@
         "description": "Grasping thorns that may Root."
       },
       {
+        "id": "comet-shard",
+        "name": "Comet Shard",
+        "kind": "damage",
+        "level": 31,
+        "element": "aether",
+        "status": "silence",
+        "statusChance": 0.4,
+        "base": 19,
+        "mp": 7,
+        "description": "A sliver of fallen star that may Silence. Strong against Void."
+      },
+      {
         "id": "umbral-bolt",
         "name": "Umbral Bolt",
         "kind": "damage",

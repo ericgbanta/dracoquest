@@ -47,6 +47,14 @@
     "shadow": {
       "mid": "#a98fc8",
       "core": "#e6dcf2"
+    },
+    "aether": {
+      "mid": "#f3c9f5",
+      "core": "#ffffff"
+    },
+    "void": {
+      "mid": "#7d72c9",
+      "core": "#1d1a33"
     }
   },
   "enemyTokens": {

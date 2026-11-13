@@ -110,5 +110,24 @@
     "kind": "buff",
     "taunts": true,
     "description": "Enemies must attack this dragon."
+  },
+  "silence": {
+    "name": "Silence",
+    "icon": "\ud83d\udd07",
+    "short": "SIL",
+    "duration": 2,
+    "kind": "debuff",
+    "silenced": true,
+    "description": "No spells, breath or special moves."
+  },
+  "hollow": {
+    "name": "Hollow",
+    "icon": "\ud83d\udd73",
+    "short": "HOL",
+    "duration": 3,
+    "kind": "debuff",
+    "healMultiplier": 0.5,
+    "breathGainMultiplier": 0.5,
+    "description": "Heals half as much. Breath fills half as fast."
   }
 }

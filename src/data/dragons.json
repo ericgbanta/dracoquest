@@ -89,6 +89,14 @@
     },
     "shadow": {
       "might": 2
+    },
+    "aether": {
+      "spirit": 1,
+      "swift": 1
+    },
+    "void": {
+      "might": 1,
+      "scale": 1
     }
   },
   "eggs": {
@@ -123,6 +131,14 @@
     "shadow": {
       "name": "Dusk Egg",
       "blurb": "Hard to see, even when you're holding it."
+    },
+    "aether": {
+      "name": "Starlit Egg",
+      "blurb": "Twinkles at night. Sometimes in the day too, to show off."
+    },
+    "void": {
+      "name": "Hollow Egg",
+      "blurb": "Weighs nothing at all. Rattles anyway."
     }
   },
   "hatchTaps": 12,

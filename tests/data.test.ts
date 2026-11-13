@@ -4,7 +4,7 @@ import { DataError, gameData, validateCombat, validateElements } from '../src/co
 
 describe('data loader', () => {
   it('loads all data files', () => {
-    expect(gameData.elements.ids).toHaveLength(8);
+    expect(gameData.elements.ids).toHaveLength(10);
     expect(gameData.elements.ring).toEqual(['fire', 'frost', 'verdant', 'stone', 'storm', 'tide']);
     expect(gameData.elements.starters).toEqual(['fire', 'tide', 'verdant']);
     expect(gameData.elements.multipliers.strong).toBe(1.5);

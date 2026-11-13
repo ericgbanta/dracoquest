@@ -1,5 +1,5 @@
 {
-  "note": "The Map groups zones into regions. upcoming lists areas from the world plan that aren't built yet; the Map shows the first one as a teaser card in its region. Each region has a painted map (map.art, a backdrop in assets.json) with pins at [x, y] fractions; an upcoming area's pin is on its entry. Adding an area to a map is one more pin. Planned spots on the Beyond the Peak map: Emberwild [0.24, 0.52], Skyreach Isles [0.76, 0.51], Hollow Crown [0.25, 0.31], Starfall Summit [0.66, 0.15].",
+  "note": "The Map groups zones into regions. upcoming lists areas from the world plan that aren't built yet; the Map shows the first one as a teaser card in its region. Each region has a painted map (map.art, a backdrop in assets.json) with pins at [x, y] fractions; an upcoming area's pin is on its entry. Adding an area to a map is one more pin. Planned spots on the Beyond the Peak map: Emberwild [0.24, 0.52], Skyreach Isles [0.76, 0.51], Hollow Crown [0.25, 0.31], Starfall Summit [0.66, 0.15]. Planned spots on the Hidden Reach map: Voidmarch [0.67, 0.58], Rotroot Thicket [0.33, 0.33].",
   "regions": [
     {
       "id": "wilds",
@@ -15,11 +15,26 @@
       "map": {
         "art": "map-wilds",
         "pins": {
-          "mossy-hollow": [0.25, 0.83],
-          "saltmarsh-shore": [0.82, 0.68],
-          "whispering-fen": [0.18, 0.47],
-          "cinder-pass": [0.73, 0.26],
-          "town": [0.57, 0.49]
+          "mossy-hollow": [
+            0.25,
+            0.83
+          ],
+          "saltmarsh-shore": [
+            0.82,
+            0.68
+          ],
+          "whispering-fen": [
+            0.18,
+            0.47
+          ],
+          "cinder-pass": [
+            0.73,
+            0.26
+          ],
+          "town": [
+            0.57,
+            0.49
+          ]
         }
       }
     },
@@ -40,13 +55,52 @@
       "map": {
         "art": "map-highlands",
         "pins": {
-          "thunderspire": [0.25, 0.81],
-          "rustcliff-ruins": [0.76, 0.81],
-          "frostmere": [0.23, 0.61],
-          "moonwell-woods": [0.73, 0.59],
-          "deepstone-mines": [0.25, 0.41],
-          "gilded-wastes": [0.72, 0.39],
-          "eclipse-peak": [0.5, 0.19]
+          "thunderspire": [
+            0.25,
+            0.81
+          ],
+          "rustcliff-ruins": [
+            0.76,
+            0.81
+          ],
+          "frostmere": [
+            0.23,
+            0.61
+          ],
+          "moonwell-woods": [
+            0.73,
+            0.59
+          ],
+          "deepstone-mines": [
+            0.25,
+            0.41
+          ],
+          "gilded-wastes": [
+            0.72,
+            0.39
+          ],
+          "eclipse-peak": [
+            0.5,
+            0.19
+          ]
+        }
+      }
+    },
+    {
+      "id": "hidden-reach",
+      "name": "The Hidden Reach",
+      "levels": "Levels 30 to 60",
+      "blurb": "A valley behind the mountains where strange new elements leak into the world.",
+      "zones": [
+        "starglass-hollow"
+      ],
+      "map": {
+        "art": "map-hidden-reach",
+        "pins": {
+          "starglass-hollow": [
+            0.29,
+            0.79
+          ]
         }
       }
     },
@@ -74,7 +128,26 @@
         "storm"
       ],
       "blurb": "A drowned city where storms walk on the water. The first land beyond the peak.",
-      "pin": [0.5, 0.88]
+      "pin": [
+        0.5,
+        0.88
+      ]
+    },
+    {
+      "name": "Voidmarch",
+      "region": "hidden-reach",
+      "minLevel": 40,
+      "maxLevel": 50,
+      "gate": "starglass-hollow",
+      "elements": [
+        "void",
+        "stone"
+      ],
+      "blurb": "A broken land where the ground falls away into nothing. Something down there is listening.",
+      "pin": [
+        0.67,
+        0.58
+      ]
     }
   ]
 }

@@ -162,6 +162,17 @@
         "crystal": 6,
         "scale": 3
       }
+    },
+    {
+      "gear": "fallen-star-circlet",
+      "forgeLevel": 2,
+      "gold": 2800,
+      "embers": 10,
+      "materials": {
+        "ore": 10,
+        "crystal": 6,
+        "scale": 2
+      }
     }
   ]
 }

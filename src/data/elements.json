@@ -7,7 +7,9 @@
     "storm",
     "tide",
     "light",
-    "shadow"
+    "shadow",
+    "aether",
+    "void"
   ],
   "ring": [
     "fire",
@@ -21,6 +23,10 @@
     [
       "light",
       "shadow"
+    ],
+    [
+      "aether",
+      "void"
     ]
   ],
   "starters": [
@@ -82,6 +88,18 @@
       "color": "#7a5c9e",
       "status": "blind",
       "symbol": "☾"
+    },
+    "aether": {
+      "name": "Aether",
+      "color": "#d9a3f0",
+      "status": "silence",
+      "symbol": "✦"
+    },
+    "void": {
+      "name": "Void",
+      "color": "#5b54a6",
+      "status": "hollow",
+      "symbol": "◌"
     }
   },
   "hybrids": {
@@ -111,7 +129,23 @@
     "storm+light": "Flash",
     "storm+shadow": "Thunderhead",
     "tide+light": "Rainbow",
-    "tide+shadow": "Abyss"
+    "tide+shadow": "Abyss",
+    "fire+aether": "Comet",
+    "fire+void": "Ash",
+    "frost+aether": "Aurora",
+    "frost+void": "Deepfreeze",
+    "verdant+aether": "Lotus",
+    "verdant+void": "Wither",
+    "stone+aether": "Meteor",
+    "stone+void": "Chasm",
+    "storm+aether": "Ion",
+    "storm+void": "Vortex",
+    "tide+aether": "Moontide",
+    "tide+void": "Maelstrom",
+    "light+aether": "Astral",
+    "light+void": "Halo",
+    "shadow+aether": "Nebula",
+    "shadow+void": "Oblivion"
   },
   "hybridNote": "Names for dragons of two elements. Keys are two element ids in the order of `ids`. The full list for all 12 planned elements is in docs/DRAGONS_PLAN.md; each phase that adds an element adds its mixes."
 }

@@ -121,7 +121,12 @@
     "sandglass-orb",
     "halo-scepter",
     "nomad-wraps",
-    "oasis-charm"
+    "oasis-charm",
+    "comet-cleaver",
+    "starshot-bow",
+    "nebula-wand",
+    "starweave-robe",
+    "wishing-star-pendant"
   ],
   "items": {
     "potion": 25,

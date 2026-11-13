@@ -1,6 +1,6 @@
 /** Shared data and state types for the game core. */
 
-export type ElementId = 'fire' | 'frost' | 'verdant' | 'stone' | 'storm' | 'tide' | 'light' | 'shadow';
+export type ElementId = 'fire' | 'frost' | 'verdant' | 'stone' | 'storm' | 'tide' | 'light' | 'shadow' | 'aether' | 'void';
 
 export type RiderStat = 'strength' | 'agility' | 'arcana' | 'vigor';
 export type DragonStat = 'might' | 'scale' | 'swift' | 'spirit';
@@ -11,7 +11,7 @@ export const RIDER_STATS: readonly RiderStat[] = ['strength', 'agility', 'arcana
 export const DRAGON_STATS: readonly DragonStat[] = ['might', 'scale', 'swift', 'spirit'];
 
 export type StatusId =
-  | 'burn' | 'chill' | 'root' | 'crack' | 'shock' | 'soak' | 'blind' | 'ward' | 'fury' | 'harden' | 'fade' | 'taunt';
+  | 'burn' | 'chill' | 'root' | 'crack' | 'shock' | 'soak' | 'blind' | 'ward' | 'fury' | 'harden' | 'fade' | 'taunt' | 'silence' | 'hollow';
 
 /** Stat and effect bonuses from gear and talents. Every key is optional and adds up. */
 export type BonusKey =
@@ -269,6 +269,10 @@ export interface StatusData {
   damageTakenMultiplier?: number; skipChance?: number; accuracyPenalty?: number;
   /** Hits of this element deal more to the bearer (Soak: Storm). */
   amplify?: { element: ElementId; multiplier: number }; taunts?: boolean;
+  /** Silence: no spells, breath, skills or special moves. */
+  silenced?: boolean;
+  /** Hollow: healing received and breath gained are multiplied by these. */
+  healMultiplier?: number; breathGainMultiplier?: number;
   shieldFraction?: number; damageMultiplier?: number; defenseBonus?: number; dodgeBonus?: number;
 }
 

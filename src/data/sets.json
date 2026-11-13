@@ -310,5 +310,34 @@
         }
       }
     ]
+  },
+  {
+    "id": "skyglass",
+    "name": "Skyglass",
+    "zone": "starglass-hollow",
+    "description": "Starglass gear from the hollow. A full set casts deeper and shrugs off more.",
+    "pieces": [
+      "skyglass-melee",
+      "skyglass-ranged",
+      "skyglass-magic",
+      "skyglass-armor",
+      "skyglass-trinket"
+    ],
+    "bonuses": [
+      {
+        "pieces": 2,
+        "bonus": {
+          "arcana": 3,
+          "riderMp": 10
+        }
+      },
+      {
+        "pieces": 3,
+        "bonus": {
+          "riderDefense": 4,
+          "riderHp": 50
+        }
+      }
+    ]
   }
 ]

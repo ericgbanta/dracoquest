@@ -772,6 +772,115 @@
     }
   },
   {
+    "id": "starglass-hollow",
+    "name": "Starglass Hollow",
+    "element": "aether",
+    "elements": [
+      "aether",
+      "frost"
+    ],
+    "minLevel": 30,
+    "maxLevel": 40,
+    "gate": null,
+    "unlock": {
+      "level": 30,
+      "afterBoss": "thunderspire"
+    },
+    "blurb": "A snowy valley where stars fall and turn to crystal. Everything here sparkles, and most of it bites.",
+    "fights": {
+      "min": 3,
+      "max": 5
+    },
+    "encounters": [
+      {
+        "enemies": [
+          "shardling"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "frostwing-moth"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "comet-pup"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "glass-golem"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "astral-owlet"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "comet-pup",
+          "comet-pup"
+        ],
+        "weight": 1,
+        "minLevel": 32
+      },
+      {
+        "enemies": [
+          "shardling",
+          "frostwing-moth"
+        ],
+        "weight": 1,
+        "minLevel": 34
+      }
+    ],
+    "levelSpread": 1,
+    "multiEnemyLevelOffset": -1,
+    "boss": {
+      "enemy": "starwarden",
+      "level": 40,
+      "unlockRiderLevel": 39,
+      "trophy": {
+        "gear": "skyglass-armor",
+        "chance": 0.25
+      }
+    },
+    "miniBoss": {
+      "enemy": "prism-stag",
+      "levelOffset": 0,
+      "trophy": {
+        "gear": "skyglass-trinket",
+        "chance": 0.25
+      }
+    },
+    "dropChances": {
+      "potion": 0.25,
+      "dragon-treat": 0.15,
+      "mana-tonic": 0.1
+    },
+    "eggDrop": {
+      "element": "aether",
+      "chance": 0.1,
+      "elements": [
+        "aether",
+        "frost"
+      ]
+    },
+    "gearDrops": {
+      "chance": 0.06,
+      "gear": [
+        "skyglass-melee",
+        "skyglass-ranged",
+        "skyglass-magic"
+      ]
+    }
+  },
+  {
     "id": "deepstone-mines",
     "name": "Deepstone Mines",
     "element": "stone",

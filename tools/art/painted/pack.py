@@ -9,6 +9,7 @@ REPO = sys.argv[1]
 OUT = f'{REPO}/src/art/painted'
 ZONES = json.load(open('v2/zones.json'))
 TIPS = ['fire', 'frost', 'verdant', 'stone', 'storm', 'tide', 'light', 'shadow']
+TIPS2 = ['aether', 'void', 'blight', 'steel']  # tail-tips-2 and fx-breath-2 (jobs9.py): one row of four
 
 def key(path):
     """RGBA image with the flat green background removed and green spill cleaned from the edges."""
@@ -92,6 +93,8 @@ for z, v in ZONES.items():
         for eid, piece in zip(v['regular'], pieces): packed[eid] = save(piece, f'enemies/{eid}', maxdim=400)
 if have('tail-tips'):
     for el, piece in zip(TIPS, split(key('v2/out/tail-tips.png'), 8, 4)): packed[f'tip-{el}'] = save(piece, f'tips/{el}', maxdim=160)
+if have('tail-tips-2'):
+    for el, piece in zip(TIPS2, split(key('v2/out/tail-tips-2.png'), 4, 4)): packed[f'tip-{el}'] = save(piece, f'tips/{el}', maxdim=160)
 if have('fx'):
     for n, piece in zip(['puff', 'slash', 'spark'], split(key('v2/out/fx.png'), 3, 3)): packed[f'fx-{n}'] = save(piece, f'fx/{n}', maxdim=240)
 for z in list(ZONES) + ['roost']:
@@ -149,6 +152,8 @@ for z, v in ZONES.items():
 # ---- breath effects, one per element
 if have('fx-breath'):
     for el, piece in zip(TIPS, split(key('v2/out/fx-breath.png'), 8, 4)): packed[f'fx-breath-{el}'] = save(piece, f'fx/breath-{el}', maxdim=240)
+if have('fx-breath-2'):
+    for el, piece in zip(TIPS2, split(key('v2/out/fx-breath-2.png'), 4, 4)): packed[f'fx-breath-{el}'] = save(piece, f'fx/breath-{el}', maxdim=240)
 
 # ---- the egg: fitted to the old egg's spot on a 480 x 600 canvas (so the crack overlays line up), plus its two halves
 if have('egg'):

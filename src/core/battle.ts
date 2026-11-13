@@ -263,7 +263,7 @@ const alive = (f: Fighter | null | undefined): f is Fighter => !!f && f.hp > 0;
 const has = (f: Fighter, id: StatusId) => f.statuses.some((s) => s.id === id);
 
 type StatusNumber = 'initiativeMultiplier' | 'defenseMultiplier' | 'damageTakenMultiplier' | 'skipChance'
-  | 'accuracyPenalty' | 'damageMultiplier' | 'defenseBonus' | 'dodgeBonus';
+  | 'accuracyPenalty' | 'damageMultiplier' | 'defenseBonus' | 'dodgeBonus' | 'healMultiplier' | 'breathGainMultiplier';
 /** Statuses act through their effect fields in statuses.json, not their ids, so a new status can be data only. */
 const statusData = (data: GameData, f: Fighter) => f.statuses.map((s) => data.statuses[s.id]);
 /** The product of a multiplier field over a fighter's statuses (1 when none has it). */
@@ -278,7 +278,7 @@ function statusSum(data: GameData, f: Fighter, key: StatusNumber): number {
   for (const sd of statusData(data, f)) n += sd[key] ?? 0;
   return n;
 }
-function statusFlag(data: GameData, f: Fighter, key: 'noDodge' | 'taunts'): boolean {
+function statusFlag(data: GameData, f: Fighter, key: 'noDodge' | 'taunts' | 'silenced'): boolean {
   return statusData(data, f).some((sd) => sd[key] === true);
 }
 /** The chance a status makes the fighter lose its turn, combining every status that can. */
@@ -513,6 +513,7 @@ function koText(f: Fighter): string {
 
 function heal(ctx: RoundCtx, actor: Fighter, target: Fighter, amount: number): void {
   if (actor.kind !== 'enemy') amount *= 1 + bonusOf(ctx.state.riderMods, 'healPct') + bonusOf(ctx.state.dragonMods, 'healPct');
+  amount *= statusProduct(ctx.data, target, 'healMultiplier');
   const before = target.hp;
   target.hp = Math.min(target.maxHp, target.hp + Math.round(amount));
   const healed = target.hp - before;
@@ -521,6 +522,7 @@ function heal(ctx: RoundCtx, actor: Fighter, target: Fighter, amount: number): v
 
 /** Healing that talents and gear don't boost (items). */
 function healRaw(ctx: RoundCtx, target: Fighter, amount: number): void {
+  amount *= statusProduct(ctx.data, target, 'healMultiplier');
   const before = target.hp;
   target.hp = Math.min(target.maxHp, target.hp + Math.round(amount));
   const healed = target.hp - before;
@@ -558,6 +560,11 @@ function riderAct(ctx: RoundCtx, order: RiderOrder): void {
       basicAttack(order.target);
       return;
     case 'spell': {
+      if (statusFlag(data, rider, 'silenced')) {
+        events.push({ t: 'act', actor: 'rider', text: `${rider.name} is silenced and attacks instead.` });
+        basicAttack(order.target);
+        return;
+      }
       const spell = state.spells.includes(order.spell) ? c.riderMoves.spells.find((s) => s.id === order.spell) : undefined;
       if (!spell) {
         events.push({ t: 'act', actor: 'rider', text: `${rider.name} doesn't know that spell and attacks instead.` });
@@ -652,6 +659,11 @@ function dragonAct(ctx: RoundCtx, order: DragonOrder, slot: Slot): void {
         claw(order.target);
         return;
       }
+      if (statusFlag(data, dragon, 'silenced')) {
+        events.push({ t: 'act', actor: dragon.id, text: `${dragon.name} is silenced and claws instead.` });
+        claw(order.target);
+        return;
+      }
       slot.setBreath(0);
       const t = enemyTarget(state, order.target);
       if (!t) return;
@@ -661,6 +673,11 @@ function dragonAct(ctx: RoundCtx, order: DragonOrder, slot: Slot): void {
       return;
     }
     case 'skill':
+      if (statusFlag(data, dragon, 'silenced')) {
+        events.push({ t: 'act', actor: dragon.id, text: `${dragon.name} is silenced and claws instead.` });
+        claw(order.target);
+        return;
+      }
       skillAct(ctx, order, slot);
       return;
     case 'guard':
@@ -768,8 +785,8 @@ function rideAct(ctx: RoundCtx, order: Extract<RiderOrder, { type: 'ride' }>): v
       if (t) strike(ctx, unit, t, { base: move.base ?? 20, stat: unit.power, element: null, label: move.name, damageMultiplier: riderDamageMultiplier(data, state) });
       return;
     case 'breath': {
-      if (state.breath < data.combat.breath.max) {
-        events.push({ t: 'act', actor: 'rider', text: `The breath meter isn't full. ${unit.name} dive instead!` });
+      if (state.breath < data.combat.breath.max || statusFlag(data, unit, 'silenced')) {
+        events.push({ t: 'act', actor: 'rider', text: state.breath < data.combat.breath.max ? `The breath meter isn't full. ${unit.name} dive instead!` : `${unit.name} are silenced and dive instead!` });
         if (t) strike(ctx, unit, t, { base: data.combat.ride.moves[0]?.base ?? 20, stat: unit.power, element: null, label: 'Diving Strike' });
         return;
       }
@@ -821,8 +838,15 @@ function duoAct(ctx: RoundCtx, order: Extract<DragonOrder, { type: 'duo' }>): vo
 
 function enemyAct(ctx: RoundCtx, enemy: Fighter): void {
   const { data, state, rng, events } = ctx;
-  const move = enemyMove(data, state, enemy);
+  let move = enemyMove(data, state, enemy);
   if (!move) return;
+  // Silence: anything but a plain physical attack turns into the enemy's basic attack.
+  if (statusFlag(data, enemy, 'silenced') && !(move.intent === 'attack' && move.physical)) {
+    const basic = data.enemies[enemy.enemyId ?? '']?.moves.find((m) => m.intent === 'attack' && m.physical);
+    events.push({ t: 'act', actor: enemy.id, text: `${enemy.name} is silenced and can't use ${move.name}!` });
+    if (!basic) return;
+    move = basic;
+  }
 
   switch (move.intent) {
     case 'heal': {
@@ -987,12 +1011,15 @@ function endOfRound(ctx: RoundCtx, comboUsed: boolean): void {
     let gain = c.breath.perRound + state.spirit * c.breath.perSpirit + ctx.breathGain + bonusOf(state.dragonMods, 'breathPerRound');
     if (state.mode === 'ride') gain += c.ride.breathPerRoundBonus;
     else if (ctx.riderDefending && !comboUsed) gain += c.defend.breathBonus;
+    const holder = state.mode === 'ride' ? state.rider : state.dragon;
+    if (holder) gain *= statusProduct(data, holder, 'breathGainMultiplier');
     state.breath = Math.min(c.breath.max, state.breath + Math.round(gain));
   }
   for (const id of Object.keys(state.cooldowns)) state.cooldowns[id] = Math.max(0, (state.cooldowns[id] ?? 0) - 1);
   const two = state.second;
   if (two && alive(two.fighter)) {
-    const gain = c.breath.perRound + two.spirit * c.breath.perSpirit + ctx.breathGain2 + bonusOf(two.mods, 'breathPerRound');
+    const gain = (c.breath.perRound + two.spirit * c.breath.perSpirit + ctx.breathGain2 + bonusOf(two.mods, 'breathPerRound'))
+      * statusProduct(data, two.fighter, 'breathGainMultiplier');
     two.breath = Math.min(c.breath.max, two.breath + Math.round(gain));
   }
   if (two) for (const id of Object.keys(two.cooldowns)) two.cooldowns[id] = Math.max(0, (two.cooldowns[id] ?? 0) - 1);

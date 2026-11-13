@@ -2550,5 +2550,154 @@
       "vigor": 5
     },
     "description": "Made from gold the Basilisk didn't need. It needed all of it."
+  },
+  {
+    "id": "skyglass-melee",
+    "name": "Skyglass Saber",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": null,
+    "level": 32,
+    "damage": 33,
+    "price": 3100,
+    "bonus": {
+      "strength": 5
+    },
+    "description": "A blade of starglass. Rings like a bell when it hits."
+  },
+  {
+    "id": "skyglass-ranged",
+    "name": "Skyglass Longbow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": null,
+    "level": 32,
+    "damage": 32,
+    "price": 3100,
+    "bonus": {
+      "agility": 6
+    },
+    "description": "Its arrows leave a little trail of sparkles."
+  },
+  {
+    "id": "skyglass-magic",
+    "name": "Skyglass Rod",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": null,
+    "level": 32,
+    "damage": 32,
+    "price": 3100,
+    "bonus": {
+      "arcana": 6
+    },
+    "description": "A rod of clear crystal with a tiny star caught inside."
+  },
+  {
+    "id": "skyglass-armor",
+    "name": "Skyglass Warden Mantle",
+    "slot": "armor",
+    "level": 39,
+    "price": 4700,
+    "bonus": {
+      "riderDefense": 12,
+      "riderHp": 125
+    },
+    "description": "Woven from the Starwarden's crystal feathers. It counts things."
+  },
+  {
+    "id": "skyglass-trinket",
+    "name": "Skyglass Prism Charm",
+    "slot": "trinket",
+    "level": 33,
+    "price": 3300,
+    "bonus": {
+      "arcana": 4,
+      "vigor": 4
+    },
+    "description": "A chip of the Prism Stag's antler. Throws rainbows on everything."
+  },
+  {
+    "id": "comet-cleaver",
+    "name": "Comet Cleaver",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": "aether",
+    "level": 33,
+    "damage": 34,
+    "price": 3400,
+    "bonus": {
+      "strength": 5,
+      "vigor": 1
+    },
+    "description": "Swing it fast enough and it leaves a tail."
+  },
+  {
+    "id": "starshot-bow",
+    "name": "Starshot Bow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": "aether",
+    "level": 33,
+    "damage": 33,
+    "price": 3400,
+    "bonus": {
+      "agility": 6
+    },
+    "description": "Every arrow is a tiny wish."
+  },
+  {
+    "id": "nebula-wand",
+    "name": "Nebula Wand",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": "aether",
+    "level": 33,
+    "damage": 33,
+    "price": 3400,
+    "bonus": {
+      "arcana": 6
+    },
+    "description": "There is a whole sky in there. Do not shake it."
+  },
+  {
+    "id": "starweave-robe",
+    "name": "Starweave Robe",
+    "slot": "armor",
+    "level": 33,
+    "price": 3200,
+    "bonus": {
+      "riderDefense": 8,
+      "riderHp": 80,
+      "riderMp": 10
+    },
+    "description": "Light as starlight and nearly as warm."
+  },
+  {
+    "id": "wishing-star-pendant",
+    "name": "Wishing Star Pendant",
+    "slot": "trinket",
+    "level": 33,
+    "price": 3100,
+    "bonus": {
+      "arcana": 3,
+      "agility": 3,
+      "riderMp": 10
+    },
+    "description": "Make a wish. It will not come true, but it is nice to ask."
+  },
+  {
+    "id": "fallen-star-circlet",
+    "name": "Fallen Star Circlet",
+    "slot": "trinket",
+    "level": 36,
+    "price": 3800,
+    "bonus": {
+      "arcana": 5,
+      "agility": 3,
+      "riderMp": 20,
+      "riderCrit": 0.02
+    },
+    "description": "Forged around a star that landed in your Roost. It hums when you think hard."
   }
 ]
