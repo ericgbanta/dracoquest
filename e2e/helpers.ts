@@ -16,3 +16,13 @@ export async function mapView(page: Page, view: 'map' | 'list'): Promise<void> {
   const button = page.getByTestId(`map-view-${view}`);
   if ((await button.getAttribute('aria-pressed')) !== 'true') await button.tap();
 }
+
+/** Cycle the Map to a region by its name (the Map opens on the region at the rider's level). */
+export async function mapRegion(page: Page, name: string): Promise<void> {
+  const label = page.getByTestId('map-region-name');
+  while ((await label.textContent()) !== name) {
+    if (await page.getByTestId('map-prev').isEnabled()) await page.getByTestId('map-prev').tap();
+    else break;
+  }
+  while ((await label.textContent()) !== name) await page.getByTestId('map-next').tap();
+}

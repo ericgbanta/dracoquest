@@ -26,18 +26,22 @@ export function MapScreen({ save, update }: Props) {
   const [treasures, setTreasures] = useState<ZoneData | null>(null);
   const [sheet, setSheet] = useState<{ kind: 'story' | 'bounties'; zone: ZoneData } | null>(null);
   const today = todayKey();
-  const teaser = data.regions.upcoming[0];
   // The map starts on the region at the rider's level, and remembers the region last looked at.
-  const here = [...data.regions.regions].reverse().find((r) => {
-    const zs = data.zones.filter((z) => r.zones.includes(z.id));
-    return zs.length > 0 && Math.min(...zs.map((z) => z.minLevel)) <= save.rider.level;
-  })?.id ?? data.regions.regions[0]!.id;
+  // That's the last region with an open area at the rider's level; failing that, the last one the rider has reached.
+  const zonesOf = (r: RegionData) => data.zones.filter((z) => r.zones.includes(z.id));
+  const lvl = save.rider.level;
+  const here = [...data.regions.regions].reverse().find((r) => zonesOf(r).some((z) => !zoneLock(data, save, z) && lvl >= z.minLevel && lvl <= z.maxLevel))?.id
+    ?? [...data.regions.regions].reverse().find((r) => {
+      const zs = zonesOf(r);
+      return zs.length > 0 && Math.min(...zs.map((z) => z.minLevel)) <= lvl;
+    })?.id ?? data.regions.regions[0]!.id;
   const regionIds = data.regions.regions.map((r) => r.id);
   const [regionId, setRegion] = usePref<string>('map.region', here, regionIds);
   const regionIndex = Math.max(0, regionIds.indexOf(regionId));
   const region = data.regions.regions[regionIndex]!;
   const zones = region.zones.map((id) => data.zones.find((z) => z.id === id)!);
-  const tease = teaser && teaser.region === region.id ? teaser : null;
+  // Each region teases its next planned area.
+  const tease = data.regions.upcoming.find((u) => u.region === region.id) ?? null;
   const [view, setView] = usePref<'map' | 'list'>('map.view', 'map', ['map', 'list']);
   const [pinned, setPinned] = useState<string | null>(null);
   const pinnedZone = pinned ? zones.find((z) => z.id === pinned) ?? null : null;

@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { openFold, tab, mapView } from './helpers';
+import { openFold, tab, mapRegion, mapView } from './helpers';
 import { readFileSync } from 'node:fs';
 
 async function load(page: Page, fixture: string, hash = '#/roost') {
@@ -73,6 +73,7 @@ test('sound is off by default and can be turned on', async ({ page }) => {
 test('Eclipse Peak opens for an Elder', async ({ page }) => {
   await load(page, 'elder.json', '#/map');
   await mapView(page, 'list');
+  await mapRegion(page, 'The High Lands');
   await expect(page.getByTestId('start-eclipse-peak')).toBeVisible();
   await expect(page.getByTestId('zone-eclipse-peak')).toContainText('Eclipse Dragon');
 });

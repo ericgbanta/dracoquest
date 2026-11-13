@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { openFold, mapView } from './helpers';
+import { openFold, mapRegion, mapView } from './helpers';
 import { readFileSync } from 'node:fs';
 import type { SaveData } from '../src/core/save';
 
@@ -65,6 +65,14 @@ test('the Map shows one painted region at a time, with pins, and teases the next
   await page.waitForTimeout(400);
   await page.screenshot({ path: 'test-results/world-map-highlands.png' });
 
+  // The Hidden Reach: Starglass Hollow, locked at level 15, and the Voidmarch teaser.
+  await page.getByTestId('map-next').tap();
+  await expect(page.getByTestId('map-region-name')).toHaveText('The Hidden Reach');
+  await expect(page.getByTestId('pin-starglass-hollow')).toBeVisible();
+  await expect(page.getByTestId('pin-starglass-hollow')).toHaveAttribute('aria-label', /Opens at rider level 30/);
+  await page.waitForTimeout(400);
+  await page.screenshot({ path: 'test-results/world-map-hidden-reach.png' });
+
   // And Beyond the Peak: only the teaser so far.
   await page.getByTestId('map-next').tap();
   await expect(page.getByTestId('map-region-name')).toHaveText('Beyond the Peak');
@@ -95,8 +103,11 @@ test('tapping a map pin opens that area, and the map remembers its region', asyn
   await page.getByTestId('pin-story-mossy-hollow').tap();
   await expect(sheet).toHaveCount(0);
   await expect(page.locator('.sheet')).toContainText('Mossy Hollow');
-  await page.keyboard.press('Escape');
-  await expect(page.locator('.sheet')).toHaveCount(0);
+  // The sheet starts listening for Escape just after it paints; under load the first press can come sooner.
+  await expect(async () => {
+    await page.keyboard.press('Escape');
+    await expect(page.locator('.sheet')).toHaveCount(0, { timeout: 500 });
+  }).toPass();
   // The town pin goes to the town.
   await page.getByTestId('pin-town').tap();
   await expect(page).toHaveURL(/#\/town/);
@@ -267,6 +278,7 @@ test('Moonwell Woods opens at level 30 after the Storm Roc, and its fights use t
   });
   await page.getByTestId('tab-map').tap();
   await mapView(page, 'list');
+  await mapRegion(page, 'The High Lands');
   await page.getByTestId('start-moonwell-woods').tap();
   await expect(page.locator('[data-testid=stage]:not(.stage--loading)')).toBeVisible();
   const woods = /(hoot-shade|frostcap-shroom|snickerbark|shadow-fox|rimeback-badger)-[^/]*\.webp/;
@@ -295,6 +307,7 @@ test('the Gilded Wastes open at level 40 after the Glacier Hydra, and their figh
   });
   await page.getByTestId('tab-map').tap();
   await mapView(page, 'list');
+  await mapRegion(page, 'The High Lands');
   await page.getByTestId('start-gilded-wastes').tap();
   await expect(page.locator('[data-testid=stage]:not(.stage--loading)')).toBeVisible();
   const wastes = /(sand-scarab|mirage-jackal|glimmer-lizard|dune-sentinel|treasure-mimic)-[^/]*\.webp/;
@@ -314,4 +327,34 @@ test('the Aurum Basilisk boss fight shows the boss art', async ({ page }) => {
   await expect.poll(async () => (await page.locator('[data-testid=stage] img').evaluateAll((els) => els.map((e) => (e as HTMLImageElement).src))).some((src) => /aurum-basilisk-[^/]*\.webp/.test(src))).toBe(true);
   await page.waitForTimeout(600);
   await page.screenshot({ path: 'test-results/wastes-boss.png' });
+});
+
+test('Starglass Hollow opens at level 30 after the Storm Roc, and its fights use the Starglass art', async ({ page }) => {
+  await load(page, 'elder.json', (s) => {
+    s.bossesDefeated = ['mossy-hollow', 'saltmarsh-shore', 'cinder-pass', 'thunderspire'];
+    s.rider.level = 31;
+  });
+  await page.getByTestId('tab-map').tap();
+  await mapView(page, 'list');
+  await mapRegion(page, 'The Hidden Reach');
+  await page.getByTestId('start-starglass-hollow').tap();
+  await expect(page.locator('[data-testid=stage]:not(.stage--loading)')).toBeVisible();
+  const hollow = /(shardling|frostwing-moth|comet-pup|glass-golem|astral-owlet)-[^/]*\.webp/;
+  await expect.poll(async () => (await page.locator('[data-testid=stage] img').evaluateAll((els) => els.map((e) => (e as HTMLImageElement).src))).some((src) => hollow.test(src))).toBe(true);
+  await expect.poll(async () => (await page.locator('[data-testid=stage] img').evaluateAll((els) => els.map((e) => (e as HTMLImageElement).src))).some((src) => /starglass-hollow-[^/]*\.webp/.test(src))).toBe(true);
+  await page.waitForTimeout(600);
+  await page.screenshot({ path: 'test-results/starglass-fight.png' });
+});
+
+test('the Starwarden boss fight shows the boss art', async ({ page }) => {
+  await load(page, 'elder.json', (s) => {
+    s.bossesDefeated = ['mossy-hollow', 'saltmarsh-shore', 'cinder-pass', 'thunderspire'];
+    s.rider.level = 39;
+    s.run = { zoneId: 'starglass-hollow', fights: [{ kind: 'boss', enemies: [{ enemyId: 'starwarden', level: 40 }] }], index: 0, battle: null, totals: { xp: 0, gold: 0, drops: {} } };
+  });
+  await page.getByTestId('next-fight').tap();
+  await expect(page.locator('[data-testid=stage]:not(.stage--loading)')).toBeVisible();
+  await expect.poll(async () => (await page.locator('[data-testid=stage] img').evaluateAll((els) => els.map((e) => (e as HTMLImageElement).src))).some((src) => /starwarden-[^/]*\.webp/.test(src))).toBe(true);
+  await page.waitForTimeout(600);
+  await page.screenshot({ path: 'test-results/starglass-boss.png' });
 });
