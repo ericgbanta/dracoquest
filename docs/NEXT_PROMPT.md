@@ -16,7 +16,7 @@ How I like to work: one task at a time; commit after each; plain writing with no
 
 New art always goes through `docs/ART_GENERATION.md`: the Codex CLI on my ChatGPT subscription, in the cel-shaded style we chose, using the style text and reference image in `tools/art/painted`. It uses my Codex limits, so tell me how many generations a task needs first (each new area has taken 5). I'll enter a device login code; the session must be on the "dracoquest" environment.
 
-Next up, unless I pick something else below: chunk 5 of `docs/DRAGONS_PLAN.md` (Blight and Steel join the element ring, which rebalances the zones they touch, and Rotroot Thicket, levels 50 to 60). Then chunks 6 to 9 pair each frontier area (W6 to W9) with a dragons-plan area at the same levels, taking the cap to 100. The handoff's "Lessons from W5" explains how enemies past 50 have to grow slowly because dragons stop at 50. Things that need no art and can be done any time: story chains and bounty pools for Cinder Pass, Thunderspire, Frostmere, Deepstone Mines and Eclipse Peak.
+Next up, unless I pick something else below: chunk 7 of `docs/DRAGONS_PLAN.md` (Skyreach Isles, W7, and Twilight Rift, levels 70 to 80, cap 80). Then chunks 8 and 9 take the cap to 100. The handoff's "Lessons from W5" explains how enemies past 50 have to grow slowly because dragons stop at 50. Things that need no art and can be done any time: story chains and bounty pools for Cinder Pass, Thunderspire, Frostmere, Deepstone Mines and Eclipse Peak.
 
 What I want this session:
 [Write the task here.]
