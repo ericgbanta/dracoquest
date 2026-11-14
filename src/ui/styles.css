@@ -577,3 +577,9 @@ p, p.muted, .notice, .lead, li { font-size: max(1rem, 16px); }
 .zone-row + .zone-banner { margin-top: 8px; }
 
 .spell-plus { color: var(--accent); }
+
+/* Champion and rare details (VARIETY_PLAN V2). */
+.trait-list { border-left: 3px solid #d9a648; padding-left: 8px; margin: 4px 0 8px; }
+.trait-list p { margin: 2px 0; }
+.trait-kind { font-weight: 700; color: #ffe08a; }
+.notice--rare { border-color: #ffd76a; }

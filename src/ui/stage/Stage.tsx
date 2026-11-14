@@ -26,6 +26,8 @@ export interface StageFighter {
   marks?: { id: string; icon: string; turns: number }[];
   intent?: { kind: string; icon: string; text: string; big?: boolean };
   targeted?: boolean;
+  /** A champion or a zone rare: a tint on the sprite, a gold ring and a gold plate. */
+  special?: { kind: 'champion' | 'rare'; tint: string };
   onTap?(): void;
   /** Tapping the plate: enemies open their details (exact HP, weakness, next move). */
   onPlate?(): void;
@@ -96,9 +98,9 @@ function plainStyle(color: string) {
 
 function FighterView({ f }: { f: StageFighter }) {
   const p = f.place;
-  const style = { left: `${p.left}%`, bottom: `${p.bottom}%`, width: `${p.width}%`, zIndex: p.z };
+  const style = { left: `${p.left}%`, bottom: `${p.bottom}%`, width: `${p.width}%`, zIndex: p.z, ...(f.special ? { '--tint': f.special.tint } : {}) };
   const state = f.hp <= 0 ? (f.enemy ? ' actor--down' : ' actor--ko') : '';
-  const cls = `actor${f.enemy ? ' actor--enemy' : ''}${f.targeted ? ' actor--targeted' : ''}${state}`;
+  const cls = `actor${f.enemy ? ' actor--enemy' : ''}${f.targeted ? ' actor--targeted' : ''}${f.special ? ` actor--special actor--${f.special.kind}` : ''}${state}`;
   const data = { 'data-fighter': f.id, 'data-facing': f.facing, 'data-points': JSON.stringify(f.rig?.points ?? {}) };
   // The target ring is the actor's ::after (class actor--targeted).
   const body = f.rig
@@ -169,7 +171,7 @@ function Plate({ f }: { f: StageFighter }) {
     ...(pos.right !== undefined ? { right: `${pos.right}%` } : { left: `${pos.left}%` }),
   };
   const pct = f.maxHp > 0 ? Math.max(0, Math.min(1, f.hp / f.maxHp)) : 0;
-  const cls = `plate${f.enemy ? ' plate--enemy' : ''}${f.hp <= 0 ? ' plate--down' : ''}`;
+  const cls = `plate${f.enemy ? ' plate--enemy' : ''}${f.special ? ` plate--special plate--${f.special.kind}` : ''}${f.hp <= 0 ? ' plate--down' : ''}`;
   const inner = (
     <>
       <span class="plate-name">{f.name}{f.marks?.length ? <span class="plate-marks"> {f.marks.map((m) => <span key={m.id}><Icon name={`status-${m.id}`} fallback={m.icon} />{m.turns} </span>)}</span> : null}</span>

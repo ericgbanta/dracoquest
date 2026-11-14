@@ -23,9 +23,10 @@ import questsJson from '../data/quests.json';
 import shopJson from '../data/shop.json';
 import roostJson from '../data/roost.json';
 import eventsJson from '../data/events.json';
+import championsJson from '../data/champions.json';
 import { canMix } from './eggs';
 import type {
-  CombatData, ElementsData, EnemyData, GameData, GearData, ItemData, ProgressionData, QuestData, ShopData, StatusData, StatusId,
+  ChampionsData, CombatData, ElementsData, EnemyData, GameData, GearData, ItemData, ProgressionData, QuestData, ShopData, StatusData, StatusId,
   BountiesData, EventData, ForgeData, GearSetData, RegionsData, RoostData, StoryData, StoryReward, TalentsData, ZoneData,
 } from './types';
 
@@ -86,6 +87,7 @@ export interface RawData {
   elements: unknown; combat: unknown; statuses: unknown; progression: unknown; dragons: unknown;
   care: unknown; foods: unknown; items: unknown; enemies: unknown; zones: unknown;
   gear: unknown; talents: unknown; quests: unknown; shop: unknown; roost: unknown; events: unknown; sets: unknown; forge: unknown; stories: unknown; bounties: unknown; regions: unknown;
+  champions: unknown;
 }
 
 export function loadGameData(raw: RawData): GameData {
@@ -213,7 +215,50 @@ export function loadGameData(raw: RawData): GameData {
     sets: validateSets(raw.sets, gear, zones),
     forge: validateForge(raw.forge, gear, raw.roost as RoostData),
     ...validateAdventures(raw, enemies, zones, new Set([...itemIds, ...foodIds]), Object.keys((raw.forge as ForgeData).materials)),
+    champions: validateChampions(raw.champions, enemies, zones, statuses, itemIds),
   };
+}
+
+const STAT_KEYS = ['hp', 'attack', 'power', 'defense', 'swift', 'dodge'];
+
+/** Champions and rares: traits must be known, rares must use a regular enemy of their zone, one rare per zone at most. */
+export function validateChampions(
+  raw: unknown, enemies: Record<string, EnemyData>, zones: ZoneData[], statuses: Record<StatusId, StatusData>, items: Set<string>,
+): ChampionsData {
+  const c = raw as ChampionsData;
+  if (!isObj(c) || !isObj(c.champion) || !isObj(c.rare) || !isObj(c.traits) || !Array.isArray(c.rares)) throw new DataError('champions: missing sections');
+  requireNumbers('champions.champion', c.champion, ['chance', 'twoTraitChance', 'minRiderLevel']);
+  requireNumbers('champions.rare', c.rare, ['chance', 'minRiderLevel', 'levelOffset', 'scale']);
+  for (const [name, r] of [['champion', c.champion.rewards], ['rare', c.rare.rewards]] as const) {
+    requireNumbers(`champions.${name}.rewards`, r, ['xp', 'gold', 'dropPct', 'gearChance']);
+    for (const id of Object.keys(r.items ?? {})) if (!items.has(id)) throw new DataError(`champions.${name}.rewards: unknown item "${id}"`);
+  }
+  const checkStats = (where: string, st: Partial<Record<string, number>> | undefined) => {
+    for (const [k, v] of Object.entries(st ?? {})) {
+      if (!STAT_KEYS.includes(k) || typeof v !== 'number' || !(v > 0)) throw new DataError(`${where}: bad stat multiplier "${k}"`);
+    }
+  };
+  checkStats('champions.champion.stats', c.champion.stats);
+  checkStats('champions.rare.stats', c.rare.stats);
+  const traitIds = Object.keys(c.traits);
+  if (traitIds.length < 2) throw new DataError('champions.traits: need at least two');
+  for (const id of traitIds) {
+    const t = c.traits[id]!;
+    if (typeof t.name !== 'string' || typeof t.tint !== 'string') throw new DataError(`champions.traits.${id}: needs a name and tint`);
+    checkStats(`champions.traits.${id}.stats`, t.stats);
+    if (t.startStatus && !statuses[t.startStatus]) throw new DataError(`champions.traits.${id}: unknown status`);
+  }
+  const zoneOf = new Map(zones.map((z) => [z.id, z]));
+  const seen = new Set<string>();
+  for (const r of c.rares) {
+    const z = zoneOf.get(r.zone);
+    if (!z) throw new DataError(`champions.rares.${r.id}: unknown zone`);
+    if (seen.has(r.zone)) throw new DataError(`champions.rares.${r.id}: ${r.zone} already has a rare`);
+    seen.add(r.zone);
+    if (!enemies[r.enemy] || !z.encounters.some((e) => e.enemies.includes(r.enemy))) throw new DataError(`champions.rares.${r.id}: "${r.enemy}" is not a regular enemy of ${r.zone}`);
+    for (const t of r.traits) if (!c.traits[t]) throw new DataError(`champions.rares.${r.id}: unknown trait "${t}"`);
+  }
+  return c;
 }
 
 function validateAdventures(
@@ -343,4 +388,5 @@ export const gameData: GameData = loadGameData({
   stories: storiesJson,
   bounties: bountiesJson,
   regions: regionsJson,
+  champions: championsJson,
 });

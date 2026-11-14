@@ -4,6 +4,7 @@ import layout from '../../data/stage.json';
 import { gameData as data } from '../../core/data';
 import { breathReady, intentOf, secondBreathReady, thirdBreathReady, type BattleState, type Fighter, type SecondDragon } from '../../core/battle';
 import { activeDragon, secondDragon, thirdDragon } from '../../core/game';
+import { specialOf } from '../../core/run';
 import type { SaveData } from '../../core/save';
 import type { DragonState, ElementId } from '../../core/types';
 import { INTENTS } from '../bits';
@@ -73,11 +74,13 @@ interface Props {
 const parties = layout.layouts.party as Record<string, Record<string, Place>>;
 const enemyPlaces = layout.layouts.enemies as Record<'one' | 'two', Place[]>;
 
-/** A place resized by the rig's box scale, keeping its center and feet where they were. */
-function sized(place: Place, rig: Rig | null): Place {
-  const s = rig?.boxScale ?? 1;
+/** A place resized by the rig's box scale (and a rare's extra size), keeping its center and feet, and on the stage. */
+function sized(place: Place, rig: Rig | null, extra = 1): Place {
+  const s = (rig?.boxScale ?? 1) * extra;
   if (s === 1) return place;
-  return { ...place, left: place.left + (place.width * (1 - s)) / 2, width: place.width * s };
+  const width = place.width * s;
+  const left = Math.min(place.left + (place.width - width) / 2, 100 - width);
+  return { ...place, left, width };
 }
 
 const marks = (f: Fighter) => f.statuses.map((s) => ({ id: s.id, icon: data.statuses[s.id].icon, turns: s.turns }));
@@ -132,10 +135,13 @@ export function BattleStage({ save, battle, zoneId, zoneElement, targets, onTarg
   battle.enemies.forEach((e, i) => {
     const intent = e.hp > 0 ? intentOf(data, battle, e) : null;
     const enemyId = e.enemyId ?? '';
+    const special = specialOf(data, e);
+    const star = special?.kind === 'rare' ? '★ ' : '';
     fighters.push({
-      id: e.id, place: sized(places[Math.min(i, places.length - 1)]!, art?.enemies[enemyId] ?? null), enemy: true, rig: art?.enemies[enemyId] ?? null,
+      id: e.id, place: sized(places[Math.min(i, places.length - 1)]!, art?.enemies[enemyId] ?? null, special?.scale ?? 1), enemy: true, rig: art?.enemies[enemyId] ?? null,
+      special: special ? { kind: special.kind, tint: special.tint } : undefined,
       fallback: <EnemySprite enemyId={enemyId} element={e.element ?? data.enemies[enemyId]?.element ?? 'stone'} size={120} plain />,
-      name: battle.enemies.length > 1 ? e.name : `${e.name} · Lv ${e.level}`, hp: e.hp, maxHp: e.maxHp, facing: 'left', marks: marks(e),
+      name: battle.enemies.length > 1 ? `${star}${e.name}` : `${star}${e.name} · Lv ${e.level}`, hp: e.hp, maxHp: e.maxHp, facing: 'left', marks: marks(e),
       intent: intent ? { kind: intent.kind, icon: INTENTS[intent.kind].icon, text: `${INTENTS[intent.kind].label}: ${intent.name}`, big: intent.kind === 'big' } : undefined,
       targeted: targets.includes(e.id) && e.hp > 0, testid: `enemy-${e.id}`,
       // A tap aims every attacker at this enemy; tapping it again, once everyone is on it, opens its details.

@@ -1,0 +1,385 @@
+{
+  "_note": "Champions and rare spawns (VARIETY_PLAN V2). Champions: each enemy in a regular zone-hunt fight may be a champion with traits. Rares: a regular fight may be replaced by the zone's named rare, alone. Story, growth-quest, mini-boss and boss fights never change. Stat multipliers apply on top of the enemy's level stats.",
+  "champion": {
+    "chance": 0.08,
+    "twoTraitChance": 0.3,
+    "minRiderLevel": 2,
+    "stats": {
+      "hp": 1.15
+    },
+    "rewards": {
+      "xp": 1.6,
+      "gold": 1.8,
+      "dropPct": 0.5,
+      "gearChance": 2
+    }
+  },
+  "rare": {
+    "chance": 0.0067,
+    "minRiderLevel": 3,
+    "levelOffset": 0,
+    "scale": 1.2,
+    "stats": {
+      "hp": 1.8,
+      "attack": 1.05
+    },
+    "rewards": {
+      "xp": 3,
+      "gold": 4,
+      "dropPct": 1,
+      "gearChance": 5,
+      "embers": 3,
+      "items": {
+        "potion": 2,
+        "mana-tonic": 1
+      }
+    }
+  },
+  "traits": {
+    "swift": {
+      "name": "Swift",
+      "icon": "💨",
+      "description": "Acts sooner and dodges more.",
+      "stats": {
+        "swift": 1.6,
+        "dodge": 1.6
+      },
+      "tint": "hue-rotate(170deg) saturate(1.25)"
+    },
+    "armored": {
+      "name": "Armored",
+      "icon": "🛡",
+      "description": "Tougher hide. Plain hits with no element do less.",
+      "stats": {
+        "defense": 1.5
+      },
+      "physicalTaken": 0.75,
+      "tint": "grayscale(0.55) contrast(1.2) brightness(1.05)"
+    },
+    "thorned": {
+      "name": "Thorned",
+      "icon": "🌵",
+      "description": "Hurts whoever hits it up close: weapon swings, claws and dives. Never knocks anyone out.",
+      "thorns": 0.2,
+      "tint": "hue-rotate(-75deg) saturate(1.5)"
+    },
+    "vampiric": {
+      "name": "Vampiric",
+      "icon": "🩸",
+      "description": "Heals for part of the damage it deals.",
+      "lifesteal": 0.3,
+      "tint": "hue-rotate(-40deg) saturate(1.7) brightness(0.9)"
+    },
+    "enraged": {
+      "name": "Enraged",
+      "icon": "💢",
+      "description": "Hits much harder once it drops below half HP.",
+      "enrage": {
+        "below": 0.5,
+        "damage": 1.35
+      },
+      "tint": "sepia(0.35) saturate(2.2) hue-rotate(-25deg)"
+    },
+    "shielded": {
+      "name": "Shielded",
+      "icon": "🔮",
+      "description": "Starts the fight behind a Ward shield.",
+      "startStatus": "ward",
+      "tint": "hue-rotate(220deg) saturate(1.3) brightness(1.08)"
+    },
+    "hulking": {
+      "name": "Hulking",
+      "icon": "🧱",
+      "description": "Much more HP.",
+      "stats": {
+        "hp": 1.5
+      },
+      "tint": "saturate(1.6) contrast(1.15) brightness(0.88)"
+    },
+    "mending": {
+      "name": "Mending",
+      "icon": "🌿",
+      "description": "Heals a little at the end of every round.",
+      "regen": 0.05,
+      "tint": "hue-rotate(110deg) brightness(1.1)"
+    }
+  },
+  "rares": [
+    {
+      "id": "old-mossjaw",
+      "zone": "mossy-hollow",
+      "name": "Old Mossjaw",
+      "enemy": "barkback-boar",
+      "traits": [
+        "armored",
+        "enraged"
+      ],
+      "tint": "sepia(0.5) saturate(1.6) hue-rotate(40deg) brightness(0.95)",
+      "flavor": "A boar so old that ferns grow on its tusks. Locals say it once flattened a mill."
+    },
+    {
+      "id": "captain-pinchwell",
+      "zone": "saltmarsh-shore",
+      "name": "Captain Pinchwell",
+      "enemy": "pincher-crab",
+      "traits": [
+        "armored",
+        "thorned"
+      ],
+      "tint": "hue-rotate(-30deg) saturate(1.8) brightness(1.05)",
+      "flavor": "Wears a gull feather like a hat and claims the whole beach."
+    },
+    {
+      "id": "glimmer-wisp",
+      "zone": "whispering-fen",
+      "name": "The Glimmer Wisp",
+      "enemy": "will-o-whisper",
+      "traits": [
+        "swift",
+        "vampiric"
+      ],
+      "tint": "hue-rotate(180deg) saturate(1.5) brightness(1.15)",
+      "flavor": "A lantern light that leads travelers in circles and drinks their warmth."
+    },
+    {
+      "id": "embermaw",
+      "zone": "cinder-pass",
+      "name": "Embermaw",
+      "enemy": "lava-toad",
+      "traits": [
+        "hulking",
+        "enraged"
+      ],
+      "tint": "saturate(2) contrast(1.15) brightness(0.92)",
+      "flavor": "A toad big enough to swallow a cart. Its belly glows like a forge."
+    },
+    {
+      "id": "old-stormhorn",
+      "zone": "thunderspire",
+      "name": "Old Stormhorn",
+      "enemy": "thunder-goat",
+      "traits": [
+        "swift",
+        "enraged"
+      ],
+      "tint": "hue-rotate(45deg) saturate(1.6) brightness(1.08)",
+      "flavor": "The herd's grandfather. Lightning likes him, and he likes it back."
+    },
+    {
+      "id": "brass-warden",
+      "zone": "rustcliff-ruins",
+      "name": "The Brass Warden",
+      "enemy": "brass-sentry",
+      "traits": [
+        "shielded",
+        "armored"
+      ],
+      "tint": "sepia(0.45) saturate(1.7) hue-rotate(-12deg) brightness(1.08)",
+      "flavor": "The last sentry still following its first order: let no one pass."
+    },
+    {
+      "id": "whitefang",
+      "zone": "frostmere",
+      "name": "Whitefang",
+      "enemy": "rime-wolf",
+      "traits": [
+        "swift",
+        "vampiric"
+      ],
+      "tint": "grayscale(0.6) brightness(1.25) contrast(1.1)",
+      "flavor": "A wolf the color of fresh snow. You only see it when it wants you to."
+    },
+    {
+      "id": "mother-snickerbark",
+      "zone": "moonwell-woods",
+      "name": "Mother Snickerbark",
+      "enemy": "snickerbark",
+      "traits": [
+        "mending",
+        "thorned"
+      ],
+      "tint": "hue-rotate(70deg) saturate(1.4) brightness(1.05)",
+      "flavor": "The oldest tree in the woods, and the rudest. Her laugh shakes acorns loose."
+    },
+    {
+      "id": "mirror-golem",
+      "zone": "starglass-hollow",
+      "name": "The Mirror Golem",
+      "enemy": "glass-golem",
+      "traits": [
+        "shielded",
+        "thorned"
+      ],
+      "tint": "hue-rotate(150deg) saturate(1.8) brightness(1.15)",
+      "flavor": "Every face of it shows a different sky."
+    },
+    {
+      "id": "old-diggory",
+      "zone": "deepstone-mines",
+      "name": "Old Diggory",
+      "enemy": "tunnel-mole",
+      "traits": [
+        "armored",
+        "hulking"
+      ],
+      "tint": "sepia(0.45) saturate(1.7) hue-rotate(-12deg) brightness(1.08)",
+      "flavor": "Has dug more tunnels than the miners, and wants them back."
+    },
+    {
+      "id": "golden-mimic",
+      "zone": "gilded-wastes",
+      "name": "The Golden Mimic",
+      "enemy": "treasure-mimic",
+      "traits": [
+        "vampiric",
+        "armored"
+      ],
+      "tint": "sepia(0.6) saturate(2.2) hue-rotate(-8deg) brightness(1.12)",
+      "flavor": "A chest of real gold that bites. Most keepers think that's a fair trade."
+    },
+    {
+      "id": "hollowmaw",
+      "zone": "voidmarch",
+      "name": "Hollowmaw",
+      "enemy": "gloom-gulper",
+      "traits": [
+        "vampiric",
+        "hulking"
+      ],
+      "tint": "hue-rotate(-60deg) saturate(1.6) brightness(0.85)",
+      "flavor": "It has eaten so much nothing that it now weighs a ton."
+    },
+    {
+      "id": "pale-stalker",
+      "zone": "eclipse-peak",
+      "name": "The Pale Stalker",
+      "enemy": "shade-stalker",
+      "traits": [
+        "swift",
+        "enraged"
+      ],
+      "tint": "grayscale(0.7) brightness(1.35) contrast(1.15)",
+      "flavor": "A shadow that lost its color and blames everyone else."
+    },
+    {
+      "id": "old-barnaclebeard",
+      "zone": "sunken-spires",
+      "name": "Old Barnaclebeard",
+      "enemy": "barnacle-brute",
+      "traits": [
+        "armored",
+        "mending"
+      ],
+      "tint": "hue-rotate(60deg) saturate(1.4) brightness(0.95)",
+      "flavor": "Half of him is barnacles. The other half is grudges."
+    },
+    {
+      "id": "great-gloomcap",
+      "zone": "rotroot-thicket",
+      "name": "The Great Gloomcap",
+      "enemy": "gloomcap-walker",
+      "traits": [
+        "mending",
+        "thorned"
+      ],
+      "tint": "hue-rotate(100deg) saturate(1.5) brightness(1.05)",
+      "flavor": "Its spores have spores."
+    },
+    {
+      "id": "scorchtail",
+      "zone": "emberwild",
+      "name": "Scorchtail",
+      "enemy": "jungle-raptor",
+      "traits": [
+        "swift",
+        "enraged"
+      ],
+      "tint": "hue-rotate(-50deg) saturate(1.9) brightness(1.05)",
+      "flavor": "The fastest thing in the jungle, and it knows it."
+    },
+    {
+      "id": "ironclaw",
+      "zone": "steelspine-range",
+      "name": "Ironclaw",
+      "enemy": "scrap-wolf",
+      "traits": [
+        "armored",
+        "vampiric"
+      ],
+      "tint": "grayscale(0.4) contrast(1.3) brightness(1.1)",
+      "flavor": "A pack leader built from the scraps of three others."
+    },
+    {
+      "id": "stormfleece",
+      "zone": "skyreach-isles",
+      "name": "Stormfleece",
+      "enemy": "cloud-ram",
+      "traits": [
+        "hulking",
+        "shielded"
+      ],
+      "tint": "hue-rotate(200deg) saturate(1.4) brightness(1.1)",
+      "flavor": "A ram whose wool is a whole thundercloud."
+    },
+    {
+      "id": "starving-coat",
+      "zone": "twilight-rift",
+      "name": "The Starving Coat",
+      "enemy": "empty-coat",
+      "traits": [
+        "vampiric",
+        "shielded"
+      ],
+      "tint": "hue-rotate(260deg) saturate(1.6) brightness(1.05)",
+      "flavor": "Nobody has ever seen who wore it first."
+    },
+    {
+      "id": "jester-king",
+      "zone": "hollow-crown",
+      "name": "The Jester King",
+      "enemy": "shadow-jester",
+      "traits": [
+        "swift",
+        "thorned"
+      ],
+      "tint": "sepia(0.45) saturate(1.7) hue-rotate(-12deg) brightness(1.08)",
+      "flavor": "Wears the crown the Hollow lost, and laughs at anyone who asks for it back."
+    },
+    {
+      "id": "grandmother-seal",
+      "zone": "the-confluence",
+      "name": "Grandmother Seal",
+      "enemy": "glacier-seal",
+      "traits": [
+        "mending",
+        "hulking"
+      ],
+      "tint": "hue-rotate(160deg) saturate(1.3) brightness(1.15)",
+      "flavor": "Patient, enormous and very hard to move."
+    },
+    {
+      "id": "old-meteor",
+      "zone": "starfall-summit",
+      "name": "Old Meteor",
+      "enemy": "meteor-tortoise",
+      "traits": [
+        "armored",
+        "shielded"
+      ],
+      "tint": "sepia(0.4) saturate(1.8) hue-rotate(-30deg) brightness(1.05)",
+      "flavor": "Fell from the sky a thousand years ago and has been walking home ever since."
+    },
+    {
+      "id": "elder-relic",
+      "zone": "dragonsrest",
+      "name": "The Elder Relic",
+      "enemy": "relic-golem",
+      "traits": [
+        "armored",
+        "enraged"
+      ],
+      "tint": "sepia(0.45) saturate(1.7) hue-rotate(-12deg) brightness(1.08)",
+      "flavor": "Built to guard the first dragon's grave. It still takes the job seriously."
+    }
+  ]
+}

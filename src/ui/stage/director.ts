@@ -104,6 +104,11 @@ export async function direct(stage: HTMLElement, data: GameData, state: BattleSt
       popNumber(stage, ev.target, `-${ev.amount}`, 'dmg', opts.fast);
       return sleep(E.dot * k);
     }
+    case 'recoil':
+      opts.onImpact();
+      if (!o.reduced) jitter(stage, ev.target, opts.fast);
+      popNumber(stage, ev.target, `-${ev.amount}`, 'dmg', opts.fast);
+      return sleep(E.dot * k);
     case 'status': {
       opts.onImpact();
       const kind = ev.status === 'burn' ? 'burn' : ev.status === 'chill' ? 'chill' : ev.status === 'shock' ? 'shock' : 'buff';

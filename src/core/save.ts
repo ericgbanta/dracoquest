@@ -14,7 +14,7 @@ import { newRoost, type RoostState } from './roost';
 import { defaultLoadout } from './spells';
 import type { DragonState, EggSpec, ElementId, RiderState } from './types';
 
-export const CURRENT_VERSION = 12;
+export const CURRENT_VERSION = 13;
 export const SAVE_KEY = 'dracoquest.save';
 const CODE_PREFIX = 'DQ1:'; // Code format, not save version. The save inside carries its own version.
 
@@ -41,6 +41,8 @@ export interface SaveData {
   wellKeptFights: number;
   /** Enemy id → how many times fought and defeated. Weaknesses show after the first fight. */
   bestiary: Record<string, { fought: number; defeated: number }>;
+  /** Rare id → how many times met and beaten (VARIETY_PLAN V2). */
+  rares: Record<string, { fought: number; defeated: number }>;
   run: RunState | null;
   bossesDefeated: string[];
   /** Eggs from bosses, the shop, Elders and breeding, waiting for the Hatchery. */
@@ -201,6 +203,8 @@ export const MIGRATIONS: Record<number, Migration> = {
   10: (save) => ({ ...save, thirdDragonId: null }),
   // v11 → v12: spell power-ups on the rider.
   11: (save) => ({ ...save, rider: { ...((save.rider ?? {}) as Record<string, unknown>), spellPlus: {} } }),
+  // v12 → v13 (variety plan V2): a count of each zone rare met and beaten. Champions need no save field.
+  12: (save) => ({ ...save, rares: {} }),
 };
 
 export function newSave(now: number): SaveData {
@@ -216,6 +220,7 @@ export function newSave(now: number): SaveData {
     care: freshCareDay(''),
     wellKeptFights: 0,
     bestiary: {},
+    rares: {},
     run: null,
     bossesDefeated: [],
     eggs: [],
@@ -285,6 +290,7 @@ export function validateSave(raw: Record<string, unknown>): SaveData {
   if (raw.activeDragonId !== null && typeof raw.activeDragonId !== 'string') fail('active dragon damaged');
   if (!isObject(raw.care) || typeof raw.care.day !== 'string') fail('care missing');
   if (!isObject(raw.bestiary)) fail('bestiary missing');
+  if (!isObject(raw.rares)) fail('rares missing');
   if (raw.run !== null && !isObject(raw.run)) fail('run damaged');
   if (!Array.isArray(raw.bossesDefeated)) fail('bosses missing');
   if (!Array.isArray(raw.eggs) || !Array.isArray(raw.questsDone)) fail('eggs or quests missing');

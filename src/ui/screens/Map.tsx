@@ -1,7 +1,7 @@
 import { useState } from 'preact/hooks';
 import { gameData as data } from '../../core/data';
 import { activeDragon, startRun, zoneLock } from '../../core/game';
-import { bossUnlocked } from '../../core/run';
+import { bossUnlocked, zoneRare } from '../../core/run';
 import { riderMaxHp } from '../../core/characters';
 import type { SaveData } from '../../core/save';
 import { ElementBadge, formatBonus, todayKey } from '../bits';
@@ -307,7 +307,29 @@ function Treasures({ zone, save, onClose }: { zone: ZoneData; save: SaveData; on
           })}
         </div>
       ))}
+      <RareRow zone={zone} save={save} />
     </Sheet>
+  );
+}
+
+/** The zone's named rare: unknown until met, then how often it's been beaten. */
+function RareRow({ zone, save }: { zone: ZoneData; save: SaveData }) {
+  const rare = zoneRare(data, zone.id);
+  if (!rare) return null;
+  const seen = save.rares[rare.id];
+  const odds = Math.round(1 / data.champions.rare.chance);
+  return (
+    <div class="treasure-rare" data-testid={`treasure-rare-${rare.id}`}>
+      <h3>★ Rare: {seen ? rare.name : '???'}</h3>
+      {seen ? (
+        <>
+          <p class="muted">A rare {data.enemies[rare.enemy]!.name}. {rare.flavor}</p>
+          <p>Met {seen.fought} {seen.fought === 1 ? 'time' : 'times'}, beaten {seen.defeated}. Worth extra XP, gold, embers and supplies.</p>
+        </>
+      ) : (
+        <p class="muted">Something rare hunts here. About 1 regular fight in {odds} meets it. Beat it for extra XP, gold, embers and supplies.</p>
+      )}
+    </div>
   );
 }
 

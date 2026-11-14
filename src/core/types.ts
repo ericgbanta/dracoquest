@@ -471,6 +471,58 @@ export interface ZoneData {
   eggDrop: { element: ElementId; chance: number; elements?: ElementId[]; breed?: string; hybrids?: [ElementId, ElementId][] } | null;
 }
 
+/** A champion trait (VARIETY_PLAN V2). Every effect is optional; a trait may use several. */
+export interface TraitData {
+  name: string;
+  icon: string;
+  description: string;
+  /** Multipliers on the enemy's level stats. */
+  stats?: Partial<EnemyStats>;
+  /** Plain hits (no element) are multiplied by this. */
+  physicalTaken?: number;
+  /** A share of contact damage taken that hurts the attacker (never below 1 HP). */
+  thorns?: number;
+  /** A share of damage dealt that heals the enemy. */
+  lifesteal?: number;
+  /** Below this share of max HP, its hits deal `damage` times as much. */
+  enrage?: { below: number; damage: number };
+  /** A status it starts the fight with. */
+  startStatus?: StatusId;
+  /** A share of max HP healed at the end of each round. */
+  regen?: number;
+  /** CSS filter for the sprite when this is the champion's first trait. */
+  tint: string;
+}
+
+export interface SpawnRewards {
+  xp: number;
+  gold: number;
+  /** Added to item drop chances, like the dropPct bonus. */
+  dropPct: number;
+  /** Multiplies the zone gear drop chance. */
+  gearChance: number;
+  embers?: number;
+  items?: Record<string, number>;
+}
+
+export interface RareData {
+  id: string;
+  zone: string;
+  name: string;
+  /** The regular enemy whose art and moves it uses. */
+  enemy: string;
+  traits: string[];
+  tint: string;
+  flavor: string;
+}
+
+export interface ChampionsData {
+  champion: { chance: number; twoTraitChance: number; minRiderLevel: number; stats: Partial<EnemyStats>; rewards: SpawnRewards };
+  rare: { chance: number; minRiderLevel: number; levelOffset: number; scale: number; stats: Partial<EnemyStats>; rewards: SpawnRewards };
+  traits: Record<string, TraitData>;
+  rares: RareData[];
+}
+
 export interface GameData {
   elements: ElementsData;
   combat: CombatData;
@@ -493,6 +545,7 @@ export interface GameData {
   stories: StoryData[];
   bounties: BountiesData;
   regions: RegionsData;
+  champions: ChampionsData;
 }
 
 // ---- Persistent character state (lives in the save) ----

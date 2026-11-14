@@ -12,7 +12,7 @@ import {
 } from './roost';
 import { addBond, allocateDragon, allocateRider, dragonLevelCap, giveDragonXp, giveRiderXp } from './progression';
 import { bonusOf, dragonBonus, gearItem, learnTalent as learn, respecCost, riderBonus } from './loadout';
-import { getZone, planQuest, planRun, rollGear, rollRewards, type FightKind, type Rewards } from './run';
+import { gearChanceFor, getZone, planQuest, planRun, rollGear, rollRewards, type FightKind, type Rewards } from './run';
 import type { SaveData } from './save';
 import type { StoryReward } from './types';
 import type { BuildingId, DragonSlot, DragonState, DragonStat, EggSpec, ElementId, GameData, GearSlot, RiderSlot, RiderStat, StageData, ZoneData } from './types';
@@ -313,6 +313,10 @@ export interface FightReport {
   embers?: number;
   /** Set when this fight finished a story quest. */
   story?: { id: string; name: string; reward: StoryReward };
+  /** How many champions were in the fight. */
+  champions?: number;
+  /** The zone's rare, if it was in the fight; `first` when it had never been beaten before. */
+  rare?: { id: string; name: string; first: boolean };
   /** Spells the rider learned from this fight's level-ups, and whether each went into the loadout. */
   spellsLearned?: { id: string; name: string; equipped: boolean }[];
 }
@@ -351,17 +355,26 @@ function finishFight(data: GameData, save: SaveData): { save: SaveData; report: 
   if (dragon && battle.skillUses > 0) dragon = addTemper(data, dragon, 'skill', battle.skillUses);
 
   const bestiary = { ...save.bestiary };
+  const rares = { ...save.rares };
   for (const f of battle.enemies) {
     const id = f.enemyId!;
     const entry = bestiary[id] ?? { fought: 0, defeated: 0 };
     bestiary[id] = { fought: entry.fought + 1, defeated: entry.defeated + (f.hp <= 0 ? 1 : 0) };
+    if (f.rare) {
+      const r = rares[f.rare] ?? { fought: 0, defeated: 0 };
+      rares[f.rare] = { fought: r.fought + 1, defeated: r.defeated + (f.hp <= 0 ? 1 : 0) };
+    }
   }
 
-  let next: SaveData = { ...save, bestiary };
+  let next: SaveData = { ...save, bestiary, rares };
   const report: FightReport = {
     outcome, kind: plan.kind, rewards: null, riderLevelsGained: 0, dragonLevelsGained: 0,
     bondGained: 0, runComplete: false, wellKept: false,
   };
+  const champions = battle.enemies.filter((f) => f.traits?.length && !f.rare).length;
+  if (champions) report.champions = champions;
+  const rare = battle.enemies.find((f) => f.rare);
+  if (rare?.rare) report.rare = { id: rare.rare, name: rare.name, first: (save.rares[rare.rare]?.defeated ?? 0) === 0 };
 
   if (outcome === 'won') {
     const wellKept = next.wellKeptFights > 0;
@@ -372,7 +385,7 @@ function finishFight(data: GameData, save: SaveData): { save: SaveData; report: 
       const foe = plan.enemies[0]?.enemyId;
       const firstKill = !!foe && (save.bestiary[foe]?.defeated ?? 0) === 0;
       const dropPct = bonusOf(riderBonus(data, save.rider), 'dropPct') + (dragon ? bonusOf(dragonBonus(data, dragon), 'dropPct') : 0);
-      const gear = rollGear(getZone(data, run.zoneId), plan.kind, new Set(save.rider.gear), firstKill, rng, dropPct);
+      const gear = rollGear(getZone(data, run.zoneId), plan.kind, new Set(save.rider.gear), firstKill, rng, dropPct, gearChanceFor(data, battle));
       if (gear.length) rewards.gear = gear;
       // Bosses drop an egg of their zone's element: always the first time, sometimes after.
       const zone = getZone(data, run.zoneId);
@@ -446,6 +459,7 @@ function finishFight(data: GameData, save: SaveData): { save: SaveData; report: 
       }
       third = addTemper(data, third, plan.kind === 'boss' ? 'bossWon' : 'fightWon');
     }
+    if (rewards.embers) next = { ...next, embers: next.embers + rewards.embers };
     if (plan.kind === 'boss') {
       const first = !save.bossesDefeated.includes(run.zoneId);
       const embers = first ? data.roost.embers.bossFirstKill : data.roost.embers.bossRepeat;

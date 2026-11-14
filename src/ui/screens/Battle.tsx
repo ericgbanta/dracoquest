@@ -8,7 +8,7 @@ import { activeDragon, canRide, chooseStory, leaveRun, playRound, secondDragon, 
 import { setOf, talentById } from '../../core/loadout';
 import { formatMaterials } from '../../core/forge';
 import type { DialogueLine } from '../../core/types';
-import { getZone } from '../../core/run';
+import { getZone, specialOf } from '../../core/run';
 import { matchupVs, weaknessesOfFighter } from '../../core/elements';
 import { battleSpell, spellById } from '../../core/spells';
 import { storyById } from '../../core/adventures';
@@ -584,7 +584,7 @@ export function Battle({ save, update, onExit }: Props) {
 function applyEvent(state: BattleState, ev: BattleEvent): BattleState {
   const s = structuredClone(state);
   const find = (id: string): Fighter | null => (id === 'rider' ? s.rider : id === 'dragon' ? s.dragon : id === 'dragon2' ? s.second?.fighter ?? null : id === 'dragon3' ? s.third?.fighter ?? null : s.enemies.find((e) => e.id === id) ?? null);
-  if (ev.t === 'hit' || ev.t === 'dot') {
+  if (ev.t === 'hit' || ev.t === 'dot' || ev.t === 'recoil') {
     const f = find(ev.target);
     if (f) f.hp = Math.max(0, f.hp - ev.amount);
   } else if (ev.t === 'heal') {
@@ -628,7 +628,7 @@ function EnemyCard({ enemy, battle, save, targeted, onTarget, reg, floats }: {
       <span class="enemy-body">
         <EnemySprite enemyId={data_.id} element={enemy.element ?? data_.element} size={battle.enemies.length > 1 ? 56 : 72} />
         <span class="enemy-info">
-          <span class="enemy-name">{enemy.name} <span class="muted">Lv {enemy.level}</span></span>
+          <span class="enemy-name">{enemy.rare ? '★ ' : ''}{enemy.name} <span class="muted">Lv {enemy.level}</span>{enemy.traits?.length && !enemy.rare ? <span class="muted"> · Champion</span> : null}</span>
           <span class="enemy-tags">
             {enemy.element && <ElementBadge element={enemy.element} element2={enemy.element2} small />}
             <span class="weak">{known ? (weak.length ? `Weak: ${weak.map((w) => data.elements.info[w].name).join(', ')}` : 'No weakness') : 'Weak: ?'}</span>
@@ -717,6 +717,14 @@ function Results({ save, report, update, onExit, onNext }: {
           </p>
         );
       })}
+      {report.rare && report.outcome === 'won' && (
+        <p class="notice notice--ok notice--rare" data-testid="rare-reward">
+          ★ You beat {report.rare.name}{report.rare.first ? ' for the first time' : ''}! Rare rewards: more XP and gold, +{r?.embers ?? 0} embers and supplies.
+        </p>
+      )}
+      {report.champions && report.outcome === 'won' && !report.rare ? (
+        <p class="notice notice--ok" data-testid="champion-reward">Champion bonus: more XP, gold and a better chance at loot.</p>
+      ) : null}
       {report.egg && <p class="notice notice--ok" data-testid="egg-drop"><Icon name="egg" fallback="🥚" /> The boss dropped a {eggName(data, report.egg)}! Incubate it in the Hatchery at the Roost.</p>}
       {report.embers ? <p class="notice notice--ok" data-testid="embers-reward"><Icon name="ember" fallback="🔥" /> +{report.embers} embers</p> : null}
       {report.grewTo && dragon && (
@@ -788,16 +796,24 @@ function FighterDetails({ id, battle, save, onClose }: { id: string; battle: Bat
   const known = enemy ? (save.bestiary[enemy.id]?.fought ?? 0) > 0 : false;
   const weak = enemy ? weaknessesOfFighter(data.elements, f) : [];
   const intent = enemy && f.hp > 0 ? intentOf(data, battle, f) : null;
+  const special = specialOf(data, f);
+  const rare = f.rare ? data.champions.rares.find((r) => r.id === f.rare) : undefined;
   return (
     <Sheet title={`${f.name} · Lv ${f.level}`} onClose={onClose}>
       <div class="fighter-details" data-testid="fighter-details">
+        {special && (
+          <div class="trait-list" data-testid="fighter-traits">
+            <p class="trait-kind">{special.kind === 'rare' ? `★ A rare ${enemy?.name ?? 'foe'}. Tougher, with big rewards.` : 'A champion. A little tougher, with better rewards.'}</p>
+            {special.traits.map((t) => <p key={t.id} class="trait"><span aria-hidden="true">{t.icon}</span> <strong>{t.name}</strong> <span class="muted">{t.description}</span></p>)}
+          </div>
+        )}
         {f.element && <p><ElementBadge element={f.element} element2={f.element2} /></p>}
         <Bar kind="hp" value={f.hp} max={f.maxHp} label="HP" />
         {f.maxMp > 0 && <Bar kind="mp" value={f.mp} max={f.maxMp} label="MP" />}
         {f.statuses.length > 0 ? <p><StatusChips statuses={f.statuses} /></p> : <p class="muted">No status effects.</p>}
         {enemy && <p>{known ? (weak.length ? `Weak to ${weak.map((w) => data.elements.info[w].name).join(', ')}.` : 'No weakness.') : 'Weakness unknown until you\'ve fought one.'}</p>}
         {intent && <p><IntentChip kind={intent.kind} name={intent.name} /></p>}
-        {enemy && <p class="muted">{enemy.flavor}</p>}
+        {enemy && <p class="muted">{rare?.flavor ?? enemy.flavor}</p>}
       </div>
     </Sheet>
   );
@@ -812,7 +828,9 @@ function TargetChip({ battle, current, label, onPick, disabled, testid }: {
   const enemy = living[i];
   if (!enemy) return null;
   const twins = living.filter((e) => e.name === enemy.name).length > 1;
-  const short = `${enemy.name.split(' ')[0]!.slice(0, 7)}${twins ? ` ${enemy.id === 'e0' ? 'A' : 'B'}` : ''}`;
+  // Champions show their kind's name, not the trait prefix.
+  const base = enemy.traits?.length && !enemy.rare ? data.enemies[enemy.enemyId ?? '']?.name ?? enemy.name : enemy.name;
+  const short = `${base.replace(/^(The|Old) /, '').split(' ')[0]!.slice(0, 7)}${twins ? ` ${enemy.id === 'e0' ? 'A' : 'B'}` : ''}`;
   const next = living[(i + 1) % living.length]!;
   return (
     <button type="button" class="act act--target" disabled={disabled} onClick={() => onPick(next.id)} data-testid={testid}

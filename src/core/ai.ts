@@ -2,7 +2,7 @@
  * A simple auto-battle player, used by the balance simulator and tests.
  * It plays the way a sensible player would, not optimally.
  */
-import { breathReady, comboAvailable, enemyMove, livingEnemies, skillReady, type BattleState, type Orders } from './battle';
+import { breathReady, comboAvailable, enemyMove, livingEnemies, skillReady, type BattleState, type Fighter, type Orders } from './battle';
 import { talentById } from './loadout';
 import { defenseMultiplier } from './elements';
 import { battleSpell, knownSpells, spellById } from './spells';
@@ -26,9 +26,21 @@ export function suggestedLoadout(data: GameData, level: number, zoneElement: Ele
   return [...new Set(picks.map((s) => s.id))].slice(0, data.progression.spellLoadoutSize);
 }
 
+/** Champions that heal themselves (Vampiric, Mending) are worth finishing first. */
+function selfHealing(data: GameData, f: Fighter): boolean {
+  return (f.traits ?? []).some((t) => (data.champions.traits[t]?.lifesteal ?? 0) > 0 || (data.champions.traits[t]?.regen ?? 0) > 0);
+}
+
+/** Thorns on an enemy: how much of a close hit comes back. */
+function thornsOf(data: GameData, f: Fighter): number {
+  return (f.traits ?? []).reduce((n, t) => n + (data.champions.traits[t]?.thorns ?? 0), 0);
+}
+
 export function autoOrders(data: GameData, state: BattleState): Orders {
   const enemies = livingEnemies(state);
-  const target = enemies.reduce((a, b) => (b.hp < a.hp ? b : a), enemies[0]!);
+  // Focus the weakest enemy, but a self-healing champion first when there are two.
+  const pool = enemies.some((e) => selfHealing(data, e)) ? enemies.filter((e) => selfHealing(data, e)) : enemies;
+  const target = pool.reduce((a, b) => (b.hp < a.hp ? b : a), pool[0]!);
   const rider = state.rider;
   const riderPct = rider.hp / rider.maxHp;
   const bigIncoming = enemies.some((e) => enemyMove(data, state, e)?.intent === 'big');
@@ -55,6 +67,7 @@ export function autoOrders(data: GameData, state: BattleState): Orders {
     .map((x) => ({ x, score: spellScore(data, x, target) }))
     .sort((a, b) => b.score - a.score)[0];
   const warded = rider.statuses.some((x) => x.id === 'ward');
+  const thorny = state.weapon.type === 'melee' && thornsOf(data, target) > 0;
 
   let riderOrder: Orders['rider'];
   if (riderPct < 0.35 && has('potion')) riderOrder = { type: 'item', item: 'potion' };
@@ -62,6 +75,8 @@ export function autoOrders(data: GameData, state: BattleState): Orders {
   else if (dragon && dragon.hp / dragon.maxHp < 0.3 && has('dragon-treat')) riderOrder = { type: 'item', item: 'dragon-treat' };
   else if (ward && bigIncoming && !warded && riderPct < 0.8 && rider.mp >= ward.mp + reserve) riderOrder = { type: 'spell', spell: ward.id, target: 'rider' };
   else if (damage && (state.weapon.type !== 'magic' || damage.score > damage.x.base * neutral)) riderOrder = { type: 'spell', spell: damage.x.id, target: target.id };
+  // Thorns: when hurt, a melee rider casts any damage spell rather than swing into them.
+  else if (damage && thorny && riderPct < 0.6) riderOrder = { type: 'spell', spell: damage.x.id, target: target.id };
   else riderOrder = { type: 'attack', target: target.id };
 
   if (!dragon) return { rider: riderOrder };

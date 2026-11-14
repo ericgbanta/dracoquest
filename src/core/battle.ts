@@ -48,6 +48,12 @@ export interface Fighter {
   resist?: Partial<Record<ElementId, number>>;
   boss?: boolean;
   shifted?: boolean;
+  /** Champion traits (champions.json). A rare carries its fixed traits here too. */
+  traits?: string[];
+  /** Set on a zone's named rare (its id in champions.json). */
+  rare?: string;
+  /** An Enraged enemy that has dropped below its threshold. */
+  enraged?: boolean;
 }
 
 export type Outcome = 'ongoing' | 'won' | 'lost' | 'fled';
@@ -128,13 +134,22 @@ export type BattleEvent =
   | { t: 'mp'; target: string; amount: number; text: string }
   | { t: 'status'; target: string; status: StatusId; text: string }
   | { t: 'dot'; target: string; status: StatusId; amount: number; text: string }
+  /** Damage bounced back at an attacker (a Thorned champion). */
+  | { t: 'recoil'; target: string; amount: number; text: string }
   | { t: 'ko'; target: string; text: string }
   | { t: 'skip'; actor: string; text: string }
   | { t: 'shift'; actor: string; element: ElementId; text: string }
   | { t: 'flee'; success: boolean; text: string }
   | { t: 'end'; outcome: Outcome; text: string };
 
-export interface EnemySpawn { enemyId: string; level: number }
+export interface EnemySpawn {
+  enemyId: string;
+  level: number;
+  /** A champion's traits (VARIETY_PLAN V2). */
+  traits?: string[];
+  /** A zone's named rare, built on this enemy. */
+  rare?: string;
+}
 
 export interface BattleSetup {
   rider: RiderState;
@@ -198,23 +213,51 @@ function mountFighter(data: GameData, rider: Fighter, dragon: Fighter): Fighter 
   };
 }
 
-export function enemyFighter(data: GameData, e: EnemyData, level: number, index: number): Fighter {
-  const at = (k: keyof EnemyData['base']) => e.base[k] + e.perLevel[k] * (level - 1);
+/** The traits on a spawn: a rare's fixed set, or a champion's rolled ones. */
+export function spawnTraits(data: GameData, spawn: Pick<EnemySpawn, 'traits' | 'rare'>): string[] {
+  if (spawn.rare) return data.champions.rares.find((r) => r.id === spawn.rare)?.traits ?? [];
+  return spawn.traits ?? [];
+}
+
+export function enemyFighter(data: GameData, e: EnemyData, level: number, index: number, spawn: Pick<EnemySpawn, 'traits' | 'rare'> = {}): Fighter {
+  const rare = spawn.rare ? data.champions.rares.find((r) => r.id === spawn.rare) : undefined;
+  const traits = spawnTraits(data, spawn);
+  // Stat multipliers: the champion or rare base, then each trait's.
+  const mults = [traits.length ? (rare ? data.champions.rare.stats : data.champions.champion.stats) : {}, ...traits.map((t) => data.champions.traits[t]?.stats ?? {})];
+  const at = (k: keyof EnemyData['base']) => mults.reduce((v, m) => v * (m[k] ?? 1), e.base[k] + e.perLevel[k] * (level - 1));
   const hp = Math.round(at('hp'));
-  return {
-    id: `e${index}`, kind: 'enemy', name: e.name, element: e.element, element2: e.element2 ?? null, level,
+  const prefix = traits.length && !rare ? `${data.champions.traits[traits[0]!]?.name ?? ''} ` : '';
+  const f: Fighter = {
+    id: `e${index}`, kind: 'enemy', name: rare ? rare.name : `${prefix}${e.name}`, element: e.element, element2: e.element2 ?? null, level,
     maxHp: hp, hp, maxMp: 0, mp: 0,
     power: at('power'), magic: 0, accuracy: at('power'), dodge: at('dodge'), swift: at('swift'),
     defense: at('defense'), critChance: data.combat.crit.base, statuses: [],
     enemyId: e.id, attack: at('attack'), resist: e.resist, boss: e.boss, shifted: false,
   };
+  if (traits.length) f.traits = [...traits];
+  if (rare) f.rare = rare.id;
+  for (const t of traits) {
+    const start = data.champions.traits[t]?.startStatus;
+    if (start) addStatus(data, f, start, []);
+  }
+  return f;
+}
+
+/** The traits a fighter has, as data. */
+const traitsOf = (data: GameData, f: Fighter) => (f.traits ?? []).map((t) => data.champions.traits[t]).filter((t) => !!t);
+/** The product of one trait number over a fighter's traits (1 when none has it). */
+function traitProduct(data: GameData, f: Fighter, key: 'physicalTaken'): number {
+  return traitsOf(data, f).reduce((m, t) => m * (t[key] ?? 1), 1);
+}
+function traitSum(data: GameData, f: Fighter, key: 'thorns' | 'lifesteal' | 'regen'): number {
+  return traitsOf(data, f).reduce((n, t) => n + (t[key] ?? 0), 0);
 }
 
 export function createBattle(data: GameData, setup: BattleSetup): BattleState {
   const enemies = setup.enemies.map((s, i) => {
     const e = data.enemies[s.enemyId];
     if (!e) throw new Error(`Unknown enemy ${s.enemyId}`);
-    return enemyFighter(data, e, s.level, i);
+    return enemyFighter(data, e, s.level, i, s);
   });
   const awake = setup.dragon && setup.dragon.hp > 0 ? setup.dragon : null;
   const dMods = awake ? dragonBonus(data, awake) : {};
@@ -451,6 +494,8 @@ interface AttackSpec {
   damageMultiplier?: number;
   /** Extra bonus for strong element hits (Attuned talent). */
   strongBonus?: number;
+  /** A hit up close (weapon swing, claw, dive, combo): Thorned enemies hurt the attacker back. */
+  contact?: boolean;
 }
 
 export interface DamageInputs { base: number; stat: number; element: number; crit: boolean; roll: number; defense: number }
@@ -487,12 +532,13 @@ function strike(ctx: RoundCtx, attacker: Fighter, target: Fighter, spec: AttackS
   const levelScale = attacker.kind === 'enemy' ? 1 : 1 + c.levelDamageScale * (attacker.level - 1);
   let base = spec.base * levelScale * (spec.damageMultiplier ?? 1);
   base *= statusProduct(data, attacker, 'damageMultiplier');
+  if (attacker.enraged) base *= Math.max(1, ...traitsOf(data, attacker).map((t) => t.enrage?.damage ?? 1));
   let defense = target.defense;
   defense *= statusProduct(data, target, 'defenseMultiplier');
   defense += statusSum(data, target, 'defenseBonus');
   let takenMult = statusProduct(data, target, 'damageTakenMultiplier');
   // Rend: plain attacks with no element hit harder.
-  if (!spec.element) takenMult *= statusProduct(data, target, 'physicalTakenMultiplier');
+  if (!spec.element) takenMult *= statusProduct(data, target, 'physicalTakenMultiplier') * traitProduct(data, target, 'physicalTaken');
   if (target.kind === 'rider' && ctx.riderDefending) takenMult *= c.defend.damageTakenMultiplier;
   let dmg = damageFormula(c, {
     base, stat: spec.stat, element: mult, crit, roll: rng.float(c.damageRandMin, c.damageRandMax), defense,
@@ -527,7 +573,28 @@ function strike(ctx: RoundCtx, attacker: Fighter, target: Fighter, spec: AttackS
     else ctx.breathGain += c.breath.onTakeDamage;
   }
   if (target.hp === 0) events.push({ t: 'ko', target: target.id, text: koText(target) });
+  else enrageCheck(ctx, target);
+  if (spec.contact && taken > 0) thornsBack(ctx, target, attacker, taken);
   return taken;
+}
+
+/** Enraged: the first time it drops below the line, it says so; its hits grow from then on. */
+function enrageCheck(ctx: RoundCtx, f: Fighter): void {
+  if (f.enraged) return;
+  const below = Math.max(0, ...traitsOf(ctx.data, f).map((t) => t.enrage?.below ?? 0));
+  if (below > 0 && f.hp < f.maxHp * below) {
+    f.enraged = true;
+    ctx.events.push({ t: 'act', actor: f.id, text: `${f.name} flies into a rage!` });
+  }
+}
+
+/** Thorned: a share of contact damage hurts the attacker back. It never knocks anyone out. */
+function thornsBack(ctx: RoundCtx, target: Fighter, attacker: Fighter, taken: number): void {
+  const share = traitSum(ctx.data, target, 'thorns');
+  if (share <= 0 || attacker.kind === 'enemy' || attacker.hp <= 1) return;
+  const amount = Math.min(attacker.hp - 1, Math.max(1, Math.round(taken * share)));
+  attacker.hp -= amount;
+  ctx.events.push({ t: 'recoil', target: attacker.id, amount, text: `${target.name}'s thorns prick ${attacker.name} for ${amount}.` });
 }
 
 function koText(f: Fighter): string {
@@ -577,7 +644,7 @@ function riderAct(ctx: RoundCtx, order: RiderOrder): void {
 
   const basicAttack = (targetId: string) => {
     const t = enemyTarget(state, targetId);
-    if (t) strike(ctx, rider, t, { base: state.weapon.damage, stat: rider.power, element: state.weapon.element, label: state.weapon.name, damageMultiplier: alone });
+    if (t) strike(ctx, rider, t, { base: state.weapon.damage, stat: rider.power, element: state.weapon.element, label: state.weapon.name, damageMultiplier: alone, contact: state.weapon.type === 'melee' });
   };
 
   switch (order.type) {
@@ -672,7 +739,7 @@ function dragonAct(ctx: RoundCtx, order: DragonOrder, slot: Slot): void {
 
   const claw = (targetId: string) => {
     const t = enemyTarget(state, targetId);
-    if (t) strike(ctx, dragon, t, { base: c.dragonMoves.claw.base, stat: dragon.power, element: null, label: c.dragonMoves.claw.name, damageMultiplier: 1 + bonusOf(slot.mods, 'clawPct') });
+    if (t) strike(ctx, dragon, t, { base: c.dragonMoves.claw.base, stat: dragon.power, element: null, label: c.dragonMoves.claw.name, damageMultiplier: 1 + bonusOf(slot.mods, 'clawPct'), contact: true });
   };
 
   switch (order.type) {
@@ -762,7 +829,7 @@ function skillAct(ctx: RoundCtx, order: Extract<DragonOrder, { type: 'skill' }>,
         dealt += strike(ctx, dragon, t, {
           base: (skill.base ?? 10) * (skill.element === 'dragon' ? own.factor : 1), stat: dragon.power,
           element: skill.element === 'dragon' ? own.element : null, label: talent.name,
-          damageMultiplier: 1 + bonusOf(slot.mods, 'clawPct'), strongBonus: bonusOf(slot.mods, 'strongBonus'),
+          damageMultiplier: 1 + bonusOf(slot.mods, 'clawPct'), strongBonus: bonusOf(slot.mods, 'strongBonus'), contact: true,
         });
       }
       if (dealt > 0) statusOn(t);
@@ -810,12 +877,12 @@ function rideAct(ctx: RoundCtx, order: Extract<RiderOrder, { type: 'ride' }>): v
   const t = enemyTarget(state, order.target);
   switch (move.kind) {
     case 'damage':
-      if (t) strike(ctx, unit, t, { base: move.base ?? 20, stat: unit.power, element: null, label: move.name, damageMultiplier: riderDamageMultiplier(data, state) });
+      if (t) strike(ctx, unit, t, { base: move.base ?? 20, stat: unit.power, element: null, label: move.name, damageMultiplier: riderDamageMultiplier(data, state), contact: true });
       return;
     case 'breath': {
       if (state.breath < data.combat.breath.max || statusFlag(data, unit, 'silenced')) {
         events.push({ t: 'act', actor: 'rider', text: state.breath < data.combat.breath.max ? `The breath meter isn't full. ${unit.name} dive instead!` : `${unit.name} are silenced and dive instead!` });
-        if (t) strike(ctx, unit, t, { base: data.combat.ride.moves[0]?.base ?? 20, stat: unit.power, element: null, label: 'Diving Strike' });
+        if (t) strike(ctx, unit, t, { base: data.combat.ride.moves[0]?.base ?? 20, stat: unit.power, element: null, label: 'Diving Strike', contact: true });
         return;
       }
       state.breath = 0;
@@ -845,7 +912,7 @@ function comboAct(ctx: RoundCtx, order: Extract<DragonOrder, { type: 'combo' }>)
   const element = combo.id === 'kindred-roar' ? state.dragon.element : null;
   strike(ctx, state.dragon, t, {
     base: combo.base, stat: (state.rider.power + state.dragon.power) / 2, element, label: combo.name,
-    damageMultiplier: 1 + bonusOf(state.dragonMods, 'comboPct'),
+    damageMultiplier: 1 + bonusOf(state.dragonMods, 'comboPct'), contact: true,
   });
 }
 
@@ -860,7 +927,7 @@ function duoAct(ctx: RoundCtx, order: Extract<DragonOrder, { type: 'duo' }>): vo
   const own = attackElement(data.elements, data.combat.hybridBreathMultiplier, lead, t);
   strike(ctx, lead, t, {
     base: combo.base * own.factor, stat: (lead.power + two.power) / 2, element: own.element, label: combo.name,
-    damageMultiplier: 1 + bonusOf(state.dragonMods, 'comboPct'),
+    damageMultiplier: 1 + bonusOf(state.dragonMods, 'comboPct'), contact: true,
   });
 }
 
@@ -927,6 +994,9 @@ function enemyAct(ctx: RoundCtx, enemy: Fighter): void {
       if (dealt > 0 && move.status && target.hp > 0 && rng.chance(move.statusChance ?? 1)) {
         addStatus(data, target, move.status, events);
       }
+      // Vampiric: heal for a share of the damage dealt.
+      const drain = traitSum(data, enemy, 'lifesteal');
+      if (dealt > 0 && drain > 0 && enemy.hp > 0 && enemy.hp < enemy.maxHp) heal(ctx, enemy, enemy, dealt * drain);
       return;
     }
   }
@@ -1061,6 +1131,11 @@ function endOfRound(ctx: RoundCtx, comboUsed: boolean): void {
       s.turns -= 1;
     }
     f.statuses = f.statuses.filter((s) => s.turns > 0 && !(data.statuses[s.id].shieldFraction && (s.shield ?? 0) <= 0));
+  }
+  // Mending: champions that heal a little each round.
+  for (const e of state.enemies) {
+    const regen = traitSum(data, e, 'regen');
+    if (regen > 0 && e.hp > 0 && e.hp < e.maxHp) heal(ctx, e, e, e.maxHp * regen);
   }
   if (alive(state.dragon) || (state.mode === 'ride' && alive(state.rider))) {
     let gain = c.breath.perRound + state.spirit * c.breath.perSpirit + ctx.breathGain + bonusOf(state.dragonMods, 'breathPerRound');
