@@ -45,11 +45,12 @@ Each row was built, tested, committed and deployed in this order. The Decisions 
 | Less scrolling (UI) | Folds (collapsible cards) and sub-tabs on every long screen; see `docs/UI_PLAN.md` | Eric: "a lot of scrolling at times... the bag tab where everything is expanded". He asked for a plan, the build, tests, docs and a deploy without a check-in |
 | Painted Map | The Map tab is a painted map per region (The Wilds, The High Lands, Beyond the Peak) with a pin per area; tap a pin for the area's details, arrows to cycle regions. 3 Codex generations | Eric: "redesign the Map tab into an actual map where we can click on locations... different maps that we can cycle through". He added: "we might at some point add new levels to maps", so new areas are one pin each. After trying it on his phone he asked for a Map / List switch (Map by default) and reported the open zone card's banner covering its level line; both fixed |
 
-### 2026-11-14 and 15: the variety plan, V2
+### 2026-11-14 and 15: the variety plan, V2 and V1
 
 | Work | What it added | How it came about |
 | --- | --- | --- |
 | V2 champions and rares | Regular hunt enemies show up as champions with one or two of 8 traits; each of the 23 zones has a named rare built on one of its enemies' art. Both pay more; rares give embers and supplies. Tint, gold ring, gold plate, rares drawn bigger. Save v13 counts rares met and beaten. No new art | Eric picked V2 then V1 and answered the plan's questions: tint plus gold ring, rares bigger, champions a little harder with better loot, rares tough but winnable |
+| V1 run events | After about 1 won hunt fight in 4, a short scene between fights: 11 events, 7 with a choice (chest or mimic, shrine, peddler, lost egg, ambush, fork, wandering dragon and more). Risky choices are optional and pay more. Save v14 keeps the event and its result in the run, so a reload shows the same thing | Eric: some events can carry risk, but the risky choice is always optional or pays well |
 
 ### 2026-11-13: the dragons plan, chunks 1 to 9
 
@@ -73,8 +74,9 @@ Each row was built, tested, committed and deployed in this order. The Decisions 
 - **Rider:** 21 spells, a loadout of 4, gear in 3 slots with 23 sets, the Forge.
 - **Dragons:** up to 10 at the Roost, two in battle from rider level 25, four life stages, four breeds (Dragon, Wyvern, Wyrm, Behemoth), talents, gear for Adults, temperament. Two grown dragons can breed at the Nesting Grounds; eggs can be hybrids (two elements) and about 1 in 50 has a rare finish.
 - **Variety:** champions (7 percent of regular hunt enemies, 8 traits) and one named rare per zone (about 1 fight in 150), all in `src/data/champions.json`.
-- **Saves:** version 13, up to 3 slots per device, export and import codes.
-- **Tests:** 293 unit tests and 119 phone tests pass. The sim shows every zone averaging 70 to 85 percent on level across the three starters.
+- **Run events:** after about 1 won hunt fight in 4, a scene with a choice (`src/data/runEvents.json`).
+- **Saves:** version 14, up to 3 slots per device, export and import codes.
+- **Tests:** 317 unit tests and 123 phone tests pass. The sim shows every zone averaging 70 to 85 percent on level across the three starters.
 
 ## What to work on next
 
@@ -102,7 +104,7 @@ Lessons from building above level 50 (useful if the cap ever goes past 100):
 
 ### Next: the variety plan (`docs/VARIETY_PLAN.md`)
 
-Eric grinds and revisits the first area and asked for research on making it less samey. V2 (champions and rares) is built and live. The plan's next steps are V3 (daily zone conditions) and V4 (a hunter's log); ask Eric before starting them. One V3 condition builds on V2: "Full moon: champions twice as likely".
+Eric grinds and revisits the first area and asked for research on making it less samey. V2 (champions and rares) and V1 (run events) are built and live. The plan's next steps are V3 (daily zone conditions) and V4 (a hunter's log); ask Eric before starting them. One V3 condition builds on V2: "Full moon: champions twice as likely".
 
 ### After that
 
@@ -251,13 +253,14 @@ Calls made while building, shown to Eric in the report:
 | --- | --- |
 | Champions and rares | `src/data/champions.json`: champion chance, the 8 traits as data (stat multipliers, `physicalTaken`, `thorns`, `lifesteal`, `enrage`, `startStatus`, `regen`, a `tint`), reward multipliers, and the 23 rares. `rollSpecials` in `run.ts` marks a spawn with `traits` or `rare` when a hunt is planned (story, quest, mini-boss and boss fights never change); `enemyFighter` applies them. Thorns never knock anyone out. The full write-up and Eric's answers are in `docs/VARIETY_PLAN.md` under "Built". |
 | Champion look | Stage only: the sprite's `.rig` gets the tint as a CSS filter, the actor's `::before` shadow becomes a gold ring, the plate gets `plate--champion` or `plate--rare`. Rares are 1.2x bigger and kept on the stage. No extra DOM nodes; the perf test has a two-champion case. |
+| Run events | `src/data/runEvents.json` and `src/core/runEvents.ts`. `run.event` (v14) holds `{ id, seed }`, then `chosen` and `result`; `run.boon` is a status for the next fight. `startFight` refuses while an event waits and clears it when the fight starts. Extra fights are inserted at `run.index` with a `bonus` on XP and gold. Event gold counts in one regular enemy's gold at the rider's level. Details and tuning in `docs/VARIETY_PLAN.md`. |
 | Rare count | `save.rares` (v13): rare id to `{ fought, defeated }`. The Map's treasures sheet shows each zone's rare once met. |
 
 ### Saves and settings
 
 | Topic | Decision |
 | --- | --- |
-| Save version | 13. v13 added `rares` (variety plan V2). v6 added `settings.simpleBattle`, v7 `rider.spells`, v8 the Forge, v9 `storyChoices` and `bounties`, v10 egg objects, dragon `breed`, `element2`, `variant` and `lastBredAt`, and the Nesting Grounds (`roost.levels.nesting`, `roost.nesting`), v11 `thirdDragonId`, v12 `rider.spellPlus`. Each bump has a migration and a fixture test (`tests/fixtures/save-v1.json` to `save-v12.json`). |
+| Save version | 14. v13 added `rares` and v14 `run.event` and `run.boon` (variety plan V2 and V1). v6 added `settings.simpleBattle`, v7 `rider.spells`, v8 the Forge, v9 `storyChoices` and `bounties`, v10 egg objects, dragon `breed`, `element2`, `variant` and `lastBredAt`, and the Nesting Grounds (`roost.levels.nesting`, `roost.nesting`), v11 `thirdDragonId`, v12 `rider.spellPlus`. Each bump has a migration and a fixture test (`tests/fixtures/save-v1.json` to `save-v13.json`). |
 | Save slots | Up to 3 per device (Eric's request). Slot 1 is the original `dracoquest.save` key so old saves stay put; slots 2 and 3 are `dracoquest.save.2` and `.3`; `dracoquest.slot` holds the slot in play. Not part of the save object, so no version bump. Settings has the list; export, import and Start over act on the slot in play. |
 | Simple battle | A setting that brings back the old card layout instead of the stage. |
 | Freeing dragons (2026-11-13) | Dragons tab, Overview, the "Free to the wild" fold (closed by default), with a confirm. Embers by stage from `roost.json` `freeEmbers` (3, 5, 8, 12 for Hatchling to Elder) plus the egg extras (+2 hybrid, +2 non-Dragon breed, +7 rare finish). Sized against bosses giving 10 embers on a first kill and 2 after, so freeing is a small refund, not a farm. Blocked for the lead, the last dragon, a dragon on an expedition or nesting, and mid-run. A partner seat it held empties; gear it wore stays in the bag. `freeDragon`, `freeValue`, `freeBlocker` in `game.ts`. Dragons can't be sold. |
@@ -289,6 +292,7 @@ src/core/      pure game logic, no DOM (CLAUDE.md)
   spells.ts      rider spells: what a level knows, the loadout, learning on level-up
   forge.ts       the Forge: gear upgrades, recipes, materials
   adventures.ts  story quests, choices and the daily bounty board
+  runEvents.ts   run events between fights: rolling one, resolving an option
   run.ts         zone runs, rewards, rollGear (trophies and zone loot), champions and rares (rollSpecials, specialOf)
   loadout.ts     gear, set and talent bonuses; riderWeapon applies Forge upgrades
   roost.ts       buildings, timers, expeditions (with materials), temperament
@@ -296,10 +300,10 @@ src/core/      pure game logic, no DOM (CLAUDE.md)
   eggs.ts        eggs, hybrids, rare finishes, breeding rolls, returning eggs to the wild
   care.ts progression.ts characters.ts elements.ts events.ts rng.ts data.ts types.ts
 src/data/      every balance number and all content, as JSON: zones, enemies, gear, sets, shop, combat (spells),
-               progression, stories, bounties, regions, forge, roost, dragons, talents, quests, items, foods, events, champions
+               progression, stories, bounties, regions, forge, roost, dragons, talents, quests, items, foods, events, champions, runEvents
 src/ui/        Preact screens and pieces
   screens/       Roost, Buildings (incl. the Forge card), Forge (sheet), Map (regions, treasures, story and bounty buttons),
-                 Adventures (story and bounty sheets), Battle (orders, round loop, results, story endings), Bag (gear, sets,
+                 Adventures (story and bounty sheets), RunEvent (events between fights), Battle (orders, round loop, results, story endings), Bag (gear, sets,
                  spells, materials), Town, Dragons, Hatch, Groom, Settings (incl. saved games)
   stage/         battle stage: Stage, BattleStage, director (events to moves, spell colors), choreo, rigs (art loader), tint, Scene
   dev/           hidden pages: #/dev/mock, #/dev/bench, #/dev/art
@@ -307,8 +311,8 @@ src/ui/        Preact screens and pieces
   useSave.ts storage.ts  save slots and storage
   Sprites.tsx Icon.tsx Wallet.tsx art.ts bits.tsx (formatBonus, rewardText) styles.css skin.css pwa.ts sound.ts install.ts router.ts
 src/art/       painted/ (characters, attack poses, backdrops, effects, tail tips), eggs/, icons/, assets.json (the art manifest)
-tests/         Vitest unit tests (293), sim.ts (the balance simulator), save fixtures v1 to v12
-e2e/           Playwright phone tests (119), fixtures/ (built by make-fixtures.ts), specs per feature
+tests/         Vitest unit tests (317), sim.ts (the balance simulator), save fixtures v1 to v13
+e2e/           Playwright phone tests (123), fixtures/ (built by make-fixtures.ts), specs per feature
                (slots, spells, gear, forge, world, ui, stage, perf, smoke, phase2 to 4), helpers.ts (openFold, tab)
 tools/content/      arealib.py (the area writer) with area_gen_70s.py, area_gen_80s.py and area_gen_90s.py; area_gen.py (the 50s and 60s), scale_enemies.py and slow_growth.py (balance), find_tail_tips.py (breeds)
 tools/art/painted/  style.txt and anchor.png (the style), jobs.py to jobs16.py (one per batch; jobs8 is the region maps, jobs9 the new element tips and breath plus Starglass Hollow and the Hidden Reach map, jobs10 the Wyvern, jobs11 Voidmarch and the Wyrm, jobs12 Sunken Spires, jobs13 Rotroot Thicket, Emberwild, the Steelspine Range and the Elder Wilds map, jobs14 Skyreach Isles and Twilight Rift, jobs15 Hollow Crown and The Confluence, jobs16 Starfall Summit, Dragonsrest and the Behemoth), run.sh, pack.py, wire_area.py (adds a packed area to the manifest),
@@ -321,9 +325,9 @@ docs/          HANDOFF.md, NEXT_PROMPT.md, WORLD_PLAN.md, UI_PLAN.md, ART_GENERA
 | Command | What it does |
 | --- | --- |
 | `npm run dev` | Local dev server |
-| `npm run test` | Unit tests (293) |
+| `npm run test` | Unit tests (317) |
 | `npx tsc --noEmit` and `npm run lint` | Type check and lint. Lint blocks `Math.random`, browser globals in `src/core`, and `any`. |
-| `npm run e2e` | Phone tests at 375 by 667 (119), about 4 minutes. Builds the site first. |
+| `npm run e2e` | Phone tests at 375 by 667 (123), about 4 minutes. Builds the site first. |
 | `npm run sim` | Balance sim: 1,000 runs per zone and level, then 100 campaigns per starter from egg to the cap. Flags: `--zone <id>`, `--no-campaign`, `--campaign-only`, `--runs`, `--campaigns`. The full run takes about 4 minutes; one zone about 1 minute. |
 | `npx tsx e2e/make-fixtures.ts` | Rebuilds the saves the phone tests load (needed after every save version bump) |
 | `npm run deploy` | Tests, lint and build, then pushes the current branch to `main`, which publishes. Only when Eric asks. |
@@ -348,6 +352,7 @@ docs/          HANDOFF.md, NEXT_PROMPT.md, WORLD_PLAN.md, UI_PLAN.md, ART_GENERA
 - **Tests that end early.** A loop that stops when a fight ends can pass without checking anything. Use seeded fixtures and assert the outcome. A loop waiting for a "next" button must also check for the screen it expects to end on (the story ending).
 - **Folds and tabs hide test hooks.** A control inside a closed fold or another sub-tab isn't rendered, so a phone test must open it first: `openFold(page, '<fold id>')` (ids like `roost.forge`, `settings.backup`, `map.zone.mossy-hollow`, `bag.spells.locked`) and `tab(page, 'bag' | 'dragons', '<tab>')` from `e2e/helpers.ts`. The Map shows one region at a time (remembered per device, starting at the rider's level), so a test for a High Lands zone taps `map-next` first, and it opens on the painted map, so a test that uses zone cards calls `mapView(page, 'list')`. Fold and tab state is remembered in `localStorage`, and every Playwright test starts with empty storage, so defaults apply. A new long section should be a Fold or a tab, and `e2e/ui.spec.ts` should get a height budget for any new screen.
 - **Champions shift seeded tests.** `planRun` rolls champions and rares with the run RNG, so a test that needs a plain fight should build its `run.fights` by hand rather than rely on a seed.
+- **Run events block the next fight.** A test that plays a whole hunt must answer an event before `startFight` (`chooseEvent` with `eventChoice` from `ai.ts`, as the sim and `tests/game.test.ts` do). A phone test that puts an event in a fixture's run needs fixtures at v14, or the migration from v13 clears it.
 - **Order rows are tight.** The busiest row is exactly 351 px at 375 wide; adding a button needs a layout change.
 - **Save fixtures and migrations.** The phone-test saves in `e2e/fixtures/` are at the current version. After a version bump, rebuild them (`npx tsx e2e/make-fixtures.ts`), or a migration may reset fields a test sets up (the v9 migration resets `bounties`, which broke a bounty test until the fixtures were rebuilt). Keep the previous version's fixture in `tests/fixtures/` for the migration test.
 - **The sim's on-level characters** have every boss below their level marked beaten (`onLevelCharacter`), so side areas aren't locked in the table. `pickZone` grinds the highest open zone by array order, so a side area inserted after a main zone takes over its levels in the campaign.

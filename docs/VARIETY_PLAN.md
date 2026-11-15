@@ -1,6 +1,6 @@
 # Variety plan: less sameness when grinding
 
-Written 2026-11-13 at Eric's request. Status (2026-11-15): V2 is built and live. See "Built" at the end for what was made and the calls behind it.
+Written 2026-11-13 at Eric's request. Status (2026-11-15): V2 and V1 are built and live. See "Built" at the end for what was made and the calls behind it.
 
 Eric's answers (2026-11-14): V2 first, then V1. Champions and rares get a color tint plus a gold ring, and rares are drawn bigger; no new Codex art. Champions are a little harder with better loot, something to welcome rather than flee. Rares are tougher but winnable on level. Events may carry risk (a mimic, an ambush), but the risky choice is always optional or pays well.
 
@@ -177,4 +177,30 @@ Calls made without Eric (he can overrule any):
 3. Champions show the first trait's name only; the second is in the details sheet, since plates are narrow.
 4. Rares are hidden as "???" on the Map until met.
 5. Save v13 for the rare counts, so a "seen" badge is possible.
+
+### V1: run events between fights (2026-11-15, save v14)
+
+Data: `src/data/runEvents.json`. Logic: `src/core/runEvents.ts` (pure: rolling, resolving an option), `chooseEvent` and `dismissEvent` in `game.ts`, the screen in `src/ui/screens/RunEvent.tsx`.
+
+- **When.** After a won regular fight in a zone hunt, when the next fight is not the boss (a mini-boss next is fine), a 33 percent roll picks an event by weight. Stories and growth quests never get one. In the sim, events follow 25.5 to 27 percent of won fights, about 1 in 4.
+- **Saved.** The run holds `event: { id, seed }`. Choosing stores the option and the full result on the event, so a reload shows the same scene before a choice and the same result after. Starting the next fight clears it; the next fight can't start until a choice is made. Leaving the run clears it too.
+- **Events (11, 7 with a choice).** Treasure chest (open: gold and two supplies, or 1 in 4 a mimic fight at 2.5x XP and gold; or leave it), mossy shrine (pray: heal half HP for everyone; offer blood: lose 15 percent HP for Fury next fight; walk on), wandering peddler (3 potions for 38 gold, an Iron Ore for 4 fights' worth of gold, or pass), lost egg from level 5 (take an egg of the zone's element, or leave it for 3 bond and gentle temperament), ambush (a pair fight at 1.75x, or slip away), fork in the path (quiet trail, or a champion fight at 1.25x), your dragon wanders off (let it explore: ore or gold and bold temperament; call it back: 3 bond and gentle), and four without a choice: an old campfire (a potion), a glittering stream (gold), a traveling keeper (a dragon treat and 2 bond), a lost satchel from level 8 (a potion and an ore).
+- **Scaling.** Gold is counted in one regular enemy's gold at the rider's level (`goldFights`, `costFights`), so events pay the same share at level 3 and level 90. Extra fights use the zone's own enemies at the rider's level; a mimic uses the Treasure Mimic's art and moves with the zone's sturdiest regular enemy's stats.
+- **Risk.** Every option that can cost HP or start a fight sits beside a safe one (a unit test checks this), and the risky ones pay more.
+- **Screen.** A still strip of the zone's backdrop with the event's icon, the text, one button per option with a short line under it (and its gold cost, disabled when you can't pay), and Head home. After a choice: what happened, what it gave, then Keep going (or Fight! for an extra fight). Every option of every event fits on one 375 x 667 screen (a phone test checks each).
+- **Auto-battler.** `eventChoice` in `ai.ts` heals at a shrine below 60 percent HP and otherwise takes the first safe option, so it never opens a chest or takes a fight.
+
+Tuning:
+
+- The first version healed fully at the shrine and 35 percent at a campfire, with MP too. The sim showed healing between fights lifting on-level win rates by 3 to 4 points, and the size of the heal hardly mattered. So the shrine now heals half and only HP, it shows up a little less often (weight 2), and the campfire leaves a potion instead.
+- With V2 and V1 together, zone averages are 77.5 to 83.0 percent on level across the starters, against 76.8 to 83.1 before either. No starter left 70 to 85. The 12 rows outside were all outside before. Campaigns reach level 100 in every case and win 93.3 to 94.5 percent of runs.
+
+Calls made without Eric (he can overrule any):
+
+1. Events never come right before the boss, so the boss interlude and Ride choice stay as they were.
+2. The shrine heals half instead of fully, and the campfire gives a potion instead of healing, to keep balance (see Tuning).
+3. Events give no XP, so a level-up never happens outside a fight.
+4. The mimic borrows the zone's sturdiest enemy's stats, since the Gilded Wastes mimic is tuned for level 40 to 50.
+5. The lost egg is uncommon (weight 0.6 of about 27, from level 5), so it adds an egg about every 150 fights.
+6. Head home works from an event, and ends the run like it does after a fight.
 
