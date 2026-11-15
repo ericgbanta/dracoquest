@@ -1,3 +1,4 @@
+import bounties from '../src/data/bounties.json' with { type: 'json' };
 import { expect, test, type Page } from '@playwright/test';
 import { openFold, mapRegion, mapView, enter } from './helpers';
 import { readFileSync } from 'node:fs';
@@ -191,7 +192,7 @@ test('finished bounties are claimed from the board', async ({ page }) => {
   await load(page, 'juvenile.json', (s) => {
     // Mark every Mossy Hollow bounty as done for today; the board posts three of them.
     const progress: Record<string, number> = {};
-    for (const id of ['thorn-trim', 'hopper-hop', 'boar-boredom', 'puff-patrol', 'wisp-watch', 'hollow-wins', 'hollow-clear', 'elder-visit']) progress[`mossy-hollow:${id}`] = 99;
+    for (const b of bounties.pools['mossy-hollow']!) progress[`mossy-hollow:${b.id}`] = 99;
     s.bounties = { day: '2026-11-12', progress, claimed: [] };
   });
   await page.getByTestId('tab-map').tap();

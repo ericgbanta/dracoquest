@@ -208,15 +208,15 @@ Calls made without Eric (he can overrule any):
 
 Data: `src/data/conditions.json`. Logic: `src/core/conditions.ts`.
 
-- **Seven conditions.** Calm (weight 3), Fog (+8 dodge for every fighter, so about 8 percent fewer hits on both sides; weight 1.5), an element surge (hits of one of the zone's elements 20 percent stronger, for both sides; weight 1.5), Full moon (champions and rares twice as likely; 1), Bounty day (double gold; 1), Tailwind (+5 breath a round for every partner dragon; 1) and Treasure trail (+50 percent item drop chance, 1.5x zone gear chance; 1). So about 3 days in 10 are calm in any one zone.
+- **Seven conditions.** Calm (weight 3), Fog (+8 dodge for every fighter, so about 8 percent fewer hits on both sides; weight 1.5), an element surge (your side's hits of one of the zone's elements 20 percent stronger; weight 1.5), Full moon (champions and rares twice as likely; 1), Bounty day (double gold; 1), Tailwind (+5 breath a round for every partner dragon; 1) and Treasure trail (+50 percent item drop chance, 1.5x zone gear chance; 1). So about 3 days in 10 are calm in any one zone.
 - **Picked by day.** From a seed of the date and the zone (`conditionFor`), like the bounty board, so every zone has its own and they change at midnight.
 - **Kept for a hunt.** `startRun` stores the day's condition in `run.condition` (save v15), so a run that crosses midnight keeps it. Story and growth-quest runs have none.
 - **Where it shows.** A "Today" line in the zone details (the open zone card and the map pin sheet), a line in the battle log when a fight starts (not for Calm), and the between-fights screen.
-- **Sim.** The on-level sim now plays each run on a different day, so conditions average out the way they would for a player.
+- **Sim.** The on-level sim now plays each run on a different day, so conditions average out the way they would for a player. With every day forced calm, Thunderspire read 85.0, 69.5 and 86.7; with conditions, 84.7, 69.0 and 86.1, so conditions are about neutral for balance.
 
 Calls made without Eric:
 
-1. The seven conditions and their sizes. Fog and the surge help both sides, so they change how a fight feels more than whether it's won.
+1. The seven conditions and their sizes. The first surge helped both sides; since a zone's element is mostly its enemies' element, that cost 2 to 3 points on level, so a surge now helps only your side (a reason to bring a dragon or spell of that element). Fog went from +8 to +6 dodge for the same reason.
 2. Calm days exist and are the most common single condition, so the others stay notable.
 3. No condition is shown on the battle stage itself (the header is full); the log and the Map carry it.
 
@@ -234,6 +234,9 @@ Calls made without Eric:
 - Each has three moves of its own, an encounter of its own (weight 2) and joins one new mixed pair (from level 3, 8, 12 and 14).
 - Each has a defeat bounty in its zone's pool, except Cinder Pass, which has no bounty board yet (V5).
 - These four zones now have 8 regular enemies each, 127 in the game.
+- The first sim pass had Cinder Pass's average fall from 79.9 to 72.1 (Verdant 69.2), mostly from the Storm Crow against Tide and the Magma Snail. The three new Cinder Pass enemies now have 8 percent less attack and 5 percent less HP, and Mossy Hollow's three 4 percent less of both.
+
+Balance with V2, V1, V3 and V7 together (1,000 runs per level): every zone averages 76.4 to 84.1 percent on level across the starters (76.8 to 83.1 before any variety work). No starter row left 70 to 85; the 11 rows outside it were all outside before (the Saltmarsh, Fen, Thunderspire, Frostmere Fire and a few Verdant rows at 85 to 90). Campaigns reach level 100 in 100 of 100 runs per starter and win 93.1 to 94.1 percent of runs.
 
 Calls made without Eric: every name and look, the elements (they follow each zone's existing mix, except that Cinder Pass gains its first Storm regular), and copying stats from an existing enemy in the same zone rather than tuning new ones.
 

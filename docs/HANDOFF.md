@@ -79,7 +79,7 @@ Each row was built, tested, committed and deployed in this order. The Decisions 
 - **Daily conditions:** each zone has one a day (`src/data/conditions.json`), shown on the Map.
 - **Run events:** after about 1 won hunt fight in 4, a scene with a choice (`src/data/runEvents.json`).
 - **Saves:** version 15, up to 3 slots per device, export and import codes.
-- **Tests:** 317 unit tests and 123 phone tests pass. The sim shows every zone averaging 70 to 85 percent on level across the three starters.
+- **Tests:** 330 unit tests and 128 phone tests pass. The sim shows every zone averaging 70 to 85 percent on level across the three starters.
 
 ## What to work on next
 
@@ -317,8 +317,8 @@ src/ui/        Preact screens and pieces
   useSave.ts storage.ts  save slots and storage
   Sprites.tsx Icon.tsx Wallet.tsx art.ts bits.tsx (formatBonus, rewardText) styles.css skin.css pwa.ts sound.ts install.ts router.ts
 src/art/       painted/ (characters, attack poses, backdrops, effects, tail tips), eggs/, icons/, assets.json (the art manifest)
-tests/         Vitest unit tests (317), sim.ts (the balance simulator), save fixtures v1 to v13
-e2e/           Playwright phone tests (123), fixtures/ (built by make-fixtures.ts), specs per feature
+tests/         Vitest unit tests (330), sim.ts (the balance simulator), save fixtures v1 to v14
+e2e/           Playwright phone tests (128), fixtures/ (built by make-fixtures.ts), specs per feature
                (slots, spells, gear, forge, world, ui, stage, perf, smoke, phase2 to 4), helpers.ts (openFold, tab)
 tools/content/      v7_enemies.py (V7's enemies), arealib.py (the area writer) with area_gen_70s.py, area_gen_80s.py and area_gen_90s.py; area_gen.py (the 50s and 60s), scale_enemies.py and slow_growth.py (balance), find_tail_tips.py (breeds)
 tools/art/painted/  style.txt and anchor.png (the style), jobs.py to jobs16.py (one per batch; jobs8 is the region maps, jobs9 the new element tips and breath plus Starglass Hollow and the Hidden Reach map, jobs10 the Wyvern, jobs11 Voidmarch and the Wyrm, jobs12 Sunken Spires, jobs13 Rotroot Thicket, Emberwild, the Steelspine Range and the Elder Wilds map, jobs14 Skyreach Isles and Twilight Rift, jobs15 Hollow Crown and The Confluence, jobs16 Starfall Summit, Dragonsrest and the Behemoth, jobs17 three more enemies for each of the first four zones), run.sh, pack.py, wire_area.py (adds a packed area to the manifest),
@@ -331,9 +331,9 @@ docs/          HANDOFF.md, NEXT_PROMPT.md, WORLD_PLAN.md, UI_PLAN.md, ART_GENERA
 | Command | What it does |
 | --- | --- |
 | `npm run dev` | Local dev server |
-| `npm run test` | Unit tests (317) |
+| `npm run test` | Unit tests (330) |
 | `npx tsc --noEmit` and `npm run lint` | Type check and lint. Lint blocks `Math.random`, browser globals in `src/core`, and `any`. |
-| `npm run e2e` | Phone tests at 375 by 667 (123), about 4 minutes. Builds the site first. |
+| `npm run e2e` | Phone tests at 375 by 667 (128), about 4 minutes. Builds the site first. |
 | `npm run sim` | Balance sim: 1,000 runs per zone and level, then 100 campaigns per starter from egg to the cap. Flags: `--zone <id>`, `--no-campaign`, `--campaign-only`, `--runs`, `--campaigns`. The full run takes about 4 minutes; one zone about 1 minute. |
 | `npx tsx e2e/make-fixtures.ts` | Rebuilds the saves the phone tests load (needed after every save version bump) |
 | `npm run deploy` | Tests, lint and build, then pushes the current branch to `main`, which publishes. Only when Eric asks. |
@@ -358,6 +358,7 @@ docs/          HANDOFF.md, NEXT_PROMPT.md, WORLD_PLAN.md, UI_PLAN.md, ART_GENERA
 - **Tests that end early.** A loop that stops when a fight ends can pass without checking anything. Use seeded fixtures and assert the outcome. A loop waiting for a "next" button must also check for the screen it expects to end on (the story ending).
 - **Folds and tabs hide test hooks.** A control inside a closed fold or another sub-tab isn't rendered, so a phone test must open it first: `openFold(page, '<fold id>')` (ids like `roost.forge`, `settings.backup`, `map.zone.mossy-hollow`, `bag.spells.locked`) and `tab(page, 'bag' | 'dragons', '<tab>')` from `e2e/helpers.ts`. The Map shows one region at a time (remembered per device, starting at the rider's level), so a test for a High Lands zone taps `map-next` first, and it opens on the painted map, so a test that uses zone cards calls `mapView(page, 'list')`. Fold and tab state is remembered in `localStorage`, and every Playwright test starts with empty storage, so defaults apply. A new long section should be a Fold or a tab, and `e2e/ui.spec.ts` should get a height budget for any new screen.
 - **Champions shift seeded tests.** `planRun` rolls champions and rares with the run RNG, so a test that needs a plain fight should build its `run.fights` by hand rather than rely on a seed.
+- **Bounty pools grew.** Mossy Hollow, Saltmarsh Shore and Whispering Fen have 11 bounties each now (V7), so a test that marks bounties done should loop over the pool in `bounties.json` rather than list ids.
 - **Run events block the next fight.** A test that plays a whole hunt must answer an event before `startFight` (`chooseEvent` with `eventChoice` from `ai.ts`, as the sim and `tests/game.test.ts` do). A phone test that puts an event in a fixture's run needs fixtures at v14, or the migration from v13 clears it.
 - **Order rows are tight.** The busiest row is exactly 351 px at 375 wide; adding a button needs a layout change.
 - **Save fixtures and migrations.** The phone-test saves in `e2e/fixtures/` are at the current version. After a version bump, rebuild them (`npx tsx e2e/make-fixtures.ts`), or a migration may reset fields a test sets up (the v9 migration resets `bounties`, which broke a bounty test until the fixtures were rebuilt). Keep the previous version's fixture in `tests/fixtures/` for the migration test.
