@@ -167,7 +167,7 @@ describe('V7: three more enemies in each of the first four zones', () => {
   const assets = JSON.parse(readFileSync('src/art/assets.json', 'utf8')) as { rigs: Record<string, { parts: { parts: { file: string }[] }[] }> };
   const zonesWithMore = ['mossy-hollow', 'saltmarsh-shore', 'whispering-fen', 'cinder-pass'];
 
-  it('each zone has 8 regular enemies, and each new one has moves, art, an encounter and (where the zone has a board) a bounty', () => {
+  it('each zone has 8 regular enemies, and each new one has moves, art, an encounter and a bounty', () => {
     for (const id of zonesWithMore) {
       const z = zone(id);
       const regular = new Set(z.encounters.flatMap((e) => e.enemies));
@@ -177,9 +177,7 @@ describe('V7: three more enemies in each of the first four zones', () => {
         expect(e.moves.length).toBe(3);
         expect(z.encounters.some((enc) => enc.enemies.length === 1 && enc.enemies[0] === eid)).toBe(true);
         expect(assets.rigs[`enemy.${eid}`]!.parts[0]!.parts.map((p) => p.file)).toEqual([`painted/enemies/${eid}.webp`, `painted/enemies/${eid}-attack.webp`]);
-        // Cinder Pass has no bounty board yet (one of the five zones without stories or bounties).
-        const pool = data.bounties.pools[id];
-        if (pool) expect(pool.some((b) => b.kind === 'defeat' && b.enemy === eid), eid).toBe(true);
+        expect(data.bounties.pools[id]!.some((b) => b.kind === 'defeat' && b.enemy === eid), eid).toBe(true);
       }
     }
   });

@@ -1862,6 +1862,531 @@
         },
         "enemy": "mossback-keeper"
       }
+    ],
+    "cinder-pass": [
+      {
+        "id": "ember-imp-bounty",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Catch 4 Ember Imps",
+        "reward": {
+          "gold": 180,
+          "materials": {
+            "ore": 2
+          }
+        },
+        "enemy": "ember-imp"
+      },
+      {
+        "id": "ash-lizard-bounty",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Shoo 4 Ash Lizards off the road",
+        "reward": {
+          "gold": 180,
+          "embers": 1
+        },
+        "enemy": "ash-lizard"
+      },
+      {
+        "id": "cinder-beetle-bounty",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Flip 3 Cinder Beetles",
+        "reward": {
+          "gold": 180,
+          "embers": 1
+        },
+        "enemy": "cinder-beetle"
+      },
+      {
+        "id": "smog-bat-bounty",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Clear the air of 3 Smog Bats",
+        "reward": {
+          "gold": 180,
+          "materials": {
+            "crystal": 1
+          }
+        },
+        "enemy": "smog-bat"
+      },
+      {
+        "id": "lava-toad-bounty",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Cool off 3 Lava Toads",
+        "reward": {
+          "gold": 180,
+          "materials": {
+            "ore": 2
+          }
+        },
+        "enemy": "lava-toad"
+      },
+      {
+        "id": "magma-snail-bounty",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Move 3 Magma Snails off the road",
+        "reward": {
+          "gold": 180,
+          "materials": {
+            "ore": 2
+          }
+        },
+        "enemy": "magma-snail"
+      },
+      {
+        "id": "soot-mole-bounty",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Sweep up 3 Soot Moles",
+        "reward": {
+          "gold": 180,
+          "embers": 1
+        },
+        "enemy": "soot-mole"
+      },
+      {
+        "id": "storm-crow-bounty",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Ground 3 Storm Crows",
+        "reward": {
+          "gold": 180,
+          "embers": 1
+        },
+        "enemy": "storm-crow"
+      },
+      {
+        "id": "cinder-pass-wins",
+        "kind": "wins",
+        "count": 6,
+        "text": "Win 6 fights in the Pass",
+        "reward": {
+          "gold": 210,
+          "materials": {
+            "ore": 3
+          }
+        }
+      },
+      {
+        "id": "cinder-pass-clear",
+        "kind": "clear",
+        "count": 2,
+        "text": "Finish 2 runs in the Pass",
+        "reward": {
+          "gold": 250,
+          "embers": 2
+        }
+      },
+      {
+        "id": "cinder-pass-mini",
+        "kind": "defeat",
+        "count": 1,
+        "text": "Defeat the Imp Chieftain",
+        "reward": {
+          "gold": 210,
+          "materials": {
+            "crystal": 1
+          }
+        },
+        "enemy": "imp-chieftain"
+      }
+    ],
+    "thunderspire": [
+      {
+        "id": "spark-sprite-bounty",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Unplug 4 Spark Sprites",
+        "reward": {
+          "gold": 260,
+          "materials": {
+            "ore": 2
+          }
+        },
+        "enemy": "spark-sprite"
+      },
+      {
+        "id": "thunder-goat-bounty",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Bring down 3 Thunder Goats",
+        "reward": {
+          "gold": 260,
+          "embers": 1
+        },
+        "enemy": "thunder-goat"
+      },
+      {
+        "id": "cliff-harpy-bounty",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Hush 4 Cliff Harpies",
+        "reward": {
+          "gold": 260,
+          "embers": 1
+        },
+        "enemy": "cliff-harpy"
+      },
+      {
+        "id": "gale-hawk-bounty",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Ground 3 Gale Hawks",
+        "reward": {
+          "gold": 260,
+          "materials": {
+            "crystal": 1
+          }
+        },
+        "enemy": "gale-hawk"
+      },
+      {
+        "id": "granite-ram-bounty",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Herd 3 Granite Rams",
+        "reward": {
+          "gold": 260,
+          "materials": {
+            "ore": 2
+          }
+        },
+        "enemy": "granite-ram"
+      },
+      {
+        "id": "thunderspire-wins",
+        "kind": "wins",
+        "count": 6,
+        "text": "Win 6 fights in the Spire",
+        "reward": {
+          "gold": 310,
+          "materials": {
+            "ore": 3
+          }
+        }
+      },
+      {
+        "id": "thunderspire-clear",
+        "kind": "clear",
+        "count": 2,
+        "text": "Finish 2 runs in the Spire",
+        "reward": {
+          "gold": 360,
+          "embers": 2
+        }
+      },
+      {
+        "id": "thunderspire-mini",
+        "kind": "defeat",
+        "count": 1,
+        "text": "Defeat the Thunderhead",
+        "reward": {
+          "gold": 310,
+          "materials": {
+            "crystal": 1
+          }
+        },
+        "enemy": "thunderhead"
+      }
+    ],
+    "frostmere": [
+      {
+        "id": "frostbite-hare-bounty",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Chase 4 Frostbite Hares",
+        "reward": {
+          "gold": 390,
+          "materials": {
+            "ore": 2
+          }
+        },
+        "enemy": "frostbite-hare"
+      },
+      {
+        "id": "ice-wraith-bounty",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Quiet 3 Ice Wraiths",
+        "reward": {
+          "gold": 390,
+          "embers": 1
+        },
+        "enemy": "ice-wraith"
+      },
+      {
+        "id": "glacier-turtle-bounty",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Turn back 3 Glacier Turtles",
+        "reward": {
+          "gold": 390,
+          "embers": 1
+        },
+        "enemy": "glacier-turtle"
+      },
+      {
+        "id": "yeti-cub-bounty",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Send 3 Yeti Cubs home",
+        "reward": {
+          "gold": 390,
+          "materials": {
+            "crystal": 1
+          }
+        },
+        "enemy": "yeti-cub"
+      },
+      {
+        "id": "rime-wolf-bounty",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Drive off 3 Rime Wolves",
+        "reward": {
+          "gold": 390,
+          "materials": {
+            "ore": 2
+          }
+        },
+        "enemy": "rime-wolf"
+      },
+      {
+        "id": "frostmere-wins",
+        "kind": "wins",
+        "count": 6,
+        "text": "Win 6 fights in Frostmere",
+        "reward": {
+          "gold": 460,
+          "materials": {
+            "ore": 3
+          }
+        }
+      },
+      {
+        "id": "frostmere-clear",
+        "kind": "clear",
+        "count": 2,
+        "text": "Finish 2 runs in Frostmere",
+        "reward": {
+          "gold": 540,
+          "embers": 2
+        }
+      },
+      {
+        "id": "frostmere-mini",
+        "kind": "defeat",
+        "count": 1,
+        "text": "Defeat the Rime Alpha",
+        "reward": {
+          "gold": 460,
+          "materials": {
+            "crystal": 1
+          }
+        },
+        "enemy": "rime-alpha"
+      }
+    ],
+    "deepstone-mines": [
+      {
+        "id": "tunnel-mole-bounty",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Block 3 Tunnel Moles",
+        "reward": {
+          "gold": 520,
+          "materials": {
+            "ore": 2
+          }
+        },
+        "enemy": "tunnel-mole"
+      },
+      {
+        "id": "crystal-crawler-bounty",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Clear 4 Crystal Crawlers",
+        "reward": {
+          "gold": 520,
+          "embers": 1
+        },
+        "enemy": "crystal-crawler"
+      },
+      {
+        "id": "lantern-gnome-bounty",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Relight after 3 Lantern Gnomes",
+        "reward": {
+          "gold": 520,
+          "embers": 1
+        },
+        "enemy": "lantern-gnome"
+      },
+      {
+        "id": "gemback-lizard-bounty",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Recover gems from 3 Gemback Lizards",
+        "reward": {
+          "gold": 520,
+          "materials": {
+            "crystal": 1
+          }
+        },
+        "enemy": "gemback-lizard"
+      },
+      {
+        "id": "rust-sprite-bounty",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Stop 3 Rust Sprites",
+        "reward": {
+          "gold": 520,
+          "materials": {
+            "ore": 2
+          }
+        },
+        "enemy": "rust-sprite"
+      },
+      {
+        "id": "deepstone-mines-wins",
+        "kind": "wins",
+        "count": 6,
+        "text": "Win 6 fights in the Mines",
+        "reward": {
+          "gold": 620,
+          "materials": {
+            "ore": 3
+          }
+        }
+      },
+      {
+        "id": "deepstone-mines-clear",
+        "kind": "clear",
+        "count": 2,
+        "text": "Finish 2 runs in the Mines",
+        "reward": {
+          "gold": 720,
+          "embers": 2
+        }
+      },
+      {
+        "id": "deepstone-mines-mini",
+        "kind": "defeat",
+        "count": 1,
+        "text": "Defeat the Foreman Golem",
+        "reward": {
+          "gold": 620,
+          "materials": {
+            "crystal": 1
+          }
+        },
+        "enemy": "foreman-golem"
+      }
+    ],
+    "eclipse-peak": [
+      {
+        "id": "dawn-sprite-bounty",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Settle 4 Dawn Sprites",
+        "reward": {
+          "gold": 620,
+          "materials": {
+            "ore": 2
+          }
+        },
+        "enemy": "dawn-sprite"
+      },
+      {
+        "id": "dusk-bat-bounty",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Chase off 3 Dusk Bats",
+        "reward": {
+          "gold": 620,
+          "embers": 1
+        },
+        "enemy": "dusk-bat"
+      },
+      {
+        "id": "sun-knight-bounty",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Unhorse 3 Sun Knights",
+        "reward": {
+          "gold": 620,
+          "embers": 1
+        },
+        "enemy": "sun-knight"
+      },
+      {
+        "id": "shade-stalker-bounty",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Find 3 Shade Stalkers",
+        "reward": {
+          "gold": 620,
+          "materials": {
+            "crystal": 1
+          }
+        },
+        "enemy": "shade-stalker"
+      },
+      {
+        "id": "twilight-moth-bounty",
+        "kind": "defeat",
+        "count": 4,
+        "text": "Net 4 Twilight Moths",
+        "reward": {
+          "gold": 620,
+          "materials": {
+            "ore": 2
+          }
+        },
+        "enemy": "twilight-moth"
+      },
+      {
+        "id": "eclipse-peak-wins",
+        "kind": "wins",
+        "count": 6,
+        "text": "Win 6 fights in the Peak",
+        "reward": {
+          "gold": 740,
+          "materials": {
+            "ore": 3
+          }
+        }
+      },
+      {
+        "id": "eclipse-peak-clear",
+        "kind": "clear",
+        "count": 2,
+        "text": "Finish 2 runs in the Peak",
+        "reward": {
+          "gold": 860,
+          "embers": 2
+        }
+      },
+      {
+        "id": "eclipse-peak-mini",
+        "kind": "defeat",
+        "count": 1,
+        "text": "Defeat the Eclipse Herald",
+        "reward": {
+          "gold": 740,
+          "materials": {
+            "crystal": 1
+          }
+        },
+        "enemy": "eclipse-herald"
+      }
     ]
   }
 }

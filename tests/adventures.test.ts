@@ -119,7 +119,9 @@ describe('bounties', () => {
     expect(bountyBoard(data, 'mossy-hollow', DAY)).toEqual(a);
     const days = ['2026-11-13', '2026-11-14', '2026-11-15', '2026-11-16'].map((d) => bountyBoard(data, 'mossy-hollow', d).map((b) => b.id).join());
     expect(new Set([a.map((b) => b.id).join(), ...days]).size).toBeGreaterThan(1);
-    expect(bountyBoard(data, 'cinder-pass', DAY)).toEqual([]);
+    // Every zone has a board since V5, Cinder Pass included.
+    expect(bountyBoard(data, 'cinder-pass', DAY)).toHaveLength(data.bounties.perDay);
+    expect(data.zones.every((z) => data.bounties.pools[z.id]?.length)).toBe(true);
     expect(bountyBoard(data, 'mossy-hollow', '')).toEqual([]);
   });
 

@@ -6649,5 +6649,1887 @@
       "gold": 8000,
       "embers": 20
     }
+  },
+  {
+    "id": "hot-feet",
+    "zone": "cinder-pass",
+    "name": "Hot Feet",
+    "minLevel": 12,
+    "description": "Mira guides travelers over the pass. Today her boots melted halfway across.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "name": "Mira the Ash-Walker",
+            "text": "Keeper! Don't step there. Or there. Honestly, just step where I step."
+          },
+          {
+            "speaker": "rider",
+            "text": "Why are you hopping?"
+          },
+          {
+            "speaker": "npc",
+            "name": "Mira the Ash-Walker",
+            "text": "New boots. Old lava."
+          }
+        ],
+        "enemies": [
+          "ash-lizard"
+        ],
+        "level": 12
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "An imp sits on a warm rock, toasting Mira's other boot on a stick."
+          },
+          {
+            "speaker": "dragon",
+            "text": "*sniffs the smoke, sneezes a tiny flame*"
+          }
+        ],
+        "enemies": [
+          "ember-imp"
+        ],
+        "level": 13
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "name": "Mira the Ash-Walker",
+        "text": "My boot! Slightly crispy. Still a boot. Thank you, keeper."
+      },
+      {
+        "speaker": "narrator",
+        "text": "Mira hops back to the trail, one sock smoking."
+      }
+    ],
+    "reward": {
+      "xp": 110,
+      "gold": 150,
+      "items": {
+        "potion": 1
+      }
+    }
+  },
+  {
+    "id": "imp-pranks",
+    "zone": "cinder-pass",
+    "name": "Imp Pranks",
+    "minLevel": 14,
+    "requires": "hot-feet",
+    "description": "Someone stole the bellows from the pass forge. Someone small, red and giggling.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "name": "Mira the Ash-Walker",
+            "text": "The forge is cold. The smith is colder. The imps took the bellows."
+          },
+          {
+            "speaker": "rider",
+            "text": "What do imps want with bellows?"
+          },
+          {
+            "speaker": "npc",
+            "name": "Mira the Ash-Walker",
+            "text": "Fun. Always fun."
+          }
+        ],
+        "enemies": [
+          "ember-imp",
+          "ember-imp"
+        ],
+        "level": 14
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "The bellows wheeze somewhere up the trail. Then a bat coughs out a cloud of smog."
+          }
+        ],
+        "enemies": [
+          "smog-bat",
+          "ember-imp"
+        ],
+        "level": 15
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "You find the bellows under a rock, wrapped in a tiny imp blanket."
+      },
+      {
+        "speaker": "npc",
+        "name": "Mira the Ash-Walker",
+        "text": "So. Do we give it back to the smith?"
+      }
+    ],
+    "reward": {
+      "xp": 130,
+      "gold": 120
+    },
+    "choice": {
+      "prompt": "What do you do with the bellows?",
+      "options": [
+        {
+          "id": "return",
+          "label": "Return them to the smith",
+          "lines": [
+            {
+              "speaker": "npc",
+              "name": "Smith Dorran",
+              "text": "My bellows! The forge lives again. Take these embers, warm from the coals."
+            }
+          ],
+          "reward": {
+            "embers": 3
+          },
+          "temper": "gentle"
+        },
+        {
+          "id": "sell",
+          "label": "Sell them to a passing trader",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "The trader pays well and doesn't ask. The forge stays cold. Your dragon sighs at you."
+            }
+          ],
+          "reward": {
+            "gold": 260
+          },
+          "temper": "proud"
+        }
+      ]
+    }
+  },
+  {
+    "id": "the-snail-road",
+    "zone": "cinder-pass",
+    "name": "The Snail Road",
+    "minLevel": 16,
+    "requires": "imp-pranks",
+    "description": "A Magma Snail has parked itself across the only road. It is in no hurry.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "name": "Mira the Ash-Walker",
+            "text": "That snail has been there since breakfast. Last Tuesday's breakfast."
+          },
+          {
+            "speaker": "dragon",
+            "text": "*pokes the snail with a claw, regrets it*"
+          }
+        ],
+        "enemies": [
+          "magma-snail"
+        ],
+        "level": 16
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "With the road open, a mole pops out of the ash, and a crow swoops down to see what's shiny."
+          }
+        ],
+        "enemies": [
+          "soot-mole",
+          "storm-crow"
+        ],
+        "level": 17
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "name": "Mira the Ash-Walker",
+        "text": "The road is open! The snail will be back by spring, but that's spring's problem."
+      },
+      {
+        "speaker": "narrator",
+        "text": "Carts rattle over the pass again."
+      }
+    ],
+    "reward": {
+      "xp": 150,
+      "gold": 190,
+      "materials": {
+        "ore": 2
+      }
+    }
+  },
+  {
+    "id": "the-imp-chieftain",
+    "zone": "cinder-pass",
+    "name": "The Imp Chieftain",
+    "minLevel": 17,
+    "requires": "the-snail-road",
+    "description": "The imps have a leader, and he has a crown. It is a teacup with spikes glued on.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "name": "Mira the Ash-Walker",
+            "text": "The Imp Chieftain wants a word. Several words. Mostly rude ones."
+          },
+          {
+            "speaker": "rider",
+            "text": "Then let's answer him."
+          }
+        ],
+        "enemies": [
+          "ember-imp",
+          "ash-lizard"
+        ],
+        "level": 17
+      },
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "name": "Imp Chieftain",
+            "text": "Who dares? I dare! I mean, who dares to stop me daring?"
+          },
+          {
+            "speaker": "dragon",
+            "text": "*growls in a way that means 'enough'*"
+          }
+        ],
+        "enemies": [
+          "imp-chieftain"
+        ],
+        "level": 18,
+        "mini": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "name": "Imp Chieftain",
+        "text": "Fine! FINE. We'll prank somewhere else. Somewhere colder."
+      },
+      {
+        "speaker": "npc",
+        "name": "Mira the Ash-Walker",
+        "text": "He dropped his crown. Well, his teacup."
+      }
+    ],
+    "reward": {
+      "xp": 170,
+      "gold": 220,
+      "embers": 2
+    },
+    "choice": {
+      "prompt": "What about the Chieftain's spiky teacup crown?",
+      "options": [
+        {
+          "id": "keep",
+          "label": "Keep it as a trophy",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "It looks very silly on your shelf. Your dragon guards it proudly."
+            }
+          ],
+          "reward": {
+            "materials": {
+              "ore": 2
+            }
+          },
+          "temper": "proud"
+        },
+        {
+          "id": "give",
+          "label": "Give it back to the imps",
+          "lines": [
+            {
+              "speaker": "npc",
+              "name": "Imp Chieftain",
+              "text": "...thank you. Here. Shiny rocks. Don't tell anyone I was nice."
+            }
+          ],
+          "reward": {
+            "embers": 3
+          },
+          "temper": "gentle"
+        }
+      ]
+    }
+  },
+  {
+    "id": "the-magma-wyrm",
+    "zone": "cinder-pass",
+    "name": "The Magma Wyrm",
+    "minLevel": 19,
+    "requires": "the-imp-chieftain",
+    "description": "The mountain rumbles. The Magma Wyrm is awake, and the whole pass is shaking.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "name": "Mira the Ash-Walker",
+            "text": "When the ground shakes like this, the Wyrm is hungry. And grumpy."
+          },
+          {
+            "speaker": "narrator",
+            "text": "Lava hisses in the cracks around you."
+          }
+        ],
+        "enemies": [
+          "lava-toad",
+          "cinder-beetle"
+        ],
+        "level": 19
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "The Magma Wyrm rises from a lake of glowing rock."
+          },
+          {
+            "speaker": "npc",
+            "name": "Magma Wyrm",
+            "text": "Who walks on my roof?"
+          },
+          {
+            "speaker": "dragon",
+            "text": "*stands tall and breathes out a long, steady flame*"
+          }
+        ],
+        "enemies": [
+          "magma-wyrm"
+        ],
+        "level": 20,
+        "boss": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "The Wyrm sinks back into the lava, grumbling about manners."
+      },
+      {
+        "speaker": "npc",
+        "name": "Mira the Ash-Walker",
+        "text": "Quiet at last. I can finally buy new boots. Fireproof ones."
+      },
+      {
+        "speaker": "npc",
+        "name": "Mira the Ash-Walker",
+        "text": "Thank you, keeper. The pass is yours to walk any time."
+      }
+    ],
+    "reward": {
+      "xp": 300,
+      "gold": 450,
+      "embers": 6
+    }
+  },
+  {
+    "id": "runaway-goats",
+    "zone": "thunderspire",
+    "name": "Runaway Goats",
+    "minLevel": 18,
+    "description": "Shepherd Hale's goats ran up the mountain at the first thunderclap. All of them.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "name": "Shepherd Hale",
+            "text": "Every time it thunders, they bolt. Up. Always up."
+          },
+          {
+            "speaker": "rider",
+            "text": "We'll bring them down."
+          }
+        ],
+        "enemies": [
+          "thunder-goat"
+        ],
+        "level": 18
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "A huge ram blocks the path, very proud of being in the way."
+          }
+        ],
+        "enemies": [
+          "granite-ram"
+        ],
+        "level": 19
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "name": "Shepherd Hale",
+        "text": "Twelve goats home, and only a little singed. You've a way with animals, keeper."
+      },
+      {
+        "speaker": "dragon",
+        "text": "*looks smug*"
+      }
+    ],
+    "reward": {
+      "xp": 160,
+      "gold": 230,
+      "items": {
+        "potion": 1
+      }
+    }
+  },
+  {
+    "id": "harpy-gossip",
+    "zone": "thunderspire",
+    "name": "Harpy Gossip",
+    "minLevel": 20,
+    "requires": "runaway-goats",
+    "description": "The Cliff Harpies know everyone's secrets, and tell everyone everyone else's.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "name": "Shepherd Hale",
+            "text": "The harpies are spreading tales about my goats. Terrible tales. Some are true."
+          },
+          {
+            "speaker": "dragon",
+            "text": "*cackles, then pretends it didn't*"
+          }
+        ],
+        "enemies": [
+          "cliff-harpy",
+          "cliff-harpy"
+        ],
+        "level": 20
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "The harpies call in a friend from higher up the cliff."
+          }
+        ],
+        "enemies": [
+          "cliff-harpy",
+          "gale-hawk"
+        ],
+        "level": 21
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "A harpy drops a scroll as it flees: a list of every secret on the mountain."
+      },
+      {
+        "speaker": "npc",
+        "name": "Shepherd Hale",
+        "text": "Oh my. What do we do with that?"
+      }
+    ],
+    "reward": {
+      "xp": 190,
+      "gold": 180
+    },
+    "choice": {
+      "prompt": "What do you do with the scroll of secrets?",
+      "options": [
+        {
+          "id": "burn",
+          "label": "Burn it, unread",
+          "lines": [
+            {
+              "speaker": "npc",
+              "name": "Shepherd Hale",
+              "text": "Good. Some things should stay up the mountain. Here, from the village, for your kindness."
+            }
+          ],
+          "reward": {
+            "embers": 3
+          },
+          "temper": "gentle"
+        },
+        {
+          "id": "read",
+          "label": "Read it (just a little)",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "You learn where an old miner hid his savings. He won't miss it. Probably."
+            }
+          ],
+          "reward": {
+            "gold": 320
+          },
+          "temper": "clever"
+        }
+      ]
+    }
+  },
+  {
+    "id": "sparks-in-the-wool",
+    "zone": "thunderspire",
+    "name": "Sparks in the Wool",
+    "minLevel": 22,
+    "requires": "harpy-gossip",
+    "description": "Spark Sprites have been hiding in the goats' wool. Every hug is a shock.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "name": "Shepherd Hale",
+            "text": "I hugged Bessie this morning and my hair is still standing up."
+          },
+          {
+            "speaker": "rider",
+            "text": "Spark Sprites. They love wool."
+          }
+        ],
+        "enemies": [
+          "spark-sprite"
+        ],
+        "level": 22
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "A whole cloud of sprites crackles out of a goat that is very done with today."
+          }
+        ],
+        "enemies": [
+          "spark-sprite",
+          "thunder-goat"
+        ],
+        "level": 23
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "name": "Shepherd Hale",
+        "text": "Fluffy and safe again. Here, some ore the sprites left behind."
+      },
+      {
+        "speaker": "narrator",
+        "text": "Bessie headbutts you gratefully. It still stings a bit."
+      }
+    ],
+    "reward": {
+      "xp": 220,
+      "gold": 270,
+      "materials": {
+        "ore": 3
+      }
+    }
+  },
+  {
+    "id": "the-thunderhead",
+    "zone": "thunderspire",
+    "name": "The Thunderhead",
+    "minLevel": 24,
+    "requires": "sparks-in-the-wool",
+    "description": "A storm cloud with arms and a bad temper sits on the peak and won't leave.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "name": "Shepherd Hale",
+            "text": "That's no ordinary cloud. It has a face. And it's frowning at me."
+          },
+          {
+            "speaker": "dragon",
+            "text": "*flaps up to look and comes back damp*"
+          }
+        ],
+        "enemies": [
+          "gale-hawk",
+          "spark-sprite"
+        ],
+        "level": 24
+      },
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "name": "The Thunderhead",
+            "text": "RUMBLE. That means go away."
+          },
+          {
+            "speaker": "rider",
+            "text": "We don't speak cloud."
+          }
+        ],
+        "enemies": [
+          "thunderhead"
+        ],
+        "level": 25,
+        "mini": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "The Thunderhead drizzles away into a sulky little mist."
+      },
+      {
+        "speaker": "npc",
+        "name": "Shepherd Hale",
+        "text": "Look what it left: a bottle of real lightning. What a thing."
+      }
+    ],
+    "reward": {
+      "xp": 260,
+      "gold": 320,
+      "embers": 3
+    },
+    "choice": {
+      "prompt": "What do you do with the bottled lightning?",
+      "options": [
+        {
+          "id": "forge",
+          "label": "Take it to the Forge",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "It crackles in the coals and leaves a bright crystal behind."
+            }
+          ],
+          "reward": {
+            "materials": {
+              "crystal": 1
+            }
+          },
+          "temper": "clever"
+        },
+        {
+          "id": "free",
+          "label": "Let it go back to the sky",
+          "lines": [
+            {
+              "speaker": "npc",
+              "name": "Shepherd Hale",
+              "text": "Kind of you. The sky's been quieter since. Have these, from all of us."
+            }
+          ],
+          "reward": {
+            "embers": 3
+          },
+          "temper": "gentle"
+        }
+      ]
+    }
+  },
+  {
+    "id": "the-storm-roc",
+    "zone": "thunderspire",
+    "name": "The Storm Roc",
+    "minLevel": 27,
+    "requires": "the-thunderhead",
+    "description": "The Storm Roc nests at the very top, and every thunderstorm starts in its wings.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "name": "Shepherd Hale",
+            "text": "The Roc is why the goats run. Settle it, and the mountain settles too."
+          },
+          {
+            "speaker": "narrator",
+            "text": "Hail rattles off the rocks."
+          }
+        ],
+        "enemies": [
+          "cliff-harpy",
+          "thunder-goat"
+        ],
+        "level": 27
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "The Storm Roc spreads its wings and the sky goes dark."
+          },
+          {
+            "speaker": "npc",
+            "name": "Storm Roc",
+            "text": "SKREEEE."
+          },
+          {
+            "speaker": "dragon",
+            "text": "*roars back, louder*"
+          }
+        ],
+        "enemies": [
+          "storm-roc"
+        ],
+        "level": 28,
+        "boss": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "The Roc settles into its nest, and the clouds part for the first time in weeks."
+      },
+      {
+        "speaker": "npc",
+        "name": "Shepherd Hale",
+        "text": "Sunshine on the Spire! The goats will hardly know what to do."
+      },
+      {
+        "speaker": "npc",
+        "name": "Shepherd Hale",
+        "text": "Come back any time, keeper. Bessie will want to see you."
+      }
+    ],
+    "reward": {
+      "xp": 420,
+      "gold": 650,
+      "embers": 7
+    }
+  },
+  {
+    "id": "thin-ice",
+    "zone": "frostmere",
+    "name": "Thin Ice",
+    "minLevel": 26,
+    "description": "Pell fishes the frozen lake. Today something is cracking the ice from below.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "name": "Ice-fisher Pell",
+            "text": "Crack, crack, crack, all morning. Not the good kind of crack."
+          },
+          {
+            "speaker": "rider",
+            "text": "Is there a good kind?"
+          }
+        ],
+        "enemies": [
+          "frostbite-hare"
+        ],
+        "level": 26
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "A turtle the size of a cart bumps up through the ice, very pleased with itself."
+          }
+        ],
+        "enemies": [
+          "glacier-turtle"
+        ],
+        "level": 27
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "name": "Ice-fisher Pell",
+        "text": "The ice holds again. Here, a fish. And some coins, since you don't look like a fish person."
+      },
+      {
+        "speaker": "dragon",
+        "text": "*is absolutely a fish person*"
+      }
+    ],
+    "reward": {
+      "xp": 260,
+      "gold": 370,
+      "items": {
+        "mana-tonic": 1
+      }
+    }
+  },
+  {
+    "id": "the-yeti-cub",
+    "zone": "frostmere",
+    "name": "The Yeti Cub",
+    "minLevel": 28,
+    "requires": "thin-ice",
+    "description": "A lost Yeti Cub keeps stealing Pell's catch. The wolves have noticed it too.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "name": "Ice-fisher Pell",
+            "text": "Little rascal took my whole bucket. I'd be angry if it weren't so round."
+          },
+          {
+            "speaker": "dragon",
+            "text": "*sniffs the cub; the cub sniffs back*"
+          }
+        ],
+        "enemies": [
+          "yeti-cub"
+        ],
+        "level": 28
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "The wolves close in on the cub. The cub hides behind you."
+          }
+        ],
+        "enemies": [
+          "rime-wolf",
+          "yeti-cub"
+        ],
+        "level": 29
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "The wolves slink off. The cub looks up at you with enormous eyes."
+      },
+      {
+        "speaker": "npc",
+        "name": "Ice-fisher Pell",
+        "text": "It's chosen you, I think. What now?"
+      }
+    ],
+    "reward": {
+      "xp": 300,
+      "gold": 310
+    },
+    "choice": {
+      "prompt": "What do you do with the Yeti Cub?",
+      "options": [
+        {
+          "id": "home",
+          "label": "Walk it home to its family",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "A very large yeti nods at you from the snowline and leaves a sack of shiny ice at your feet."
+            }
+          ],
+          "reward": {
+            "materials": {
+              "crystal": 1
+            }
+          },
+          "temper": "gentle"
+        },
+        {
+          "id": "play",
+          "label": "Let it tag along for the day",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "It plays with your dragon until sunset, then waddles home. Your dragon is thrilled."
+            }
+          ],
+          "reward": {
+            "embers": 3
+          },
+          "temper": "bold"
+        }
+      ]
+    }
+  },
+  {
+    "id": "whispers-under-the-ice",
+    "zone": "frostmere",
+    "name": "Whispers Under the Ice",
+    "minLevel": 30,
+    "requires": "the-yeti-cub",
+    "description": "At night Pell hears voices under the lake. They are asking for his fish.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "name": "Ice-fisher Pell",
+            "text": "'Fiiish,' they say. 'Giiive us fiiish.' I'm not sleeping well, keeper."
+          },
+          {
+            "speaker": "narrator",
+            "text": "Pale shapes drift beneath the ice."
+          }
+        ],
+        "enemies": [
+          "ice-wraith"
+        ],
+        "level": 30
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "A wraith rises, a hare clinging to its back for the ride."
+          }
+        ],
+        "enemies": [
+          "ice-wraith",
+          "frostbite-hare"
+        ],
+        "level": 31
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "name": "Ice-fisher Pell",
+        "text": "Quiet at last. They left something behind in the ice, too."
+      },
+      {
+        "speaker": "narrator",
+        "text": "Frozen in the lake: a lump of ore and a long-lost fishing hook."
+      }
+    ],
+    "reward": {
+      "xp": 340,
+      "gold": 420,
+      "materials": {
+        "ore": 3,
+        "crystal": 1
+      }
+    }
+  },
+  {
+    "id": "the-rime-alpha",
+    "zone": "frostmere",
+    "name": "The Rime Alpha",
+    "minLevel": 32,
+    "requires": "whispers-under-the-ice",
+    "description": "The wolf pack has a leader now, a huge white wolf with ice on its back.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "name": "Ice-fisher Pell",
+            "text": "The pack hunts together now. Smarter. Colder."
+          },
+          {
+            "speaker": "rider",
+            "text": "Then we find the one in charge."
+          }
+        ],
+        "enemies": [
+          "rime-wolf",
+          "rime-wolf"
+        ],
+        "level": 32
+      },
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "name": "Rime Alpha",
+            "text": "*a long howl that frosts the air*"
+          },
+          {
+            "speaker": "dragon",
+            "text": "*howls back, slightly off key*"
+          }
+        ],
+        "enemies": [
+          "rime-alpha"
+        ],
+        "level": 33,
+        "mini": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "The Alpha backs away and the pack follows it into the snow."
+      },
+      {
+        "speaker": "npc",
+        "name": "Ice-fisher Pell",
+        "text": "It dropped this. A tooth? A very nice tooth."
+      }
+    ],
+    "reward": {
+      "xp": 380,
+      "gold": 470,
+      "embers": 3
+    },
+    "choice": {
+      "prompt": "What do you do with the Alpha's tooth?",
+      "options": [
+        {
+          "id": "charm",
+          "label": "Wear it as a charm",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "It hangs at your neck, cold and lucky. Your dragon thinks you look fierce."
+            }
+          ],
+          "reward": {
+            "materials": {
+              "ore": 3
+            }
+          },
+          "temper": "bold"
+        },
+        {
+          "id": "trade",
+          "label": "Trade it in the village",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "The village tanner pays handsomely for a tooth like that."
+            }
+          ],
+          "reward": {
+            "gold": 350
+          },
+          "temper": "clever"
+        }
+      ]
+    }
+  },
+  {
+    "id": "the-glacier-hydra",
+    "zone": "frostmere",
+    "name": "The Glacier Hydra",
+    "minLevel": 35,
+    "requires": "the-rime-alpha",
+    "description": "Deep in the frozen lake sleeps the Glacier Hydra. It is not sleeping any more.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "name": "Ice-fisher Pell",
+            "text": "The lake is groaning, keeper. All three of its heads are waking."
+          },
+          {
+            "speaker": "narrator",
+            "text": "The ice splits in a long blue line."
+          }
+        ],
+        "enemies": [
+          "glacier-turtle",
+          "ice-wraith"
+        ],
+        "level": 35
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "The Glacier Hydra rises, three heads of ice glaring down."
+          },
+          {
+            "speaker": "npc",
+            "name": "Glacier Hydra",
+            "text": "Three heads. One opinion. LEAVE."
+          },
+          {
+            "speaker": "dragon",
+            "text": "*takes a deep, warm breath*"
+          }
+        ],
+        "enemies": [
+          "glacier-hydra"
+        ],
+        "level": 36,
+        "boss": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "The Hydra sinks back into the deep and the lake goes still and clear."
+      },
+      {
+        "speaker": "npc",
+        "name": "Ice-fisher Pell",
+        "text": "I can see every fish in the lake. That feels like cheating."
+      },
+      {
+        "speaker": "npc",
+        "name": "Ice-fisher Pell",
+        "text": "Thank you, keeper. Come fish with me sometime."
+      }
+    ],
+    "reward": {
+      "xp": 600,
+      "gold": 880,
+      "embers": 8
+    }
+  },
+  {
+    "id": "lights-out",
+    "zone": "deepstone-mines",
+    "name": "Lights Out",
+    "minLevel": 34,
+    "description": "Someone keeps blowing out the lanterns in the mine. Someone giggling.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "name": "Foreman Nell",
+            "text": "Third time today. It's dark down there, keeper. Darker than dark."
+          },
+          {
+            "speaker": "dragon",
+            "text": "*lights the tunnel with a puff, very helpful*"
+          }
+        ],
+        "enemies": [
+          "lantern-gnome"
+        ],
+        "level": 34
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "In the new light, something crunchy and sparkly scuttles toward you."
+          }
+        ],
+        "enemies": [
+          "crystal-crawler"
+        ],
+        "level": 35
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "name": "Foreman Nell",
+        "text": "Lights on, crew back to work. Here's your pay, and thanks."
+      },
+      {
+        "speaker": "narrator",
+        "text": "Somewhere deep below, a gnome blows out a candle out of spite."
+      }
+    ],
+    "reward": {
+      "xp": 410,
+      "gold": 590,
+      "items": {
+        "mana-tonic": 1
+      }
+    }
+  },
+  {
+    "id": "glitter-thieves",
+    "zone": "deepstone-mines",
+    "name": "Glitter Thieves",
+    "minLevel": 36,
+    "requires": "lights-out",
+    "description": "The Gemback Lizards are stealing gems right out of the miners' carts.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "name": "Foreman Nell",
+            "text": "They wear the gems on their backs like it's fashion. It IS fashion, but it's our fashion."
+          },
+          {
+            "speaker": "rider",
+            "text": "We'll get them back."
+          }
+        ],
+        "enemies": [
+          "gemback-lizard",
+          "gemback-lizard"
+        ],
+        "level": 36
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "A lizard dives behind a rusty sprite for cover."
+          }
+        ],
+        "enemies": [
+          "gemback-lizard",
+          "rust-sprite"
+        ],
+        "level": 37
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "You gather a pouch of loose gems. Nell eyes it. So does your dragon."
+      },
+      {
+        "speaker": "npc",
+        "name": "Foreman Nell",
+        "text": "Your call, keeper."
+      }
+    ],
+    "reward": {
+      "xp": 460,
+      "gold": 470
+    },
+    "choice": {
+      "prompt": "What do you do with the pouch of gems?",
+      "options": [
+        {
+          "id": "return",
+          "label": "Give them back to the miners",
+          "lines": [
+            {
+              "speaker": "npc",
+              "name": "Foreman Nell",
+              "text": "The crew will remember this. They chipped in, look: embers from the deep vein."
+            }
+          ],
+          "reward": {
+            "embers": 3
+          },
+          "temper": "gentle"
+        },
+        {
+          "id": "hoard",
+          "label": "Let your dragon keep a few",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "Your dragon sleeps on them that night, very happy. You sell the rest."
+            }
+          ],
+          "reward": {
+            "gold": 400
+          },
+          "temper": "proud"
+        }
+      ]
+    }
+  },
+  {
+    "id": "rust-never-sleeps",
+    "zone": "deepstone-mines",
+    "name": "Rust Never Sleeps",
+    "minLevel": 37,
+    "requires": "glitter-thieves",
+    "description": "Rust Sprites are eating the mine carts. The tracks are next.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "name": "Foreman Nell",
+            "text": "They nibble iron like it's toffee. Our carts are lace now."
+          },
+          {
+            "speaker": "dragon",
+            "text": "*bites a sprite, spits it out, offended*"
+          }
+        ],
+        "enemies": [
+          "rust-sprite"
+        ],
+        "level": 37
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "A mole tunnels up under the tracks with a sprite riding on its head."
+          }
+        ],
+        "enemies": [
+          "tunnel-mole",
+          "rust-sprite"
+        ],
+        "level": 38
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "name": "Foreman Nell",
+        "text": "Tracks saved. Here, some ore before the sprites come back for it."
+      },
+      {
+        "speaker": "narrator",
+        "text": "A cart rolls past, intact. The miners cheer."
+      }
+    ],
+    "reward": {
+      "xp": 480,
+      "gold": 620,
+      "materials": {
+        "ore": 3,
+        "crystal": 1
+      }
+    }
+  },
+  {
+    "id": "the-foreman-golem",
+    "zone": "deepstone-mines",
+    "name": "The Foreman Golem",
+    "minLevel": 39,
+    "requires": "rust-never-sleeps",
+    "description": "An old golem thinks it runs the mine. It keeps ordering Nell around.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "name": "Foreman Nell",
+            "text": "It says I'm late. I'm the FOREMAN. I decide when late is."
+          },
+          {
+            "speaker": "rider",
+            "text": "Let's go have a talk with it."
+          }
+        ],
+        "enemies": [
+          "crystal-crawler",
+          "lantern-gnome"
+        ],
+        "level": 39
+      },
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "name": "Foreman Golem",
+            "text": "BREAK TIME IS OVER. BACK TO WORK."
+          },
+          {
+            "speaker": "dragon",
+            "text": "*sits down on purpose*"
+          }
+        ],
+        "enemies": [
+          "foreman-golem"
+        ],
+        "level": 40,
+        "mini": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "The golem powers down with a long, tired creak."
+      },
+      {
+        "speaker": "npc",
+        "name": "Foreman Nell",
+        "text": "It left its clipboard. Huh. It was keeping really good notes."
+      }
+    ],
+    "reward": {
+      "xp": 520,
+      "gold": 680,
+      "embers": 3
+    },
+    "choice": {
+      "prompt": "What do you do with the golem's notes?",
+      "options": [
+        {
+          "id": "nell",
+          "label": "Give them to Nell",
+          "lines": [
+            {
+              "speaker": "npc",
+              "name": "Foreman Nell",
+              "text": "These are... actually great. Ten new seams marked! Take a share of the first dig."
+            }
+          ],
+          "reward": {
+            "materials": {
+              "crystal": 1
+            }
+          },
+          "temper": "clever"
+        },
+        {
+          "id": "scrap",
+          "label": "Scrap the golem for parts",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "Its gears and plates fetch a good price in town."
+            }
+          ],
+          "reward": {
+            "gold": 500
+          },
+          "temper": "bold"
+        }
+      ]
+    }
+  },
+  {
+    "id": "the-iron-golem",
+    "zone": "deepstone-mines",
+    "name": "The Iron Golem",
+    "minLevel": 41,
+    "requires": "the-foreman-golem",
+    "description": "At the bottom of the deepest shaft, something huge and iron is waking.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "name": "Foreman Nell",
+            "text": "We dug too deep, keeper. Every miner's nightmare. It's stomping."
+          },
+          {
+            "speaker": "narrator",
+            "text": "Dust falls from the ceiling with every step below."
+          }
+        ],
+        "enemies": [
+          "tunnel-mole",
+          "gemback-lizard"
+        ],
+        "level": 41
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "The Iron Golem fills the cavern, eyes glowing like furnaces."
+          },
+          {
+            "speaker": "npc",
+            "name": "Iron Golem",
+            "text": "MINE. MINE. ALL OF IT, MINE."
+          },
+          {
+            "speaker": "dragon",
+            "text": "*plants its feet and roars*"
+          }
+        ],
+        "enemies": [
+          "iron-golem"
+        ],
+        "level": 42,
+        "boss": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "The Golem slumps against the wall and goes still, a mountain of iron."
+      },
+      {
+        "speaker": "npc",
+        "name": "Foreman Nell",
+        "text": "We'll be mining that thing for years. You've made us all rich, keeper."
+      },
+      {
+        "speaker": "npc",
+        "name": "Foreman Nell",
+        "text": "There's always a lantern lit for you down here."
+      }
+    ],
+    "reward": {
+      "xp": 780,
+      "gold": 1120,
+      "embers": 8
+    }
+  },
+  {
+    "id": "dawn-and-dusk",
+    "zone": "eclipse-peak",
+    "name": "Dawn and Dusk",
+    "minLevel": 40,
+    "description": "Stargazer Ilo watches the eclipse from the peak. The light and dark keep squabbling.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "name": "Stargazer Ilo",
+            "text": "Morning and evening can't agree whose turn it is. It's very loud for something so pretty."
+          },
+          {
+            "speaker": "rider",
+            "text": "We'll calm them down."
+          }
+        ],
+        "enemies": [
+          "dawn-sprite"
+        ],
+        "level": 40
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "A bat of pure dusk swoops out of the half-dark, squeaking indignantly."
+          }
+        ],
+        "enemies": [
+          "dusk-bat"
+        ],
+        "level": 41
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "name": "Stargazer Ilo",
+        "text": "Balance, for now. Here, keeper. Starlight pays poorly, but it pays."
+      },
+      {
+        "speaker": "dragon",
+        "text": "*watches the sky, entranced*"
+      }
+    ],
+    "reward": {
+      "xp": 550,
+      "gold": 800,
+      "items": {
+        "potion": 2
+      }
+    }
+  },
+  {
+    "id": "the-moth-lanterns",
+    "zone": "eclipse-peak",
+    "name": "The Moth Lanterns",
+    "minLevel": 42,
+    "requires": "dawn-and-dusk",
+    "description": "Twilight Moths are stealing the lanterns that light the stair to the peak.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "name": "Stargazer Ilo",
+            "text": "They love the lights, keeper. They love them right off their hooks."
+          },
+          {
+            "speaker": "dragon",
+            "text": "*tries to catch a moth in its mouth*"
+          }
+        ],
+        "enemies": [
+          "twilight-moth",
+          "twilight-moth"
+        ],
+        "level": 42
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "The moths fly into the glow of a dawn sprite, and both turn on you."
+          }
+        ],
+        "enemies": [
+          "twilight-moth",
+          "dawn-sprite"
+        ],
+        "level": 43
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "You find the lanterns in a heap, still glowing softly."
+      },
+      {
+        "speaker": "npc",
+        "name": "Stargazer Ilo",
+        "text": "Shall we hang them back up?"
+      }
+    ],
+    "reward": {
+      "xp": 600,
+      "gold": 600
+    },
+    "choice": {
+      "prompt": "What do you do with the lanterns?",
+      "options": [
+        {
+          "id": "hang",
+          "label": "Hang them back on the stair",
+          "lines": [
+            {
+              "speaker": "npc",
+              "name": "Stargazer Ilo",
+              "text": "Lovely. Pilgrims will thank you. And so do I, with these."
+            }
+          ],
+          "reward": {
+            "embers": 3
+          },
+          "temper": "gentle"
+        },
+        {
+          "id": "moths",
+          "label": "Leave a few for the moths",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "The moths circle them happily and leave you a little pile of moon-silver."
+            }
+          ],
+          "reward": {
+            "gold": 600
+          },
+          "temper": "clever"
+        }
+      ]
+    }
+  },
+  {
+    "id": "knights-of-noon",
+    "zone": "eclipse-peak",
+    "name": "Knights of Noon",
+    "minLevel": 44,
+    "requires": "the-moth-lanterns",
+    "description": "The Sun Knights have declared it always noon. The shadows disagree, loudly.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "name": "Stargazer Ilo",
+            "text": "The knights won't let the sun set. My stars haven't come out in days."
+          },
+          {
+            "speaker": "rider",
+            "text": "Then it's time for an evening."
+          }
+        ],
+        "enemies": [
+          "sun-knight"
+        ],
+        "level": 44
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "A shade stalker slides out of a knight's own shadow to join the fight."
+          }
+        ],
+        "enemies": [
+          "sun-knight",
+          "shade-stalker"
+        ],
+        "level": 45
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "name": "Stargazer Ilo",
+        "text": "Sunset! Real, proper sunset! Have some ore the knights left behind."
+      },
+      {
+        "speaker": "narrator",
+        "text": "The first star blinks on over the peak."
+      }
+    ],
+    "reward": {
+      "xp": 650,
+      "gold": 900,
+      "materials": {
+        "ore": 4,
+        "crystal": 1
+      }
+    }
+  },
+  {
+    "id": "the-eclipse-herald",
+    "zone": "eclipse-peak",
+    "name": "The Eclipse Herald",
+    "minLevel": 46,
+    "requires": "knights-of-noon",
+    "description": "A herald in half-light announces the coming of something big.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "name": "Stargazer Ilo",
+            "text": "It's shouting from the ridge. 'The eclipse comes!' It's very dramatic."
+          },
+          {
+            "speaker": "dragon",
+            "text": "*yawns pointedly*"
+          }
+        ],
+        "enemies": [
+          "dusk-bat",
+          "shade-stalker"
+        ],
+        "level": 46
+      },
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "name": "Eclipse Herald",
+            "text": "BOW BEFORE THE DARK THAT IS ALSO THE LIGHT!"
+          },
+          {
+            "speaker": "rider",
+            "text": "Which one is it?"
+          }
+        ],
+        "enemies": [
+          "eclipse-herald"
+        ],
+        "level": 47,
+        "mini": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "The Herald drops its horn and flees down the far side of the peak."
+      },
+      {
+        "speaker": "npc",
+        "name": "Stargazer Ilo",
+        "text": "A herald's horn. It still hums with the eclipse."
+      }
+    ],
+    "reward": {
+      "xp": 700,
+      "gold": 1000,
+      "embers": 4
+    },
+    "choice": {
+      "prompt": "What do you do with the Herald's horn?",
+      "options": [
+        {
+          "id": "blow",
+          "label": "Blow it, once",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "A great note rolls over the mountain. Your dragon answers it, proud and loud."
+            }
+          ],
+          "reward": {
+            "materials": {
+              "crystal": 1
+            }
+          },
+          "temper": "proud"
+        },
+        {
+          "id": "give",
+          "label": "Give it to Ilo",
+          "lines": [
+            {
+              "speaker": "npc",
+              "name": "Stargazer Ilo",
+              "text": "I'll study it for years. Here, all my savings on the stars. Well, most of them."
+            }
+          ],
+          "reward": {
+            "embers": 3
+          },
+          "temper": "clever"
+        }
+      ]
+    }
+  },
+  {
+    "id": "the-eclipse-dragon",
+    "zone": "eclipse-peak",
+    "name": "The Eclipse Dragon",
+    "minLevel": 49,
+    "requires": "the-eclipse-herald",
+    "description": "The eclipse is total. In the dark at the top of the world, the Eclipse Dragon waits.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "name": "Stargazer Ilo",
+            "text": "This is it, keeper. The sun and moon line up, and it wakes."
+          },
+          {
+            "speaker": "narrator",
+            "text": "The light goes strange and silver."
+          }
+        ],
+        "enemies": [
+          "twilight-moth",
+          "sun-knight"
+        ],
+        "level": 49
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "The Eclipse Dragon unfolds, half sun and half shadow."
+          },
+          {
+            "speaker": "npc",
+            "name": "Eclipse Dragon",
+            "text": "Light and dark. Day and night. And you, small thing, in between."
+          },
+          {
+            "speaker": "dragon",
+            "text": "*stands between you and it, wings wide*"
+          }
+        ],
+        "enemies": [
+          "eclipse-dragon"
+        ],
+        "level": 50,
+        "boss": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "The eclipse passes. Day and night take turns again, politely."
+      },
+      {
+        "speaker": "npc",
+        "name": "Stargazer Ilo",
+        "text": "The finest sky I've ever seen. And I've seen a lot of skies."
+      },
+      {
+        "speaker": "npc",
+        "name": "Stargazer Ilo",
+        "text": "Come back on a clear night, keeper. I'll show you your dragon's star."
+      }
+    ],
+    "reward": {
+      "xp": 1100,
+      "gold": 1600,
+      "embers": 10
+    }
   }
 ]
