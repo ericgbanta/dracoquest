@@ -7,6 +7,7 @@
  * statuses tick, breath meters fill, and enemies choose their next intents.
  */
 import { createRng, type Rng } from './rng';
+import type { BattleCondition } from './conditions';
 import { attackElement, defenseMultiplier, matchupVs, type Matchup } from './elements';
 import { elementLabel } from './eggs';
 import { dragonMaxHp, riderMaxHp, riderMaxMp } from './characters';
@@ -92,6 +93,8 @@ export interface BattleState {
   skillUses: number;
   /** The rider's spell loadout for this fight. */
   spells: string[];
+  /** The zone's daily condition (VARIETY_PLAN V3): extra dodge, an element boost, faster breath. */
+  condition?: BattleCondition | null;
   /** Power-ups on the loadout's spells (spell id → plus). Missing in fights saved before v12. */
   spellPlus?: Record<string, number>;
 }
@@ -167,6 +170,8 @@ export interface BattleSetup {
   third?: DragonState | null;
   /** A status the rider starts with (a run event's boon). */
   boon?: StatusId | null;
+  /** The zone's daily condition, if it changes fights. */
+  condition?: BattleCondition | null;
 }
 
 // ---------- Setup ----------
@@ -313,6 +318,7 @@ export function createBattle(data: GameData, setup: BattleSetup): BattleState {
   const three = setup.third && setup.third.hp > 0 ? setup.third : null;
   if (three) state.third = partner(three, 'dragon3');
   if (setup.boon) addStatus(data, state.rider, setup.boon, []);
+  if (setup.condition) state.condition = setup.condition;
   chooseIntents(data, state, rng);
   state.rngState = rng.getState();
   return state;
@@ -523,7 +529,7 @@ function strike(ctx: RoundCtx, attacker: Fighter, target: Fighter, spec: AttackS
 
   let dodge = target.dodge;
   if (statusFlag(data, target, 'noDodge')) dodge = 0;
-  dodge += statusSum(data, target, 'dodgeBonus');
+  dodge += statusSum(data, target, 'dodgeBonus') + (ctx.state.condition?.dodgeBonus ?? 0);
   let hitChance = clamp(c.hit.base + (attacker.accuracy - dodge) * c.hit.perPoint, c.hit.min, c.hit.max);
   hitChance -= statusSum(data, attacker, 'accuracyPenalty');
   if (!rng.chance(hitChance)) {
@@ -533,6 +539,8 @@ function strike(ctx: RoundCtx, attacker: Fighter, target: Fighter, spec: AttackS
 
   let mult = defenseMultiplier(data.elements, spec.element, target);
   for (const sd of statusData(data, target)) if (sd.amplify && sd.amplify.element === spec.element) mult *= sd.amplify.multiplier;
+  const boost = ctx.state.condition?.boost;
+  if (boost && spec.element === boost.element) mult *= boost.multiplier;
   if (spec.strongBonus && mult > data.elements.multipliers.neutral) mult *= 1 + spec.strongBonus;
   const crit = rng.chance(attacker.critChance);
   const levelScale = attacker.kind === 'enemy' ? 1 : 1 + c.levelDamageScale * (attacker.level - 1);
@@ -1144,7 +1152,8 @@ function endOfRound(ctx: RoundCtx, comboUsed: boolean): void {
     if (regen > 0 && e.hp > 0 && e.hp < e.maxHp) heal(ctx, e, e, e.maxHp * regen);
   }
   if (alive(state.dragon) || (state.mode === 'ride' && alive(state.rider))) {
-    let gain = c.breath.perRound + state.spirit * c.breath.perSpirit + ctx.breathGain + bonusOf(state.dragonMods, 'breathPerRound');
+    const wind = state.condition?.breathPerRound ?? 0;
+    let gain = c.breath.perRound + state.spirit * c.breath.perSpirit + ctx.breathGain + bonusOf(state.dragonMods, 'breathPerRound') + wind;
     if (state.mode === 'ride') gain += c.ride.breathPerRoundBonus;
     else if (ctx.riderDefending && !comboUsed) gain += c.defend.breathBonus;
     const holder = state.mode === 'ride' ? state.rider : state.dragon;
@@ -1154,14 +1163,14 @@ function endOfRound(ctx: RoundCtx, comboUsed: boolean): void {
   for (const id of Object.keys(state.cooldowns)) state.cooldowns[id] = Math.max(0, (state.cooldowns[id] ?? 0) - 1);
   const two = state.second;
   if (two && alive(two.fighter)) {
-    const gain = (c.breath.perRound + two.spirit * c.breath.perSpirit + ctx.breathGain2 + bonusOf(two.mods, 'breathPerRound'))
+    const gain = (c.breath.perRound + two.spirit * c.breath.perSpirit + ctx.breathGain2 + bonusOf(two.mods, 'breathPerRound') + (state.condition?.breathPerRound ?? 0))
       * statusProduct(data, two.fighter, 'breathGainMultiplier');
     two.breath = Math.min(c.breath.max, two.breath + Math.round(gain));
   }
   if (two) for (const id of Object.keys(two.cooldowns)) two.cooldowns[id] = Math.max(0, (two.cooldowns[id] ?? 0) - 1);
   const three = state.third;
   if (three && alive(three.fighter)) {
-    const gain = (c.breath.perRound + three.spirit * c.breath.perSpirit + ctx.breathGain3 + bonusOf(three.mods, 'breathPerRound'))
+    const gain = (c.breath.perRound + three.spirit * c.breath.perSpirit + ctx.breathGain3 + bonusOf(three.mods, 'breathPerRound') + (state.condition?.breathPerRound ?? 0))
       * statusProduct(data, three.fighter, 'breathGainMultiplier');
     three.breath = Math.min(c.breath.max, three.breath + Math.round(gain));
   }

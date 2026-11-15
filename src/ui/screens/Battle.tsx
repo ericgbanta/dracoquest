@@ -9,6 +9,7 @@ import { setOf, talentById } from '../../core/loadout';
 import { formatMaterials } from '../../core/forge';
 import type { DialogueLine } from '../../core/types';
 import { getZone, specialOf } from '../../core/run';
+import { describeCondition } from '../../core/conditions';
 import { matchupVs, weaknessesOfFighter } from '../../core/elements';
 import { battleSpell, spellById } from '../../core/spells';
 import { storyById } from '../../core/adventures';
@@ -72,7 +73,8 @@ export function Battle({ save, update, onExit }: Props) {
   useEffect(() => {
     if (!live) return;
     if (live.round === 1) {
-      setLog([`${live.enemies.map((e) => e.name).join(' and ')} ${live.enemies.length > 1 ? 'appear' : 'appears'}!`]);
+      const today = run?.condition && run.condition.id !== 'calm' ? describeCondition(data, run.condition) : null;
+      setLog([`${live.enemies.map((e) => e.name).join(' and ')} ${live.enemies.length > 1 ? 'appear' : 'appears'}!`, ...(today ? [`${today.name}: ${today.text}`] : [])]);
       setRider(live.mode === 'ride' ? { type: 'ride', move: 'dive' } : { type: 'attack' });
       setDragonPick({ type: 'claw' });
       setSecondPick({ type: 'claw' });
@@ -673,6 +675,9 @@ function Interlude({ save, update, onExit }: Props) {
       {quest && run.index === 0 && <p class="lead">{quest.description}</p>}
       {next?.intro && <Dialogue lines={next.intro} save={save} />}
       {!quest && <p>Run so far: +{run.totals.xp} XP, +{run.totals.gold} gold.</p>}
+      {run.condition && describeCondition(data, run.condition) && (
+        <p class="muted" data-testid="run-today">{describeCondition(data, run.condition)!.icon} Today: {describeCondition(data, run.condition)!.name}.</p>
+      )}
       <p class="muted">HP and MP carry over between fights. Rest at the Roost to heal.</p>
       {rideable && (
         <button type="button" class="button button--big button--block" onClick={() => update((s) => startFight(data, s, { ride: true }))} data-testid="ride-fight">

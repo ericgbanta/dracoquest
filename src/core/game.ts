@@ -21,6 +21,7 @@ import { activeEvent, eventKey, eventOnlyIds } from './events';
 import { breedEgg, newEgg, plainEgg, releaseValue, rollVariant, zoneEgg } from './eggs';
 import { learnSpells, setLoadout, SpellError, upgradeSpell } from './spells';
 import { eventById, optionCost, resolveOption, rollEvent, type EventResult } from './runEvents';
+import { battleCondition, conditionById, conditionFor } from './conditions';
 import { addMaterials, craftGear, ForgeError, upgradeGear } from './forge';
 import {
   bountiesForDay, bountyBoard, bountyDone, bountyKey, countBounties, grantReward, planStory, rewardRider, storyById, storyStatus,
@@ -224,9 +225,12 @@ export function startRun(data: GameData, save: SaveData, zoneId: string, today?:
   const zone = getZone(data, zoneId);
   const lock = zoneLock(data, save, zone);
   if (lock) throw new GameError(lock);
-  const r = withRng(save, (rng) => planRun(data, zoneId, save.rider.level, rng));
+  // The zone's condition for the day holds for the whole hunt.
+  const condition = today ? conditionFor(data, zone, today) : null;
+  const cd = conditionById(data, condition?.id);
+  const r = withRng(save, (rng) => planRun(data, zoneId, save.rider.level, rng, { champion: cd?.championMultiplier, rare: cd?.rareMultiplier }));
   const bounties = today ? bountiesForDay(save.bounties, today) : save.bounties;
-  return startFight(data, { ...r.save, bounties, run: { zoneId, fights: r.value, index: 0, battle: null, totals: { xp: 0, gold: 0, drops: {} } } });
+  return startFight(data, { ...r.save, bounties, run: { zoneId, fights: r.value, index: 0, battle: null, totals: { xp: 0, gold: 0, drops: {} }, condition } });
 }
 
 /** Start a story quest. Like growth quests, the first fight starts from the interlude, after its dialogue. */
@@ -297,6 +301,7 @@ export function startFight(data: GameData, save: SaveData, opts: { ride?: boolea
     canFlee: plan.kind !== 'boss',
     ride: !!opts.ride && canRide(data, save),
     boon: run.boon ?? null,
+    condition: battleCondition(data, run.condition),
   });
   // The event is over and its boon is spent once the fight starts.
   return { ...r.save, run: { ...run, battle, event: null, boon: null } };
@@ -387,7 +392,11 @@ function finishFight(data: GameData, save: SaveData): { save: SaveData; report: 
     const wellKept = next.wellKeptFights > 0;
     const xpBonus = wellKept ? data.care.wellKept.xpBonus : 0;
     const r = withRng(next, (rng) => {
-      const rewards = rollRewards(data, run.zoneId, battle, rng, xpBonus, dragon ? dragonBonus(data, dragon) : {});
+      // The day's condition can raise gold and drop chances.
+      const cr = conditionById(data, run.condition?.id)?.rewards ?? {};
+      const mods = dragon ? dragonBonus(data, dragon) : {};
+      const withCondition = { ...mods, goldPct: (mods.goldPct ?? 0) + (cr.gold ? cr.gold - 1 : 0), dropPct: (mods.dropPct ?? 0) + (cr.dropPct ?? 0) };
+      const rewards = rollRewards(data, run.zoneId, battle, rng, xpBonus, withCondition);
       // A fight a run event added pays more.
       if (plan.bonus) {
         rewards.xp = Math.round(rewards.xp * plan.bonus);
@@ -397,7 +406,7 @@ function finishFight(data: GameData, save: SaveData): { save: SaveData; report: 
       const foe = plan.enemies[0]?.enemyId;
       const firstKill = !!foe && (save.bestiary[foe]?.defeated ?? 0) === 0;
       const dropPct = bonusOf(riderBonus(data, save.rider), 'dropPct') + (dragon ? bonusOf(dragonBonus(data, dragon), 'dropPct') : 0);
-      const gear = rollGear(getZone(data, run.zoneId), plan.kind, new Set(save.rider.gear), firstKill, rng, dropPct, gearChanceFor(data, battle));
+      const gear = rollGear(getZone(data, run.zoneId), plan.kind, new Set(save.rider.gear), firstKill, rng, dropPct, gearChanceFor(data, battle) * (cr.gearChance ?? 1));
       if (gear.length) rewards.gear = gear;
       // Bosses drop an egg of their zone's element: always the first time, sometimes after.
       const zone = getZone(data, run.zoneId);

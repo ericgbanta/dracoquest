@@ -593,3 +593,6 @@ p, p.muted, .notice, .lead, li { font-size: max(1rem, 16px); }
 .run-event-option { display: flex; flex-direction: column; align-items: flex-start; text-align: left; min-height: 56px; padding: 8px 14px; }
 .run-event-label { font-weight: 800; }
 .run-event-detail { font-size: 0.85rem; font-weight: 500; opacity: 0.85; }
+
+/* Daily zone conditions (VARIETY_PLAN V3). */
+.zone-today { margin: 4px 0; font-size: 0.9rem; }

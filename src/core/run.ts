@@ -6,6 +6,7 @@ import type { Rng } from './rng';
 import { enemyGold, enemyXp } from './progression';
 import type { BattleState, EnemySpawn } from './battle';
 import type { RunEvent } from './runEvents';
+import type { RunCondition } from './conditions';
 import type { StatusId, Bonus, DialogueLine, EggSpec, GameData, Materials, QuestData, RareData, SpawnRewards, ZoneData } from './types';
 
 export type FightKind = 'normal' | 'mini' | 'boss' | 'quest' | 'story';
@@ -35,6 +36,8 @@ export interface RunState {
   event?: RunEvent | null;
   /** A status the rider starts the next fight with, from an event. */
   boon?: StatusId | null;
+  /** The zone's condition on the day the hunt started (save v15). Kept for the whole run. */
+  condition?: RunCondition | null;
 }
 
 export interface Rewards {
@@ -116,17 +119,20 @@ export function zoneRare(data: GameData, zoneId: string): RareData | undefined {
  * A regular hunt fight may be replaced by the zone's rare, alone; otherwise
  * each enemy in it may be a champion. Story, quest and boss fights never change.
  */
-export function rollSpecials(data: GameData, zone: ZoneData, riderLevel: number, enemies: EnemySpawn[], rng: Rng): EnemySpawn[] {
+export function rollSpecials(data: GameData, zone: ZoneData, riderLevel: number, enemies: EnemySpawn[], rng: Rng, odds: SpawnOdds = {}): EnemySpawn[] {
   const { champion, rare: rareRule } = data.champions;
   const rare = zoneRare(data, zone.id);
-  if (rare && riderLevel >= rareRule.minRiderLevel && rng.chance(rareRule.chance)) {
+  if (rare && riderLevel >= rareRule.minRiderLevel && rng.chance(rareRule.chance * (odds.rare ?? 1))) {
     return [{ enemyId: rare.enemy, level: clampLevel(zone, riderLevel + rareRule.levelOffset), rare: rare.id }];
   }
   if (riderLevel < champion.minRiderLevel) return enemies;
-  return enemies.map((e) => (rng.chance(champion.chance) ? { ...e, traits: rollTraits(data, rng) } : e));
+  return enemies.map((e) => (rng.chance(champion.chance * (odds.champion ?? 1)) ? { ...e, traits: rollTraits(data, rng) } : e));
 }
 
-export function planRun(data: GameData, zoneId: string, riderLevel: number, rng: Rng): PlannedFight[] {
+/** Multipliers on the champion and rare chances (a Full moon doubles both). */
+export interface SpawnOdds { champion?: number; rare?: number }
+
+export function planRun(data: GameData, zoneId: string, riderLevel: number, rng: Rng, odds: SpawnOdds = {}): PlannedFight[] {
   const zone = getZone(data, zoneId);
   const count = rng.int(zone.fights.min, zone.fights.max);
   const table = zone.encounters.filter((e) => (e.minLevel ?? 0) <= riderLevel);
@@ -144,7 +150,7 @@ export function planRun(data: GameData, zoneId: string, riderLevel: number, rng:
       enemyId: id,
       level: clampLevel(zone, riderLevel + offset + rng.int(-zone.levelSpread, zone.levelSpread)),
     }));
-    fights.push({ kind: 'normal', enemies: rollSpecials(data, zone, riderLevel, enemies, rng) });
+    fights.push({ kind: 'normal', enemies: rollSpecials(data, zone, riderLevel, enemies, rng, odds) });
   }
   if (bossUnlocked(zone, riderLevel)) {
     fights.push({ kind: 'boss', enemies: [{ enemyId: zone.boss.enemy, level: zone.boss.level }] });

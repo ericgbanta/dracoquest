@@ -227,7 +227,8 @@ if (!SKIP_LEVELS) {
         for (let i = 0; i < RUNS; i++) {
           const base = onLevelCharacter(element, level, rng.int(1, 2 ** 31), zone.minLevel >= data.progression.secondPartnerRiderLevel);
           if (zoneLock(data, base, zone)) continue;
-          const { stats } = playRun(base, (s) => startRun(data, withLoadout(s, zone), zone.id));
+          // A different day each run, so the zone's daily conditions average out as they would for a player.
+          const { stats } = playRun(base, (s) => startRun(data, withLoadout(s, zone), zone.id, `sim-${level}-${i}`));
           wins += stats.won ? 1 : 0;
           fights += stats.fights;
           fightsWon += stats.fightsWon;

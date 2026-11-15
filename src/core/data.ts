@@ -25,9 +25,10 @@ import roostJson from '../data/roost.json';
 import eventsJson from '../data/events.json';
 import championsJson from '../data/champions.json';
 import runEventsJson from '../data/runEvents.json';
+import conditionsJson from '../data/conditions.json';
 import { canMix } from './eggs';
 import type {
-  ChampionsData, CombatData, RunEventsData, ElementsData, EnemyData, GameData, GearData, ItemData, ProgressionData, QuestData, ShopData, StatusData, StatusId,
+  ChampionsData, CombatData, ConditionsData, RunEventsData, ElementsData, EnemyData, GameData, GearData, ItemData, ProgressionData, QuestData, ShopData, StatusData, StatusId,
   BountiesData, EventData, ForgeData, GearSetData, RegionsData, RoostData, StoryData, StoryReward, TalentsData, ZoneData,
 } from './types';
 
@@ -88,7 +89,7 @@ export interface RawData {
   elements: unknown; combat: unknown; statuses: unknown; progression: unknown; dragons: unknown;
   care: unknown; foods: unknown; items: unknown; enemies: unknown; zones: unknown;
   gear: unknown; talents: unknown; quests: unknown; shop: unknown; roost: unknown; events: unknown; sets: unknown; forge: unknown; stories: unknown; bounties: unknown; regions: unknown;
-  champions: unknown; runEvents: unknown;
+  champions: unknown; runEvents: unknown; conditions: unknown;
 }
 
 export function loadGameData(raw: RawData): GameData {
@@ -217,8 +218,26 @@ export function loadGameData(raw: RawData): GameData {
     forge: validateForge(raw.forge, gear, raw.roost as RoostData),
     ...validateAdventures(raw, enemies, zones, new Set([...itemIds, ...foodIds]), Object.keys((raw.forge as ForgeData).materials)),
     champions: validateChampions(raw.champions, enemies, zones, statuses, itemIds),
+    conditions: validateConditions(raw.conditions),
     runEvents: validateRunEvents(raw.runEvents, statuses, itemIds, Object.keys((raw.forge as ForgeData).materials)),
   };
+}
+
+/** Daily conditions: unique ids, a weight each, and number-only effects. */
+export function validateConditions(raw: unknown): ConditionsData {
+  const c = raw as ConditionsData;
+  if (!Array.isArray(c?.conditions) || c.conditions.length === 0) throw new DataError('conditions: missing');
+  const ids = new Set<string>();
+  for (const x of c.conditions) {
+    if (ids.has(x.id)) throw new DataError(`conditions: duplicate id "${x.id}"`);
+    ids.add(x.id);
+    requireNumbers(`conditions.${x.id}`, x, ['weight']);
+    for (const part of [x.battle, x.rewards]) {
+      for (const [k, v] of Object.entries(part ?? {})) if (typeof v !== 'number' || !(v >= 0)) throw new DataError(`conditions.${x.id}.${k}: expected a number`);
+    }
+    if (x.battle?.elementBoost && !x.zoneElement) throw new DataError(`conditions.${x.id}: an element boost needs zoneElement`);
+  }
+  return c;
 }
 
 /** Run events: weights and odds are numbers, every option has an outcome, and every item, material and status is known. */
@@ -420,4 +439,5 @@ export const gameData: GameData = loadGameData({
   regions: regionsJson,
   champions: championsJson,
   runEvents: runEventsJson,
+  conditions: conditionsJson,
 });

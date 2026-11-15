@@ -575,6 +575,23 @@ export interface RunEventData {
 
 export interface RunEventsData { chance: number; temperPoints: number; events: RunEventData[] }
 
+/** A daily zone condition (VARIETY_PLAN V3). */
+export interface ConditionData {
+  id: string;
+  name: string;
+  icon: string;
+  text: string;
+  weight: number;
+  /** Picks one of the zone's elements for {element} and the boost. */
+  zoneElement?: boolean;
+  battle?: { dodgeBonus?: number; elementBoost?: number; breathPerRound?: number };
+  rewards?: { gold?: number; dropPct?: number; gearChance?: number };
+  championMultiplier?: number;
+  rareMultiplier?: number;
+}
+
+export interface ConditionsData { conditions: ConditionData[] }
+
 export interface GameData {
   elements: ElementsData;
   combat: CombatData;
@@ -599,6 +616,7 @@ export interface GameData {
   regions: RegionsData;
   champions: ChampionsData;
   runEvents: RunEventsData;
+  conditions: ConditionsData;
 }
 
 // ---- Persistent character state (lives in the save) ----

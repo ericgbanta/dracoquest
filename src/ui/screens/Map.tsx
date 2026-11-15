@@ -2,6 +2,7 @@ import { useState } from 'preact/hooks';
 import { gameData as data } from '../../core/data';
 import { activeDragon, startRun, zoneLock } from '../../core/game';
 import { bossUnlocked, zoneRare } from '../../core/run';
+import { conditionFor, describeCondition } from '../../core/conditions';
 import { riderMaxHp } from '../../core/characters';
 import type { SaveData } from '../../core/save';
 import { ElementBadge, formatBonus, todayKey } from '../bits';
@@ -148,6 +149,7 @@ function ZoneDetails({ zone, save, today, onHunt, onOpen, idPrefix = '' }: {
         <p class="notice notice--error">{lock}.</p>
       ) : (
         <>
+          <TodayLine zone={zone} today={today} idPrefix={idPrefix} />
           <p class="muted">
             {zone.fights.min} to {zone.fights.max} fights, then{' '}
             {unlocked ? <strong>the {boss.name}{beaten ? ' (beaten!)' : ''}</strong> : `a mini-boss. The ${boss.name} shows up at rider level ${zone.boss.unlockRiderLevel}.`}
@@ -161,6 +163,17 @@ function ZoneDetails({ zone, save, today, onHunt, onOpen, idPrefix = '' }: {
         </>
       )}
     </>
+  );
+}
+
+/** Today's condition in a zone (VARIETY_PLAN V3). A hunt keeps the one it started with. */
+function TodayLine({ zone, today, idPrefix }: { zone: ZoneData; today: string; idPrefix: string }) {
+  const c = describeCondition(data, conditionFor(data, zone, today));
+  if (!c) return null;
+  return (
+    <p class="zone-today" data-testid={`${idPrefix}today-${zone.id}`}>
+      <span aria-hidden="true">{c.icon}</span> <strong>Today: {c.name}.</strong> <span class="muted">{c.text}</span>
+    </p>
   );
 }
 

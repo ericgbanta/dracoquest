@@ -14,7 +14,7 @@ import { newRoost, type RoostState } from './roost';
 import { defaultLoadout } from './spells';
 import type { DragonState, EggSpec, ElementId, RiderState } from './types';
 
-export const CURRENT_VERSION = 14;
+export const CURRENT_VERSION = 15;
 export const SAVE_KEY = 'dracoquest.save';
 const CODE_PREFIX = 'DQ1:'; // Code format, not save version. The save inside carries its own version.
 
@@ -207,6 +207,8 @@ export const MIGRATIONS: Record<number, Migration> = {
   12: (save) => ({ ...save, rares: {} }),
   // v13 → v14 (variety plan V1): a run can hold an event between fights and a boon for the next fight.
   13: (save) => (isObject(save.run) ? { ...save, run: { ...save.run, event: null, boon: null } } : save),
+  // v14 → v15 (variety plan V3): a hunt keeps the zone's daily condition it started with. A run already going has none.
+  14: (save) => (isObject(save.run) ? { ...save, run: { ...save.run, condition: null } } : save),
 };
 
 export function newSave(now: number): SaveData {

@@ -1,0 +1,73 @@
+{
+  "_note": "Daily zone conditions (VARIETY_PLAN V3). Each zone gets one a day, picked by weight from a seed of the day and the zone, like the bounty board. A hunt keeps the condition it started with. battle: dodgeBonus is added to every fighter's dodge (1 point is 1 percent to hit); elementBoost multiplies hits of the condition's element, for both sides; breathPerRound is added to every partner dragon's breath each round. rewards: gold multiplies gold, dropPct adds to item drop chances, gearChance multiplies the zone gear chance. A condition with zoneElement picks one of the zone's elements and fills {element}.",
+  "conditions": [
+    {
+      "id": "calm",
+      "name": "Calm",
+      "icon": "🌤",
+      "text": "A quiet day. Nothing out of the ordinary.",
+      "weight": 3
+    },
+    {
+      "id": "fog",
+      "name": "Fog",
+      "icon": "🌫",
+      "text": "Thick fog rolls in. Everyone dodges more, friend and foe.",
+      "weight": 1.5,
+      "battle": {
+        "dodgeBonus": 8
+      }
+    },
+    {
+      "id": "surge",
+      "name": "{element} surge",
+      "icon": "✨",
+      "text": "The air hums with {element}. {element} hits are 20 percent stronger, for friend and foe.",
+      "weight": 1.5,
+      "zoneElement": true,
+      "battle": {
+        "elementBoost": 1.2
+      }
+    },
+    {
+      "id": "full-moon",
+      "name": "Full moon",
+      "icon": "🌕",
+      "text": "A full moon tonight. Champions and rares show up twice as often.",
+      "weight": 1,
+      "championMultiplier": 2,
+      "rareMultiplier": 2
+    },
+    {
+      "id": "bounty-day",
+      "name": "Bounty day",
+      "icon": "💰",
+      "text": "The town is paying double. Fights here give twice the gold.",
+      "weight": 1,
+      "rewards": {
+        "gold": 2
+      }
+    },
+    {
+      "id": "tailwind",
+      "name": "Tailwind",
+      "icon": "🍃",
+      "text": "A steady wind at your back. Your dragons' breath fills faster.",
+      "weight": 1,
+      "battle": {
+        "breathPerRound": 5
+      }
+    },
+    {
+      "id": "treasure",
+      "name": "Treasure trail",
+      "icon": "🧭",
+      "text": "Fresh tracks lead to old stashes. Better odds of items and gear.",
+      "weight": 1,
+      "rewards": {
+        "dropPct": 0.5,
+        "gearChance": 1.5
+      }
+    }
+  ]
+}
