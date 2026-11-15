@@ -8,7 +8,12 @@
       "moss-wisp",
       "elder-thornling"
     ],
-    "boss": "bramble-troll"
+    "boss": "bramble-troll",
+    "more": [
+      "acorn-knight",
+      "toadstool-tumbler",
+      "puddle-newt"
+    ]
   },
   "saltmarsh-shore": {
     "regular": [
@@ -19,7 +24,12 @@
       "shell-knight",
       "big-pincher"
     ],
-    "boss": "crab-king"
+    "boss": "crab-king",
+    "more": [
+      "teacup-hermit",
+      "spiny-puffer",
+      "zap-jelly"
+    ]
   },
   "cinder-pass": {
     "regular": [
@@ -30,7 +40,12 @@
       "lava-toad",
       "imp-chieftain"
     ],
-    "boss": "magma-wyrm"
+    "boss": "magma-wyrm",
+    "more": [
+      "magma-snail",
+      "soot-mole",
+      "storm-crow"
+    ]
   },
   "thunderspire": {
     "regular": [
@@ -85,7 +100,12 @@
       "lily-snapper",
       "old-croaker"
     ],
-    "boss": "whisperwillow"
+    "boss": "whisperwillow",
+    "more": [
+      "fog-heron",
+      "croak-shaman",
+      "peat-golem"
+    ]
   },
   "rustcliff-ruins": {
     "regular": [

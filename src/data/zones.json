@@ -51,6 +51,32 @@
         ],
         "weight": 1,
         "minLevel": 4
+      },
+      {
+        "enemies": [
+          "acorn-knight"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "toadstool-tumbler"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "puddle-newt"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "acorn-knight",
+          "puddle-newt"
+        ],
+        "weight": 1,
+        "minLevel": 3
       }
     ],
     "levelSpread": 1,
@@ -136,6 +162,32 @@
           "gull-bandit"
         ],
         "weight": 1
+      },
+      {
+        "enemies": [
+          "teacup-hermit"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "spiny-puffer"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "zap-jelly"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "spiny-puffer",
+          "zap-jelly"
+        ],
+        "weight": 1,
+        "minLevel": 8
       }
     ],
     "levelSpread": 1,
@@ -241,6 +293,32 @@
         ],
         "weight": 1,
         "minLevel": 14
+      },
+      {
+        "enemies": [
+          "fog-heron"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "croak-shaman"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "peat-golem"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "croak-shaman",
+          "fog-heron"
+        ],
+        "weight": 1,
+        "minLevel": 12
       }
     ],
     "levelSpread": 1,
@@ -332,6 +410,32 @@
           "ember-imp"
         ],
         "weight": 1
+      },
+      {
+        "enemies": [
+          "magma-snail"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "soot-mole"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "storm-crow"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "soot-mole",
+          "storm-crow"
+        ],
+        "weight": 1,
+        "minLevel": 14
       }
     ],
     "levelSpread": 1,

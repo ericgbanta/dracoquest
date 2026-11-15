@@ -9514,6 +9514,618 @@
         "width": 0.1,
         "rotate": -75
       }
+    },
+    "enemy.acorn-knight": {
+      "size": [
+        390,
+        400
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/acorn-knight.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/acorn-knight-attack.webp",
+              "box": [
+                0.0436,
+                0.017,
+                1.1288,
+                0.9825
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.toadstool-tumbler": {
+      "size": [
+        372,
+        400
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/toadstool-tumbler.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/toadstool-tumbler-attack.webp",
+              "box": [
+                0.1296,
+                0.032,
+                1.0327,
+                0.9675
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.puddle-newt": {
+      "size": [
+        400,
+        321
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/puddle-newt.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/puddle-newt-attack.webp",
+              "box": [
+                0.1316,
+                0.0316,
+                1.025,
+                0.9681
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.teacup-hermit": {
+      "size": [
+        400,
+        339
+      ],
+      "boxScale": 0.43,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/teacup-hermit.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/teacup-hermit-attack.webp",
+              "box": [
+                0.0595,
+                0.0431,
+                1.0825,
+                0.9569
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.spiny-puffer": {
+      "size": [
+        400,
+        396
+      ],
+      "boxScale": 0.43,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/spiny-puffer.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/spiny-puffer-attack.webp",
+              "box": [
+                0.0642,
+                0.0818,
+                1.055,
+                0.9183
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.zap-jelly": {
+      "size": [
+        400,
+        393
+      ],
+      "boxScale": 0.43,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/zap-jelly.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/zap-jelly-attack.webp",
+              "box": [
+                0.1264,
+                0.0759,
+                1.06,
+                0.9242
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.fog-heron": {
+      "size": [
+        287,
+        400
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/fog-heron.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/fog-heron-attack.webp",
+              "box": [
+                0.0371,
+                0.2619,
+                1.149,
+                0.7375
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.croak-shaman": {
+      "size": [
+        356,
+        400
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/croak-shaman.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/croak-shaman-attack.webp",
+              "box": [
+                0.1198,
+                0.4078,
+                1.0842,
+                0.5925
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.peat-golem": {
+      "size": [
+        340,
+        400
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/peat-golem.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/peat-golem-attack.webp",
+              "box": [
+                0.0255,
+                0.218,
+                1.292,
+                0.7825
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.magma-snail": {
+      "size": [
+        400,
+        329
+      ],
+      "boxScale": 0.44,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/magma-snail.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/magma-snail-attack.webp",
+              "box": [
+                0.0452,
+                0.0205,
+                1.1025,
+                0.98
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.soot-mole": {
+      "size": [
+        400,
+        319
+      ],
+      "boxScale": 0.44,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/soot-mole.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/soot-mole-attack.webp",
+              "box": [
+                -0.1419,
+                0.1273,
+                1.2,
+                0.8733
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.storm-crow": {
+      "size": [
+        400,
+        342
+      ],
+      "boxScale": 0.44,
+      "points": {
+        "mouth": [
+          0.92,
+          0.35
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/storm-crow.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/storm-crow-attack.webp",
+              "box": [
+                0.1448,
+                0.1217,
+                0.96,
+                0.8788
+              ]
+            }
+          ]
+        }
+      ]
     }
   },
   "backdrops": {

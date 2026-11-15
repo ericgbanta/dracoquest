@@ -33,10 +33,10 @@ describe('data loader', () => {
 });
 
 describe('content', () => {
-  it('has the Mossy Hollow zone with 5 regular enemies and the Bramble Troll', () => {
+  it('has the Mossy Hollow zone with 8 regular enemies and the Bramble Troll', () => {
     const zone = gameData.zones.find((z) => z.id === 'mossy-hollow')!;
     const regular = new Set(zone.encounters.flatMap((e) => e.enemies));
-    expect(regular.size).toBe(5);
+    expect(regular.size).toBe(8);
     expect(zone.boss.enemy).toBe('bramble-troll');
     expect(gameData.enemies['bramble-troll']!.boss).toBe(true);
   });

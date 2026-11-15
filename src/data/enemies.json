@@ -8747,5 +8747,588 @@
     "xpMultiplier": 5,
     "boss": true,
     "goldMultiplier": 6
+  },
+  {
+    "id": "acorn-knight",
+    "name": "Acorn Knight",
+    "element": "stone",
+    "flavor": "Takes its twig lance and its acorn helmet very, very seriously.",
+    "base": {
+      "hp": 55,
+      "attack": 10.0,
+      "power": 5,
+      "defense": 2.5,
+      "swift": 5,
+      "dodge": 2
+    },
+    "perLevel": {
+      "hp": 15,
+      "attack": 1.75,
+      "power": 1,
+      "defense": 0.4,
+      "swift": 0.7,
+      "dodge": 0.2
+    },
+    "moves": [
+      {
+        "id": "twig-poke",
+        "name": "Twig Poke",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "lance-charge",
+        "name": "Lance Charge",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "helmet-down",
+        "name": "Helmet Down",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "toadstool-tumbler",
+    "name": "Toadstool Tumbler",
+    "element": "verdant",
+    "flavor": "Bounces off anything, including you.",
+    "base": {
+      "hp": 42,
+      "attack": 7.5,
+      "power": 5,
+      "defense": 1,
+      "swift": 7,
+      "dodge": 6
+    },
+    "perLevel": {
+      "hp": 12,
+      "attack": 1.38,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 0.8,
+      "dodge": 0.5
+    },
+    "moves": [
+      {
+        "id": "bounce",
+        "name": "Bounce",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "spore-burst",
+        "name": "Spore Burst",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "blind",
+        "statusChance": 0.6
+      },
+      {
+        "id": "cap-slam",
+        "name": "Cap Slam",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      }
+    ]
+  },
+  {
+    "id": "puddle-newt",
+    "name": "Puddle Newt",
+    "element": "tide",
+    "flavor": "Wears a lily pad because it thinks it looks dashing. It does.",
+    "base": {
+      "hp": 48,
+      "attack": 8.75,
+      "power": 5,
+      "defense": 1,
+      "swift": 6,
+      "dodge": 3
+    },
+    "perLevel": {
+      "hp": 14,
+      "attack": 1.5,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 0.8,
+      "dodge": 0.3
+    },
+    "moves": [
+      {
+        "id": "tail-flick",
+        "name": "Tail Flick",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "puddle-splash",
+        "name": "Puddle Splash",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "soak",
+        "statusChance": 0.8
+      },
+      {
+        "id": "lily-nap",
+        "name": "Lily Nap",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.25,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ]
+  },
+  {
+    "id": "teacup-hermit",
+    "name": "Teacup Hermit",
+    "element": "stone",
+    "flavor": "Found the teacup on the beach and has not let go since.",
+    "base": {
+      "hp": 43.47,
+      "attack": 7.88,
+      "power": 5,
+      "defense": 1.4,
+      "swift": 5.6,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 12.56,
+      "attack": 1.35,
+      "power": 1,
+      "defense": 0.42,
+      "swift": 0.72,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "pinch",
+        "name": "Pinch",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "cup-bash",
+        "name": "Cup Bash",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "hide-in-cup",
+        "name": "Hide in Cup",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "spiny-puffer",
+    "name": "Spiny Puffer",
+    "element": "tide",
+    "flavor": "Puffs up at the slightest insult. Everything is an insult.",
+    "base": {
+      "hp": 45.54,
+      "attack": 7.88,
+      "power": 5,
+      "defense": 1.6,
+      "swift": 5.6,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 13.16,
+      "attack": 1.35,
+      "power": 1,
+      "defense": 0.48,
+      "swift": 0.72,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "spine-jab",
+        "name": "Spine Jab",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "salt-spray",
+        "name": "Salt Spray",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "soak",
+        "statusChance": 0.8
+      },
+      {
+        "id": "puff-up-slam",
+        "name": "Puff Slam",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      }
+    ]
+  },
+  {
+    "id": "zap-jelly",
+    "name": "Zap Jelly",
+    "element": "storm",
+    "flavor": "Drifts in on the tide and zaps whatever drifts too close.",
+    "base": {
+      "hp": 33.12,
+      "attack": 7.88,
+      "power": 5,
+      "defense": 1,
+      "swift": 10.5,
+      "dodge": 9.0
+    },
+    "perLevel": {
+      "hp": 9.57,
+      "attack": 1.35,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1.35,
+      "dodge": 0.72
+    },
+    "moves": [
+      {
+        "id": "sting",
+        "name": "Sting",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "zap",
+        "name": "Zap",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "shock",
+        "statusChance": 0.5
+      },
+      {
+        "id": "drift",
+        "name": "Drift Away",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fade",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "fog-heron",
+    "name": "Fog Heron",
+    "element": "tide",
+    "flavor": "Stands in the mist for hours, judging you.",
+    "base": {
+      "hp": 45,
+      "attack": 8.31,
+      "power": 5,
+      "defense": 1,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 13,
+      "attack": 1.425,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "beak-stab",
+        "name": "Beak Stab",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "mist-wing",
+        "name": "Mist Wing",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "chill",
+        "statusChance": 0.6
+      },
+      {
+        "id": "fog-cloak",
+        "name": "Fog Cloak",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fade",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "croak-shaman",
+    "name": "Croak Shaman",
+    "element": "verdant",
+    "flavor": "Its chants are mostly croaks, but the reeds listen anyway.",
+    "base": {
+      "hp": 51.75,
+      "attack": 8.31,
+      "power": 5,
+      "defense": 1,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 14.95,
+      "attack": 1.425,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "staff-bonk",
+        "name": "Staff Bonk",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "reed-hex",
+        "name": "Reed Hex",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "root",
+        "statusChance": 0.6
+      },
+      {
+        "id": "swamp-chant",
+        "name": "Swamp Chant",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.25,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ]
+  },
+  {
+    "id": "peat-golem",
+    "name": "Peat Golem",
+    "element": "stone",
+    "flavor": "Dug out of the bog by accident. It has been cross about it ever since.",
+    "base": {
+      "hp": 38.25,
+      "attack": 8.31,
+      "power": 5,
+      "defense": 1,
+      "swift": 9.1,
+      "dodge": 6.5
+    },
+    "perLevel": {
+      "hp": 11.05,
+      "attack": 1.425,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1.17,
+      "dodge": 0.52
+    },
+    "moves": [
+      {
+        "id": "clod-punch",
+        "name": "Clod Punch",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "bog-stomp",
+        "name": "Bog Stomp",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "crack",
+        "statusChance": 0.4
+      },
+      {
+        "id": "root-down",
+        "name": "Root Down",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "magma-snail",
+    "name": "Magma Snail",
+    "element": "fire",
+    "flavor": "Slow, warm and absolutely not in a hurry to move out of your way.",
+    "base": {
+      "hp": 51.23,
+      "attack": 8.662,
+      "power": 5,
+      "defense": 1,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 14.8,
+      "attack": 1.485,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "shell-bump",
+        "name": "Shell Bump",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "lava-ooze",
+        "name": "Lava Ooze",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "burn",
+        "statusChance": 0.7
+      },
+      {
+        "id": "hide-in-shell",
+        "name": "Hide in Shell",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "soot-mole",
+    "name": "Soot Mole",
+    "element": "stone",
+    "flavor": "Sweeps the vents clean and blames you for the mess.",
+    "base": {
+      "hp": 49.01,
+      "attack": 8.662,
+      "power": 5,
+      "defense": 1.6,
+      "swift": 4.9,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 14.16,
+      "attack": 1.485,
+      "power": 1,
+      "defense": 0.48,
+      "swift": 0.63,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "brush-swat",
+        "name": "Brush Swat",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "soot-cloud",
+        "name": "Soot Cloud",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "blind",
+        "statusChance": 0.6
+      },
+      {
+        "id": "tunnel-burst",
+        "name": "Tunnel Burst",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      }
+    ]
+  },
+  {
+    "id": "storm-crow",
+    "name": "Storm Crow",
+    "element": "storm",
+    "flavor": "Rides the storms that roll off the volcano and steals anything shiny.",
+    "base": {
+      "hp": 35.64,
+      "attack": 8.662,
+      "power": 5,
+      "defense": 1,
+      "swift": 9.8,
+      "dodge": 8.5
+    },
+    "perLevel": {
+      "hp": 10.3,
+      "attack": 1.485,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1.26,
+      "dodge": 0.68
+    },
+    "moves": [
+      {
+        "id": "peck",
+        "name": "Peck",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "thunder-dive",
+        "name": "Thunder Dive",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "shock",
+        "statusChance": 0.3
+      },
+      {
+        "id": "ruffle",
+        "name": "Ruffle Up",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self"
+      }
+    ]
   }
 ]

@@ -91,6 +91,9 @@ for z, v in ZONES.items():
     if have(f'sheet-{z}'):
         pieces = split(key(f'v2/out/sheet-{z}.png'), 6, 3)
         for eid, piece in zip(v['regular'], pieces): packed[eid] = save(piece, f'enemies/{eid}', maxdim=400)
+    # Variety plan V7: a second sheet of three more regular enemies (`more` in zones.json), one row of three.
+    if v.get('more') and have(f'sheet-{z}-more'):
+        for eid, piece in zip(v['more'], split(key(f'v2/out/sheet-{z}-more.png'), 3, 3)): packed[eid] = save(piece, f'enemies/{eid}', maxdim=400)
 if have('tail-tips'):
     for el, piece in zip(TIPS, split(key('v2/out/tail-tips.png'), 8, 4)): packed[f'tip-{el}'] = save(piece, f'tips/{el}', maxdim=160)
 if have('tail-tips-2'):
@@ -160,6 +163,11 @@ for z, v in ZONES.items():
     if have(f'sheet-{z}') and have(f'sheet-{z}-attack') and z not in SKIP_SHEET_POSES:
         idles = split(key(f'v2/out/sheet-{z}.png'), 6, 3); atts = split(key(f'v2/out/sheet-{z}-attack.png'), 6, 3)
         for eid, idle, att in zip(v['regular'], idles, atts):
+            k = min(1, 400 / max(idle.size))
+            pose_imgs(idle, att, f'enemies/{eid}', idle.width * k, scale=POSE_SCALE.get(eid, 1))
+    if v.get('more') and have(f'sheet-{z}-more') and have(f'sheet-{z}-more-attack'):
+        idles = split(key(f'v2/out/sheet-{z}-more.png'), 3, 3); atts = split(key(f'v2/out/sheet-{z}-more-attack.png'), 3, 3)
+        for eid, idle, att in zip(v['more'], idles, atts):
             k = min(1, 400 / max(idle.size))
             pose_imgs(idle, att, f'enemies/{eid}', idle.width * k, scale=POSE_SCALE.get(eid, 1))
 

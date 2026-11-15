@@ -75,6 +75,39 @@
         }
       },
       {
+        "id": "acorn-knight-hunt",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Disarm 3 Acorn Knights",
+        "reward": {
+          "gold": 80,
+          "embers": 1
+        },
+        "enemy": "acorn-knight"
+      },
+      {
+        "id": "toadstool-tumbler-hunt",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Flatten 3 Toadstool Tumblers",
+        "reward": {
+          "gold": 80,
+          "embers": 1
+        },
+        "enemy": "toadstool-tumbler"
+      },
+      {
+        "id": "puddle-newt-hunt",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Dry out 3 Puddle Newts",
+        "reward": {
+          "gold": 80,
+          "embers": 1
+        },
+        "enemy": "puddle-newt"
+      },
+      {
         "id": "hollow-clear",
         "kind": "clear",
         "count": 2,
@@ -173,6 +206,39 @@
         }
       },
       {
+        "id": "teacup-hermit-hunt",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Return 3 teacups (Teacup Hermits)",
+        "reward": {
+          "gold": 120,
+          "embers": 1
+        },
+        "enemy": "teacup-hermit"
+      },
+      {
+        "id": "spiny-puffer-hunt",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Deflate 3 Spiny Puffers",
+        "reward": {
+          "gold": 120,
+          "embers": 1
+        },
+        "enemy": "spiny-puffer"
+      },
+      {
+        "id": "zap-jelly-hunt",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Unplug 3 Zap Jellies",
+        "reward": {
+          "gold": 120,
+          "embers": 1
+        },
+        "enemy": "zap-jelly"
+      },
+      {
         "id": "shore-clear",
         "kind": "clear",
         "count": 2,
@@ -269,6 +335,39 @@
             "ore": 2
           }
         }
+      },
+      {
+        "id": "fog-heron-hunt",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Chase off 3 Fog Herons",
+        "reward": {
+          "gold": 160,
+          "embers": 1
+        },
+        "enemy": "fog-heron"
+      },
+      {
+        "id": "croak-shaman-hunt",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Hush 3 Croak Shamans",
+        "reward": {
+          "gold": 160,
+          "embers": 1
+        },
+        "enemy": "croak-shaman"
+      },
+      {
+        "id": "peat-golem-hunt",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Crumble 3 Peat Golems",
+        "reward": {
+          "gold": 160,
+          "embers": 1
+        },
+        "enemy": "peat-golem"
       },
       {
         "id": "fen-clear",
