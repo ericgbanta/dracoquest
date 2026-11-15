@@ -1,6 +1,8 @@
 # Variety plan: less sameness when grinding
 
-Written 2026-11-13 at Eric's request, for the next agent to build. Status: research done, nothing built yet. Eric answers the open questions at the end before building starts.
+Written 2026-11-13 at Eric's request. Status (2026-11-15): V2 is built and live. See "Built" at the end for what was made and the calls behind it.
+
+Eric's answers (2026-11-14): V2 first, then V1. Champions and rares get a color tint plus a gold ring, and rares are drawn bigger; no new Codex art. Champions are a little harder with better loot, something to welcome rather than flee. Rares are tougher but winnable on level. Events may carry risk (a mimic, an ambush), but the risky choice is always optional or pays well.
 
 The request, in Eric's words: "come up with a plan on how we can expand and give more variability to some of the levels. I often 'grind' and revisit some levels in the first area of the game. Maybe we should add more areas that are similar leveled? Or add more enemies? Let's do some research on what we can do to solve this problem and document it."
 
@@ -143,3 +145,36 @@ V9 only if the first five levels still drag after the rest.
 - The stage has a budget of 100 DOM nodes and order rows are tight (351 px of 375). A champion ring or a trait chip must fit on the enemy plate without breaking those.
 - Phone tests: every page load opens the main menu, so call `enter(page)` from `e2e/helpers.ts` after a load. New screens or folds need a height budget in `e2e/ui.spec.ts`.
 - Tell Eric the number of Codex generations before any art, and sign Codex out after.
+
+## Built
+
+### V2: champions and rare spawns (2026-11-14, save v13)
+
+Data is all in `src/data/champions.json`. Logic: `rollSpecials` and `specialOf` in `src/core/run.ts`, the trait rules in `src/core/battle.ts`, rewards in `rollRewards`.
+
+- **Champions.** Each enemy in a regular hunt fight has a 7 percent chance (from rider level 2) to be a champion with one trait, or two (30 percent of champions). A champion has 1.1x HP plus its traits, and pays 1.6x XP, 1.8x gold, +50 percent item drop chance and twice the zone gear chance.
+- **Traits (8).** Swift (1.6x swift and dodge), Armored (1.5x defense, plain hits with no element do 75 percent), Thorned (20 percent of contact damage comes back to the attacker, never below 1 HP; contact is a melee weapon swing, a claw, a damage skill, a dive or a combo), Vampiric (heals 30 percent of damage dealt), Enraged (1.35x damage below half HP, with a log line when it triggers), Shielded (starts with Ward), Hulking (1.5x HP), Mending (heals 5 percent at the end of each round). Each has a tint (a CSS filter) and an icon.
+- **Rares (23, one per zone).** About 1 regular fight in 150 (0.67 percent, from rider level 3) is replaced by the zone's rare, alone, at the rider's level. Each uses a regular enemy's art and moves with 1.8x HP, 1.05x attack and two fixed traits. Rewards: 3x XP, 4x gold, +100 percent item drops, 5x gear chance, 3 embers, 2 potions and a mana tonic. The names are in the JSON (Old Mossjaw, Captain Pinchwell, The Glimmer Wisp, Embermaw and so on).
+- **Never changed:** story fights, growth quests, mini-bosses and bosses.
+- **Look.** The sprite gets its tint (a champion's first trait, or the rare's own), the shadow under its feet turns into a gold ring, and the plate gets a gold border with a gold name. Rares get a star before the name and are drawn 1.2x bigger, shifted left to stay on the stage. None of this adds DOM nodes (the ring is the actor's `::before`). Champion names carry the first trait as a prefix ("Thorned Thornling"); the details sheet lists every trait. The target chip shows the kind ("Thornli"), not the prefix.
+- **Rare log.** `save.rares` counts each rare met and beaten (save v13). The Map's treasures sheet shows the zone's rare as "???" until met, then its name, flavor and counts.
+- **Results.** A rare win says so (with "for the first time") and lists the embers; a champion win notes the bonus.
+- **Auto-battler.** Focuses a self-healing champion (Vampiric or Mending) when there are two enemies, and a melee rider under 60 percent HP casts a damage spell instead of swinging into thorns. The sim prints champion and rare fight win rates per zone.
+
+Tuning with the sim (1,000 runs per level):
+
+- Champions are won 95 to 99 percent of the time. They cost on-level run win rates 1 to 3.5 points, mostly through HP carried into later fights.
+- Rares are won 69 to 78 percent of the time in Mossy Hollow, 73 to 76 in Moonwell Woods and 83 to 99 elsewhere; later zones find them easier because on-level players are relatively stronger there.
+- The first pass had rares at 2x HP, 1.12x attack, 1.2x defense and one level up: Mossy Hollow won only 27 to 42 percent. The Confluence's Grandmother Seal (Hulking and Mending) won 43 to 56 percent, so she now has Mending and Shielded (95 percent).
+- Champions went from 8 percent and 1.15x HP to 7 percent and 1.1x HP. Cinder Pass (1 percent), the Steelspine Range (1 percent) and Skyreach Isles (2 percent) were eased with `tools/content/scale_enemies.py` so their weakest starter stays near 70.
+- The campaign sim still reaches level 100 in every campaign, with 92.6 to 93.7 percent of runs won.
+- Final sweep: every zone averages 75.5 to 81.8 percent on level across the three starters (before V2: 76.8 to 83.1). No starter fell out of 70 to 85. Nine rows sit outside it, all already outside before V2: Saltmarsh Shore Tide 86.4 and Verdant 87.2, Whispering Fen Fire 67.4, Tide 88.3 and Verdant 85.4, Thunderspire Tide 68.1 and Verdant 86.0, Frostmere Fire 88.3, Deepstone Mines Verdant 85.7.
+
+Calls made without Eric (he can overrule any):
+
+1. A rare replaces the whole fight and comes alone, at the rider's level, so a pair never hides it.
+2. Thorns never knock anyone out.
+3. Champions show the first trait's name only; the second is in the details sheet, since plates are narrow.
+4. Rares are hidden as "???" on the Map until met.
+5. Save v13 for the rare counts, so a "seen" badge is possible.
+

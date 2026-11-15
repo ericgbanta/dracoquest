@@ -1,6 +1,6 @@
 # Handoff
 
-Last updated 2026-11-13, at the end of a session that built chunk 9, the last chunk of the dragons plan (see History). Everything below is merged to `main` and live at https://ericgbanta.github.io/dracoquest/ (chunk 9, levels 90 to 100). The working branch for that session was `claude/dreamy-cori-nauqss`; a new session should start from `main` and use its own branch. Codex was signed out at the end, so the next art batch needs a new device login.
+Last updated 2026-11-15, in a session that built V2 of the variety plan (champions and rare spawns) and then V1 (run events). Everything below is merged to `main` and live at https://ericgbanta.github.io/dracoquest/. The working branch for that session was `claude/optimistic-mccarthy-7yq0v9`; a new session should start from `main` and use its own branch. Codex was not used.
 
 A ready-to-paste prompt for a new session is in `docs/NEXT_PROMPT.md`.
 
@@ -8,7 +8,7 @@ A ready-to-paste prompt for a new session is in `docs/NEXT_PROMPT.md`.
 
 1. `CLAUDE.md`: the house rules (pure `src/core`, seeded RNG, every number in JSON, mobile first, save migrations, local testing, deploy only when asked).
 2. This file: what exists, why, how to extend it, and what is next.
-3. `docs/VARIETY_PLAN.md` (2026-11-13): the next piece of work, more variety for grinding. `docs/WORLD_PLAN.md`: the world expansion plan, finished.
+3. `docs/VARIETY_PLAN.md` (2026-11-13): more variety for grinding. V2 and V1 are built (its "Built" section has the details); V3 and V4 are next. `docs/WORLD_PLAN.md`: the world expansion plan, finished.
    `docs/DRAGONS_PLAN.md` (2026-11-13): more elements, dragon breeds, breeding, a bigger roster, rare variants and two new maps for levels 30 to 100, phases E0 to E12 interleaved with W5 to W9. Approved with all names decided (2026-11-13); E0 is next.
 4. `docs/ART_GENERATION.md` before making any art (Codex CLI on Eric's subscription), and `docs/ART_STYLE.md` for the rules a finished image must meet.
 5. `docs/DESIGN.md` for the original game design and its Decisions table (still settled). `docs/GRAPHICS_PLAN.md` and `docs/GRAPHICS_PLAN_2.md` are history for the battle stage and the painted art.
@@ -45,6 +45,12 @@ Each row was built, tested, committed and deployed in this order. The Decisions 
 | Less scrolling (UI) | Folds (collapsible cards) and sub-tabs on every long screen; see `docs/UI_PLAN.md` | Eric: "a lot of scrolling at times... the bag tab where everything is expanded". He asked for a plan, the build, tests, docs and a deploy without a check-in |
 | Painted Map | The Map tab is a painted map per region (The Wilds, The High Lands, Beyond the Peak) with a pin per area; tap a pin for the area's details, arrows to cycle regions. 3 Codex generations | Eric: "redesign the Map tab into an actual map where we can click on locations... different maps that we can cycle through". He added: "we might at some point add new levels to maps", so new areas are one pin each. After trying it on his phone he asked for a Map / List switch (Map by default) and reported the open zone card's banner covering its level line; both fixed |
 
+### 2026-11-14 and 15: the variety plan, V2
+
+| Work | What it added | How it came about |
+| --- | --- | --- |
+| V2 champions and rares | Regular hunt enemies show up as champions with one or two of 8 traits; each of the 23 zones has a named rare built on one of its enemies' art. Both pay more; rares give embers and supplies. Tint, gold ring, gold plate, rares drawn bigger. Save v13 counts rares met and beaten. No new art | Eric picked V2 then V1 and answered the plan's questions: tint plus gold ring, rares bigger, champions a little harder with better loot, rares tough but winnable |
+
 ### 2026-11-13: the dragons plan, chunks 1 to 9
 
 | Work | What it added | How it came about |
@@ -66,8 +72,9 @@ Each row was built, tested, committed and deployed in this order. The Decisions 
 - **Three kinds of adventure per zone:** a hunt (the zone run), a story in 18 zones (88 quests), and daily bounties in 18 zones.
 - **Rider:** 21 spells, a loadout of 4, gear in 3 slots with 23 sets, the Forge.
 - **Dragons:** up to 10 at the Roost, two in battle from rider level 25, four life stages, four breeds (Dragon, Wyvern, Wyrm, Behemoth), talents, gear for Adults, temperament. Two grown dragons can breed at the Nesting Grounds; eggs can be hybrids (two elements) and about 1 in 50 has a rare finish.
-- **Saves:** version 12, up to 3 slots per device, export and import codes.
-- **Tests:** 269 unit tests and 116 phone tests pass. The sim shows every zone averaging 70 to 85 percent on level across the three starters.
+- **Variety:** champions (7 percent of regular hunt enemies, 8 traits) and one named rare per zone (about 1 fight in 150), all in `src/data/champions.json`.
+- **Saves:** version 13, up to 3 slots per device, export and import codes.
+- **Tests:** 293 unit tests and 119 phone tests pass. The sim shows every zone averaging 70 to 85 percent on level across the three starters.
 
 ## What to work on next
 
@@ -95,7 +102,7 @@ Lessons from building above level 50 (useful if the cap ever goes past 100):
 
 ### Next: the variety plan (`docs/VARIETY_PLAN.md`)
 
-Eric grinds and revisits the first area and asked for research on making it less samey. The plan has nine options (champions and rare spawns, run events, daily conditions, a hunter's log, stories for five zones, echo runs, more enemies, a new low-level area, faster early levels), a recommended order, and six questions for him. Get his answers before building.
+Eric grinds and revisits the first area and asked for research on making it less samey. V2 (champions and rares) is built and live. The plan's next steps are V3 (daily zone conditions) and V4 (a hunter's log); ask Eric before starting them. One V3 condition builds on V2: "Full moon: champions twice as likely".
 
 ### After that
 
@@ -238,11 +245,19 @@ Calls made while building, shown to Eric in the report:
 | Third partner (E8) | From rider level 60 (`thirdPartnerRiderLevel`). Save v11 adds `thirdDragonId`. Battle: `third` like `second` (id `dragon3`, own breath, skills, cooldowns, order row `act3-*`, skill sheet `skill3`); enemies can target it; it shares XP and bond. No duo combos with it. Setting a partner into another's seat swaps them. Stage layouts `trio` and `rideTrio` in `stage.json`: the two back plates sit side by side, and `.battle--trio` makes the stage 16:9.5 and the log shorter so three order rows fit at 375 x 667. Eric approved building it without the planned mockup ("work on chunk 4 and deploy it after it's tested"). |
 | Status effects | `battle.ts` reads effect fields (`noDodge`, `amplify`, `taunts`, multipliers and bonuses) instead of status ids. Soak's Storm bonus is `amplify: { element: 'storm', multiplier: 1.3 }`. Results with fixed seeds didn't change. |
 
+### Variety plan (2026-11-14)
+
+| Topic | Decision |
+| --- | --- |
+| Champions and rares | `src/data/champions.json`: champion chance, the 8 traits as data (stat multipliers, `physicalTaken`, `thorns`, `lifesteal`, `enrage`, `startStatus`, `regen`, a `tint`), reward multipliers, and the 23 rares. `rollSpecials` in `run.ts` marks a spawn with `traits` or `rare` when a hunt is planned (story, quest, mini-boss and boss fights never change); `enemyFighter` applies them. Thorns never knock anyone out. The full write-up and Eric's answers are in `docs/VARIETY_PLAN.md` under "Built". |
+| Champion look | Stage only: the sprite's `.rig` gets the tint as a CSS filter, the actor's `::before` shadow becomes a gold ring, the plate gets `plate--champion` or `plate--rare`. Rares are 1.2x bigger and kept on the stage. No extra DOM nodes; the perf test has a two-champion case. |
+| Rare count | `save.rares` (v13): rare id to `{ fought, defeated }`. The Map's treasures sheet shows each zone's rare once met. |
+
 ### Saves and settings
 
 | Topic | Decision |
 | --- | --- |
-| Save version | 12. v6 added `settings.simpleBattle`, v7 `rider.spells`, v8 the Forge, v9 `storyChoices` and `bounties`, v10 egg objects, dragon `breed`, `element2`, `variant` and `lastBredAt`, and the Nesting Grounds (`roost.levels.nesting`, `roost.nesting`), v11 `thirdDragonId`, v12 `rider.spellPlus`. Each bump has a migration and a fixture test (`tests/fixtures/save-v1.json` to `save-v11.json`). |
+| Save version | 13. v13 added `rares` (variety plan V2). v6 added `settings.simpleBattle`, v7 `rider.spells`, v8 the Forge, v9 `storyChoices` and `bounties`, v10 egg objects, dragon `breed`, `element2`, `variant` and `lastBredAt`, and the Nesting Grounds (`roost.levels.nesting`, `roost.nesting`), v11 `thirdDragonId`, v12 `rider.spellPlus`. Each bump has a migration and a fixture test (`tests/fixtures/save-v1.json` to `save-v12.json`). |
 | Save slots | Up to 3 per device (Eric's request). Slot 1 is the original `dracoquest.save` key so old saves stay put; slots 2 and 3 are `dracoquest.save.2` and `.3`; `dracoquest.slot` holds the slot in play. Not part of the save object, so no version bump. Settings has the list; export, import and Start over act on the slot in play. |
 | Simple battle | A setting that brings back the old card layout instead of the stage. |
 | Freeing dragons (2026-11-13) | Dragons tab, Overview, the "Free to the wild" fold (closed by default), with a confirm. Embers by stage from `roost.json` `freeEmbers` (3, 5, 8, 12 for Hatchling to Elder) plus the egg extras (+2 hybrid, +2 non-Dragon breed, +7 rare finish). Sized against bosses giving 10 embers on a first kill and 2 after, so freeing is a small refund, not a farm. Blocked for the lead, the last dragon, a dragon on an expedition or nesting, and mid-run. A partner seat it held empties; gear it wore stays in the bag. `freeDragon`, `freeValue`, `freeBlocker` in `game.ts`. Dragons can't be sold. |
@@ -274,14 +289,14 @@ src/core/      pure game logic, no DOM (CLAUDE.md)
   spells.ts      rider spells: what a level knows, the loadout, learning on level-up
   forge.ts       the Forge: gear upgrades, recipes, materials
   adventures.ts  story quests, choices and the daily bounty board
-  run.ts         zone runs, rewards, rollGear (trophies and zone loot)
+  run.ts         zone runs, rewards, rollGear (trophies and zone loot), champions and rares (rollSpecials, specialOf)
   loadout.ts     gear, set and talent bonuses; riderWeapon applies Forge upgrades
   roost.ts       buildings, timers, expeditions (with materials), temperament
   ai.ts          the auto-battler and suggestedLoadout (used by the sim and tests)
   eggs.ts        eggs, hybrids, rare finishes, breeding rolls, returning eggs to the wild
   care.ts progression.ts characters.ts elements.ts events.ts rng.ts data.ts types.ts
 src/data/      every balance number and all content, as JSON: zones, enemies, gear, sets, shop, combat (spells),
-               progression, stories, bounties, regions, forge, roost, dragons, talents, quests, items, foods, events
+               progression, stories, bounties, regions, forge, roost, dragons, talents, quests, items, foods, events, champions
 src/ui/        Preact screens and pieces
   screens/       Roost, Buildings (incl. the Forge card), Forge (sheet), Map (regions, treasures, story and bounty buttons),
                  Adventures (story and bounty sheets), Battle (orders, round loop, results, story endings), Bag (gear, sets,
@@ -292,8 +307,8 @@ src/ui/        Preact screens and pieces
   useSave.ts storage.ts  save slots and storage
   Sprites.tsx Icon.tsx Wallet.tsx art.ts bits.tsx (formatBonus, rewardText) styles.css skin.css pwa.ts sound.ts install.ts router.ts
 src/art/       painted/ (characters, attack poses, backdrops, effects, tail tips), eggs/, icons/, assets.json (the art manifest)
-tests/         Vitest unit tests (269), sim.ts (the balance simulator), save fixtures v1 to v11
-e2e/           Playwright phone tests (116), fixtures/ (built by make-fixtures.ts), specs per feature
+tests/         Vitest unit tests (293), sim.ts (the balance simulator), save fixtures v1 to v12
+e2e/           Playwright phone tests (119), fixtures/ (built by make-fixtures.ts), specs per feature
                (slots, spells, gear, forge, world, ui, stage, perf, smoke, phase2 to 4), helpers.ts (openFold, tab)
 tools/content/      arealib.py (the area writer) with area_gen_70s.py, area_gen_80s.py and area_gen_90s.py; area_gen.py (the 50s and 60s), scale_enemies.py and slow_growth.py (balance), find_tail_tips.py (breeds)
 tools/art/painted/  style.txt and anchor.png (the style), jobs.py to jobs16.py (one per batch; jobs8 is the region maps, jobs9 the new element tips and breath plus Starglass Hollow and the Hidden Reach map, jobs10 the Wyvern, jobs11 Voidmarch and the Wyrm, jobs12 Sunken Spires, jobs13 Rotroot Thicket, Emberwild, the Steelspine Range and the Elder Wilds map, jobs14 Skyreach Isles and Twilight Rift, jobs15 Hollow Crown and The Confluence, jobs16 Starfall Summit, Dragonsrest and the Behemoth), run.sh, pack.py, wire_area.py (adds a packed area to the manifest),
@@ -306,9 +321,9 @@ docs/          HANDOFF.md, NEXT_PROMPT.md, WORLD_PLAN.md, UI_PLAN.md, ART_GENERA
 | Command | What it does |
 | --- | --- |
 | `npm run dev` | Local dev server |
-| `npm run test` | Unit tests (269) |
+| `npm run test` | Unit tests (293) |
 | `npx tsc --noEmit` and `npm run lint` | Type check and lint. Lint blocks `Math.random`, browser globals in `src/core`, and `any`. |
-| `npm run e2e` | Phone tests at 375 by 667 (116), about 4 minutes. Builds the site first. |
+| `npm run e2e` | Phone tests at 375 by 667 (119), about 4 minutes. Builds the site first. |
 | `npm run sim` | Balance sim: 1,000 runs per zone and level, then 100 campaigns per starter from egg to the cap. Flags: `--zone <id>`, `--no-campaign`, `--campaign-only`, `--runs`, `--campaigns`. The full run takes about 4 minutes; one zone about 1 minute. |
 | `npx tsx e2e/make-fixtures.ts` | Rebuilds the saves the phone tests load (needed after every save version bump) |
 | `npm run deploy` | Tests, lint and build, then pushes the current branch to `main`, which publishes. Only when Eric asks. |
@@ -332,6 +347,7 @@ docs/          HANDOFF.md, NEXT_PROMPT.md, WORLD_PLAN.md, UI_PLAN.md, ART_GENERA
 - **Playwright.** A hash-only `page.goto` doesn't re-render the app; tap the link instead. Use page screenshots with a wait, since stage fighters bob.
 - **Tests that end early.** A loop that stops when a fight ends can pass without checking anything. Use seeded fixtures and assert the outcome. A loop waiting for a "next" button must also check for the screen it expects to end on (the story ending).
 - **Folds and tabs hide test hooks.** A control inside a closed fold or another sub-tab isn't rendered, so a phone test must open it first: `openFold(page, '<fold id>')` (ids like `roost.forge`, `settings.backup`, `map.zone.mossy-hollow`, `bag.spells.locked`) and `tab(page, 'bag' | 'dragons', '<tab>')` from `e2e/helpers.ts`. The Map shows one region at a time (remembered per device, starting at the rider's level), so a test for a High Lands zone taps `map-next` first, and it opens on the painted map, so a test that uses zone cards calls `mapView(page, 'list')`. Fold and tab state is remembered in `localStorage`, and every Playwright test starts with empty storage, so defaults apply. A new long section should be a Fold or a tab, and `e2e/ui.spec.ts` should get a height budget for any new screen.
+- **Champions shift seeded tests.** `planRun` rolls champions and rares with the run RNG, so a test that needs a plain fight should build its `run.fights` by hand rather than rely on a seed.
 - **Order rows are tight.** The busiest row is exactly 351 px at 375 wide; adding a button needs a layout change.
 - **Save fixtures and migrations.** The phone-test saves in `e2e/fixtures/` are at the current version. After a version bump, rebuild them (`npx tsx e2e/make-fixtures.ts`), or a migration may reset fields a test sets up (the v9 migration resets `bounties`, which broke a bounty test until the fixtures were rebuilt). Keep the previous version's fixture in `tests/fixtures/` for the migration test.
 - **The sim's on-level characters** have every boss below their level marked beaten (`onLevelCharacter`), so side areas aren't locked in the table. `pickZone` grinds the highest open zone by array order, so a side area inserted after a main zone takes over its levels in the campaign.

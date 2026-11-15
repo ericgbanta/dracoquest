@@ -5,10 +5,17 @@ import { readFileSync } from 'node:fs';
 // The budget from docs/GRAPHICS_PLAN.md: under 5% dropped frames over scripted rounds,
 // with the CPU throttled 4x and fast battles off. Headless Chromium has no GPU, so this
 // catches main-thread work (scripts, layout, style); the phone bench covers the rest.
-test('a real stage fight stays under 5% dropped frames at 4x CPU throttle', async ({ page, context }) => {
+// The second case is two tinted champions, since a champion's tint is a CSS filter over an animated sprite.
+const CASES: [string, unknown[] | null][] = [
+  ['a real stage fight', null],
+  ['a fight against two champions', [{ enemyId: 'thunder-goat', level: 27, traits: ['swift', 'thorned'] }, { enemyId: 'gale-hawk', level: 26, traits: ['vampiric'] }]],
+];
+
+for (const [name, enemies] of CASES) test(`${name} stays under 5% dropped frames at 4x CPU throttle`, async ({ page, context }) => {
   test.setTimeout(120_000);
   const save = JSON.parse(readFileSync('e2e/fixtures/adult-at-roc.json', 'utf8'));
   save.settings.fastBattles = false;
+  if (enemies) save.run.fights = [{ kind: 'normal', enemies }];
   await page.goto('./');
   await page.evaluate((s) => localStorage.setItem('dracoquest.save', s), JSON.stringify(save));
   await page.goto('./#/roost');
@@ -45,7 +52,7 @@ test('a real stage fight stays under 5% dropped frames at 4x CPU throttle', asyn
   const interval = sorted[Math.floor(sorted.length / 2)]!;
   const dropped = deltas.reduce((n, d) => n + Math.max(0, Math.round(d / interval) - 1), 0);
   const pct = (dropped / (deltas.length + dropped)) * 100;
-  console.log(`perf: ${deltas.length} frames, ${dropped} dropped (${pct.toFixed(2)}%), frame ${interval.toFixed(1)} ms`);
+  console.log(`perf (${name}): ${deltas.length} frames, ${dropped} dropped (${pct.toFixed(2)}%), frame ${interval.toFixed(1)} ms`);
   expect(deltas.length).toBeGreaterThan(60);
   expect(pct).toBeLessThan(5);
 });
