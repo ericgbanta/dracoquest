@@ -45,7 +45,8 @@ test('the Map shows one painted region at a time, with pins, and teases the next
   await expect(page.getByTestId('start-mossy-hollow')).toHaveText('Hunt');
   await openFold(page, 'map.zone.mossy-hollow');
   await expect(page.getByTestId('story-mossy-hollow')).toHaveAttribute('aria-label', 'Story, 0 of 4 done');
-  await expect(page.getByTestId('story-cinder-pass')).toHaveCount(0);
+  // Cinder Pass has its own story since variety plan V5.
+  await expect(page.getByTestId('story-cinder-pass')).toHaveAttribute('aria-label', 'Story, 0 of 5 done');
   expect(await smallTargets(page, '[data-testid=zone-mossy-hollow]')).toEqual([]);
   // The open card's level line isn't covered by its banner.
   const line = await page.getByTestId('fold-map.zone.mossy-hollow').locator('.muted').boundingBox();

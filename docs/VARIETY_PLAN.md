@@ -1,6 +1,6 @@
 # Variety plan: less sameness when grinding
 
-Written 2026-11-13 at Eric's request. Status (2026-11-15): V2, V1, V3 and V7 are built and live. See "Built" at the end for what was made and the calls behind it.
+Written 2026-11-13 at Eric's request. Status (2026-11-15): V1 to V7 are built and live. Only V8 (a new low-level area) and V9 (faster early levels) are left. See "Built" at the end for what was made and the calls behind it.
 
 Eric's answers (2026-11-14): V2 first, then V1. Champions and rares get a color tint plus a gold ring, and rares are drawn bigger; no new Codex art. Champions are a little harder with better loot, something to welcome rather than flee. Rares are tougher but winnable on level. Events may carry risk (a mimic, an ambush), but the risky choice is always optional or pays well.
 
@@ -239,4 +239,38 @@ Calls made without Eric:
 Balance with V2, V1, V3 and V7 together (1,000 runs per level): every zone averages 76.4 to 84.1 percent on level across the starters (76.8 to 83.1 before any variety work). No starter row left 70 to 85; the 11 rows outside it were all outside before (the Saltmarsh, Fen, Thunderspire, Frostmere Fire and a few Verdant rows at 85 to 90). Campaigns reach level 100 in 100 of 100 runs per starter and win 93.1 to 94.1 percent of runs.
 
 Calls made without Eric: every name and look, the elements (they follow each zone's existing mix, except that Cinder Pass gains its first Storm regular), and copying stats from an existing enemy in the same zone rather than tuning new ones.
+
+Eric's answers for V4 to V6 (2026-11-15): the log lives on each zone's Map sheet; goals pay mixed, growing rewards with a zone title at the end; echo runs pay +25 percent XP and gold; deploy when tested.
+
+### V4: hunter's log (2026-11-15, save v16)
+
+Data: `src/data/hunterLog.json`. Logic: `src/core/hunterLog.ts`, `claimLogGoal` in `game.ts`, the `LogSheet` in `src/ui/screens/Adventures.tsx`.
+
+- Every regular enemy of a zone has goals at 10, 25, 50 and 100 defeats, counted from the bestiary, so defeats from before the log count at once.
+- Rewards: 10 defeats, gold worth 4 regular enemies at the zone's top level; 25, gold (6) and an Iron Ore; 50, gold (10) and an ember; 100, 3 embers and a Sky Crystal.
+- Claiming every goal in a zone (32 in the first four zones, 20 elsewhere) earns "Warden of <zone>", shown on the zone's log.
+- A Log button with a count of goals ready joins Story, Bounties and Loot on each zone; the four sit in a 2 x 2 grid. The sheet shows one row per enemy with its next goal, a Claim button when one is ready and its progress otherwise. Enemies not met yet show as "???".
+- Save v16 adds `hunterLog`, the claimed goals as `enemyId:count`.
+
+Calls made without Eric: only regular enemies have goals (not mini-bosses or bosses, which are fought far less); gold scales with the zone's top level; titles are shown on the log only, not on the rider.
+
+### V5: stories and bounties for the last five zones (2026-11-15)
+
+`tools/content/v5_stories.py` wrote 25 story quests and 5 bounty boards for Cinder Pass (guide: Mira the Ash-Walker), Thunderspire (Shepherd Hale), Frostmere (Ice-fisher Pell), Deepstone Mines (Foreman Nell) and Eclipse Peak (Stargazer Ilo). Each chain has five quests, choices in the second and fourth, the mini-boss in the fourth and the boss in the fifth. Rewards are interpolated by level from the existing chains at the same quest position, and choice gold sits with the existing choices at those levels. Each board has a defeat goal for every regular enemy (so Cinder Pass's three new enemies have bounties now), a wins goal, a clear goal and the mini-boss. Every zone now has a story (113 quests) and a bounty board (23).
+
+Calls made without Eric: every NPC, quest name, line of dialogue and choice.
+
+### V6: echo runs (2026-11-15, save v16)
+
+Data: `src/data/echo.json`. Logic: `planEcho` in `run.ts`, `echoOpen` and `startEcho` in `game.ts`, the enemy stats in `enemyFighter` (`battle.ts`).
+
+- Once the rider is at least 1 level past a zone's top level and has beaten its boss, the zone's details offer "Echo hunt at level N". It's the zone's own hunt (its encounters, champions, rares, events and condition) with every enemy at the rider's level, ending with the zone's boss. XP and gold are 25 percent higher. The battle header and the between-fights screen say "(Echo)".
+- **How enemies scale.** The plan suggested taking stats from the zone at the rider's level. Tried first, that went badly: late zones were made 5 to 13 percent tougher because Aether, Void and hybrid enemies are neutral to every starter, and putting those stats on ring-element enemies made echoes far too hard (22 to 98 percent on level). So each echo enemy keeps its own stats from the zone's top level and grows them by how much a typical enemy grows between that level and the rider's (the median regular enemy across zones at each level, `typicalGrowth`). The zone's own element tuning carries over.
+- **Tuning.** A curve by level (`scale`, control points on HP and attack, 0.89 to 1.09) and a factor for 14 of the zones (`zones`, 0.93 to 1.08), fitted with the sim's new `--echo` section, which plays each zone's echo at its top level plus 2, 10 and 25 (capped at 100). Result (300 runs a row): every zone's echo averages 74.8 to 83.0 percent across starters and levels, 78.2 overall. Single rows still vary by element the way the normal game does (Thunderspire is hard for Tide, Rotroot Thicket for Verdant).
+- Event fights in an echo (ambush, mimic, champion path) follow the echo's level and growth.
+- Save v16 adds `run.echo`.
+
+Balance after V4 to V6: on-level hunts are unchanged (every zone 76.4 to 84.1 percent, as after V3 and V7). Campaigns reach level 100 in 100 of 100 runs per starter, finish all 113 stories and win 93.3 to 94.4 percent of runs, in about 1,600 fights (about 30 fewer than before, from the new stories' XP).
+
+Calls made without Eric: echoes open 1 level past the top; an echo always ends with the boss (normal boss drops, eggs at the repeat chance); story quests are not echoed.
 
