@@ -1,6 +1,6 @@
 # Handoff
 
-Last updated 2026-11-15, in a session that built V2 of the variety plan (champions and rare spawns) and then V1 (run events). Everything below is merged to `main` and live at https://ericgbanta.github.io/dracoquest/. The working branch for that session was `claude/optimistic-mccarthy-7yq0v9`; a new session should start from `main` and use its own branch. Codex was not used.
+Last updated 2026-11-15, in a session that built four steps of the variety plan: V2 (champions and rare spawns), V1 (run events), then V3 (daily zone conditions) and V7 (three more enemies in each of the first four zones). Everything below is merged to `main` and live at https://ericgbanta.github.io/dracoquest/. The working branch for that session was `claude/optimistic-mccarthy-7yq0v9`; a new session should start from `main` and use its own branch. Codex was signed out at the end, so the next art batch needs a new device login.
 
 A ready-to-paste prompt for a new session is in `docs/NEXT_PROMPT.md`.
 
@@ -8,7 +8,7 @@ A ready-to-paste prompt for a new session is in `docs/NEXT_PROMPT.md`.
 
 1. `CLAUDE.md`: the house rules (pure `src/core`, seeded RNG, every number in JSON, mobile first, save migrations, local testing, deploy only when asked).
 2. This file: what exists, why, how to extend it, and what is next.
-3. `docs/VARIETY_PLAN.md` (2026-11-13): more variety for grinding. V2 and V1 are built (its "Built" section has the details); V3 and V4 are next. `docs/WORLD_PLAN.md`: the world expansion plan, finished.
+3. `docs/VARIETY_PLAN.md` (2026-11-13): more variety for grinding. V2, V1, V3 and V7 are built (its "Built" section has the details); V4 is next. `docs/WORLD_PLAN.md`: the world expansion plan, finished.
    `docs/DRAGONS_PLAN.md` (2026-11-13): more elements, dragon breeds, breeding, a bigger roster, rare variants and two new maps for levels 30 to 100, phases E0 to E12 interleaved with W5 to W9. Approved with all names decided (2026-11-13); E0 is next.
 4. `docs/ART_GENERATION.md` before making any art (Codex CLI on Eric's subscription), and `docs/ART_STYLE.md` for the rules a finished image must meet.
 5. `docs/DESIGN.md` for the original game design and its Decisions table (still settled). `docs/GRAPHICS_PLAN.md` and `docs/GRAPHICS_PLAN_2.md` are history for the battle stage and the painted art.
@@ -45,12 +45,14 @@ Each row was built, tested, committed and deployed in this order. The Decisions 
 | Less scrolling (UI) | Folds (collapsible cards) and sub-tabs on every long screen; see `docs/UI_PLAN.md` | Eric: "a lot of scrolling at times... the bag tab where everything is expanded". He asked for a plan, the build, tests, docs and a deploy without a check-in |
 | Painted Map | The Map tab is a painted map per region (The Wilds, The High Lands, Beyond the Peak) with a pin per area; tap a pin for the area's details, arrows to cycle regions. 3 Codex generations | Eric: "redesign the Map tab into an actual map where we can click on locations... different maps that we can cycle through". He added: "we might at some point add new levels to maps", so new areas are one pin each. After trying it on his phone he asked for a Map / List switch (Map by default) and reported the open zone card's banner covering its level line; both fixed |
 
-### 2026-11-14 and 15: the variety plan, V2 and V1
+### 2026-11-14 and 15: the variety plan, V2, V1, V3 and V7
 
 | Work | What it added | How it came about |
 | --- | --- | --- |
 | V2 champions and rares | Regular hunt enemies show up as champions with one or two of 8 traits; each of the 23 zones has a named rare built on one of its enemies' art. Both pay more; rares give embers and supplies. Tint, gold ring, gold plate, rares drawn bigger. Save v13 counts rares met and beaten. No new art | Eric picked V2 then V1 and answered the plan's questions: tint plus gold ring, rares bigger, champions a little harder with better loot, rares tough but winnable |
 | V1 run events | After about 1 won hunt fight in 4, a short scene between fights: 11 events, 7 with a choice (chest or mimic, shrine, peddler, lost egg, ambush, fork, wandering dragon and more). Risky choices are optional and pay more. Save v14 keeps the event and its result in the run, so a reload shows the same thing | Eric: some events can carry risk, but the risky choice is always optional or pays well |
+| V3 daily conditions | Each zone gets one of 7 conditions a day (Calm, Fog, an element surge, Full moon, Bounty day, Tailwind, Treasure trail), shown on the Map and kept for a whole hunt. Save v15. No art | Eric: "work on V3 and V7 in the next chunk. Implement it and deploy it" |
+| V7 more enemies | Three new regular enemies each in Mossy Hollow, Saltmarsh Shore, Whispering Fen and Cinder Pass (12 in all), with encounters and bounties. 8 Codex generations, all usable first try | Same request |
 
 ### 2026-11-13: the dragons plan, chunks 1 to 9
 
@@ -74,8 +76,9 @@ Each row was built, tested, committed and deployed in this order. The Decisions 
 - **Rider:** 21 spells, a loadout of 4, gear in 3 slots with 23 sets, the Forge.
 - **Dragons:** up to 10 at the Roost, two in battle from rider level 25, four life stages, four breeds (Dragon, Wyvern, Wyrm, Behemoth), talents, gear for Adults, temperament. Two grown dragons can breed at the Nesting Grounds; eggs can be hybrids (two elements) and about 1 in 50 has a rare finish.
 - **Variety:** champions (7 percent of regular hunt enemies, 8 traits) and one named rare per zone (about 1 fight in 150), all in `src/data/champions.json`.
+- **Daily conditions:** each zone has one a day (`src/data/conditions.json`), shown on the Map.
 - **Run events:** after about 1 won hunt fight in 4, a scene with a choice (`src/data/runEvents.json`).
-- **Saves:** version 14, up to 3 slots per device, export and import codes.
+- **Saves:** version 15, up to 3 slots per device, export and import codes.
 - **Tests:** 317 unit tests and 123 phone tests pass. The sim shows every zone averaging 70 to 85 percent on level across the three starters.
 
 ## What to work on next
@@ -104,7 +107,7 @@ Lessons from building above level 50 (useful if the cap ever goes past 100):
 
 ### Next: the variety plan (`docs/VARIETY_PLAN.md`)
 
-Eric grinds and revisits the first area and asked for research on making it less samey. V2 (champions and rares) and V1 (run events) are built and live. The plan's next steps are V3 (daily zone conditions) and V4 (a hunter's log); ask Eric before starting them. One V3 condition builds on V2: "Full moon: champions twice as likely".
+Eric grinds and revisits the first area and asked for research on making it less samey. V2 (champions and rares), V1 (run events), V3 (daily conditions) and V7 (more enemies in the first four zones) are built and live. Next in the plan's order: V4 (a hunter's log), then V5 (stories and bounties for the five zones without them, which would also give Cinder Pass's new enemies bounties) and V6 (echo runs). Ask Eric before starting.
 
 ### After that
 
@@ -254,13 +257,15 @@ Calls made while building, shown to Eric in the report:
 | Champions and rares | `src/data/champions.json`: champion chance, the 8 traits as data (stat multipliers, `physicalTaken`, `thorns`, `lifesteal`, `enrage`, `startStatus`, `regen`, a `tint`), reward multipliers, and the 23 rares. `rollSpecials` in `run.ts` marks a spawn with `traits` or `rare` when a hunt is planned (story, quest, mini-boss and boss fights never change); `enemyFighter` applies them. Thorns never knock anyone out. The full write-up and Eric's answers are in `docs/VARIETY_PLAN.md` under "Built". |
 | Champion look | Stage only: the sprite's `.rig` gets the tint as a CSS filter, the actor's `::before` shadow becomes a gold ring, the plate gets `plate--champion` or `plate--rare`. Rares are 1.2x bigger and kept on the stage. No extra DOM nodes; the perf test has a two-champion case. |
 | Run events | `src/data/runEvents.json` and `src/core/runEvents.ts`. `run.event` (v14) holds `{ id, seed }`, then `chosen` and `result`; `run.boon` is a status for the next fight. `startFight` refuses while an event waits and clears it when the fight starts. Extra fights are inserted at `run.index` with a `bonus` on XP and gold. Event gold counts in one regular enemy's gold at the rider's level. Details and tuning in `docs/VARIETY_PLAN.md`. |
+| Daily conditions | `src/data/conditions.json` and `src/core/conditions.ts`. `conditionFor(data, zone, day)` picks one from a seed of the day and zone. `startRun` with `today` stores it as `run.condition` (v15) and passes champion and rare odds to `planRun`; `startFight` puts the battle side on `BattleState.condition` (dodge bonus, an element boost, breath per round); `finishFight` applies gold, drop and gear changes. `startRun` without `today` (tests) has no condition. |
+| More enemies (V7) | `tools/content/v7_enemies.py` wrote the 12 enemies; art from `jobs17.py`, packed from the `more` list in `tools/art/painted/zones.json`. |
 | Rare count | `save.rares` (v13): rare id to `{ fought, defeated }`. The Map's treasures sheet shows each zone's rare once met. |
 
 ### Saves and settings
 
 | Topic | Decision |
 | --- | --- |
-| Save version | 14. v13 added `rares` and v14 `run.event` and `run.boon` (variety plan V2 and V1). v6 added `settings.simpleBattle`, v7 `rider.spells`, v8 the Forge, v9 `storyChoices` and `bounties`, v10 egg objects, dragon `breed`, `element2`, `variant` and `lastBredAt`, and the Nesting Grounds (`roost.levels.nesting`, `roost.nesting`), v11 `thirdDragonId`, v12 `rider.spellPlus`. Each bump has a migration and a fixture test (`tests/fixtures/save-v1.json` to `save-v13.json`). |
+| Save version | 15. v13 added `rares`, v14 `run.event` and `run.boon`, v15 `run.condition` (variety plan V2, V1 and V3). v6 added `settings.simpleBattle`, v7 `rider.spells`, v8 the Forge, v9 `storyChoices` and `bounties`, v10 egg objects, dragon `breed`, `element2`, `variant` and `lastBredAt`, and the Nesting Grounds (`roost.levels.nesting`, `roost.nesting`), v11 `thirdDragonId`, v12 `rider.spellPlus`. Each bump has a migration and a fixture test (`tests/fixtures/save-v1.json` to `save-v14.json`). |
 | Save slots | Up to 3 per device (Eric's request). Slot 1 is the original `dracoquest.save` key so old saves stay put; slots 2 and 3 are `dracoquest.save.2` and `.3`; `dracoquest.slot` holds the slot in play. Not part of the save object, so no version bump. Settings has the list; export, import and Start over act on the slot in play. |
 | Simple battle | A setting that brings back the old card layout instead of the stage. |
 | Freeing dragons (2026-11-13) | Dragons tab, Overview, the "Free to the wild" fold (closed by default), with a confirm. Embers by stage from `roost.json` `freeEmbers` (3, 5, 8, 12 for Hatchling to Elder) plus the egg extras (+2 hybrid, +2 non-Dragon breed, +7 rare finish). Sized against bosses giving 10 embers on a first kill and 2 after, so freeing is a small refund, not a farm. Blocked for the lead, the last dragon, a dragon on an expedition or nesting, and mid-run. A partner seat it held empties; gear it wore stays in the bag. `freeDragon`, `freeValue`, `freeBlocker` in `game.ts`. Dragons can't be sold. |
@@ -293,6 +298,7 @@ src/core/      pure game logic, no DOM (CLAUDE.md)
   forge.ts       the Forge: gear upgrades, recipes, materials
   adventures.ts  story quests, choices and the daily bounty board
   runEvents.ts   run events between fights: rolling one, resolving an option
+  conditions.ts  daily zone conditions: today's pick per zone, and what it does in battle
   run.ts         zone runs, rewards, rollGear (trophies and zone loot), champions and rares (rollSpecials, specialOf)
   loadout.ts     gear, set and talent bonuses; riderWeapon applies Forge upgrades
   roost.ts       buildings, timers, expeditions (with materials), temperament
@@ -300,7 +306,7 @@ src/core/      pure game logic, no DOM (CLAUDE.md)
   eggs.ts        eggs, hybrids, rare finishes, breeding rolls, returning eggs to the wild
   care.ts progression.ts characters.ts elements.ts events.ts rng.ts data.ts types.ts
 src/data/      every balance number and all content, as JSON: zones, enemies, gear, sets, shop, combat (spells),
-               progression, stories, bounties, regions, forge, roost, dragons, talents, quests, items, foods, events, champions, runEvents
+               progression, stories, bounties, regions, forge, roost, dragons, talents, quests, items, foods, events, champions, runEvents, conditions
 src/ui/        Preact screens and pieces
   screens/       Roost, Buildings (incl. the Forge card), Forge (sheet), Map (regions, treasures, story and bounty buttons),
                  Adventures (story and bounty sheets), RunEvent (events between fights), Battle (orders, round loop, results, story endings), Bag (gear, sets,
@@ -314,8 +320,8 @@ src/art/       painted/ (characters, attack poses, backdrops, effects, tail tips
 tests/         Vitest unit tests (317), sim.ts (the balance simulator), save fixtures v1 to v13
 e2e/           Playwright phone tests (123), fixtures/ (built by make-fixtures.ts), specs per feature
                (slots, spells, gear, forge, world, ui, stage, perf, smoke, phase2 to 4), helpers.ts (openFold, tab)
-tools/content/      arealib.py (the area writer) with area_gen_70s.py, area_gen_80s.py and area_gen_90s.py; area_gen.py (the 50s and 60s), scale_enemies.py and slow_growth.py (balance), find_tail_tips.py (breeds)
-tools/art/painted/  style.txt and anchor.png (the style), jobs.py to jobs16.py (one per batch; jobs8 is the region maps, jobs9 the new element tips and breath plus Starglass Hollow and the Hidden Reach map, jobs10 the Wyvern, jobs11 Voidmarch and the Wyrm, jobs12 Sunken Spires, jobs13 Rotroot Thicket, Emberwild, the Steelspine Range and the Elder Wilds map, jobs14 Skyreach Isles and Twilight Rift, jobs15 Hollow Crown and The Confluence, jobs16 Starfall Summit, Dragonsrest and the Behemoth), run.sh, pack.py, wire_area.py (adds a packed area to the manifest),
+tools/content/      v7_enemies.py (V7's enemies), arealib.py (the area writer) with area_gen_70s.py, area_gen_80s.py and area_gen_90s.py; area_gen.py (the 50s and 60s), scale_enemies.py and slow_growth.py (balance), find_tail_tips.py (breeds)
+tools/art/painted/  style.txt and anchor.png (the style), jobs.py to jobs16.py (one per batch; jobs8 is the region maps, jobs9 the new element tips and breath plus Starglass Hollow and the Hidden Reach map, jobs10 the Wyvern, jobs11 Voidmarch and the Wyrm, jobs12 Sunken Spires, jobs13 Rotroot Thicket, Emberwild, the Steelspine Range and the Elder Wilds map, jobs14 Skyreach Isles and Twilight Rift, jobs15 Hollow Crown and The Confluence, jobs16 Starfall Summit, Dragonsrest and the Behemoth, jobs17 three more enemies for each of the first four zones), run.sh, pack.py, wire_area.py (adds a packed area to the manifest),
                     fix_green.py, zones.json (which sheet holds which enemies), prompts/ (every prompt that was run)
 docs/          HANDOFF.md, NEXT_PROMPT.md, WORLD_PLAN.md, UI_PLAN.md, ART_GENERATION.md, ART_STYLE.md, DESIGN.md, GRAPHICS_PLAN.md, GRAPHICS_PLAN_2.md
 ```
@@ -338,7 +344,7 @@ docs/          HANDOFF.md, NEXT_PROMPT.md, WORLD_PLAN.md, UI_PLAN.md, ART_GENERA
 - First load: about 110 kB of JavaScript gzipped. The service worker precaches about 4.2 MB (measured at chunk 9; the 1.8 MB noted earlier was out of date). About 1.15 MB of that is breed art (Wyvern, Wyrm and Behemoth, 8 images each), which the dragons plan meant to cache on first view like area art; adding the breed file names to `globIgnores` in `vite.config.ts` would do it. Zone art (about 5 MB and growing by about 450 KB per area) is cached on first view.
 - Stage: about 51 DOM nodes one on one, 69 at two dragons against two enemies (budget 100). The perf test (5 percent dropped frames at 4x CPU throttle) is noisy in the sandbox; run it a few times before blaming a change.
 - Campaign in the sim: about 737 fights from egg to level 50, roughly 25 hours at 2 minutes a fight, and about 1,690 fights (56 hours) to level 100, where the last two bosses (Vesperax and Ossarion) fall at rider level 99. Every campaign reaches the cap; runs won are about 93 to 94 percent.
-- Content: 23 zones (7 main, 4 side areas, 3 Hidden Reach areas, 5 frontier areas, 4 Elder Wilds areas), 161 enemies (115 regular, 23 mini-bosses, 23 bosses), 326 gear pieces (185 in the shop, 115 in 23 sets, 20 Forge recipes, plus starter and festival pieces), 21 rider spells, 88 story quests, 18 bounty pools, 12 elements, 4 breeds, 3 Forge materials, 40 talents, 3 growth quests, 6 expedition trips, 4 events.
+- Content: 23 zones (7 main, 4 side areas, 3 Hidden Reach areas, 5 frontier areas, 4 Elder Wilds areas), 173 enemies (127 regular, 23 mini-bosses, 23 bosses), 326 gear pieces (185 in the shop, 115 in 23 sets, 20 Forge recipes, plus starter and festival pieces), 21 rider spells, 88 story quests, 18 bounty pools, 12 elements, 4 breeds, 3 Forge materials, 40 talents, 3 growth quests, 6 expedition trips, 4 events.
 
 ## Gotchas
 

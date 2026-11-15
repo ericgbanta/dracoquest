@@ -1,5 +1,5 @@
 {
-  "_note": "Daily zone conditions (VARIETY_PLAN V3). Each zone gets one a day, picked by weight from a seed of the day and the zone, like the bounty board. A hunt keeps the condition it started with. battle: dodgeBonus is added to every fighter's dodge (1 point is 1 percent to hit); elementBoost multiplies hits of the condition's element, for both sides; breathPerRound is added to every partner dragon's breath each round. rewards: gold multiplies gold, dropPct adds to item drop chances, gearChance multiplies the zone gear chance. A condition with zoneElement picks one of the zone's elements and fills {element}.",
+  "_note": "Daily zone conditions (VARIETY_PLAN V3). Each zone gets one a day, picked by weight from a seed of the day and the zone, like the bounty board. A hunt keeps the condition it started with. battle: dodgeBonus is added to every fighter's dodge (1 point is 1 percent to hit); elementBoost multiplies the player side's hits of the condition's element; breathPerRound is added to every partner dragon's breath each round. rewards: gold multiplies gold, dropPct adds to item drop chances, gearChance multiplies the zone gear chance. A condition with zoneElement picks one of the zone's elements and fills {element}.",
   "conditions": [
     {
       "id": "calm",
@@ -15,14 +15,14 @@
       "text": "Thick fog rolls in. Everyone dodges more, friend and foe.",
       "weight": 1.5,
       "battle": {
-        "dodgeBonus": 8
+        "dodgeBonus": 6
       }
     },
     {
       "id": "surge",
       "name": "{element} surge",
       "icon": "✨",
-      "text": "The air hums with {element}. {element} hits are 20 percent stronger, for friend and foe.",
+      "text": "The air hums with {element}. Your {element} hits are 20 percent stronger.",
       "weight": 1.5,
       "zoneElement": true,
       "battle": {

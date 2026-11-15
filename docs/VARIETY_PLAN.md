@@ -1,6 +1,6 @@
 # Variety plan: less sameness when grinding
 
-Written 2026-11-13 at Eric's request. Status (2026-11-15): V2 and V1 are built and live. See "Built" at the end for what was made and the calls behind it.
+Written 2026-11-13 at Eric's request. Status (2026-11-15): V2, V1, V3 and V7 are built and live. See "Built" at the end for what was made and the calls behind it.
 
 Eric's answers (2026-11-14): V2 first, then V1. Champions and rares get a color tint plus a gold ring, and rares are drawn bigger; no new Codex art. Champions are a little harder with better loot, something to welcome rather than flee. Rares are tougher but winnable on level. Events may carry risk (a mimic, an ambush), but the risky choice is always optional or pays well.
 
@@ -203,4 +203,37 @@ Calls made without Eric (he can overrule any):
 4. The mimic borrows the zone's sturdiest enemy's stats, since the Gilded Wastes mimic is tuned for level 40 to 50.
 5. The lost egg is uncommon (weight 0.6 of about 27, from level 5), so it adds an egg about every 150 fights.
 6. Head home works from an event, and ends the run like it does after a fight.
+
+### V3: daily zone conditions (2026-11-15, save v15)
+
+Data: `src/data/conditions.json`. Logic: `src/core/conditions.ts`.
+
+- **Seven conditions.** Calm (weight 3), Fog (+8 dodge for every fighter, so about 8 percent fewer hits on both sides; weight 1.5), an element surge (hits of one of the zone's elements 20 percent stronger, for both sides; weight 1.5), Full moon (champions and rares twice as likely; 1), Bounty day (double gold; 1), Tailwind (+5 breath a round for every partner dragon; 1) and Treasure trail (+50 percent item drop chance, 1.5x zone gear chance; 1). So about 3 days in 10 are calm in any one zone.
+- **Picked by day.** From a seed of the date and the zone (`conditionFor`), like the bounty board, so every zone has its own and they change at midnight.
+- **Kept for a hunt.** `startRun` stores the day's condition in `run.condition` (save v15), so a run that crosses midnight keeps it. Story and growth-quest runs have none.
+- **Where it shows.** A "Today" line in the zone details (the open zone card and the map pin sheet), a line in the battle log when a fight starts (not for Calm), and the between-fights screen.
+- **Sim.** The on-level sim now plays each run on a different day, so conditions average out the way they would for a player.
+
+Calls made without Eric:
+
+1. The seven conditions and their sizes. Fog and the surge help both sides, so they change how a fight feels more than whether it's won.
+2. Calm days exist and are the most common single condition, so the others stay notable.
+3. No condition is shown on the battle stage itself (the header is full); the log and the Map carry it.
+
+### V7: three more enemies in each of the first four zones (2026-11-15)
+
+8 Codex generations (`tools/art/painted/jobs17.py`): one sheet of three creatures per zone and its attack sheet, all usable first try. `pack.py` packs `sheet-<zone>-more` from the `more` list in `tools/art/painted/zones.json`. The Puddle Newt and the Soot Mole's attack pose each had a small pocket of trapped key green, painted outline navy after packing. Data came from `tools/content/v7_enemies.py`.
+
+| Zone | New enemies (element, stats copied from) |
+| --- | --- |
+| Mossy Hollow | Acorn Knight (Stone, Barkback Boar), Toadstool Tumbler (Verdant, Spore Puffer), Puddle Newt (Tide, Bog Hopper) |
+| Saltmarsh Shore | Teacup Hermit (Stone, Shell Knight), Spiny Puffer (Tide, Pincher Crab), Zap Jelly (Storm, Gull Bandit) |
+| Whispering Fen | Fog Heron (Tide, Reed Stalker), Croak Shaman (Verdant, Murk Toad), Peat Golem (Stone, Bogling) |
+| Cinder Pass | Magma Snail (Fire, Lava Toad), Soot Mole (Stone, Cinder Beetle), Storm Crow (Storm, Smog Bat) |
+
+- Each has three moves of its own, an encounter of its own (weight 2) and joins one new mixed pair (from level 3, 8, 12 and 14).
+- Each has a defeat bounty in its zone's pool, except Cinder Pass, which has no bounty board yet (V5).
+- These four zones now have 8 regular enemies each, 127 in the game.
+
+Calls made without Eric: every name and look, the elements (they follow each zone's existing mix, except that Cinder Pass gains its first Storm regular), and copying stats from an existing enemy in the same zone rather than tuning new ones.
 

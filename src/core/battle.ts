@@ -540,7 +540,8 @@ function strike(ctx: RoundCtx, attacker: Fighter, target: Fighter, spec: AttackS
   let mult = defenseMultiplier(data.elements, spec.element, target);
   for (const sd of statusData(data, target)) if (sd.amplify && sd.amplify.element === spec.element) mult *= sd.amplify.multiplier;
   const boost = ctx.state.condition?.boost;
-  if (boost && spec.element === boost.element) mult *= boost.multiplier;
+  // A surge helps the player's side only: a reason to bring a dragon or spell of the day's element.
+  if (boost && attacker.kind !== 'enemy' && spec.element === boost.element) mult *= boost.multiplier;
   if (spec.strongBonus && mult > data.elements.multipliers.neutral) mult *= 1 + spec.strongBonus;
   const crit = rng.chance(attacker.critChance);
   const levelScale = attacker.kind === 'enemy' ? 1 : 1 + c.levelDamageScale * (attacker.level - 1);

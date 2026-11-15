@@ -91,4 +91,6 @@ Since then (dragons plan, 2026-11-13): `jobs9.py` made tail tips and breath burs
 
 The Behemoth's tail points left and low, so its tips sit just inside the leftmost pixel of the tail at its bottom edge, turned -75 degrees like the Wyrm's (found with a small variant of `find_tail_tips.py`; the numbers are in `assets.json`). Its hatchling attack pose had a sliver of key green trapped between jaw and leg, painted over with the outline navy after packing.
 
+Variety plan V7 (2026-11-15): `jobs17.py` made three more enemies for each of Mossy Hollow, Saltmarsh Shore, Whispering Fen and Cinder Pass: a sheet of three in one row per zone, then its attack sheet with the idle sheet as the second reference. 8 generations, all usable first try. `pack.py` packs `sheet-<zone>-more` with the ids in the zone's `more` list in `zones.json`. Check new cutouts for trapped key green (the Puddle Newt and the Soot Mole's attack pose each had a small pocket, painted outline navy).
+
 Not made yet: hurt or defeat poses, painted crack lines for the egg, cosmetics.
