@@ -12,7 +12,7 @@ import {
 } from './roost';
 import { addBond, allocateDragon, allocateRider, dragonLevelCap, giveDragonXp, giveRiderXp } from './progression';
 import { bonusOf, dragonBonus, gearItem, learnTalent as learn, respecCost, riderBonus } from './loadout';
-import { gearChanceFor, getZone, planQuest, planRun, rollGear, rollRewards, type FightKind, type Rewards } from './run';
+import { gearChanceFor, getZone, planEcho, planQuest, planRun, rollGear, rollRewards, type FightKind, type Rewards } from './run';
 import type { SaveData } from './save';
 import type { StoryReward } from './types';
 import type { BuildingId, DragonSlot, DragonState, DragonStat, EggSpec, ElementId, GameData, GearSlot, RiderSlot, RiderStat, StageData, ZoneData } from './types';
@@ -22,6 +22,7 @@ import { breedEgg, newEgg, plainEgg, releaseValue, rollVariant, zoneEgg } from '
 import { learnSpells, setLoadout, SpellError, upgradeSpell } from './spells';
 import { eventById, optionCost, resolveOption, rollEvent, type EventResult } from './runEvents';
 import { battleCondition, conditionById, conditionFor } from './conditions';
+import { logFor, logKey } from './hunterLog';
 import { addMaterials, craftGear, ForgeError, upgradeGear } from './forge';
 import {
   bountiesForDay, bountyBoard, bountyDone, bountyKey, countBounties, grantReward, planStory, rewardRider, storyById, storyStatus,
@@ -233,6 +234,23 @@ export function startRun(data: GameData, save: SaveData, zoneId: string, today?:
   return startFight(data, { ...r.save, bounties, run: { zoneId, fights: r.value, index: 0, battle: null, totals: { xp: 0, gold: 0, drops: {} }, condition } });
 }
 
+/** Whether a zone offers an echo run: the rider is past its top level and has beaten its boss. */
+export function echoOpen(data: GameData, save: SaveData, zone: ZoneData): boolean {
+  return !zoneLock(data, save, zone) && save.bossesDefeated.includes(zone.id) && save.rider.level >= zone.maxLevel + data.echo.levelsPast;
+}
+
+/** Start an echo run (VARIETY_PLAN V6): the zone at the rider's level, with more XP and gold. */
+export function startEcho(data: GameData, save: SaveData, zoneId: string, today?: string): SaveData {
+  if (save.run) throw new GameError('A run is already in progress');
+  const zone = getZone(data, zoneId);
+  if (!echoOpen(data, save, zone)) throw new GameError(`Echo runs open once you're past level ${zone.maxLevel} and have beaten the zone's boss`);
+  const condition = today ? conditionFor(data, zone, today) : null;
+  const cd = conditionById(data, condition?.id);
+  const r = withRng(save, (rng) => planEcho(data, zoneId, save.rider.level, rng, { champion: cd?.championMultiplier, rare: cd?.rareMultiplier }));
+  const bounties = today ? bountiesForDay(save.bounties, today) : save.bounties;
+  return startFight(data, { ...r.save, bounties, run: { zoneId, fights: r.value, index: 0, battle: null, totals: { xp: 0, gold: 0, drops: {} }, condition, echo: true } });
+}
+
 /** Start a story quest. Like growth quests, the first fight starts from the interlude, after its dialogue. */
 export function startStory(data: GameData, save: SaveData, storyId: string, today?: string): SaveData {
   if (save.run) throw new GameError('Finish your current run first');
@@ -273,6 +291,16 @@ export function claimBounty(data: GameData, save: SaveData, zoneId: string, boun
   if (state.claimed.includes(key)) throw new GameError('Already claimed');
   if (!bountyDone(state, zoneId, b)) throw new GameError('Not finished yet');
   return { ...grantReward(save, b.reward), bounties: { ...state, claimed: [...state.claimed, key] } };
+}
+
+/** Claim a finished hunter's log goal (VARIETY_PLAN V4). */
+export function claimLogGoal(data: GameData, save: SaveData, zoneId: string, enemyId: string, count: number): SaveData {
+  const entry = logFor(data, save, getZone(data, zoneId)).find((e) => e.enemyId === enemyId);
+  const goal = entry?.goals.find((g) => g.count === count);
+  if (!entry || !goal) throw new GameError('That goal is not in this zone\'s log');
+  if (goal.state === 'claimed') throw new GameError('Already claimed');
+  if (goal.state !== 'ready') throw new GameError('Not finished yet');
+  return { ...grantReward(save, goal.reward), hunterLog: [...save.hunterLog, logKey(enemyId, count)] };
 }
 
 /** Ride mode is offered for boss fights once the dragon is an Adult and awake. */
@@ -397,6 +425,11 @@ function finishFight(data: GameData, save: SaveData): { save: SaveData; report: 
       const mods = dragon ? dragonBonus(data, dragon) : {};
       const withCondition = { ...mods, goldPct: (mods.goldPct ?? 0) + (cr.gold ? cr.gold - 1 : 0), dropPct: (mods.dropPct ?? 0) + (cr.dropPct ?? 0) };
       const rewards = rollRewards(data, run.zoneId, battle, rng, xpBonus, withCondition);
+      // Echo runs pay more.
+      if (run.echo) {
+        rewards.xp = Math.round(rewards.xp * data.echo.rewards.xp);
+        rewards.gold = Math.round(rewards.gold * data.echo.rewards.gold);
+      }
       // A fight a run event added pays more.
       if (plan.bonus) {
         rewards.xp = Math.round(rewards.xp * plan.bonus);
@@ -554,6 +587,12 @@ export function chooseEvent(data: GameData, save: SaveData, optionId: string): {
   if (!option) throw new GameError('There is no such choice');
   if (save.rider.gold < optionCost(data, option, save.rider.level)) throw new GameError('Not enough gold');
   const result = resolveOption(data, getZone(data, run.zoneId), save.rider.level, event, optionId);
+  // In an echo run, an event's extra fight is at the rider's level and grown like the rest of the run.
+  if (result.fight && run.echo) {
+    const top = getZone(data, run.zoneId).maxLevel;
+    const echoMult = data.echo.zones?.[run.zoneId] ?? 1;
+    result.fight = { ...result.fight, enemies: result.fight.enemies.map((e) => ({ ...e, level: save.rider.level, echoFrom: top, echoMult })) };
+  }
 
   let rider = { ...save.rider, gold: save.rider.gold - result.cost + result.gold, inventory: { ...save.rider.inventory } };
   for (const [id, n] of Object.entries(result.items)) rider.inventory[id] = (rider.inventory[id] ?? 0) + n;

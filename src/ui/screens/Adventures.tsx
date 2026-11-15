@@ -1,7 +1,8 @@
 import { useState } from 'preact/hooks';
 import { gameData as data } from '../../core/data';
 import { bountiesForDay, bountyBoard, bountyDone, bountyKey, storiesFor, storyStatus } from '../../core/adventures';
-import { chooseStory, claimBounty, GameError, startStory } from '../../core/game';
+import { chooseStory, claimBounty, claimLogGoal, GameError, startStory } from '../../core/game';
+import { logFor, logProgress, zoneTitle } from '../../core/hunterLog';
 import type { SaveData } from '../../core/save';
 import type { ZoneData } from '../../core/types';
 import { rewardText } from '../bits';
@@ -98,3 +99,53 @@ export function BountySheet({ zone, save, update, today, onClose }: Props) {
     </Sheet>
   );
 }
+
+/** The hunter's log for a zone (VARIETY_PLAN V4): one row per regular enemy with its next goal. */
+export function LogSheet({ zone, save, update, onClose }: Omit<Props, 'today'>) {
+  const [notice, setNotice] = useState('');
+  const entries = logFor(data, save, zone);
+  const progress = logProgress(data, save, zone);
+  const title = zoneTitle(data, save, zone);
+  const titleName = data.hunterLog.title.replace('{zone}', zone.name);
+  return (
+    <Sheet title={`${zone.name} hunter's log`} onClose={onClose}>
+      <p class="muted" data-testid="log-progress">
+        Defeat each of the zone's creatures {data.hunterLog.tiers.map((t) => t.count).join(', ')} times. {progress.claimed} of {progress.total} goals claimed.
+        {' '}{title ? '' : `Claim them all to become ${titleName}.`}
+      </p>
+      {title && <p class="notice notice--ok" data-testid="log-title">Title earned: {title}</p>}
+      {notice && <p class="notice notice--ok" role="status" data-testid="log-notice">{notice}</p>}
+      <div class="list">
+        {entries.map((e) => {
+          const enemy = data.enemies[e.enemyId]!;
+          const ready = e.goals.find((g) => g.state === 'ready');
+          const next = ready ?? e.goals.find((g) => g.state === 'open');
+          const claimed = e.goals.filter((g) => g.state === 'claimed').length;
+          const seen = (save.bestiary[e.enemyId]?.fought ?? 0) > 0;
+          return (
+            <div key={e.enemyId} class="story-row" data-testid={`log-${e.enemyId}`}>
+              <div class="story-info">
+                <strong>{seen ? enemy.name : '???'}{claimed === e.goals.length ? ' ✓' : ''}</strong>
+                <span class="muted">
+                  {e.defeated} defeated · {claimed}/{e.goals.length} goals
+                  {next ? ` · Next: ${next.count} for ${rewardText(next.reward)}` : ' · All done'}
+                </span>
+              </div>
+              <button type="button" class="button" disabled={!ready} data-testid={`log-claim-${e.enemyId}`}
+                onClick={() => {
+                  if (!ready) return;
+                  try {
+                    const after = claimLogGoal(data, save, zone.id, e.enemyId, ready.count);
+                    update(() => after);
+                    const t = zoneTitle(data, after, zone);
+                    setNotice(`${enemy.name} x${ready.count}: ${rewardText(ready.reward)}.${t ? ` You are now ${t}!` : ''}`);
+                  } catch (err) { setNotice(err instanceof GameError ? err.message : 'That did not work.'); }
+                }}>{ready ? 'Claim' : claimed === e.goals.length ? 'Done' : 'Claim'}</button>
+            </div>
+          );
+        })}
+      </div>
+    </Sheet>
+  );
+}
+

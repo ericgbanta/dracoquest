@@ -26,9 +26,11 @@ import eventsJson from '../data/events.json';
 import championsJson from '../data/champions.json';
 import runEventsJson from '../data/runEvents.json';
 import conditionsJson from '../data/conditions.json';
+import hunterLogJson from '../data/hunterLog.json';
+import echoJson from '../data/echo.json';
 import { canMix } from './eggs';
 import type {
-  ChampionsData, CombatData, ConditionsData, RunEventsData, ElementsData, EnemyData, GameData, GearData, ItemData, ProgressionData, QuestData, ShopData, StatusData, StatusId,
+  ChampionsData, CombatData, ConditionsData, HunterLogData, RunEventsData, ElementsData, EnemyData, GameData, GearData, ItemData, ProgressionData, QuestData, ShopData, StatusData, StatusId,
   BountiesData, EventData, ForgeData, GearSetData, RegionsData, RoostData, StoryData, StoryReward, TalentsData, ZoneData,
 } from './types';
 
@@ -89,7 +91,7 @@ export interface RawData {
   elements: unknown; combat: unknown; statuses: unknown; progression: unknown; dragons: unknown;
   care: unknown; foods: unknown; items: unknown; enemies: unknown; zones: unknown;
   gear: unknown; talents: unknown; quests: unknown; shop: unknown; roost: unknown; events: unknown; sets: unknown; forge: unknown; stories: unknown; bounties: unknown; regions: unknown;
-  champions: unknown; runEvents: unknown; conditions: unknown;
+  champions: unknown; runEvents: unknown; conditions: unknown; hunterLog: unknown; echo: unknown;
 }
 
 export function loadGameData(raw: RawData): GameData {
@@ -219,8 +221,33 @@ export function loadGameData(raw: RawData): GameData {
     ...validateAdventures(raw, enemies, zones, new Set([...itemIds, ...foodIds]), Object.keys((raw.forge as ForgeData).materials)),
     champions: validateChampions(raw.champions, enemies, zones, statuses, itemIds),
     conditions: validateConditions(raw.conditions),
+    echo: validateEcho(raw.echo),
+    hunterLog: validateHunterLog(raw.hunterLog, Object.keys((raw.forge as ForgeData).materials)),
     runEvents: validateRunEvents(raw.runEvents, statuses, itemIds, Object.keys((raw.forge as ForgeData).materials)),
   };
+}
+
+export function validateEcho(raw: unknown): GameData['echo'] {
+  const e = raw as GameData['echo'];
+  requireNumbers('echo', e, ['levelsPast']);
+  requireNumbers('echo.rewards', e?.rewards, ['xp', 'gold']);
+  if (!Array.isArray(e.scale) || !e.scale.length || !e.scale.every((p, i) => p.length === 2 && p.every((x) => typeof x === 'number') && (i === 0 || p[0] > e.scale[i - 1]![0]))) {
+    throw new DataError('echo.scale: needs [level, multiplier] points in rising level order');
+  }
+  return e;
+}
+
+/** The hunter's log: rising counts, number-only rewards, a title with {zone}. */
+export function validateHunterLog(raw: unknown, materials: string[]): HunterLogData {
+  const h = raw as HunterLogData;
+  if (!Array.isArray(h?.tiers) || !h.tiers.length || typeof h.title !== 'string' || !h.title.includes('{zone}')) throw new DataError('hunterLog: needs tiers and a title with {zone}');
+  let last = 0;
+  for (const t of h.tiers) {
+    if (!(Number.isInteger(t.count) && t.count > last)) throw new DataError('hunterLog.tiers: counts must rise');
+    last = t.count;
+    for (const m of Object.keys(t.reward.materials ?? {})) if (!materials.includes(m)) throw new DataError(`hunterLog: unknown material "${m}"`);
+  }
+  return h;
 }
 
 /** Daily conditions: unique ids, a weight each, and number-only effects. */
@@ -440,4 +467,6 @@ export const gameData: GameData = loadGameData({
   champions: championsJson,
   runEvents: runEventsJson,
   conditions: conditionsJson,
+  hunterLog: hunterLogJson,
+  echo: echoJson,
 });

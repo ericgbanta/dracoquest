@@ -592,6 +592,15 @@ export interface ConditionData {
 
 export interface ConditionsData { conditions: ConditionData[] }
 
+/** The hunter's log (VARIETY_PLAN V4). */
+export interface HunterLogData {
+  tiers: { count: number; reward: { goldFights?: number; embers?: number; materials?: Materials; items?: Record<string, number> } }[];
+  title: string;
+}
+
+/** Echo runs (VARIETY_PLAN V6). */
+export interface EchoData { levelsPast: number; rewards: { xp: number; gold: number }; scale: [number, number][]; zones?: Record<string, number> }
+
 export interface GameData {
   elements: ElementsData;
   combat: CombatData;
@@ -617,6 +626,8 @@ export interface GameData {
   champions: ChampionsData;
   runEvents: RunEventsData;
   conditions: ConditionsData;
+  hunterLog: HunterLogData;
+  echo: EchoData;
 }
 
 // ---- Persistent character state (lives in the save) ----

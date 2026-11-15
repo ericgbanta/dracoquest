@@ -36,6 +36,8 @@ export interface RunState {
   event?: RunEvent | null;
   /** A status the rider starts the next fight with, from an event. */
   boon?: StatusId | null;
+  /** An echo run: an old zone at the rider's level (save v16). */
+  echo?: boolean;
   /** The zone's condition on the day the hunt started (save v15). Kept for the whole run. */
   condition?: RunCondition | null;
 }
@@ -158,6 +160,24 @@ export function planRun(data: GameData, zoneId: string, riderLevel: number, rng:
     fights.push({ kind: 'mini', enemies: [{ enemyId: zone.miniBoss.enemy, level: clampLevel(zone, riderLevel + zone.miniBoss.levelOffset) }] });
   }
   return fights;
+}
+
+/**
+ * An echo run: the zone's own hunt with every enemy at the rider's level. Each keeps its own stats from the
+ * zone's top level, grown like a typical enemy's (see enemyFighter), so the zone's tuning carries over. Ends with the boss.
+ */
+export function planEcho(data: GameData, zoneId: string, riderLevel: number, rng: Rng, odds: SpawnOdds = {}): PlannedFight[] {
+  const zone = getZone(data, zoneId);
+  const cap = data.progression.levelCap;
+  const at = (n: number) => Math.max(1, Math.min(cap, n));
+  const echoMult = data.echo.zones?.[zoneId] ?? 1;
+  return planRun(data, zoneId, Math.max(riderLevel, zone.boss.unlockRiderLevel), rng, odds).map((f) => {
+    if (f.kind === 'boss' || f.kind === 'mini') {
+      return { kind: 'boss' as const, enemies: [{ enemyId: zone.boss.enemy, level: at(riderLevel), echoFrom: zone.boss.level, echoMult }] };
+    }
+    const pair = f.enemies.length > 1 && !f.enemies.some((e) => e.rare);
+    return { ...f, enemies: f.enemies.map((e) => ({ ...e, level: at(riderLevel + (pair ? zone.multiEnemyLevelOffset : 0)), echoFrom: zone.maxLevel, echoMult })) };
+  });
 }
 
 /** The fights of a growth quest, levelled to the dragon. */

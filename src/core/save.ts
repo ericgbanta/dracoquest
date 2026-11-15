@@ -14,7 +14,7 @@ import { newRoost, type RoostState } from './roost';
 import { defaultLoadout } from './spells';
 import type { DragonState, EggSpec, ElementId, RiderState } from './types';
 
-export const CURRENT_VERSION = 15;
+export const CURRENT_VERSION = 16;
 export const SAVE_KEY = 'dracoquest.save';
 const CODE_PREFIX = 'DQ1:'; // Code format, not save version. The save inside carries its own version.
 
@@ -43,6 +43,8 @@ export interface SaveData {
   bestiary: Record<string, { fought: number; defeated: number }>;
   /** Rare id → how many times met and beaten (VARIETY_PLAN V2). */
   rares: Record<string, { fought: number; defeated: number }>;
+  /** Hunter's log goals claimed, as "enemyId:count" (save v16). */
+  hunterLog: string[];
   run: RunState | null;
   bossesDefeated: string[];
   /** Eggs from bosses, the shop, Elders and breeding, waiting for the Hatchery. */
@@ -209,6 +211,8 @@ export const MIGRATIONS: Record<number, Migration> = {
   13: (save) => (isObject(save.run) ? { ...save, run: { ...save.run, event: null, boon: null } } : save),
   // v14 → v15 (variety plan V3): a hunt keeps the zone's daily condition it started with. A run already going has none.
   14: (save) => (isObject(save.run) ? { ...save, run: { ...save.run, condition: null } } : save),
+  // v15 → v16 (variety plan V4 and V6): hunter's log goals claimed, and a run can be an echo run.
+  15: (save) => ({ ...save, hunterLog: [], ...(isObject(save.run) ? { run: { ...save.run, echo: false } } : {}) }),
 };
 
 export function newSave(now: number): SaveData {
@@ -225,6 +229,7 @@ export function newSave(now: number): SaveData {
     wellKeptFights: 0,
     bestiary: {},
     rares: {},
+    hunterLog: [],
     run: null,
     bossesDefeated: [],
     eggs: [],
@@ -295,6 +300,7 @@ export function validateSave(raw: Record<string, unknown>): SaveData {
   if (!isObject(raw.care) || typeof raw.care.day !== 'string') fail('care missing');
   if (!isObject(raw.bestiary)) fail('bestiary missing');
   if (!isObject(raw.rares)) fail('rares missing');
+  if (!Array.isArray(raw.hunterLog) || !(raw.hunterLog as unknown[]).every((x) => typeof x === 'string')) fail('hunter\'s log missing');
   if (raw.run !== null && !isObject(raw.run)) fail('run damaged');
   if (isObject(raw.run) && raw.run.event != null && (!isObject(raw.run.event) || typeof raw.run.event.id !== 'string' || typeof raw.run.event.seed !== 'number')) fail('run event damaged');
   if (!Array.isArray(raw.bossesDefeated)) fail('bosses missing');

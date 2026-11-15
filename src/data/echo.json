@@ -1,0 +1,66 @@
+{
+  "_note": "Echo runs (VARIETY_PLAN V6). Once the rider is past a zone's top level and has beaten its boss, the zone offers a hunt at the rider's level. Enemies keep their art, moves and elements but take their stats from the matching enemy of a zone tuned for the rider's level (regular by position, mini-boss, boss). XP and gold from echo fights are multiplied by these. scale: control points [level, multiplier] for an echo enemy's HP and attack, by the level it is fought at, interpolated between points. Fitted with npm run sim -- --echo. zones: an extra multiplier for one zone's echoes, for zones whose elements make them easier or harder than the curve.",
+  "levelsPast": 1,
+  "rewards": {
+    "xp": 1.25,
+    "gold": 1.25
+  },
+  "scale": [
+    [
+      10,
+      1.02
+    ],
+    [
+      25,
+      1.0
+    ],
+    [
+      35,
+      1.07
+    ],
+    [
+      45,
+      1.09
+    ],
+    [
+      55,
+      1.06
+    ],
+    [
+      65,
+      1.0
+    ],
+    [
+      75,
+      0.9
+    ],
+    [
+      85,
+      0.89
+    ],
+    [
+      95,
+      0.92
+    ],
+    [
+      100,
+      1.03
+    ]
+  ],
+  "zones": {
+    "saltmarsh-shore": 1.039,
+    "whispering-fen": 1.039,
+    "thunderspire": 0.968,
+    "rustcliff-ruins": 1.08,
+    "moonwell-woods": 1.051,
+    "starglass-hollow": 1.059,
+    "deepstone-mines": 1.064,
+    "voidmarch": 0.969,
+    "eclipse-peak": 0.963,
+    "rotroot-thicket": 0.932,
+    "steelspine-range": 1.04,
+    "skyreach-isles": 1.067,
+    "twilight-rift": 1.078,
+    "hollow-crown": 1.047
+  }
+}

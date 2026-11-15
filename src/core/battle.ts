@@ -154,6 +154,10 @@ export interface EnemySpawn {
   rare?: string;
   /** Use this enemy's stats with the spawn's art and moves (an event mimic borrows a zone enemy's stats). */
   statsFrom?: string;
+  /** An echo run (VARIETY_PLAN V6): the enemy's stats at this level, grown to the spawn's level like a typical enemy's. */
+  echoFrom?: number;
+  /** The echoed zone's own balance factor (echo.json `zones`), on HP and attack. */
+  echoMult?: number;
 }
 
 export interface BattleSetup {
@@ -228,13 +232,18 @@ export function spawnTraits(data: GameData, spawn: Pick<EnemySpawn, 'traits' | '
   return spawn.traits ?? [];
 }
 
-export function enemyFighter(data: GameData, e: EnemyData, level: number, index: number, spawn: Pick<EnemySpawn, 'traits' | 'rare' | 'statsFrom'> = {}): Fighter {
+export function enemyFighter(data: GameData, e: EnemyData, level: number, index: number, spawn: Pick<EnemySpawn, 'traits' | 'rare' | 'statsFrom' | 'echoFrom' | 'echoMult'> = {}): Fighter {
   const rare = spawn.rare ? data.champions.rares.find((r) => r.id === spawn.rare) : undefined;
   const statsOf = (spawn.statsFrom && data.enemies[spawn.statsFrom]) || e;
   const traits = spawnTraits(data, spawn);
   // Stat multipliers: the champion or rare base, then each trait's.
   const mults = [traits.length ? (rare ? data.champions.rare.stats : data.champions.champion.stats) : {}, ...traits.map((t) => data.champions.traits[t]?.stats ?? {})];
-  const at = (k: keyof EnemyData['base']) => mults.reduce((v, m) => v * (m[k] ?? 1), statsOf.base[k] + statsOf.perLevel[k] * (level - 1));
+  // An echo enemy keeps its own tuned stats from its zone's top level, grown like a typical enemy's to its new level.
+  const echoMult = (k: keyof EnemyData['base']) => (k === 'hp' || k === 'attack' ? echoScale(data, level) * (spawn.echoMult ?? 1) : 1);
+  const own = (k: keyof EnemyData['base']) => spawn.echoFrom
+    ? (statsOf.base[k] + statsOf.perLevel[k] * (spawn.echoFrom - 1)) * typicalGrowth(data, k, spawn.echoFrom, level) * echoMult(k)
+    : statsOf.base[k] + statsOf.perLevel[k] * (level - 1);
+  const at = (k: keyof EnemyData['base']) => mults.reduce((v, m) => v * (m[k] ?? 1), own(k));
   const hp = Math.round(at('hp'));
   const prefix = traits.length && !rare ? `${data.champions.traits[traits[0]!]?.name ?? ''} ` : '';
   const f: Fighter = {
@@ -251,6 +260,38 @@ export function enemyFighter(data: GameData, e: EnemyData, level: number, index:
     if (start) addStatus(data, f, start, []);
   }
   return f;
+}
+
+const typicalCache = new WeakMap<GameData, Map<string, number>>();
+/** A typical regular enemy's stat at a level: the median over every zone whose range holds that level. */
+export function typicalStat(data: GameData, k: keyof EnemyData['base'], level: number): number {
+  let cache = typicalCache.get(data);
+  if (!cache) { cache = new Map(); typicalCache.set(data, cache); }
+  const key = `${k}:${level}`;
+  const hit = cache.get(key);
+  if (hit !== undefined) return hit;
+  const zones = data.zones.filter((z) => z.minLevel <= level && level <= z.maxLevel);
+  const ids = [...new Set(zones.flatMap((z) => z.encounters.flatMap((enc) => enc.enemies)))];
+  const vals = ids.map((id) => data.enemies[id]!).map((x) => x.base[k] + x.perLevel[k] * (level - 1)).sort((a, b) => a - b);
+  const v = vals.length ? vals[Math.floor(vals.length / 2)]! : 1;
+  cache.set(key, v);
+  return v;
+}
+/** The echo balance multiplier at a level, interpolated from echo.json's control points. */
+export function echoScale(data: GameData, level: number): number {
+  const pts = data.echo.scale;
+  if (level <= pts[0]![0]) return pts[0]![1];
+  for (let i = 1; i < pts.length; i++) {
+    const [l0, m0] = pts[i - 1]!, [l1, m1] = pts[i]!;
+    if (level <= l1) return m0 + ((m1 - m0) * (level - l0)) / (l1 - l0);
+  }
+  return pts[pts.length - 1]![1];
+}
+
+/** How much a typical enemy's stat grows from one level to another. */
+export function typicalGrowth(data: GameData, k: keyof EnemyData['base'], from: number, to: number): number {
+  const a = typicalStat(data, k, from);
+  return a > 0 ? typicalStat(data, k, to) / a : 1;
 }
 
 /** The traits a fighter has, as data. */

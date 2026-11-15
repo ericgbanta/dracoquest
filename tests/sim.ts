@@ -16,9 +16,10 @@ import {
   activeDragon, buyGear, buyItem, canEquip, canHaveSecond, canRide, chooseEgg, equip, growthStatus, hatchEgg, incubateEgg, learnDragonTalent,
   playRound, rest, secondDragon, setLead, setSecond, spendDragonPoint, spendRiderPoint, startFight, startGrowthQuest, startRun,
   takeHatchedEgg, upgradeBuilding, warmEgg, zoneLock,
-  setSpells, forgeUpgrade, startStory, claimBounty, chooseStory, chooseEvent,
+  setSpells, forgeUpgrade, startStory, claimBounty, chooseStory, chooseEvent, claimLogGoal, startEcho, echoOpen,
 } from '../src/core/game';
 import { bountyBoard, storyStatus } from '../src/core/adventures';
+import { logFor } from '../src/core/hunterLog';
 import type { StoryData } from '../src/core/types';
 import { upgradeCost } from '../src/core/roost';
 import { newSave, type SaveData } from '../src/core/save';
@@ -42,6 +43,7 @@ const CAMPAIGNS = arg('campaigns', 100);
 const ONLY_ZONE = argStr('zone');
 const SKIP_CAMPAIGN = args.includes('--no-campaign');
 const SKIP_LEVELS = args.includes('--campaign-only');
+const ECHO = args.includes('--echo');
 
 const RIDER_PLAN: RiderStat[] = ['strength', 'vigor', 'arcana'];
 const DRAGON_PLAN: DragonStat[] = ['might', 'scale', 'spirit'];
@@ -151,6 +153,10 @@ function claimAllBounties(s: SaveData, today: string): SaveData {
       } catch { /* not finished or already claimed */ }
     }
   }
+  // The hunter's log too.
+  for (const z of data.zones) {
+    for (const e of logFor(data, s, z)) for (const g of e.goals) if (g.state === 'ready') s = claimLogGoal(data, s, z.id, e.enemyId, g.count);
+  }
   for (const q of data.stories) {
     const st = storyStatus(data, s, q);
     if (st.state === 'done' && st.choicePending) s = chooseStory(data, s, q.id, q.choice!.options[0]!.id);
@@ -257,6 +263,32 @@ if (!SKIP_LEVELS) {
         );
       }
       console.log(`All on-level runs: ${pct(totalWins, totalRuns)} won. Champion fights: ${pct(champWon, champFights)} won of ${champFights}. Rare fights: ${pct(rareWon, rareFights)} won of ${rareFights}. Events: ${pct(events, allFightsWon)} of fights won.`);
+    }
+  }
+}
+
+// ---------- Echo runs (VARIETY_PLAN V6): old zones at the rider's level ----------
+if (ECHO) {
+  const cap = data.progression.levelCap;
+  console.log(`\n=== Echo runs: each zone at a few levels past its top, ${RUNS} runs per row ===`);
+  console.log('Zone                   Level  Fire    Tide    Verdant');
+  for (const zone of zones) {
+    for (const level of [...new Set([zone.maxLevel + 2, zone.maxLevel + 10, zone.maxLevel + 25].map((l) => Math.min(cap, l)))]) {
+      if (level <= zone.maxLevel) continue;
+      const row: string[] = [];
+      for (const element of data.elements.starters) {
+        const rng = createRng(SEED * 31 + level);
+        let wins = 0, played = 0;
+        for (let i = 0; i < RUNS; i++) {
+          const base = onLevelCharacter(element, level, rng.int(1, 2 ** 31), level >= data.progression.secondPartnerRiderLevel);
+          const s = { ...base, bossesDefeated: [...new Set([...base.bossesDefeated, zone.id])] };
+          if (!echoOpen(data, s, zone)) continue;
+          played++;
+          if (playRun(s, (x) => startEcho(data, withLoadout(x, zone), zone.id, `echo-${level}-${i}`)).stats.won) wins++;
+        }
+        row.push(pad(pct(wins, played), 7));
+      }
+      console.log(`${zone.name.padEnd(22)} ${pad(level, 5)}  ${row.join(' ')}`);
     }
   }
 }

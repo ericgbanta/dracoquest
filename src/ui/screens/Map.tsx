@@ -1,6 +1,6 @@
 import { useState } from 'preact/hooks';
 import { gameData as data } from '../../core/data';
-import { activeDragon, startRun, zoneLock } from '../../core/game';
+import { activeDragon, echoOpen, startEcho, startRun, zoneLock } from '../../core/game';
 import { bossUnlocked, zoneRare } from '../../core/run';
 import { conditionFor, describeCondition } from '../../core/conditions';
 import { riderMaxHp } from '../../core/characters';
@@ -11,7 +11,8 @@ import { usePref } from '../Fold';
 import { gearSummary } from './Town';
 import type { RegionData, UpcomingArea, ZoneData } from '../../core/types';
 import { bountiesReady, storiesFor, storyProgress, storyStatus } from '../../core/adventures';
-import { BountySheet, StorySheet } from './Adventures';
+import { BountySheet, LogSheet, StorySheet } from './Adventures';
+import { logProgress, logReady } from '../../core/hunterLog';
 import { EnemySprite } from '../Sprites';
 import { Scene, useBackdrop, useEnemyRig } from '../stage/Scene';
 import type { ElementId } from '../../core/types';
@@ -25,7 +26,7 @@ export function MapScreen({ save, update }: Props) {
   const dragon = activeDragon(save);
   const lowHp = save.rider.hp < riderMaxHp(data, save.rider) * 0.5;
   const [treasures, setTreasures] = useState<ZoneData | null>(null);
-  const [sheet, setSheet] = useState<{ kind: 'story' | 'bounties'; zone: ZoneData } | null>(null);
+  const [sheet, setSheet] = useState<{ kind: 'story' | 'bounties' | 'log'; zone: ZoneData } | null>(null);
   const today = todayKey();
   // The map starts on the region at the rider's level, and remembers the region last looked at.
   // That's the last region with an open area at the rider's level; failing that, the last one the rider has reached.
@@ -73,6 +74,7 @@ export function MapScreen({ save, update }: Props) {
           {zones.map((zone) => (
             <ZoneCard key={zone.id} zone={zone} save={save} today={today}
               onHunt={() => update((s) => startRun(data, s, zone.id, today))}
+              onEcho={() => update((s) => startEcho(data, s, zone.id, today))}
               onOpen={(kind) => (kind === 'treasures' ? setTreasures(zone) : setSheet({ kind, zone }))} />
           ))}
           {tease && <TeaserCard area={tease} save={save} />}
@@ -83,6 +85,7 @@ export function MapScreen({ save, update }: Props) {
           <div data-testid={`pin-sheet-${pinnedZone.id}`}>
             <ZoneDetails zone={pinnedZone} save={save} today={today} idPrefix="pin-"
               onHunt={() => { setPinned(null); update((s) => startRun(data, s, pinnedZone.id, today)); }}
+              onEcho={() => { setPinned(null); update((s) => startEcho(data, s, pinnedZone.id, today)); }}
               onOpen={(kind) => { setPinned(null); if (kind === 'treasures') setTreasures(pinnedZone); else setSheet({ kind, zone: pinnedZone }); }} />
           </div>
         </Sheet>
@@ -94,6 +97,7 @@ export function MapScreen({ save, update }: Props) {
       )}
       {treasures && <Treasures zone={treasures} save={save} onClose={() => setTreasures(null)} />}
       {sheet?.kind === 'story' && <StorySheet zone={sheet.zone} save={save} update={update} today={today} onClose={() => setSheet(null)} />}
+      {sheet?.kind === 'log' && <LogSheet zone={sheet.zone} save={save} update={update} onClose={() => setSheet(null)} />}
       {sheet?.kind === 'bounties' && <BountySheet zone={sheet.zone} save={save} update={update} today={today} onClose={() => setSheet(null)} />}
     </section>
   );
@@ -103,8 +107,8 @@ export function MapScreen({ save, update }: Props) {
  * A zone on the Map. Zones at the rider's level are open, with the banner, details and adventure buttons;
  * the rest fold to one row with a quick Hunt button, so the Map stays short as the world grows.
  */
-function ZoneCard({ zone, save, today, onHunt, onOpen }: {
-  zone: ZoneData; save: SaveData; today: string; onHunt(): void; onOpen(kind: 'story' | 'bounties' | 'treasures'): void;
+function ZoneCard({ zone, save, today, onHunt, onEcho, onOpen }: {
+  zone: ZoneData; save: SaveData; today: string; onHunt(): void; onEcho(): void; onOpen(kind: 'story' | 'bounties' | 'treasures' | 'log'): void;
 }) {
   const lock = zoneLock(data, save, zone);
   const unlocked = bossUnlocked(zone, save.rider.level);
@@ -128,14 +132,14 @@ function ZoneCard({ zone, save, today, onHunt, onOpen }: {
           <button type="button" class="button zone-hunt" onClick={onHunt} data-testid={`start-${zone.id}`}>Hunt</button>
         )}
       </div>
-      {open && <ZoneDetails zone={zone} save={save} today={today} onHunt={onHunt} onOpen={onOpen} />}
+      {open && <ZoneDetails zone={zone} save={save} today={today} onHunt={onHunt} onEcho={onEcho} onOpen={onOpen} />}
     </article>
   );
 }
 
 /** A zone's banner, details, adventure buttons and hunt button: the open zone card, and the sheet a map pin opens. */
-function ZoneDetails({ zone, save, today, onHunt, onOpen, idPrefix = '' }: {
-  zone: ZoneData; save: SaveData; today: string; onHunt(): void; onOpen(kind: 'story' | 'bounties' | 'treasures'): void; idPrefix?: string;
+function ZoneDetails({ zone, save, today, onHunt, onEcho, onOpen, idPrefix = '' }: {
+  zone: ZoneData; save: SaveData; today: string; onHunt(): void; onEcho?(): void; onOpen(kind: 'story' | 'bounties' | 'treasures' | 'log'): void; idPrefix?: string;
 }) {
   const boss = data.enemies[zone.boss.enemy]!;
   const lock = zoneLock(data, save, zone);
@@ -160,6 +164,11 @@ function ZoneDetails({ zone, save, today, onHunt, onOpen, idPrefix = '' }: {
           <button type="button" class="button button--big button--block" onClick={onHunt} data-testid={`${idPrefix}start-${zone.id}`}>
             Start a hunt
           </button>
+          {onEcho && echoOpen(data, save, zone) && (
+            <button type="button" class="button button--block" onClick={onEcho} data-testid={`${idPrefix}echo-${zone.id}`}>
+              Echo hunt at level {save.rider.level} <span class="muted">· +{Math.round((data.echo.rewards.xp - 1) * 100)}% XP and gold</span>
+            </button>
+          )}
         </>
       )}
     </>
@@ -236,7 +245,7 @@ function RegionMapView({ save, region, regionIndex, onRegion, teaser, onPin, tod
 }
 
 /** One row of buttons for a zone: its story, its bounty board and its treasures (set gear). */
-function AdventureButtons({ zone, save, today, onOpen, idPrefix = '' }: { zone: ZoneData; save: SaveData; today: string; onOpen(kind: 'story' | 'bounties' | 'treasures'): void; idPrefix?: string }) {
+function AdventureButtons({ zone, save, today, onOpen, idPrefix = '' }: { zone: ZoneData; save: SaveData; today: string; onOpen(kind: 'story' | 'bounties' | 'treasures' | 'log'): void; idPrefix?: string }) {
   const story = storyProgress(data, save, zone.id);
   const hasBounties = !!data.bounties.pools[zone.id];
   const loot = zoneTreasure(zone);
@@ -244,8 +253,10 @@ function AdventureButtons({ zone, save, today, onOpen, idPrefix = '' }: { zone: 
   const pending = storiesFor(data, zone.id).some((q) => { const st = storyStatus(data, save, q); return st.state === 'done' && st.choicePending; });
   const ready = bountiesReady(data, save.bounties, zone.id, today);
   const found = loot.filter((id) => save.rider.gear.includes(id)).length;
+  const log = logProgress(data, save, zone);
+  const logDue = logReady(data, save, zone);
   return (
-    <div class="adventure-buttons adventure-buttons--three">
+    <div class="adventure-buttons adventure-buttons--four">
       {story.total > 0 && (
         <button type="button" class="button button--ghost" onClick={() => onOpen('story')} data-testid={`${idPrefix}story-${zone.id}`}
           aria-label={`Story, ${story.done} of ${story.total} done${pending ? ', a choice is waiting' : ''}`}>
@@ -264,6 +275,10 @@ function AdventureButtons({ zone, save, today, onOpen, idPrefix = '' }: { zone: 
           Loot {found}/{loot.length}
         </button>
       )}
+      <button type="button" class="button button--ghost" onClick={() => onOpen('log')} data-testid={`${idPrefix}log-${zone.id}`}
+        aria-label={`Hunter's log, ${log.claimed} of ${log.total} goals${logDue ? `, ${logDue} ready to claim` : ''}`}>
+        Log {log.claimed}/{log.total}{logDue > 0 && <span class="count-pill" aria-hidden="true">{logDue}</span>}
+      </button>
     </div>
   );
 }

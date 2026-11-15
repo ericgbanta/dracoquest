@@ -1,0 +1,10 @@
+{
+  "_note": "Hunter's log (VARIETY_PLAN V4). Every regular enemy of a zone has goals at each tier's count of defeats (from the bestiary, so defeats before the log existed count). Rewards are claimed by hand on the zone's Log sheet. goldFights is gold worth that many regular enemies at the zone's top level. Claiming every goal in a zone earns its title.",
+  "tiers": [
+    { "count": 10, "reward": { "goldFights": 4 } },
+    { "count": 25, "reward": { "goldFights": 6, "materials": { "ore": 1 } } },
+    { "count": 50, "reward": { "goldFights": 10, "embers": 1 } },
+    { "count": 100, "reward": { "embers": 3, "materials": { "crystal": 1 } } }
+  ],
+  "title": "Warden of {zone}"
+}

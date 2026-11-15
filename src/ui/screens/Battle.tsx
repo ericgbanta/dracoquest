@@ -300,7 +300,7 @@ export function Battle({ save, update, onExit }: Props) {
       {simple ? (
         <>
       <header class="battle-header">
-        <span>{zone?.name} · {kind === 'boss' ? 'Boss' : kind === 'mini' ? 'Mini-boss' : `Fight ${fightNo}/${totalFights}`} · Round {battle.round}</span>
+        <span>{zone?.name}{run?.echo ? ' (Echo)' : ''} · {kind === 'boss' ? 'Boss' : kind === 'mini' ? 'Mini-boss' : `Fight ${fightNo}/${totalFights}`} · Round {battle.round}</span>
         <button type="button" class="chip-button" aria-pressed={fast} onClick={() => update((s) => ({ ...s, settings: { ...s.settings, fastBattles: !s.settings.fastBattles } }))}>
           {fast ? '2x' : '1x'}
         </button>
@@ -370,7 +370,7 @@ export function Battle({ save, update, onExit }: Props) {
           onTarget={aimAll} onDetails={setDetail} paused={sheet !== null || detail !== null} stageRef={stageRef}
           header={(
             <header class="battle-header stage-header">
-        <span>{zone?.name} · {kind === 'boss' ? 'Boss' : kind === 'mini' ? 'Mini-boss' : `Fight ${fightNo}/${totalFights}`} · Round {battle.round}</span>
+        <span>{zone?.name}{run?.echo ? ' (Echo)' : ''} · {kind === 'boss' ? 'Boss' : kind === 'mini' ? 'Mini-boss' : `Fight ${fightNo}/${totalFights}`} · Round {battle.round}</span>
         <button type="button" class="chip-button" aria-pressed={fast} onClick={() => update((s) => ({ ...s, settings: { ...s.settings, fastBattles: !s.settings.fastBattles } }))}>
           {fast ? '2x' : '1x'}
         </button>
@@ -671,10 +671,11 @@ function Interlude({ save, update, onExit }: Props) {
   const label = boss ? `Face the ${bossName} on foot` : next?.kind === 'mini' ? 'Fight the mini-boss' : `Fight ${run.index + 1} of ${run.fights.length}`;
   return (
     <section class="screen interlude" aria-labelledby="interlude-title">
-      <h1 id="interlude-title">{quest ? quest.name : getZone(data, run.zoneId).name}</h1>
+      <h1 id="interlude-title">{quest ? quest.name : getZone(data, run.zoneId).name}{run.echo ? ' (Echo)' : ''}</h1>
       {quest && run.index === 0 && <p class="lead">{quest.description}</p>}
       {next?.intro && <Dialogue lines={next.intro} save={save} />}
       {!quest && <p>Run so far: +{run.totals.xp} XP, +{run.totals.gold} gold.</p>}
+      {run.echo && <p class="muted" data-testid="run-echo">Echo hunt at your level: +{Math.round((data.echo.rewards.xp - 1) * 100)}% XP and gold.</p>}
       {run.condition && describeCondition(data, run.condition) && (
         <p class="muted" data-testid="run-today">{describeCondition(data, run.condition)!.icon} Today: {describeCondition(data, run.condition)!.name}.</p>
       )}
