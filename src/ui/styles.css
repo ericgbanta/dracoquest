@@ -583,3 +583,13 @@ p, p.muted, .notice, .lead, li { font-size: max(1rem, 16px); }
 .trait-list p { margin: 2px 0; }
 .trait-kind { font-weight: 700; color: #ffe08a; }
 .notice--rare { border-color: #ffd76a; }
+
+/* Run events between fights (VARIETY_PLAN V1). */
+.run-event { padding-top: 8px; }
+.run-event-banner { margin: 0 0 8px; }
+.run-event-banner .scene { box-sizing: border-box; width: 100%; }
+.run-event-icon { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); font-size: 52px; line-height: 1; filter: drop-shadow(0 3px 4px #000a); }
+.run-event-options { display: grid; gap: 8px; }
+.run-event-option { display: flex; flex-direction: column; align-items: flex-start; text-align: left; min-height: 56px; padding: 8px 14px; }
+.run-event-label { font-weight: 800; }
+.run-event-detail { font-size: 0.85rem; font-weight: 500; opacity: 0.85; }

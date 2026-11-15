@@ -24,9 +24,10 @@ import shopJson from '../data/shop.json';
 import roostJson from '../data/roost.json';
 import eventsJson from '../data/events.json';
 import championsJson from '../data/champions.json';
+import runEventsJson from '../data/runEvents.json';
 import { canMix } from './eggs';
 import type {
-  ChampionsData, CombatData, ElementsData, EnemyData, GameData, GearData, ItemData, ProgressionData, QuestData, ShopData, StatusData, StatusId,
+  ChampionsData, CombatData, RunEventsData, ElementsData, EnemyData, GameData, GearData, ItemData, ProgressionData, QuestData, ShopData, StatusData, StatusId,
   BountiesData, EventData, ForgeData, GearSetData, RegionsData, RoostData, StoryData, StoryReward, TalentsData, ZoneData,
 } from './types';
 
@@ -87,7 +88,7 @@ export interface RawData {
   elements: unknown; combat: unknown; statuses: unknown; progression: unknown; dragons: unknown;
   care: unknown; foods: unknown; items: unknown; enemies: unknown; zones: unknown;
   gear: unknown; talents: unknown; quests: unknown; shop: unknown; roost: unknown; events: unknown; sets: unknown; forge: unknown; stories: unknown; bounties: unknown; regions: unknown;
-  champions: unknown;
+  champions: unknown; runEvents: unknown;
 }
 
 export function loadGameData(raw: RawData): GameData {
@@ -216,7 +217,36 @@ export function loadGameData(raw: RawData): GameData {
     forge: validateForge(raw.forge, gear, raw.roost as RoostData),
     ...validateAdventures(raw, enemies, zones, new Set([...itemIds, ...foodIds]), Object.keys((raw.forge as ForgeData).materials)),
     champions: validateChampions(raw.champions, enemies, zones, statuses, itemIds),
+    runEvents: validateRunEvents(raw.runEvents, statuses, itemIds, Object.keys((raw.forge as ForgeData).materials)),
   };
+}
+
+/** Run events: weights and odds are numbers, every option has an outcome, and every item, material and status is known. */
+export function validateRunEvents(raw: unknown, statuses: Record<StatusId, StatusData>, items: Set<string>, materials: string[]): RunEventsData {
+  const r = raw as RunEventsData;
+  requireNumbers('runEvents', r, ['chance', 'temperPoints']);
+  if (!Array.isArray(r.events) || r.events.length === 0) throw new DataError('runEvents.events: missing');
+  const ids = new Set<string>();
+  const temper = ['bold', 'gentle', 'clever', 'proud'];
+  for (const e of r.events) {
+    if (ids.has(e.id)) throw new DataError(`runEvents: duplicate id "${e.id}"`);
+    ids.add(e.id);
+    requireNumbers(`runEvents.${e.id}`, e, ['weight']);
+    if (!Array.isArray(e.options) || e.options.length === 0) throw new DataError(`runEvents.${e.id}: no options`);
+    for (const o of e.options) {
+      const where = `runEvents.${e.id}.${o.id}`;
+      if (!Array.isArray(o.outcomes) || o.outcomes.length === 0) throw new DataError(`${where}: no outcomes`);
+      for (const out of o.outcomes) {
+        requireNumbers(where, out, ['weight']);
+        for (const id of [...Object.keys(out.items ?? {}), ...(out.itemPick?.from ?? [])]) if (!items.has(id)) throw new DataError(`${where}: unknown item "${id}"`);
+        for (const id of Object.keys(out.materials ?? {})) if (!materials.includes(id)) throw new DataError(`${where}: unknown material "${id}"`);
+        if (out.boon && !statuses[out.boon]) throw new DataError(`${where}: unknown status "${out.boon}"`);
+        if (out.temper && !temper.includes(out.temper)) throw new DataError(`${where}: unknown temperament`);
+        if (out.fight && !['ambush', 'mimic', 'champion'].includes(out.fight.kind)) throw new DataError(`${where}: unknown fight kind`);
+      }
+    }
+  }
+  return r;
 }
 
 const STAT_KEYS = ['hp', 'attack', 'power', 'defense', 'swift', 'dodge'];
@@ -389,4 +419,5 @@ export const gameData: GameData = loadGameData({
   bounties: bountiesJson,
   regions: regionsJson,
   champions: championsJson,
+  runEvents: runEventsJson,
 });

@@ -6,7 +6,8 @@ import { breathReady, comboAvailable, enemyMove, livingEnemies, skillReady, type
 import { talentById } from './loadout';
 import { defenseMultiplier } from './elements';
 import { battleSpell, knownSpells, spellById } from './spells';
-import type { ElementId, GameData, SpellData } from './types';
+import { eventById, optionCost, type RunEvent } from './runEvents';
+import type { ElementId, GameData, RiderState, SpellData } from './types';
 
 /** How well a damage spell does against a defender (hybrids included): base power times the element multiplier. */
 function spellScore(data: GameData, s: SpellData, defender: Parameters<typeof defenseMultiplier>[2]): number {
@@ -34,6 +35,19 @@ function selfHealing(data: GameData, f: Fighter): boolean {
 /** Thorns on an enemy: how much of a close hit comes back. */
 function thornsOf(data: GameData, f: Fighter): number {
   return (f.traits ?? []).reduce((n, t) => n + (data.champions.traits[t]?.thorns ?? 0), 0);
+}
+
+/**
+ * The auto-battler's pick at a run event: heal when hurt, otherwise the first
+ * safe option it can afford. It never opens chests or picks fights.
+ */
+export function eventChoice(data: GameData, event: RunEvent, rider: Pick<RiderState, 'level' | 'gold' | 'hp'>, riderMaxHp: number): string {
+  const ev = eventById(data, event.id);
+  if (!ev) throw new Error(`Unknown event ${event.id}`);
+  const affordable = ev.options.filter((o) => rider.gold >= optionCost(data, o, rider.level));
+  const healing = affordable.find((o) => o.outcomes.every((x) => (x.heal ?? 0) > 0));
+  if (healing && rider.hp < riderMaxHp * 0.6) return healing.id;
+  return (affordable.find((o) => o.safe) ?? affordable[0] ?? ev.options[0]!).id;
 }
 
 export function autoOrders(data: GameData, state: BattleState): Orders {

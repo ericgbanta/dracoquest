@@ -1,0 +1,405 @@
+{
+  "_note": "Run events between fights (VARIETY_PLAN V1). After a won regular fight in a zone hunt, when the next fight is not the boss, `chance` rolls for an event, picked by weight. goldFights and costFights count in one regular enemy's gold at the rider's level. Each option's outcome is picked by weight from the event's seed, so a reload shows the same scene and result. {zone}, {dragon} and {element} fill in.",
+  "chance": 0.33,
+  "temperPoints": 3,
+  "events": [
+    {
+      "id": "chest",
+      "name": "A treasure chest",
+      "icon": "🧰",
+      "text": "Half buried in the moss of {zone} sits an old chest with a rusty lock. Something glints through the gap in the lid.",
+      "weight": 4,
+      "options": [
+        {
+          "id": "open",
+          "label": "Open it",
+          "detail": "Usually treasure. Chests out here are sometimes mimics.",
+          "outcomes": [
+            {
+              "weight": 3,
+              "text": "The lid creaks open. Gold, and something useful on top!",
+              "goldFights": 3,
+              "itemPick": {
+                "from": [
+                  "potion",
+                  "mana-tonic",
+                  "dragon-treat"
+                ],
+                "count": 2
+              }
+            },
+            {
+              "weight": 1,
+              "text": "The chest grows teeth. It's a mimic! Beat it for a big payout.",
+              "fight": {
+                "kind": "mimic",
+                "bonus": 2.5
+              }
+            }
+          ]
+        },
+        {
+          "id": "leave",
+          "label": "Leave it shut",
+          "detail": "Nothing ventured, nothing bitten.",
+          "outcomes": [
+            {
+              "weight": 1,
+              "text": "You leave the chest where it is. It might have twitched as you walked off."
+            }
+          ],
+          "safe": true
+        }
+      ]
+    },
+    {
+      "id": "shrine",
+      "name": "A mossy shrine",
+      "icon": "⛩",
+      "text": "A little stone shrine stands by the path, a bowl of rainwater at its feet. The air around it feels warm.",
+      "weight": 2,
+      "options": [
+        {
+          "id": "pray",
+          "label": "Pray for healing",
+          "detail": "Heals you and your dragons by half.",
+          "outcomes": [
+            {
+              "weight": 1,
+              "text": "A warm light washes over you. The worst of your scrapes close up.",
+              "heal": 0.5
+            }
+          ],
+          "safe": true
+        },
+        {
+          "id": "offer",
+          "label": "Offer a drop of blood",
+          "detail": "Lose some HP, start the next fight with Fury.",
+          "outcomes": [
+            {
+              "weight": 1,
+              "text": "The water turns red, then clear. Fury burns in your arms for the next fight.",
+              "hpCost": 0.15,
+              "boon": "fury"
+            }
+          ]
+        },
+        {
+          "id": "walk",
+          "label": "Walk on",
+          "detail": "Leave the shrine in peace.",
+          "outcomes": [
+            {
+              "weight": 1,
+              "text": "You nod to the shrine and keep walking."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "peddler",
+      "name": "A wandering peddler",
+      "icon": "🎒",
+      "text": "A peddler with a pack twice her size waves you over. \"Fair prices, friend. Fairer than the town, anyway.\"",
+      "weight": 3,
+      "options": [
+        {
+          "id": "potions",
+          "label": "Buy 3 potions",
+          "detail": "Half the shop price.",
+          "outcomes": [
+            {
+              "weight": 1,
+              "text": "She counts out three potions and wraps them in a leaf.",
+              "items": {
+                "potion": 3
+              }
+            }
+          ],
+          "costGold": 38
+        },
+        {
+          "id": "ore",
+          "label": "Buy a lump of Iron Ore",
+          "detail": "For the Forge.",
+          "outcomes": [
+            {
+              "weight": 1,
+              "text": "She hands over a heavy lump of ore. \"Found it in a stream. Don't ask which.\"",
+              "materials": {
+                "ore": 1
+              }
+            }
+          ],
+          "costFights": 4
+        },
+        {
+          "id": "pass",
+          "label": "No thanks",
+          "detail": "Keep your gold.",
+          "outcomes": [
+            {
+              "weight": 1,
+              "text": "She shrugs and wanders off, humming."
+            }
+          ],
+          "safe": true
+        }
+      ]
+    },
+    {
+      "id": "egg",
+      "name": "A lost egg",
+      "icon": "🥚",
+      "text": "Under a fern you find a warm egg with no nest in sight. It rocks a little when your dragon sniffs it.",
+      "weight": 0.6,
+      "options": [
+        {
+          "id": "take",
+          "label": "Take it home",
+          "detail": "An egg of {element} for your Hatchery.",
+          "outcomes": [
+            {
+              "weight": 1,
+              "text": "You wrap the egg in your cloak. It will be safe in the Hatchery.",
+              "egg": true
+            }
+          ],
+          "safe": true
+        },
+        {
+          "id": "leave",
+          "label": "Leave it for its mother",
+          "detail": "Your dragon will remember the kindness.",
+          "outcomes": [
+            {
+              "weight": 1,
+              "text": "You tuck the egg deeper under the fern. Your dragon nuzzles your hand.",
+              "bond": 3,
+              "temper": "gentle"
+            }
+          ]
+        }
+      ],
+      "minLevel": 5
+    },
+    {
+      "id": "ambush",
+      "name": "An ambush",
+      "icon": "⚔",
+      "text": "Branches snap on both sides of the path. Two shapes step out to block your way.",
+      "weight": 2.5,
+      "options": [
+        {
+          "id": "fight",
+          "label": "Stand and fight",
+          "detail": "A fight against two at once, for much better rewards.",
+          "outcomes": [
+            {
+              "weight": 1,
+              "text": "You plant your feet. Here they come!",
+              "fight": {
+                "kind": "ambush",
+                "bonus": 1.75
+              }
+            }
+          ]
+        },
+        {
+          "id": "slip",
+          "label": "Slip away",
+          "detail": "No fight, no reward.",
+          "outcomes": [
+            {
+              "weight": 1,
+              "text": "You duck into the brush and lose them. Close call."
+            }
+          ],
+          "safe": true
+        }
+      ]
+    },
+    {
+      "id": "fork",
+      "name": "A fork in the path",
+      "icon": "🪧",
+      "text": "The path splits. One way is a quiet trail. The other is choked with brambles, and something big has been through it.",
+      "weight": 3,
+      "options": [
+        {
+          "id": "quiet",
+          "label": "Take the quiet trail",
+          "detail": "Nothing changes.",
+          "outcomes": [
+            {
+              "weight": 1,
+              "text": "The quiet trail is quiet. Birds, mostly."
+            }
+          ],
+          "safe": true
+        },
+        {
+          "id": "bramble",
+          "label": "Push through the brambles",
+          "detail": "An extra fight against a champion, for better loot.",
+          "outcomes": [
+            {
+              "weight": 1,
+              "text": "Thorns tug at your sleeves. Up ahead, a champion turns to face you.",
+              "fight": {
+                "kind": "champion",
+                "bonus": 1.25
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wander",
+      "name": "Your dragon wanders off",
+      "icon": "🐾",
+      "text": "{dragon} catches a scent and pads off the path, nose to the ground, tail swishing.",
+      "weight": 2.5,
+      "options": [
+        {
+          "id": "follow",
+          "label": "Let it explore",
+          "detail": "It might find something. Your dragon grows bolder.",
+          "outcomes": [
+            {
+              "weight": 1,
+              "text": "{dragon} comes back with a shiny lump in its mouth, very proud of itself.",
+              "materials": {
+                "ore": 1
+              },
+              "temper": "bold"
+            },
+            {
+              "weight": 2,
+              "text": "{dragon} digs up a little pouch of coins someone lost.",
+              "goldFights": 2,
+              "temper": "bold"
+            }
+          ],
+          "safe": true
+        },
+        {
+          "id": "call",
+          "label": "Call it back",
+          "detail": "It comes running. Your bond grows.",
+          "outcomes": [
+            {
+              "weight": 1,
+              "text": "{dragon} trots back and leans against you.",
+              "bond": 3,
+              "temper": "gentle"
+            }
+          ]
+        }
+      ],
+      "needsDragon": true
+    },
+    {
+      "id": "campfire",
+      "name": "An old campfire",
+      "icon": "🔥",
+      "text": "Someone left a fire burning low in a ring of stones, and a pack beside it.",
+      "weight": 3,
+      "options": [
+        {
+          "id": "rest",
+          "label": "Warm up and check the pack",
+          "detail": "A short rest and whatever was left behind.",
+          "outcomes": [
+            {
+              "weight": 1,
+              "text": "You warm your hands. In the pack: a potion, still corked.",
+              "items": {
+                "potion": 1
+              }
+            }
+          ],
+          "safe": true
+        }
+      ]
+    },
+    {
+      "id": "stream",
+      "name": "A glittering stream",
+      "icon": "✨",
+      "text": "Something flashes in the shallows of a little stream.",
+      "weight": 2,
+      "options": [
+        {
+          "id": "search",
+          "label": "Search the shallows",
+          "detail": "Free coins.",
+          "outcomes": [
+            {
+              "weight": 1,
+              "text": "You fish out a handful of old coins.",
+              "goldFights": 2
+            }
+          ],
+          "safe": true
+        }
+      ]
+    },
+    {
+      "id": "traveler",
+      "name": "A traveling keeper",
+      "icon": "🧭",
+      "text": "An old keeper rests by the road with a dragon asleep at her feet. She shares a snack and some advice.",
+      "weight": 2,
+      "options": [
+        {
+          "id": "listen",
+          "label": "Listen",
+          "detail": "A treat for your dragon and a closer bond.",
+          "outcomes": [
+            {
+              "weight": 1,
+              "text": "\"Talk to your dragon more,\" she says. \"They listen.\" She gives you a dragon treat.",
+              "items": {
+                "dragon-treat": 1
+              },
+              "bond": 2
+            }
+          ],
+          "safe": true
+        }
+      ]
+    },
+    {
+      "id": "satchel",
+      "name": "A lost satchel",
+      "icon": "👜",
+      "text": "A torn satchel hangs from a branch. Whoever lost it left in a hurry.",
+      "weight": 1.5,
+      "options": [
+        {
+          "id": "look",
+          "label": "Look inside",
+          "detail": "Supplies someone won't miss.",
+          "outcomes": [
+            {
+              "weight": 1,
+              "text": "Inside: a potion and a lump of Iron Ore.",
+              "items": {
+                "potion": 1
+              },
+              "materials": {
+                "ore": 1
+              }
+            }
+          ],
+          "safe": true
+        }
+      ],
+      "minLevel": 8
+    }
+  ]
+}

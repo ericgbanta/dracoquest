@@ -5,11 +5,20 @@
 import type { Rng } from './rng';
 import { enemyGold, enemyXp } from './progression';
 import type { BattleState, EnemySpawn } from './battle';
-import type { Bonus, DialogueLine, EggSpec, GameData, Materials, QuestData, RareData, SpawnRewards, ZoneData } from './types';
+import type { RunEvent } from './runEvents';
+import type { StatusId, Bonus, DialogueLine, EggSpec, GameData, Materials, QuestData, RareData, SpawnRewards, ZoneData } from './types';
 
 export type FightKind = 'normal' | 'mini' | 'boss' | 'quest' | 'story';
 
-export interface PlannedFight { kind: FightKind; enemies: EnemySpawn[]; intro?: DialogueLine[] }
+export interface PlannedFight {
+  kind: FightKind;
+  enemies: EnemySpawn[];
+  intro?: DialogueLine[];
+  /** A fight a run event added (VARIETY_PLAN V1): its XP and gold are multiplied by `bonus`. */
+  bonus?: number;
+  /** The event that added it. */
+  event?: string;
+}
 
 export interface RunState {
   zoneId: string;
@@ -22,6 +31,10 @@ export interface RunState {
   /** Set for a story quest run. */
   storyId?: string;
   totals: { xp: number; gold: number; drops: Record<string, number> };
+  /** A run event waiting between fights (save v14). */
+  event?: RunEvent | null;
+  /** A status the rider starts the next fight with, from an event. */
+  boon?: StatusId | null;
 }
 
 export interface Rewards {
@@ -84,7 +97,7 @@ export function bossUnlocked(zone: ZoneData, riderLevel: number): boolean {
   return riderLevel >= zone.boss.unlockRiderLevel;
 }
 
-const clampLevel = (zone: ZoneData, level: number) => Math.max(zone.minLevel, Math.min(zone.maxLevel, level));
+export const clampLevel = (zone: ZoneData, level: number) => Math.max(zone.minLevel, Math.min(zone.maxLevel, level));
 
 /** One or two different champion traits, picked at random. */
 export function rollTraits(data: GameData, rng: Rng): string[] {

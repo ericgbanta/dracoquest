@@ -523,6 +523,58 @@ export interface ChampionsData {
   rares: RareData[];
 }
 
+/** One possible result of an event option (VARIETY_PLAN V1). */
+export interface EventOutcome {
+  weight: number;
+  /** Shown after the choice. {zone}, {dragon} and {element} fill in. */
+  text: string;
+  /** Gold worth this many regular enemies at the rider's level. */
+  goldFights?: number;
+  items?: Record<string, number>;
+  /** Random items from a list. */
+  itemPick?: { from: string[]; count: number };
+  materials?: Materials;
+  embers?: number;
+  /** A share of max HP and MP restored for the rider and every partner dragon. */
+  heal?: number;
+  /** A share of the rider's max HP lost (never below 1 HP). */
+  hpCost?: number;
+  /** The rider starts the next fight with this status. */
+  boon?: StatusId;
+  /** An extra fight next: an ambush pair, a mimic, or a champion. `bonus` multiplies its XP and gold. */
+  fight?: { kind: 'ambush' | 'mimic' | 'champion'; bonus: number };
+  /** An egg of the zone's element. */
+  egg?: boolean;
+  temper?: TemperamentId;
+  bond?: number;
+}
+
+export interface EventOption {
+  id: string;
+  label: string;
+  detail: string;
+  outcomes: EventOutcome[];
+  /** The auto-battler takes the first safe option. */
+  safe?: boolean;
+  costGold?: number;
+  /** A cost in gold worth this many regular enemies at the rider's level. */
+  costFights?: number;
+}
+
+export interface RunEventData {
+  id: string;
+  name: string;
+  icon: string;
+  text: string;
+  weight: number;
+  options: EventOption[];
+  minLevel?: number;
+  /** Only when the rider has a dragon awake to wander. */
+  needsDragon?: boolean;
+}
+
+export interface RunEventsData { chance: number; temperPoints: number; events: RunEventData[] }
+
 export interface GameData {
   elements: ElementsData;
   combat: CombatData;
@@ -546,6 +598,7 @@ export interface GameData {
   bounties: BountiesData;
   regions: RegionsData;
   champions: ChampionsData;
+  runEvents: RunEventsData;
 }
 
 // ---- Persistent character state (lives in the save) ----

@@ -14,7 +14,7 @@ import { newRoost, type RoostState } from './roost';
 import { defaultLoadout } from './spells';
 import type { DragonState, EggSpec, ElementId, RiderState } from './types';
 
-export const CURRENT_VERSION = 13;
+export const CURRENT_VERSION = 14;
 export const SAVE_KEY = 'dracoquest.save';
 const CODE_PREFIX = 'DQ1:'; // Code format, not save version. The save inside carries its own version.
 
@@ -205,6 +205,8 @@ export const MIGRATIONS: Record<number, Migration> = {
   11: (save) => ({ ...save, rider: { ...((save.rider ?? {}) as Record<string, unknown>), spellPlus: {} } }),
   // v12 → v13 (variety plan V2): a count of each zone rare met and beaten. Champions need no save field.
   12: (save) => ({ ...save, rares: {} }),
+  // v13 → v14 (variety plan V1): a run can hold an event between fights and a boon for the next fight.
+  13: (save) => (isObject(save.run) ? { ...save, run: { ...save.run, event: null, boon: null } } : save),
 };
 
 export function newSave(now: number): SaveData {
@@ -292,6 +294,7 @@ export function validateSave(raw: Record<string, unknown>): SaveData {
   if (!isObject(raw.bestiary)) fail('bestiary missing');
   if (!isObject(raw.rares)) fail('rares missing');
   if (raw.run !== null && !isObject(raw.run)) fail('run damaged');
+  if (isObject(raw.run) && raw.run.event != null && (!isObject(raw.run.event) || typeof raw.run.event.id !== 'string' || typeof raw.run.event.seed !== 'number')) fail('run event damaged');
   if (!Array.isArray(raw.bossesDefeated)) fail('bosses missing');
   if (!Array.isArray(raw.eggs) || !Array.isArray(raw.questsDone)) fail('eggs or quests missing');
   if (typeof raw.embers !== 'number' || !isObject(raw.roost) || !isObject(raw.careStreak)) fail('roost missing');

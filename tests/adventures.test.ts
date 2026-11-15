@@ -1,10 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import { gameData } from '../src/core/data';
-import { autoOrders } from '../src/core/ai';
+import { autoOrders, eventChoice } from '../src/core/ai';
+import { riderMaxHp } from '../src/core/characters';
 import {
   bountiesForDay, bountyBoard, bountyKey, countBounties, planStory, storiesFor, storyById, storyProgress, storyStatus,
 } from '../src/core/adventures';
-import { chooseStory, claimBounty, GameError, playRound, startFight, startRun, startStory, type FightReport } from '../src/core/game';
+import { chooseEvent, chooseStory, claimBounty, GameError, playRound, startFight, startRun, startStory, type FightReport } from '../src/core/game';
 import { CURRENT_VERSION, parseSave, type BountyState, type SaveData } from '../src/core/save';
 import { createBattle } from '../src/core/battle';
 import fixtureV8 from './fixtures/save-v8.json';
@@ -21,7 +22,8 @@ function keeper(): SaveData {
 function playOut(s: SaveData): { save: SaveData; report: FightReport | null; reports: FightReport[] } {
   const reports: FightReport[] = [];
   for (let i = 0; i < 400 && s.run; i++) {
-    if (!s.run.battle) s = startFight(data, s);
+    if (s.run.event && !s.run.event.chosen) s = chooseEvent(data, s, eventChoice(data, s.run.event, s.rider, riderMaxHp(data, s.rider))).save;
+    if (!s.run!.battle) s = startFight(data, s);
     const r = playRound(data, s, autoOrders(data, s.run!.battle!));
     s = r.save;
     if (r.report) {

@@ -149,6 +149,8 @@ export interface EnemySpawn {
   traits?: string[];
   /** A zone's named rare, built on this enemy. */
   rare?: string;
+  /** Use this enemy's stats with the spawn's art and moves (an event mimic borrows a zone enemy's stats). */
+  statsFrom?: string;
 }
 
 export interface BattleSetup {
@@ -163,6 +165,8 @@ export interface BattleSetup {
   second?: DragonState | null;
   /** Third dragon partner (rider level 60+), if any. */
   third?: DragonState | null;
+  /** A status the rider starts with (a run event's boon). */
+  boon?: StatusId | null;
 }
 
 // ---------- Setup ----------
@@ -219,12 +223,13 @@ export function spawnTraits(data: GameData, spawn: Pick<EnemySpawn, 'traits' | '
   return spawn.traits ?? [];
 }
 
-export function enemyFighter(data: GameData, e: EnemyData, level: number, index: number, spawn: Pick<EnemySpawn, 'traits' | 'rare'> = {}): Fighter {
+export function enemyFighter(data: GameData, e: EnemyData, level: number, index: number, spawn: Pick<EnemySpawn, 'traits' | 'rare' | 'statsFrom'> = {}): Fighter {
   const rare = spawn.rare ? data.champions.rares.find((r) => r.id === spawn.rare) : undefined;
+  const statsOf = (spawn.statsFrom && data.enemies[spawn.statsFrom]) || e;
   const traits = spawnTraits(data, spawn);
   // Stat multipliers: the champion or rare base, then each trait's.
   const mults = [traits.length ? (rare ? data.champions.rare.stats : data.champions.champion.stats) : {}, ...traits.map((t) => data.champions.traits[t]?.stats ?? {})];
-  const at = (k: keyof EnemyData['base']) => mults.reduce((v, m) => v * (m[k] ?? 1), e.base[k] + e.perLevel[k] * (level - 1));
+  const at = (k: keyof EnemyData['base']) => mults.reduce((v, m) => v * (m[k] ?? 1), statsOf.base[k] + statsOf.perLevel[k] * (level - 1));
   const hp = Math.round(at('hp'));
   const prefix = traits.length && !rare ? `${data.champions.traits[traits[0]!]?.name ?? ''} ` : '';
   const f: Fighter = {
@@ -307,6 +312,7 @@ export function createBattle(data: GameData, setup: BattleSetup): BattleState {
   if (two) state.second = partner(two, 'dragon2');
   const three = setup.third && setup.third.hp > 0 ? setup.third : null;
   if (three) state.third = partner(three, 'dragon3');
+  if (setup.boon) addStatus(data, state.rider, setup.boon, []);
   chooseIntents(data, state, rng);
   state.rngState = rng.getState();
   return state;

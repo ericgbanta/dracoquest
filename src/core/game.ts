@@ -20,6 +20,7 @@ import { DRAGON_SLOTS } from './types';
 import { activeEvent, eventKey, eventOnlyIds } from './events';
 import { breedEgg, newEgg, plainEgg, releaseValue, rollVariant, zoneEgg } from './eggs';
 import { learnSpells, setLoadout, SpellError, upgradeSpell } from './spells';
+import { eventById, optionCost, resolveOption, rollEvent, type EventResult } from './runEvents';
 import { addMaterials, craftGear, ForgeError, upgradeGear } from './forge';
 import {
   bountiesForDay, bountyBoard, bountyDone, bountyKey, countBounties, grantReward, planStory, rewardRider, storyById, storyStatus,
@@ -284,6 +285,7 @@ export function startFight(data: GameData, save: SaveData, opts: { ride?: boolea
   if (!run) throw new GameError('No run in progress');
   const plan = run.fights[run.index];
   if (!plan) throw new GameError('The run is over');
+  if (run.event && !run.event.chosen) throw new GameError('Choose what to do first');
   const r = withRng(save, (rng) => rng.int(0, 0xffffffff));
   const battle = createBattle(data, {
     rider: save.rider,
@@ -294,8 +296,10 @@ export function startFight(data: GameData, save: SaveData, opts: { ride?: boolea
     seed: r.value,
     canFlee: plan.kind !== 'boss',
     ride: !!opts.ride && canRide(data, save),
+    boon: run.boon ?? null,
   });
-  return { ...r.save, run: { ...run, battle } };
+  // The event is over and its boon is spent once the fight starts.
+  return { ...r.save, run: { ...run, battle, event: null, boon: null } };
 }
 
 export interface FightReport {
@@ -313,6 +317,8 @@ export interface FightReport {
   embers?: number;
   /** Set when this fight finished a story quest. */
   story?: { id: string; name: string; reward: StoryReward };
+  /** The XP and gold multiplier of a fight a run event added. */
+  bonus?: number;
   /** How many champions were in the fight. */
   champions?: number;
   /** The zone's rare, if it was in the fight; `first` when it had never been beaten before. */
@@ -371,6 +377,7 @@ function finishFight(data: GameData, save: SaveData): { save: SaveData; report: 
     outcome, kind: plan.kind, rewards: null, riderLevelsGained: 0, dragonLevelsGained: 0,
     bondGained: 0, runComplete: false, wellKept: false,
   };
+  if (plan.bonus) report.bonus = plan.bonus;
   const champions = battle.enemies.filter((f) => f.traits?.length && !f.rare).length;
   if (champions) report.champions = champions;
   const rare = battle.enemies.find((f) => f.rare);
@@ -381,6 +388,11 @@ function finishFight(data: GameData, save: SaveData): { save: SaveData; report: 
     const xpBonus = wellKept ? data.care.wellKept.xpBonus : 0;
     const r = withRng(next, (rng) => {
       const rewards = rollRewards(data, run.zoneId, battle, rng, xpBonus, dragon ? dragonBonus(data, dragon) : {});
+      // A fight a run event added pays more.
+      if (plan.bonus) {
+        rewards.xp = Math.round(rewards.xp * plan.bonus);
+        rewards.gold = Math.round(rewards.gold * plan.bonus);
+      }
       // Gear: trophies from bosses and mini-boss, zone drops from regular fights. Quests drop none.
       const foe = plan.enemies[0]?.enemyId;
       const firstKill = !!foe && (save.bestiary[foe]?.defeated ?? 0) === 0;
@@ -486,6 +498,13 @@ function finishFight(data: GameData, save: SaveData): { save: SaveData; report: 
         ? [...next.bossesDefeated, run.zoneId] : next.bossesDefeated,
     };
     next = { ...next, bounties: countBounties(data, next.bounties, run.zoneId, battle, complete && !run.storyId && !run.questId) };
+    // A run event may wait before the next fight: hunts only, after a regular fight, never right before the boss.
+    const upcoming = run.fights[index];
+    if (!complete && !run.storyId && !run.questId && plan.kind === 'normal' && upcoming && upcoming.kind !== 'boss') {
+      const awake = !!dragon && dragon.hp > 0;
+      const ev = withRng(next, (rng) => rollEvent(data, rider.level, awake, rng));
+      next = ev.value ? { ...ev.save, run: { ...next.run!, event: ev.value } } : next;
+    }
     if (complete && story) {
       rider = rewardRider(rider, story.reward);
       next = {
@@ -514,6 +533,51 @@ function finishFight(data: GameData, save: SaveData): { save: SaveData; report: 
   if (second) next = replaceDragon(next, second);
   if (third) next = replaceDragon(next, third);
   return { save: next, report };
+}
+
+/** Pick an option at the run event waiting between fights. The result stays on the event until the next fight starts. */
+export function chooseEvent(data: GameData, save: SaveData, optionId: string): { save: SaveData; result: EventResult } {
+  const run = save.run;
+  const event = run?.event;
+  if (!run || !event || run.battle) throw new GameError('There is nothing here to choose');
+  if (event.chosen) throw new GameError('You already chose');
+  const option = eventById(data, event.id)?.options.find((o) => o.id === optionId);
+  if (!option) throw new GameError('There is no such choice');
+  if (save.rider.gold < optionCost(data, option, save.rider.level)) throw new GameError('Not enough gold');
+  const result = resolveOption(data, getZone(data, run.zoneId), save.rider.level, event, optionId);
+
+  let rider = { ...save.rider, gold: save.rider.gold - result.cost + result.gold, inventory: { ...save.rider.inventory } };
+  for (const [id, n] of Object.entries(result.items)) rider.inventory[id] = (rider.inventory[id] ?? 0) + n;
+  if (Object.keys(result.materials).length) rider = addMaterials(rider, result.materials);
+  const maxHp = riderMaxHp(data, rider);
+  if (result.heal) rider = { ...rider, hp: Math.min(maxHp, rider.hp + Math.round(maxHp * result.heal)) };
+  if (result.hpCost) rider = { ...rider, hp: Math.max(1, rider.hp - Math.round(maxHp * result.hpCost)) };
+
+  let next: SaveData = { ...save, rider, embers: save.embers + result.embers };
+  if (result.egg) next = { ...next, eggs: [...next.eggs, result.egg] };
+  if (result.heal) {
+    for (const d of [activeDragon(next), secondDragon(next), thirdDragon(next)]) {
+      if (d) next = replaceDragon(next, { ...d, hp: Math.min(dragonMaxHp(data, d), d.hp + Math.round(dragonMaxHp(data, d) * result.heal)) });
+    }
+  }
+  const lead = activeDragon(next);
+  if (lead && (result.bond || result.temper)) {
+    let d = result.bond ? addBond(data, lead, result.bond) : lead;
+    if (result.temper) d = { ...d, temper: { ...d.temper, [result.temper]: d.temper[result.temper] + data.runEvents.temperPoints } };
+    next = replaceDragon(next, d);
+  }
+  // An extra fight goes in front of the next one.
+  const fights = result.fight ? [...run.fights.slice(0, run.index), result.fight, ...run.fights.slice(run.index)] : run.fights;
+  next = { ...next, run: { ...run, fights, event: { ...event, chosen: optionId, result }, boon: result.boon ?? run.boon ?? null } };
+  return { save: next, result };
+}
+
+/** Put away a finished event without starting the next fight (for the interlude before a boss or a dialogue). */
+export function dismissEvent(save: SaveData): SaveData {
+  const run = save.run;
+  if (!run?.event) return save;
+  if (!run.event.chosen) throw new GameError('Choose what to do first');
+  return { ...save, run: { ...run, event: null } };
 }
 
 /** Leave a run between fights. Everything earned so far is kept. */

@@ -18,6 +18,7 @@ import type { SaveData } from '../../core/save';
 import { DragonSprite, EnemySprite } from '../Sprites';
 import { Bar, ElementBadge, IntentChip, prefersReducedMotion, StatusChips, vibrate } from '../bits';
 import { BattleStage } from '../stage/BattleStage';
+import { EventScene } from './RunEvent';
 import { direct } from '../stage/director';
 import { Sheet } from '../Sheet';
 import { play } from '../sound';
@@ -99,12 +100,13 @@ export function Battle({ save, update, onExit }: Props) {
     if (report) {
       const onNext = () => {
         const next = run?.fights[run.index];
-        // Bosses (Ride mode choice) and quest fights (dialogue) go through the interlude first.
-        if (next && (next.kind === 'boss' || next.intro?.length)) setReport(null);
+        // A run event comes first; bosses (Ride mode choice) and quest fights (dialogue) go through the interlude.
+        if (run?.event || (next && (next.kind === 'boss' || next.intro?.length))) setReport(null);
         else { update((s) => startFight(data, s)); setReport(null); }
       };
       return <Results save={save} report={report} update={update} onExit={onExit} onNext={onNext} />;
     }
+    if (run?.event) return <EventScene save={save} update={update} onExit={onExit} />;
     if (run) return <Interlude save={save} update={update} onExit={onExit} />;
     return null;
   }
@@ -722,6 +724,9 @@ function Results({ save, report, update, onExit, onNext }: {
           ★ You beat {report.rare.name}{report.rare.first ? ' for the first time' : ''}! Rare rewards: more XP and gold, +{r?.embers ?? 0} embers and supplies.
         </p>
       )}
+      {report.bonus && report.outcome === 'won' ? (
+        <p class="notice notice--ok" data-testid="event-bonus">Extra fight bonus: ×{report.bonus} XP and gold.</p>
+      ) : null}
       {report.champions && report.outcome === 'won' && !report.rare ? (
         <p class="notice notice--ok" data-testid="champion-reward">Champion bonus: more XP, gold and a better chance at loot.</p>
       ) : null}

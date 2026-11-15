@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import { gameData as data } from '../src/core/data';
 import {
-  activeDragon, chooseEgg, eggReady, feedDragon, GameError, groomDragon, hatchEgg, leaveRun, playRound,
+  activeDragon, chooseEgg, chooseEvent, eggReady, feedDragon, GameError, groomDragon, hatchEgg, leaveRun, playRound,
   rest, spendDragonPoint, spendRiderPoint, startFight, startRun, warmEgg,
 } from '../src/core/game';
-import { autoOrders } from '../src/core/ai';
+import { autoOrders, eventChoice } from '../src/core/ai';
 import { newSave, type SaveData } from '../src/core/save';
 import { planRun } from '../src/core/run';
 import { createRng } from '../src/core/rng';
@@ -149,6 +149,7 @@ describe('zone runs', () => {
         wins++;
         expect(r.report.rewards!.xp).toBeGreaterThan(0);
         if (r.report.runComplete) { complete = true; break; }
+        if (s.run!.event) s = chooseEvent(data, s, eventChoice(data, s.run!.event, s.rider, riderMaxHp(data, s.rider))).save;
         s = startFight(data, s);
       }
     }

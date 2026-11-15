@@ -11,12 +11,12 @@
  */
 import { gameData as data } from '../src/core/data';
 import { createRng } from '../src/core/rng';
-import { autoOrders, suggestedLoadout } from '../src/core/ai';
+import { autoOrders, eventChoice, suggestedLoadout } from '../src/core/ai';
 import {
   activeDragon, buyGear, buyItem, canEquip, canHaveSecond, canRide, chooseEgg, equip, growthStatus, hatchEgg, incubateEgg, learnDragonTalent,
   playRound, rest, secondDragon, setLead, setSecond, spendDragonPoint, spendRiderPoint, startFight, startGrowthQuest, startRun,
   takeHatchedEgg, upgradeBuilding, warmEgg, zoneLock,
-  setSpells, forgeUpgrade, startStory, claimBounty, chooseStory,
+  setSpells, forgeUpgrade, startStory, claimBounty, chooseStory, chooseEvent,
 } from '../src/core/game';
 import { bountyBoard, storyStatus } from '../src/core/adventures';
 import type { StoryData } from '../src/core/types';
@@ -167,12 +167,14 @@ interface RunStats {
   won: boolean; fights: number; fightsWon: number; rounds: number; bossFought: boolean; bossWon: boolean; xp: number; gold: number;
   /** Fights with a champion or a rare in them (VARIETY_PLAN V2), and how many were won. */
   champFights: number; champWon: number; rareFights: number; rareWon: number;
+  /** Run events met (VARIETY_PLAN V1). */
+  events: number;
 }
 
 function playRun(save: SaveData, start: (s: SaveData) => SaveData): { save: SaveData; stats: RunStats } {
   let s = start(save);
   if (s.run && !s.run.battle) s = startFight(data, s, { ride: canRide(data, s) });
-  const stats: RunStats = { won: false, fights: 0, fightsWon: 0, rounds: 0, bossFought: false, bossWon: false, xp: 0, gold: 0, champFights: 0, champWon: 0, rareFights: 0, rareWon: 0 };
+  const stats: RunStats = { won: false, fights: 0, fightsWon: 0, rounds: 0, bossFought: false, bossWon: false, xp: 0, gold: 0, champFights: 0, champWon: 0, rareFights: 0, rareWon: 0, events: 0 };
   for (let guard = 0; guard < 600; guard++) {
     const battle = s.run?.battle;
     if (!battle) break;
@@ -192,6 +194,12 @@ function playRun(save: SaveData, start: (s: SaveData) => SaveData): { save: Save
         stats.gold += r.report.rewards?.gold ?? 0;
         if (boss) stats.bossWon = true;
         if (r.report.runComplete) { stats.won = true; break; }
+        // A run event: take the safe option, the way the auto-battler plays.
+        const ev = s.run?.event;
+        if (ev) {
+          stats.events++;
+          s = chooseEvent(data, s, eventChoice(data, ev, s.rider, riderMaxHp(data, s.rider))).save;
+        }
         s = startFight(data, s, { ride: canRide(data, s) });
       } else break;
     }
@@ -212,7 +220,7 @@ if (!SKIP_LEVELS) {
       console.log('Lvl  Stage      Run win  Fight win  Rounds/fight  Boss win  XP/fight  Gold/fight  Fights/level');
       let totalWins = 0;
       let totalRuns = 0;
-      let champFights = 0, champWon = 0, rareFights = 0, rareWon = 0;
+      let champFights = 0, champWon = 0, rareFights = 0, rareWon = 0, events = 0, allFightsWon = 0;
       for (let level = zone.minLevel; level <= zone.maxLevel; level++) {
         const rng = createRng(SEED * 1000 + level);
         let wins = 0, fights = 0, fightsWon = 0, rounds = 0, bossFought = 0, bossWon = 0, xp = 0, gold = 0;
@@ -223,6 +231,7 @@ if (!SKIP_LEVELS) {
           wins += stats.won ? 1 : 0;
           fights += stats.fights;
           fightsWon += stats.fightsWon;
+          allFightsWon += stats.fightsWon;
           rounds += stats.rounds;
           bossFought += stats.bossFought ? 1 : 0;
           bossWon += stats.bossWon ? 1 : 0;
@@ -232,6 +241,7 @@ if (!SKIP_LEVELS) {
           champWon += stats.champWon;
           rareFights += stats.rareFights;
           rareWon += stats.rareWon;
+          events += stats.events;
         }
         if (fights === 0) {
           console.log(`${pad(level, 3)}  ${stageFor(level).padEnd(9)}  locked`);
@@ -245,7 +255,7 @@ if (!SKIP_LEVELS) {
           `${pad(level, 3)}  ${stageFor(level).padEnd(9)}  ${pad(pct(wins, RUNS), 7)}  ${pad(pct(fightsWon, fights), 9)}  ${pad((rounds / fights).toFixed(1), 12)}  ${pad(pct(bossWon, bossFought), 8)}  ${pad(xpPerFight.toFixed(0), 8)}  ${pad((gold / Math.max(1, fightsWon)).toFixed(0), 10)}  ${pad(fpl.toFixed(1), 12)}`,
         );
       }
-      console.log(`All on-level runs: ${pct(totalWins, totalRuns)} won. Champion fights: ${pct(champWon, champFights)} won of ${champFights}. Rare fights: ${pct(rareWon, rareFights)} won of ${rareFights}.`);
+      console.log(`All on-level runs: ${pct(totalWins, totalRuns)} won. Champion fights: ${pct(champWon, champFights)} won of ${champFights}. Rare fights: ${pct(rareWon, rareFights)} won of ${rareFights}. Events: ${pct(events, allFightsWon)} of fights won.`);
     }
   }
 }
