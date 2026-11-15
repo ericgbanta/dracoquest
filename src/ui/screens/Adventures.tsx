@@ -131,16 +131,19 @@ export function LogSheet({ zone, save, update, onClose }: Omit<Props, 'today'>) 
                   {next ? ` · Next: ${next.count} for ${rewardText(next.reward)}` : ' · All done'}
                 </span>
               </div>
-              <button type="button" class="button" disabled={!ready} data-testid={`log-claim-${e.enemyId}`}
-                onClick={() => {
-                  if (!ready) return;
-                  try {
-                    const after = claimLogGoal(data, save, zone.id, e.enemyId, ready.count);
-                    update(() => after);
-                    const t = zoneTitle(data, after, zone);
-                    setNotice(`${enemy.name} x${ready.count}: ${rewardText(ready.reward)}.${t ? ` You are now ${t}!` : ''}`);
-                  } catch (err) { setNotice(err instanceof GameError ? err.message : 'That did not work.'); }
-                }}>{ready ? 'Claim' : claimed === e.goals.length ? 'Done' : 'Claim'}</button>
+              {ready ? (
+                <button type="button" class="button" data-testid={`log-claim-${e.enemyId}`}
+                  onClick={() => {
+                    try {
+                      const after = claimLogGoal(data, save, zone.id, e.enemyId, ready.count);
+                      update(() => after);
+                      const t = zoneTitle(data, after, zone);
+                      setNotice(`${enemy.name} x${ready.count}: ${rewardText(ready.reward)}.${t ? ` You are now ${t}!` : ''}`);
+                    } catch (err) { setNotice(err instanceof GameError ? err.message : 'That did not work.'); }
+                  }}>Claim</button>
+              ) : (
+                <span class="log-count" data-testid={`log-count-${e.enemyId}`}>{next ? `${e.defeated}/${next.count}` : 'Done'}</span>
+              )}
             </div>
           );
         })}

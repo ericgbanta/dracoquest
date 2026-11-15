@@ -600,3 +600,4 @@ p, p.muted, .notice, .lead, li { font-size: max(1rem, 16px); }
 /* Four zone buttons (Story, Bounties, Loot, Log) as a 2 x 2 grid (VARIETY_PLAN V4). */
 .adventure-buttons--four { display: grid; grid-template-columns: 1fr 1fr; }
 .adventure-buttons--four .button { padding-left: 6px; padding-right: 6px; }
+.log-count { font-weight: 800; color: var(--muted); min-width: 64px; text-align: right; }
