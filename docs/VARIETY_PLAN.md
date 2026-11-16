@@ -1,6 +1,6 @@
 # Variety plan: less sameness when grinding
 
-Written 2026-11-13 at Eric's request. Status (2026-11-15): V1 to V7 are built and live. Only V8 (a new low-level area) and V9 (faster early levels) are left. See "Built" at the end for what was made and the calls behind it.
+Written 2026-11-13 at Eric's request. Status (2026-11-16): V1 to V8 are built and live. Only V9 (faster early levels) is left, as a supplement if the early levels still drag. See "Built" at the end for what was made and the calls behind it.
 
 Eric's answers (2026-11-14): V2 first, then V1. Champions and rares get a color tint plus a gold ring, and rares are drawn bigger; no new Codex art. Champions are a little harder with better loot, something to welcome rather than flee. Rares are tougher but winnable on level. Events may carry risk (a mimic, an ambush), but the risky choice is always optional or pays well.
 
@@ -273,4 +273,17 @@ Data: `src/data/echo.json`. Logic: `planEcho` in `run.ts`, `echoOpen` and `start
 Balance after V4 to V6: on-level hunts are unchanged (every zone 76.4 to 84.1 percent, as after V3 and V7). Campaigns reach level 100 in 100 of 100 runs per starter, finish all 113 stories and win 93.3 to 94.4 percent of runs, in about 1,600 fights (about 30 fewer than before, from the new stories' XP).
 
 Calls made without Eric: echoes open 1 level past the top; an echo always ends with the boss (normal boss drops, eggs at the repeat chance); story quests are not echoed.
+
+### V8: Sunpetal Meadow (2026-11-16)
+
+Eric's answers: a sunny meadow with Storm and Verdant; the name is mine to pick; a painted landmark on the map (6 generations instead of 5); deploy when tested.
+
+- **The area.** Sunpetal Meadow, Storm and Verdant, levels 3 to 12, in The Wilds right after Mossy Hollow. It opens at rider level 3 once Mossy Hollow's mini-boss, the Elder Thornling, is beaten (or its boss, for saves that never logged the mini-boss), so levels 3 to 5 have two places to hunt. Zones can now open after a mini-boss (`unlock.afterMini`).
+- **Creatures.** Buzzbee (Storm), Dandelion Hare, Clover Sprite (Verdant), Static Lamb (Storm), Hay Golem (Verdant); the Queen Buzzbee (Storm) is the mini-boss and Thunderhoof, a storm ram, is the boss (shifts to Verdant). Thunderhoof drops Storm eggs (always the first time, then 10 percent); Storm eggs otherwise first come from Thunderspire at 18. The rare is Old Strawhat, a Hay Golem.
+- **The rest.** The Sunpetal set (level 5 weapons, a level 7 trinket from the Queen, a level 11 coat from Thunderhoof; 2 pieces +12 HP, 3 pieces +2 Agility and +3 percent crit), a five-quest story with Beekeeper Tilly and Farmer Bram (choices in the second and fourth), a bounty board of 8, and the hunter's log, champions, events, conditions and echo runs like every zone.
+- **Map.** A pin on the open hills between Mossy Hollow and the town, and a painted beehive landmark under it. Region maps can now draw landmarks (`map.stickers` in `regions.json`: a backdrop key, a center and a width as fractions).
+- **Art.** 6 Codex generations (`tools/art/painted/jobs18.py`), all usable first try: the backdrop, Thunderhoof, the sheet of six, their two attack versions, and the landmark, which used the Wilds map as its second reference so it matches the map's style.
+- **Balance.** Stats copied from Mossy Hollow's and Saltmarsh Shore's enemies (`tools/content/v8_meadow.py`), then tuned with the sim: base HP and attack +10 percent (which toughens the low levels most), the Storm enemies' attack about 13 percent lower and the Verdant ones a little tougher, and the mix shifted toward the Verdant creatures. Tide was the problem: four of the seven creatures are Storm, which beats Tide, so Tide trailed the others by about 16 points until the mix changed. Final on-level rates: Fire 82.8, Tide 71.7, Verdant 85.1 (average 79.9). Levels 3 to 5 sit around 81 to 93, friendly for a new player's second area. Its echo runs needed a factor of 0.94 (`echo.json` `zones`) and now average about 79 percent. With the meadow in, campaigns reach level 100 in 100 of 100 runs per starter, finish all 118 stories and win 93.2 to 94.5 percent of runs; levels 3 to 5 take 8 to 9 fights each (8 to 11 before).
+
+Calls made without Eric: every name (area, creatures, mini-boss, boss, rare, NPCs, set pieces) and all the writing; no shop line (the early shop already sells Storm and Verdant weapons) and no Forge recipe (the Forge comes much later); Storm eggs only from the boss, so the town's Verdant egg stays the one early Verdant egg.
 

@@ -93,4 +93,6 @@ The Behemoth's tail points left and low, so its tips sit just inside the leftmos
 
 Variety plan V7 (2026-11-15): `jobs17.py` made three more enemies for each of Mossy Hollow, Saltmarsh Shore, Whispering Fen and Cinder Pass: a sheet of three in one row per zone, then its attack sheet with the idle sheet as the second reference. 8 generations, all usable first try. `pack.py` packs `sheet-<zone>-more` with the ids in the zone's `more` list in `zones.json`. Check new cutouts for trapped key green (the Puddle Newt and the Soot Mole's attack pose each had a small pocket, painted outline navy).
 
+Variety plan V8 (2026-11-16): `jobs18.py` made Sunpetal Meadow (backdrop, Thunderhoof, the sheet of six and both attack versions) and the first **map landmark**, a beehive on a flowery hill. The landmark prompt attaches the region's map (`refs/map-wilds.png`, the map WebP saved as PNG) as the second reference so it matches the map's style and scale. `pack.py` doesn't pack landmarks: cut it with `pack.py`'s `key()` and `crop()`, resize to 320 wide, and save to `src/art/painted/maps/landmark-<zone>.webp`, then add a backdrop `landmark-<zone>` to `assets.json` and a sticker to the region's map in `regions.json`. 6 generations, all usable first try.
+
 Not made yet: hurt or defeat poses, painted crack lines for the egg, cosmetics.
