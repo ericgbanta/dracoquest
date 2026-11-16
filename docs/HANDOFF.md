@@ -11,7 +11,8 @@ A ready-to-paste prompt for a new session is in `docs/NEXT_PROMPT.md`.
 3. `docs/VARIETY_PLAN.md` (2026-11-13): more variety for grinding. V1 to V8 are built (its "Built" section has the details); only V9 is left. `docs/WORLD_PLAN.md`: the world expansion plan, finished.
    `docs/DRAGONS_PLAN.md` (2026-11-13): more elements, dragon breeds, breeding, a bigger roster, rare variants and two new maps for levels 30 to 100, phases E0 to E12 interleaved with W5 to W9. Approved with all names decided (2026-11-13); E0 is next.
 4. `docs/ART_GENERATION.md` before making any art (Codex CLI on Eric's subscription), and `docs/ART_STYLE.md` for the rules a finished image must meet.
-5. `docs/DESIGN.md` for the original game design and its Decisions table (still settled). `docs/GRAPHICS_PLAN.md` and `docs/GRAPHICS_PLAN_2.md` are history for the battle stage and the painted art.
+5. `docs/LOOKS_PLAN.md` (2026-11-16): rider colors and painted gear icons, phases L0 to L2, plus two ideas written down for later (outfits, weapons on the stage). A plan only; nothing built. Eric asked for it and has six questions to answer in it.
+6. `docs/DESIGN.md` for the original game design and its Decisions table (still settled). `docs/GRAPHICS_PLAN.md` and `docs/GRAPHICS_PLAN_2.md` are history for the battle stage and the painted art.
 
 ## The game in one paragraph
 
@@ -113,6 +114,10 @@ Lessons from building above level 50 (useful if the cap ever goes past 100):
 ### Next: the variety plan (`docs/VARIETY_PLAN.md`)
 
 Eric grinds and revisits the first area and asked for research on making it less samey. V1 to V8 are built and live. Left: V9 (faster early levels, balance only), a supplement if the first levels still drag. Ask Eric after he has played the new early game.
+
+### Also planned: looks (`docs/LOOKS_PLAN.md`)
+
+Eric asked for options to take the game further (2026-11-16) and picked two to plan: choosing the rider's colors, and a painted icon for every gear piece. A test showed the existing rider art recolors without new generations except for the hair, which needs a pack-time fix (`tools/art/painted/rider_rekey_test.py`, result in `docs/img/rider-recolor-test.jpg`). L0 and L1 need no Codex; L2 needs 4 to 6 generations. The other six options he was shown (dragon cosmetics, rider skills by weapon, endgame at 100, a collection book, share codes between friends, battle polish) are not planned.
 
 ### After that
 
