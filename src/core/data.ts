@@ -191,7 +191,10 @@ export function loadGameData(raw: RawData): GameData {
   }
   for (const z of zones) {
     for (const t of [z.boss.trophy, z.miniBoss.trophy]) if (t && !gear[t.gear]) throw new DataError(`zones.${z.id}: unknown trophy "${t.gear}"`);
-    if (z.unlock && !zones.some((x) => x.id === z.unlock!.afterBoss)) throw new DataError(`zones.${z.id}: unlock names an unknown zone`);
+    if (z.unlock) {
+      const after = z.unlock.afterBoss ?? z.unlock.afterMini;
+      if (!after || (z.unlock.afterBoss && z.unlock.afterMini) || !zones.some((x) => x.id === after)) throw new DataError(`zones.${z.id}: unlock needs one known afterBoss or afterMini zone`);
+    }
     if (z.elements && z.elements[0] !== z.element) throw new DataError(`zones.${z.id}: elements must start with its element`);
     for (const id of z.gearDrops?.gear ?? []) if (!gear[id]) throw new DataError(`zones.${z.id}: unknown gear drop "${id}"`);
   }

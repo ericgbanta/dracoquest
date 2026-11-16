@@ -206,13 +206,17 @@ function stageIndex(data: GameData, stage: string): number {
 /** Why a zone is locked, or null if it's open. */
 export function zoneLock(data: GameData, save: SaveData, zone: ZoneData): string | null {
   if (zone.unlock) {
-    const after = data.zones.find((z) => z.id === zone.unlock!.afterBoss);
-    const boss = after ? data.enemies[after.boss.enemy]?.name : undefined;
+    // An area opens at a rider level once another zone's boss (or, for an early area, its mini-boss) is beaten.
+    const mini = zone.unlock.afterMini;
+    const after = data.zones.find((z) => z.id === (zone.unlock!.afterBoss ?? mini));
+    const foe = after ? data.enemies[mini ? after.miniBoss.enemy : after.boss.enemy]?.name : undefined;
     const needLevel = save.rider.level < zone.unlock.level;
-    const needBoss = !save.bossesDefeated.includes(zone.unlock.afterBoss);
-    if (needLevel && needBoss) return `Opens at rider level ${zone.unlock.level}, after you beat the ${boss}`;
+    const needFoe = mini
+      ? !!after && (save.bestiary[after.miniBoss.enemy]?.defeated ?? 0) === 0 && !save.bossesDefeated.includes(after.id)
+      : !save.bossesDefeated.includes(zone.unlock.afterBoss!);
+    if (needLevel && needFoe) return `Opens at rider level ${zone.unlock.level}, after you beat the ${foe}`;
     if (needLevel) return `Opens at rider level ${zone.unlock.level}`;
-    if (needBoss) return `Opens after you beat the ${boss}`;
+    if (needFoe) return `Opens after you beat the ${foe}`;
   }
   if (!zone.gate) return null;
   const d = activeDragon(save);

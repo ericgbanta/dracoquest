@@ -8,6 +8,7 @@
       "blurb": "Woods, shores and smoking hills close to home.",
       "zones": [
         "mossy-hollow",
+        "sunpetal-meadow",
         "saltmarsh-shore",
         "whispering-fen",
         "cinder-pass"
@@ -34,8 +35,21 @@
           "town": [
             0.57,
             0.49
+          ],
+          "sunpetal-meadow": [
+            0.4,
+            0.66
           ]
-        }
+        },
+        "stickers": [
+          {
+            "zone": "sunpetal-meadow",
+            "art": "landmark-sunpetal-meadow",
+            "x": 0.4,
+            "y": 0.62,
+            "w": 0.2
+          }
+        ]
       }
     },
     {

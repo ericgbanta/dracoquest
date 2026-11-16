@@ -10126,6 +10126,363 @@
           ]
         }
       ]
+    },
+    "enemy.buzzbee": {
+      "size": [
+        400,
+        395
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.93,
+          0.4
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/buzzbee.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/buzzbee-attack.webp",
+              "box": [
+                0.0157,
+                0.044,
+                1.11,
+                0.9566
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.dandelion-hare": {
+      "size": [
+        400,
+        385
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.93,
+          0.4
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/dandelion-hare.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/dandelion-hare-attack.webp",
+              "box": [
+                0.3546,
+                0.0618,
+                1.155,
+                0.9376
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.clover-sprite": {
+      "size": [
+        396,
+        400
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.93,
+          0.4
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/clover-sprite.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/clover-sprite-attack.webp",
+              "box": [
+                0.097,
+                0.0114,
+                1.0975,
+                0.9875
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.static-lamb": {
+      "size": [
+        397,
+        400
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.93,
+          0.4
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/static-lamb.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/static-lamb-attack.webp",
+              "box": [
+                0.0437,
+                0.1689,
+                1.0874,
+                0.83
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.hay-golem": {
+      "size": [
+        357,
+        400
+      ],
+      "boxScale": 0.5,
+      "points": {
+        "mouth": [
+          0.93,
+          0.4
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/hay-golem.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/hay-golem-attack.webp",
+              "box": [
+                0.014,
+                0.0394,
+                1.1854,
+                0.96
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.queen-buzzbee": {
+      "size": [
+        400,
+        388
+      ],
+      "boxScale": 0.65,
+      "points": {
+        "mouth": [
+          0.93,
+          0.4
+        ],
+        "hit": [
+          0.55,
+          0.5
+        ],
+        "front": [
+          0.9,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/queen-buzzbee.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/queen-buzzbee-attack.webp",
+              "box": [
+                0.0619,
+                0.0511,
+                1.0525,
+                0.9494
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enemy.thunderhoof": {
+      "size": [
+        720,
+        494
+      ],
+      "boxScale": 1.0,
+      "points": {
+        "mouth": [
+          0.9,
+          0.3
+        ],
+        "hit": [
+          0.6,
+          0.55
+        ],
+        "front": [
+          0.92,
+          0.6
+        ]
+      },
+      "parts": [
+        {
+          "id": "torso",
+          "pivot": [
+            0.5,
+            1
+          ],
+          "anim": "swell",
+          "parts": [
+            {
+              "id": "body",
+              "file": "painted/enemies/thunderhoof.webp",
+              "pivot": [
+                0.5,
+                0.95
+              ]
+            },
+            {
+              "id": "pose-attack",
+              "file": "painted/enemies/thunderhoof-attack.webp",
+              "box": [
+                -0.0229,
+                0.0264,
+                1.0347,
+                0.9743
+              ]
+            }
+          ]
+        }
+      ]
     }
   },
   "backdrops": {
@@ -10418,6 +10775,24 @@
       "ambient": {
         "kind": "rise",
         "color": "#c9b6ff"
+      }
+    },
+    "landmark-sunpetal-meadow": {
+      "layers": [
+        {
+          "file": "painted/maps/landmark-sunpetal-meadow.webp"
+        }
+      ]
+    },
+    "sunpetal-meadow": {
+      "layers": [
+        {
+          "file": "painted/backdrops/sunpetal-meadow.webp"
+        }
+      ],
+      "ambient": {
+        "kind": "rise",
+        "color": "#fff1a6"
       }
     }
   },

@@ -601,3 +601,6 @@ p, p.muted, .notice, .lead, li { font-size: max(1rem, 16px); }
 .adventure-buttons--four { display: grid; grid-template-columns: 1fr 1fr; }
 .adventure-buttons--four .button { padding-left: 6px; padding-right: 6px; }
 .log-count { font-weight: 800; color: var(--muted); min-width: 64px; text-align: right; }
+
+/* A painted landmark on a region map, under its area's pin (VARIETY_PLAN V8). */
+.map-sticker { position: absolute; transform: translate(-50%, -50%); pointer-events: none; height: auto; }

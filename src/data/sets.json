@@ -28,6 +28,34 @@
     ]
   },
   {
+    "id": "sunpetal",
+    "name": "Sunpetal",
+    "zone": "sunpetal-meadow",
+    "description": "Quick, lucky meadow gear. Full set strikes true more often.",
+    "pieces": [
+      "sunpetal-melee",
+      "sunpetal-ranged",
+      "sunpetal-magic",
+      "sunpetal-armor",
+      "sunpetal-trinket"
+    ],
+    "bonuses": [
+      {
+        "pieces": 2,
+        "bonus": {
+          "riderHp": 12
+        }
+      },
+      {
+        "pieces": 3,
+        "bonus": {
+          "agility": 2,
+          "riderCrit": 0.03
+        }
+      }
+    ]
+  },
+  {
     "id": "brinewalker",
     "name": "Brinewalker",
     "zone": "saltmarsh-shore",

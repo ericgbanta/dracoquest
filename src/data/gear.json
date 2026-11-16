@@ -4391,5 +4391,72 @@
       "vigor": 10
     },
     "description": "Forged from the iron clasp in Ossarion's beard. He said you could have it. He has a spare."
+  },
+  {
+    "id": "sunpetal-melee",
+    "name": "Sunpetal Stinger Blade",
+    "slot": "weapon",
+    "weaponType": "melee",
+    "element": null,
+    "level": 5,
+    "damage": 14,
+    "price": 180,
+    "bonus": {
+      "strength": 1,
+      "agility": 1
+    },
+    "description": "Light and quick, with a little buzz to it."
+  },
+  {
+    "id": "sunpetal-ranged",
+    "name": "Sunpetal Willow Bow",
+    "slot": "weapon",
+    "weaponType": "ranged",
+    "element": null,
+    "level": 5,
+    "damage": 13,
+    "price": 180,
+    "bonus": {
+      "agility": 2
+    },
+    "description": "Strung with spider silk from the hay bales."
+  },
+  {
+    "id": "sunpetal-magic",
+    "name": "Sunpetal Honey Wand",
+    "slot": "weapon",
+    "weaponType": "magic",
+    "element": null,
+    "level": 5,
+    "damage": 13,
+    "price": 180,
+    "bonus": {
+      "arcana": 2
+    },
+    "description": "Slightly sticky. Very magical."
+  },
+  {
+    "id": "sunpetal-armor",
+    "name": "Sunpetal Stormwool Coat",
+    "slot": "armor",
+    "level": 11,
+    "price": 480,
+    "bonus": {
+      "riderDefense": 3,
+      "riderHp": 30
+    },
+    "description": "Woven from Thunderhoof's wool. It still crackles on dry days."
+  },
+  {
+    "id": "sunpetal-trinket",
+    "name": "Sunpetal Royal Honeycomb",
+    "slot": "trinket",
+    "level": 7,
+    "price": 240,
+    "bonus": {
+      "agility": 2,
+      "riderHp": 8
+    },
+    "description": "The Queen Buzzbee's best honeycomb. She wants it back."
   }
 ]

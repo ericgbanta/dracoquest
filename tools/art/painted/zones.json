@@ -271,5 +271,16 @@
       "mossback-keeper"
     ],
     "boss": "ossarion"
+  },
+  "sunpetal-meadow": {
+    "regular": [
+      "buzzbee",
+      "dandelion-hare",
+      "clover-sprite",
+      "static-lamb",
+      "hay-golem",
+      "queen-buzzbee"
+    ],
+    "boss": "thunderhoof"
   }
 }

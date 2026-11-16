@@ -8531,5 +8531,389 @@
       "gold": 1600,
       "embers": 10
     }
+  },
+  {
+    "id": "the-busy-hive",
+    "zone": "sunpetal-meadow",
+    "name": "The Busy Hive",
+    "minLevel": 3,
+    "description": "Beekeeper Tilly's bees have gone buzzing mad. Something has them all stirred up.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "name": "Beekeeper Tilly",
+            "text": "Oh, thank goodness, a keeper! My bees are cross with everyone today, even me."
+          },
+          {
+            "speaker": "rider",
+            "text": "What happened?"
+          },
+          {
+            "speaker": "npc",
+            "name": "Beekeeper Tilly",
+            "text": "I don't know! That's the problem!"
+          }
+        ],
+        "enemies": [
+          "buzzbee"
+        ],
+        "level": 3
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "A hare bounds past, dandelion seeds flying. The bees chase it, and then they chase you."
+          },
+          {
+            "speaker": "dragon",
+            "text": "*sneezes at the seeds*"
+          }
+        ],
+        "enemies": [
+          "dandelion-hare"
+        ],
+        "level": 4
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "name": "Beekeeper Tilly",
+        "text": "They're calming down. Something must have spooked them. Here, honey for your trouble."
+      },
+      {
+        "speaker": "narrator",
+        "text": "Tilly's veil is covered in tiny angry footprints."
+      }
+    ],
+    "reward": {
+      "xp": 45,
+      "gold": 60,
+      "items": {
+        "potion": 2
+      }
+    }
+  },
+  {
+    "id": "lucky-clovers",
+    "zone": "sunpetal-meadow",
+    "name": "Lucky Clovers",
+    "minLevel": 5,
+    "requires": "the-busy-hive",
+    "description": "The Clover Sprites have been 'borrowing' the meadow's luck. Mostly from Tilly.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "name": "Beekeeper Tilly",
+            "text": "I tripped four times this morning. Four! On flat grass!"
+          },
+          {
+            "speaker": "rider",
+            "text": "Clover Sprites?"
+          },
+          {
+            "speaker": "npc",
+            "name": "Beekeeper Tilly",
+            "text": "Clover Sprites."
+          }
+        ],
+        "enemies": [
+          "clover-sprite"
+        ],
+        "level": 5
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "The sprites hide behind a hare that has eaten far too much clover."
+          }
+        ],
+        "enemies": [
+          "clover-sprite",
+          "dandelion-hare"
+        ],
+        "level": 6
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "You find a little pouch stuffed with four-leaf clovers."
+      },
+      {
+        "speaker": "npc",
+        "name": "Beekeeper Tilly",
+        "text": "All the meadow's luck, in one bag! What should we do with it?"
+      }
+    ],
+    "choice": {
+      "prompt": "What do you do with the pouch of lucky clovers?",
+      "options": [
+        {
+          "id": "scatter",
+          "label": "Scatter them back over the meadow",
+          "lines": [
+            {
+              "speaker": "npc",
+              "name": "Beekeeper Tilly",
+              "text": "The flowers look brighter already. Here, the hive wants you to have these."
+            }
+          ],
+          "reward": {
+            "embers": 2
+          },
+          "temper": "gentle"
+        },
+        {
+          "id": "keep",
+          "label": "Keep a few for yourself",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "You feel very lucky. A coin purse turns up in the grass on the way back."
+            }
+          ],
+          "reward": {
+            "gold": 130
+          },
+          "temper": "clever"
+        }
+      ]
+    },
+    "reward": {
+      "xp": 60,
+      "gold": 50
+    }
+  },
+  {
+    "id": "static-in-the-flock",
+    "zone": "sunpetal-meadow",
+    "name": "Static in the Flock",
+    "minLevel": 7,
+    "requires": "lucky-clovers",
+    "description": "Farmer Bram's lambs are full of static. Every time they bump the fence, it sparks.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "name": "Farmer Bram",
+            "text": "My fence keeps setting itself on fire. Just a little. But still."
+          },
+          {
+            "speaker": "dragon",
+            "text": "*touches a lamb, fur stands straight up*"
+          }
+        ],
+        "enemies": [
+          "static-lamb"
+        ],
+        "level": 7
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "The hay golem guarding the field decides you are a crow."
+          }
+        ],
+        "enemies": [
+          "hay-golem"
+        ],
+        "level": 8
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "npc",
+        "name": "Farmer Bram",
+        "text": "Thunder's been rolling in from the hill every night. The lambs are just soaking it up."
+      },
+      {
+        "speaker": "npc",
+        "name": "Beekeeper Tilly",
+        "text": "That's Thunderhoof's hill. Oh dear."
+      }
+    ],
+    "reward": {
+      "xp": 80,
+      "gold": 100,
+      "materials": {
+        "ore": 2
+      }
+    }
+  },
+  {
+    "id": "the-queen-buzzbee",
+    "zone": "sunpetal-meadow",
+    "name": "The Queen Buzzbee",
+    "minLevel": 8,
+    "requires": "static-in-the-flock",
+    "description": "The Queen Buzzbee has moved the whole hive to the top of the hill, right under the thundercloud.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "name": "Beekeeper Tilly",
+            "text": "She's taken the hive up to the storm. Bees and lightning, keeper. Bees AND lightning."
+          },
+          {
+            "speaker": "rider",
+            "text": "We'll talk to her."
+          }
+        ],
+        "enemies": [
+          "buzzbee",
+          "buzzbee"
+        ],
+        "level": 8
+      },
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "name": "Queen Buzzbee",
+            "text": "Bzzz. Leave. My. Hill."
+          },
+          {
+            "speaker": "dragon",
+            "text": "*buzzes back, badly*"
+          }
+        ],
+        "enemies": [
+          "queen-buzzbee"
+        ],
+        "level": 9,
+        "mini": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "The Queen sulks into her honeycomb throne. She drops a piece of royal honeycomb as she goes."
+      },
+      {
+        "speaker": "npc",
+        "name": "Beekeeper Tilly",
+        "text": "That's royal honeycomb. It's worth a lot, or it's worth a lot to her."
+      }
+    ],
+    "choice": {
+      "prompt": "What do you do with the royal honeycomb?",
+      "options": [
+        {
+          "id": "return",
+          "label": "Give it back to the Queen",
+          "lines": [
+            {
+              "speaker": "npc",
+              "name": "Queen Buzzbee",
+              "text": "Hmph. Fine. Take this. Don't tell the hive I was nice."
+            }
+          ],
+          "reward": {
+            "embers": 3
+          },
+          "temper": "gentle"
+        },
+        {
+          "id": "sell",
+          "label": "Sell it in town",
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "The town baker pays a lot of gold for royal honey. The Queen buzzes at you from afar."
+            }
+          ],
+          "reward": {
+            "gold": 180
+          },
+          "temper": "proud"
+        }
+      ]
+    },
+    "reward": {
+      "xp": 100,
+      "gold": 130,
+      "embers": 2
+    }
+  },
+  {
+    "id": "thunderhoof",
+    "zone": "sunpetal-meadow",
+    "name": "Thunderhoof",
+    "minLevel": 11,
+    "requires": "the-queen-buzzbee",
+    "description": "Every night the storm ram Thunderhoof stamps on his hill, and the whole meadow shakes.",
+    "steps": [
+      {
+        "intro": [
+          {
+            "speaker": "npc",
+            "name": "Beekeeper Tilly",
+            "text": "This is it. The storm comes from him. The bees, the lambs, all of it."
+          },
+          {
+            "speaker": "narrator",
+            "text": "Thunder rolls across the grass."
+          }
+        ],
+        "enemies": [
+          "static-lamb",
+          "buzzbee"
+        ],
+        "level": 11
+      },
+      {
+        "intro": [
+          {
+            "speaker": "narrator",
+            "text": "Thunderhoof lowers his great curled horns. His wool is a thundercloud."
+          },
+          {
+            "speaker": "npc",
+            "name": "Thunderhoof",
+            "text": "MY. HILL."
+          },
+          {
+            "speaker": "dragon",
+            "text": "*plants its feet and roars right back*"
+          }
+        ],
+        "enemies": [
+          "thunderhoof"
+        ],
+        "level": 12,
+        "boss": true
+      }
+    ],
+    "outro": [
+      {
+        "speaker": "narrator",
+        "text": "Thunderhoof snorts, shakes out a shower of sparks, and lies down in the clover to sulk."
+      },
+      {
+        "speaker": "npc",
+        "name": "Beekeeper Tilly",
+        "text": "The sky's clear! First clear night all summer."
+      },
+      {
+        "speaker": "npc",
+        "name": "Beekeeper Tilly",
+        "text": "You'll always have honey here, keeper. Always."
+      }
+    ],
+    "reward": {
+      "xp": 170,
+      "gold": 300,
+      "embers": 5
+    }
   }
 ]

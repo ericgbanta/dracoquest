@@ -127,8 +127,11 @@ function onLevelCharacter(element: ElementId, level: number, seed: number, withS
   }
   // Bosses a player at this level has normally beaten, so areas that open after a boss are open.
   const beaten = data.zones.filter((z) => level > z.boss.unlockRiderLevel).map((z) => z.id);
+  // And mini-bosses of zones below their level (Sunpetal Meadow opens after Mossy Hollow's).
+  const minis = Object.fromEntries(data.zones.filter((z) => level > z.minLevel).map((z) => [z.miniBoss.enemy, { fought: 1, defeated: 1 }]));
   return {
     ...s,
+    bestiary: { ...s.bestiary, ...minis },
     bossesDefeated: beaten,
     rider: { ...s.rider, hp: riderMaxHp(data, s.rider), mp: riderMaxMp(data, s.rider) },
     dragons: s.dragons.map((d) => ({ ...d, hp: dragonMaxHp(data, d) })),

@@ -2387,6 +2387,102 @@
         },
         "enemy": "eclipse-herald"
       }
+    ],
+    "sunpetal-meadow": [
+      {
+        "id": "bee-wrangle",
+        "kind": "defeat",
+        "count": 5,
+        "text": "Calm 5 Buzzbees",
+        "reward": {
+          "gold": 70,
+          "materials": {
+            "ore": 1
+          }
+        },
+        "enemy": "buzzbee"
+      },
+      {
+        "id": "hare-chase",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Catch 3 Dandelion Hares",
+        "reward": {
+          "gold": 60,
+          "embers": 1
+        },
+        "enemy": "dandelion-hare"
+      },
+      {
+        "id": "clover-pick",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Out-luck 3 Clover Sprites",
+        "reward": {
+          "gold": 60,
+          "embers": 1
+        },
+        "enemy": "clover-sprite"
+      },
+      {
+        "id": "lamb-ground",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Ground 3 Static Lambs",
+        "reward": {
+          "gold": 70,
+          "materials": {
+            "ore": 1
+          }
+        },
+        "enemy": "static-lamb"
+      },
+      {
+        "id": "golem-bale",
+        "kind": "defeat",
+        "count": 3,
+        "text": "Bale up 3 Hay Golems",
+        "reward": {
+          "gold": 70,
+          "embers": 1
+        },
+        "enemy": "hay-golem"
+      },
+      {
+        "id": "meadow-wins",
+        "kind": "wins",
+        "count": 6,
+        "text": "Win 6 fights in the Meadow",
+        "reward": {
+          "gold": 100,
+          "materials": {
+            "ore": 2
+          }
+        }
+      },
+      {
+        "id": "meadow-clear",
+        "kind": "clear",
+        "count": 2,
+        "text": "Finish 2 runs in the Meadow",
+        "reward": {
+          "gold": 120,
+          "embers": 2
+        }
+      },
+      {
+        "id": "queen-visit",
+        "kind": "defeat",
+        "count": 1,
+        "text": "Defeat the Queen Buzzbee",
+        "reward": {
+          "gold": 100,
+          "materials": {
+            "crystal": 1
+          }
+        },
+        "enemy": "queen-buzzbee"
+      }
     ]
   }
 }

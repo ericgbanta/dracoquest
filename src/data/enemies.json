@@ -9330,5 +9330,380 @@
         "target": "self"
       }
     ]
+  },
+  {
+    "id": "buzzbee",
+    "name": "Buzzbee",
+    "element": "storm",
+    "flavor": "Its stripes crackle. So does its temper.",
+    "base": {
+      "hp": 45.82,
+      "attack": 8.776,
+      "power": 5,
+      "defense": 1,
+      "swift": 8,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 12.49,
+      "attack": 1.368,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 1,
+      "dodge": 0.5
+    },
+    "moves": [
+      {
+        "id": "sting",
+        "name": "Sting",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "zap-buzz",
+        "name": "Zap Buzz",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "shock",
+        "statusChance": 0.4
+      },
+      {
+        "id": "swarm-up",
+        "name": "Swarm Up",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "dandelion-hare",
+    "name": "Dandelion Hare",
+    "element": "verdant",
+    "flavor": "Every hop sends seeds everywhere. It is very proud of this.",
+    "base": {
+      "hp": 56.09,
+      "attack": 10.225,
+      "power": 5,
+      "defense": 1,
+      "swift": 6,
+      "dodge": 3
+    },
+    "perLevel": {
+      "hp": 14.88,
+      "attack": 1.594,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 0.8,
+      "dodge": 0.3
+    },
+    "moves": [
+      {
+        "id": "kick",
+        "name": "Hind Kick",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "seed-puff",
+        "name": "Seed Puff",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "blind",
+        "statusChance": 0.6
+      },
+      {
+        "id": "bolt",
+        "name": "Bolt Away",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fade",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "clover-sprite",
+    "name": "Clover Sprite",
+    "element": "verdant",
+    "flavor": "Lucky for some. Not for you.",
+    "base": {
+      "hp": 49.07,
+      "attack": 8.764,
+      "power": 5,
+      "defense": 1,
+      "swift": 7,
+      "dodge": 6
+    },
+    "perLevel": {
+      "hp": 12.75,
+      "attack": 1.467,
+      "power": 1,
+      "defense": 0.3,
+      "swift": 0.8,
+      "dodge": 0.5
+    },
+    "moves": [
+      {
+        "id": "twig-tap",
+        "name": "Twig Tap",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "clover-snare",
+        "name": "Clover Snare",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "root",
+        "statusChance": 0.6
+      },
+      {
+        "id": "lucky-leaf",
+        "name": "Lucky Leaf",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.25,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ]
+  },
+  {
+    "id": "static-lamb",
+    "name": "Static Lamb",
+    "element": "storm",
+    "flavor": "Don't pet it. Everyone pets it anyway.",
+    "base": {
+      "hp": 63.02,
+      "attack": 10.03,
+      "power": 5,
+      "defense": 2.5,
+      "swift": 5,
+      "dodge": 2
+    },
+    "perLevel": {
+      "hp": 15.62,
+      "attack": 1.595,
+      "power": 1,
+      "defense": 0.4,
+      "swift": 0.7,
+      "dodge": 0.2
+    },
+    "moves": [
+      {
+        "id": "headbutt",
+        "name": "Headbutt",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "wool-zap",
+        "name": "Wool Zap",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "shock",
+        "statusChance": 0.3
+      },
+      {
+        "id": "fluff-up",
+        "name": "Fluff Up",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "harden",
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "hay-golem",
+    "name": "Hay Golem",
+    "element": "verdant",
+    "flavor": "Built to scare crows. Now it scares everyone.",
+    "base": {
+      "hp": 55.64,
+      "attack": 9.208,
+      "power": 5,
+      "defense": 0.7,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 14.61,
+      "attack": 1.435,
+      "power": 1,
+      "defense": 0.21,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "straw-swat",
+        "name": "Straw Swat",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "haystack-slam",
+        "name": "Haystack Slam",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "restuff",
+        "name": "Restuff",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.25,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ]
+  },
+  {
+    "id": "queen-buzzbee",
+    "name": "Queen Buzzbee",
+    "element": "storm",
+    "flavor": "The hive's queen, and she has heard about you.",
+    "base": {
+      "hp": 80.63,
+      "attack": 9.076,
+      "power": 5,
+      "defense": 1.4,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 21.18,
+      "attack": 1.412,
+      "power": 1,
+      "defense": 0.42,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "royal-sting",
+        "name": "Royal Sting",
+        "intent": "attack",
+        "weight": 4,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "thunder-swarm",
+        "name": "Thunder Swarm",
+        "intent": "big",
+        "weight": 2,
+        "power": 1
+      },
+      {
+        "id": "static-hum",
+        "name": "Static Hum",
+        "intent": "attack",
+        "weight": 2,
+        "power": 0.7,
+        "status": "shock",
+        "statusChance": 0.6
+      },
+      {
+        "id": "honey-mend",
+        "name": "Honey Mend",
+        "intent": "heal",
+        "weight": 1,
+        "heal": 0.2,
+        "target": "self",
+        "condition": "selfHurt"
+      }
+    ],
+    "miniBoss": true,
+    "xpMultiplier": 2
+  },
+  {
+    "id": "thunderhoof",
+    "name": "Thunderhoof",
+    "element": "storm",
+    "flavor": "The meadow's old storm ram. Where he walks, it thunders.",
+    "base": {
+      "hp": 113.84,
+      "attack": 7.904,
+      "power": 5,
+      "defense": 1.5,
+      "swift": 7,
+      "dodge": 5
+    },
+    "perLevel": {
+      "hp": 29.89,
+      "attack": 1.231,
+      "power": 1,
+      "defense": 0.45,
+      "swift": 0.9,
+      "dodge": 0.4
+    },
+    "moves": [
+      {
+        "id": "horn-butt",
+        "name": "Horn Butt",
+        "intent": "attack",
+        "weight": 5,
+        "power": 1,
+        "physical": true
+      },
+      {
+        "id": "thunder-charge",
+        "name": "Thunder Charge",
+        "intent": "big",
+        "weight": 2,
+        "power": 1,
+        "status": "shock",
+        "statusChance": 0.5
+      },
+      {
+        "id": "storm-bellow",
+        "name": "Storm Bellow",
+        "intent": "buff",
+        "weight": 1,
+        "buff": "fury",
+        "target": "self",
+        "condition": "selfHurt"
+      },
+      {
+        "id": "graze",
+        "name": "Graze",
+        "intent": "heal",
+        "weight": 2,
+        "heal": 0.12,
+        "target": "self",
+        "condition": "selfHurt"
+      },
+      {
+        "id": "meadow-coat",
+        "name": "Meadow Coat",
+        "intent": "shift",
+        "weight": 1,
+        "shiftTo": "verdant",
+        "target": "self",
+        "condition": "notShifted"
+      }
+    ],
+    "xpMultiplier": 4,
+    "boss": true,
+    "goldMultiplier": 5
   }
 ]

@@ -114,6 +114,111 @@
     }
   },
   {
+    "id": "sunpetal-meadow",
+    "name": "Sunpetal Meadow",
+    "element": "storm",
+    "elements": [
+      "storm",
+      "verdant"
+    ],
+    "minLevel": 3,
+    "maxLevel": 12,
+    "gate": null,
+    "unlock": {
+      "level": 3,
+      "afterMini": "mossy-hollow"
+    },
+    "blurb": "Wildflowers, honey, hay bales and a thundercloud that never quite leaves.",
+    "fights": {
+      "min": 3,
+      "max": 5
+    },
+    "encounters": [
+      {
+        "enemies": [
+          "buzzbee"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "dandelion-hare"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "clover-sprite"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "static-lamb"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "hay-golem"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "buzzbee",
+          "hay-golem"
+        ],
+        "weight": 1,
+        "minLevel": 5
+      },
+      {
+        "enemies": [
+          "dandelion-hare",
+          "clover-sprite"
+        ],
+        "weight": 1,
+        "minLevel": 7
+      }
+    ],
+    "levelSpread": 1,
+    "multiEnemyLevelOffset": -1,
+    "boss": {
+      "enemy": "thunderhoof",
+      "level": 12,
+      "unlockRiderLevel": 11,
+      "trophy": {
+        "gear": "sunpetal-armor",
+        "chance": 0.25
+      }
+    },
+    "miniBoss": {
+      "enemy": "queen-buzzbee",
+      "levelOffset": 0,
+      "trophy": {
+        "gear": "sunpetal-trinket",
+        "chance": 0.25
+      }
+    },
+    "dropChances": {
+      "potion": 0.25,
+      "dragon-treat": 0.15,
+      "mana-tonic": 0.1
+    },
+    "eggDrop": {
+      "element": "storm",
+      "chance": 0.1
+    },
+    "gearDrops": {
+      "chance": 0.06,
+      "gear": [
+        "sunpetal-melee",
+        "sunpetal-ranged",
+        "sunpetal-magic"
+      ]
+    }
+  },
+  {
     "id": "saltmarsh-shore",
     "name": "Saltmarsh Shore",
     "element": "tide",

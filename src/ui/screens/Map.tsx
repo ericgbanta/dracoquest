@@ -205,6 +205,7 @@ function RegionMapView({ save, region, regionIndex, onRegion, teaser, onPin, tod
         <button type="button" class="icon-button" aria-label="Next region" disabled={regionIndex === n - 1} onClick={() => onRegion(regionIndex + 1)} data-testid="map-next">›</button>
       </div>
       {showMap && <div class="region-map" style={url ? { backgroundImage: `url(${url})` } : undefined}>
+        {(region.map?.stickers ?? []).map((st) => <MapSticker key={st.zone} sticker={st} />)}
         {pins.map(([id, [x, y]]) => {
           const zone = data.zones.find((z) => z.id === id);
           if (!zone) {
@@ -242,6 +243,14 @@ function RegionMapView({ save, region, regionIndex, onRegion, teaser, onPin, tod
       </div>
     </div>
   );
+}
+
+/** A painted landmark on the map under an area's pin (VARIETY_PLAN V8). Nothing shows until its art loads. */
+function MapSticker({ sticker }: { sticker: NonNullable<NonNullable<RegionData['map']>['stickers']>[number] }) {
+  const url = useBackdrop(sticker.art)?.layers[0]?.url;
+  if (!url) return null;
+  return <img class="map-sticker" src={url} alt="" draggable={false} data-testid={`sticker-${sticker.zone}`}
+    style={{ left: `${sticker.x * 100}%`, top: `${sticker.y * 100}%`, width: `${sticker.w * 100}%` }} />;
 }
 
 /** One row of buttons for a zone: its story, its bounty board and its treasures (set gear). */

@@ -118,6 +118,18 @@
       "flavor": "A boar so old that ferns grow on its tusks. Locals say it once flattened a mill."
     },
     {
+      "id": "old-strawhat",
+      "zone": "sunpetal-meadow",
+      "name": "Old Strawhat",
+      "enemy": "hay-golem",
+      "traits": [
+        "hulking",
+        "thorned"
+      ],
+      "tint": "sepia(0.45) saturate(1.7) hue-rotate(-12deg) brightness(1.08)",
+      "flavor": "The first scarecrow ever stuffed in the meadow. It has been standing guard for a hundred summers and has opinions about it."
+    },
+    {
       "id": "captain-pinchwell",
       "zone": "saltmarsh-shore",
       "name": "Captain Pinchwell",

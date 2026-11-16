@@ -138,6 +138,8 @@ export interface RegionMap {
   art: string;
   /** Zone id (or "town") to [x, y]. A new area on an existing map is one more pin. */
   pins: Record<string, [number, number]>;
+  /** Painted landmarks drawn on the map under an area's pin: a backdrop key, its center [x, y] and width, as fractions. */
+  stickers?: { zone: string; art: string; x: number; y: number; w: number }[];
 }
 export interface RegionData { id: string; name: string; levels: string; blurb: string; zones: string[]; map?: RegionMap }
 export interface UpcomingArea { name: string; region: string; minLevel: number; maxLevel: number; gate: string; elements: ElementId[]; blurb: string; pin?: [number, number] }
@@ -463,7 +465,8 @@ export interface ZoneData {
   dropChances: Record<string, number>;
   gate: { stage: string; text: string } | null;
   /** New areas open at a rider level once another zone's boss is beaten. */
-  unlock?: { level: number; afterBoss: string };
+  /** afterMini (VARIETY_PLAN V8): opens once that zone's mini-boss has been beaten instead of its boss. */
+  unlock?: { level: number; afterBoss?: string; afterMini?: string };
   /** Areas with more than one main element list them all; `element` is the first. */
   elements?: ElementId[];
   /** Bosses drop an egg: always the first time, then by chance. `elements` picks one at random. */

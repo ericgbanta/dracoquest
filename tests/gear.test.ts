@@ -14,7 +14,7 @@ const mossy = getZone(data, 'mossy-hollow');
 
 describe('gear data', () => {
   it('has the new shop choices, sets and trophies', () => {
-    expect(Object.keys(data.gear)).toHaveLength(326);
+    expect(Object.keys(data.gear)).toHaveLength(331);
     expect(data.sets).toHaveLength(data.zones.length);
     expect(data.shop.stock).toHaveLength(185);
   });
