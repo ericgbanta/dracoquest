@@ -631,12 +631,27 @@ export interface GameData {
   conditions: ConditionsData;
   hunterLog: HunterLogData;
   echo: EchoData;
+  looks: LooksData;
 }
 
 // ---- Persistent character state (lives in the save) ----
 
+/** The rider's colors (looks plan L1). Each is a swatch from `looks.json`. */
+export interface RiderLook { skin: string; hair: string; tunic: string; trousers: string; cape: string }
+export type LookPart = keyof RiderLook;
+export const LOOK_PARTS: readonly LookPart[] = ['skin', 'hair', 'tunic', 'trousers', 'cape'];
+
+export interface LooksData {
+  parts: { id: LookPart; name: string; swatches: string }[];
+  swatches: Record<string, string[]>;
+  default: RiderLook;
+  presets: { id: string; name: string; look: RiderLook }[];
+}
+
 export interface RiderState {
   name: string;
+  /** Colors for the rider's art. Cosmetic only. */
+  look: RiderLook;
   level: number;
   xp: number;
   statPoints: number;

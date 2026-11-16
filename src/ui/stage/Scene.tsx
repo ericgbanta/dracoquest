@@ -2,9 +2,9 @@ import type { ComponentChildren } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 import manifest from '../../art/assets.json';
 import { gameData as data } from '../../core/data';
-import type { DragonState, ElementId } from '../../core/types';
+import type { DragonState, ElementId, RiderLook } from '../../core/types';
 import { DragonSprite } from '../Sprites';
-import { artUrl, decodeAll, loadBackdrop, loadDragonRig, loadEnemyRig, loadRig, mix, rigUrls, type Backdrop, type Rig } from './rigs';
+import { artUrl, decodeAll, loadBackdrop, loadDragonRig, loadEnemyRig, loadRiderRig, mix, riderLookKey, rigUrls, type Backdrop, type Rig } from './rigs';
 import { RigView } from './Stage';
 import './stage.css';
 
@@ -56,8 +56,9 @@ export function useDragonRigs(ds: (Look & Pick<DragonState, 'id'>)[]): Record<st
   return v ?? {};
 }
 
-export function useRiderRig(weapon: string): Rig | null {
-  return useLoaded(`rider:${weapon}`, () => loadRig(`rider.${weapon}`), rigUrls);
+/** The rider in a stance (`sword`, `bow`, `staff`, `mounted`) and a look; the look as painted when none is given. */
+export function useRiderRig(weapon: string, look: RiderLook = data.looks.default): Rig | null {
+  return useLoaded(`rider:${weapon}:${riderLookKey(look)}`, () => loadRiderRig(weapon, look), rigUrls);
 }
 
 export function useEnemyRig(enemyId: string | null): Rig | null {

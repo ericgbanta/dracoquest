@@ -604,3 +604,16 @@ p, p.muted, .notice, .lead, li { font-size: max(1rem, 16px); }
 
 /* A painted landmark on a region map, under its area's pin (VARIETY_PLAN V8). */
 .map-sticker { position: absolute; transform: translate(-50%, -50%); pointer-events: none; height: auto; }
+
+/* The rider's look (looks plan L1) */
+.rider-preview { display: flex; justify-content: center; align-items: flex-end; margin: 0 auto 10px; }
+.rider-preview .rig { height: 100%; width: auto; position: relative; }
+.look-presets { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 10px; }
+.look-preset { font: inherit; font-size: 0.85rem; font-weight: 700; min-height: 44px; padding: 4px 2px; border-radius: 10px; border: 2px solid var(--surface-2); background: var(--surface); color: var(--text); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; cursor: pointer; }
+.look-preset--on { border-color: var(--accent); color: var(--accent); }
+.look-chips { display: flex; gap: 2px; }
+.look-chips span { width: 12px; height: 12px; border-radius: 50%; border: 1px solid rgba(0, 0, 0, 0.35); }
+.look-parts { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 10px; }
+.subtabs--tight { gap: 4px; }
+.subtabs--tight .tab-pill { flex: 1 1 auto; padding-inline: 6px; }
+.swatches--look { grid-template-columns: repeat(7, 1fr); gap: 6px; }

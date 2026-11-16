@@ -1,12 +1,14 @@
 import { useState } from 'preact/hooks';
 import { gameData as data } from '../../core/data';
-import { activeDragon, canEquip, equip, GameError, powerUpSpell, sellGear, setSpells, spendRiderPoint, unequip } from '../../core/game';
+import { activeDragon, canEquip, equip, GameError, powerUpSpell, randomRiderLook, sellGear, setRiderLook, setSpells, spendRiderPoint, unequip } from '../../core/game';
 import { poweredSpell, riderLoadout, spellById, spellPlusOf, spellUpgradeBlocker, spellUpgradeCost } from '../../core/spells';
 import { formatMaterials } from '../../core/forge';
 import { Cost } from './Forge';
 import type { SpellData } from '../../core/types';
 import { riderMaxHp, riderMaxMp } from '../../core/characters';
-import { equippedSets, gearItem, setSize } from '../../core/loadout';
+import { equippedSets, gearItem, riderWeapon, setSize } from '../../core/loadout';
+import { LookEditor } from '../Look';
+import { weaponArt } from '../stage/rigs';
 import { forgedGear, plusOf } from '../../core/forge';
 import { MATERIALS } from '../../core/types';
 import { eggName, groupEggs } from '../../core/eggs';
@@ -17,7 +19,7 @@ import { Bar, ElementBadge, formatBonus, GearElement } from '../bits';
 import { Sheet } from '../Sheet';
 import { Fold, SubTabs, usePref } from '../Fold';
 
-const BAG_TABS = ['gear', 'stats', 'spells', 'items'] as const;
+const BAG_TABS = ['gear', 'stats', 'spells', 'items', 'look'] as const;
 type BagTab = (typeof BAG_TABS)[number];
 import { gearSummary } from './Town';
 import { href } from '../router';
@@ -87,8 +89,16 @@ export function Bag({ save, update }: Props) {
         { id: 'stats', label: 'Stats', badge: r.statPoints },
         { id: 'spells', label: 'Spells' },
         { id: 'items', label: 'Items' },
+        { id: 'look', label: 'Look' },
       ]} />
       {notice && <p class="notice notice--ok" role="status" data-testid="bag-notice">{notice}</p>}
+      {tab === 'look' && <div class="card" data-testid="look-card">
+        <h2>Look</h2>
+        <LookEditor look={r.look} stance={weaponArt(riderWeapon(data, r).weaponType ?? 'melee')}
+          onChange={(look) => act((s) => setRiderLook(data, s, look), '')}
+          onRandom={() => act((s) => { const n = randomRiderLook(data, s); return setRiderLook(data, n.save, n.look); }, '')} />
+        <p class="muted">Colors are free to change and don't affect fights.</p>
+      </div>}
       {tab === 'gear' && <div class="card">
         <h2>Gear</h2>
         {RIDER_SLOTS.map(slotRow)}

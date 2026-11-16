@@ -14,7 +14,7 @@ import { addBond, allocateDragon, allocateRider, dragonLevelCap, giveDragonXp, g
 import { bonusOf, dragonBonus, gearItem, learnTalent as learn, respecCost, riderBonus } from './loadout';
 import { gearChanceFor, getZone, planEcho, planQuest, planRun, rollGear, rollRewards, type FightKind, type Rewards } from './run';
 import type { SaveData } from './save';
-import type { StoryReward } from './types';
+import type { RiderLook, StoryReward } from './types';
 import type { BuildingId, DragonSlot, DragonState, DragonStat, EggSpec, ElementId, GameData, GearSlot, RiderSlot, RiderStat, StageData, ZoneData } from './types';
 import { DRAGON_SLOTS } from './types';
 import { activeEvent, eventKey, eventOnlyIds } from './events';
@@ -29,6 +29,28 @@ import {
 } from './adventures';
 
 export class GameError extends Error {}
+
+/** Change the rider's colors. Every color must be a listed swatch for its part. Not during a fight. */
+export function setRiderLook(data: GameData, save: SaveData, look: RiderLook): SaveData {
+  if (save.run?.battle) throw new GameError('Finish the fight first.');
+  const next = {} as RiderLook;
+  for (const p of data.looks.parts) {
+    const c = look[p.id];
+    if (!data.looks.swatches[p.swatches]!.includes(c)) throw new GameError(`That isn't one of the ${p.name.toLowerCase()} colors.`);
+    next[p.id] = c;
+  }
+  return { ...save, rider: { ...save.rider, look: next } };
+}
+
+/** A look picked at random from the swatches, from the save's seeded RNG. */
+export function randomRiderLook(data: GameData, save: SaveData): { save: SaveData; look: RiderLook } {
+  const { save: next, value } = withRng(save, (rng) => {
+    const look = {} as RiderLook;
+    for (const p of data.looks.parts) look[p.id] = rng.pick(data.looks.swatches[p.swatches]!);
+    return look;
+  });
+  return { save: next, look: value };
+}
 
 /** Run `fn` with the save's RNG and store the advanced RNG state. */
 function withRng<T>(save: SaveData, fn: (rng: Rng) => T): { save: SaveData; value: T } {

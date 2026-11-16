@@ -1,0 +1,24 @@
+{
+  "note": "The rider's look (looks plan L1). Five parts take a color each; a part picks from the swatch list named by `swatches`. `default` is the rider as painted, so a save that never changed anything looks the same. Colors only: nothing here changes a fight.",
+  "parts": [
+    { "id": "skin", "name": "Skin", "swatches": "skin" },
+    { "id": "hair", "name": "Hair", "swatches": "hair" },
+    { "id": "tunic", "name": "Tunic", "swatches": "cloth" },
+    { "id": "trousers", "name": "Legs", "swatches": "cloth" },
+    { "id": "cape", "name": "Cape", "swatches": "cloth" }
+  ],
+  "swatches": {
+    "skin": ["#ffe0c4", "#fcbc7e", "#f0a868", "#d98f58", "#b9713f", "#93552e", "#6e3d22", "#4a2a1a"],
+    "hair": ["#a04624", "#5a3220", "#2b2430", "#d9a441", "#f2dd9a", "#c8482c", "#e8e4dc", "#8c8f9c", "#3f8fd8", "#b46ad6", "#e86a9a", "#3fa37a"],
+    "cloth": ["#e02c26", "#f08a2c", "#f2c84a", "#5fbf5a", "#248a72", "#3fb8c8", "#2a5080", "#3f6fd8", "#7a54c8", "#c85aa8", "#8a5a36", "#e9e4da", "#6a6f80", "#2e2c3a"]
+  },
+  "default": { "skin": "#fcbc7e", "hair": "#a04624", "tunic": "#248a72", "trousers": "#2a5080", "cape": "#e02c26" },
+  "presets": [
+    { "id": "keeper", "name": "Keeper", "look": { "skin": "#fcbc7e", "hair": "#a04624", "tunic": "#248a72", "trousers": "#2a5080", "cape": "#e02c26" } },
+    { "id": "ember", "name": "Ember", "look": { "skin": "#b9713f", "hair": "#2b2430", "tunic": "#e02c26", "trousers": "#2e2c3a", "cape": "#f2c84a" } },
+    { "id": "frost", "name": "Frost", "look": { "skin": "#ffe0c4", "hair": "#e8e4dc", "tunic": "#3fb8c8", "trousers": "#6a6f80", "cape": "#3f6fd8" } },
+    { "id": "moss", "name": "Moss", "look": { "skin": "#6e3d22", "hair": "#5a3220", "tunic": "#5fbf5a", "trousers": "#8a5a36", "cape": "#248a72" } },
+    { "id": "dusk", "name": "Dusk", "look": { "skin": "#d98f58", "hair": "#b46ad6", "tunic": "#7a54c8", "trousers": "#2e2c3a", "cape": "#c85aa8" } },
+    { "id": "sun", "name": "Sun", "look": { "skin": "#93552e", "hair": "#d9a441", "tunic": "#e9e4da", "trousers": "#2a5080", "cape": "#f08a2c" } }
+  ]
+}

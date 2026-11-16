@@ -122,5 +122,47 @@
     "tipRing": {
       "blur": 0.35
     }
+  },
+  "riderKeys": {
+    "note": "How painted rider art takes the player's look (recolorRider in src/ui/stage/tint.ts). Families by hue in degrees, in the order cape, tunic, trousers, skin, hair. The hair is painted brown like the leather, so tools/art/painted/rekey_rider.py repaints it a yellow-green nothing else uses. Skin shares a hue with leather but is brighter (minLum).",
+    "families": [
+      {
+        "hue": [
+          335,
+          12
+        ],
+        "minChroma": 70
+      },
+      {
+        "hue": [
+          140,
+          190
+        ],
+        "minChroma": 45
+      },
+      {
+        "hue": [
+          195,
+          250
+        ],
+        "minChroma": 45,
+        "minLum": 35
+      },
+      {
+        "hue": [
+          12,
+          40
+        ],
+        "minChroma": 30,
+        "minLum": 150
+      },
+      {
+        "hue": [
+          70,
+          130
+        ],
+        "minChroma": 40
+      }
+    ]
   }
 }

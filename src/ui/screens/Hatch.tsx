@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { gameData as data } from '../../core/data';
-import { chooseEgg, eggReady, hatchEgg, warmEgg } from '../../core/game';
+import { chooseEgg, eggReady, hatchEgg, randomRiderLook, setRiderLook, warmEgg } from '../../core/game';
+import { LookEditor } from '../Look';
 import type { SaveData } from '../../core/save';
-import type { ElementId, VariantId } from '../../core/types';
+import type { ElementId, RiderLook, VariantId } from '../../core/types';
 import { elementLabel } from '../../core/eggs';
 import { DragonSprite } from '../Sprites';
 import { ElementBadge, prefersReducedMotion, vibrate } from '../bits';
@@ -21,10 +22,52 @@ const DEFAULT_COLORS: Record<string, [string, string]> = {
   verdant: ['#5fbf5a', '#a58c6a'],
 };
 
+/** A game nobody has touched yet: the default name and look, no egg, no dragon. */
+const untouched = (s: SaveData) => !s.egg && s.dragons.length === 0 && s.rider.name === 'Keeper'
+  && data.looks.parts.every((p) => s.rider.look[p.id] === data.looks.default[p.id]);
+
 export function Hatch({ save, update }: Props) {
+  const [metKeeper, setMetKeeper] = useState(false);
+  if (untouched(save) && !metKeeper) return <YourKeeper save={save} update={update} onDone={() => setMetKeeper(true)} />;
   if (!save.egg) return <PickEgg update={update} />;
   if (!eggReady(data, save)) return <WarmEgg save={save} update={update} />;
   return <NameDragon save={save} update={update} />;
+}
+
+/** The first step of a new game: name the rider and pick their colors. Skipping keeps the defaults. */
+function YourKeeper({ save, update, onDone }: Props & { onDone(): void }) {
+  const [name, setName] = useState('');
+  const [look, setLook] = useState<RiderLook>({ ...data.looks.default });
+  const [seed, setSeed] = useState(save.seed);
+  const random = () => {
+    const r = randomRiderLook(data, { ...save, seed });
+    setSeed(r.save.seed);
+    setLook(r.look);
+  };
+  const go = (e: Event) => {
+    e.preventDefault();
+    const trimmed = name.trim().slice(0, 24);
+    update((s) => setRiderLook(data, { ...s, rider: { ...s.rider, name: trimmed || s.rider.name } }, look));
+    onDone();
+  };
+  return (
+    <form class="screen hatch" aria-labelledby="screen-title" onSubmit={go}>
+      <header class="screen-header screen-header--center">
+        <h1 id="screen-title">Your keeper</h1>
+      </header>
+      <div class="card">
+        <label for="keeper-name">Name</label>
+        <input id="keeper-name" type="text" maxLength={24} autoComplete="off" placeholder="Keeper" value={name}
+          onInput={(e) => setName(e.currentTarget.value)} data-testid="keeper-name" />
+      </div>
+      <div class="card">
+        <LookEditor look={look} onChange={setLook} onRandom={random} />
+        <p class="muted">You can change these any time in the Bag.</p>
+      </div>
+      <button type="submit" class="button button--big" data-testid="keeper-continue">Continue</button>
+      <button type="button" class="button button--ghost button--block" onClick={onDone} data-testid="keeper-skip">Skip</button>
+    </form>
+  );
 }
 
 function PickEgg({ update }: Pick<Props, 'update'>) {

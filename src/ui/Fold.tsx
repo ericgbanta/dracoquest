@@ -66,7 +66,7 @@ export function SubTabs<T extends string>({ id, tabs, value, onChange, label }: 
   id: string; tabs: SubTab<T>[]; value: T; onChange(v: T): void; label: string;
 }): JSX.Element {
   return (
-    <div class="tabs subtabs" role="tablist" aria-label={label}>
+    <div class={`tabs subtabs${tabs.length > 4 ? ' subtabs--tight' : ''}`} role="tablist" aria-label={label}>
       {tabs.map((t) => (
         <button key={t.id} type="button" role="tab" aria-selected={value === t.id}
           class={`tab-pill${value === t.id ? ' tab-pill--on' : ''}`} onClick={() => onChange(t.id)} data-testid={`${id}-tab-${t.id}`}>
