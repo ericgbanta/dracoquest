@@ -97,4 +97,6 @@ Variety plan V8 (2026-11-16): `jobs18.py` made Sunpetal Meadow (backdrop, Thunde
 
 Looks plan (2026-11-17): the rider's colors needed no generations. `python3 tools/art/painted/rekey_rider.py <repo>` marked the hair in the seven packed rider files (see "Rider colors" in `docs/ART_STYLE.md`); run it again on any new rider art. `jobs19.py` makes the gear icons: four sheets of twelve (`icons-gear-melee`, `icons-gear-ranged-magic`, `icons-gear-armor`, `icons-gear-trinkets`), each icon with one red accent and one gold trim so the game can recolor it. `pack.py` packs them at 96 px into `src/art/icons/gear-<shape>.webp` and keeps 320 px copies of the weapon shapes in `tools/art/painted/masters/`.
 
-Not made yet: hurt or defeat poses, painted crack lines for the egg, rider outfits, a fifth icon sheet (Forge and Nesting Grounds buildings, materials, the bag).
+Not made yet: hurt or defeat poses, painted crack lines for the egg, rider outfits.
+
+`jobs20.py` made a fifth UI icon sheet of five (the Forge, the Nesting Grounds, Iron Ore, Sky Crystal, Dragonscale), packed as `icons-forge`. If `run.sh` says FAILED but the log says the image was saved, look for it in `v2/` and move it to `v2/out/`.

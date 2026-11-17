@@ -91,7 +91,7 @@ One 1280 x 880 WebP per zone and one for the Roost (`painted/backdrops/`), the s
 
 ## UI icons
 
-`src/art/icons/<name>.webp`, 136 x 136, cut from four generated sheets. They show at 16 to 32 px, so each is one bold object. Names follow the data: `item-<id>`, `food-<id>`, `status-<id>`, `intent-<kind>`, `building-<id>`, plus `gold`, `ember`, `egg`, `lock`, `town`, `event`, `feed`, `groom`, `rest`, `xp` and `bond`. A missing icon falls back to its emoji; an SVG of the same name is used if there is no WebP.
+`src/art/icons/<name>.webp`, 136 x 136, cut from four generated sheets. They show at 16 to 32 px, so each is one bold object. Names follow the data: `item-<id>`, `food-<id>`, `status-<id>`, `intent-<kind>`, `building-<id>`, `material-<id>`, plus `gold`, `ember`, `egg`, `lock`, `town`, `event`, `feed`, `groom`, `rest`, `xp` and `bond`. A missing icon falls back to its emoji; an SVG of the same name is used if there is no WebP.
 
 ### Gear icons
 

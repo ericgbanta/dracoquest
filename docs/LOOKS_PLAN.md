@@ -182,7 +182,7 @@ Calls made without asking: the yellow-green key; "Legs" as the label; the swatch
 - Every piece in `gear.json` has an `icon`. `tools/content/gear_icons.py` assigns it from the piece's name, reading the last word first ("Deepcrown Chancellor's Quill" is a feather, "Deepdelver Lantern Staff" a staff, "Lantern of Ages" a lantern). It keeps icons already set unless run with `--all`. Data validation rejects an unknown shape.
 - `GearIcon` in `src/ui/bits.tsx` is on the Bag's three slots and its gear picker, Town rows, Forge rows and recipes, the Map's Loot sheet and the "Found the..." line after a fight. An empty slot draws the `empty` shape.
 - **Art: 4 generations, all usable first try** (`tools/art/painted/jobs19.py`, prompts in `prompts/icons-gear-*.txt`). `pack.py` packs them at 96 px into `src/art/icons/gear-<shape>.webp` (48 files, 284 KB; the precache grew by about 240 KB) and keeps 320 px copies of the 24 weapon shapes in `tools/art/painted/masters/` (388 KB, not shipped) for a possible 2b.
-- The fifth sheet (Forge, Nesting Grounds, materials, bag) was not made; Eric didn't answer that question.
+- **The fifth sheet** (Eric, 2026-11-17: "generate the fifth icon sheet"): one generation, usable first try, from `jobs20.py`. Five icons painted in their final colors: `building-forge`, `building-nesting`, `material-ore`, `material-crystal`, `material-scale`. The buildings show on the Roost by name; the materials show in the Forge's materials line and costs. No bag icon was made because no screen draws one. Codex wrote the image to `v2/icons-forge.png`, not `v2/out/`, so `run.sh` reported a failure; moving the file fixed it.
 
 ### Checks
 

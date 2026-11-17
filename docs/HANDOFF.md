@@ -123,7 +123,8 @@ Eric asked for options to take the game further (2026-11-16), picked rider color
 - **Rider colors (save v17).** Skin, hair, tunic, trousers and cape, from swatches in `src/data/looks.json`. A Look tab in the Bag and a "Your keeper" step at New game. The existing art is recolored at load (`recolorRider` in `tint.ts`); the hair was marked in a key color once by `tools/art/painted/rekey_rider.py`. No generations.
 - **Gear icons.** Every gear piece has an `icon` shape (48 shapes, `src/data/gearLooks.json`), drawn by `GearIcon` with the element or tier as its accent and the level tier as its trim. Four generations (`jobs19.py`), all usable first try. Codex was signed out afterward.
 - Not deployed. Eric hasn't seen either on his phone yet.
-- Still open from the plan: a fifth icon sheet (Forge and Nesting Grounds building icons, the three materials, the bag), and the two documented ideas (outfits at 7 generations each, weapons on the stage).
+- A fifth sheet (`jobs20.py`, 1 generation) added the Forge and Nesting Grounds building icons and the three material icons.
+- Still open from the plan: the two documented ideas (outfits at 7 generations each, weapons on the stage).
 - The other six options he was shown (dragon cosmetics, rider skills by weapon, endgame at 100, a collection book, share codes between friends, battle polish) are not planned.
 
 ### After that
