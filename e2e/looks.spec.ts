@@ -40,7 +40,7 @@ test('a new game starts with Your keeper: a name and a look, then the egg', asyn
   await page.getByTestId('look-preset-dusk').tap();
   await page.getByTestId('look-part-cape').tap();
   await page.getByTestId('look-swatch-1').tap();
-  const want = { ...preset('dusk'), cape: looks.swatches.cloth[1]! };
+  const want = { ...preset('dusk'), cape: looks.swatches.cloth![1]! };
   await expect(page.getByTestId('rider-preview')).toHaveAttribute('data-look', Object.values(want).join(''));
   expect(await smallTargets(page, '.screen')).toEqual([]);
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(375);
@@ -91,7 +91,7 @@ test('the Bag\'s Look tab recolors the rider and keeps it after a reload', async
   const h = await page.evaluate(() => document.documentElement.scrollHeight);
   expect(h / 667, `the Look tab is ${h}px`).toBeLessThanOrEqual(1.5);
   await page.screenshot({ path: 'test-results/looks-bag.png', fullPage: true });
-  const want = { ...preset('frost'), hair: looks.swatches.hair[9]! };
+  const want = { ...preset('frost'), hair: looks.swatches.hair![9]! };
   expect((await saved(page))!.rider.look).toEqual(want);
   await page.reload();
   await enter(page);
