@@ -1,6 +1,6 @@
 # Looks plan: a rider you can color, and gear you can see
 
-Written 2026-11-16 at Eric's request. Status (2026-11-17): L0 and L1 (rider colors) are built. L2 (gear icons) is built except for its art: the four icon sheets still need generating, and until then rows show an emoji. See "Built" at the end. The sections before it are the plan as written; where the build differs, "Built" says so.
+Written 2026-11-16 at Eric's request. Status (2026-11-17): L0, L1 (rider colors) and L2 (gear icons) are built, with the icon art in. Not deployed yet. See "Built" at the end. The sections before it are the plan as written; where the build differs, "Built" says so.
 
 Eric's answers (2026-11-16): add the "Your keeper" step to new games; the five parts are fine for now and may change later; icon colors as recommended. "Let's build this."
 
@@ -181,9 +181,9 @@ Calls made without asking: the yellow-green key; "Legs" as the label; the swatch
 - `src/data/gearLooks.json` lists the 48 shapes and five tiers: Bronze from level 1, Iron from 15, Silver from 30, Gold from 50, Star metal from 70. Each tier has a trim color and an accent for gear with no element.
 - Every piece in `gear.json` has an `icon`. `tools/content/gear_icons.py` assigns it from the piece's name, reading the last word first ("Deepcrown Chancellor's Quill" is a feather, "Deepdelver Lantern Staff" a staff, "Lantern of Ages" a lantern). It keeps icons already set unless run with `--all`. Data validation rejects an unknown shape.
 - `GearIcon` in `src/ui/bits.tsx` is on the Bag's three slots and its gear picker, Town rows, Forge rows and recipes, the Map's Loot sheet and the "Found the..." line after a fight. An empty slot draws the `empty` shape.
-- `tools/art/painted/jobs19.py` writes the four sheet prompts, and `pack.py` packs them at 96 px and keeps 320 px copies of the 24 weapon shapes in `tools/art/painted/masters/` for a possible 2b.
+- **Art: 4 generations, all usable first try** (`tools/art/painted/jobs19.py`, prompts in `prompts/icons-gear-*.txt`). `pack.py` packs them at 96 px into `src/art/icons/gear-<shape>.webp` (48 files, 284 KB; the precache grew by about 240 KB) and keeps 320 px copies of the 24 weapon shapes in `tools/art/painted/masters/` (388 KB, not shipped) for a possible 2b.
 - The fifth sheet (Forge, Nesting Grounds, materials, bag) was not made; Eric didn't answer that question.
 
 ### Checks
 
-368 unit tests, types and lint pass. Phone tests: 142, with `e2e/looks.spec.ts` covering the new game step, Skip, the Look tab, the rider's colors in a fight and gear icons on three screens. No balance numbers changed, so the sim was not rerun.
+368 unit tests, types and lint pass. Phone tests: all 142 pass, with `e2e/looks.spec.ts` covering the new game step, Skip, the Look tab, the rider's colors in a fight and gear icons on three screens. No balance numbers changed, so the sim was not rerun.

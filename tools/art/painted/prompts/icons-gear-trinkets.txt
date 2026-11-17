@@ -1,0 +1,17 @@
+Use your built-in image generation tool to create one image and save it as ./v2/out/icons-gear-trinkets.png (landscape, about 1536x1024). Do not write code to draw it; generate it with the image tool. The FIRST attached image is the STYLE reference only: match its line weight, flat two-tone cel shading, shape language and level of simplicity exactly. Do not copy its subject.
+
+SUBJECT: a sheet of 12 separate game inventory icons arranged in a grid of 4 columns by 3 rows, evenly spaced, each one fully separate with wide green space around it; none touch. Each icon is a single bold, simple, chunky object with a thick dark navy outline, drawn to read clearly at 32 pixels, all filling about the same square area. Small treasures, each shown large in its square. STRICT COLOR RULES, the same for every icon: each object has exactly ONE accent part painted bright pure RED-ORANGE (with a darker red shadow) and ONE trim part painted bright GOLDEN YELLOW (with an orange-gold shadow). Everything else is neutral: steel is light blue-gray, wood is brown, leather is dark brown, cloth is cream or gray. Use NO other reds, oranges, yellows, pinks or purples anywhere, and no glows or sparkles. For each icon the accent and the trim are named below. Reading order, left to right, top row first:
+1) Charm: a small lucky charm, a flat round token on a short cord loop; red token with a simple paw-print dent, gold rim.
+2) Pendant: an oval locket on a chain; red oval gem face, gold frame and chain.
+3) Ring: a chunky finger ring seen at an angle; red square gem, gold band.
+4) Gem: one large loose faceted gemstone, no setting, sitting on a tiny gold dish; red gem, gold dish.
+5) Sigil: a shield-shaped badge with a simple chevron on it; red field, gold border and chevron.
+6) Heart: a stylized heart-shaped stone in a metal cage; red heart, gold cage bands.
+7) Lantern: a small hand lantern with a ring handle and glass panes; red flame-colored glass, gold frame.
+8) Crown: a small circlet crown with three points; red gem in the center point, gold crown.
+9) Feather: one large feather with a bound quill; red feather vane, gold quill binding.
+10) Fang: one big curved cream fang hung on a cord; red cord wrap at the top, gold cap.
+11) Flower: a single open flower with five round petals on a short stem with one dark olive leaf; red petals, gold center.
+12) Keepsake: a small drawstring pouch tied at the neck, gray cloth; red ribbon tie, gold star stitched on the front. Perfectly flat solid #00ff00 background everywhere outside the artwork. Do not use bright green anywhere in the artwork itself. No ground, no cast shadows, no text, no labels, no numbers, no borders, no frames, no background tiles behind the icons.
+
+STYLE (shared by every image in this set; follow it closely): clean modern cel-shaded cartoon built from big, simple, slightly geometric shapes, like a high-budget 2D animated series crossed with a bold flat graphic poster. Confident, even, dark navy ink outline around every form. Flat color fills with exactly two tones (base and one hard-edged shadow shape) plus at most one small crisp highlight. No gradients, no painted texture, no airbrushing, no fine detail: no individual scales, feathers or fur strands, only a few large simple marks. Chunky rounded appealing proportions, strong clear silhouette that reads at thumbnail size. Friendly all-ages fantasy tone. Entirely original designs; do not imitate any existing game's or show's characters.

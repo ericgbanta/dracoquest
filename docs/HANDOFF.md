@@ -1,6 +1,6 @@
 # Handoff
 
-Last updated 2026-11-16, in a session that built eight steps of the variety plan: V2 (champions and rare spawns), V1 (run events), V3 (daily zone conditions) and V7 (more enemies in the first four zones), V4 (a hunter's log), V5 (stories and bounties for the last five zones) and V6 (echo runs), then V8 (Sunpetal Meadow, a new low-level area). Everything below is merged to `main` and live at https://ericgbanta.github.io/dracoquest/. The working branch for that session was `claude/optimistic-mccarthy-7yq0v9`; a new session should start from `main` and use its own branch. Codex was signed out at the end, so the next art batch needs a new device login.
+Last updated 2026-11-17. The latest session planned and built the looks plan (rider colors and gear icons, `docs/LOOKS_PLAN.md`) on branch `claude/ecstatic-gates-8r9290`; that work is pushed but not merged to `main` or deployed. Before it, a session built eight steps of the variety plan: V2 (champions and rare spawns), V1 (run events), V3 (daily zone conditions) and V7 (more enemies in the first four zones), V4 (a hunter's log), V5 (stories and bounties for the last five zones) and V6 (echo runs), then V8 (Sunpetal Meadow, a new low-level area). Everything below is merged to `main` and live at https://ericgbanta.github.io/dracoquest/. The working branch for that session was `claude/optimistic-mccarthy-7yq0v9`; a new session should start from `main` and use its own branch. Codex was signed out at the end, so the next art batch needs a new device login.
 
 A ready-to-paste prompt for a new session is in `docs/NEXT_PROMPT.md`.
 
@@ -86,7 +86,7 @@ Each row was built, tested, committed and deployed in this order. The Decisions 
 - **Run events:** after about 1 won hunt fight in 4, a scene with a choice (`src/data/runEvents.json`).
 - **Looks:** the rider's five colors are the player's choice, and every gear piece has a painted icon.
 - **Saves:** version 17, up to 3 slots per device, export and import codes.
-- **Tests:** 368 unit tests and 142 phone tests pass (one, gear icons, waits on the icon art). The sim shows every zone averaging 70 to 85 percent on level across the three starters.
+- **Tests:** 368 unit tests and 142 phone tests pass. The sim shows every zone averaging 70 to 85 percent on level across the three starters.
 
 ## What to work on next
 
@@ -121,7 +121,7 @@ Eric grinds and revisits the first area and asked for research on making it less
 Eric asked for options to take the game further (2026-11-16), picked rider colors and gear icons, and said "Let's build this."
 
 - **Rider colors (save v17).** Skin, hair, tunic, trousers and cape, from swatches in `src/data/looks.json`. A Look tab in the Bag and a "Your keeper" step at New game. The existing art is recolored at load (`recolorRider` in `tint.ts`); the hair was marked in a key color once by `tools/art/painted/rekey_rider.py`. No generations.
-- **Gear icons.** Every gear piece has an `icon` shape (48 shapes, `src/data/gearLooks.json`), drawn by `GearIcon` with the element or tier as its accent and the level tier as its trim. Four generations (`jobs19.py`).
+- **Gear icons.** Every gear piece has an `icon` shape (48 shapes, `src/data/gearLooks.json`), drawn by `GearIcon` with the element or tier as its accent and the level tier as its trim. Four generations (`jobs19.py`), all usable first try. Codex was signed out afterward.
 - Not deployed. Eric hasn't seen either on his phone yet.
 - Still open from the plan: a fifth icon sheet (Forge and Nesting Grounds building icons, the three materials, the bag), and the two documented ideas (outfits at 7 generations each, weapons on the stage).
 - The other six options he was shown (dragon cosmetics, rider skills by weapon, endgame at 100, a collection book, share codes between friends, battle polish) are not planned.
