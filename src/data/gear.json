@@ -9,7 +9,8 @@
     "damage": 10,
     "price": 0,
     "bonus": {},
-    "description": "Mostly a stick, but a confident stick."
+    "description": "Mostly a stick, but a confident stick.",
+    "icon": "stick"
   },
   {
     "id": "hunters-sling",
@@ -23,7 +24,8 @@
     "bonus": {
       "agility": 1
     },
-    "description": "For flinging pebbles with intent."
+    "description": "For flinging pebbles with intent.",
+    "icon": "sling"
   },
   {
     "id": "apprentice-wand",
@@ -37,7 +39,8 @@
     "bonus": {
       "arcana": 1
     },
-    "description": "Still has the price tag on it."
+    "description": "Still has the price tag on it.",
+    "icon": "wand"
   },
   {
     "id": "bramble-saber",
@@ -51,7 +54,8 @@
     "bonus": {
       "strength": 1
     },
-    "description": "Grown, not forged. Slightly prickly to hold."
+    "description": "Grown, not forged. Slightly prickly to hold.",
+    "icon": "saber"
   },
   {
     "id": "tidecaller-bow",
@@ -65,7 +69,8 @@
     "bonus": {
       "agility": 2
     },
-    "description": "The string is always a bit damp."
+    "description": "The string is always a bit damp.",
+    "icon": "bow"
   },
   {
     "id": "ember-rod",
@@ -79,7 +84,8 @@
     "bonus": {
       "arcana": 2
     },
-    "description": "Toasts bread at range."
+    "description": "Toasts bread at range.",
+    "icon": "scepter"
   },
   {
     "id": "coral-cutlass",
@@ -93,7 +99,8 @@
     "bonus": {
       "strength": 2
     },
-    "description": "Sharp, pink, and fashionable."
+    "description": "Sharp, pink, and fashionable.",
+    "icon": "saber"
   },
   {
     "id": "frostbite-crossbow",
@@ -107,7 +114,8 @@
     "bonus": {
       "agility": 3
     },
-    "description": "Bolts arrive cold."
+    "description": "Bolts arrive cold.",
+    "icon": "crossbow"
   },
   {
     "id": "cinder-staff",
@@ -121,7 +129,8 @@
     "bonus": {
       "arcana": 3
     },
-    "description": "Warm in winter. Too warm in summer."
+    "description": "Warm in winter. Too warm in summer.",
+    "icon": "staff"
   },
   {
     "id": "magma-maul",
@@ -136,7 +145,8 @@
       "strength": 3,
       "riderCrit": 0.02
     },
-    "description": "Heavy, hot, and loud."
+    "description": "Heavy, hot, and loud.",
+    "icon": "hammer"
   },
   {
     "id": "galeshot-longbow",
@@ -150,7 +160,8 @@
     "bonus": {
       "agility": 4
     },
-    "description": "Arrows hum on the way out."
+    "description": "Arrows hum on the way out.",
+    "icon": "longbow"
   },
   {
     "id": "stonesong-scepter",
@@ -164,7 +175,8 @@
     "bonus": {
       "arcana": 4
     },
-    "description": "It hums in a very low voice."
+    "description": "It hums in a very low voice.",
+    "icon": "scepter"
   },
   {
     "id": "thunder-glaive",
@@ -179,7 +191,8 @@
       "strength": 4,
       "riderCrit": 0.03
     },
-    "description": "Crackles when you point it at things."
+    "description": "Crackles when you point it at things.",
+    "icon": "polearm"
   },
   {
     "id": "stormwing-bow",
@@ -193,7 +206,8 @@
     "bonus": {
       "agility": 5
     },
-    "description": "Made from a feather of something huge."
+    "description": "Made from a feather of something huge.",
+    "icon": "bow"
   },
   {
     "id": "verdant-codex",
@@ -207,7 +221,8 @@
     "bonus": {
       "arcana": 5
     },
-    "description": "A spellbook with moss for a bookmark."
+    "description": "A spellbook with moss for a bookmark.",
+    "icon": "tome"
   },
   {
     "id": "padded-vest",
@@ -218,7 +233,8 @@
     "bonus": {
       "riderDefense": 1
     },
-    "description": "Like a quilt that believes in you."
+    "description": "Like a quilt that believes in you.",
+    "icon": "leathers"
   },
   {
     "id": "leather-jerkin",
@@ -230,7 +246,8 @@
       "riderDefense": 2,
       "riderHp": 10
     },
-    "description": "Smells like adventure and old shoes."
+    "description": "Smells like adventure and old shoes.",
+    "icon": "leathers"
   },
   {
     "id": "shellplate",
@@ -242,7 +259,8 @@
       "riderDefense": 3,
       "riderHp": 25
     },
-    "description": "Pieced together from very large shells."
+    "description": "Pieced together from very large shells.",
+    "icon": "plate"
   },
   {
     "id": "ashguard-mail",
@@ -254,7 +272,8 @@
       "riderDefense": 5,
       "riderHp": 40
     },
-    "description": "Fireproof, mostly."
+    "description": "Fireproof, mostly.",
+    "icon": "mail"
   },
   {
     "id": "skyforged-plate",
@@ -266,7 +285,8 @@
       "riderDefense": 7,
       "riderHp": 60
     },
-    "description": "Light as a cloud, hard as a mountain."
+    "description": "Light as a cloud, hard as a mountain.",
+    "icon": "plate"
   },
   {
     "id": "lucky-pebble",
@@ -277,7 +297,8 @@
     "bonus": {
       "agility": 1
     },
-    "description": "Probably lucky. Definitely a pebble."
+    "description": "Probably lucky. Definitely a pebble.",
+    "icon": "gem"
   },
   {
     "id": "mana-locket",
@@ -289,7 +310,8 @@
       "riderMp": 8,
       "arcana": 1
     },
-    "description": "Holds a tiny portrait of a tiny wizard."
+    "description": "Holds a tiny portrait of a tiny wizard.",
+    "icon": "pendant"
   },
   {
     "id": "brawlers-band",
@@ -301,7 +323,8 @@
       "strength": 2,
       "vigor": 1
     },
-    "description": "Knuckles not included."
+    "description": "Knuckles not included.",
+    "icon": "ring"
   },
   {
     "id": "keepers-charm",
@@ -314,7 +337,8 @@
       "riderHp": 20,
       "healPct": 0.1
     },
-    "description": "Given to keepers who remember to feed their dragon."
+    "description": "Given to keepers who remember to feed their dragon.",
+    "icon": "charm"
   },
   {
     "id": "stormglass-pendant",
@@ -327,7 +351,8 @@
       "arcana": 3,
       "riderCrit": 0.02
     },
-    "description": "A little storm in a bottle on a string."
+    "description": "A little storm in a bottle on a string.",
+    "icon": "pendant"
   },
   {
     "id": "rope-saddle",
@@ -339,7 +364,8 @@
       "dragonHp": 30,
       "dragonDefense": 2
     },
-    "description": "Itchy, but it holds."
+    "description": "Itchy, but it holds.",
+    "icon": "saddle"
   },
   {
     "id": "ridgeback-saddle",
@@ -351,7 +377,8 @@
       "dragonHp": 60,
       "dragonDefense": 4
     },
-    "description": "Comes with cup holders. Just the one."
+    "description": "Comes with cup holders. Just the one.",
+    "icon": "saddle"
   },
   {
     "id": "iron-horn-cap",
@@ -362,7 +389,8 @@
     "bonus": {
       "might": 3
     },
-    "description": "Makes every headbutt count."
+    "description": "Makes every headbutt count.",
+    "icon": "horncap"
   },
   {
     "id": "gilded-horn-cap",
@@ -374,7 +402,8 @@
       "might": 5,
       "dragonCrit": 0.03
     },
-    "description": "Shiny. Your dragon will not stop looking at itself."
+    "description": "Shiny. Your dragon will not stop looking at itself.",
+    "icon": "horncap"
   },
   {
     "id": "river-scale-charm",
@@ -385,7 +414,8 @@
     "bonus": {
       "spirit": 3
     },
-    "description": "A smooth stone tied into the scales."
+    "description": "A smooth stone tied into the scales.",
+    "icon": "dragoncharm"
   },
   {
     "id": "ember-scale-charm",
@@ -397,7 +427,8 @@
       "spirit": 5,
       "breathPct": 0.1
     },
-    "description": "Glows faintly when your dragon is happy."
+    "description": "Glows faintly when your dragon is happy.",
+    "icon": "dragoncharm"
   },
   {
     "id": "rimefang-blade",
@@ -412,7 +443,8 @@
       "strength": 5,
       "riderCrit": 0.03
     },
-    "description": "So cold it fogs up when you talk to it."
+    "description": "So cold it fogs up when you talk to it.",
+    "icon": "sword"
   },
   {
     "id": "glacier-longbow",
@@ -426,7 +458,8 @@
     "bonus": {
       "agility": 6
     },
-    "description": "Arrows come out pre-chilled."
+    "description": "Arrows come out pre-chilled.",
+    "icon": "longbow"
   },
   {
     "id": "hoarfrost-staff",
@@ -440,7 +473,8 @@
     "bonus": {
       "arcana": 6
     },
-    "description": "Leaves a trail of tiny snowflakes."
+    "description": "Leaves a trail of tiny snowflakes.",
+    "icon": "staff"
   },
   {
     "id": "geode-hammer",
@@ -455,7 +489,8 @@
       "strength": 6,
       "riderCrit": 0.04
     },
-    "description": "Cracks rocks open. Cracks golems open too."
+    "description": "Cracks rocks open. Cracks golems open too.",
+    "icon": "hammer"
   },
   {
     "id": "crystal-repeater",
@@ -469,7 +504,8 @@
     "bonus": {
       "agility": 7
     },
-    "description": "Hums a different note for every shot."
+    "description": "Hums a different note for every shot.",
+    "icon": "repeater"
   },
   {
     "id": "lantern-of-ages",
@@ -483,7 +519,8 @@
     "bonus": {
       "arcana": 7
     },
-    "description": "The flame inside has never gone out."
+    "description": "The flame inside has never gone out.",
+    "icon": "lantern"
   },
   {
     "id": "dawnbreaker",
@@ -498,7 +535,8 @@
       "strength": 8,
       "riderCrit": 0.05
     },
-    "description": "A sword that makes everyone squint."
+    "description": "A sword that makes everyone squint.",
+    "icon": "hammer"
   },
   {
     "id": "duskwind-bow",
@@ -512,7 +550,8 @@
     "bonus": {
       "agility": 9
     },
-    "description": "Very quiet. Suspiciously quiet."
+    "description": "Very quiet. Suspiciously quiet.",
+    "icon": "bow"
   },
   {
     "id": "eclipse-tome",
@@ -526,7 +565,8 @@
     "bonus": {
       "arcana": 9
     },
-    "description": "Half the pages are blank. The other half are glowing."
+    "description": "Half the pages are blank. The other half are glowing.",
+    "icon": "tome"
   },
   {
     "id": "rimeguard-plate",
@@ -538,7 +578,8 @@
       "riderDefense": 9,
       "riderHp": 80
     },
-    "description": "Keeps the cold out and the warm in."
+    "description": "Keeps the cold out and the warm in.",
+    "icon": "plate"
   },
   {
     "id": "geodeplate",
@@ -550,7 +591,8 @@
       "riderDefense": 11,
       "riderHp": 110
     },
-    "description": "Every plate is a polished gemstone."
+    "description": "Every plate is a polished gemstone.",
+    "icon": "plate"
   },
   {
     "id": "twilight-mail",
@@ -562,7 +604,8 @@
       "riderDefense": 13,
       "riderHp": 140
     },
-    "description": "Changes color with the time of day."
+    "description": "Changes color with the time of day.",
+    "icon": "mail"
   },
   {
     "id": "frost-sigil",
@@ -574,7 +617,8 @@
       "vigor": 4,
       "arcana": 3
     },
-    "description": "A snowflake that never melts."
+    "description": "A snowflake that never melts.",
+    "icon": "sigil"
   },
   {
     "id": "miners-lucky-gem",
@@ -587,7 +631,8 @@
       "agility": 4,
       "riderCrit": 0.03
     },
-    "description": "Found at the bottom of a very deep hole."
+    "description": "Found at the bottom of a very deep hole.",
+    "icon": "gem"
   },
   {
     "id": "sun-and-moon-charm",
@@ -600,7 +645,8 @@
       "arcana": 5,
       "vigor": 5
     },
-    "description": "Half gold, half silver, all fancy."
+    "description": "Half gold, half silver, all fancy.",
+    "icon": "charm"
   },
   {
     "id": "frost-fur-saddle",
@@ -612,7 +658,8 @@
       "dragonHp": 100,
       "dragonDefense": 6
     },
-    "description": "Warm, fluffy, slightly shedding."
+    "description": "Warm, fluffy, slightly shedding.",
+    "icon": "saddle"
   },
   {
     "id": "elder-saddle",
@@ -624,7 +671,8 @@
       "dragonHp": 150,
       "dragonDefense": 8
     },
-    "description": "Fit for a dragon who has seen everything."
+    "description": "Fit for a dragon who has seen everything.",
+    "icon": "saddle"
   },
   {
     "id": "crystal-horn-cap",
@@ -636,7 +684,8 @@
       "might": 7,
       "dragonCrit": 0.04
     },
-    "description": "Sparkles when your dragon headbutts things."
+    "description": "Sparkles when your dragon headbutts things.",
+    "icon": "horncap"
   },
   {
     "id": "eclipse-horn-cap",
@@ -648,7 +697,8 @@
       "might": 10,
       "dragonCrit": 0.05
     },
-    "description": "Casts a tiny shadow, even indoors."
+    "description": "Casts a tiny shadow, even indoors.",
+    "icon": "horncap"
   },
   {
     "id": "glacier-scale-charm",
@@ -660,7 +710,8 @@
       "spirit": 7,
       "breathPct": 0.12
     },
-    "description": "Breath comes out crisp and clear."
+    "description": "Breath comes out crisp and clear.",
+    "icon": "dragoncharm"
   },
   {
     "id": "starlight-scale-charm",
@@ -672,7 +723,8 @@
       "spirit": 10,
       "breathPct": 0.15
     },
-    "description": "Twinkles at night. Your dragon loves it."
+    "description": "Twinkles at night. Your dragon loves it.",
+    "icon": "dragoncharm"
   },
   {
     "id": "harvest-lantern",
@@ -685,7 +737,8 @@
       "goldPct": 0.1
     },
     "description": "A paper lantern shaped like a pumpkin. Gold shines brighter by its light.",
-    "event": "harvest-fair"
+    "event": "harvest-fair",
+    "icon": "lantern"
   },
   {
     "id": "snowflake-scarf",
@@ -698,7 +751,8 @@
       "riderHp": 20
     },
     "description": "Knitted by someone who really likes snowflakes.",
-    "event": "frostfall"
+    "event": "frostfall",
+    "icon": "keepsake"
   },
   {
     "id": "petal-pin",
@@ -711,7 +765,8 @@
       "healPct": 0.1
     },
     "description": "A pressed flower that never wilts.",
-    "event": "bloomtide"
+    "event": "bloomtide",
+    "icon": "sigil"
   },
   {
     "id": "sunburst-amulet",
@@ -724,7 +779,8 @@
       "riderCrit": 0.02
     },
     "description": "Warm on sunny days. Always sunny somewhere.",
-    "event": "sunfire-festival"
+    "event": "sunfire-festival",
+    "icon": "pendant"
   },
   {
     "id": "cobble-cudgel",
@@ -738,7 +794,8 @@
     "bonus": {
       "strength": 1
     },
-    "description": "A rock tied to a stick. Classic engineering."
+    "description": "A rock tied to a stick. Classic engineering.",
+    "icon": "club"
   },
   {
     "id": "static-slingshot",
@@ -752,7 +809,8 @@
     "bonus": {
       "agility": 2
     },
-    "description": "Rub it on a sweater before use."
+    "description": "Rub it on a sweater before use.",
+    "icon": "sling"
   },
   {
     "id": "icicle-wand",
@@ -766,7 +824,8 @@
     "bonus": {
       "arcana": 2
     },
-    "description": "Keep it out of hot drinks."
+    "description": "Keep it out of hot drinks.",
+    "icon": "wand"
   },
   {
     "id": "sparkbrand-saber",
@@ -780,7 +839,8 @@
     "bonus": {
       "strength": 2
     },
-    "description": "Hums a little tune when swung."
+    "description": "Hums a little tune when swung.",
+    "icon": "saber"
   },
   {
     "id": "briarwood-bow",
@@ -794,7 +854,8 @@
     "bonus": {
       "agility": 3
     },
-    "description": "Grown, not made. Still a bit thorny."
+    "description": "Grown, not made. Still a bit thorny.",
+    "icon": "bow"
   },
   {
     "id": "pebble-orb",
@@ -808,7 +869,8 @@
     "bonus": {
       "arcana": 3
     },
-    "description": "Heavier than it looks. Much heavier."
+    "description": "Heavier than it looks. Much heavier.",
+    "icon": "orb"
   },
   {
     "id": "hailstone-axe",
@@ -823,7 +885,8 @@
       "strength": 3,
       "vigor": 1
     },
-    "description": "Leaves a little snow on everything it hits."
+    "description": "Leaves a little snow on everything it hits.",
+    "icon": "axe"
   },
   {
     "id": "riptide-recurve",
@@ -837,7 +900,8 @@
     "bonus": {
       "agility": 4
     },
-    "description": "Pulls arrows back like the sea pulls sand."
+    "description": "Pulls arrows back like the sea pulls sand.",
+    "icon": "hornbow"
   },
   {
     "id": "mossheart-staff",
@@ -851,7 +915,8 @@
     "bonus": {
       "arcana": 4
     },
-    "description": "Smells like a forest after rain."
+    "description": "Smells like a forest after rain.",
+    "icon": "staff"
   },
   {
     "id": "boulderbreaker",
@@ -866,7 +931,8 @@
       "strength": 4,
       "vigor": 1
     },
-    "description": "It does what it says."
+    "description": "It does what it says.",
+    "icon": "hammer"
   },
   {
     "id": "kindling-longbow",
@@ -880,7 +946,8 @@
     "bonus": {
       "agility": 5
     },
-    "description": "Arrows arrive slightly toasted."
+    "description": "Arrows arrive slightly toasted.",
+    "icon": "longbow"
   },
   {
     "id": "tidepool-scepter",
@@ -894,7 +961,8 @@
     "bonus": {
       "arcana": 5
     },
-    "description": "Has a tiny crab living in it. Don't ask."
+    "description": "Has a tiny crab living in it. Don't ask.",
+    "icon": "scepter"
   },
   {
     "id": "emberforged-blade",
@@ -909,7 +977,8 @@
       "strength": 5,
       "vigor": 1
     },
-    "description": "Warm to the touch. Hot to the enemy."
+    "description": "Warm to the touch. Hot to the enemy.",
+    "icon": "sword"
   },
   {
     "id": "thornstorm-bow",
@@ -923,7 +992,8 @@
     "bonus": {
       "agility": 6
     },
-    "description": "Every arrow sprouts on the way."
+    "description": "Every arrow sprouts on the way.",
+    "icon": "bow"
   },
   {
     "id": "wavecrest-rod",
@@ -937,7 +1007,8 @@
     "bonus": {
       "arcana": 6
     },
-    "description": "Hums like a seashell held to your ear."
+    "description": "Hums like a seashell held to your ear.",
+    "icon": "scepter"
   },
   {
     "id": "rootsplitter-axe",
@@ -952,7 +1023,8 @@
       "strength": 6,
       "vigor": 2
     },
-    "description": "Old oaks fear it. Young oaks have heard stories."
+    "description": "Old oaks fear it. Young oaks have heard stories.",
+    "icon": "axe"
   },
   {
     "id": "rimeshard-crossbow",
@@ -966,7 +1038,8 @@
     "bonus": {
       "agility": 7
     },
-    "description": "Bolts of pure ice. Bring mittens."
+    "description": "Bolts of pure ice. Bring mittens.",
+    "icon": "crossbow"
   },
   {
     "id": "abyssal-codex",
@@ -980,7 +1053,8 @@
     "bonus": {
       "arcana": 7
     },
-    "description": "Damp pages. Very powerful damp pages."
+    "description": "Damp pages. Very powerful damp pages.",
+    "icon": "tome"
   },
   {
     "id": "duskreaver",
@@ -995,7 +1069,8 @@
       "strength": 8,
       "vigor": 2
     },
-    "description": "Nobody sees it coming. Sometimes not even you."
+    "description": "Nobody sees it coming. Sometimes not even you.",
+    "icon": "greatsword"
   },
   {
     "id": "dawnstring-bow",
@@ -1009,7 +1084,8 @@
     "bonus": {
       "agility": 9
     },
-    "description": "Arrows that glow like sunrise."
+    "description": "Arrows that glow like sunrise.",
+    "icon": "bow"
   },
   {
     "id": "sunlit-grimoire",
@@ -1023,7 +1099,8 @@
     "bonus": {
       "arcana": 9
     },
-    "description": "Reading it gives you a mild tan."
+    "description": "Reading it gives you a mild tan.",
+    "icon": "tome"
   },
   {
     "id": "travelers-coat",
@@ -1037,7 +1114,8 @@
       "agility": 1,
       "arcana": 1
     },
-    "description": "Lots of pockets. Most of them have snacks."
+    "description": "Lots of pockets. Most of them have snacks.",
+    "icon": "coat"
   },
   {
     "id": "mistweave-robe",
@@ -1051,7 +1129,8 @@
       "agility": 1,
       "arcana": 1
     },
-    "description": "Slightly damp at all times. On purpose."
+    "description": "Slightly damp at all times. On purpose.",
+    "icon": "robe"
   },
   {
     "id": "cinderweave-cloak",
@@ -1065,7 +1144,8 @@
       "agility": 2,
       "arcana": 2
     },
-    "description": "Fireproof, mostly."
+    "description": "Fireproof, mostly.",
+    "icon": "cloak"
   },
   {
     "id": "galecloth-jerkin",
@@ -1079,7 +1159,8 @@
       "agility": 2,
       "arcana": 2
     },
-    "description": "Flaps heroically even indoors."
+    "description": "Flaps heroically even indoors.",
+    "icon": "leathers"
   },
   {
     "id": "snowdrift-mantle",
@@ -1093,7 +1174,8 @@
       "agility": 3,
       "arcana": 3
     },
-    "description": "Soft as fresh snow, warm as a hug."
+    "description": "Soft as fresh snow, warm as a hug.",
+    "icon": "cloak"
   },
   {
     "id": "deepcavern-leathers",
@@ -1107,7 +1189,8 @@
       "agility": 3,
       "arcana": 3
     },
-    "description": "Smells faintly of mushrooms and courage."
+    "description": "Smells faintly of mushrooms and courage.",
+    "icon": "leathers"
   },
   {
     "id": "duskwalker-garb",
@@ -1121,7 +1204,8 @@
       "agility": 4,
       "arcana": 4
     },
-    "description": "Hard to see at night. Easy to trip over."
+    "description": "Hard to see at night. Easy to trip over.",
+    "icon": "wraps"
   },
   {
     "id": "featherweight-saddle",
@@ -1133,7 +1217,8 @@
       "dragonHp": 15,
       "dragonDodge": 3
     },
-    "description": "Barely there. Your dragon loves it."
+    "description": "Barely there. Your dragon loves it.",
+    "icon": "saddle"
   },
   {
     "id": "swiftwind-saddle",
@@ -1145,7 +1230,8 @@
       "dragonHp": 30,
       "dragonDodge": 5
     },
-    "description": "Built for loops, rolls and showing off."
+    "description": "Built for loops, rolls and showing off.",
+    "icon": "saddle"
   },
   {
     "id": "snowrunner-saddle",
@@ -1157,7 +1243,8 @@
       "dragonHp": 50,
       "dragonDodge": 7
     },
-    "description": "Sheds snow before it can settle."
+    "description": "Sheds snow before it can settle.",
+    "icon": "saddle"
   },
   {
     "id": "skydancer-saddle",
@@ -1169,7 +1256,8 @@
       "dragonHp": 75,
       "dragonDodge": 10
     },
-    "description": "For dragons who fight like they dance."
+    "description": "For dragons who fight like they dance.",
+    "icon": "saddle"
   },
   {
     "id": "serrated-horn-cap",
@@ -1181,7 +1269,8 @@
       "might": 2,
       "clawPct": 0.05
     },
-    "description": "Little teeth on the edge. Very rude."
+    "description": "Little teeth on the edge. Very rude.",
+    "icon": "horncap"
   },
   {
     "id": "hooked-horn-cap",
@@ -1193,7 +1282,8 @@
       "might": 3,
       "clawPct": 0.08
     },
-    "description": "Good for grabbing, better for swiping."
+    "description": "Good for grabbing, better for swiping.",
+    "icon": "horncap"
   },
   {
     "id": "shardtip-horn-cap",
@@ -1205,7 +1295,8 @@
       "might": 5,
       "clawPct": 0.1
     },
-    "description": "Crystal points that never dull."
+    "description": "Crystal points that never dull.",
+    "icon": "horncap"
   },
   {
     "id": "doomspike-horn-cap",
@@ -1217,7 +1308,8 @@
       "might": 7,
       "clawPct": 0.12
     },
-    "description": "The name was the blacksmith's idea."
+    "description": "The name was the blacksmith's idea.",
+    "icon": "horncap"
   },
   {
     "id": "spark-scale-charm",
@@ -1229,7 +1321,8 @@
       "spirit": 2,
       "breathStatusChance": 0.05
     },
-    "description": "Crackles when your dragon sneezes."
+    "description": "Crackles when your dragon sneezes.",
+    "icon": "dragoncharm"
   },
   {
     "id": "hex-scale-charm",
@@ -1241,7 +1334,8 @@
       "spirit": 3,
       "breathStatusChance": 0.08
     },
-    "description": "Scribbled with runes. Some are spelled right."
+    "description": "Scribbled with runes. Some are spelled right.",
+    "icon": "dragoncharm"
   },
   {
     "id": "stormeye-scale-charm",
@@ -1253,7 +1347,8 @@
       "spirit": 5,
       "breathStatusChance": 0.1
     },
-    "description": "Calm in the middle, chaos all around."
+    "description": "Calm in the middle, chaos all around.",
+    "icon": "dragoncharm"
   },
   {
     "id": "wyrdscale-charm",
@@ -1265,7 +1360,8 @@
       "spirit": 7,
       "breathStatusChance": 0.12
     },
-    "description": "Hums in a key that makes enemies itchy."
+    "description": "Hums in a key that makes enemies itchy.",
+    "icon": "dragoncharm"
   },
   {
     "id": "bramblewarden-melee",
@@ -1279,7 +1375,8 @@
     "bonus": {
       "strength": 1
     },
-    "description": "Grows back if you chip it."
+    "description": "Grows back if you chip it.",
+    "icon": "sword"
   },
   {
     "id": "bramblewarden-ranged",
@@ -1293,7 +1390,8 @@
     "bonus": {
       "agility": 2
     },
-    "description": "The string is a very patient vine."
+    "description": "The string is a very patient vine.",
+    "icon": "bow"
   },
   {
     "id": "bramblewarden-magic",
@@ -1307,7 +1405,8 @@
     "bonus": {
       "arcana": 2
     },
-    "description": "Topped with the biggest acorn in the Hollow."
+    "description": "Topped with the biggest acorn in the Hollow.",
+    "icon": "staff"
   },
   {
     "id": "bramblewarden-armor",
@@ -1319,7 +1418,8 @@
       "riderDefense": 3,
       "riderHp": 20
     },
-    "description": "Made from the Bramble Troll's old bark. It shed it. Probably."
+    "description": "Made from the Bramble Troll's old bark. It shed it. Probably.",
+    "icon": "mail"
   },
   {
     "id": "bramblewarden-trinket",
@@ -1331,7 +1431,8 @@
       "vigor": 1,
       "riderHp": 10
     },
-    "description": "The Elder Thornling's favorite acorn."
+    "description": "The Elder Thornling's favorite acorn.",
+    "icon": "charm"
   },
   {
     "id": "brinewalker-melee",
@@ -1345,7 +1446,8 @@
     "bonus": {
       "strength": 2
     },
-    "description": "Salty. Like its owner."
+    "description": "Salty. Like its owner.",
+    "icon": "saber"
   },
   {
     "id": "brinewalker-ranged",
@@ -1359,7 +1461,8 @@
     "bonus": {
       "agility": 3
     },
-    "description": "Fires tiny harpoons. Mostly at crabs."
+    "description": "Fires tiny harpoons. Mostly at crabs.",
+    "icon": "bow"
   },
   {
     "id": "brinewalker-magic",
@@ -1373,7 +1476,8 @@
     "bonus": {
       "arcana": 3
     },
-    "description": "Hold it to your ear and hear spells."
+    "description": "Hold it to your ear and hear spells.",
+    "icon": "wand"
   },
   {
     "id": "brinewalker-armor",
@@ -1385,7 +1489,8 @@
       "riderDefense": 4,
       "riderHp": 35
     },
-    "description": "A gift from the Crab King. He did not mean to give it."
+    "description": "A gift from the Crab King. He did not mean to give it.",
+    "icon": "coat"
   },
   {
     "id": "brinewalker-trinket",
@@ -1397,7 +1502,8 @@
       "arcana": 2,
       "riderMp": 6
     },
-    "description": "Big Pincher kept it very safe. Until now."
+    "description": "Big Pincher kept it very safe. Until now.",
+    "icon": "gem"
   },
   {
     "id": "emberheart-melee",
@@ -1411,7 +1517,8 @@
     "bonus": {
       "strength": 3
     },
-    "description": "Glows red when it is happy."
+    "description": "Glows red when it is happy.",
+    "icon": "sword"
   },
   {
     "id": "emberheart-ranged",
@@ -1425,7 +1532,8 @@
     "bonus": {
       "agility": 4
     },
-    "description": "Every shot is a tiny firework."
+    "description": "Every shot is a tiny firework.",
+    "icon": "bow"
   },
   {
     "id": "emberheart-magic",
@@ -1439,7 +1547,8 @@
     "bonus": {
       "arcana": 4
     },
-    "description": "Do not lick. We have all tried."
+    "description": "Do not lick. We have all tried.",
+    "icon": "scepter"
   },
   {
     "id": "emberheart-armor",
@@ -1451,7 +1560,8 @@
       "riderDefense": 6,
       "riderHp": 55
     },
-    "description": "Scales the Magma Wyrm left behind. Still warm."
+    "description": "Scales the Magma Wyrm left behind. Still warm.",
+    "icon": "mail"
   },
   {
     "id": "emberheart-trinket",
@@ -1463,7 +1573,8 @@
       "strength": 2,
       "agility": 2
     },
-    "description": "The Imp Chieftain wore it as a crown. It is a ring."
+    "description": "The Imp Chieftain wore it as a crown. It is a ring.",
+    "icon": "ring"
   },
   {
     "id": "stormrider-melee",
@@ -1477,7 +1588,8 @@
     "bonus": {
       "strength": 4
     },
-    "description": "Crackles in the rain."
+    "description": "Crackles in the rain.",
+    "icon": "polearm"
   },
   {
     "id": "stormrider-ranged",
@@ -1491,7 +1603,8 @@
     "bonus": {
       "agility": 5
     },
-    "description": "Arrows ride the wind. Sometimes the wrong wind."
+    "description": "Arrows ride the wind. Sometimes the wrong wind.",
+    "icon": "bow"
   },
   {
     "id": "stormrider-magic",
@@ -1505,7 +1618,8 @@
     "bonus": {
       "arcana": 5
     },
-    "description": "Strictly speaking, the lightning finds it."
+    "description": "Strictly speaking, the lightning finds it.",
+    "icon": "scepter"
   },
   {
     "id": "stormrider-armor",
@@ -1517,7 +1631,8 @@
       "riderDefense": 9,
       "riderHp": 75
     },
-    "description": "Feathers from the Storm Roc. It has plenty more."
+    "description": "Feathers from the Storm Roc. It has plenty more.",
+    "icon": "cloak"
   },
   {
     "id": "stormrider-trinket",
@@ -1529,7 +1644,8 @@
       "agility": 3,
       "riderCrit": 0.02
     },
-    "description": "Thunderhead dropped it. It still rumbles."
+    "description": "Thunderhead dropped it. It still rumbles.",
+    "icon": "gem"
   },
   {
     "id": "glacierguard-melee",
@@ -1543,7 +1659,8 @@
     "bonus": {
       "strength": 5
     },
-    "description": "Cold enough to keep your lunch fresh."
+    "description": "Cold enough to keep your lunch fresh.",
+    "icon": "greatsword"
   },
   {
     "id": "glacierguard-ranged",
@@ -1557,7 +1674,8 @@
     "bonus": {
       "agility": 6
     },
-    "description": "The string never goes slack."
+    "description": "The string never goes slack.",
+    "icon": "bow"
   },
   {
     "id": "glacierguard-magic",
@@ -1571,7 +1689,8 @@
     "bonus": {
       "arcana": 6
     },
-    "description": "Snowflakes fall wherever you point it."
+    "description": "Snowflakes fall wherever you point it.",
+    "icon": "staff"
   },
   {
     "id": "glacierguard-armor",
@@ -1583,7 +1702,8 @@
       "riderDefense": 11,
       "riderHp": 110
     },
-    "description": "One scale from each of the Glacier Hydra's heads."
+    "description": "One scale from each of the Glacier Hydra's heads.",
+    "icon": "plate"
   },
   {
     "id": "glacierguard-trinket",
@@ -1595,7 +1715,8 @@
       "vigor": 4,
       "riderDefense": 2
     },
-    "description": "The Rime Alpha's tooth, polished to a shine."
+    "description": "The Rime Alpha's tooth, polished to a shine.",
+    "icon": "fang"
   },
   {
     "id": "deepdelver-melee",
@@ -1609,7 +1730,8 @@
     "bonus": {
       "strength": 6
     },
-    "description": "Mines ore and enemies with equal joy."
+    "description": "Mines ore and enemies with equal joy.",
+    "icon": "pickaxe"
   },
   {
     "id": "deepdelver-ranged",
@@ -1623,7 +1745,8 @@
     "bonus": {
       "agility": 7
     },
-    "description": "Fires rivets. The mine has lots of rivets."
+    "description": "Fires rivets. The mine has lots of rivets.",
+    "icon": "crossbow"
   },
   {
     "id": "deepdelver-magic",
@@ -1637,7 +1760,8 @@
     "bonus": {
       "arcana": 7
     },
-    "description": "Never runs out of light. Or opinions."
+    "description": "Never runs out of light. Or opinions.",
+    "icon": "staff"
   },
   {
     "id": "deepdelver-armor",
@@ -1649,7 +1773,8 @@
       "riderDefense": 13,
       "riderHp": 135
     },
-    "description": "Built around a piece of the Iron Golem's core."
+    "description": "Built around a piece of the Iron Golem's core.",
+    "icon": "plate"
   },
   {
     "id": "deepdelver-trinket",
@@ -1661,7 +1786,8 @@
       "strength": 4,
       "vigor": 4
     },
-    "description": "Says \"Employee of the Month\". Every month."
+    "description": "Says \"Employee of the Month\". Every month.",
+    "icon": "sigil"
   },
   {
     "id": "twilight-regalia-melee",
@@ -1675,7 +1801,8 @@
     "bonus": {
       "strength": 8
     },
-    "description": "Half day, half night, all edge."
+    "description": "Half day, half night, all edge.",
+    "icon": "sword"
   },
   {
     "id": "twilight-regalia-ranged",
@@ -1689,7 +1816,8 @@
     "bonus": {
       "agility": 9
     },
-    "description": "Shoots arrows of dusk and dawn."
+    "description": "Shoots arrows of dusk and dawn.",
+    "icon": "bow"
   },
   {
     "id": "twilight-regalia-magic",
@@ -1703,7 +1831,8 @@
     "bonus": {
       "arcana": 9
     },
-    "description": "Shows the sky at the moment of eclipse."
+    "description": "Shows the sky at the moment of eclipse.",
+    "icon": "orb"
   },
   {
     "id": "twilight-regalia-armor",
@@ -1715,7 +1844,8 @@
       "riderDefense": 15,
       "riderHp": 170
     },
-    "description": "Scales of the Eclipse Dragon. The finest armor in the land."
+    "description": "Scales of the Eclipse Dragon. The finest armor in the land.",
+    "icon": "plate"
   },
   {
     "id": "twilight-regalia-trinket",
@@ -1728,7 +1858,8 @@
       "agility": 5,
       "arcana": 5
     },
-    "description": "The Eclipse Herald's seal of office."
+    "description": "The Eclipse Herald's seal of office.",
+    "icon": "sigil"
   },
   {
     "id": "forgeheart-amulet",
@@ -1742,7 +1873,8 @@
       "vigor": 3,
       "riderHp": 30
     },
-    "description": "Still warm from the anvil. Always will be."
+    "description": "Still warm from the anvil. Always will be.",
+    "icon": "pendant"
   },
   {
     "id": "starforged-blade",
@@ -1757,7 +1889,8 @@
       "strength": 7,
       "riderCrit": 0.04
     },
-    "description": "Hammered from a fallen star on your own Forge."
+    "description": "Hammered from a fallen star on your own Forge.",
+    "icon": "sword"
   },
   {
     "id": "starforged-bow",
@@ -1771,7 +1904,8 @@
     "bonus": {
       "agility": 8
     },
-    "description": "The string is spun from starlight. Somehow."
+    "description": "The string is spun from starlight. Somehow.",
+    "icon": "bow"
   },
   {
     "id": "starforged-staff",
@@ -1785,7 +1919,8 @@
     "bonus": {
       "arcana": 8
     },
-    "description": "Twinkles when it casts. Show-off."
+    "description": "Twinkles when it casts. Show-off.",
+    "icon": "staff"
   },
   {
     "id": "mirewalker-melee",
@@ -1799,7 +1934,8 @@
     "bonus": {
       "strength": 3
     },
-    "description": "Light as a reed, sharp as gossip."
+    "description": "Light as a reed, sharp as gossip.",
+    "icon": "sword"
   },
   {
     "id": "mirewalker-ranged",
@@ -1813,7 +1949,8 @@
     "bonus": {
       "agility": 3
     },
-    "description": "Arrows glow like will-o'-wisps."
+    "description": "Arrows glow like will-o'-wisps.",
+    "icon": "bow"
   },
   {
     "id": "mirewalker-magic",
@@ -1827,7 +1964,8 @@
     "bonus": {
       "arcana": 3
     },
-    "description": "A twig of the Whisperwillow. It still whispers."
+    "description": "A twig of the Whisperwillow. It still whispers.",
+    "icon": "wand"
   },
   {
     "id": "mirewalker-armor",
@@ -1839,7 +1977,8 @@
       "riderDefense": 6,
       "riderHp": 55
     },
-    "description": "Woven from the Whisperwillow's bark. It hums lullabies."
+    "description": "Woven from the Whisperwillow's bark. It hums lullabies.",
+    "icon": "robe"
   },
   {
     "id": "mirewalker-trinket",
@@ -1852,7 +1991,8 @@
       "riderMp": 6,
       "healPct": 0.05
     },
-    "description": "Old Croaker's lucky stone. Smells faintly of pond."
+    "description": "Old Croaker's lucky stone. Smells faintly of pond.",
+    "icon": "gem"
   },
   {
     "id": "fenwood-club",
@@ -1867,7 +2007,8 @@
       "strength": 2,
       "vigor": 1
     },
-    "description": "Carved from bog oak. Floats, oddly."
+    "description": "Carved from bog oak. Floats, oddly.",
+    "icon": "club"
   },
   {
     "id": "bogwater-trident",
@@ -1882,7 +2023,8 @@
       "strength": 2,
       "vigor": 1
     },
-    "description": "Three prongs, all slightly muddy."
+    "description": "Three prongs, all slightly muddy.",
+    "icon": "trident"
   },
   {
     "id": "cattail-bow",
@@ -1896,7 +2038,8 @@
     "bonus": {
       "agility": 3
     },
-    "description": "Strung with a very tough cattail."
+    "description": "Strung with a very tough cattail.",
+    "icon": "bow"
   },
   {
     "id": "drizzle-sling",
@@ -1910,7 +2053,8 @@
     "bonus": {
       "agility": 3
     },
-    "description": "Flings raindrops really, really hard."
+    "description": "Flings raindrops really, really hard.",
+    "icon": "sling"
   },
   {
     "id": "lilypad-scepter",
@@ -1924,7 +2068,8 @@
     "bonus": {
       "arcana": 3
     },
-    "description": "A frog sat on it once. Now it's magic."
+    "description": "A frog sat on it once. Now it's magic.",
+    "icon": "scepter"
   },
   {
     "id": "mistcaller-rod",
@@ -1938,7 +2083,8 @@
     "bonus": {
       "arcana": 3
     },
-    "description": "Calls mist. The mist does not always come."
+    "description": "Calls mist. The mist does not always come.",
+    "icon": "scepter"
   },
   {
     "id": "waders-of-the-fen",
@@ -1951,7 +2097,8 @@
       "riderHp": 30,
       "agility": 1
     },
-    "description": "Keep your feet dry. Mostly."
+    "description": "Keep your feet dry. Mostly.",
+    "icon": "leathers"
   },
   {
     "id": "firefly-jar",
@@ -1963,7 +2110,8 @@
       "agility": 2,
       "arcana": 2
     },
-    "description": "A jar of friendly fireflies. They help you aim."
+    "description": "A jar of friendly fireflies. They help you aim.",
+    "icon": "lantern"
   },
   {
     "id": "whisperwood-charm",
@@ -1976,7 +2124,8 @@
       "vigor": 2,
       "riderMp": 10
     },
-    "description": "Carved from a fallen Whisperwillow twig. It tells you secrets. Bad ones."
+    "description": "Carved from a fallen Whisperwillow twig. It tells you secrets. Bad ones.",
+    "icon": "charm"
   },
   {
     "id": "cogwright-melee",
@@ -1990,7 +2139,8 @@
     "bonus": {
       "strength": 4
     },
-    "description": "Tightens bolts. Loosens enemies."
+    "description": "Tightens bolts. Loosens enemies.",
+    "icon": "axe"
   },
   {
     "id": "cogwright-ranged",
@@ -2004,7 +2154,8 @@
     "bonus": {
       "agility": 5
     },
-    "description": "Fires rivets with a satisfying clank."
+    "description": "Fires rivets with a satisfying clank.",
+    "icon": "bow"
   },
   {
     "id": "cogwright-magic",
@@ -2018,7 +2169,8 @@
     "bonus": {
       "arcana": 5
     },
-    "description": "A coil of copper that hums with old magic."
+    "description": "A coil of copper that hums with old magic.",
+    "icon": "scepter"
   },
   {
     "id": "cogwright-armor",
@@ -2030,7 +2182,8 @@
       "riderDefense": 9,
       "riderHp": 85
     },
-    "description": "Plated with the Colossus's cooled furnace door. Toasty."
+    "description": "Plated with the Colossus's cooled furnace door. Toasty.",
+    "icon": "plate"
   },
   {
     "id": "cogwright-trinket",
@@ -2042,7 +2195,8 @@
       "strength": 3,
       "vigor": 3
     },
-    "description": "Captain Clank's badge of office. He salutes it, even now."
+    "description": "Captain Clank's badge of office. He salutes it, even now.",
+    "icon": "sigil"
   },
   {
     "id": "ruinstone-maul",
@@ -2056,7 +2210,8 @@
     "bonus": {
       "strength": 4
     },
-    "description": "A chunk of fortress wall on a stick."
+    "description": "A chunk of fortress wall on a stick.",
+    "icon": "hammer"
   },
   {
     "id": "kilnfire-sabre",
@@ -2070,7 +2225,8 @@
     "bonus": {
       "strength": 4
     },
-    "description": "Glows like a kiln. Smells like toast."
+    "description": "Glows like a kiln. Smells like toast.",
+    "icon": "saber"
   },
   {
     "id": "gargoyle-crossbow",
@@ -2084,7 +2240,8 @@
     "bonus": {
       "agility": 5
     },
-    "description": "Carved like a gargoyle. It glares at your targets."
+    "description": "Carved like a gargoyle. It glares at your targets.",
+    "icon": "crossbow"
   },
   {
     "id": "cinderbolt-bow",
@@ -2098,7 +2255,8 @@
     "bonus": {
       "agility": 5
     },
-    "description": "Each arrow leaves a little trail of smoke."
+    "description": "Each arrow leaves a little trail of smoke.",
+    "icon": "bow"
   },
   {
     "id": "rune-brick-staff",
@@ -2112,7 +2270,8 @@
     "bonus": {
       "arcana": 5
     },
-    "description": "A staff with an old rune brick on top. Heavy, but wise."
+    "description": "A staff with an old rune brick on top. Heavy, but wise.",
+    "icon": "staff"
   },
   {
     "id": "bellows-wand",
@@ -2126,7 +2285,8 @@
     "bonus": {
       "arcana": 5
     },
-    "description": "Squeeze it to fan your spells hotter."
+    "description": "Squeeze it to fan your spells hotter.",
+    "icon": "wand"
   },
   {
     "id": "rivetmail",
@@ -2138,7 +2298,8 @@
       "riderDefense": 7,
       "riderHp": 60
     },
-    "description": "Mail made of a thousand old rivets. Clinks when you walk."
+    "description": "Mail made of a thousand old rivets. Clinks when you walk.",
+    "icon": "mail"
   },
   {
     "id": "oil-lamp-charm",
@@ -2151,7 +2312,8 @@
       "arcana": 2,
       "riderMp": 8
     },
-    "description": "A tiny lamp that never runs out. Probably."
+    "description": "A tiny lamp that never runs out. Probably.",
+    "icon": "charm"
   },
   {
     "id": "clockwork-heart",
@@ -2165,7 +2327,8 @@
       "vigor": 3,
       "riderCrit": 0.02
     },
-    "description": "Ticks in time with yours. Slightly faster when you are brave."
+    "description": "Ticks in time with yours. Slightly faster when you are brave.",
+    "icon": "heart"
   },
   {
     "id": "nightwatch-melee",
@@ -2179,7 +2342,8 @@
     "bonus": {
       "strength": 5
     },
-    "description": "Glows faintly when the moon is up. Sulks when it isn't."
+    "description": "Glows faintly when the moon is up. Sulks when it isn't.",
+    "icon": "saber"
   },
   {
     "id": "nightwatch-ranged",
@@ -2193,7 +2357,8 @@
     "bonus": {
       "agility": 6
     },
-    "description": "Fletched with owl feathers. Silent as a whisper."
+    "description": "Fletched with owl feathers. Silent as a whisper.",
+    "icon": "bow"
   },
   {
     "id": "nightwatch-magic",
@@ -2207,7 +2372,8 @@
     "bonus": {
       "arcana": 6
     },
-    "description": "A lamplighter's staff with a little moon inside."
+    "description": "A lamplighter's staff with a little moon inside.",
+    "icon": "staff"
   },
   {
     "id": "nightwatch-armor",
@@ -2219,7 +2385,8 @@
       "riderDefense": 12,
       "riderHp": 125
     },
-    "description": "Woven from the Moonwell Wyrm's starry scales. Twinkles."
+    "description": "Woven from the Moonwell Wyrm's starry scales. Twinkles.",
+    "icon": "cloak"
   },
   {
     "id": "nightwatch-trinket",
@@ -2231,7 +2398,8 @@
       "agility": 4,
       "vigor": 4
     },
-    "description": "A tip of Duskhorn's antler. It holds a single star."
+    "description": "A tip of Duskhorn's antler. It holds a single star.",
+    "icon": "charm"
   },
   {
     "id": "gloomcleaver",
@@ -2246,7 +2414,8 @@
       "strength": 5,
       "vigor": 1
     },
-    "description": "A heavy blade the color of midnight."
+    "description": "A heavy blade the color of midnight.",
+    "icon": "cleaver"
   },
   {
     "id": "rime-hatchet",
@@ -2261,7 +2430,8 @@
       "strength": 5,
       "vigor": 1
     },
-    "description": "Chops wood and freezes it at the same time."
+    "description": "Chops wood and freezes it at the same time.",
+    "icon": "axe"
   },
   {
     "id": "nightjar-bow",
@@ -2275,7 +2445,8 @@
     "bonus": {
       "agility": 6
     },
-    "description": "Shoots arrows you only hear after they land."
+    "description": "Shoots arrows you only hear after they land.",
+    "icon": "bow"
   },
   {
     "id": "icicle-repeater",
@@ -2289,7 +2460,8 @@
     "bonus": {
       "agility": 6
     },
-    "description": "Fires icicles. Reload with snow."
+    "description": "Fires icicles. Reload with snow.",
+    "icon": "repeater"
   },
   {
     "id": "starless-tome",
@@ -2303,7 +2475,8 @@
     "bonus": {
       "arcana": 6
     },
-    "description": "A book of night. The pages are very hard to read."
+    "description": "A book of night. The pages are very hard to read.",
+    "icon": "tome"
   },
   {
     "id": "frostlight-wand",
@@ -2317,7 +2490,8 @@
     "bonus": {
       "arcana": 6
     },
-    "description": "Glows like moonlight on fresh snow."
+    "description": "Glows like moonlight on fresh snow.",
+    "icon": "wand"
   },
   {
     "id": "owlfeather-coat",
@@ -2329,7 +2503,8 @@
       "riderDefense": 9,
       "riderHp": 90
     },
-    "description": "Keeps you warm and very, very quiet."
+    "description": "Keeps you warm and very, very quiet.",
+    "icon": "coat"
   },
   {
     "id": "moonpetal-pin",
@@ -2342,7 +2517,8 @@
       "vigor": 3,
       "riderMp": 10
     },
-    "description": "A flower that only opens at night."
+    "description": "A flower that only opens at night.",
+    "icon": "sigil"
   },
   {
     "id": "moonsilver-locket",
@@ -2356,7 +2532,8 @@
       "vigor": 4,
       "healPct": 0.05
     },
-    "description": "Holds a tiny drop of the moonwell. It hums lullabies."
+    "description": "Holds a tiny drop of the moonwell. It hums lullabies.",
+    "icon": "pendant"
   },
   {
     "id": "sunseeker-melee",
@@ -2370,7 +2547,8 @@
     "bonus": {
       "strength": 8
     },
-    "description": "A curved blade that catches the sun. And the occasional mirage."
+    "description": "A curved blade that catches the sun. And the occasional mirage.",
+    "icon": "sickle"
   },
   {
     "id": "sunseeker-ranged",
@@ -2384,7 +2562,8 @@
     "bonus": {
       "agility": 9
     },
-    "description": "Its arrows never miss in the desert. They might elsewhere."
+    "description": "Its arrows never miss in the desert. They might elsewhere.",
+    "icon": "bow"
   },
   {
     "id": "sunseeker-magic",
@@ -2398,7 +2577,8 @@
     "bonus": {
       "arcana": 9
     },
-    "description": "Topped with a sliver of the midday sun. Bring sunscreen."
+    "description": "Topped with a sliver of the midday sun. Bring sunscreen.",
+    "icon": "staff"
   },
   {
     "id": "sunseeker-armor",
@@ -2410,7 +2590,8 @@
       "riderDefense": 15,
       "riderHp": 175
     },
-    "description": "Golden scales from the Aurum Basilisk. Priceless, and very shiny."
+    "description": "Golden scales from the Aurum Basilisk. Priceless, and very shiny.",
+    "icon": "mail"
   },
   {
     "id": "sunseeker-trinket",
@@ -2423,7 +2604,8 @@
       "agility": 5,
       "vigor": 4
     },
-    "description": "A scroll with the sphinx's best riddle. Nobody knows the answer."
+    "description": "A scroll with the sphinx's best riddle. Nobody knows the answer.",
+    "icon": "keepsake"
   },
   {
     "id": "dunebreaker",
@@ -2438,7 +2620,8 @@
       "strength": 8,
       "vigor": 1
     },
-    "description": "A sandstone maul. It breaks dunes. Mostly into smaller dunes."
+    "description": "A sandstone maul. It breaks dunes. Mostly into smaller dunes.",
+    "icon": "hammer"
   },
   {
     "id": "dawnglass-blade",
@@ -2453,7 +2636,8 @@
       "strength": 8,
       "vigor": 1
     },
-    "description": "Forged from desert glass that holds the sunrise."
+    "description": "Forged from desert glass that holds the sunrise.",
+    "icon": "sword"
   },
   {
     "id": "scarab-sling",
@@ -2467,7 +2651,8 @@
     "bonus": {
       "agility": 9
     },
-    "description": "Slings golden pebbles. The scarabs want them back."
+    "description": "Slings golden pebbles. The scarabs want them back.",
+    "icon": "sling"
   },
   {
     "id": "sunbeam-bow",
@@ -2481,7 +2666,8 @@
     "bonus": {
       "agility": 9
     },
-    "description": "Shoots arrows of pure sunlight. Very bright. Very fast."
+    "description": "Shoots arrows of pure sunlight. Very bright. Very fast.",
+    "icon": "bow"
   },
   {
     "id": "sandglass-orb",
@@ -2495,7 +2681,8 @@
     "bonus": {
       "arcana": 9
     },
-    "description": "An hourglass that never runs out of sand."
+    "description": "An hourglass that never runs out of sand.",
+    "icon": "orb"
   },
   {
     "id": "halo-scepter",
@@ -2509,7 +2696,8 @@
     "bonus": {
       "arcana": 9
     },
-    "description": "Wears a tiny halo. Insists it is not a crown."
+    "description": "Wears a tiny halo. Insists it is not a crown.",
+    "icon": "scepter"
   },
   {
     "id": "nomad-wraps",
@@ -2521,7 +2709,8 @@
       "riderDefense": 13,
       "riderHp": 150
     },
-    "description": "Cool by day, warm by night, sandy always."
+    "description": "Cool by day, warm by night, sandy always.",
+    "icon": "wraps"
   },
   {
     "id": "oasis-charm",
@@ -2535,7 +2724,8 @@
       "riderMp": 12,
       "healPct": 0.05
     },
-    "description": "A drop of oasis water in a glass bead. Refreshing just to hold."
+    "description": "A drop of oasis water in a glass bead. Refreshing just to hold.",
+    "icon": "charm"
   },
   {
     "id": "sunforged-crown",
@@ -2549,7 +2739,8 @@
       "arcana": 5,
       "vigor": 5
     },
-    "description": "Made from gold the Basilisk didn't need. It needed all of it."
+    "description": "Made from gold the Basilisk didn't need. It needed all of it.",
+    "icon": "crown"
   },
   {
     "id": "skyglass-melee",
@@ -2563,7 +2754,8 @@
     "bonus": {
       "strength": 5
     },
-    "description": "A blade of starglass. Rings like a bell when it hits."
+    "description": "A blade of starglass. Rings like a bell when it hits.",
+    "icon": "saber"
   },
   {
     "id": "skyglass-ranged",
@@ -2577,7 +2769,8 @@
     "bonus": {
       "agility": 6
     },
-    "description": "Its arrows leave a little trail of sparkles."
+    "description": "Its arrows leave a little trail of sparkles.",
+    "icon": "longbow"
   },
   {
     "id": "skyglass-magic",
@@ -2591,7 +2784,8 @@
     "bonus": {
       "arcana": 6
     },
-    "description": "A rod of clear crystal with a tiny star caught inside."
+    "description": "A rod of clear crystal with a tiny star caught inside.",
+    "icon": "scepter"
   },
   {
     "id": "skyglass-armor",
@@ -2603,7 +2797,8 @@
       "riderDefense": 12,
       "riderHp": 125
     },
-    "description": "Woven from the Starwarden's crystal feathers. It counts things."
+    "description": "Woven from the Starwarden's crystal feathers. It counts things.",
+    "icon": "cloak"
   },
   {
     "id": "skyglass-trinket",
@@ -2615,7 +2810,8 @@
       "arcana": 4,
       "vigor": 4
     },
-    "description": "A chip of the Prism Stag's antler. Throws rainbows on everything."
+    "description": "A chip of the Prism Stag's antler. Throws rainbows on everything.",
+    "icon": "charm"
   },
   {
     "id": "comet-cleaver",
@@ -2630,7 +2826,8 @@
       "strength": 5,
       "vigor": 1
     },
-    "description": "Swing it fast enough and it leaves a tail."
+    "description": "Swing it fast enough and it leaves a tail.",
+    "icon": "cleaver"
   },
   {
     "id": "starshot-bow",
@@ -2644,7 +2841,8 @@
     "bonus": {
       "agility": 6
     },
-    "description": "Every arrow is a tiny wish."
+    "description": "Every arrow is a tiny wish.",
+    "icon": "bow"
   },
   {
     "id": "nebula-wand",
@@ -2658,7 +2856,8 @@
     "bonus": {
       "arcana": 6
     },
-    "description": "There is a whole sky in there. Do not shake it."
+    "description": "There is a whole sky in there. Do not shake it.",
+    "icon": "wand"
   },
   {
     "id": "starweave-robe",
@@ -2671,7 +2870,8 @@
       "riderHp": 80,
       "riderMp": 10
     },
-    "description": "Light as starlight and nearly as warm."
+    "description": "Light as starlight and nearly as warm.",
+    "icon": "robe"
   },
   {
     "id": "wishing-star-pendant",
@@ -2684,7 +2884,8 @@
       "agility": 3,
       "riderMp": 10
     },
-    "description": "Make a wish. It will not come true, but it is nice to ask."
+    "description": "Make a wish. It will not come true, but it is nice to ask.",
+    "icon": "pendant"
   },
   {
     "id": "fallen-star-circlet",
@@ -2698,7 +2899,8 @@
       "riderMp": 20,
       "riderCrit": 0.02
     },
-    "description": "Forged around a star that landed in your Roost. It hums when you think hard."
+    "description": "Forged around a star that landed in your Roost. It hums when you think hard.",
+    "icon": "crown"
   },
   {
     "id": "riftstone-melee",
@@ -2712,7 +2914,8 @@
     "bonus": {
       "strength": 8
     },
-    "description": "Carved from rock that fell into the void and came back. It hums."
+    "description": "Carved from rock that fell into the void and came back. It hums.",
+    "icon": "greatsword"
   },
   {
     "id": "riftstone-ranged",
@@ -2726,7 +2929,8 @@
     "bonus": {
       "agility": 9
     },
-    "description": "The arrows go a little further than they should."
+    "description": "The arrows go a little further than they should.",
+    "icon": "hornbow"
   },
   {
     "id": "riftstone-magic",
@@ -2740,7 +2944,8 @@
     "bonus": {
       "arcana": 9
     },
-    "description": "A shard of floating rock on a stick. It refuses to fall."
+    "description": "A shard of floating rock on a stick. It refuses to fall.",
+    "icon": "wand"
   },
   {
     "id": "riftstone-armor",
@@ -2752,7 +2957,8 @@
       "riderDefense": 15,
       "riderHp": 175
     },
-    "description": "Tough stone skin from the Nullmaw. It still rumbles when it's hungry."
+    "description": "Tough stone skin from the Nullmaw. It still rumbles when it's hungry.",
+    "icon": "leathers"
   },
   {
     "id": "riftstone-trinket",
@@ -2765,7 +2971,8 @@
       "vigor": 5,
       "arcana": 4
     },
-    "description": "A stone feather from the Voidstrider. Heavier than it looks, and it looks heavy."
+    "description": "A stone feather from the Voidstrider. Heavier than it looks, and it looks heavy.",
+    "icon": "feather"
   },
   {
     "id": "hollowfang",
@@ -2780,7 +2987,8 @@
       "strength": 8,
       "vigor": 1
     },
-    "description": "A blade with a hole down the middle. It cuts the air out of the air."
+    "description": "A blade with a hole down the middle. It cuts the air out of the air.",
+    "icon": "saber"
   },
   {
     "id": "echo-longbow",
@@ -2794,7 +3002,8 @@
     "bonus": {
       "agility": 9
     },
-    "description": "You hear the arrow land before you let go. Unsettling."
+    "description": "You hear the arrow land before you let go. Unsettling.",
+    "icon": "longbow"
   },
   {
     "id": "null-scepter",
@@ -2808,7 +3017,8 @@
     "bonus": {
       "arcana": 9
     },
-    "description": "Topped with a sphere of nothing. Do not look into it for long."
+    "description": "Topped with a sphere of nothing. Do not look into it for long.",
+    "icon": "scepter"
   },
   {
     "id": "chasm-plate",
@@ -2820,7 +3030,8 @@
       "riderDefense": 14,
       "riderHp": 145
     },
-    "description": "Heavy stone armor for walking near the edge."
+    "description": "Heavy stone armor for walking near the edge.",
+    "icon": "plate"
   },
   {
     "id": "empty-locket",
@@ -2833,7 +3044,8 @@
       "vigor": 4,
       "riderHp": 40
     },
-    "description": "There's nothing inside. That's the point."
+    "description": "There's nothing inside. That's the point.",
+    "icon": "pendant"
   },
   {
     "id": "abyssal-anchor",
@@ -2847,7 +3059,8 @@
       "riderDefense": 4,
       "riderHp": 60
     },
-    "description": "Forged to keep you from falling in. So far it works."
+    "description": "Forged to keep you from falling in. So far it works.",
+    "icon": "keepsake"
   },
   {
     "id": "tidecaller-melee",
@@ -2861,7 +3074,8 @@
     "bonus": {
       "strength": 10
     },
-    "description": "A pirate's blade from the drowned city. It drips, always."
+    "description": "A pirate's blade from the drowned city. It drips, always.",
+    "icon": "saber"
   },
   {
     "id": "tidecaller-ranged",
@@ -2875,7 +3089,8 @@
     "bonus": {
       "agility": 11
     },
-    "description": "Fires little harpoons. Very good for fish. Also everything else."
+    "description": "Fires little harpoons. Very good for fish. Also everything else.",
+    "icon": "bow"
   },
   {
     "id": "tidecaller-magic",
@@ -2889,7 +3104,8 @@
     "bonus": {
       "arcana": 11
     },
-    "description": "Hold it to your ear and you can hear the storm."
+    "description": "Hold it to your ear and you can hear the storm.",
+    "icon": "staff"
   },
   {
     "id": "tidecaller-armor",
@@ -2901,7 +3117,8 @@
       "riderDefense": 18,
       "riderHp": 215
     },
-    "description": "Cut from the Tidelord's coral crown. It still expects to be bowed to."
+    "description": "Cut from the Tidelord's coral crown. It still expects to be bowed to.",
+    "icon": "cloak"
   },
   {
     "id": "tidecaller-trinket",
@@ -2914,7 +3131,8 @@
       "arcana": 6,
       "vigor": 5
     },
-    "description": "A fin from the Thunder Ray. It crackles when it rains."
+    "description": "A fin from the Thunder Ray. It crackles when it rains.",
+    "icon": "fang"
   },
   {
     "id": "breakwater-axe",
@@ -2929,7 +3147,8 @@
       "strength": 10,
       "vigor": 1
     },
-    "description": "Splits waves in two. Waves are not impressed."
+    "description": "Splits waves in two. Waves are not impressed.",
+    "icon": "axe"
   },
   {
     "id": "squallbreaker",
@@ -2944,7 +3163,8 @@
       "strength": 10,
       "vigor": 1
     },
-    "description": "A hammer that rings like thunder."
+    "description": "A hammer that rings like thunder.",
+    "icon": "hammer"
   },
   {
     "id": "spray-longbow",
@@ -2958,7 +3178,8 @@
     "bonus": {
       "agility": 11
     },
-    "description": "Every shot leaves a little rainbow."
+    "description": "Every shot leaves a little rainbow.",
+    "icon": "longbow"
   },
   {
     "id": "gale-repeater",
@@ -2972,7 +3193,8 @@
     "bonus": {
       "agility": 11
     },
-    "description": "Fires as fast as the wind can load it."
+    "description": "Fires as fast as the wind can load it.",
+    "icon": "repeater"
   },
   {
     "id": "drowned-tome",
@@ -2986,7 +3208,8 @@
     "bonus": {
       "arcana": 11
     },
-    "description": "Waterlogged, but the spells still work. Mostly."
+    "description": "Waterlogged, but the spells still work. Mostly.",
+    "icon": "tome"
   },
   {
     "id": "stormglass-rod",
@@ -3000,7 +3223,8 @@
     "bonus": {
       "arcana": 11
     },
-    "description": "A rod with a tiny thunderstorm trapped inside."
+    "description": "A rod with a tiny thunderstorm trapped inside.",
+    "icon": "scepter"
   },
   {
     "id": "sailcloth-coat",
@@ -3012,7 +3236,8 @@
       "riderDefense": 16,
       "riderHp": 185
     },
-    "description": "Waxed against the rain. Smells faintly of fish."
+    "description": "Waxed against the rain. Smells faintly of fish.",
+    "icon": "coat"
   },
   {
     "id": "pearl-of-calm",
@@ -3026,7 +3251,8 @@
       "riderMp": 15,
       "healPct": 0.05
     },
-    "description": "Hold it and the storm feels far away."
+    "description": "Hold it and the storm feels far away.",
+    "icon": "gem"
   },
   {
     "id": "leviathan-crest",
@@ -3040,7 +3266,8 @@
       "arcana": 6,
       "vigor": 6
     },
-    "description": "Forged from the Tidelord's old armor. It hums sea shanties."
+    "description": "Forged from the Tidelord's old armor. It hums sea shanties.",
+    "icon": "sigil"
   },
   {
     "id": "mirebloom-melee",
@@ -3054,7 +3281,8 @@
     "bonus": {
       "strength": 10
     },
-    "description": "Found in Rotroot Thicket. Part of the Mirebloom set."
+    "description": "Found in Rotroot Thicket. Part of the Mirebloom set.",
+    "icon": "sickle"
   },
   {
     "id": "mirebloom-ranged",
@@ -3068,7 +3296,8 @@
     "bonus": {
       "agility": 11
     },
-    "description": "Found in Rotroot Thicket. Part of the Mirebloom set."
+    "description": "Found in Rotroot Thicket. Part of the Mirebloom set.",
+    "icon": "bow"
   },
   {
     "id": "mirebloom-magic",
@@ -3082,7 +3311,8 @@
     "bonus": {
       "arcana": 11
     },
-    "description": "Found in Rotroot Thicket. Part of the Mirebloom set."
+    "description": "Found in Rotroot Thicket. Part of the Mirebloom set.",
+    "icon": "staff"
   },
   {
     "id": "mirebloom-armor",
@@ -3094,7 +3324,8 @@
       "riderDefense": 18,
       "riderHp": 215
     },
-    "description": "The Rotroot Thicket boss's trophy. Part of the Mirebloom set."
+    "description": "The Rotroot Thicket boss's trophy. Part of the Mirebloom set.",
+    "icon": "cloak"
   },
   {
     "id": "mirebloom-trinket",
@@ -3107,7 +3338,8 @@
       "agility": 6,
       "vigor": 5
     },
-    "description": "The Rotroot Thicket mini-boss's trophy. Part of the Mirebloom set."
+    "description": "The Rotroot Thicket mini-boss's trophy. Part of the Mirebloom set.",
+    "icon": "flower"
   },
   {
     "id": "rotfang-cleaver",
@@ -3122,7 +3354,8 @@
       "strength": 10,
       "vigor": 1
     },
-    "description": "Its edge is a little bit rusty. On purpose."
+    "description": "Its edge is a little bit rusty. On purpose.",
+    "icon": "cleaver"
   },
   {
     "id": "sporeshot-bow",
@@ -3136,7 +3369,8 @@
     "bonus": {
       "agility": 11
     },
-    "description": "The arrows burst into spores. Aim away from yourself."
+    "description": "The arrows burst into spores. Aim away from yourself.",
+    "icon": "bow"
   },
   {
     "id": "mildew-wand",
@@ -3150,7 +3384,8 @@
     "bonus": {
       "arcana": 11
     },
-    "description": "Leaves a faint smell of old cheese."
+    "description": "Leaves a faint smell of old cheese.",
+    "icon": "wand"
   },
   {
     "id": "bogwalker-coat",
@@ -3162,7 +3397,8 @@
       "riderDefense": 16,
       "riderHp": 185
     },
-    "description": "Waterproof, mud-proof and very nearly smell-proof."
+    "description": "Waterproof, mud-proof and very nearly smell-proof.",
+    "icon": "coat"
   },
   {
     "id": "clean-air-charm",
@@ -3176,7 +3412,8 @@
       "riderMp": 15,
       "healPct": 0.05
     },
-    "description": "A little sprig that keeps the spores away. Mostly."
+    "description": "A little sprig that keeps the spores away. Mostly.",
+    "icon": "charm"
   },
   {
     "id": "heartwood-talisman",
@@ -3190,7 +3427,8 @@
       "arcana": 6,
       "vigor": 6
     },
-    "description": "Carved from a healthy piece of the Queen. It still grows a leaf now and then."
+    "description": "Carved from a healthy piece of the Queen. It still grows a leaf now and then.",
+    "icon": "pendant"
   },
   {
     "id": "pyreleaf-melee",
@@ -3204,7 +3442,8 @@
     "bonus": {
       "strength": 12
     },
-    "description": "Found in Emberwild. Part of the Pyreleaf set."
+    "description": "Found in Emberwild. Part of the Pyreleaf set.",
+    "icon": "cleaver"
   },
   {
     "id": "pyreleaf-ranged",
@@ -3218,7 +3457,8 @@
     "bonus": {
       "agility": 13
     },
-    "description": "Found in Emberwild. Part of the Pyreleaf set."
+    "description": "Found in Emberwild. Part of the Pyreleaf set.",
+    "icon": "blowgun"
   },
   {
     "id": "pyreleaf-magic",
@@ -3232,7 +3472,8 @@
     "bonus": {
       "arcana": 13
     },
-    "description": "Found in Emberwild. Part of the Pyreleaf set."
+    "description": "Found in Emberwild. Part of the Pyreleaf set.",
+    "icon": "staff"
   },
   {
     "id": "pyreleaf-armor",
@@ -3244,7 +3485,8 @@
       "riderDefense": 21,
       "riderHp": 255
     },
-    "description": "The Emberwild boss's trophy. Part of the Pyreleaf set."
+    "description": "The Emberwild boss's trophy. Part of the Pyreleaf set.",
+    "icon": "plate"
   },
   {
     "id": "pyreleaf-trinket",
@@ -3257,7 +3499,8 @@
       "agility": 7,
       "vigor": 6
     },
-    "description": "The Emberwild mini-boss's trophy. Part of the Pyreleaf set."
+    "description": "The Emberwild mini-boss's trophy. Part of the Pyreleaf set.",
+    "icon": "crown"
   },
   {
     "id": "ashfall-blade",
@@ -3272,7 +3515,8 @@
       "strength": 12,
       "vigor": 1
     },
-    "description": "Still warm from the forge. Or from the volcano."
+    "description": "Still warm from the forge. Or from the volcano.",
+    "icon": "sword"
   },
   {
     "id": "canopy-longbow",
@@ -3286,7 +3530,8 @@
     "bonus": {
       "agility": 13
     },
-    "description": "Strung with jungle vine. Smells of flowers."
+    "description": "Strung with jungle vine. Smells of flowers.",
+    "icon": "longbow"
   },
   {
     "id": "magma-orb",
@@ -3300,7 +3545,8 @@
     "bonus": {
       "arcana": 13
     },
-    "description": "Hold it by the cool end."
+    "description": "Hold it by the cool end.",
+    "icon": "orb"
   },
   {
     "id": "heatproof-leathers",
@@ -3312,7 +3558,8 @@
       "riderDefense": 19,
       "riderHp": 225
     },
-    "description": "Doesn't burn. Doesn't breathe either."
+    "description": "Doesn't burn. Doesn't breathe either.",
+    "icon": "leathers"
   },
   {
     "id": "fire-orchid",
@@ -3326,7 +3573,8 @@
       "riderMp": 15,
       "healPct": 0.05
     },
-    "description": "A flower that blooms in lava. Keep it watered with lava."
+    "description": "A flower that blooms in lava. Keep it watered with lava.",
+    "icon": "flower"
   },
   {
     "id": "caldera-heart",
@@ -3340,7 +3588,8 @@
       "arcana": 7,
       "vigor": 7
     },
-    "description": "A stone from the bottom of the volcano, forged into a pendant. It beats like a drum."
+    "description": "A stone from the bottom of the volcano, forged into a pendant. It beats like a drum.",
+    "icon": "heart"
   },
   {
     "id": "ironclad-melee",
@@ -3354,7 +3603,8 @@
     "bonus": {
       "strength": 12
     },
-    "description": "Found in The Steelspine Range. Part of the Ironclad set."
+    "description": "Found in The Steelspine Range. Part of the Ironclad set.",
+    "icon": "greatsword"
   },
   {
     "id": "ironclad-ranged",
@@ -3368,7 +3618,8 @@
     "bonus": {
       "agility": 13
     },
-    "description": "Found in The Steelspine Range. Part of the Ironclad set."
+    "description": "Found in The Steelspine Range. Part of the Ironclad set.",
+    "icon": "crossbow"
   },
   {
     "id": "ironclad-magic",
@@ -3382,7 +3633,8 @@
     "bonus": {
       "arcana": 13
     },
-    "description": "Found in The Steelspine Range. Part of the Ironclad set."
+    "description": "Found in The Steelspine Range. Part of the Ironclad set.",
+    "icon": "scepter"
   },
   {
     "id": "ironclad-armor",
@@ -3394,7 +3646,8 @@
       "riderDefense": 21,
       "riderHp": 255
     },
-    "description": "The The Steelspine Range boss's trophy. Part of the Ironclad set."
+    "description": "The The Steelspine Range boss's trophy. Part of the Ironclad set.",
+    "icon": "plate"
   },
   {
     "id": "ironclad-trinket",
@@ -3407,7 +3660,8 @@
       "agility": 7,
       "vigor": 6
     },
-    "description": "The The Steelspine Range mini-boss's trophy. Part of the Ironclad set."
+    "description": "The The Steelspine Range mini-boss's trophy. Part of the Ironclad set.",
+    "icon": "fang"
   },
   {
     "id": "girder-maul",
@@ -3422,7 +3676,8 @@
       "strength": 12,
       "vigor": 1
     },
-    "description": "A steel beam with a handle. Subtle it is not."
+    "description": "A steel beam with a handle. Subtle it is not.",
+    "icon": "hammer"
   },
   {
     "id": "bolt-thrower",
@@ -3436,7 +3691,8 @@
     "bonus": {
       "agility": 13
     },
-    "description": "Throws bolts. The metal kind, not the lightning kind."
+    "description": "Throws bolts. The metal kind, not the lightning kind.",
+    "icon": "crossbow"
   },
   {
     "id": "alloy-scepter",
@@ -3450,7 +3706,8 @@
     "bonus": {
       "arcana": 13
     },
-    "description": "Three metals and a bit of luck."
+    "description": "Three metals and a bit of luck.",
+    "icon": "scepter"
   },
   {
     "id": "chainmail-of-ages",
@@ -3462,7 +3719,8 @@
       "riderDefense": 19,
       "riderHp": 225
     },
-    "description": "Heavy, clanky and handed down through nine smiths."
+    "description": "Heavy, clanky and handed down through nine smiths.",
+    "icon": "mail"
   },
   {
     "id": "grounding-charm",
@@ -3476,7 +3734,8 @@
       "riderMp": 15,
       "healPct": 0.05
     },
-    "description": "Lightning goes around you. Mostly."
+    "description": "Lightning goes around you. Mostly.",
+    "icon": "charm"
   },
   {
     "id": "dragonsteel-band",
@@ -3490,7 +3749,8 @@
       "arcana": 7,
       "vigor": 7
     },
-    "description": "Forged from a scale Ferrovane let you keep. It's warm, and it hums."
+    "description": "Forged from a scale Ferrovane let you keep. It's warm, and it hums.",
+    "icon": "ring"
   },
   {
     "id": "galeborn-melee",
@@ -3504,7 +3764,8 @@
     "bonus": {
       "strength": 14
     },
-    "description": "Found in Skyreach Isles. Part of the Galeborn set."
+    "description": "Found in Skyreach Isles. Part of the Galeborn set.",
+    "icon": "saber"
   },
   {
     "id": "galeborn-ranged",
@@ -3518,7 +3779,8 @@
     "bonus": {
       "agility": 15
     },
-    "description": "Found in Skyreach Isles. Part of the Galeborn set."
+    "description": "Found in Skyreach Isles. Part of the Galeborn set.",
+    "icon": "bow"
   },
   {
     "id": "galeborn-magic",
@@ -3532,7 +3794,8 @@
     "bonus": {
       "arcana": 15
     },
-    "description": "Found in Skyreach Isles. Part of the Galeborn set."
+    "description": "Found in Skyreach Isles. Part of the Galeborn set.",
+    "icon": "staff"
   },
   {
     "id": "galeborn-armor",
@@ -3544,7 +3807,8 @@
       "riderDefense": 24,
       "riderHp": 295
     },
-    "description": "The Skyreach Isles boss's trophy. Part of the Galeborn set."
+    "description": "The Skyreach Isles boss's trophy. Part of the Galeborn set.",
+    "icon": "leathers"
   },
   {
     "id": "galeborn-trinket",
@@ -3557,7 +3821,8 @@
       "agility": 8,
       "vigor": 7
     },
-    "description": "The Skyreach Isles mini-boss's trophy. Part of the Galeborn set."
+    "description": "The Skyreach Isles mini-boss's trophy. Part of the Galeborn set.",
+    "icon": "feather"
   },
   {
     "id": "dawnsteel-saber",
@@ -3572,7 +3837,8 @@
       "strength": 14,
       "vigor": 1
     },
-    "description": "Polished so bright you can comb your hair in it. Many do."
+    "description": "Polished so bright you can comb your hair in it. Many do.",
+    "icon": "saber"
   },
   {
     "id": "sunray-bow",
@@ -3586,7 +3852,8 @@
     "bonus": {
       "agility": 15
     },
-    "description": "The arrows leave a trail of warm light."
+    "description": "The arrows leave a trail of warm light.",
+    "icon": "bow"
   },
   {
     "id": "halo-rod",
@@ -3600,7 +3867,8 @@
     "bonus": {
       "arcana": 15
     },
-    "description": "A ring of light floats above the tip. It hums when happy."
+    "description": "A ring of light floats above the tip. It hums when happy.",
+    "icon": "scepter"
   },
   {
     "id": "skysail-jacket",
@@ -3612,7 +3880,8 @@
       "riderDefense": 22,
       "riderHp": 265
     },
-    "description": "Cut from an old sail. Catches the wind in all the right places."
+    "description": "Cut from an old sail. Catches the wind in all the right places.",
+    "icon": "coat"
   },
   {
     "id": "weathervane-charm",
@@ -3626,7 +3895,8 @@
       "riderMp": 15,
       "healPct": 0.05
     },
-    "description": "Always points toward trouble. Useful, and a little alarming."
+    "description": "Always points toward trouble. Useful, and a little alarming.",
+    "icon": "charm"
   },
   {
     "id": "whalesong-pearl",
@@ -3640,7 +3910,8 @@
       "arcana": 8,
       "vigor": 8
     },
-    "description": "A pearl Aurelith gave you, forged into a pendant. Hold it to your ear and you can hear the sky."
+    "description": "A pearl Aurelith gave you, forged into a pendant. Hold it to your ear and you can hear the sky.",
+    "icon": "gem"
   },
   {
     "id": "riftwalker-melee",
@@ -3654,7 +3925,8 @@
     "bonus": {
       "strength": 14
     },
-    "description": "Found in Twilight Rift. Part of the Riftwalker set."
+    "description": "Found in Twilight Rift. Part of the Riftwalker set.",
+    "icon": "polearm"
   },
   {
     "id": "riftwalker-ranged",
@@ -3668,7 +3940,8 @@
     "bonus": {
       "agility": 15
     },
-    "description": "Found in Twilight Rift. Part of the Riftwalker set."
+    "description": "Found in Twilight Rift. Part of the Riftwalker set.",
+    "icon": "hornbow"
   },
   {
     "id": "riftwalker-magic",
@@ -3682,7 +3955,8 @@
     "bonus": {
       "arcana": 15
     },
-    "description": "Found in Twilight Rift. Part of the Riftwalker set."
+    "description": "Found in Twilight Rift. Part of the Riftwalker set.",
+    "icon": "staff"
   },
   {
     "id": "riftwalker-armor",
@@ -3694,7 +3968,8 @@
       "riderDefense": 24,
       "riderHp": 295
     },
-    "description": "The Twilight Rift boss's trophy. Part of the Riftwalker set."
+    "description": "The Twilight Rift boss's trophy. Part of the Riftwalker set.",
+    "icon": "cloak"
   },
   {
     "id": "riftwalker-trinket",
@@ -3707,7 +3982,8 @@
       "agility": 8,
       "vigor": 7
     },
-    "description": "The Twilight Rift mini-boss's trophy. Part of the Riftwalker set."
+    "description": "The Twilight Rift mini-boss's trophy. Part of the Riftwalker set.",
+    "icon": "gem"
   },
   {
     "id": "meteor-blade",
@@ -3722,7 +3998,8 @@
       "strength": 14,
       "vigor": 1
     },
-    "description": "Forged from a fallen star. It still remembers the fall."
+    "description": "Forged from a fallen star. It still remembers the fall.",
+    "icon": "sword"
   },
   {
     "id": "constellation-bow",
@@ -3736,7 +4013,8 @@
     "bonus": {
       "agility": 15
     },
-    "description": "Strung with a line of tiny stars. Very hard to lose at night."
+    "description": "Strung with a line of tiny stars. Very hard to lose at night.",
+    "icon": "bow"
   },
   {
     "id": "galaxy-wand",
@@ -3750,7 +4028,8 @@
     "bonus": {
       "arcana": 15
     },
-    "description": "A little swirl of galaxy lives in the glass tip."
+    "description": "A little swirl of galaxy lives in the glass tip.",
+    "icon": "wand"
   },
   {
     "id": "duskweave-robe",
@@ -3762,7 +4041,8 @@
       "riderDefense": 22,
       "riderHp": 265
     },
-    "description": "Woven from the last light of evening. It glows faintly in the dark, which is lovely until you try to sleep."
+    "description": "Woven from the last light of evening. It glows faintly in the dark, which is lovely until you try to sleep.",
+    "icon": "robe"
   },
   {
     "id": "quiet-stone",
@@ -3776,7 +4056,8 @@
       "riderMp": 15,
       "healPct": 0.05
     },
-    "description": "A pebble from the edge of nothing. It makes the world feel a little calmer."
+    "description": "A pebble from the edge of nothing. It makes the world feel a little calmer.",
+    "icon": "gem"
   },
   {
     "id": "nightwing-sigil",
@@ -3790,7 +4071,8 @@
       "arcana": 8,
       "vigor": 8
     },
-    "description": "Forged around a scale Nyxaris shed for you. Half of it shines and half of it is not quite there."
+    "description": "Forged around a scale Nyxaris shed for you. Half of it shines and half of it is not quite there.",
+    "icon": "sigil"
   },
   {
     "id": "deepcrown-melee",
@@ -3804,7 +4086,8 @@
     "bonus": {
       "strength": 16
     },
-    "description": "Found in Hollow Crown. Part of the Deepcrown set."
+    "description": "Found in Hollow Crown. Part of the Deepcrown set.",
+    "icon": "hammer"
   },
   {
     "id": "deepcrown-ranged",
@@ -3818,7 +4101,8 @@
     "bonus": {
       "agility": 17
     },
-    "description": "Found in Hollow Crown. Part of the Deepcrown set."
+    "description": "Found in Hollow Crown. Part of the Deepcrown set.",
+    "icon": "crossbow"
   },
   {
     "id": "deepcrown-magic",
@@ -3832,7 +4116,8 @@
     "bonus": {
       "arcana": 17
     },
-    "description": "Found in Hollow Crown. Part of the Deepcrown set."
+    "description": "Found in Hollow Crown. Part of the Deepcrown set.",
+    "icon": "staff"
   },
   {
     "id": "deepcrown-armor",
@@ -3844,7 +4129,8 @@
       "riderDefense": 27,
       "riderHp": 335
     },
-    "description": "The Hollow Crown boss's trophy. Part of the Deepcrown set."
+    "description": "The Hollow Crown boss's trophy. Part of the Deepcrown set.",
+    "icon": "mail"
   },
   {
     "id": "deepcrown-trinket",
@@ -3857,7 +4143,8 @@
       "agility": 9,
       "vigor": 8
     },
-    "description": "The Hollow Crown mini-boss's trophy. Part of the Deepcrown set."
+    "description": "The Hollow Crown mini-boss's trophy. Part of the Deepcrown set.",
+    "icon": "feather"
   },
   {
     "id": "nightglass-sword",
@@ -3872,7 +4159,8 @@
       "strength": 16,
       "vigor": 1
     },
-    "description": "Black glass from the deepest mine. It never reflects anything, not even you."
+    "description": "Black glass from the deepest mine. It never reflects anything, not even you.",
+    "icon": "sword"
   },
   {
     "id": "duskstring-bow",
@@ -3886,7 +4174,8 @@
     "bonus": {
       "agility": 17
     },
-    "description": "Strung with a thread of shadow. Silent as a held breath."
+    "description": "Strung with a thread of shadow. Silent as a held breath.",
+    "icon": "bow"
   },
   {
     "id": "gloomlight-scepter",
@@ -3900,7 +4189,8 @@
     "bonus": {
       "arcana": 17
     },
-    "description": "It glows, but darkly. Your eyes hurt in a cozy way."
+    "description": "It glows, but darkly. Your eyes hurt in a cozy way.",
+    "icon": "scepter"
   },
   {
     "id": "delvers-coat",
@@ -3912,7 +4202,8 @@
       "riderDefense": 25,
       "riderHp": 305
     },
-    "description": "Many pockets, all of them full of string, chalk and emergency biscuits."
+    "description": "Many pockets, all of them full of string, chalk and emergency biscuits.",
+    "icon": "coat"
   },
   {
     "id": "everburning-candle",
@@ -3926,7 +4217,8 @@
       "riderMp": 15,
       "healPct": 0.05
     },
-    "description": "It never goes out. You have tried. Everyone has tried."
+    "description": "It never goes out. You have tried. Everyone has tried.",
+    "icon": "lantern"
   },
   {
     "id": "crown-of-echoes",
@@ -3940,7 +4232,8 @@
       "arcana": 9,
       "vigor": 9
     },
-    "description": "A circlet forged from the Hollow King's crown. Say something into it and the kingdom whispers back."
+    "description": "A circlet forged from the Hollow King's crown. Say something into it and the kingdom whispers back.",
+    "icon": "crown"
   },
   {
     "id": "wellspring-melee",
@@ -3954,7 +4247,8 @@
     "bonus": {
       "strength": 16
     },
-    "description": "Found in The Confluence. Part of the Wellspring set."
+    "description": "Found in The Confluence. Part of the Wellspring set.",
+    "icon": "trident"
   },
   {
     "id": "wellspring-ranged",
@@ -3968,7 +4262,8 @@
     "bonus": {
       "agility": 17
     },
-    "description": "Found in The Confluence. Part of the Wellspring set."
+    "description": "Found in The Confluence. Part of the Wellspring set.",
+    "icon": "bow"
   },
   {
     "id": "wellspring-magic",
@@ -3982,7 +4277,8 @@
     "bonus": {
       "arcana": 17
     },
-    "description": "Found in The Confluence. Part of the Wellspring set."
+    "description": "Found in The Confluence. Part of the Wellspring set.",
+    "icon": "staff"
   },
   {
     "id": "wellspring-armor",
@@ -3994,7 +4290,8 @@
       "riderDefense": 27,
       "riderHp": 335
     },
-    "description": "The The Confluence boss's trophy. Part of the Wellspring set."
+    "description": "The The Confluence boss's trophy. Part of the Wellspring set.",
+    "icon": "mail"
   },
   {
     "id": "wellspring-trinket",
@@ -4007,7 +4304,8 @@
       "agility": 9,
       "vigor": 8
     },
-    "description": "The The Confluence mini-boss's trophy. Part of the Wellspring set."
+    "description": "The The Confluence mini-boss's trophy. Part of the Wellspring set.",
+    "icon": "heart"
   },
   {
     "id": "undertow-blade",
@@ -4022,7 +4320,8 @@
       "strength": 16,
       "vigor": 1
     },
-    "description": "Pulls a little toward the sea, wherever you are."
+    "description": "Pulls a little toward the sea, wherever you are.",
+    "icon": "sword"
   },
   {
     "id": "sea-spray-bow",
@@ -4036,7 +4335,8 @@
     "bonus": {
       "agility": 17
     },
-    "description": "Every shot comes with a fine salty mist."
+    "description": "Every shot comes with a fine salty mist.",
+    "icon": "bow"
   },
   {
     "id": "whirlpool-staff",
@@ -4050,7 +4350,8 @@
     "bonus": {
       "arcana": 17
     },
-    "description": "Stir your tea with it and the tea stirs back."
+    "description": "Stir your tea with it and the tea stirs back.",
+    "icon": "staff"
   },
   {
     "id": "steamproof-apron",
@@ -4062,7 +4363,8 @@
       "riderDefense": 25,
       "riderHp": 305
     },
-    "description": "Brindle's spare apron. Stained in eleven elements."
+    "description": "Brindle's spare apron. Stained in eleven elements.",
+    "icon": "apron"
   },
   {
     "id": "mixing-vial",
@@ -4076,7 +4378,8 @@
       "riderMp": 15,
       "healPct": 0.05
     },
-    "description": "Two liquids that never quite mix, swirling forever. Calming to watch."
+    "description": "Two liquids that never quite mix, swirling forever. Calming to watch.",
+    "icon": "lantern"
   },
   {
     "id": "twinflow-locket",
@@ -4090,7 +4393,8 @@
       "arcana": 9,
       "vigor": 9
     },
-    "description": "Forged from a scale off each of Seethe's heads. One side is warm and one side is cool."
+    "description": "Forged from a scale off each of Seethe's heads. One side is warm and one side is cool.",
+    "icon": "pendant"
   },
   {
     "id": "starforged-melee",
@@ -4104,7 +4408,8 @@
     "bonus": {
       "strength": 18
     },
-    "description": "Found in Starfall Summit. Part of the Starforged set."
+    "description": "Found in Starfall Summit. Part of the Starforged set.",
+    "icon": "sword"
   },
   {
     "id": "starforged-ranged",
@@ -4118,7 +4423,8 @@
     "bonus": {
       "agility": 19
     },
-    "description": "Found in Starfall Summit. Part of the Starforged set."
+    "description": "Found in Starfall Summit. Part of the Starforged set.",
+    "icon": "longbow"
   },
   {
     "id": "starforged-magic",
@@ -4132,7 +4438,8 @@
     "bonus": {
       "arcana": 19
     },
-    "description": "Found in Starfall Summit. Part of the Starforged set."
+    "description": "Found in Starfall Summit. Part of the Starforged set.",
+    "icon": "staff"
   },
   {
     "id": "starforged-armor",
@@ -4144,7 +4451,8 @@
       "riderDefense": 30,
       "riderHp": 375
     },
-    "description": "The Starfall Summit boss's trophy. Part of the Starforged set."
+    "description": "The Starfall Summit boss's trophy. Part of the Starforged set.",
+    "icon": "cloak"
   },
   {
     "id": "starforged-trinket",
@@ -4157,7 +4465,8 @@
       "agility": 10,
       "vigor": 9
     },
-    "description": "The Starfall Summit mini-boss's trophy. Part of the Starforged set."
+    "description": "The Starfall Summit mini-boss's trophy. Part of the Starforged set.",
+    "icon": "ring"
   },
   {
     "id": "dawnsteel-sword",
@@ -4172,7 +4481,8 @@
       "strength": 18,
       "vigor": 1
     },
-    "description": "Forged at sunrise on the summit. It is always a little warm."
+    "description": "Forged at sunrise on the summit. It is always a little warm.",
+    "icon": "sword"
   },
   {
     "id": "shooting-star-bow",
@@ -4186,7 +4496,8 @@
     "bonus": {
       "agility": 19
     },
-    "description": "Every arrow leaves a short glittering trail. Make a wish."
+    "description": "Every arrow leaves a short glittering trail. Make a wish.",
+    "icon": "bow"
   },
   {
     "id": "zenith-staff",
@@ -4200,7 +4511,8 @@
     "bonus": {
       "arcana": 19
     },
-    "description": "Topped with a sliver of fallen star. It hums when the sky is clear."
+    "description": "Topped with a sliver of fallen star. It hums when the sky is clear.",
+    "icon": "staff"
   },
   {
     "id": "stargazers-cloak",
@@ -4212,7 +4524,8 @@
       "riderDefense": 28,
       "riderHp": 345
     },
-    "description": "Orrin's spare cloak, embroidered with every constellation, some of them made up."
+    "description": "Orrin's spare cloak, embroidered with every constellation, some of them made up.",
+    "icon": "cloak"
   },
   {
     "id": "wishing-shard",
@@ -4226,7 +4539,8 @@
       "riderMp": 15,
       "healPct": 0.05
     },
-    "description": "A shard of a fallen star. Nobody has wished on it yet. It is waiting for a good one."
+    "description": "A shard of a fallen star. Nobody has wished on it yet. It is waiting for a good one.",
+    "icon": "gem"
   },
   {
     "id": "heart-of-the-sky",
@@ -4240,7 +4554,8 @@
       "arcana": 10,
       "vigor": 10
     },
-    "description": "Forged from the core of Vesperax's last caught star. Hold it up at night and the sky holds still."
+    "description": "Forged from the core of Vesperax's last caught star. Hold it up at night and the sky holds still.",
+    "icon": "heart"
   },
   {
     "id": "eldest-melee",
@@ -4254,7 +4569,8 @@
     "bonus": {
       "strength": 18
     },
-    "description": "Found in Dragonsrest. Part of the Eldest set."
+    "description": "Found in Dragonsrest. Part of the Eldest set.",
+    "icon": "greatsword"
   },
   {
     "id": "eldest-ranged",
@@ -4268,7 +4584,8 @@
     "bonus": {
       "agility": 19
     },
-    "description": "Found in Dragonsrest. Part of the Eldest set."
+    "description": "Found in Dragonsrest. Part of the Eldest set.",
+    "icon": "hornbow"
   },
   {
     "id": "eldest-magic",
@@ -4282,7 +4599,8 @@
     "bonus": {
       "arcana": 19
     },
-    "description": "Found in Dragonsrest. Part of the Eldest set."
+    "description": "Found in Dragonsrest. Part of the Eldest set.",
+    "icon": "staff"
   },
   {
     "id": "eldest-armor",
@@ -4294,7 +4612,8 @@
       "riderDefense": 30,
       "riderHp": 375
     },
-    "description": "The Dragonsrest boss's trophy. Part of the Eldest set."
+    "description": "The Dragonsrest boss's trophy. Part of the Eldest set.",
+    "icon": "plate"
   },
   {
     "id": "eldest-trinket",
@@ -4307,7 +4626,8 @@
       "agility": 10,
       "vigor": 9
     },
-    "description": "The Dragonsrest mini-boss's trophy. Part of the Eldest set."
+    "description": "The Dragonsrest mini-boss's trophy. Part of the Eldest set.",
+    "icon": "lantern"
   },
   {
     "id": "hollowpoint-blade",
@@ -4322,7 +4642,8 @@
       "strength": 18,
       "vigor": 1
     },
-    "description": "Its point is a tiny hole in the world. Do not look at it too closely."
+    "description": "Its point is a tiny hole in the world. Do not look at it too closely.",
+    "icon": "sword"
   },
   {
     "id": "silent-bow",
@@ -4336,7 +4657,8 @@
     "bonus": {
       "agility": 19
     },
-    "description": "No twang, no whistle. The arrow just arrives."
+    "description": "No twang, no whistle. The arrow just arrives.",
+    "icon": "bow"
   },
   {
     "id": "nothing-staff",
@@ -4350,7 +4672,8 @@
     "bonus": {
       "arcana": 19
     },
-    "description": "Topped with a perfect little nothing. It is heavier than it looks."
+    "description": "Topped with a perfect little nothing. It is heavier than it looks.",
+    "icon": "staff"
   },
   {
     "id": "nestkeepers-coat",
@@ -4362,7 +4685,8 @@
       "riderDefense": 28,
       "riderHp": 345
     },
-    "description": "Soft, warm and lined with old dragon down. Smells faintly of eggshell."
+    "description": "Soft, warm and lined with old dragon down. Smells faintly of eggshell.",
+    "icon": "coat"
   },
   {
     "id": "first-scale",
@@ -4376,7 +4700,8 @@
       "riderMp": 15,
       "healPct": 0.05
     },
-    "description": "A single scale from one of the first dragons. It is still warm, after all this time."
+    "description": "A single scale from one of the first dragons. It is still warm, after all this time.",
+    "icon": "fang"
   },
   {
     "id": "guardians-beard-clasp",
@@ -4390,7 +4715,8 @@
       "arcana": 10,
       "vigor": 10
     },
-    "description": "Forged from the iron clasp in Ossarion's beard. He said you could have it. He has a spare."
+    "description": "Forged from the iron clasp in Ossarion's beard. He said you could have it. He has a spare.",
+    "icon": "pendant"
   },
   {
     "id": "sunpetal-melee",
@@ -4405,7 +4731,8 @@
       "strength": 1,
       "agility": 1
     },
-    "description": "Light and quick, with a little buzz to it."
+    "description": "Light and quick, with a little buzz to it.",
+    "icon": "sword"
   },
   {
     "id": "sunpetal-ranged",
@@ -4419,7 +4746,8 @@
     "bonus": {
       "agility": 2
     },
-    "description": "Strung with spider silk from the hay bales."
+    "description": "Strung with spider silk from the hay bales.",
+    "icon": "bow"
   },
   {
     "id": "sunpetal-magic",
@@ -4433,7 +4761,8 @@
     "bonus": {
       "arcana": 2
     },
-    "description": "Slightly sticky. Very magical."
+    "description": "Slightly sticky. Very magical.",
+    "icon": "wand"
   },
   {
     "id": "sunpetal-armor",
@@ -4445,7 +4774,8 @@
       "riderDefense": 3,
       "riderHp": 30
     },
-    "description": "Woven from Thunderhoof's wool. It still crackles on dry days."
+    "description": "Woven from Thunderhoof's wool. It still crackles on dry days.",
+    "icon": "coat"
   },
   {
     "id": "sunpetal-trinket",
@@ -4457,6 +4787,7 @@
       "agility": 2,
       "riderHp": 8
     },
-    "description": "The Queen Buzzbee's best honeycomb. She wants it back."
+    "description": "The Queen Buzzbee's best honeycomb. She wants it back.",
+    "icon": "flower"
   }
 ]

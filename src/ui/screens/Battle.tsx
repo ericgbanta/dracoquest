@@ -14,7 +14,7 @@ import { matchupVs, weaknessesOfFighter } from '../../core/elements';
 import { battleSpell, spellById } from '../../core/spells';
 import { storyById } from '../../core/adventures';
 import { eggName } from '../../core/eggs';
-import { rewardText } from '../bits';
+import { GearIcon, rewardText } from '../bits';
 import type { SaveData } from '../../core/save';
 import { DragonSprite, EnemySprite } from '../Sprites';
 import { Bar, ElementBadge, IntentChip, prefersReducedMotion, StatusChips, vibrate } from '../bits';
@@ -721,7 +721,7 @@ function Results({ save, report, update, onExit, onNext }: {
         const set = setOf(data, id);
         return (
           <p key={id} class="notice notice--ok" data-testid={`gear-drop-${id}`}>
-            <Icon name="bag" fallback="🎁" /> Found the {g.name}!{set ? ` It's part of the ${set.name} set.` : ''} Equip it from the Bag.
+            <GearIcon g={g} size={28} /> Found the {g.name}!{set ? ` It's part of the ${set.name} set.` : ''} Equip it from the Bag.
           </p>
         );
       })}

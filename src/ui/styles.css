@@ -616,4 +616,11 @@ p, p.muted, .notice, .lead, li { font-size: max(1rem, 16px); }
 .look-parts { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 10px; }
 .subtabs--tight { gap: 4px; }
 .subtabs--tight .tab-pill { flex: 1 1 auto; padding-inline: 6px; }
-.swatches--look { grid-template-columns: repeat(7, 1fr); gap: 6px; }
+.swatches--look { grid-template-columns: repeat(6, 1fr); gap: 6px; }
+
+/* Gear icons (looks plan L2) */
+.gear-icon { flex: none; display: inline-flex; align-items: center; justify-content: center; line-height: 1; }
+.gear-icon img { display: block; width: 100%; height: 100%; }
+.treasure-row { flex-direction: row; align-items: center; gap: 10px; }
+.treasure-row > .treasure-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.notice .gear-icon { vertical-align: -0.35em; margin-right: 4px; }

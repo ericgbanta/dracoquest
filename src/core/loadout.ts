@@ -176,3 +176,11 @@ export function learnedSkills(data: GameData, dragon: Pick<DragonState, 'talents
   const sig = signatureSkill(data, dragon);
   return [...(sig ? [sig] : []), ...data.talents.talents.filter((t) => t.skill && (dragon.talents?.[t.id] ?? 0) > 0)];
 }
+
+/** A gear icon's two colors (looks plan L2): the trim from the tier for its level, the accent from its element, its set's zone, or the tier. */
+export function gearIconColors(data: GameData, g: GearData): { accent: string; trim: string; tier: string } {
+  const tier = [...data.gearLooks.tiers].reverse().find((t) => g.level >= t.minLevel) ?? data.gearLooks.tiers[0]!;
+  const zoneId = setOf(data, g.id)?.zone;
+  const element = g.element ?? data.zones.find((z) => z.id === zoneId)?.element;
+  return { accent: element ? data.elements.info[element].color : tier.accent, trim: tier.trim, tier: tier.id };
+}

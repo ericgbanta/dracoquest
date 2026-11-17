@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { gameData as data, validateLooks, DataError } from '../src/core/data';
+import { gameData as data, validateGearLooks, validateLooks, DataError } from '../src/core/data';
+import { gearIconColors } from '../src/core/loadout';
 import { GameError, randomRiderLook, setRiderLook } from '../src/core/game';
 import { CURRENT_VERSION, exportSaveCode, importSaveCode, newSave, parseSave } from '../src/core/save';
 import { colorFamily, recolorFamilies, recolorPixels, recolorRider, riderFamily } from '../src/ui/stage/tint';
@@ -128,5 +129,56 @@ describe('save v17', () => {
 
   it('new saves start with the default look', () => {
     expect(newSave(NOW).rider.look).toEqual(data.looks.default);
+  });
+});
+
+describe('gear icons', () => {
+  const gear = Object.values(data.gear);
+
+  it('every piece has one of the 48 shapes', () => {
+    expect(data.gearLooks.shapes).toHaveLength(48);
+    for (const g of gear) expect(data.gearLooks.shapes, g.id).toContain(g.icon);
+  });
+
+  it('shapes follow the names', () => {
+    const icon = (name: string) => gear.find((g) => g.name === name)!.icon;
+    expect(icon('Ash Training Blade')).toBe('stick');
+    expect(icon('Rootsplitter Axe')).toBe('axe');
+    expect(icon('Boulderbreaker')).toBe('hammer');
+    expect(icon('Lantern of Ages')).toBe('lantern');
+    expect(icon('Deepdelver Lantern Staff')).toBe('staff');
+    expect(icon("Deepcrown Chancellor's Quill")).toBe('feather');
+    expect(icon('Chainmail of Ages')).toBe('mail');
+    // Weapons take weapon shapes, armor armor shapes, dragon gear its own three.
+    const s = data.gearLooks.shapes;
+    for (const g of gear) {
+      const i = s.indexOf(g.icon);
+      if (g.slot === 'weapon' && g.icon !== 'lantern') expect(i, g.id).toBeLessThan(24);
+      if (g.slot === 'armor') expect(i >= 24 && i < 32, g.id).toBe(true);
+      if (g.slot === 'saddle') expect(g.icon).toBe('saddle');
+      if (g.slot === 'horn') expect(g.icon).toBe('horncap');
+      if (g.slot === 'charm') expect(g.icon).toBe('dragoncharm');
+    }
+  });
+
+  it('colors come from the element, then the set\'s zone, then the tier', () => {
+    const fire = gear.find((g) => g.element === 'fire')!;
+    expect(gearIconColors(data, fire).accent).toBe(data.elements.info.fire.color);
+    const set = data.sets.find((x) => x.zone === 'mossy-hollow')!;
+    const armor = data.gear[set.pieces.find((id) => data.gear[id]!.slot === 'armor')!]!;
+    const zone = data.zones.find((z) => z.id === 'mossy-hollow')!;
+    expect(gearIconColors(data, armor).accent).toBe(data.elements.info[zone.element].color);
+    const plain = data.gear['padded-vest']!;
+    expect(gearIconColors(data, plain)).toEqual({ accent: data.gearLooks.tiers[0]!.accent, trim: data.gearLooks.tiers[0]!.trim, tier: 'bronze' });
+  });
+
+  it('the trim climbs through the tiers with level', () => {
+    const tierAt = (level: number) => gearIconColors(data, { ...data.gear['padded-vest']!, level }).tier;
+    expect([1, 14, 15, 29, 30, 49, 50, 69, 70, 99].map(tierAt)).toEqual(['bronze', 'bronze', 'iron', 'iron', 'silver', 'silver', 'gold', 'gold', 'star', 'star']);
+  });
+
+  it('rejects a piece with an icon that is not a listed shape', () => {
+    const bad = { ...data.gear, 'padded-vest': { ...data.gear['padded-vest']!, icon: 'banana' } };
+    expect(() => validateGearLooks(data.gearLooks, bad)).toThrow(DataError);
   });
 });

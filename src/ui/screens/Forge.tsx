@@ -5,7 +5,7 @@ import { canAfford, forgeable, forgedGear, formatMaterials, maxPlus, plusOf, upg
 import type { SaveData } from '../../core/save';
 import type { GearData } from '../../core/types';
 import { MATERIALS } from '../../core/types';
-import { GearElement } from '../bits';
+import { GearElement, GearIcon } from '../bits';
 import { Sheet } from '../Sheet';
 import { Embers, Gold } from '../Icon';
 import { gearSummary } from './Town';
@@ -54,6 +54,7 @@ export function ForgeSheet({ save, update, onClose }: Props) {
     const blocker = upgradeBlocker(data, r, save.embers, save.roost, g.id);
     return (
       <div key={g.id} class="forge-row" data-testid={`forge-row-${g.id}`}>
+        <GearIcon g={g} />
         <div class="forge-info">
           <strong>{now.name}{equipped.has(g.id) ? ' (equipped)' : ''}</strong>
           <GearElement g={g} />
@@ -97,6 +98,7 @@ export function ForgeSheet({ save, update, onClose }: Props) {
             const ok = !owned && levelOk && canAfford({ gold: r.gold, embers: save.embers, materials: r.materials }, cost);
             return (
               <div key={g.id} class="forge-row" data-testid={`recipe-${g.id}`}>
+                <GearIcon g={g} />
                 <div class="forge-info">
                   <strong>{g.name}</strong>
                   <span class="muted">Lv {g.level} · {gearSummary(g)}</span>

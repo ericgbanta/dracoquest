@@ -42,6 +42,14 @@ export interface GearData {
   damage?: number;
   /** Only sold during this seasonal event. */
   event?: string;
+  /** The icon's shape, one of `gearLooks.json` shapes (looks plan L2). */
+  icon: string;
+}
+
+/** How gear icons are colored: the shapes that exist, and a trim and accent color per level tier. */
+export interface GearLooksData {
+  shapes: string[];
+  tiers: { id: string; name: string; minLevel: number; trim: string; accent: string }[];
 }
 
 export type TalentTree = 'protection' | 'elemental' | 'fighting' | 'assistance' | 'mischief';
@@ -632,6 +640,7 @@ export interface GameData {
   hunterLog: HunterLogData;
   echo: EchoData;
   looks: LooksData;
+  gearLooks: GearLooksData;
 }
 
 // ---- Persistent character state (lives in the save) ----

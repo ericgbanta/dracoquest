@@ -5,7 +5,7 @@ import { bossUnlocked, zoneRare } from '../../core/run';
 import { conditionFor, describeCondition } from '../../core/conditions';
 import { riderMaxHp } from '../../core/characters';
 import type { SaveData } from '../../core/save';
-import { ElementBadge, formatBonus, todayKey } from '../bits';
+import { ElementBadge, formatBonus, GearIcon, todayKey } from '../bits';
 import { Sheet } from '../Sheet';
 import { usePref } from '../Fold';
 import { gearSummary } from './Town';
@@ -336,9 +336,12 @@ function Treasures({ zone, save, onClose }: { zone: ZoneData; save: SaveData; on
             const owned = save.rider.gear.includes(id);
             return (
               <div key={id} class={`treasure-row${owned ? ' treasure-row--owned' : ''}`} data-testid={`treasure-${id}`}>
-                <strong>{g.name}</strong>
-                <span class="muted">Lv {g.level} · {gearSummary(g, false)}</span>
-                <span class="muted">{owned ? 'Found.' : source(id)}</span>
+                <GearIcon g={g} size={36} />
+                <span class="treasure-info">
+                  <strong>{g.name}</strong>
+                  <span class="muted">Lv {g.level} · {gearSummary(g, false)}</span>
+                  <span class="muted">{owned ? 'Found.' : source(id)}</span>
+                </span>
               </div>
             );
           })}

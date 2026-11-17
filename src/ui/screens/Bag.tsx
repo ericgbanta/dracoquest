@@ -15,7 +15,7 @@ import { eggName, groupEggs } from '../../core/eggs';
 import { xpToNext } from '../../core/progression';
 import type { SaveData } from '../../core/save';
 import { DRAGON_SLOTS, RIDER_SLOTS, RIDER_STATS, type GearSlot, type RiderStat } from '../../core/types';
-import { Bar, ElementBadge, formatBonus, GearElement } from '../bits';
+import { Bar, ElementBadge, formatBonus, GearElement, GearIcon } from '../bits';
 import { Sheet } from '../Sheet';
 import { Fold, SubTabs, usePref } from '../Fold';
 
@@ -63,6 +63,7 @@ export function Bag({ save, update }: Props) {
     const g = raw && !(DRAGON_SLOTS as readonly string[]).includes(s) ? forgedGear(data, raw, plusOf(r, raw.id)) : raw;
     return (
       <div key={s} class="slot-row">
+        <GearIcon g={raw} slot={s} />
         <div>
           <strong>{SLOT_NAMES[s]}</strong>
           <span class="muted">{g ? `${g.name} · ${gearSummary(g)}` : 'Empty'}</span>
@@ -178,6 +179,7 @@ export function Bag({ save, update }: Props) {
               const shown = forgedGear(data, g, plusOf(r, g.id));
               return (
                 <div key={g.id} class="shop-row">
+                  <GearIcon g={g} />
                   <div class="shop-info">
                     <strong>{shown.name}{on ? ' (equipped)' : ''}</strong>
                     <GearElement g={g} />
