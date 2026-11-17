@@ -1,6 +1,8 @@
 # Looks plan: a rider you can color, and gear you can see
 
-Written 2026-11-16 at Eric's request. Status: a plan, nothing built yet. One test was run while writing it (see "The recolor test").
+Written 2026-11-16 at Eric's request. Status (2026-11-17): L0 and L1 (rider colors) are built. L2 (gear icons) is built except for its art: the four icon sheets still need generating, and until then rows show an emoji. See "Built" at the end. The sections before it are the plan as written; where the build differs, "Built" says so.
+
+Eric's answers (2026-11-16): add the "Your keeper" step to new games; the five parts are fine for now and may change later; icon colors as recommended. "Let's build this."
 
 The request, in Eric's words: "adding more art / customization. Like different weapons, armor etc should have different art. We should be able to customize our character." From eight options he picked two halves to plan: "the color half of 1 and the icon half of 2", and asked that both ideas be documented in full, "even the parts we didn't touch".
 
@@ -158,3 +160,30 @@ None of these block L0.
 4. **The fifth icon sheet** (Forge, Nesting Grounds, materials, bag): add it for one more generation?
 5. **Weapon masters.** Keep 320 px copies of the weapon icons in the repo for a possible 2b?
 6. **A choice of character.** If a second base rider is ever wanted, it changes how outfits would be made (see 1b). Worth deciding before any outfit, not before this plan's work.
+
+## Built (2026-11-17)
+
+### L0 and L1: rider colors
+
+- **No generations.** The hand-drawn boxes the plan expected weren't needed. In every rider image the hair is the single largest brown patch in the top of the picture, so `tools/art/painted/rekey_rider.py` finds it without help. Two details made it work: the hair's shadow tone leans red (hue near 5), so it is matched by its weak chroma; and the patch is grown by two pixels to take in its soft edge. The script repaints the hair yellow-green (hue about 86; the rider art has nothing between hue 60 and 140), not magenta as the plan said, because the staff's gem is purple.
+- The seven rider files in `src/art/painted/` are the re-keyed ones (264 KB, up from 252). The script skips an image that already has key-colored hair.
+- `recolorFamilies` in `src/ui/stage/tint.ts` is the shared recolor; `recolorPixels` (dragons, eggs, gear icons) and `recolorRider` call it. `hueFamily` sorts a pixel by hue ranges from data; the rider's five ranges are `riderKeys` in `src/art/palette.json`. Dragon results are byte-for-byte what they were (pinned in `tests/looks.test.ts`).
+- `src/data/looks.json`: 8 skin tones, 12 hair colors, 14 cloth colors, six ready-made looks (Keeper, Ember, Frost, Moss, Dusk, Sun) and the default, which is the rider as painted. The part called trousers in the save is labeled "Legs" on screen so five part buttons fit across a phone.
+- Save v17 adds `rider.look`. `setRiderLook` in `game.ts` accepts only listed swatches and refuses during a fight. `randomRiderLook` uses the seeded RNG.
+- `src/ui/Look.tsx` has `RiderPreview` and `LookEditor` (ready-made looks, Random, one swatch grid for the chosen part). The Bag has a fifth tab, Look. Rows of five or more sub-tabs get tighter padding (`subtabs--tight`) so they fit at 375.
+- New games open on **Your keeper** (`YourKeeper` in `Hatch.tsx`): a name, the look editor, Continue and Skip. It shows only for a game nobody has touched (default name and look, no egg), so it never comes back after it is answered, and nothing is saved until Continue. `enter()` in `e2e/helpers.ts` skips it for tests that aren't about it.
+- The art sheet (`#/dev/art`) shows all four rider images in every ready-made look.
+
+Calls made without asking: the yellow-green key; "Legs" as the label; the swatch lists and the six looks; Random on both screens; the step shown before the egg pick.
+
+### L2: gear icons
+
+- `src/data/gearLooks.json` lists the 48 shapes and five tiers: Bronze from level 1, Iron from 15, Silver from 30, Gold from 50, Star metal from 70. Each tier has a trim color and an accent for gear with no element.
+- Every piece in `gear.json` has an `icon`. `tools/content/gear_icons.py` assigns it from the piece's name, reading the last word first ("Deepcrown Chancellor's Quill" is a feather, "Deepdelver Lantern Staff" a staff, "Lantern of Ages" a lantern). It keeps icons already set unless run with `--all`. Data validation rejects an unknown shape.
+- `GearIcon` in `src/ui/bits.tsx` is on the Bag's three slots and its gear picker, Town rows, Forge rows and recipes, the Map's Loot sheet and the "Found the..." line after a fight. An empty slot draws the `empty` shape.
+- `tools/art/painted/jobs19.py` writes the four sheet prompts, and `pack.py` packs them at 96 px and keeps 320 px copies of the 24 weapon shapes in `tools/art/painted/masters/` for a possible 2b.
+- The fifth sheet (Forge, Nesting Grounds, materials, bag) was not made; Eric didn't answer that question.
+
+### Checks
+
+368 unit tests, types and lint pass. Phone tests: 142, with `e2e/looks.spec.ts` covering the new game step, Skip, the Look tab, the rider's colors in a fight and gear icons on three screens. No balance numbers changed, so the sim was not rerun.

@@ -33,6 +33,7 @@ test('a second saved game starts fresh and leaves the existing save alone', asyn
 
   // Start a new game in slot 2 and hatch a dragon there.
   await page.getByTestId('slot-play-2').tap();
+  await page.getByTestId('keeper-skip').tap();
   await page.getByTestId('egg-tide').tap();
   for (let i = 0; i < 12; i++) await page.getByTestId('warm-egg').tap();
   await page.getByTestId('dragon-name').fill('Puddle');
@@ -68,6 +69,7 @@ test('starting over clears only the slot in play', async ({ page }) => {
   await loadOldSave(page, 'roost.json');
   await openSettings(page);
   await page.getByTestId('slot-play-3').tap();
+  await page.getByTestId('keeper-skip').tap();
   await expect(page.getByTestId('egg-fire')).toBeVisible();
   await page.goto('./#/settings');
   await openFold(page, 'settings.danger');
@@ -86,6 +88,7 @@ test('a damaged slot can be left for another slot', async ({ page }) => {
   await expect(page.getByRole('alert')).toContainText('could not be read');
   await expect(page.getByTestId('slot-1')).toContainText('cannot be read');
   await page.getByTestId('slot-play-2').tap();
+  await page.getByTestId('keeper-skip').tap();
   await expect(page.getByTestId('egg-fire')).toBeVisible();
   expect(await stored(page, 'dracoquest.save')).toBe('{"version":2,"broken":true}');
 });

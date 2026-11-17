@@ -11,7 +11,7 @@ A ready-to-paste prompt for a new session is in `docs/NEXT_PROMPT.md`.
 3. `docs/VARIETY_PLAN.md` (2026-11-13): more variety for grinding. V1 to V8 are built (its "Built" section has the details); only V9 is left. `docs/WORLD_PLAN.md`: the world expansion plan, finished.
    `docs/DRAGONS_PLAN.md` (2026-11-13): more elements, dragon breeds, breeding, a bigger roster, rare variants and two new maps for levels 30 to 100, phases E0 to E12 interleaved with W5 to W9. Approved with all names decided (2026-11-13); E0 is next.
 4. `docs/ART_GENERATION.md` before making any art (Codex CLI on Eric's subscription), and `docs/ART_STYLE.md` for the rules a finished image must meet.
-5. `docs/LOOKS_PLAN.md` (2026-11-16): rider colors and painted gear icons, phases L0 to L2, plus two ideas written down for later (outfits, weapons on the stage). A plan only; nothing built. Eric asked for it and has six questions to answer in it.
+5. `docs/LOOKS_PLAN.md` (2026-11-16): rider colors and painted gear icons, phases L0 to L2, built 2026-11-17 (its "Built" section has the details), plus two ideas written down for later (outfits, weapons on the stage).
 6. `docs/DESIGN.md` for the original game design and its Decisions table (still settled). `docs/GRAPHICS_PLAN.md` and `docs/GRAPHICS_PLAN_2.md` are history for the battle stage and the painted art.
 
 ## The game in one paragraph
@@ -84,8 +84,9 @@ Each row was built, tested, committed and deployed in this order. The Decisions 
 - **Hunter's log and echo runs:** kill goals per enemy on each zone's Log; old zones replayed at your level for more XP and gold.
 - **Daily conditions:** each zone has one a day (`src/data/conditions.json`), shown on the Map.
 - **Run events:** after about 1 won hunt fight in 4, a scene with a choice (`src/data/runEvents.json`).
-- **Saves:** version 16, up to 3 slots per device, export and import codes.
-- **Tests:** 350 unit tests and 137 phone tests pass. The sim shows every zone averaging 70 to 85 percent on level across the three starters.
+- **Looks:** the rider's five colors are the player's choice, and every gear piece has a painted icon.
+- **Saves:** version 17, up to 3 slots per device, export and import codes.
+- **Tests:** 368 unit tests and 142 phone tests pass (one, gear icons, waits on the icon art). The sim shows every zone averaging 70 to 85 percent on level across the three starters.
 
 ## What to work on next
 
@@ -115,9 +116,15 @@ Lessons from building above level 50 (useful if the cap ever goes past 100):
 
 Eric grinds and revisits the first area and asked for research on making it less samey. V1 to V8 are built and live. Left: V9 (faster early levels, balance only), a supplement if the first levels still drag. Ask Eric after he has played the new early game.
 
-### Also planned: looks (`docs/LOOKS_PLAN.md`)
+### Looks (`docs/LOOKS_PLAN.md`): built 2026-11-17, not deployed
 
-Eric asked for options to take the game further (2026-11-16) and picked two to plan: choosing the rider's colors, and a painted icon for every gear piece. A test showed the existing rider art recolors without new generations except for the hair, which needs a pack-time fix (`tools/art/painted/rider_rekey_test.py`, result in `docs/img/rider-recolor-test.jpg`). L0 and L1 need no Codex; L2 needs 4 to 6 generations. The other six options he was shown (dragon cosmetics, rider skills by weapon, endgame at 100, a collection book, share codes between friends, battle polish) are not planned.
+Eric asked for options to take the game further (2026-11-16), picked rider colors and gear icons, and said "Let's build this."
+
+- **Rider colors (save v17).** Skin, hair, tunic, trousers and cape, from swatches in `src/data/looks.json`. A Look tab in the Bag and a "Your keeper" step at New game. The existing art is recolored at load (`recolorRider` in `tint.ts`); the hair was marked in a key color once by `tools/art/painted/rekey_rider.py`. No generations.
+- **Gear icons.** Every gear piece has an `icon` shape (48 shapes, `src/data/gearLooks.json`), drawn by `GearIcon` with the element or tier as its accent and the level tier as its trim. Four generations (`jobs19.py`).
+- Not deployed. Eric hasn't seen either on his phone yet.
+- Still open from the plan: a fifth icon sheet (Forge and Nesting Grounds building icons, the three materials, the bag), and the two documented ideas (outfits at 7 generations each, weapons on the stage).
+- The other six options he was shown (dragon cosmetics, rider skills by weapon, endgame at 100, a collection book, share codes between friends, battle polish) are not planned.
 
 ### After that
 
@@ -278,7 +285,7 @@ Calls made while building, shown to Eric in the report:
 
 | Topic | Decision |
 | --- | --- |
-| Save version | 16. v13 added `rares`, v14 `run.event` and `run.boon`, v15 `run.condition`, v16 `hunterLog` and `run.echo` (variety plan V2, V1, V3, V4 and V6). v6 added `settings.simpleBattle`, v7 `rider.spells`, v8 the Forge, v9 `storyChoices` and `bounties`, v10 egg objects, dragon `breed`, `element2`, `variant` and `lastBredAt`, and the Nesting Grounds (`roost.levels.nesting`, `roost.nesting`), v11 `thirdDragonId`, v12 `rider.spellPlus`. Each bump has a migration and a fixture test (`tests/fixtures/save-v1.json` to `save-v15.json`). |
+| Save version | 17. v17 added `rider.look` (looks plan L1). v13 added `rares`, v14 `run.event` and `run.boon`, v15 `run.condition`, v16 `hunterLog` and `run.echo` (variety plan V2, V1, V3, V4 and V6). v6 added `settings.simpleBattle`, v7 `rider.spells`, v8 the Forge, v9 `storyChoices` and `bounties`, v10 egg objects, dragon `breed`, `element2`, `variant` and `lastBredAt`, and the Nesting Grounds (`roost.levels.nesting`, `roost.nesting`), v11 `thirdDragonId`, v12 `rider.spellPlus`. Each bump has a migration and a fixture test (`tests/fixtures/save-v1.json` to `save-v16.json`). |
 | Save slots | Up to 3 per device (Eric's request). Slot 1 is the original `dracoquest.save` key so old saves stay put; slots 2 and 3 are `dracoquest.save.2` and `.3`; `dracoquest.slot` holds the slot in play. Not part of the save object, so no version bump. Settings has the list; export, import and Start over act on the slot in play. |
 | Simple battle | A setting that brings back the old card layout instead of the stage. |
 | Freeing dragons (2026-11-13) | Dragons tab, Overview, the "Free to the wild" fold (closed by default), with a confirm. Embers by stage from `roost.json` `freeEmbers` (3, 5, 8, 12 for Hatchling to Elder) plus the egg extras (+2 hybrid, +2 non-Dragon breed, +7 rare finish). Sized against bosses giving 10 embers on a first kill and 2 after, so freeing is a small refund, not a farm. Blocked for the lead, the last dragon, a dragon on an expedition or nesting, and mid-run. A partner seat it held empties; gear it wore stays in the bag. `freeDragon`, `freeValue`, `freeBlocker` in `game.ts`. Dragons can't be sold. |
