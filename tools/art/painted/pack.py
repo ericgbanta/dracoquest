@@ -199,6 +199,7 @@ ICONS = {
  'icons-status': (4, ['status-blind', 'status-burn', 'status-chill', 'status-crack', 'status-fade', 'status-fury', 'status-harden', 'status-root', 'status-shock', 'status-soak', 'status-taunt', 'status-ward']),
  'icons-battle': (4, ['intent-attack', 'intent-big', 'intent-buff', 'intent-heal', 'intent-shift', 'item-potion', 'item-mana-tonic', 'item-dragon-treat', 'gold', 'ember', 'xp', 'bond']),
  'icons-care': (4, ['food-blossom-bun', 'food-char-pepper', 'food-cocoa-cake', 'food-harvest-pie', 'food-mossberry-tart', 'food-river-trout', 'food-sunfruit', 'food-sweetroot', 'feed', 'groom', 'rest', 'egg']),
+ 'icons-forge': (3, ['building-forge', 'building-nesting', 'material-ore', 'material-crystal', 'material-scale']),
  'icons-places': (4, ['building-expeditions', 'building-hatchery', 'building-nest', 'building-pantry', 'building-training', 'town', 'lock', 'event']),
 }
 # Gear icons (looks plan L2, jobs19.py): 96 px, since rows show them at 28 to 40 px. The weapon shapes are also
