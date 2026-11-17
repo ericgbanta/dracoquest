@@ -18,7 +18,7 @@ How I like to work: plain writing with no em dashes; commit after each step; for
 
 Art: always through `docs/ART_GENERATION.md` (the Codex CLI on my ChatGPT subscription). It uses my Codex limits, so tell me how many generations a task needs first. Start the device login early as a tracked background task and give me the code at the end of a message; the session must be on the "dracoquest" environment. Sign Codex out when the art is done.
 
-Next up: `docs/VARIETY_PLAN.md`, more variety for grinding (I revisit the first area a lot). V1 to V8 are built; its "Built" section says how. Only V9 (faster early levels) is left; ask me first whether I still want it. `docs/LOOKS_PLAN.md` (rider colors and gear icons) is built; check the handoff for whether it has been deployed and whether its icon art is in. Other candidates are in the handoff's "After that" and "Open questions".
+Next up: `docs/VARIETY_PLAN.md`, more variety for grinding (I revisit the first area a lot). V1 to V8 are built; its "Built" section says how. Only V9 (faster early levels) is left; ask me first whether I still want it. `docs/LOOKS_PLAN.md` (rider colors and gear icons) is built and live. Other candidates are in the handoff's "After that" and "Open questions".
 
 What I want this session:
 [Write the task here.]

@@ -1,6 +1,6 @@
 # Looks plan: a rider you can color, and gear you can see
 
-Written 2026-11-16 at Eric's request. Status (2026-11-17): L0, L1 (rider colors) and L2 (gear icons) are built, with the icon art in. Not deployed yet. See "Built" at the end. The sections before it are the plan as written; where the build differs, "Built" says so.
+Written 2026-11-16 at Eric's request. Status (2026-11-17): L0, L1 (rider colors) and L2 (gear icons) are built, with the icon art in, and were deployed on 2026-11-17. See "Built" at the end. The sections before it are the plan as written; where the build differs, "Built" says so.
 
 Eric's answers (2026-11-16): add the "Your keeper" step to new games; the five parts are fine for now and may change later; icon colors as recommended. "Let's build this."
 
