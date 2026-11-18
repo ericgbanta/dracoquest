@@ -12,12 +12,15 @@ import { Battle } from './screens/Battle';
 import { Town } from './screens/Town';
 import { Title } from './screens/Title';
 import { applyUpdate, dismissOfflineReady, usePwa } from './pwa';
+import { useAreaArtPrefetch } from './offlineArt';
 
 export function App() {
   const route = useRoute();
   const saveApi = useSave();
   const { save, loadError, update, slot, switchSlot, startNewGame } = saveApi;
   const pwa = usePwa();
+  // Save art for the areas the player can reach now or soon, for offline play.
+  useAreaArtPrefetch(save);
   const devPage = useDevPage();
   // The battle screen stays open after the run ends so the results can show.
   const [battleOpen, setBattleOpen] = useState(!!save?.run);

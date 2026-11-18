@@ -5,6 +5,7 @@ import { BackIcon, MenuIcon } from '../icons';
 import { isIos, isStandalone } from '../install';
 import { play } from '../sound';
 import { Fold } from '../Fold';
+import { useArtDownload } from '../offlineArt';
 
 interface Props {
   save: SaveData | null;
@@ -28,6 +29,7 @@ export function Settings({ save, persistent, update, replace, slot, slots, switc
   const [exportCode, setExportCode] = useState('');
   const [importText, setImportText] = useState('');
   const [notice, setNotice] = useState<Notice>(null);
+  const art = useArtDownload();
 
   const saveName = (e: Event) => {
     e.preventDefault();
@@ -189,6 +191,21 @@ export function Settings({ save, persistent, update, replace, slot, slots, switc
             <span>Sound effects</span>
           </label>
           <p class="muted">Animations follow your phone's reduce-motion setting.</p>
+        </Fold>
+      )}
+
+      {art.supported && (
+        <Fold id="settings.offline" title="Offline art" testid="offline-art"
+          summary={art.saved === null ? 'Checking' : art.saved >= art.total ? 'All saved' : `${art.saved} of ${art.total} saved`}>
+          <p>The game saves each area's enemies and backdrop the first time you see them, and fetches art for the areas you can reach next. To have every area ready before you go offline, download it all here.</p>
+          {art.saved !== null && art.saved < art.total && (
+            <button type="button" class="button" onClick={art.start} disabled={art.busy} data-testid="download-art">
+              {art.busy ? `Downloading ${art.saved} of ${art.total}` : 'Download all art'}
+            </button>
+          )}
+          {art.saved !== null && art.saved >= art.total && <p class="notice" data-testid="art-saved">All {art.total} images are saved on this device.</p>}
+          {!art.busy && art.failed > 0 && <p class="notice notice--error">{art.failed} images didn't download. Check your connection and try again.</p>}
+          <p class="muted">Best on Wi-Fi: the full set is several megabytes.</p>
         </Fold>
       )}
 

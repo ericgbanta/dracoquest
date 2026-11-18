@@ -33,6 +33,37 @@ test('plays fully offline after the first visit', async ({ page, context }) => {
   await context.setOffline(false);
 });
 
+test('saves area art ahead of time: upcoming areas quietly, every area from Settings', async ({ page, context }) => {
+  test.setTimeout(180_000);
+  await load(page, 'juvenile.json');
+  const cached = () => page.evaluate(async () =>
+    (await (await caches.open('dracoquest-area-art')).keys()).map((r) => new URL(r.url).pathname.split('/').pop()!));
+  // A level 15 rider with a Juvenile: Cinder Pass is open and Thunderspire (level 18) is coming up.
+  await expect.poll(async () => (await cached()).some((f) => f.startsWith('thunderspire-')), { timeout: 30_000 }).toBe(true);
+  expect((await cached()).some((f) => f.startsWith('cinder-pass-'))).toBe(true);
+  expect((await cached()).some((f) => f.startsWith('dragonsrest-'))).toBe(false);
+
+  await page.evaluate(() => { location.hash = '#/settings'; });
+  await openFold(page, 'settings.offline');
+  await page.getByTestId('download-art').tap();
+  await expect(page.getByTestId('art-saved')).toBeVisible({ timeout: 150_000 });
+
+  // Offline, once the service worker is in charge, a far-off area's backdrop still loads.
+  await page.evaluate(async () => { await navigator.serviceWorker.ready; });
+  await page.reload();
+  await expect.poll(() => page.evaluate(() => !!navigator.serviceWorker.controller)).toBe(true);
+  await context.setOffline(true);
+  const far = (await cached()).find((f) => f.startsWith('dragonsrest-'))!;
+  const width = await page.evaluate(async (f) => {
+    const img = new Image();
+    img.src = `/dracoquest/assets/${f}`;
+    await img.decode();
+    return img.naturalWidth;
+  }, far);
+  expect(width).toBeGreaterThan(0);
+  await context.setOffline(false);
+});
+
 test('a seasonal event shows on its dates and its gift opens once', async ({ page }) => {
   await page.clock.install({ time: new Date('2026-11-11T10:00:00') });
   await load(page, 'juvenile.json');
