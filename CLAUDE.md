@@ -25,7 +25,7 @@ Start with `docs/HANDOFF.md`: where the project stands, what to work on next, an
 - Characters, backdrops, effects, eggs and icons are painted WebP images, in one cel-shaded cartoon style Eric chose. Every file is listed in `/src/art/assets.json`. Eric may swap in his own art through the manifest.
 - New art is always made the same way: follow `docs/ART_GENERATION.md` (the Codex CLI on Eric's ChatGPT subscription, signed in by device code, with the style text and reference image in `tools/art/painted`). Do not draw art by hand as SVG or change the style without asking Eric. Tell him how many images a task needs before generating, because it uses his Codex limits.
 - `docs/ART_STYLE.md` has the rules a finished image must meet.
-- Dragons are painted in key colors (red body, gold belly) and recolored once at load per player color, with an element tail tip drawn on.
+- Dragons are painted in key colors (red body, gold belly) and recolored once at load per player color, with an element tail tip drawn on. The rider is recolored the same way to the player's look (skin, hair, tunic, trousers, cape), and gear icons to their element and tier.
 - Load every sprite through the manifest. If a sprite is missing, render a simple placeholder shape. Never block a feature on art.
 
 ## Mobile first

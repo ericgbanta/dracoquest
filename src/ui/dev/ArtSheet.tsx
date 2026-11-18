@@ -1,6 +1,6 @@
 import manifest from '../../art/assets.json';
 import { gameData as data } from '../../core/data';
-import type { ElementId } from '../../core/types';
+import type { ElementId, RiderLook } from '../../core/types';
 import { EnemySprite } from '../Sprites';
 import { RigView } from '../stage/Stage';
 import { dragonFallback, Scene, useBackdrop, useDragonRig, useEggArt, useEnemyRig, useRiderRig } from '../stage/Scene';
@@ -34,7 +34,10 @@ export function ArtSheet() {
         <h2>Tail tips (Elder)</h2>
         <div class="art-row">{ELEMENTS.map((el) => <DragonCell key={el} element={el} stage="elder" colors={{ primary: '#a58c6a', secondary: '#e9e4da' }} label={data.elements.info[el].name} />)}</div>
         <h2>Rider</h2>
-        <div class="art-row">{['sword', 'bow', 'staff'].map((w) => <RiderCell key={w} weapon={w} />)}</div>
+        <div class="art-row">{['sword', 'bow', 'staff', 'mounted'].map((w) => <RiderCell key={w} weapon={w} />)}</div>
+        {data.looks.presets.slice(1).map((p) => (
+          <div key={p.id} class="art-row" data-testid={`art-look-${p.id}`}>{['sword', 'bow', 'staff', 'mounted'].map((w) => <RiderCell key={w} weapon={w} look={p.look} label={`${p.name} ${w}`} />)}</div>
+        ))}
         {data.zones.map((z) => (
           <section key={z.id}>
             <h2>{z.name}</h2>
@@ -67,9 +70,9 @@ function DragonCell({ element, stage, colors, label }: { element: ElementId; sta
   return <Cell label={label ?? `${stage}`} placeholder={!rig}>{rig ? <RigView rig={rig} facing="right" /> : dragonFallback(d)}</Cell>;
 }
 
-function RiderCell({ weapon }: { weapon: string }) {
-  const rig = useRiderRig(weapon);
-  return <Cell label={weapon}>{rig && <RigView rig={rig} facing="right" />}</Cell>;
+function RiderCell({ weapon, look, label }: { weapon: string; look?: RiderLook; label?: string }) {
+  const rig = useRiderRig(weapon, look);
+  return <Cell label={label ?? weapon}>{rig && <RigView rig={rig} facing="right" />}</Cell>;
 }
 
 function EnemyCell({ id }: { id: string }) {

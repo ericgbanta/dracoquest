@@ -35,7 +35,7 @@ A rig can still be built from several parts (SVG or WebP) drawn in place on a sh
 | Rig | File | Notes |
 | --- | --- | --- |
 | `dragon.hatchling`, `.juvenile`, `.adult`, `.elder` | `painted/dragon-<stage>.webp`, `-attack.webp` | Recolored per player; tail tip per element |
-| `rider.sword`, `rider.bow`, `rider.staff` | `painted/rider-<weapon>.webp` | Picked from the equipped weapon's type |
+| `rider.sword`, `rider.bow`, `rider.staff` | `painted/rider-<weapon>.webp`, `-attack.webp` | Picked from the equipped weapon's type; recolored to the rider's look |
 | `rider.mounted` | `painted/rider-mounted.webp` | The seated rider for Ride mode, placed at the dragon's `saddle` |
 | `enemy.<id>` | `painted/enemies/<id>.webp`, `-attack.webp` | All 49: 7 bosses drawn alone, 42 others cut from six-enemy sheets |
 
@@ -50,6 +50,23 @@ Dragons are painted with fixed key colors and recolored once at load to each pla
 | Cream horns and claws, dark outline, eye | Unchanged |
 
 Rules for new dragon art: use no other reds, oranges or yellows; keep horns pale cream so they aren't mistaken for gold; end the tail in a plain point.
+
+### Rider colors
+
+The rider takes five colors from the player's look (`save.rider.look`: skin, hair, tunic, trousers, cape), swapped in once at load by `recolorRider` in `src/ui/stage/tint.ts`. The families are told apart by hue, with the numbers under `riderKeys` in `palette.json`:
+
+| Painted as | Becomes |
+| --- | --- |
+| Crimson cape | The look's cape color |
+| Teal tunic | The tunic color |
+| Blue trousers | The trousers color |
+| Light warm skin | The skin color |
+| Yellow-green hair (a key color) | The hair color |
+| Brown leather, gold buckles, steel, wood, the staff's purple gem, the outline | Unchanged |
+
+The hair was painted brown, the same as the leather, bow and staff, so hue can't find it. `tools/art/painted/rekey_rider.py` repaints the hair yellow-green in the seven packed rider files (it is the one big brown patch at the top of each image). The files in the repo are already re-keyed; the default look's hair color turns it brown again, so a rider nobody has changed looks as painted.
+
+Rules for new rider art (an outfit, a new pose): keep those five color roles and hues, use no yellow-green anywhere, keep leather clearly darker than skin, and run `rekey_rider.py` on the new files after packing (add their names to its list).
 
 ### Tail tips
 
@@ -74,7 +91,15 @@ One 1280 x 880 WebP per zone and one for the Roost (`painted/backdrops/`), the s
 
 ## UI icons
 
-`src/art/icons/<name>.webp`, 136 x 136, cut from four generated sheets. They show at 16 to 32 px, so each is one bold object. Names follow the data: `item-<id>`, `food-<id>`, `status-<id>`, `intent-<kind>`, `building-<id>`, plus `gold`, `ember`, `egg`, `lock`, `town`, `event`, `feed`, `groom`, `rest`, `xp` and `bond`. A missing icon falls back to its emoji; an SVG of the same name is used if there is no WebP.
+`src/art/icons/<name>.webp`, 136 x 136, cut from four generated sheets. They show at 16 to 32 px, so each is one bold object. Names follow the data: `item-<id>`, `food-<id>`, `status-<id>`, `intent-<kind>`, `building-<id>`, `material-<id>`, plus `gold`, `ember`, `egg`, `lock`, `town`, `event`, `feed`, `groom`, `rest`, `xp` and `bond`. A missing icon falls back to its emoji; an SVG of the same name is used if there is no WebP.
+
+### Gear icons
+
+`src/art/icons/gear-<shape>.webp`, 96 x 96, 48 shapes cut from four sheets of twelve (`jobs19.py`). Every piece of gear names its shape in `icon` (`src/data/gear.json`; `tools/content/gear_icons.py` fills it in from the piece's name and keeps hand edits). The shapes and the level tiers are in `src/data/gearLooks.json`.
+
+Each icon is painted in the dragon key colors, so the dragon recolor code colors it: one red accent part and one gold trim part, with steel, wood, leather and cloth in their real colors. `GearIcon` in `src/ui/bits.tsx` recolors an icon once per (shape, accent, trim) and caches it. The accent is the weapon's element color, or the element of a set piece's zone, or the tier's own accent; the trim is the tier color for the piece's level (`gearIconColors` in `src/core/loadout.ts`). A missing file falls back to the slot's emoji.
+
+Rules for a new gear icon: exactly one red part and one gold part, no other reds, oranges or yellows, and it must read at 32 px.
 
 ## Rules that keep it fast
 

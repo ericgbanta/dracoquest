@@ -42,6 +42,14 @@ export interface GearData {
   damage?: number;
   /** Only sold during this seasonal event. */
   event?: string;
+  /** The icon's shape, one of `gearLooks.json` shapes (looks plan L2). */
+  icon: string;
+}
+
+/** How gear icons are colored: the shapes that exist, and a trim and accent color per level tier. */
+export interface GearLooksData {
+  shapes: string[];
+  tiers: { id: string; name: string; minLevel: number; trim: string; accent: string }[];
 }
 
 export type TalentTree = 'protection' | 'elemental' | 'fighting' | 'assistance' | 'mischief';
@@ -631,12 +639,28 @@ export interface GameData {
   conditions: ConditionsData;
   hunterLog: HunterLogData;
   echo: EchoData;
+  looks: LooksData;
+  gearLooks: GearLooksData;
 }
 
 // ---- Persistent character state (lives in the save) ----
 
+/** The rider's colors (looks plan L1). Each is a swatch from `looks.json`. */
+export interface RiderLook { skin: string; hair: string; tunic: string; trousers: string; cape: string }
+export type LookPart = keyof RiderLook;
+export const LOOK_PARTS: readonly LookPart[] = ['skin', 'hair', 'tunic', 'trousers', 'cape'];
+
+export interface LooksData {
+  parts: { id: LookPart; name: string; swatches: string }[];
+  swatches: Record<string, string[]>;
+  default: RiderLook;
+  presets: { id: string; name: string; look: RiderLook }[];
+}
+
 export interface RiderState {
   name: string;
+  /** Colors for the rider's art. Cosmetic only. */
+  look: RiderLook;
   level: number;
   xp: number;
   statPoints: number;

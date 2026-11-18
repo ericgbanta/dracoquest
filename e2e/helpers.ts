@@ -34,4 +34,6 @@ export async function enter(page: Page): Promise<void> {
   if (await cont.count()) await cont.tap();
   else await page.getByTestId('title-new').tap();
   await page.getByTestId('title').waitFor({ state: 'detached' });
+  // A brand new game opens on the "Your keeper" step; tests that aren't about it skip it.
+  if (await page.getByTestId('keeper-skip').count()) await page.getByTestId('keeper-skip').tap();
 }

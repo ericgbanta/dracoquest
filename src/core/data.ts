@@ -28,9 +28,12 @@ import runEventsJson from '../data/runEvents.json';
 import conditionsJson from '../data/conditions.json';
 import hunterLogJson from '../data/hunterLog.json';
 import echoJson from '../data/echo.json';
+import looksJson from '../data/looks.json';
+import gearLooksJson from '../data/gearLooks.json';
 import { canMix } from './eggs';
+import { LOOK_PARTS } from './types';
 import type {
-  ChampionsData, CombatData, ConditionsData, HunterLogData, RunEventsData, ElementsData, EnemyData, GameData, GearData, ItemData, ProgressionData, QuestData, ShopData, StatusData, StatusId,
+  GearLooksData, LooksData, RiderLook, ChampionsData, CombatData, ConditionsData, HunterLogData, RunEventsData, ElementsData, EnemyData, GameData, GearData, ItemData, ProgressionData, QuestData, ShopData, StatusData, StatusId,
   BountiesData, EventData, ForgeData, GearSetData, RegionsData, RoostData, StoryData, StoryReward, TalentsData, ZoneData,
 } from './types';
 
@@ -91,7 +94,7 @@ export interface RawData {
   elements: unknown; combat: unknown; statuses: unknown; progression: unknown; dragons: unknown;
   care: unknown; foods: unknown; items: unknown; enemies: unknown; zones: unknown;
   gear: unknown; talents: unknown; quests: unknown; shop: unknown; roost: unknown; events: unknown; sets: unknown; forge: unknown; stories: unknown; bounties: unknown; regions: unknown;
-  champions: unknown; runEvents: unknown; conditions: unknown; hunterLog: unknown; echo: unknown;
+  champions: unknown; runEvents: unknown; conditions: unknown; hunterLog: unknown; echo: unknown; looks: unknown; gearLooks: unknown;
 }
 
 export function loadGameData(raw: RawData): GameData {
@@ -225,6 +228,8 @@ export function loadGameData(raw: RawData): GameData {
     champions: validateChampions(raw.champions, enemies, zones, statuses, itemIds),
     conditions: validateConditions(raw.conditions),
     echo: validateEcho(raw.echo),
+    looks: validateLooks(raw.looks),
+    gearLooks: validateGearLooks(raw.gearLooks, gear),
     hunterLog: validateHunterLog(raw.hunterLog, Object.keys((raw.forge as ForgeData).materials)),
     runEvents: validateRunEvents(raw.runEvents, statuses, itemIds, Object.keys((raw.forge as ForgeData).materials)),
   };
@@ -444,6 +449,40 @@ function validateRoost(raw: unknown, foodIds: Set<string>): RoostData {
   return r;
 }
 
+/** Gear icons: every piece names a listed shape, and the tiers start at level 1 and climb. */
+export function validateGearLooks(raw: unknown, gear: Record<string, GearData>): GearLooksData {
+  const l = raw as GearLooksData;
+  if (!isObj(raw) || !Array.isArray(l.shapes) || !l.shapes.length || !Array.isArray(l.tiers) || !l.tiers.length) throw new DataError('gearLooks: needs shapes and tiers');
+  if (new Set(l.shapes).size !== l.shapes.length) throw new DataError('gearLooks.shapes: a shape is listed twice');
+  l.tiers.forEach((t, i) => {
+    if (![t.trim, t.accent].every((c) => typeof c === 'string' && /^#[0-9a-f]{6}$/.test(c))) throw new DataError(`gearLooks.tiers.${t.id}: expected #rrggbb colors`);
+    if (i === 0 ? t.minLevel !== 1 : t.minLevel <= l.tiers[i - 1]!.minLevel) throw new DataError('gearLooks.tiers: start at level 1 and climb');
+  });
+  for (const g of Object.values(gear)) {
+    if (!l.shapes.includes(g.icon)) throw new DataError(`gear ${g.id}: unknown icon "${String(g.icon)}"`);
+  }
+  return l;
+}
+
+/** The rider's look: every part has a swatch list, and the default and ready-made looks use listed swatches. */
+export function validateLooks(raw: unknown): LooksData {
+  const l = raw as LooksData;
+  if (!isObj(raw) || !Array.isArray(l.parts) || !isObj(l.swatches) || !isObj(l.default) || !Array.isArray(l.presets)) throw new DataError('looks: needs parts, swatches, default and presets');
+  for (const [k, list] of Object.entries(l.swatches)) {
+    if (!Array.isArray(list) || !list.length || !list.every((c) => typeof c === 'string' && /^#[0-9a-f]{6}$/.test(c))) throw new DataError(`looks.swatches.${k}: expected #rrggbb colors`);
+  }
+  if (l.parts.map((p) => p.id).join() !== LOOK_PARTS.join()) throw new DataError(`looks.parts: expected ${LOOK_PARTS.join(', ')}`);
+  const check = (name: string, look: RiderLook) => {
+    for (const p of l.parts) {
+      if (!l.swatches[p.swatches]) throw new DataError(`looks.parts.${p.id}: unknown swatch list "${p.swatches}"`);
+      if (!l.swatches[p.swatches]!.includes(look?.[p.id])) throw new DataError(`looks.${name}.${p.id}: not a listed swatch`);
+    }
+  };
+  check('default', l.default);
+  for (const p of l.presets) check(`presets.${p.id}`, p.look);
+  return l;
+}
+
 /** The game's data, validated once at startup. */
 export const gameData: GameData = loadGameData({
   elements: elementsJson,
@@ -472,4 +511,6 @@ export const gameData: GameData = loadGameData({
   conditions: conditionsJson,
   hunterLog: hunterLogJson,
   echo: echoJson,
+  looks: looksJson,
+  gearLooks: gearLooksJson,
 });

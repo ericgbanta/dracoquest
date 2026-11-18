@@ -1,0 +1,16 @@
+{
+  "note": "How gear icons look (looks plan L2). Every gear piece names one of `shapes` in its `icon` field (tools/content/gear_icons.py fills it in from the piece's name); the art is src/art/icons/gear-<shape>.webp, painted with a red accent and gold trim. The accent takes the weapon's element color, or the element of a set piece's zone, or the tier's own accent. The trim takes the tier color for the piece's level. Looks only: nothing here changes a fight.",
+  "shapes": [
+    "sword", "saber", "greatsword", "axe", "cleaver", "hammer", "club", "polearm", "trident", "sickle", "pickaxe", "stick",
+    "bow", "longbow", "hornbow", "crossbow", "repeater", "sling", "blowgun", "staff", "wand", "scepter", "orb", "tome",
+    "plate", "mail", "coat", "robe", "cloak", "leathers", "wraps", "apron", "saddle", "horncap", "dragoncharm", "empty",
+    "charm", "pendant", "ring", "gem", "sigil", "heart", "lantern", "crown", "feather", "fang", "flower", "keepsake"
+  ],
+  "tiers": [
+    { "id": "bronze", "name": "Bronze", "minLevel": 1, "trim": "#c98a4b", "accent": "#8a93a6" },
+    { "id": "iron", "name": "Iron", "minLevel": 15, "trim": "#9aa3b2", "accent": "#6f8fb5" },
+    { "id": "silver", "name": "Silver", "minLevel": 30, "trim": "#dfe6ee", "accent": "#5f86c9" },
+    { "id": "gold", "name": "Gold", "minLevel": 50, "trim": "#f2c84a", "accent": "#c9483c" },
+    { "id": "star", "name": "Star metal", "minLevel": 70, "trim": "#9be8f0", "accent": "#a66ad6" }
+  ]
+}

@@ -26,30 +26,60 @@ export function colorFamily(r: number, g: number, b: number): 0 | 1 | 2 {
 const lum = (r: number, g: number, b: number) => 0.299 * r + 0.587 * g + 0.114 * b;
 const rgb = (hex: string): [number, number, number] => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16)) as [number, number, number];
 
-/** The brightness of a family's flat base tone: the most common brightness among its pixels. */
-function baseTone(px: Uint8ClampedArray, family: 1 | 2): number {
-  const bins = new Uint32Array(64);
-  for (let i = 0; i < px.length; i += 4) {
-    if (px[i + 3]! > 128 && colorFamily(px[i]!, px[i + 1]!, px[i + 2]!) === family) bins[Math.min(63, Math.floor(lum(px[i]!, px[i + 1]!, px[i + 2]!) / 4))]!++;
+/** A color family picked out by hue: `hue` is [from, to) in degrees and may wrap past 360. */
+export interface HueFamily { hue: number[]; minChroma: number; maxChroma?: number; minLum?: number; maxLum?: number }
+
+/** Which of `families` a pixel belongs to, counting from 1 (the first match wins), or 0 for none. */
+export function hueFamily(families: readonly HueFamily[], r: number, g: number, b: number): number {
+  const max = Math.max(r, g, b);
+  const chroma = max - Math.min(r, g, b);
+  if (chroma === 0) return 0;
+  const hue = (max === r ? ((g - b) / chroma + 6) % 6 : max === g ? (b - r) / chroma + 2 : (r - g) / chroma + 4) * 60;
+  const l = lum(r, g, b);
+  for (let i = 0; i < families.length; i++) {
+    const f = families[i]!;
+    const [from, to] = f.hue as [number, number];
+    const inHue = from <= to ? hue >= from && hue < to : hue >= from || hue < to;
+    if (inHue && chroma >= f.minChroma && (f.maxChroma === undefined || chroma < f.maxChroma)
+      && (f.minLum === undefined || l >= f.minLum) && (f.maxLum === undefined || l < f.maxLum)) return i + 1;
   }
-  let best = -1;
-  let at = 0;
-  // Ties go to the brighter tone: the base is lighter than its shadow.
-  bins.forEach((n, i) => { if (n > 0 && n >= best) { best = n; at = i; } });
-  return best > 0 ? at * 4 + 2 : 0;
+  return 0;
 }
 
-/** Recolor RGBA pixels in place: the body family to `primary`, the second family to `secondary`. */
-export function recolorPixels(px: Uint8ClampedArray, primary: string, secondary: string): void {
-  const to = [rgb(primary), rgb(secondary)] as const;
-  const base = [baseTone(px, 1), baseTone(px, 2)] as const;
-  const dark = rgb(palette.outline);
+/** The rider's five color families, in the order cape, tunic, trousers, skin, hair (`riderKeys` in palette.json). */
+const RIDER = palette.riderKeys.families as HueFamily[];
+export const riderFamily = (r: number, g: number, b: number): number => hueFamily(RIDER, r, g, b);
+
+/**
+ * Recolor RGBA pixels in place. `family` sorts a pixel into family 1..n (0 leaves it alone) and
+ * `targets[n - 1]` is that family's new color. A family's flat base tone (its most common
+ * brightness; ties go to the brighter, since the base is lighter than its shadow) becomes the
+ * target color, and every other pixel keeps its tone relative to that base.
+ */
+export function recolorFamilies(px: Uint8ClampedArray, family: (r: number, g: number, b: number) => number, targets: readonly string[]): void {
+  const n = targets.length;
+  const fam = new Uint8Array(px.length / 4);
+  const bins = Array.from({ length: n }, () => new Uint32Array(64));
   for (let i = 0; i < px.length; i += 4) {
     if (px[i + 3] === 0) continue;
-    const fam = colorFamily(px[i]!, px[i + 1]!, px[i + 2]!);
-    if (fam === 0 || base[fam - 1] === 0) continue;
-    const tone = lum(px[i]!, px[i + 1]!, px[i + 2]!) / base[fam - 1]!;
-    const c = to[fam - 1]!;
+    const f = family(px[i]!, px[i + 1]!, px[i + 2]!);
+    if (f < 1 || f > n) continue;
+    fam[i / 4] = f;
+    if (px[i + 3]! > 128) bins[f - 1]![Math.min(63, Math.floor(lum(px[i]!, px[i + 1]!, px[i + 2]!) / 4))]!++;
+  }
+  const base = bins.map((b) => {
+    let best = -1;
+    let at = 0;
+    b.forEach((count, i) => { if (count > 0 && count >= best) { best = count; at = i; } });
+    return best > 0 ? at * 4 + 2 : 0;
+  });
+  const to = targets.map(rgb);
+  const dark = rgb(palette.outline);
+  for (let i = 0; i < px.length; i += 4) {
+    const f = fam[i / 4]!;
+    if (f === 0 || base[f - 1] === 0) continue;
+    const tone = lum(px[i]!, px[i + 1]!, px[i + 2]!) / base[f - 1]!;
+    const c = to[f - 1]!;
     for (let k = 0; k < 3; k++) {
       // Darker than the base: scale the color down and lean a little toward the outline color.
       // Lighter: mix toward white.
@@ -59,6 +89,16 @@ export function recolorPixels(px: Uint8ClampedArray, primary: string, secondary:
       px[i + k] = Math.round(Math.max(0, Math.min(255, v)));
     }
   }
+}
+
+/** Recolor painted dragon pixels in place: the body family to `primary`, the second family to `secondary`. */
+export function recolorPixels(px: Uint8ClampedArray, primary: string, secondary: string): void {
+  recolorFamilies(px, colorFamily, [primary, secondary]);
+}
+
+/** Recolor painted rider pixels in place to a look's five colors. */
+export function recolorRider(px: Uint8ClampedArray, look: { cape: string; tunic: string; trousers: string; skin: string; hair: string }): void {
+  recolorFamilies(px, riderFamily, [look.cape, look.tunic, look.trousers, look.skin, look.hair]);
 }
 
 const F = palette.finishes;

@@ -1,8 +1,8 @@
 import manifest from '../../art/assets.json';
 import palette from '../../art/palette.json';
 import { gameData } from '../../core/data';
-import type { ElementId, VariantId } from '../../core/types';
-import { applyFinish, familyMap, finishGlow, recolorPixels } from './tint';
+import type { ElementId, RiderLook, VariantId } from '../../core/types';
+import { applyFinish, familyMap, finishGlow, recolorPixels, recolorRider } from './tint';
 
 /**
  * Battle-stage art: rigs (characters built from parts), backdrops and effects.
@@ -43,6 +43,8 @@ export interface BitmapTint {
   /** A hybrid's second element color, drawn as a ring around the tail tip. */
   ring?: string | undefined;
   finish?: VariantId | undefined;
+  /** The rider's look: recolors the rider's five color families instead of a dragon's two. */
+  rider?: RiderLook | undefined;
 }
 
 /** An enemy drawn from a shared body plan: its colors, size and extra parts. */
@@ -188,7 +190,8 @@ async function tintBitmap(url: string, tint: BitmapTint): Promise<string> {
   ctx.drawImage(img, 0, 0);
   const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
   const family = tint.finish ? familyMap(data.data) : null;
-  recolorPixels(data.data, tint.primary, tint.secondary);
+  if (tint.rider) recolorRider(data.data, tint.rider);
+  else recolorPixels(data.data, tint.primary, tint.secondary);
   if (tint.finish && family) applyFinish(data.data, canvas.width, family, tint.finish);
   ctx.putImageData(data, 0, 0);
   if (tint.tip) {
@@ -291,6 +294,7 @@ export function loadDragonRig(stage: string, look: DragonLook): Promise<Rig | nu
 
 /** Load a rig with its colors baked in. Null if the manifest has no such rig or its main body is missing. */
 export async function loadRig(key: string, look?: DragonLook, vars: RigVars = {}): Promise<Rig | null> {
+  if (key.startsWith('rider.')) return loadRiderRig(key.slice(6));
   const def = rigs[key];
   if (!def) return null;
   const dragon = def.tint === 'dragon' && look ? look : null;
@@ -309,6 +313,17 @@ export async function loadRig(key: string, look?: DragonLook, vars: RigVars = {}
   }
   return build(key, def, colors, allVars, def.parts, def.boxScale ?? 1, tint);
 }
+
+/** The rider's rig for a weapon stance (`sword`, `bow`, `staff`) or `mounted`, in the rider's colors. */
+export async function loadRiderRig(kind: string, look: RiderLook = gameData.looks.default): Promise<Rig | null> {
+  const key = `rider.${kind}`;
+  const def = rigs[key];
+  if (!def) return null;
+  return build(key, def, {}, {}, def.parts, def.boxScale ?? 1, { primary: '', secondary: '', rider: look });
+}
+
+/** A short key for caching by look. */
+export const riderLookKey = (l: RiderLook): string => [l.skin, l.hair, l.tunic, l.trousers, l.cape].join('');
 
 /** An enemy's rig: its own (bosses) or a shared body plan in its colors with its extras. */
 export async function loadEnemyRig(enemyId: string): Promise<Rig | null> {

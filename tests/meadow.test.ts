@@ -78,6 +78,6 @@ function rawData() {
     care: data.care, foods: data.foods, items: data.items, enemies: Object.values(data.enemies), zones: data.zones,
     gear: Object.values(data.gear), talents: data.talents, quests: Object.values(data.quests), shop: data.shop, roost: data.roost,
     events: data.events, sets: data.sets, forge: data.forge, stories: data.stories, bounties: data.bounties, regions: data.regions,
-    champions: data.champions, runEvents: data.runEvents, conditions: data.conditions, hunterLog: data.hunterLog, echo: data.echo,
+    champions: data.champions, runEvents: data.runEvents, conditions: data.conditions, hunterLog: data.hunterLog, echo: data.echo, looks: data.looks, gearLooks: data.gearLooks,
   };
 }

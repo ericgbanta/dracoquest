@@ -1,13 +1,13 @@
 import { useState } from 'preact/hooks';
 import { gameData as data } from '../../core/data';
 import { forgeCraft, forgeUpgrade, GameError } from '../../core/game';
-import { canAfford, forgeable, forgedGear, formatMaterials, maxPlus, plusOf, upgradeBlocker, upgradeCostFor, type ForgeCost } from '../../core/forge';
+import { canAfford, forgeable, forgedGear, maxPlus, plusOf, upgradeBlocker, upgradeCostFor, type ForgeCost } from '../../core/forge';
 import type { SaveData } from '../../core/save';
 import type { GearData } from '../../core/types';
 import { MATERIALS } from '../../core/types';
-import { GearElement } from '../bits';
+import { GearElement, GearIcon } from '../bits';
 import { Sheet } from '../Sheet';
-import { Embers, Gold } from '../Icon';
+import { Embers, Gold, Icon } from '../Icon';
 import { gearSummary } from './Town';
 
 interface Props {
@@ -21,7 +21,7 @@ export function Cost({ cost }: { cost: ForgeCost }) {
     <span class="muted forge-cost">
       <span><Gold amount={cost.gold} /></span>
       {cost.embers > 0 && <span><Embers amount={cost.embers} /></span>}
-      {MATERIALS.filter((m) => cost.materials[m]).map((m) => <span key={m}>{cost.materials[m]} {data.forge.materials[m].name}</span>)}
+      {MATERIALS.filter((m) => cost.materials[m]).map((m) => <span key={m}><Icon name={`material-${m}`} size={18} /> {cost.materials[m]} {data.forge.materials[m].name}</span>)}
     </span>
   );
 }
@@ -54,6 +54,7 @@ export function ForgeSheet({ save, update, onClose }: Props) {
     const blocker = upgradeBlocker(data, r, save.embers, save.roost, g.id);
     return (
       <div key={g.id} class="forge-row" data-testid={`forge-row-${g.id}`}>
+        <GearIcon g={g} />
         <div class="forge-info">
           <strong>{now.name}{equipped.has(g.id) ? ' (equipped)' : ''}</strong>
           <GearElement g={g} />
@@ -73,7 +74,9 @@ export function ForgeSheet({ save, update, onClose }: Props) {
   return (
     <Sheet title="Forge" onClose={onClose}>
       <p class="muted" data-testid="forge-materials">
-        Materials: {formatMaterials(data, r.materials) || 'none yet'}. The Forge can reach +{top}.
+        Materials: {MATERIALS.some((m) => r.materials[m])
+          ? MATERIALS.filter((m) => r.materials[m]).map((m, i) => <span key={m}>{i > 0 && ', '}<Icon name={`material-${m}`} size={18} /> {r.materials[m]} {data.forge.materials[m].name}</span>)
+          : 'none yet'}. The Forge can reach +{top}.
       </p>
       <div class="tabs" role="tablist">
         <button type="button" role="tab" aria-selected={tab === 'upgrade'} class={`tab-pill${tab === 'upgrade' ? ' tab-pill--on' : ''}`}
@@ -97,6 +100,7 @@ export function ForgeSheet({ save, update, onClose }: Props) {
             const ok = !owned && levelOk && canAfford({ gold: r.gold, embers: save.embers, materials: r.materials }, cost);
             return (
               <div key={g.id} class="forge-row" data-testid={`recipe-${g.id}`}>
+                <GearIcon g={g} />
                 <div class="forge-info">
                   <strong>{g.name}</strong>
                   <span class="muted">Lv {g.level} · {gearSummary(g)}</span>

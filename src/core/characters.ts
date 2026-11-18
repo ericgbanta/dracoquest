@@ -32,6 +32,7 @@ export function newRider(data: GameData, name: string): RiderState {
   const base = { level: 1, stats: { ...p.riderBaseStats } };
   return {
     name,
+    look: { ...data.looks.default },
     level: 1,
     xp: 0,
     statPoints: 0,

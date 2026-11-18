@@ -34,6 +34,7 @@ test('a first visit shows New game and Settings, and writes no save until play s
   await page.screenshot({ path: 'test-results/title-new.png' });
 
   await page.getByTestId('title-new').tap();
+  await page.getByTestId('keeper-skip').tap();
   await expect(page.getByTestId('egg-fire')).toBeVisible();
   // Leaving before picking an egg keeps the slot empty.
   expect(await stored(page, 'dracoquest.save')).toBeNull();
@@ -79,6 +80,7 @@ test('Load game lists every slot and plays the one picked', async ({ page }) => 
 test('New game uses an empty slot, and asks which to replace when all are used', async ({ page }) => {
   await withSlots(page, { 1: fixture('roost.json') });
   await page.getByTestId('title-new').tap();
+  await page.getByTestId('keeper-skip').tap();
   await expect(page.getByTestId('egg-fire')).toBeVisible();
   expect(await stored(page, 'dracoquest.slot')).toBe('2');
   expect(await stored(page, 'dracoquest.save')).not.toBeNull();
@@ -94,6 +96,7 @@ test('New game uses an empty slot, and asks which to replace when all are used',
   // Saying yes clears it and starts over there.
   page.once('dialog', (d) => d.accept());
   await page.getByTestId('title-pick-2').tap();
+  await page.getByTestId('keeper-skip').tap();
   await expect(page.getByTestId('egg-fire')).toBeVisible();
   expect(await stored(page, 'dracoquest.save.2')).toBeNull();
   expect(await stored(page, 'dracoquest.slot')).toBe('2');

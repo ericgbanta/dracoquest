@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'preact/hooks';
 import { gameData } from '../core/data';
-import type { ElementId, GearData, IntentKind, StatusId, StoryReward, VariantId } from '../core/types';
+import type { ElementId, GearData, GearSlot, IntentKind, StatusId, StoryReward, VariantId } from '../core/types';
 import { hybridName } from '../core/eggs';
 import { strongAgainst } from '../core/elements';
 import { MATERIALS } from '../core/types';
 import { Icon } from './Icon';
+import { gearIconColors } from '../core/loadout';
+import { artUrl } from './stage/rigs';
 
 /** An element's symbol and name. With `element2` it's a hybrid: both symbols and the hybrid's name (Steam). */
 export function ElementBadge({ element, element2, small }: { element: ElementId; element2?: ElementId | null; small?: boolean }) {
@@ -165,4 +167,33 @@ export function rewardText(r: StoryReward): string {
     parts.push(`+${n} ${name}`);
   }
   return parts.join(', ');
+}
+
+const SLOT_EMOJI: Record<GearSlot, string> = { weapon: '⚔️', armor: '🛡️', trinket: '💍', saddle: '🐎', horn: '🦄', charm: '🧿' };
+
+/**
+ * A gear piece's painted icon (looks plan L2): its shape from `g.icon`, the accent and trim colored
+ * once per (shape, colors) and cached. With no piece it draws the empty-slot icon. Falls back to the
+ * slot's emoji while the art is missing.
+ */
+export function GearIcon({ g, slot, size = 40 }: { g?: GearData | null | undefined; slot?: GearSlot; size?: number }) {
+  const shape = g ? g.icon : 'empty';
+  const colors = g ? gearIconColors(gameData, g) : null;
+  const key = `${shape}|${colors?.accent ?? ''}|${colors?.trim ?? ''}`;
+  const [art, setArt] = useState<{ key: string; url: string | null } | null>(null);
+  useEffect(() => {
+    let live = true;
+    void artUrl(`icons/gear-${shape}.webp`, {}, false, colors ? { primary: colors.accent, secondary: colors.trim } : undefined)
+      .then((url) => { if (live) setArt({ key, url }); });
+    return () => { live = false; };
+  }, [key]);
+  const ready = art?.key === key;
+  return (
+    <span class="gear-icon" style={{ width: `${size}px`, height: `${size}px` }} aria-hidden="true"
+      data-testid={g ? `gear-icon-${g.id}` : `gear-icon-empty-${slot ?? ''}`} data-shape={shape} data-tier={colors?.tier} data-art={ready ? (art.url ? 'painted' : 'emoji') : 'loading'}>
+      {ready && (art.url
+        ? <img src={art.url} width={size} height={size} alt="" draggable={false} />
+        : <span class="icon-emoji" style={{ fontSize: `${Math.round(size * 0.6)}px` }}>{SLOT_EMOJI[g?.slot ?? slot ?? 'weapon']}</span>)}
+    </span>
+  );
 }

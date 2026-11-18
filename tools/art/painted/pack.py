@@ -199,8 +199,28 @@ ICONS = {
  'icons-status': (4, ['status-blind', 'status-burn', 'status-chill', 'status-crack', 'status-fade', 'status-fury', 'status-harden', 'status-root', 'status-shock', 'status-soak', 'status-taunt', 'status-ward']),
  'icons-battle': (4, ['intent-attack', 'intent-big', 'intent-buff', 'intent-heal', 'intent-shift', 'item-potion', 'item-mana-tonic', 'item-dragon-treat', 'gold', 'ember', 'xp', 'bond']),
  'icons-care': (4, ['food-blossom-bun', 'food-char-pepper', 'food-cocoa-cake', 'food-harvest-pie', 'food-mossberry-tart', 'food-river-trout', 'food-sunfruit', 'food-sweetroot', 'feed', 'groom', 'rest', 'egg']),
+ 'icons-forge': (3, ['building-forge', 'building-nesting', 'material-ore', 'material-crystal', 'material-scale']),
  'icons-places': (4, ['building-expeditions', 'building-hatchery', 'building-nest', 'building-pantry', 'building-training', 'town', 'lock', 'event']),
 }
+# Gear icons (looks plan L2, jobs19.py): 96 px, since rows show them at 28 to 40 px. The weapon shapes are also
+# kept at 320 px in tools/art/painted/masters/ (not shipped) in case weapons are ever drawn on the stage.
+GEAR_ICONS = {
+ 'icons-gear-melee': ['sword', 'saber', 'greatsword', 'axe', 'cleaver', 'hammer', 'club', 'polearm', 'trident', 'sickle', 'pickaxe', 'stick'],
+ 'icons-gear-ranged-magic': ['bow', 'longbow', 'hornbow', 'crossbow', 'repeater', 'sling', 'blowgun', 'staff', 'wand', 'scepter', 'orb', 'tome'],
+ 'icons-gear-armor': ['plate', 'mail', 'coat', 'robe', 'cloak', 'leathers', 'wraps', 'apron', 'saddle', 'horncap', 'dragoncharm', 'empty'],
+ 'icons-gear-trinkets': ['charm', 'pendant', 'ring', 'gem', 'sigil', 'heart', 'lantern', 'crown', 'feather', 'fang', 'flower', 'keepsake'],
+}
+for sheet, names in GEAR_ICONS.items():
+    if not have(sheet): continue
+    for n, piece in zip(names, split(key(f'v2/out/{sheet}.png'), 12, 4)):
+        piece = crop(piece, 0)
+        if sheet in ('icons-gear-melee', 'icons-gear-ranged-magic'):
+            m = 320 / max(piece.size); os.makedirs(f'{REPO}/tools/art/painted/masters', exist_ok=True)
+            piece.resize((max(1, round(piece.width * m)), max(1, round(piece.height * m))), Image.LANCZOS).save(f'{REPO}/tools/art/painted/masters/{n}.webp', quality=88, method=6)
+        k = 90 / max(piece.size); small = piece.resize((max(1, round(piece.width * k)), max(1, round(piece.height * k))), Image.LANCZOS)
+        sq = Image.new('RGBA', (96, 96), (0, 0, 0, 0)); sq.paste(small, ((96 - small.width) // 2, (96 - small.height) // 2))
+        os.makedirs(f'{REPO}/src/art/icons', exist_ok=True)
+        sq.save(f'{REPO}/src/art/icons/gear-{n}.webp', quality=90, method=6); packed[f'icon-gear-{n}'] = [96, 96]
 for sheet, (cols, names) in ICONS.items():
     if not have(sheet): continue
     for n, piece in zip(names, split(key(f'v2/out/{sheet}.png'), len(names), cols)):

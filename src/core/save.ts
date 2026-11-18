@@ -14,7 +14,7 @@ import { newRoost, type RoostState } from './roost';
 import { defaultLoadout } from './spells';
 import type { DragonState, EggSpec, ElementId, RiderState } from './types';
 
-export const CURRENT_VERSION = 16;
+export const CURRENT_VERSION = 17;
 export const SAVE_KEY = 'dracoquest.save';
 const CODE_PREFIX = 'DQ1:'; // Code format, not save version. The save inside carries its own version.
 
@@ -213,6 +213,8 @@ export const MIGRATIONS: Record<number, Migration> = {
   14: (save) => (isObject(save.run) ? { ...save, run: { ...save.run, condition: null } } : save),
   // v15 → v16 (variety plan V4 and V6): hunter's log goals claimed, and a run can be an echo run.
   15: (save) => ({ ...save, hunterLog: [], ...(isObject(save.run) ? { run: { ...save.run, echo: false } } : {}) }),
+  // v16 → v17 (looks plan L1): the rider's colors. An old rider keeps the look the art was painted in.
+  16: (save) => ({ ...save, rider: { ...((save.rider ?? {}) as Record<string, unknown>), look: { ...gameData.looks.default } } }),
 };
 
 export function newSave(now: number): SaveData {
