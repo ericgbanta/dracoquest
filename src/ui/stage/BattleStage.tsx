@@ -9,7 +9,8 @@ import type { SaveData } from '../../core/save';
 import type { DragonState, ElementId, RiderLook } from '../../core/types';
 import { INTENTS } from '../bits';
 import { DragonSprite, EnemySprite } from '../Sprites';
-import { decodeAll, loadBackdrop, loadEffects, loadDragonRig, loadEnemyRig, loadRiderRig, riderLookKey, rigUrls, weaponArt, type Backdrop, type Effects, type Rig } from './rigs';
+import { spellArtFor } from './director';
+import { decodeAll, loadBackdrop, loadEffects, loadDragonRig, loadEnemyRig, loadRiderRig, loadSpellFx, riderLookKey, rigUrls, weaponArt, type Backdrop, type Effects, type Rig } from './rigs';
 import { Stage, type Place, type StageFighter } from './Stage';
 
 /** Everything one fight draws, loaded and decoded before the fighters show. */
@@ -28,13 +29,14 @@ const none: Effects = { slash: null, spark: null, puff: null };
 const look = (d: DragonState) => ({ element: d.element, element2: d.element2, variant: d.variant, breed: d.breed, primary: d.colors.primary, secondary: d.colors.secondary });
 const lookKey = (d: DragonState | null) => (d ? `${d.breed}.${d.element}.${d.element2 ?? ''}.${d.variant ?? ''}.${d.stage}.${d.colors.primary}.${d.colors.secondary}` : '-');
 
-function useBattleArt(zoneId: string, weapon: string, riderLook: RiderLook, ride: boolean, lead: DragonState | null, second: DragonState | null, third: DragonState | null, enemyIds: string[]): BattleArt | null {
-  const key = [zoneId, ride ? 'mounted' : weapon, riderLookKey(riderLook), lookKey(lead), lookKey(second), lookKey(third), ...enemyIds].join('|');
+function useBattleArt(zoneId: string, weapon: string, riderLook: RiderLook, ride: boolean, lead: DragonState | null, second: DragonState | null, third: DragonState | null, enemyIds: string[], spellArt: { spells: string[]; tones: string[] }): BattleArt | null {
+  const key = [zoneId, ride ? 'mounted' : weapon, riderLookKey(riderLook), lookKey(lead), lookKey(second), lookKey(third), ...enemyIds, spellArt.spells.join(), spellArt.tones.join()].join('|');
   const [art, setArt] = useState<BattleArt | null>(null);
   useEffect(() => {
     let live = true;
     (async () => {
       const ids = [...new Set(enemyIds)];
+      const spells = await loadSpellFx(spellArt.spells, spellArt.tones);
       const [backdrop, rider, leadRig, secondRig, thirdRig, effects, ...enemyRigs] = await Promise.all([
         loadBackdrop(zoneId),
         // Riding uses the seated rider.
@@ -49,8 +51,9 @@ function useBattleArt(zoneId: string, weapon: string, riderLook: RiderLook, ride
       await decodeAll([
         ...(backdrop?.layers.map((l) => l.url) ?? []), ...rigUrls(rider), ...rigUrls(leadRig), ...rigUrls(secondRig), ...rigUrls(thirdRig),
         ...Object.values(enemies).flatMap(rigUrls), effects.puff, effects.slash, effects.spark,
+        ...Object.values(spells).map((v) => v.slice(0, v.lastIndexOf('|'))),
       ]);
-      if (live) setArt({ key, backdrop, rider, lead: leadRig, second: secondRig, third: thirdRig, enemies, effects });
+      if (live) setArt({ key, backdrop, rider, lead: leadRig, second: secondRig, third: thirdRig, enemies, effects: { ...effects, spells } });
     })();
     return () => { live = false; };
   }, [key]);
@@ -91,7 +94,7 @@ export function BattleStage({ save, battle, zoneId, zoneElement, targets, onTarg
   const two = battle.second ? secondDragon(save) : null;
   const three = battle.third ? thirdDragon(save) : null;
   const ride = battle.mode === 'ride';
-  const art = useBattleArt(zoneId, weaponArt(battle.weapon.type), save.rider.look, ride, lead, two, three, battle.enemies.map((e) => e.enemyId ?? ''));
+  const art = useBattleArt(zoneId, weaponArt(battle.weapon.type), save.rider.look, ride, lead, two, three, battle.enemies.map((e) => e.enemyId ?? ''), spellArtFor(data, battle));
   const ready = !!art;
   const party = parties[ride ? (three ? 'rideTrio' : two ? 'rideDuo' : 'ride') : (three ? 'trio' : two ? 'duo' : 'solo')]!;
   const riderFallback = <RiderPlaceholder />;

@@ -10800,7 +10800,12 @@
     "slash": "painted/fx/slash.webp",
     "spark": "painted/fx/spark.webp",
     "puff": "painted/fx/puff.webp",
-    "breath": "painted/fx/breath-{element}.webp"
+    "breath": "painted/fx/breath-{element}.webp",
+    "spell": "painted/fx/spell-{id}.webp",
+    "finish": "painted/fx/finish-{id}.webp",
+    "orb": "painted/fx/orb.webp",
+    "cast": "painted/fx/cast.webp",
+    "hit": "painted/fx/hit.webp"
   },
   "eggs": {
     "size": [

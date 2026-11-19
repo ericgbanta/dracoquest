@@ -1,6 +1,6 @@
 # Handoff
 
-Last updated 2026-11-17. The latest session planned and built the looks plan (rider colors and gear icons, `docs/LOOKS_PLAN.md`) on branch `claude/ecstatic-gates-8r9290`; it was deployed to `main` on 2026-11-17 at Eric's request. Before it, a session built eight steps of the variety plan: V2 (champions and rare spawns), V1 (run events), V3 (daily zone conditions) and V7 (more enemies in the first four zones), V4 (a hunter's log), V5 (stories and bounties for the last five zones) and V6 (echo runs), then V8 (Sunpetal Meadow, a new low-level area). Everything below is merged to `main` and live at https://ericgbanta.github.io/dracoquest/. The working branch for that session was `claude/optimistic-mccarthy-7yq0v9`; a new session should start from `main` and use its own branch. Codex was signed out at the end, so the next art batch needs a new device login.
+Last updated 2026-11-19. The latest work is painted spell effects (`docs/SPELLS_PLAN.md`), built on branch `claude/ecstatic-gates-8r9290` and not deployed yet. Before that, the same session planned and built the looks plan (rider colors and gear icons, `docs/LOOKS_PLAN.md`) on branch `claude/ecstatic-gates-8r9290`; it was deployed to `main` on 2026-11-17 at Eric's request. Before it, a session built eight steps of the variety plan: V2 (champions and rare spawns), V1 (run events), V3 (daily zone conditions) and V7 (more enemies in the first four zones), V4 (a hunter's log), V5 (stories and bounties for the last five zones) and V6 (echo runs), then V8 (Sunpetal Meadow, a new low-level area). Everything below is merged to `main` and live at https://ericgbanta.github.io/dracoquest/. The working branch for that session was `claude/optimistic-mccarthy-7yq0v9`; a new session should start from `main` and use its own branch. Codex was signed out at the end, so the next art batch needs a new device login.
 
 A ready-to-paste prompt for a new session is in `docs/NEXT_PROMPT.md`.
 
@@ -12,7 +12,8 @@ A ready-to-paste prompt for a new session is in `docs/NEXT_PROMPT.md`.
    `docs/DRAGONS_PLAN.md` (2026-11-13): more elements, dragon breeds, breeding, a bigger roster, rare variants and two new maps for levels 30 to 100, phases E0 to E12 interleaved with W5 to W9. Approved with all names decided (2026-11-13); E0 is next.
 4. `docs/ART_GENERATION.md` before making any art (Codex CLI on Eric's subscription), and `docs/ART_STYLE.md` for the rules a finished image must meet.
 5. `docs/LOOKS_PLAN.md` (2026-11-16): rider colors and painted gear icons, phases L0 to L2, built 2026-11-17 (its "Built" section has the details), plus two ideas written down for later (outfits, weapons on the stage).
-6. `docs/DESIGN.md` for the original game design and its Decisions table (still settled). `docs/GRAPHICS_PLAN.md` and `docs/GRAPHICS_PLAN_2.md` are history for the battle stage and the painted art.
+6. `docs/SPELLS_PLAN.md` (2026-11-19): a painted effect and its own motion for every rider spell, bigger finishers for the five late spells, and the same art for enemy special moves. Built.
+7. `docs/DESIGN.md` for the original game design and its Decisions table (still settled). `docs/GRAPHICS_PLAN.md` and `docs/GRAPHICS_PLAN_2.md` are history for the battle stage and the painted art.
 
 ## The game in one paragraph
 
@@ -86,7 +87,7 @@ Each row was built, tested, committed and deployed in this order. The Decisions 
 - **Run events:** after about 1 won hunt fight in 4, a scene with a choice (`src/data/runEvents.json`).
 - **Looks:** the rider's five colors are the player's choice, and every gear piece has a painted icon.
 - **Saves:** version 17, up to 3 slots per device, export and import codes.
-- **Tests:** 368 unit tests and 142 phone tests pass. The sim shows every zone averaging 70 to 85 percent on level across the three starters.
+- **Tests:** 378 unit tests and 143 phone tests pass. The sim shows every zone averaging 70 to 85 percent on level across the three starters.
 
 ## What to work on next
 
@@ -126,6 +127,10 @@ Eric asked for options to take the game further (2026-11-16), picked rider color
 - A fifth sheet (`jobs20.py`, 1 generation) added the Forge and Nesting Grounds building icons and the three material icons.
 - Still open from the plan: the two documented ideas (outfits at 7 generations each, weapons on the stage).
 - The other six options he was shown (dragon cosmetics, rider skills by weapon, endgame at 100, a collection book, share codes between friends, battle polish) are not planned.
+
+### Spell effects (`docs/SPELLS_PLAN.md`): built 2026-11-19, not deployed
+
+Eric: spell animations "are pretty basic right now and i think we need some new codex art". Every rider spell has its own painted effect and one of seven motion styles; the five late spells run longer and end with a second, larger piece; magic weapons throw a painted orb; enemy special moves borrow their element's effect. Everything is data in `src/data/spellFx.json`, and `#/dev/spells` previews it. 3 generations (`jobs21.py`). Not built: effects for dragon talent skills, duo combos and statuses.
 
 ### After that
 

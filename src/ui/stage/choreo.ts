@@ -1,4 +1,5 @@
 import layout from '../../data/stage.json';
+import spellFx from '../../data/spellFx.json';
 
 /**
  * Battle beats acted out on the stage. Every animation here moves only
@@ -585,4 +586,307 @@ export function react(stage: HTMLElement, ev: { t: string; actor?: string; targe
       popNumber(stage, ev.target!, `+${ev.amount}`, 'heal', opts.fast);
       break;
   }
+}
+
+// ---- Painted spell effects (docs/SPELLS_PLAN.md) ----
+
+const S = spellFx.timing;
+
+export type SpellStyle = 'bolt' | 'lance' | 'rise' | 'fall' | 'strike' | 'wave' | 'self';
+
+/** What a cast needs: how the effect moves, its art keys in the stage's loaded set, and its size. */
+export interface SpellLook {
+  style: SpellStyle;
+  /** Key of the effect's art (`spell-ember-lance`, `orb-fire`). */
+  art: string;
+  /** Width as a share of the stage width. */
+  size: number;
+  /** Tone for the cast flare and hit burst: an element or `arcane`. */
+  tone: string;
+  /** A late spell: slower and bigger, with a heavier landing. */
+  long?: boolean;
+  /** A second painted piece at the moment of impact. */
+  finish?: { art: string; anchor: 'center' | 'feet'; size: number };
+  /** A ward: the effect holds in front of the target before fading. */
+  hold?: boolean;
+}
+
+/** A loaded spell effect: its URL and height over width. Null when the art is missing. */
+function fxArt(stage: HTMLElement, key: string): { url: string; ratio: number } | null {
+  const raw = stage.querySelector<HTMLElement>('.stage-fx')?.getAttribute(`data-fx-${key}`);
+  if (!raw) return null;
+  const cut = raw.lastIndexOf('|');
+  const ratio = Number(raw.slice(cut + 1));
+  return cut > 0 && ratio > 0 ? { url: raw.slice(0, cut), ratio } : null;
+}
+
+/** True when the stage has the art a look needs; otherwise the caller falls back to the plain orb. */
+export function hasSpellArt(stage: HTMLElement, look: SpellLook): boolean {
+  return !!fxArt(stage, look.art) && !!stage.querySelector('.fx-spell');
+}
+
+/** Point a pooled effect image at an art file and size it. Returns its width and height in px. */
+function dress(stage: HTMLElement, cls: string, key: string, width: number, origin = '50% 50%'): { el: HTMLImageElement; w: number; h: number } | null {
+  const el = stage.querySelector<HTMLImageElement>(`.${cls}`);
+  const art = fxArt(stage, key);
+  if (!el || !art) return null;
+  if (el.getAttribute('src') !== art.url) el.setAttribute('src', art.url);
+  const h = width * art.ratio;
+  el.style.width = `${width}px`;
+  el.style.height = `${h}px`;
+  el.style.transformOrigin = origin;
+  return { el, w: width, h };
+}
+
+/** Where a fighter stands: the middle of its feet. */
+function feet(stage: HTMLElement, f: HTMLElement): Pt {
+  const s = stage.getBoundingClientRect();
+  const r = f.getBoundingClientRect();
+  return { x: r.left - s.left + r.width / 2, y: r.bottom - s.top - r.height * 0.04 };
+}
+
+/** The caster's flare: a starburst at the staff or hand as the spell is cast. */
+function flare(stage: HTMLElement, actor: HTMLElement, tone: string, ms: number): void {
+  const d = dress(stage, 'fx-cast', `cast-${tone}`, stage.clientWidth * spellFx.cast.size) ?? dress(stage, 'fx-cast', 'cast-arcane', stage.clientWidth * spellFx.cast.size);
+  if (!d) return;
+  const p = point(stage, actor, 'front');
+  const b = `translate(${p.x - d.w / 2}px, ${p.y - d.h / 2}px)`;
+  d.el.animate(
+    [
+      { transform: `${b} rotate(-40deg) scale(0.2)`, opacity: 0 },
+      { transform: `${b} rotate(0deg) scale(1)`, opacity: 1, offset: 0.55 },
+      { transform: `${b} rotate(25deg) scale(1.25)`, opacity: 0 },
+    ],
+    { duration: ms * 1.6, easing: 'ease-out' },
+  );
+}
+
+/** The caster's body: the attack pose and a small lean back, like a shot. */
+function castPose(stage: HTMLElement, actor: HTMLElement, castMs: number, until: number, total: number): void {
+  const dir = facing(actor);
+  strike(actor, castMs * 0.4, until, total);
+  swingPart(actor, 'arm',
+    [{ transform: 'rotate(0deg)' }, { transform: 'rotate(-45deg)', offset: at(castMs, total), easing: 'ease-out' }, { transform: 'rotate(20deg)', offset: at(castMs + 60, total) }, { transform: 'rotate(0deg)' }],
+    { duration: total },
+  );
+  actor.animate(
+    [{ transform: 'translateX(0)' }, { transform: `translateX(${-dir * stage.clientWidth * 0.015}px)`, offset: at(castMs + 40, total) }, { transform: 'translateX(0)' }],
+    { duration: total, easing: 'ease-out' },
+  );
+}
+
+/** The painted burst where a spell lands, in the spell's tone. */
+function hitBurst(stage: HTMLElement, p: Pt, tone: string, k: number, big: boolean): void {
+  const width = stage.clientWidth * spellFx.hit.size * (big ? 1.45 : 1);
+  const d = dress(stage, 'fx-hit', `hit-${tone}`, width) ?? dress(stage, 'fx-hit', 'hit-arcane', width);
+  if (!d) return;
+  const b = `translate(${p.x - d.w / 2}px, ${p.y - d.h / 2}px)`;
+  d.el.animate(
+    [
+      { transform: `${b} rotate(-15deg) scale(0.3)`, opacity: 1 },
+      { transform: `${b} rotate(0deg) scale(1)`, opacity: 1, offset: 0.4 },
+      { transform: `${b} rotate(12deg) scale(1.3)`, opacity: 0 },
+    ],
+    { duration: S.hit.ms * k, easing: 'ease-out' },
+  );
+}
+
+/** A late spell's second piece: it swells out of the target (or up from the ground) as the blow lands. */
+function finisher(stage: HTMLElement, target: HTMLElement, f: NonNullable<SpellLook['finish']>, k: number): void {
+  const ground = f.anchor === 'feet';
+  const d = dress(stage, 'fx-finish', f.art, stage.clientWidth * f.size, ground ? '50% 100%' : '50% 50%');
+  if (!d) return;
+  const p = ground ? feet(stage, target) : point(stage, target, 'hit');
+  const b = `translate(${p.x - d.w / 2}px, ${ground ? p.y - d.h : p.y - d.h / 2}px)`;
+  const frames: Keyframe[] = ground
+    ? [
+      { transform: `${b} scale(0.7, 0.1)`, opacity: 0.9 },
+      { transform: `${b} scale(1, 1.06)`, opacity: 1, offset: 0.32, easing: 'ease-out' },
+      { transform: `${b} scale(1.04, 1)`, opacity: 1, offset: 0.7 },
+      { transform: `${b} scale(1.12, 1.05)`, opacity: 0 },
+    ]
+    : [
+      { transform: `${b} rotate(-25deg) scale(0.15)`, opacity: 0.9 },
+      { transform: `${b} rotate(0deg) scale(1.05)`, opacity: 1, offset: 0.32, easing: 'ease-out' },
+      { transform: `${b} rotate(6deg) scale(1)`, opacity: 1, offset: 0.7 },
+      { transform: `${b} rotate(14deg) scale(1.2)`, opacity: 0 },
+    ];
+  d.el.animate(frames, { duration: S.finish.ms * k });
+}
+
+/**
+ * Cast a damage spell (or an enemy's special move): a flare at the caster, the painted effect moving in
+ * its style, then the landing. Works in either direction; effects painted facing right are mirrored for enemies.
+ */
+export async function cast(stage: HTMLElement, hit: HitInfo, look: SpellLook, opts: BeatOpts): Promise<void> {
+  const actor = fighter(stage, hit.actor);
+  const target = fighter(stage, hit.target);
+  if (!actor || !target || opts.reduced) return plainBeat(stage, hit, opts);
+  const k = speed(opts) * (look.long ? S.longFactor : 1);
+  const kk = speed(opts);
+  const dir = facing(actor);
+  const W = stage.clientWidth;
+  const miss = hit.kind === 'miss';
+  const castMs = S.cast * k;
+  const from = point(stage, actor, 'front');
+  const to = point(stage, target, 'hit');
+  const ground = feet(stage, target);
+  // A miss lands beside the target.
+  const off = miss ? dir * W * 0.09 : 0;
+  let travel: number;
+  let total: number;
+  const flip = dir < 0 ? ' scaleX(-1)' : '';
+
+  switch (look.style) {
+    case 'rise': {
+      const { grow, stay, fade } = scaled(S.rise, k);
+      travel = grow * 0.6;
+      total = grow + stay + fade;
+      const d = dress(stage, 'fx-spell', look.art, W * look.size, '50% 100%');
+      if (d) {
+        const b = `translate(${ground.x + off - d.w / 2}px, ${ground.y - d.h}px)${flip}`;
+        d.el.animate(
+          [
+            { transform: `${b} scale(0.6, 0.05)`, opacity: 1 },
+            { transform: `${b} scale(1, 1.12)`, opacity: 1, offset: at(grow * 0.7, total), easing: 'ease-out' },
+            { transform: `${b} scale(1, 1)`, opacity: 1, offset: at(grow, total) },
+            { transform: `${b} scale(1, 1)`, opacity: 1, offset: at(grow + stay, total) },
+            { transform: `${b} scale(1.05, 0.7)`, opacity: 0 },
+          ],
+          { duration: total, delay: castMs },
+        );
+      }
+      break;
+    }
+    case 'strike': {
+      const { grow, stay, fade } = scaled(S.strike, k);
+      travel = grow;
+      total = grow + stay + fade;
+      // A column from the top of the stage down to the target's feet.
+      const art = fxArt(stage, look.art);
+      const height = Math.max(ground.y, W * look.size);
+      const d = art ? dress(stage, 'fx-spell', look.art, height / art.ratio, '50% 0%') : null;
+      if (d) {
+        const b = `translate(${ground.x + off - d.w / 2}px, ${ground.y - d.h}px)`;
+        d.el.animate(
+          [
+            { transform: `${b} scale(0.7, 0.1)`, opacity: 1 },
+            { transform: `${b} scale(1, 1)`, opacity: 1, offset: at(grow, total), easing: 'ease-out' },
+            { transform: `${b} scale(1.08, 1)`, opacity: 0.55, offset: at(grow + stay * 0.3, total) },
+            { transform: `${b} scale(1, 1)`, opacity: 1, offset: at(grow + stay * 0.55, total) },
+            { transform: `${b} scale(1.05, 1)`, opacity: 0.8, offset: at(grow + stay, total) },
+            { transform: `${b} scale(0.5, 1)`, opacity: 0 },
+          ],
+          { duration: total, delay: castMs },
+        );
+      }
+      break;
+    }
+    case 'wave': {
+      travel = S.wave.travel * k;
+      total = travel + 140 * k;
+      const d = dress(stage, 'fx-spell', look.art, W * look.size, '50% 100%');
+      if (d) {
+        const y = ground.y - d.h;
+        const x0 = feet(stage, actor).x + dir * actor.offsetWidth * 0.5;
+        const x1 = ground.x + off;
+        const t = (x: number, s: number) => `translate(${x - d.w / 2}px, ${y}px)${flip} scale(${s})`;
+        d.el.animate(
+          [
+            { transform: t(x0, 0.35), opacity: 0 },
+            { transform: t(x0 + (x1 - x0) * 0.25, 0.7), opacity: 1, offset: 0.2 },
+            { transform: t(x1, 1.05), opacity: 1, offset: at(travel, total) },
+            { transform: t(x1 + dir * W * 0.05, 1.15), opacity: 0 },
+          ],
+          { duration: total, delay: castMs, easing: 'cubic-bezier(.3,.1,.5,1)' },
+        );
+      }
+      break;
+    }
+    default: {
+      // bolt, lance and fall all fly along a line; they differ in where they start, how fast, and how they stretch.
+      const lance = look.style === 'lance';
+      travel = (look.style === 'fall' ? S.fall.travel : lance ? S.lance.travel : S.bolt.travel) * k;
+      total = travel + 90 * k;
+      const d = dress(stage, 'fx-spell', look.art, W * look.size);
+      if (d) {
+        const start = look.style === 'fall' ? { x: to.x - dir * W * 0.3, y: -d.h } : from;
+        const end = { x: to.x + off + (miss ? dir * W * 0.08 : 0), y: to.y - (miss ? W * 0.04 : 0) };
+        const ang = Math.atan2(end.y - start.y, (end.x - start.x) * dir) * (180 / Math.PI);
+        const t = (p: Pt, sx: number, sy = sx) => `translate(${p.x - d.w / 2}px, ${p.y - d.h / 2}px)${flip} rotate(${ang.toFixed(1)}deg) scale(${sx}, ${sy})`;
+        const mid = { x: start.x + (end.x - start.x) * 0.5, y: start.y + (end.y - start.y) * 0.5 };
+        const past = { x: end.x + dir * W * 0.03, y: end.y };
+        d.el.animate(
+          lance
+            ? [
+              { transform: t(start, 0.3, 0.7), opacity: 0 },
+              { transform: t(mid, 1.3, 0.9), opacity: 1, offset: 0.45 },
+              { transform: t(end, 1, 1), opacity: 1, offset: at(travel, total) },
+              { transform: t(past, 0.6, 1.2), opacity: 0 },
+            ]
+            : [
+              { transform: t(start, 0.5), opacity: 0 },
+              { transform: t(start, 0.9), opacity: 1, offset: 0.12 },
+              { transform: t(mid, 1.08), opacity: 1, offset: 0.5 },
+              { transform: t(end, 1), opacity: 1, offset: at(travel, total) },
+              { transform: t(past, 1.3), opacity: 0 },
+            ],
+          { duration: total, delay: castMs, easing: look.style === 'fall' ? 'cubic-bezier(.5,0,.9,.6)' : 'linear' },
+        );
+      }
+    }
+  }
+
+  const impact = castMs + travel;
+  const whole = impact + Math.max(total - travel, S.back * k);
+  castPose(stage, actor, castMs, impact, whole);
+  flare(stage, actor, look.tone, castMs);
+  await sleep(impact);
+  land(stage, target, hit, opts, !!look.long);
+  if (!miss) {
+    hitBurst(stage, { x: to.x, y: to.y }, look.tone, kk, !!look.long);
+    if (look.finish) finisher(stage, target, look.finish, kk);
+  }
+  const tail = look.finish && !miss ? S.finish.ms * kk * 0.75 : 0;
+  await sleep(Math.max(B.slotMs * kk, whole, impact + tail) - impact);
+}
+
+/** The rider starts a spell that lands on the party: the pose and the flare. The effect follows with `selfCast`. */
+export async function castStart(stage: HTMLElement, actorId: string, tone: string, opts: { fast: boolean; reduced: boolean }): Promise<void> {
+  const actor = fighter(stage, actorId);
+  if (!actor || opts.reduced) return act(stage, actorId, opts);
+  const k = speed(opts);
+  const castMs = S.cast * k;
+  castPose(stage, actor, castMs, castMs * 1.6, castMs * 2.4);
+  flare(stage, actor, tone, castMs);
+  await sleep(castMs * 1.5);
+}
+
+/** A heal or a ward landing on its target: hearts rise off it, or a shield forms in front of it. */
+export function selfCast(stage: HTMLElement, targetId: string, look: SpellLook, opts: { fast: boolean; reduced: boolean }): void {
+  const target = fighter(stage, targetId);
+  if (!target || opts.reduced) return;
+  const k = speed(opts);
+  const d = dress(stage, 'fx-spell', look.art, stage.clientWidth * look.size);
+  if (!d) return;
+  const p = point(stage, target, 'hit');
+  const rise = target.offsetHeight * 0.3;
+  const t = (dy: number, s: number) => `translate(${p.x - d.w / 2}px, ${p.y - d.h / 2 - dy}px) scale(${s})`;
+  d.el.animate(
+    look.hold
+      ? [
+        { transform: t(0, 0.2), opacity: 0 },
+        { transform: t(0, 1.12), opacity: 1, offset: 0.25, easing: 'ease-out' },
+        { transform: t(0, 1), opacity: 1, offset: 0.4 },
+        { transform: t(0, 1.04), opacity: 0.9, offset: 0.75 },
+        { transform: t(0, 1.3), opacity: 0 },
+      ]
+      : [
+        { transform: t(-rise * 0.2, 0.4), opacity: 0 },
+        { transform: t(rise * 0.3, 1), opacity: 1, offset: 0.3, easing: 'ease-out' },
+        { transform: t(rise * 0.8, 1.05), opacity: 1, offset: 0.7 },
+        { transform: t(rise * 1.2, 0.9), opacity: 0 },
+      ],
+    { duration: S.self.ms * k },
+  );
 }

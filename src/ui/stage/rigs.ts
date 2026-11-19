@@ -1,5 +1,6 @@
 import manifest from '../../art/assets.json';
 import palette from '../../art/palette.json';
+import spellFx from '../../data/spellFx.json';
 import { gameData } from '../../core/data';
 import type { ElementId, RiderLook, VariantId } from '../../core/types';
 import { applyFinish, familyMap, finishGlow, recolorPixels, recolorRider } from './tint';
@@ -352,6 +353,8 @@ export interface Effects {
   slash: string | null; spark: string | null; puff: string | null;
   /** Breath per element, for hybrids and a second dragon of another element. */
   puffs?: Partial<Record<ElementId, string | null>>;
+  /** Spell art for this fight (loadSpellFx): key → "url|height over width". */
+  spells?: Record<string, string>;
 }
 
 export async function loadEffects(element: ElementId, others: ElementId[] = []): Promise<Effects> {
@@ -371,6 +374,40 @@ async function loadEffectsFor(element: ElementId): Promise<Effects> {
     own ?? artUrl(effects.puff ?? '', breath, false, { primary: breath[palette.puffTokens.edge]!, secondary: breath[palette.puffTokens.mid]! }),
   ]);
   return { slash, spark, puff };
+}
+
+/**
+ * Painted spell effects for one fight (src/data/spellFx.json). Keys: `spell-<id>` and `finish-<id>` for
+ * each spell asked for, and `orb-<tone>`, `cast-<tone>`, `hit-<tone>` for each tone, where a tone is an
+ * element or `arcane` and the red-and-gold key art is recolored to it. Each value is "url|ratio", the
+ * ratio being height over width, so the stage can size an effect before the browser lays it out.
+ * Missing files are left out; the stage then falls back to the plain orb.
+ */
+export async function loadSpellFx(spellIds: string[], tones: string[]): Promise<Record<string, string>> {
+  const out: Record<string, string> = {};
+  const add = async (key: string, url: Promise<string | null>) => {
+    const u = await url;
+    if (!u) return;
+    const img = await loadImage(u).catch(() => null);
+    if (img && img.naturalWidth > 0) out[key] = `${u}|${(img.naturalHeight / img.naturalWidth).toFixed(4)}`;
+  };
+  const jobs: Promise<void>[] = [];
+  for (const id of new Set(spellIds)) {
+    if (effects.spell) jobs.push(add(`spell-${id}`, artUrl(effects.spell.replace('{id}', id))));
+    if (spellFx.spells[id as keyof typeof spellFx.spells] && 'finish' in spellFx.spells[id as keyof typeof spellFx.spells] && effects.finish) {
+      jobs.push(add(`finish-${id}`, artUrl(effects.finish.replace('{id}', id))));
+    }
+  }
+  for (const tone of new Set(tones)) {
+    const color = tone === 'arcane' ? spellFx.arcaneColor : gameData.elements.info[tone as ElementId]?.color;
+    if (!color) continue;
+    const tint = { primary: color, secondary: mix(color, '#ffffff', 0.7) };
+    for (const piece of ['orb', 'cast', 'hit'] as const) {
+      if (effects[piece]) jobs.push(add(`${piece}-${tone}`, artUrl(effects[piece]!, {}, false, tint)));
+    }
+  }
+  await Promise.all(jobs);
+  return out;
 }
 
 /** Every URL a rig uses, for preloading. */

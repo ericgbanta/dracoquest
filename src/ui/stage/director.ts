@@ -1,7 +1,9 @@
 import layout from '../../data/stage.json';
 import type { BattleEvent, BattleState } from '../../core/battle';
 import type { GameData } from '../../core/data';
-import { act, breath, claw, finale, jitter, lungeAt, particles, popNumber, riderAttack, ring, shoot, together, type HitInfo } from './choreo';
+import spellFx from '../../data/spellFx.json';
+import type { ElementId } from '../../core/types';
+import { act, breath, cast, castStart, claw, finale, hasSpellArt, jitter, lungeAt, particles, popNumber, riderAttack, ring, selfCast, shoot, together, type HitInfo, type SpellLook, type SpellStyle } from './choreo';
 
 /**
  * Turns one engine event into a move on the stage and resolves when the
@@ -57,10 +59,76 @@ export function spellColor(data: GameData, state: BattleState, text: string): st
   return el ? data.elements.info[el].color : ORB;
 }
 
+type SpellFxEntry = { style: string; size: number; long?: boolean; hold?: boolean; finish?: { anchor: string; size: number } };
+const FX = spellFx.spells as Record<string, SpellFxEntry>;
+
+/** How a rider spell looks on the stage (src/data/spellFx.json), or null for a spell with no entry. */
+export function spellLook(data: GameData, spellId: string): SpellLook | null {
+  const fx = FX[spellId];
+  const spell = data.combat.riderMoves.spells.find((s) => s.id === spellId);
+  if (!fx || !spell) return null;
+  return {
+    style: fx.style as SpellStyle, art: `spell-${spellId}`, size: fx.size, tone: spell.element ?? 'arcane', long: !!fx.long, hold: !!fx.hold,
+    ...(fx.finish ? { finish: { art: `finish-${spellId}`, anchor: fx.finish.anchor as 'center' | 'feet', size: fx.finish.size } } : {}),
+  };
+}
+
+/** A magic weapon's plain attack: a painted orb in the weapon's element. */
+export function orbLook(element: ElementId | null): SpellLook {
+  const tone = element ?? 'arcane';
+  return { style: spellFx.orb.style as SpellStyle, art: `orb-${tone}`, size: spellFx.orb.size, tone };
+}
+
+/**
+ * How an enemy's move looks when it is a special move with an element: the effect of that element's
+ * spell, without the late spells' extras. Null for plain attacks and for moves that are clearly a
+ * body blow (a bite, a slam), which stay a lunge.
+ */
+export function enemyLook(data: GameData, enemyId: string | undefined, text: string, element: ElementId | null | undefined): SpellLook | null {
+  const move = data.enemies[enemyId ?? '']?.moves.find((m) => mentions(text, m.name));
+  if (!move || move.physical || !element) return null;
+  const last = move.name.toLowerCase().split(/[^a-z]+/).filter(Boolean).pop() ?? '';
+  if ((spellFx.enemyMelee as string[]).includes(last)) return null;
+  const id = (spellFx.elements as Record<string, string>)[element];
+  const look = id ? spellLook(data, id) : null;
+  return look ? { style: look.style, art: look.art, size: look.size, tone: element } : null;
+}
+
+/** Every piece of spell art a fight can show: the loadout's spells and the spells enemy elements borrow, and the tones to tint the flare, orb and hit burst. */
+export function spellArtFor(data: GameData, state: BattleState): { spells: string[]; tones: string[] } {
+  const spells = new Set<string>(state.spells.filter((id) => FX[id]));
+  const tones = new Set<string>(['arcane']);
+  for (const id of state.spells) {
+    const el = data.combat.riderMoves.spells.find((s) => s.id === id)?.element;
+    if (el) tones.add(el);
+  }
+  if (state.weapon.element) tones.add(state.weapon.element);
+  const enemyElements = new Set<ElementId>();
+  for (const e of state.enemies) {
+    if (e.element) enemyElements.add(e.element);
+    if (e.element2) enemyElements.add(e.element2);
+    for (const m of data.enemies[e.enemyId ?? '']?.moves ?? []) {
+      if (m.shiftTo) enemyElements.add(m.shiftTo);
+      if (m.shiftTo2) enemyElements.add(m.shiftTo2);
+    }
+  }
+  for (const el of enemyElements) {
+    tones.add(el);
+    const id = (spellFx.elements as Record<string, string>)[el];
+    if (id) spells.add(id);
+  }
+  return { spells: [...spells].sort(), tones: [...tones].sort() };
+}
+
+/** The spell the rider just cast on the party; its effect plays when the heal or the ward lands. */
+let pendingSelf: SpellLook | null = null;
+
 /** Play one event on the stage. Resolves when the next event may start. */
 export async function direct(stage: HTMLElement, data: GameData, state: BattleState, ev: BattleEvent, opts: DirectorOpts): Promise<void> {
   const k = opts.fast ? layout.fastFactor : 1;
   const o = { fast: opts.fast, reduced: opts.reduced };
+  const landing = pendingSelf;
+  pendingSelf = null;
   switch (ev.t) {
     case 'hit':
     case 'miss': {
@@ -79,16 +147,25 @@ export async function direct(stage: HTMLElement, data: GameData, state: BattleSt
       switch (move) {
         case 'slash': return riderAttack(stage, hit, beat);
         case 'arrow': return shoot(stage, { ...hit, bolt: 'arrow' }, beat);
-        case 'spell': return shoot(stage, { ...hit, bolt: 'orb', color: spellColor(data, state, ev.text) }, beat);
+        case 'spell': {
+          const spell = data.combat.riderMoves.spells.find((s) => mentions(ev.text, s.name));
+          const look = spell ? spellLook(data, spell.id) : orbLook(state.weapon.element);
+          const tinted = { ...hit, color: spellColor(data, state, ev.text) };
+          return look && hasSpellArt(stage, look) ? cast(stage, tinted, look, beat) : shoot(stage, { ...tinted, bolt: 'orb' }, beat);
+        }
         case 'claw': return claw(stage, hit, beat);
         case 'breath': return breath(stage, hit, beat);
         case 'combo': return together(stage, { ...hit, actor: 'dragon' }, 'rider', beat);
         case 'duo': return together(stage, { ...hit, actor: 'dragon' }, 'dragon2', beat);
-        default: return lungeAt(stage, hit, beat);
+        default: {
+          const look = enemy ? enemyLook(data, enemy.enemyId, ev.text, used ?? null) : null;
+          return look && hasSpellArt(stage, look) ? cast(stage, hit, look, beat) : lungeAt(stage, hit, beat);
+        }
       }
     }
     case 'heal':
       opts.onImpact();
+      if (landing && hasSpellArt(stage, landing)) selfCast(stage, ev.target, landing, o);
       particles(stage, ev.target, 'heal', opts.fast);
       popNumber(stage, ev.target, `+${ev.amount}`, 'heal', opts.fast);
       return sleep(E.heal * k);
@@ -112,6 +189,7 @@ export async function direct(stage: HTMLElement, data: GameData, state: BattleSt
     case 'status': {
       opts.onImpact();
       const kind = ev.status === 'burn' ? 'burn' : ev.status === 'chill' ? 'chill' : ev.status === 'shock' ? 'shock' : 'buff';
+      if (landing && hasSpellArt(stage, landing)) selfCast(stage, ev.target, landing, o);
       if (!o.reduced) particles(stage, ev.target, kind, opts.fast);
       if (ev.status === 'shock' && !o.reduced) jitter(stage, ev.target, opts.fast);
       stage.querySelector(`[data-plate="${ev.target}"]`)?.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.08)' }, { transform: 'scale(1)' }], { duration: 260 * k });
@@ -129,9 +207,17 @@ export async function direct(stage: HTMLElement, data: GameData, state: BattleSt
       // The fighter slumps or topples through its CSS class once HP reads zero.
       opts.onImpact();
       return sleep(E.ko * k);
-    case 'act':
+    case 'act': {
       opts.onImpact();
+      // "Mira casts Mend." comes before the heal or the ward it causes; the effect plays when that lands.
+      const spell = ev.actor === 'rider' ? data.combat.riderMoves.spells.find((s) => ev.text.endsWith(` casts ${s.name}.`)) : undefined;
+      const look = spell ? spellLook(data, spell.id) : null;
+      if (look && hasSpellArt(stage, look)) {
+        pendingSelf = look;
+        return castStart(stage, ev.actor, look.tone, o);
+      }
       return act(stage, ev.actor, o);
+    }
     case 'flee':
       opts.onImpact();
       if (ev.success) return finale(stage, 'fled', partyIds(state), o);

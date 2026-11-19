@@ -1,0 +1,71 @@
+{
+  "note": "How spells look on the battle stage (docs/SPELLS_PLAN.md). Read by the UI only; nothing here changes a fight. Each rider spell has a style (how its painted effect moves), a size (its width as a share of the stage width; for strike, its height runs from the top of the stage to the target's feet instead) and, for the late spells, long (a slower, bigger cast) and a finish (a second painted piece at the moment of impact, anchored at the target's center or feet). Styles: bolt flies from caster to target; lance is a fast streak that stretches; rise grows out of the ground under the target; fall drops from the sky; strike is a column from the sky; wave rolls along the ground; self plays on the spell's own target (heals, wards). `elements` names the spell whose effect an enemy's special move of that element uses, and whose colors tint the cast flare and hit burst. `enemyMelee` lists last words of enemy move names that stay a lunge (a bite is not thrown). Durations are ms at 1x.",
+  "timing": {
+    "cast": 150,
+    "back": 160,
+    "longFactor": 1.55,
+    "bolt": { "travel": 250 },
+    "lance": { "travel": 170 },
+    "fall": { "travel": 250 },
+    "wave": { "travel": 290 },
+    "rise": { "grow": 190, "stay": 150, "fade": 170 },
+    "strike": { "grow": 120, "stay": 190, "fade": 170 },
+    "self": { "ms": 640 },
+    "hit": { "ms": 300 },
+    "finish": { "ms": 620 }
+  },
+  "orb": { "style": "bolt", "size": 0.09 },
+  "cast": { "size": 0.16 },
+  "hit": { "size": 0.2 },
+  "spells": {
+    "arc-bolt": { "style": "bolt", "size": 0.15 },
+    "mend": { "style": "self", "size": 0.2 },
+    "rot-spit": { "style": "bolt", "size": 0.15 },
+    "frost-dart": { "style": "lance", "size": 0.17 },
+    "static-lash": { "style": "lance", "size": 0.24 },
+    "bright-ward": { "style": "self", "size": 0.2, "hold": true },
+    "tide-surge": { "style": "wave", "size": 0.26 },
+    "ember-lance": { "style": "lance", "size": 0.26 },
+    "shale-spike": { "style": "rise", "size": 0.24 },
+    "steel-needles": { "style": "lance", "size": 0.18 },
+    "greater-mend": { "style": "self", "size": 0.26 },
+    "thorn-snare": { "style": "rise", "size": 0.24 },
+    "comet-shard": { "style": "fall", "size": 0.2 },
+    "umbral-bolt": { "style": "bolt", "size": 0.19 },
+    "void-spike": { "style": "rise", "size": 0.2 },
+    "radiant-lance": { "style": "lance", "size": 0.28 },
+    "tempest": {
+      "style": "strike",
+      "size": 0.24,
+      "long": true,
+      "finish": { "anchor": "center", "size": 0.5 }
+    },
+    "inferno": {
+      "style": "wave",
+      "size": 0.34,
+      "long": true,
+      "finish": { "anchor": "feet", "size": 0.4 }
+    },
+    "astral-nova": {
+      "style": "fall",
+      "size": 0.24,
+      "long": true,
+      "finish": { "anchor": "center", "size": 0.52 }
+    },
+    "daybreak": {
+      "style": "strike",
+      "size": 0.22,
+      "long": true,
+      "finish": { "anchor": "feet", "size": 0.5 }
+    },
+    "eventide": {
+      "style": "wave",
+      "size": 0.34,
+      "long": true,
+      "finish": { "anchor": "center", "size": 0.46 }
+    }
+  },
+  "elements": { "fire": "ember-lance", "frost": "frost-dart", "verdant": "thorn-snare", "stone": "shale-spike", "storm": "static-lash", "tide": "tide-surge", "light": "radiant-lance", "shadow": "umbral-bolt", "aether": "comet-shard", "void": "void-spike", "blight": "rot-spit", "steel": "steel-needles" },
+  "arcaneColor": "#c9a8ff",
+  "enemyMelee": ["bite", "slam", "charge", "pounce", "claw", "slap", "jab", "pinch", "bash", "crush", "poke", "dive", "bonk", "peck", "whip", "snap", "fist", "headbutt", "nibble", "swipe", "strike", "roll", "nip", "sting", "rake", "touch", "butt", "lash", "stomp", "kick", "punch", "tackle", "ram", "chomp", "gore", "smash", "squeeze", "grab", "swat", "thrash", "trample", "pummel", "maul", "rush", "tail", "horn", "fang", "talon", "hug", "press", "cut", "slice", "stab", "thrust", "sweep", "drop", "crash", "dash", "clamp", "bellyflop", "flop", "slash", "swing", "lick", "grasp", "lunge", "coil", "belly", "pratfall", "steal", "glide", "wing", "snag", "slither", "breach"]
+}

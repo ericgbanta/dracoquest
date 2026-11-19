@@ -194,6 +194,33 @@ if have('egg'):
         Image.fromarray(half, 'RGBA').save(f'{REPO}/src/art/eggs/{name}.webp', quality=90, method=6)
     packed['egg'] = [480, 600]
 
+# ---- spell effects (docs/SPELLS_PLAN.md, jobs21.py). These have loose pieces (three hearts, a ring of stars),
+# so they are split by where each piece sits on the sheet's grid, not by size.
+def split_cells(img, centers):
+    """Cut a sheet into one piece per center (x, y as fractions): every blob joins the center nearest to it."""
+    a = np.asarray(img.getchannel('A')) > 40
+    lab, n = ndi.label(a)
+    H, W = a.shape
+    boxes = [None] * len(centers)
+    for i, sl in enumerate(ndi.find_objects(lab)):
+        if (lab[sl] == i + 1).sum() < 12: continue
+        cx = (sl[1].start + sl[1].stop) / 2 / W; cy = (sl[0].start + sl[0].stop) / 2 / H
+        j = min(range(len(centers)), key=lambda k: (centers[k][0] - cx) ** 2 + ((centers[k][1] - cy) * H / W) ** 2)
+        b = boxes[j]
+        boxes[j] = (sl[1].start, sl[0].start, sl[1].stop, sl[0].stop) if b is None else (min(b[0], sl[1].start), min(b[1], sl[0].start), max(b[2], sl[1].stop), max(b[3], sl[0].stop))
+    return [img.crop((max(0, b[0] - 3), max(0, b[1] - 3), min(W, b[2] + 3), min(H, b[3] + 3))) for b in boxes]
+
+GRID12 = [((c + 0.5) / 4, (r + 0.5) / 3) for r in range(3) for c in range(4)]
+SPELL_SHEETS = {
+ 'fx-spells-1': (GRID12, 360, ['spell-arc-bolt', 'spell-rot-spit', 'spell-frost-dart', 'spell-static-lash', 'spell-ember-lance', 'spell-steel-needles', 'spell-umbral-bolt', 'spell-radiant-lance', 'spell-comet-shard', 'orb', 'cast', 'spell-bright-ward']),
+ 'fx-spells-2': (GRID12, 360, ['spell-shale-spike', 'spell-void-spike', 'spell-thorn-snare', 'spell-tide-surge', 'spell-inferno', 'spell-eventide', 'spell-tempest', 'spell-daybreak', 'spell-astral-nova', 'spell-mend', 'spell-greater-mend', 'hit']),
+ 'fx-spells-finish': ([(1 / 6, 0.25), (0.5, 0.25), (5 / 6, 0.25), (0.3, 0.75), (0.7, 0.75)], 560, ['finish-tempest', 'finish-inferno', 'finish-astral-nova', 'finish-daybreak', 'finish-eventide']),
+}
+for sheet, (centers, maxdim, names) in SPELL_SHEETS.items():
+    if not have(sheet): continue
+    for n, piece in zip(names, split_cells(key(f'v2/out/{sheet}.png'), centers)):
+        packed[f'fx-{n}'] = save(piece, f'fx/{n}', maxdim=maxdim if n.startswith(('spell', 'finish')) else 200)
+
 # ---- UI icons, cut from sheets
 ICONS = {
  'icons-status': (4, ['status-blind', 'status-burn', 'status-chill', 'status-crack', 'status-fade', 'status-fury', 'status-harden', 'status-root', 'status-shock', 'status-soak', 'status-taunt', 'status-ward']),

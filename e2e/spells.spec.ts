@@ -69,8 +69,37 @@ test('a picked spell is cast in battle and shows its element', async ({ page }) 
 
   await page.getByTestId('spell-rot-spit').tap();
   await expect(page.getByTestId('act-spell')).toContainText('Rot Spit');
+  // The fight loaded the painted effects for the loadout and for Mossy Hollow's Verdant enemies.
+  const fx = page.locator('.stage-fx');
+  await expect(fx).toHaveAttribute('data-fx-spell-rot-spit', /spell-rot-spit.*\|0\.\d+$/);
+  await expect(fx).toHaveAttribute('data-fx-spell-thorn-snare', /spell-thorn-snare/);
+  await expect(fx).toHaveAttribute('data-fx-cast-blight', /^blob:/);
+  expect(await page.getByTestId('stage').evaluate((el) => el.querySelectorAll('*').length)).toBeLessThanOrEqual(100);
   await page.getByTestId('go').tap();
+  // The spell's own art is what crosses the stage.
+  await expect(page.locator('.fx-spell')).toHaveAttribute('src', /spell-rot-spit/, { timeout: 5000 });
   await expect(page.locator('.results-title, [data-testid=go]:not([disabled])').first()).toBeVisible({ timeout: 15_000 });
   await page.getByTestId('log').tap();
   await expect(page.getByTestId('log')).toContainText('Rot Spit');
+});
+
+test('the spell preview page plays every spell, the orbs and the enemy specials', async ({ page }) => {
+  test.setTimeout(90_000);
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('./#/dev/spells');
+  await page.getByTestId('spell-sheet').waitFor();
+  const ids = await page.locator('[data-testid^="cast-"], [data-testid^="orb-"], [data-testid^="enemy-"]:not([data-fighter])').evaluateAll((els) => els.map((e) => (e as HTMLElement).dataset.testid!).filter((id) => id !== 'enemy-e0'));
+  expect(ids).toHaveLength(21 + 4 + 12);
+  await page.getByRole('checkbox').check();
+  for (const id of ids) {
+    await page.getByTestId(id).evaluate((el) => (el as HTMLElement).click());
+    if (id === 'cast-inferno') {
+      await expect(page.locator('.fx-finish')).toHaveAttribute('src', /finish-inferno/, { timeout: 3000 });
+      await page.waitForTimeout(120);
+      await page.getByTestId('stage').screenshot({ path: 'test-results/spells-inferno.png' });
+    }
+    await expect(page.getByTestId('spell-sheet')).toHaveAttribute('data-busy', 'false', { timeout: 5000 });
+  }
+  expect(errors).toEqual([]);
 });

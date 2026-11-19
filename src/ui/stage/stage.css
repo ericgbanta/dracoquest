@@ -202,3 +202,6 @@ button.scene-actor { cursor: pointer; }
   .battle--stage .actions { width: min(330px, 46vw); }
 }
 
+
+/* Painted spell effects (docs/SPELLS_PLAN.md). Sized in px when a spell is cast. */
+.fx-cast, .fx-spell, .fx-hit, .fx-finish { width: 10%; }

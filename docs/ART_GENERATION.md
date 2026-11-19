@@ -99,4 +99,6 @@ Looks plan (2026-11-17): the rider's colors needed no generations. `python3 tool
 
 Not made yet: hurt or defeat poses, painted crack lines for the egg, rider outfits.
 
+`jobs21.py` made the spell effects (2026-11-19): two sheets of twelve and one of five finishers, 3 generations, all usable first try. Ask for no outline, say which way each effect points, and avoid light green (heals are pink hearts). `pack.py` cuts them with `split_cells` (each blob goes to the nearest grid cell) because some effects are several loose pieces.
+
 `jobs20.py` made a fifth UI icon sheet of five (the Forge, the Nesting Grounds, Iron Ore, Sky Crystal, Dragonscale), packed as `icons-forge`. If `run.sh` says FAILED but the log says the image was saved, look for it in `v2/` and move it to `v2/out/`.

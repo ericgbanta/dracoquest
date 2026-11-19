@@ -83,6 +83,8 @@ One 1280 x 880 WebP per zone and one for the Roost (`painted/backdrops/`), the s
 
 ## Effects
 
+`painted/fx/` also holds the spell effects (`docs/SPELLS_PLAN.md`): `spell-<id>.webp` for each rider spell, `finish-<id>.webp` for the five late spells, and `orb.webp`, `cast.webp` and `hit.webp`, which are painted red and gold and recolored per element. Effects that fly are painted pointing right; ones that rise stand upright on a flat base; columns come straight down. The stage mirrors them for enemies.
+
 `painted/fx/`: `breath-<element>.webp` (one burst per element: flame, ice shards, leaves, rocks, lightning, water, light, shadow), `slash.webp` and `spark.webp`. `puff.webp`, a red and gold blob recolored per element the way dragons are, is the fallback for an element with no burst of its own. No outlines. Glows, rings, flashes and particles are CSS shapes in `stage.css`.
 
 ## Eggs
