@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { openFold, mapView, enter } from './helpers';
+import { openFold, mapView, enter, tab } from './helpers';
 import { readFileSync } from 'node:fs';
 import type { SaveData } from '../src/core/save';
 
@@ -66,4 +66,14 @@ test('the shop sells a second weapon of another element at each tier', async ({ 
   await expect(page.getByTestId('buy-travelers-coat')).toBeVisible();
   // Trophies and zone drops are never sold.
   await expect(page.getByTestId('buy-bramblewarden-armor')).toHaveCount(0);
+});
+
+test('an Elder dragon can change its gear in the Bag', async ({ page }) => {
+  await load(page, 'elder.json', (s) => { delete s.dragons[0]!.equipment.saddle; });
+  await page.getByTestId('tab-bag').tap();
+  await tab(page, 'bag', 'gear');
+  await page.getByTestId('slot-saddle').tap();
+  await page.getByTestId('equip-ridgeback-saddle').tap();
+  await expect(page.getByTestId('bag-notice')).toHaveText('Equipped the Ridgeback Saddle.');
+  await expect(page.getByTestId('slot-horn')).toBeVisible();
 });

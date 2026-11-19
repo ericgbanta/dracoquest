@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { gameData as data } from '../src/core/data';
 import {
-  activeDragon, buyEgg, buyGear, buyItem, canEquip, canRide, chooseEgg, equip, GameError, growDragon, growthStatus, hatchEgg,
+  activeDragon, buyEgg, buyGear, buyItem, canEquip, canRide, canWearDragonGear, chooseEgg, equip, GameError, growDragon, growthStatus, hatchEgg,
   learnDragonTalent, playRound, respecTalents, sellGear, shopEggs, startFight, startGrowthQuest, startRun, unequip, warmEgg, zoneLock,
 } from '../src/core/game';
 import { createBattle, resolveRound, skillReady, type BattleState } from '../src/core/battle';
@@ -91,6 +91,16 @@ describe('gear and shop', () => {
     expect(dragonMaxHp(data, activeDragon(s)!)).toBe(dragonMaxHp(data, { ...activeDragon(s)!, equipment: {} }) + 30);
     s = unequip(data, s, 'saddle');
     expect(activeDragon(s)!.equipment.saddle).toBeUndefined();
+  });
+
+  it('Elder dragons keep their dragon gear slots', () => {
+    let s = buyGear(data, rich(hatched()), 'rope-saddle');
+    s = withDragon(s, { stage: 'elder', level: 40 });
+    expect(canWearDragonGear(data, activeDragon(s)!)).toBe(true);
+    expect(canEquip(data, s, 'rope-saddle')).toEqual({ ok: true });
+    s = equip(data, s, 'rope-saddle');
+    expect(activeDragon(s)!.equipment.saddle).toBe('rope-saddle');
+    expect(canWearDragonGear(data, { stage: 'juvenile' })).toBe(false);
   });
 
   it('sells unequipped gear for half price and buys items and food', () => {

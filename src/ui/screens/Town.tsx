@@ -99,7 +99,7 @@ export function Town({ save, update }: Props) {
         ))}
       </div>
       {notice && <p class="notice notice--ok" role="status" data-testid="shop-notice">{notice}</p>}
-      {tab === 'dragon' && <p class="muted">Saddles, horn caps, and scale charms fit Adult dragons only{dragon ? `. ${dragon.name} is a ${dragon.stage}.` : '.'}</p>}
+      {tab === 'dragon' && <p class="muted">Saddles, horn caps, and scale charms fit Adult and Elder dragons{dragon ? `. ${dragon.name} is a ${dragon.stage}.` : '.'}</p>}
 
       {tab !== 'supplies' && (
         <div class="chip-row" role="group" aria-label="Filter the shop">

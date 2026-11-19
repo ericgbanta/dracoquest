@@ -1,6 +1,6 @@
 import { useState } from 'preact/hooks';
 import { gameData as data } from '../../core/data';
-import { activeDragon, canEquip, equip, GameError, powerUpSpell, randomRiderLook, sellGear, setRiderLook, setSpells, spendRiderPoint, unequip } from '../../core/game';
+import { activeDragon, canEquip, canWearDragonGear, equip, GameError, powerUpSpell, randomRiderLook, sellGear, setRiderLook, setSpells, spendRiderPoint, unequip } from '../../core/game';
 import { poweredSpell, riderLoadout, spellById, spellPlusOf, spellUpgradeBlocker, spellUpgradeCost } from '../../core/spells';
 import { formatMaterials } from '../../core/forge';
 import { Cost } from './Forge';
@@ -116,7 +116,7 @@ export function Bag({ save, update }: Props) {
         {dragon && (
           <>
             <h2 class="section-title">{dragon.name}'s gear (lead)</h2>
-            {dragon.stage === 'adult' ? DRAGON_SLOTS.map(slotRow) : <p class="muted">Dragon gear slots open when {dragon.name} becomes an Adult.</p>}
+            {canWearDragonGear(data, dragon) ? DRAGON_SLOTS.map(slotRow) : <p class="muted">Dragon gear slots open when {dragon.name} becomes an Adult.</p>}
           </>
         )}
         <a class="button button--ghost button--block" href={href('town')}>Shop in town</a>

@@ -838,6 +838,11 @@ export function gearWearer(save: SaveData, gearId: string): DragonState | null {
   return save.dragons.find((d) => Object.values(d.equipment).includes(gearId)) ?? null;
 }
 
+/** Dragon gear slots open at the Adult stage and stay open after it (Elders too). */
+export function canWearDragonGear(data: GameData, dragon: Pick<DragonState, 'stage'>): boolean {
+  return stageIndex(data, dragon.stage) >= stageIndex(data, 'adult');
+}
+
 export function canEquip(data: GameData, save: SaveData, gearId: string, dragonId?: string): EquipCheck {
   const g = gearItem(data, gearId);
   if (!g || !save.rider.gear.includes(gearId)) return { ok: false, reason: 'You do not own that' };
@@ -845,7 +850,7 @@ export function canEquip(data: GameData, save: SaveData, gearId: string, dragonI
     const d = dragonId ? save.dragons.find((x) => x.id === dragonId) : activeDragon(save);
     const wearer = gearWearer(save, gearId);
     if (wearer && wearer.id !== d?.id) return { ok: false, reason: `${wearer.name} is wearing it` };
-    if (!d || stageIndex(data, d.stage) < stageIndex(data, 'adult')) return { ok: false, reason: 'Dragon gear needs an Adult dragon' };
+    if (!d || !canWearDragonGear(data, d)) return { ok: false, reason: 'Dragon gear needs an Adult dragon' };
     if (d.level < g.level) return { ok: false, reason: `Needs dragon level ${g.level}` };
   } else if (save.rider.level < g.level) {
     return { ok: false, reason: `Needs rider level ${g.level}` };
