@@ -57,7 +57,7 @@ A miss sends the effect past or beside the target, and no hit burst or finisher 
 - **A rider spell** uses `spellLook(data, id)`: its own art, style, tone and extras.
 - **A magic weapon's plain attack** uses `orbLook(element)`: the painted orb in the weapon's element, or arcane violet.
 - **Heals and wards.** The engine says "Mira casts Mend." and then sends the heal (or the ward's status). The director plays the cast pose and flare on the first, remembers the spell, and plays its effect on the target when the next event lands.
-- **Enemy special moves** use `enemyLook`: a move that isn't `physical` borrows the effect of its element's spell (Fire throws Ember Lance's flame, Stone raises Shale Spike under the rider, Tide rolls Tide Surge's wave), mirrored, never long and with no finisher. A hybrid uses the element the hit reports. Moves whose name ends in a body-blow word (Bite, Slam, Charge, about 75 words in `enemyMelee`) stay a lunge. The words were picked from the names of the 218 non-physical enemy attacks; 162 of them are now thrown.
+- **Enemy special moves** use `enemyLook`: a move that isn't `physical` borrows the effect of its element's spell (Fire throws Ember Lance's flame, Stone raises Shale Spike under the rider, Tide rolls Tide Surge's wave), mirrored, never long and with no finisher. A hybrid uses the element the hit reports. Moves whose name ends in a body-blow word (Bite, Slam, Charge; 75 words in `enemyMelee`) stay a lunge. The words were picked from the names of the 218 non-physical enemy attacks; 140 of them are now thrown and 78 stay a lunge.
 
 If a piece of art is missing, a spell falls back to the old circle and an enemy to its lunge.
 
